@@ -5,8 +5,14 @@
    "Short by" on the rest, and a 4 px bar under each (the score's fill and the college's cutoff mark). It was a form of chips,
    a score box and a separate dark panel of ten tall rows: about three screens on a phone. From 960 px the list stands beside
    the picks and the answer. The section's own rules for #compass are in r19-home-a.css (they beat the older #compass rules). */
+/* Phone text is never under 14 px here (critic, 21 Nov 2026, evening: the pick labels, segment keys, Pause key, quick
+   scores, gaps, tag line and caption were 12 to 13 px). */
+/* LK365 (21 Nov 2026): the tour now plays while the page scrolls, so a step of it must stay cheap: the card is contained
+   (contain: layout paint), the digits (.cl__num) and each college's gap (.cl__gap, a fixed width) sit in boxes of fixed size
+   so new words never resize or move anything, and the bars' fill reads one custom property set on the list (--fill) as a
+   transform. Pinned by data/tests/compass_tour_1121.test.mjs. */
 .cl { display: grid; gap: 1rem; align-items: start; }
-.cl__card { display: grid; gap: 14px; min-width: 0; padding: 14px 14px 8px; border: 1px solid var(--line-strong); border-radius: 20px; background: var(--paper-raised); box-shadow: 0 18px 44px -30px rgb(27 25 20 / 0.4); }
+.cl__card { display: grid; gap: 14px; min-width: 0; padding: 14px 14px 8px; border: 1px solid var(--line-strong); border-radius: 20px; background: var(--paper-raised); box-shadow: 0 18px 44px -30px rgb(27 25 20 / 0.4); contain: layout paint; }
 .cl__controls { display: grid; gap: 12px; min-width: 0; }
 .cl__group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .cl__group button { min-height: 44px; padding: 0 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 600 0.875rem var(--font-body); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
@@ -19,7 +25,7 @@ html[data-theme='light'] .cl__group button[aria-pressed='true'] { background: va
 html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content: ''; position: absolute; top: -3px; right: -3px; width: 15px; height: 15px; box-sizing: border-box; border-radius: 50%; border: 1px solid var(--tick-rim); background: var(--volt) var(--tick-check) center / 9px no-repeat; pointer-events: none; animation: var(--tick-anim, mm-tick-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both); }
 @media (hover: hover) { html[data-theme='light'] .cl__group button:not([aria-pressed='true']):hover { background: var(--state-wash); } }
 .cl__group button:focus-visible, .cl input:focus-visible, .cl__seg button:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
-.cl__group--small button { min-height: 44px; min-width: 44px; padding: 0 0.75rem; font-size: 0.8rem; }
+.cl__group--small button { min-height: 44px; min-width: 44px; padding: 0 0.6rem; font-size: 0.875rem; }
 /* The course: one row that scrolls sideways, edge to edge inside the card. */
 .cl__courses { flex-wrap: nowrap; margin-inline: -14px; padding: 4px 14px; overflow-x: auto; overscroll-behavior-x: contain; scroll-padding-inline: 14px; scrollbar-width: none; }
 .cl__courses::-webkit-scrollbar { display: none; }
@@ -27,9 +33,9 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 /* Category and round: two segmented controls on one line, each under its own small name. */
 .cl__row { display: flex; flex-wrap: wrap; align-items: end; gap: 8px; }
 .cl__pick { display: grid; gap: 4px; min-width: 0; }
-.cl__pick-label { color: var(--ink-3); font: 600 12px/1.2 var(--font-body); }
+.cl__pick-label { color: var(--ink-3); font: 600 14px/1.2 var(--font-body); }
 .cl__seg { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper-sunken, var(--paper)); }
-.cl__seg button { min-width: 38px; min-height: 44px; padding: 0 7px; border: 0; border-radius: 10px; background: transparent; color: var(--ink-2); font: 650 12.5px var(--font-body); white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 160ms ease, color 160ms ease, transform 100ms ease; }
+.cl__seg button { min-width: 38px; min-height: 44px; padding: 0 7px; border: 0; border-radius: 10px; background: transparent; color: var(--ink-2); font: 650 14px var(--font-body); white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 160ms ease, color 160ms ease, transform 100ms ease; }
 .cl__seg button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
 @media (hover: hover) { .cl__seg button[aria-pressed='false']:hover { color: var(--ink); background: var(--state-wash, rgb(var(--tint) / 0.06)); } }
 .cl__seg button:active { transform: scale(.97); }
@@ -42,11 +48,16 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 /* The Compass score is the section's hero number: the brand-word colour (R3-D2, LK108). */
 .cl__big { font: 800 clamp(3rem, 13vw, 3.75rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--brand-word); min-width: 3ch; text-align: left; }
 .cl__score input { width: 100%; height: 44px; accent-color: var(--volt); cursor: pointer; background: transparent; }
-.cl__score small { font-size: 0.78rem; color: var(--ink-3); }
+.cl__score small { font-size: 0.875rem; color: var(--ink-3); }
+/* The digits: a box as wide as their count (tabular figures), so a step of the tour never moves the denominator (LK365). */
+.cl__num { display: inline-block; width: 3ch; }
+.cl__num[data-digits='1'] { width: 1ch; }
+.cl__num[data-digits='2'] { width: 2ch; }
+.cl__num[data-digits='4'] { width: 4ch; }
 .cl__denominator { font: 500 .875rem var(--font-body); letter-spacing: 0; color: var(--ink-3); }
 .cl__presets { flex-wrap: nowrap; }
 .cl__presets button { font-variant-numeric: tabular-nums; }
-.cl__demo { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; border: 0; border-radius: 8px; padding: .4rem .5rem; margin-right: -.5rem; background: transparent; color: var(--ink-2); font: 600 .8rem var(--font-body); cursor: pointer; }
+.cl__demo { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; border: 0; border-radius: 8px; padding: .4rem .5rem; margin-right: -.5rem; background: transparent; color: var(--ink-2); font: 600 .875rem var(--font-body); cursor: pointer; }
 .cl__demo:hover { color: var(--ink); background: var(--paper-raised-2); }
 /* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
 body .cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
@@ -58,7 +69,7 @@ body .cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt))
 .cl__answer b { font-weight: inherit; }
 .cl__none { display: block; font: 500 0.9375rem/1.5 var(--font-body); letter-spacing: 0; color: var(--ink-2); }
 .cl__none b { color: var(--ink); font-weight: 650; }
-.cl__top { display: flex; flex-wrap: wrap; gap: 0 6px; margin: 6px 0 0; color: var(--ink-3); font: 600 0.8125rem/1.4 var(--font-body); }
+.cl__top { display: flex; flex-wrap: wrap; gap: 0 6px; margin: 6px 0 0; color: var(--ink-3); font: 600 0.875rem/1.4 var(--font-body); }
 .cl__top > span:first-child { color: var(--ink-2); }
 .cl__list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
 .cl__list li { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; column-gap: 10px; min-height: 44px; padding: 6px 0 9px; }
@@ -66,19 +77,22 @@ body .cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt))
 body .cl__tick { display: block; width: 20px; height: 20px; }
 .cl__name { font: 600 0.9375rem/1.3 var(--font-display); color: var(--ink); overflow-wrap: anywhere; }
 .cl__name i { font-style: normal; font-weight: 500; color: var(--ink-3); }
-.cl__gap { font: 600 0.8125rem var(--font-body); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; color: var(--ink-2); }
+.cl__gap { width: 7.5em; font: 600 0.875rem var(--font-body); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; color: var(--ink-2); }
 .cl__list li[data-state='clear'] .cl__gap { color: var(--ink-3); }
 .cl__list li[data-state='short'] .cl__name { color: var(--ink-2); }
 .cl__list li[data-state='none'] :is(.cl__name, .cl__gap) { color: var(--ink-3); }
 /* The bar under each college: the score's fill along the whole axis and the cutoff's mark, 4 px, the row's own rule. */
 .cl__track { position: absolute; left: 32px; right: 0; bottom: 0; display: block; height: 4px; border-radius: 999px; background: rgb(var(--tint, 23 21 15) / 0.07); }
-.cl__track u { position: absolute; inset: 0; border-radius: inherit; background: rgb(var(--tint, 23 21 15) / 0.16); transform-origin: left center; transition: transform .12s linear; }
+/* No transition on the fill (fix-misc, 21 Nov 2026, evening): the tour moves it in 5-point steps (under 2 px), and a
+   transition on ten bars sent about thirty transition events a step through React's root listener, about a fifth of each
+   step's cost on a phone. */
+.cl__track u { position: absolute; inset: 0; border-radius: inherit; background: rgb(var(--tint, 23 21 15) / 0.16); transform: scaleX(var(--fill, 0)); transform-origin: left center; }
 .cl__track b { position: absolute; top: -3px; width: 2px; height: 10px; margin-left: -1px; border-radius: 1px; background: var(--ink-2); }
 .cl__list li[data-state='clear'] .cl__track u { background: var(--brand-word); }
-.cl__stage figcaption { padding: 8px 0 4px; font-size: 0.75rem; line-height: 1.5; color: var(--ink-3); }
+.cl__stage figcaption { padding: 8px 0 4px; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); }
 .cl__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
-@media (prefers-reduced-motion: reduce) { .cl__track u, .cl__group button, .cl__seg button { transition: none; } }
-:root[data-motion='reduced'] :is(.cl__track u, .cl__group button, .cl__seg button) { transition: none; }
+@media (prefers-reduced-motion: reduce) { .cl__group button, .cl__seg button { transition: none; } }
+:root[data-motion='reduced'] :is(.cl__group button, .cl__seg button) { transition: none; }
 
 /* Wide: the picks, the score and the answer on the left; the colleges beside them on the right. */
 @media (min-width: 960px) {
@@ -105,7 +119,7 @@ body .cl__tick { display: block; width: 20px; height: 20px; }
 .lp-cpro__list li { display: grid; gap: 0.2rem; padding: 0.85rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.03); }
 .lp-cpro__list b { font: 700 0.98rem var(--font-display); color: var(--ink); }
 .lp-cpro__list span { font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); }
-.lp-cpro__fine { margin: 0; font-size: 0.78rem; line-height: 1.5; color: var(--ink-3); }
+.lp-cpro__fine { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); }
 
 /* Combo Planner promo in the DU section: the same raised surface as Compass Pro. */
 .lp-combo { display: grid; gap: 1rem; align-items: center; margin-block: 1rem; padding: clamp(.8rem, 2vw, 1rem) clamp(1rem, 3vw, 1.25rem); border-radius: 18px; border: 1px solid var(--line-strong); background: var(--paper-raised); box-shadow: var(--sh-1); }

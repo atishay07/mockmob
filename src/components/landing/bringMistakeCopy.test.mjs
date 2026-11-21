@@ -133,7 +133,9 @@ test('the home page hands the block the app’s own switch and numbers', () => {
   assert.match(page, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\}/);
   assert.match(page, /const MOBI_PRICE = mobiPrice\(\{ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS \}\);/);
   assert.match(page, /import \{ MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS \} from '@\/services\/mobi\/mistakePrices\.mjs';/);
-  assert.match(read('src/components/landing/OnePlace.jsx'), /<BringMistakeCard photo=\{photo\} \/>/);
+  // Since the evening of 21 Nov 2026 (owner LK365) the row plays Ask Mobi's story (stories/MobiStory.jsx), handed the same
+  // photo switch.
+  assert.match(read('src/components/landing/OnePlace.jsx'), /<MobiStory photo=\{photo\} \/>/);
   assert.match(page, /import \{ MISTAKE_PHOTO_ON \} from '@\/\.\.\/data\/mistake_photo\.mjs';/);
   const photoCredits = Number(read('src/services/mobi/mistakePrices.mjs').match(/export const MISTAKE_PHOTO_CREDITS = (\d+);/)[1]);
   assert.equal(photoCredits, 2);

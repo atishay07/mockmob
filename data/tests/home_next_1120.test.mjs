@@ -2,7 +2,9 @@
 // frame in place of the tour deck, the Key cards
 // section, Bring a mistake and the exam screen section: "Your whole CUET prep, in one place." Three rows, one stage; each
 // stage is the landing's own real component, worked by a demo cursor; rows 4 to 6 (owner LK364) are the tour deck's Learn,
-// Benchmarks and Mob screens on the deck's card (OnePlace.jsx, onePlaceModel.mjs, demo/CursorDemo.jsx).
+// Benchmarks and Mob screens on the deck's card (OnePlace.jsx, onePlaceModel.mjs, demo/CursorDemo.jsx). Since 21 Nov 2026
+// (owner LK365) rows 3 to 6 (Ask Mobi, Learn, Benchmarks, the Mob) are row stories: stories/<Id>Story.jsx, each worked by its
+// own script (stories/<id>Story.mjs) and held by its own test (data/tests/story_<id>_1121.test.mjs).
 // What these hold: the page's place ("/" itself, its home metadata; /home-next a permanent redirect to it, linked from
 // nowhere; the replaced sections' components kept, off the page), the
 // order of the sections, the stages being the real components, every script aiming at a hook the component really carries,
@@ -13,13 +15,17 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CREATORS_SUB, ONE_PLACE, bankLine, freeFaq, mobiPrice, tourRows } from '../../src/components/landing/onePlaceCopy.mjs';
+import { CREATORS_SUB, ONE_PLACE, bankLine, freeFaq, mobiPrice, sayWhere, tourRows } from '../../src/components/landing/onePlaceCopy.mjs';
 import { EXAM_HEAD, INSTAGRAM_HEAD, TOUR_ICON, buildTour } from '../../src/components/landing/homeCopy.mjs';
 import {
-  DEAL_MS, PHONE_PANE, PHONE_ROWS, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, TRIGGER_LINE, afterRow, autoplayRuns, keyStep, leaveStartsHold,
-  motionReduced, nextIndex, runStep, scriptHooks, scriptMs,
+  CARDS_FOCUS, DEAL_MS, PACE, PHONE_PANE, PHONE_ROWS, PRACTISE_FOCUS, ROW_HOLD_MS, ROW_MAX_MS, ROW_MIN_MS, ROW_OF_HASH, SAY_MAX_CHARS, SCRIPTS, SCRIPTS_TYPED, TAKEOVER_HOLD_MS,
+  TRIGGER_LINE, PHONE_LAYOUT, ROOM_FOOT_PX, triggerPassed, afterRow, autoplayRuns, desktopTriggerFoot, keyStep, leaveStartsHold, motionReduced, nextIndex, runStep, sayCount, sayPace, scriptHooks, scriptMs,
 } from '../../src/components/landing/onePlaceModel.mjs';
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
+import { MOBI_STORY, MOBI_STORY_TYPED } from '../../src/components/landing/stories/mobiStory.mjs';
+import { LEARN_STORY } from '../../src/components/landing/stories/learnStory.mjs';
+import { LEVELS, RIVAL_STORY } from '../../src/components/landing/stories/rivalStory.mjs';
+import { MOB_STORY } from '../../src/components/landing/stories/mobStory.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 // Line ends normalised: the release gate's checkout writes CRLF, and the patterns below are written with \n.
@@ -31,7 +37,13 @@ const { OPENING_FAST, openingGateScript } = await import('../../src/components/l
 const EXAM_SRC = read('src/components/landing/ExamScreen.jsx');
 const CARDS_SRC = read('src/components/landing/KeyCardsDemo.jsx');
 const BMK_SRC = read('src/components/landing/BringMistakeBlock.jsx');
-const TOUR_SRC = read('src/components/landing/TourScreens.jsx');
+const STORY_SRC = Object.freeze({
+  mobi: read('src/components/landing/stories/MobiStory.jsx'),
+  learn: read('src/components/landing/stories/LearnStory.jsx'),
+  rival: read('src/components/landing/stories/RivalStory.jsx'),
+  mob: read('src/components/landing/stories/MobStory.jsx'),
+});
+const STORY_IDS = Object.freeze(['mobi', 'learn', 'rival', 'mob']);
 const CSS = read('src/components/landing/one-place.css');
 const words = (text) => String(text).trim().split(/\s+/).filter(Boolean).length;
 const sentences = (text) => (String(text).replace(/(\d)\.(\d)/g, '$1,$2').match(/[^.?]+[.?]/g) || []).length;
@@ -110,7 +122,7 @@ test('the home page draws the new section and none of the four it replaces, in t
   assert.match(CSS, /\.op-anchor \{ display: block; height: 0; overflow: hidden; scroll-margin-top: 76px; \}/);
   assert.match(CSS, /#your-prep\.op \{ scroll-margin-top: 48px; \}/);
   assert.match(PAGE, /<section className="lp-sec op" id="your-prep" aria-labelledby="op-title">/);
-  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>\n\s*<LandingActions mode="primary" \/>\n\s*<\/OnePlaceGate>/);
+  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\} study=\{STUDY_COUNTS\}>\n\s*<LandingActions mode="primary" \/>\n\s*<\/OnePlaceGate>/);
   assert.match(PAGE, /<LabCinema look="next" \/>/);
   const order = ['className="lp-hero"', '<CollegeStrip', 'id="try"', 'id="your-prep"', '<Statement', 'id="inside-the-lab"', 'id="daily-and-sunday"', 'id="compass"', 'id="pricing"', 'id="on-instagram"', 'id="wall-of-love"', 'id="faq"', 'className="lp-close"'];
   const at = order.map((mark) => PAGE.indexOf(mark));
@@ -130,16 +142,20 @@ test('the page draws the home sections with the home sheet, loaded after the mar
 test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   assert.match(FRAME, /import \{ ExamStage \} from '\.\/ExamScreen';/);
   assert.match(FRAME, /import KeyCardsDemo from '\.\/KeyCardsDemo';/);
-  assert.match(FRAME, /import \{ BringMistakeCard, BringMistakeValue \} from '\.\/BringMistakeBlock';/);
   assert.match(FRAME, /import CursorDemo from '\.\/demo\/CursorDemo';/);
-  assert.match(FRAME, /if \(row\.id === 'practise'\) return <ExamStage gate="short" inline note=\{<p className="op-proof op-proof--switch">\{ONE_PLACE\.practiseProof\}<\/p>\} \/>;/);
+  // The row stories, each imported WITH its extension: on Windows './stories/MobiStory' also matches mobiStory.mjs (no
+  // default export), and the page fails on the server with "Element type is invalid".
+  for (const name of ['MobiStory', 'LearnStory', 'RivalStory', 'MobStory']) assert.match(FRAME, new RegExp(`^import ${name} from '\\./stories/${name}\\.jsx';$`, 'm'), name);
+  // The old stages are no longer drawn by the frame (their files stay: other pages and their own tests use them).
+  assert.doesNotMatch(FRAME, /BringMistakeCard|BringMistakeValue|TourScreens|TOUR_SCREENS|DemoPlaybackContext/);
+  assert.doesNotMatch(CSS, /\.op-bmk|bmk__/);
+  assert.match(FRAME, /practise: \{ steps: SCRIPTS\.practise, stage: \(\) => <ExamStage gate="short" inline note=\{<p className="op-proof op-proof--switch">\{ONE_PLACE\.practiseProof\}<\/p>\} \/> \},/);
   // Key cards draws its own foot (shown on phones only, without its sign-up key: one-place.css).
   assert.match(FRAME, /<KeyCardsDemo cards=\{keyCards\.cards\} keys=\{keyCards\.keys\} bank=\{keyCards\.bank\} subjects=\{keyCards\.subjects\} \/>/);
   const css = read('src/components/landing/one-place.css');
   assert.match(css, /\.op-kc \.kc-foot > \.mm-btn \{ display: none; \}/);
-  // Phones keep the frame's rows close in height: Key cards without its subject chips, Ask Mobi's list as its four heads.
+  // Phones keep the frame's rows close in height: Key cards without its subject chips.
   assert.match(css, /  \.op-kc \.kc-open \{ display: none; \}/);
-  assert.match(css, /@media \(max-width: 639px\) \{ \.mm\.lp \.op-bmk \.bmk__get-line \{ display: none; \} \}/);
   assert.match(css, /@media \(min-width: 640px\) \{ \.op-kc \.kc-foot \{ display: none; \} \}/);
   // Phones: no gate card and no saved line in the frame; the inline runner starts with its strike-out note dismissed.
   assert.match(css, /@media \(max-width: 639px\) \{ \.op-slot\[data-tool='practise'\] \.xs-gate \{ display: none; \} \}/);
@@ -153,22 +169,27 @@ test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-inline :is\(\.xs-ph-paper, \.xs-ph-pane\) \{ overflow: hidden; overscroll-behavior: auto; touch-action: pan-y; \}/);
   // Phones: the runner fits the window under the chips and the switch (key bar on screen at 676 px tall); nothing else above
   // it (no caption, the NTA line under it), no full-screen key in the frame; a charcoal device edge in Night.
-  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{ height: min\(560px, calc\(100svh - 216px\)\); \}/);
+  // 21 Nov 2026 (LK365): the caption strip (op-say) is above the stage at every width; the old phone caption is gone.
+  // Critic round, 21 Nov evening: the switch and the runner fill the stage's working room exactly (--op-room), so the key bar
+  // is on screen whenever the room is.
+  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{ height: calc\(var\(--op-room\) - var\(--op-switch-h\) - 12px\); \}/);
   assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout \{ grid-template-areas: 'switch' 'device' 'note'; \}/);
-  assert.match(css, /@media \(max-width: 639px\) \{\n  \.op-caption \{ display: none; \}/);
+  assert.doesNotMatch(css + FRAME, /op-caption/);
   assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-full-open \{ display: none; \}/);
   assert.match(css, /html\[data-theme='dark'\] \.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{\n\s*border: 7px solid #1c1a16; border-radius: 22px;/);
-  // Desktop from 1280 px: "What you leave with" in the Ask Mobi window too.
-  assert.match(css, /@media \(min-width: 1280px\) \{\n  \.mm\.lp \.op-win \.op-bmk \{ grid-template-columns: minmax\(0, 3fr\) minmax\(0, 2fr\); align-items: center; \}\n  \.mm\.lp \.op-win \.op-bmk \.bmk__value \{ display: grid;/);
   assert.match(read('src/app/exam-screen.css'), /\.xs-ph-paper \{[^}]*overflow-y: auto; overscroll-behavior: contain;/);
-  assert.match(FRAME, /<BringMistakeCard photo=\{photo\} \/>/);
-  // Phones: the live block's "What you leave with" under the card (hidden from 640 px).
-  assert.match(FRAME, /<BringMistakeCard photo=\{photo\} \/><BringMistakeValue \/><\/div>/);
-  assert.match(read('src/components/landing/one-place.css'), /@media \(min-width: 640px\) \{ \.mm\.lp \.op-bmk \.bmk__value \{ display: none; \} \}/);
   // Key cards and Ask Mobi sit in the exam monitor's own browser bar, at the addresses they really live at in the app.
   assert.match(FRAME, /<div className="xs-browser op-win__bar" aria-hidden="true">/);
   assert.match(FRAME, /<AppWindow path=\{row\.path\}><div className="op-kc"><KeyCardsDemo/);
-  assert.match(FRAME, /<AppWindow path=\{row\.path\} fill><div className="bmk op-bmk"><BringMistakeCard/);
+  // Ask Mobi is its story in that window; Learn, Benchmarks and the Mob are theirs on the deck's card (no title on it since
+  // the critic round of 21 Nov evening: the caption strip says each beat).
+  assert.match(FRAME, /  mobi: \{ steps: SCRIPTS\.mobi, stage: \(\{ row, photo \}\) => <AppWindow path=\{row\.path\}><MobiStory photo=\{photo\} \/><\/AppWindow> \},/);
+  assert.match(FRAME, /<StoryCard row=\{row\}><LearnStory lessons=\{study\?\.lessons \?\? 0\} subjects=\{study\?\.subjects \?\? 0\} \/><\/StoryCard>/);
+  assert.match(FRAME, /<StoryCard row=\{row\}><RivalStory \/><\/StoryCard>/);
+  assert.match(FRAME, /<StoryCard row=\{row\}><MobStory sample=\{samples\?\.mob \?\? null\} \/><\/StoryCard>/);
+  // A story is a size container: it is stretched to its well's full width, never centred (a centred one shrinks to nothing).
+  assert.match(css, /\.op-win__body > \.st, \.op-td--story \.op-td__shot > \.st \{ width: 100%; justify-self: stretch; \}/);
+  assert.match(css, /\.op-td--story \.op-td__shot \{ display: grid; grid-template-columns: minmax\(0, 1fr\);/);
   assert.deepEqual(ONE_PLACE.rows.map((r) => r.path), [undefined, '/cards', '/mentor']);
   assert.match(read('src/components/landing/bringMistakeCopy.mjs'), /export const BRING_MISTAKE_PATH = '\/mentor';/);
   assert.ok(sourceFiles(join(root, 'src/app/(app)/cards')).length > 0, 'Key cards live at /cards');
@@ -177,40 +198,155 @@ test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   assert.match(FRAME, /<CursorDemo key=\{`run-\$\{stages\.gen\[i\]\}`\}/);
 });
 
+// Benchmarks draws one level key per level, its hook written from the level's id: rival-level-<id> for each of LEVELS.
+const hasLevelHook = (tool, hook) => tool === 'rival' && STORY_SRC.rival.includes('data-demo={`rival-level-${l.id}`}') && LEVELS.some((l) => hook === `rival-level-${l.id}`);
+
 test('every script aims at a data-demo hook its component really carries', () => {
-  const sourceOf = { practise: EXAM_SRC, cards: CARDS_SRC, mobi: BMK_SRC };
+  const sourceOf = { practise: EXAM_SRC, cards: CARDS_SRC, ...STORY_SRC };
   assert.deepEqual(Object.keys(SCRIPTS), ['practise', 'cards', 'mobi', 'learn', 'rival', 'mob']);
-  // Rows 4 to 6 work the old tour deck's own screens: every class a script aims at is drawn by TourScreens.jsx.
-  for (const tool of ONE_PLACE.tourIds) {
-    const targets = SCRIPTS[tool].filter((s) => s.target).map((s) => s.target);
-    assert.ok(targets.length >= 2, `${tool} has targets`);
-    for (const target of targets) for (const cls of target.match(/\.ts__[\w-]+/g)) assert.match(TOUR_SRC, new RegExp(`className="[^"]*\\b${cls.slice(1)}\\b`), `${tool}: ${cls}`);
-  }
-  for (const [tool, steps] of Object.entries(SCRIPTS).filter(([id]) => !ONE_PLACE.tourIds.includes(id))) {
+  // Rows 3 to 6 play their stories' own scripts (and Ask Mobi its typed one while Mobi does not read photos).
+  assert.equal(SCRIPTS.mobi, MOBI_STORY.steps);
+  assert.equal(SCRIPTS_TYPED.mobi, MOBI_STORY_TYPED.steps);
+  assert.equal(SCRIPTS.learn, LEARN_STORY.steps);
+  assert.equal(SCRIPTS.rival, RIVAL_STORY.steps);
+  assert.equal(SCRIPTS.mob, MOB_STORY.steps);
+  const all = [...Object.entries(SCRIPTS), ['mobi', SCRIPTS_TYPED.mobi]];
+  for (const [tool, steps] of all) {
     const hooks = scriptHooks(steps);
     assert.ok(hooks.length >= 2, `${tool} has targets`);
-    for (const hook of hooks) assert.ok(sourceOf[tool].includes(`data-demo="${hook}"`), `${tool}: data-demo="${hook}" is in the component`);
-    for (const step of steps) if (step.target) assert.match(step.target, /^\[data-demo="[\w-]+"\](:nth-child\(\d\))?$/, `${tool}: ${step.target}`);
+    for (const hook of hooks) assert.ok(sourceOf[tool].includes(`data-demo="${hook}"`) || hasLevelHook(tool, hook), `${tool}: data-demo="${hook}" is in the component`);
+    // Every target is a hook, at most narrowed by its place or a data-i the component writes.
+    for (const step of steps) if (step.target) assert.match(step.target, /^\[data-demo="[\w-]+"\](:nth-child\(\d\)|\[data-i="\d"\])?$/, `${tool}: ${step.target}`);
+    // A story's hook named with a story id: the row's own (mobi-*, learn-*, rival-*, mob-*).
+    if (STORY_IDS.includes(tool)) for (const hook of hooks) assert.ok(hook.startsWith(`${tool}-`), `${tool}: ${hook}`);
+    // Each focus names a part the stage really draws.
+    if (STORY_IDS.includes(tool)) {
+      for (const step of steps) if (typeof step.focus === 'string') {
+        for (const cls of step.focus.match(/\.[\w-]+/g) || []) assert.match(sourceOf[tool], new RegExp(`className=[{"\`][^>]*\\b${cls.slice(1)}\\b`), `${tool}: ${cls}`);
+        for (const hook of step.focus.match(/data-demo="([\w-]+)"/g) || []) assert.ok(sourceOf[tool].includes(hook), `${tool}: ${hook}`);
+      }
+    }
   }
+  // Learn's pick names an option the component marks with data-i.
+  assert.match(STORY_SRC.learn, /data-demo="learn-option" data-i=\{i\}/);
   // Practise switches to NTA style in the middle and ends on NTA's Save & Next (the key beside the palette); Ask Mobi picks
   // the fresh question's right option.
   const p = SCRIPTS.practise.filter((s) => s.target).map((s) => s.target);
   assert.ok(p.indexOf('[data-demo="xs-nta"]') > p.indexOf('[data-demo="xs-next"]'));
   assert.equal(p.at(-1), '[data-demo="xs-n-save"]');
   assert.equal(p.filter((t) => t === '[data-demo="xs-n-save"]').length, 1);
-  assert.ok(SCRIPTS.mobi.some((s) => s.target === `[data-demo="bmk-option"]:nth-child(${BRING_MISTAKE.check.correct + 1})`));
-  assert.equal(SCRIPTS.cards.filter((s) => s.target === '[data-demo="kc-turn"]').length, 2, 'turn, rate, turn the next');
+  assert.ok(SCRIPTS.mobi.some((s) => s.target === `[data-demo="mobi-option"]:nth-child(${BRING_MISTAKE.check.correct + 1})`));
+  // The cursor never clicks a link (the page would leave): Ask Mobi's practice key is a link, so the cursor only rests on it.
+  for (const [tool, steps] of all) for (const step of steps) if (step.click) {
+    const hook = step.target.match(/data-demo="([\w-]+)"/)[1];
+    const at = sourceOf[tool].indexOf(`data-demo="${hook}"`);
+    const tag = sourceOf[tool].slice(sourceOf[tool].lastIndexOf('<', at), at);
+    assert.doesNotMatch(tag, /^<(a|Link)\b/, `${tool}: ${hook} is clicked, so it is not a link`);
+  }
+  // The practice key is a link: never clicked (critic round, 21 Nov evening: the script now ends on the practice card being
+  // dealt, and the cursor does not go to the link at all).
+  assert.ok(!SCRIPTS.mobi.some((s) => s.target === '[data-demo="mobi-practice"]' && s.click), 'the practice key is never clicked');
+  // Key cards: turn, rest on the rating keys (each says when the card comes back), then Got it; the next card rises.
+  assert.equal(SCRIPTS.cards.filter((s) => s.target === '[data-demo="kc-turn"]').length, 1, 'turn once');
+  assert.deepEqual(SCRIPTS.cards.filter((s) => s.target).map((s) => [s.target, Boolean(s.click)]),
+    [['[data-demo="kc-turn"]', true], ['[data-demo="kc-rate"]:nth-child(2)', false], ['[data-demo="kc-rate"]:nth-child(2)', true]]);
 });
 
-test('each row runs for its own script, 8 seconds or less, and its line fills over exactly that', () => {
-  assert.equal(ROW_MAX_MS, 8000);
-  for (const [tool, steps] of Object.entries(SCRIPTS)) {
+test('each row runs for its own script, 13 seconds or less (11 to 13 with its say beats), and its line fills over exactly that', () => {
+  // Owner LK365 (21 Nov 2026): "the screens are moving too fast". It was 8 s or less (LK363); every row now explains itself
+  // (3 to 5 say beats) and runs 11 to 13 s, the row stories included. 13, not 16 (critic round, 21 Nov evening): on a slow
+  // phone a 15.7 s script played 18.8 s and the pass took 1 min 42 s; with 13 s scripts and the cursor keeping to its own
+  // clock (CursorDemo `hold`) a measured row stays under 16 s (tmp/1121-stories/fix-oneplace/film.mjs).
+  assert.equal(ROW_MAX_MS, 13000);
+  assert.equal(ROW_MIN_MS, 11000);
+  for (const [tool, steps] of [...Object.entries(SCRIPTS), ['mobi typed', SCRIPTS_TYPED.mobi]]) {
     const ms = scriptMs(steps);
-    assert.ok(ms >= 5000 && ms <= ROW_MAX_MS, `${tool}: ${ms} ms`);
+    assert.ok(ms >= ROW_MIN_MS && ms <= ROW_MAX_MS, `${tool}: ${ms} ms, 11 to 13 s`);
+    assert.ok(sayCount(steps) >= 3 && sayCount(steps) <= 5, `${tool} explains itself in 3 to 5 beats`);
     for (const step of steps) if (step.target) assert.ok(Number.isFinite(step.move) && Number.isFinite(step.dwell), `${tool}: every step names its move and dwell`);
   }
   assert.equal(scriptMs([{ wait: 500 }, { target: 'x', move: 400, dwell: 600, click: true }]), 220 + 260 + 500 + 400 + 130 + 600);
-  assert.match(FRAME, /'--op-ms': `\$\{scriptMs\(SCRIPTS\[row\.id\]\)\}ms`/);
+  // The progress line under the shown row fills over the script the stage really plays (the registry's steps).
+  assert.match(FRAME, /'--op-ms': `\$\{scriptMs\(stepsOf\(row\.id, photo\)\)\}ms`/);
+  assert.match(FRAME, /const runMs = scriptMs\(stepsOf\(rowIds\[index\], photo\)\);/);
+});
+
+test('the caption strip says each beat: one line at a time, read before the cursor moves, at a pace a student can read', () => {
+  assert.deepEqual({ ...PACE }, { sayMinMs: 2200, readFirstMs: 500 });
+  const scripts = { ...SCRIPTS, mobiTyped: SCRIPTS_TYPED.mobi };
+  for (const tool of Object.keys(scripts)) {
+    const beats = sayPace(scripts[tool]);
+    assert.equal(beats.length, sayCount(scripts[tool]));
+    for (const beat of beats) {
+      assert.ok(beat.holds >= PACE.sayMinMs, `${tool} "${beat.say}" stays ${beat.holds} ms`);
+      assert.ok(beat.firstMove >= PACE.readFirstMs, `${tool} "${beat.say}": the cursor waits ${beat.firstMove} ms`);
+      assert.ok(beat.say.length <= SAY_MAX_CHARS, beat.say);
+      assert.doesNotMatch(beat.say, /[\u2014!]|\p{Extended_Pictographic}/u, beat.say);
+      assert.match(beat.say, /^[A-Z]/, beat.say);
+      assert.equal(sentences(beat.say), 1, beat.say);
+    }
+    // Every line opens on a wait (the cursor is still while it is read) and names the part of the screen it is about.
+    for (const step of scripts[tool].filter((st) => typeof st.say === 'string')) {
+      assert.ok(step.wait >= PACE.readFirstMs && !step.target, step.say);
+      assert.ok(typeof step.focus === 'string' && step.focus.length > 0, step.say);
+    }
+  }
+  assert.deepEqual(SCRIPTS.practise.filter((st) => st.say).map((st) => st.say), [
+    'Answer a question, as you would in the exam.', 'Next keeps your answer and moves on.',
+    'Switch to NTA style, the real exam\u2019s screen.', 'Save & Next keeps your pick, as in the real exam.',
+  ]);
+  assert.deepEqual(SCRIPTS.cards.filter((st) => st.say).map((st) => st.say), [
+    'Turn the card to see the answer.', 'Say how well you knew it.', 'It comes back before you are likely to forget it.',
+  ]);
+  // The lines' truth: NTA style holds a pick until Save & Next saves it; the scheduler asks for 90% recall.
+  assert.match(EXAM_SRC, /const saveAndNext = \(\) => \{ touch\(\); saveHeld\(\);/);
+  assert.match(EXAM_SRC, /choose=\{hold\}/);
+  assert.match(read('data/keycards.js'), /retention: 0\.9,/);
+  // Each focus names parts the stage really draws (ExamScreen.jsx, KeyCardsDemo.jsx).
+  for (const sel of Object.values(PRACTISE_FOCUS)) for (const cls of sel.match(/\.[\w-]+/g)) assert.match(EXAM_SRC, new RegExp(`className="[^"]*\\b${cls.slice(1)}\\b`), cls);
+  for (const cls of [CARDS_FOCUS.card, CARDS_FOCUS.rates]) assert.match(CARDS_SRC, new RegExp(`className="[^"]*\\b${cls.slice(1)}\\b`), cls);
+  // sayPace counts as CursorDemo plays: the entry, then each wait, move, press and dwell; a line holds to the next one.
+  assert.deepEqual(sayPace([{ say: 'One.', wait: 600 }, { target: 'x', move: 400, dwell: 1300, click: true }, { say: 'Two.', wait: 500 }]),
+    [{ say: 'One.', at: 220, holds: 2430, firstMove: 600 }, { say: 'Two.', at: 2650, holds: 760, firstMove: Infinity }]);
+  // The strip: the quiet line names the tool and the step; the beat's line in bold; the row's own line while nothing plays.
+  assert.equal(sayWhere('Key cards', 1, 3), 'Key cards, step 2 of 3');
+  assert.equal(sayWhere('Key cards'), 'Key cards');
+  // The strip holds its own line (SayStrip): a new line re-renders the strip alone, never the stages; a line counts only for
+  // the row and the run on show.
+  assert.match(FRAME, /const live = playing && say && say\.at === index && say\.cycle === cycle \? say : null;/);
+  assert.match(FRAME, /<p className="op-say__where">\{sayWhere\(name, live \? live\.beat : -1, live \? beats : 0\)\}<\/p>/);
+  assert.match(FRAME, /<span key=\{live \? `\$\{cycle\}-\$\{live\.beat\}` : `row-\$\{index\}`\} className="op-say__text">/);
+  assert.match(FRAME, /\{live && beats > 0 \? <span className="op-say__n">\{Math\.min\(live\.beat \+ 1, beats\)\} of \{beats\}<\/span> : null\}\{live \? live\.text : line\}/);
+  assert.match(FRAME, /<SayStrip bindRef=\{sayTo\} index=\{index\} cycle=\{cycle\} playing=\{playing\} name=\{active\.name\} line=\{active\.line\} beats=\{sayCount\(steps\)\} \/>/);
+  assert.match(FRAME, /const onSay = useCallback\(\(text, beat\) => sayTo\.current\?\.\(\{ at: indexRef\.current, cycle: cycleRef\.current, text, beat \}\), \[\]\);/);
+  assert.doesNotMatch(FRAME, /setSay\(\{ at: indexRef/);
+  assert.match(FRAME, /onSay=\{onSay\}/);
+  // Two lines' room at every width (nothing under it moves); the new line rises and fades in, 200 ms, none when reduced.
+  assert.match(CSS, /\.op-say__line \{\n\s*margin: 0; min-height: calc\(2em \* 1\.28\);/);
+  assert.match(CSS, /\.op-say\[data-live\] \.op-say__text \{ animation: op-say-in 200ms var\(--op-ease\) both; \}/);
+  assert.match(CSS, /@keyframes op-say-in \{ from \{ opacity: 0; transform: translate3d\(0, 6px, 0\); \} \}/);
+  assert.match(CSS, /html\[data-motion='reduced'\] \.op-say\[data-live\] \.op-say__text \{ animation: none; \}/);
+  // From 960 px it heads the stage's column.
+  assert.match(CSS, /grid-template-areas: 'rows say' 'rows stage' '\. foot';/);
+  // The stress is opacity and an outline only (nothing moves), and the finished screen rests whole.
+  assert.match(CSS, /\.op-slot\[data-tool='practise'\] \.op-stage \[data-demo-focus\] \{ outline: 2px solid var\(--brand-word\); outline-offset: -2px; \}/);
+  const cd = read('src/components/landing/demo/CursorDemo.jsx');
+  assert.match(cd, /\/\/ The finished screen rests whole: no part stressed, no cursor\.\n\s*focusOn\(null\);/);
+});
+
+test('between rows the finished screen holds 700 ms, then the next row is dealt; each row\'s stage and script come from one registry', () => {
+  assert.equal(ROW_HOLD_MS, 700);
+  assert.match(FRAME, /dealTimer\.current = window\.setTimeout\(\(\) => start\(next\), ROW_HOLD_MS\);/);
+  // A tap, a takeover, the frame leaving the window or the tab hidden cancels a pending deal.
+  assert.ok((FRAME.match(/window\.clearTimeout\(dealTimer\.current\)/g) || []).length >= 5);
+  // The registry: by row id, the stage (a render function) and the script; a row story joins with one entry.
+  const at = FRAME.indexOf('const ROW_STAGES = {');
+  const reg = FRAME.slice(at, FRAME.indexOf('\n};', at));
+  for (const id of ['practise', 'cards', 'mobi', 'learn', 'rival', 'mob']) assert.match(reg, new RegExp(`\\n  ${id}: \\{ steps: SCRIPTS\\.${id}, stage: `), id);
+  // Ask Mobi's typed script while the photo switch is off; every other row its one script.
+  assert.match(FRAME, /function stepsOf\(id, photo = true\) \{ return \(photo === false && SCRIPTS_TYPED\[id\]\) \|\| ROW_STAGES\[id\]\?\.steps \|\| \[\]; \}/);
+  assert.match(FRAME, /const stage = \(row, i\) => ROW_STAGES\[row\.id\]\?\.stage\(\{ row, i, on: i === index, playing, stages, keyCards, photo, samples, study \}\) \?\? null;/);
+  assert.match(FRAME, /<CursorDemo key=\{`run-\$\{stages\.gen\[i\]\}`\} steps=\{stepsOf\(row\.id, photo\)\}/);
 });
 
 test('the frame never plays under reduced motion, off screen, in a hidden tab, held, or before the page wakes', () => {
@@ -258,11 +394,21 @@ test('the run starts when the heading reaches the top of the window and plays ev
   const above = runStep({ phase: 'rested', armed: false }, 'down');
   assert.deepEqual(above, { phase: 'rested', armed: true, start: false });
   assert.deepEqual(runStep(above, 'up'), { phase: 'running', armed: false, start: true });
-  // The heading watch: one IntersectionObserver with the window's top 15% cut off; the frame watch only pauses and resumes.
-  assert.match(FRAME, /\{ rootMargin: `-\$\{Math\.round\(TRIGGER_LINE \* 100\)\}% 0px 0px 0px`, threshold: \[0, 1\] \}/);
-  assert.match(FRAME, /const now = entry\.boundingClientRect\.top < line;/, 'the top of the heading, not the whole heading');
+  // On a phone the marker is the CSS room's foot. On desktop it crosses at the 15% heading line when the controls fit,
+  // or when the working screens clear the viewport's bottom.
+  assert.match(FRAME, /\{ rootMargin: `0px 0px -\$\{ROOM_FOOT_PX\}px 0px`, threshold: \[0, 1\] \}/);
+  assert.match(FRAME, /const now = triggerPassed\(\{ roomBottom: entry\.boundingClientRect\.bottom, innerHeight: window\.innerHeight \}\);/);
   assert.match(FRAME, /if \(above === null\) \{ if \(now\) runEvent\('arrive'\); \} else if \(now && !above\) runEvent\('up'\); else if \(!now && above\) runEvent\('down'\);/);
-  assert.match(FRAME, /if \(heading && heading\.getBoundingClientRect\(\)\.top < window\.innerHeight \* TRIGGER_LINE\) runEvent\('arrive'\);/);
+  assert.match(FRAME, /if \(passed\(\)\) runEvent\('arrive'\);/);
+  assert.match(FRAME, /<span className="op-room" ref=\{roomRef\} aria-hidden="true" \/>/);
+  assert.equal(PHONE_LAYOUT, '(max-width: 639px)');
+  assert.equal(ROOM_FOOT_PX, 8);
+  assert.equal(triggerPassed({ roomBottom: 836, innerHeight: 844 }), true);
+  assert.equal(triggerPassed({ roomBottom: 840, innerHeight: 844 }), false);
+  assert.equal(desktopTriggerFoot({ headingOffset: -125, workingBottom: 590, innerHeight: 900 }), 632, 'start when the heading reaches 135px');
+  assert.equal(desktopTriggerFoot({ headingOffset: -125, workingBottom: 590, innerHeight: 768 }), 590, 'wait only until the working screens fit');
+  assert.equal(triggerPassed({ roomBottom: 761, innerHeight: 768 }), false);
+  assert.equal(triggerPassed({ roomBottom: 760, innerHeight: 768 }), true);
   assert.match(FRAME, /if \(next === null\) \{ runEvent\('end'\); return; \}/);
   assert.doesNotMatch(FRAME, /-20% 0px -20% 0px/, 'no middle band: a tall frame on a short window never sat in it');
   // A finger swiping the page across a stage is not a takeover: only a real click or key is (it was pointerdown).
@@ -295,10 +441,23 @@ test('rows 4 to 6 are Learn, Benchmarks and the Mob on the old deck\'s card, onl
   // "Also inside" is gone: the tools are rows now.
   assert.doesNotMatch(PAGE, /op-also|alsoInside|op-chip/);
   assert.doesNotMatch(CSS, /op-also|\.op-chip/);
-  // The deck's own screens, unchanged, told they are on stage through the deck's own context.
-  assert.match(FRAME, /import \{ DemoPlaybackContext, TOUR_SCREENS \} from '\.\/TourScreens';/);
-  assert.match(FRAME, /<DemoPlaybackContext\.Provider value=\{value\}><Screen play=\{play\} sample=\{sample\} \/><\/DemoPlaybackContext\.Provider>/);
-  assert.match(FRAME, /<div className="op-td">\n\s*<div className="op-td__copy"><h3 className="op-td__title">\{row\.title\}<\/h3><p className="op-td__lede">\{row\.lede\}<\/p><\/div>/);
+  // Each plays its story on the deck's card; its paragraph went (LK365), and its short title went too (critic round, 21 Nov
+  // evening: it repeated the caption strip right above it and, as one card was dealt over another, two titles printed over
+  // each other). Under the card, the proof line the stories' reports asked for: Benchmarks says the slide's two points (its
+  // chip is what the story now shows), Learn and the Mob their slide's chip.
+  assert.match(FRAME, /<div className="op-td op-td--story" data-row=\{row\?\.id\}>\n\s*<div className="op-td__shot">\{children\}<\/div>/);
+  assert.doesNotMatch(FRAME, /op-td__title/);
+  assert.match(FRAME, /if \(row\.tour\) return row\.proof \? <p className="op-proof">\{row\.proof\}<\/p> : null;/);
+  assert.deepEqual(rows.map((r) => r.proof), [
+    'Made to sit beside your NCERT.',
+    'The daily benchmark is free. Every mock earns points toward your standing.',
+    'Playing every game your Mob starts is free on every plan.',
+  ]);
+  // A card dealt onto a card keeps that deal after the slide (`dealtFrom` outlives `leaving`): dropping it changed the card's
+  // animation back to op-deal, which started again from nothing, so the new card blinked out and faded in a second time.
+  assert.match(FRAME, /data-deal=\{dealtFrom === null \? undefined : rows\[dealtFrom\]\?\.tour && rows\[index\]\?\.tour \? 'card' : 'fade'\}/);
+  assert.match(FRAME, /setDealtFrom\(from !== to \? from : null\);/);
+  assert.doesNotMatch(FRAME + CSS, /op-td__lede/);
   // The deal: transform and opacity, 460 ms; card on card while one deck card replaces another; nothing under reduced motion.
   assert.equal(DEAL_MS, 460);
   assert.match(CSS, /\.op-slot\[data-on\] \{ position: relative; z-index: 1; animation: op-deal 460ms cubic-bezier\(0\.22, 1, 0\.36, 1\) both; \}/);
@@ -339,9 +498,9 @@ test('below 640 px the Practise row plays the exam as a phone shows it: one scri
   assert.match(cd, /if \(top > 0\) pane\.dataset\.scrolled = 'true'; else delete pane\.dataset\.scrolled;/);
   const sheet = read('src/components/landing/one-place.css');
   assert.match(sheet, /:is\(\.xs-ph-paper, \.xs-ph-pane\)\[data-scrolled\] \{\n\s*-webkit-mask-image: linear-gradient\(to bottom, transparent 0, #000 12px\);/);
-  // Phones: the shorter rows centre in the shared stage height; Practise keeps the top (its key bar stays on screen).
-  assert.match(sheet, /  \.op-slot \{ align-content: center; \}/);
-  assert.match(sheet, /  \.op-slot\[data-tool='practise'\] \{ align-content: start; \}/);
+  // Phones: every row's screen starts right under the caption strip that explains it (LK365; Practise's key bar and Key
+  // cards' keys stay on screen at 676 px); the spare space falls below.
+  assert.match(sheet, /@media \(max-width: 639px\) \{\n(  \/\*[^]*?\*\/\n)?  \.op-slot \{ align-content: start; \}/);
   const cursor = read('src/components/landing/demo/CursorDemo.jsx');
   assert.doesNotMatch(cursor, /zoom = |zoom\?\.|const compose|textFloor|cam\.style/);
   assert.doesNotMatch(FRAME, /zoom=|EXAM_CAMERA/);
@@ -353,8 +512,15 @@ test('below 640 px the Practise row plays the exam as a phone shows it: one scri
 });
 
 test('no frame loop and no interval in the new section\'s files; transform and opacity only, no blur', () => {
-  const files = ['src/components/landing/OnePlace.jsx', 'src/components/landing/onePlaceModel.mjs', 'src/components/landing/onePlaceCopy.mjs', 'src/components/landing/demo/CursorDemo.jsx'];
+  const stories = ['MobiStory.jsx', 'mobiStory.mjs', 'LearnStory.jsx', 'learnStory.mjs', 'RivalStory.jsx', 'rivalStory.mjs', 'MobStory.jsx', 'mobStory.mjs'].map((f) => `src/components/landing/stories/${f}`);
+  const files = ['src/components/landing/OnePlace.jsx', 'src/components/landing/onePlaceModel.mjs', 'src/components/landing/onePlaceCopy.mjs', 'src/components/landing/demo/CursorDemo.jsx', ...stories];
   for (const f of files) assert.doesNotMatch(read(f), /requestAnimationFrame|setInterval/, f);
+  // The stories' sheets: no blur, no :has() on a large ancestor, keyframes on transform and opacity only.
+  for (const f of ['mobi-story.css', 'learn-story.css', 'rival-story.css', 'mob-story.css'].map((x) => `src/components/landing/stories/${x}`)) {
+    const css = read(f);
+    assert.doesNotMatch(css, /backdrop-filter|filter:\s*blur|(html|body|\.mm|\.lp|\.op-frame|\.op-slot):has\(/, f);
+    for (const block of css.matchAll(/@keyframes [\w-]+ \{([^@]*?)\}\s*\}/g)) assert.doesNotMatch(block[1], /\b(width|height|top|left|margin|padding)\s*:/, `${f}: keyframes animate transform and opacity only`);
+  }
   for (const f of ['src/components/landing/one-place.css', 'src/components/landing/demo/cursor-demo.css']) {
     const css = read(f);
     assert.doesNotMatch(css, /backdrop-filter|filter:\s*blur|:has\(/, f);
@@ -392,7 +558,9 @@ test('each row carries its live section\'s proof line, in that section\'s words 
   assert.equal(mobiPrice({ photo: true, credits: 1, photoCredits: 2, free: 50 }), 'A typed question uses 1 credit, a photo 2 credits. Free gives you 50 credits a month.');
   assert.doesNotMatch(mobiPrice({ photo: false, credits: 1, photoCredits: 2, free: 50 }), /photo/, 'a photo only while Mobi reads photos');
   assert.match(PAGE, /mobiPrice\(\{ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS \}\)/);
-  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>/);
+  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\} study=\{STUDY_COUNTS\}>/);
+  // The Learn story's foot line counts the study release, as the tour slide's first point does.
+  assert.match(PAGE, /const STUDY_COUNTS = \{ lessons: STUDY_LESSONS, subjects: STUDY_SUBJECTS \};/);
 });
 
 test('the phone nav draws the Pricing pill here too, and the Lab\'s Skip finds the next section when the bar is read', () => {
@@ -438,7 +606,10 @@ test('the frame loads late: the server draws it whole, the browser asks for its 
   assert.match(GATE, /dangerouslySetInnerHTML=\{\{ __html: readDrawn\(\) \}\} suppressHydrationWarning/);
   // The frame's sheets come with the gate, in the order the frame's own imports bring them (so the drawn frame is styled).
   const sheets = [...GATE.matchAll(/^import '([^']+\.css)';/gm)].map((m) => m[1].split('/').pop());
-  assert.deepEqual(sheets, ['cursor-demo.css', 'doodle.css', 'exam-device.css', 'exam-screen.css', 'loading-kit.css', 'key-cards.css', 'brand-stamp.css', 'bring-mistake.css', 'one-place.css']);
+  // Bring a mistake's card left the frame (its sheet with it); the four stories' sheets come before the frame's own.
+  assert.deepEqual(sheets, ['cursor-demo.css', 'doodle.css', 'exam-device.css', 'exam-screen.css', 'loading-kit.css', 'key-cards.css', 'brand-stamp.css', 'mobi-story.css', 'learn-story.css', 'rival-story.css', 'mob-story.css', 'one-place.css']);
+  // Each story imports its own sheet too (so its preview page and the lazily loaded frame bring it).
+  for (const id of STORY_IDS) assert.match(STORY_SRC[id], new RegExp(`^import '\\./${id}-story\\.css';$`, 'm'), id);
   for (const f of ['src/components/landing/OnePlaceGate.jsx', 'src/components/landing/LabNextGate.jsx']) assert.doesNotMatch(read(f), /requestAnimationFrame|setInterval|getBoundingClientRect|offsetHeight/, f);
   // Critic round 5 (21 Nov 2026): both gates ask for their code in quiet time after the opening, one step per idle period
   // (idleQueue.mjs), not only on approach; a Lab scene already on stage goes live at once.
@@ -470,7 +641,8 @@ test('only the shown stage is live; the next is made live unplayed before its tu
 });
 
 test('the bar steps aside for the whole frame on the home page', () => {
-  assert.match(PAGE, /<HeroDockGate aside="\.op-gate">/);
+  // The Android app nudge (lane android, 21 Nov 2026) is also a block the bar steps aside for.
+  assert.match(PAGE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dwk-story__stage">/);
   assert.equal((PAGE.match(/<HeroDockGate/g) || []).length, 1);
   const gate = read('src/components/landing/HeroDockGate.jsx');
   assert.match(gate, /export function HeroDockGate\(\{ children, aside = null \}\)/);
@@ -487,4 +659,28 @@ test('the opening hands over once the hero has painted on the home page; without
   assert.match(fast, /largest-contentful-paint/);
   assert.match(fast, /"fast":\{"wait":700,"lite":800\}/);
   assert.doesNotThrow(() => new Function(fast));
+});
+
+test('the frame keeps one height: phones reserve the Practise runner, short phones keep every story press on screen', () => {
+  // The server draws the exam monitor (it cannot know the window); the phone runner it becomes is sized to the window. The
+  // shared cell is never shorter than that runner's row, so the frame does not grow when the row goes live (measured at
+  // 390x844 with tmp/1121-stories/integrate/measure.mjs: 640 px drawn, 649 live, before this rule).
+  assert.match(CSS, /@media \(max-width: 639px\) \{ \.op-stages \{ min-height: calc\(var\(--op-room\) \+ 64px\); \} \}/);
+  // Every phone (critic round, 21 Nov evening): the working room is min(520 px, the window less the site bar, the chips, the
+  // caption and the gaps, 169 px); names-only chips (44 px), 8 px gaps, no sub under the heading, and the caption the beat's
+  // line with "n of m" before it, so a phone's stack above the stage is 100 px, not 271.
+  assert.match(CSS, /\.op-frame \{ --op-room: min\(520px, calc\(100svh - 169px\)\); --op-switch-h: 46px; gap: 8px; \}/);
+  assert.match(CSS, /#your-prep\.op \.lp-head > \.lp-sub \{ display: none; \}/);
+  assert.match(CSS, /\.op-row \{ min-height: 44px; padding: 4px 14px 10px; \}\n  \.op-row__obj, \.op-row \.brand-icon \{ display: none; \}/);
+  assert.match(CSS, /\.op-say__where \{ display: none; \}/);
+  assert.match(CSS, /\.op-room \{ position: absolute; left: 0; top: 0; width: 1px; height: var\(--op-room, 0px\);/);
+  assert.doesNotMatch(CSS, /op-td__copy \{ display: none; \}/);
+  // The section's reserve while undrawn wins over r19-home-b.css's `body .mm.lp main > #your-prep` (3500 px, the old deck's).
+  assert.match(read('src/app/r19-home-b.css'), /body \.mm\.lp main > #your-prep \{ contain-intrinsic-size: auto 3500px; \}/);
+  const reserves = [...CSS.matchAll(/([^{}\n]*#your-prep[^{}\n]*)\{ contain-intrinsic-size:/g)].map((m) => m[1].trim());
+  assert.ok(reserves.length >= 1);
+  for (const sel of reserves) assert.equal(sel, 'body .mm.lp main > #your-prep.op', sel);
+  // Every story is a fixed-height screen, so nothing in the frame moves between its phases.
+  assert.match(read('src/components/landing/stories/mobi-story.css'), /\.st-mobi__screen \{\n\s*height: 488px;/);
+  assert.match(read('src/components/landing/stories/rival-story.css'), /height: 500px; overflow: hidden;/);
 });

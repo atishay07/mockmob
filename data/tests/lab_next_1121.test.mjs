@@ -187,19 +187,89 @@ test('the next look loads only with it, and its styles are scoped to it', () => 
 
 // LK364 (21 Nov 2026): the next look plays itself, its taps show their answer in a slot that holds its room, and on a phone the
 // words above the device are the title and one short line.
-test('the next look plays itself until the reader takes over, and only the next look does', () => {
+// LK365 (21 Nov 2026, evening): the next scene comes as soon as a scene's script ends; not touching means playing (the autoplay
+// pauses only while the reader acts); the scenes are cards that stack.
+test('the next look plays itself, pausing only while the reader acts, and only the next look does', () => {
   const cinema = read('src/components/landing/LabCinema.jsx');
-  assert.match(cinema, /useLabAutoplay\(\{ enabled: next && pinned && !reduced, live, step, steps: SCENES\.length, goTo \}\)/);
-  assert.match(cinema, /onDone=\{\(\) => auto\.done\(i\)\} onTakeover=\{auto\.take\}/);
+  assert.match(cinema, /useLabAutoplay\(\{ enabled: next && pinned && !reduced, live, step, steps: SCENES\.length, goTo, where, arriving \}\)/);
+  assert.match(cinema, /onDone=\{\(\) => auto\.done\(i\)\} onTakeover=\{\(\) => auto\.take\(i\)\}/);
   assert.match(cinema, /if \(next\) auto\.pick\(\); goTo\(i, \{ instant: event\.detail === 0 \}\)/);
   const hook = read('src/components/landing/useLabAutoplay.js');
-  assert.match(hook, /const HOLD_MS = 1200;/);
+  assert.doesNotMatch(hook, /HOLD_MS/, 'no held moment: the next scene comes as the script ends');
+  assert.match(hook, /export const QUIET_MS = 2000;/, 'still and untouched for 2 s, it carries on');
+  assert.match(hook, /export const TAP_QUIET_MS = 4000;/, 'a tap inside a screen: it carries on 4 s after the last tap');
   assert.match(hook, /if \(!event\.isTrusted\) return;/);
-  assert.match(hook, /\['touchstart', 'wheel', 'keydown', 'pointerdown'\]/);
+  assert.match(hook, /\['touchstart', 'touchmove', 'touchend', 'touchcancel'\]/);
+  assert.match(hook, /\['wheel', 'keydown', 'pointerdown'\]/);
+  assert.match(hook, /if \(fingers\.current > 0\) return;/, 'never while a finger is down');
+  assert.match(hook, /window\.addEventListener\('scroll', onScroll, \{ passive: true \}\)/, 'never within 2 s of the reader\'s last scroll');
+  assert.match(hook, /if \(place === 'out'\) return;/, 'never pulls a reader who has scrolled out back in');
   assert.match(hook, /document\.hidden/);
-  assert.match(hook, /i >= steps - 1\) return;/, 'it stops after the last scene');
-  assert.doesNotMatch(hook, /scrollTo|scrollBy|requestAnimationFrame|getBoundingClientRect/, 'it moves only through the story\'s own goTo');
+  assert.match(hook, /i >= steps - 1\) return;/, 'the last scene rests');
+  assert.doesNotMatch(hook, /scrollTo|scrollBy|requestAnimationFrame|getBoundingClientRect|setInterval/, 'it moves only through the story\'s own goTo, with one timer');
   assert.doesNotMatch(read('src/components/landing/ScrollStory.jsx'), /autoplay|useLabAutoplay/i, 'ScrollStory is unchanged for every story');
+  // The script's own last step hands over (LabNextScreens), not CursorDemo's onDone 260 ms after the cursor has faded.
+  const screens = read('src/components/landing/LabNextScreens.jsx');
+  assert.match(screens, /\[\.\.\.SCRIPTS\[scene\], \{ run: \(stage\) => \{ keepPoint\(stage\); doneRef\.current\?\.\(\); \} \}\]/);
+  const scripts = screens.slice(screens.indexOf('const SCRIPTS'), screens.indexOf('const SCREENS'));
+  // Critic round, 21 Nov 2026 evening: the hand-off comes about 300 ms after the last tap's answer has come in (its rise: 260 ms,
+  // a change's final pick 460 ms, the repair's rule 670 ms), not a second of dwell after it. The last scene rests, no hand-off.
+  const RISE = { chapters: 260, time: 260, changes: 460, repair: 670 };
+  for (const key of ['chapters', 'time', 'changes', 'repair', 'swot']) {
+    const body = scripts.slice(scripts.indexOf(`${key}:`), scripts.indexOf(']),', scripts.indexOf(`${key}:`)));
+    const lastStep = body.trim().split('\n').filter((line) => line.trim().startsWith('{')).at(-1);
+    assert.match(lastStep, /click: true/, `${key}: the script ends on its last tap, no move after it`);
+    const last = Number(lastStep.match(/dwell: (\d+) \}/)?.[1]);
+    if (RISE[key]) assert.ok(last - RISE[key] >= 200 && last - RISE[key] <= 400, `${key}: hands over about 300 ms after its last answer is in (${last})`);
+    // The next scene's cursor waits for its card to stand, shows where the last one stopped, and goes straight to its control.
+    assert.match(body, /Object\.freeze\(\[\s*ARRIVE,\s*\{ run: arrive \},(?:\s*\/\/[^\n]*)*\s*\{ target: [^}]*move: 380, click: true/, `${key}: arrives in place`);
+  }
+});
+
+// Critic round, 21 Nov 2026 evening: a card lands in its start state and plays its reveal once, never finished-then-replayed.
+test('an arriving card carries its start state and plays its reveal once it stands; tabs change with the card', () => {
+  const screens = read('src/components/landing/LabNextScreens.jsx');
+  // The scene's state comes from the story's own data-step attribute (written at once), not from React's lagging step.
+  assert.match(screens, /new MutationObserver\(read\);\s*watch\.observe\(root, \{ attributes: true, attributeFilter: \['data-step'\] \}\)/);
+  // A screen is drawn afresh after its scene has left (RESET_MS), never as it arrives (only a reader's quick way back does).
+  assert.match(screens, /if \(playing \|\| !mount\.used\) return undefined;/);
+  assert.match(screens, /const RESET_MS = 480;/);
+  assert.doesNotMatch(screens, /if \(live\) setEntries/);
+  // The counts wait at 0 until the scene is on, then count once the card stands.
+  assert.match(screens, /if \(!on\) \{ write\(0\); return undefined; \}/);
+  assert.match(screens, /export const LNX_IN_MS = 420;/);
+  const css = read('src/components/landing/lab-next.css');
+  assert.match(css, /\.lc-scene \.lnx :is\(\.td-long__fill, \.ml-seg, \.ml-share i\) \{ animation-play-state: paused; \}/);
+  for (let s = 0; s < 5; s += 1) assert.ok(css.includes(`[data-step='${s}'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='${s}']${s === 0 ? "[data-armed='true']" : ''} .lnx :is(.td-long__fill, .ml-seg, .ml-share i)`), `step ${s} runs its reveal`);
+  assert.match(css, /--lnx-in: 420ms;/);
+  // The rail's tab and the device's tab are written from the same attribute, in the same frame as the card.
+  const cinema = read('src/components/landing/LabCinema.jsx');
+  assert.match(cinema, /button\.dataset\.on = on \? 'true' : 'false';/);
+  assert.match(cinema, /watch\.observe\(root, \{ attributes: true, attributeFilter: \['data-step'\] \}\)/);
+  // A wheel that carries the arrival one scene on is taken back to the first scene once it rests.
+  const hook = read('src/components/landing/useLabAutoplay.js');
+  assert.match(hook, /const ENTRY_MS = 1600;/);
+  assert.match(hook, /if \(step === 1 && e && e\.fromAbove && !e\.used/);
+});
+
+test('the scenes are cards that stack, keyed to the story\'s own step, transform and opacity only', () => {
+  const css = read('src/components/landing/lab-next.css');
+  const block = css.slice(css.indexOf('The scenes are cards that stack'), css.indexOf("Every screen: its part's name"));
+  // Every pair of story step and scene: on show, one card down, two down, deeper (hidden); the rest wait below.
+  for (let s = 0; s < 5; s += 1) assert.ok(block.includes(`[data-step='${s}'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='${s}'] .lc-scene__screen`), `step ${s} on show`);
+  for (let i = 0; i < 4; i += 1) assert.ok(block.includes(`[data-step='${i + 1}'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='${i}'] .lc-scene__screen`), `scene ${i} one down`);
+  assert.match(block, /translate3d\(0, calc\(var\(--lnx-peek\) \* -1\), 0\) scale\(0\.96\)/, 'the card underneath settles back');
+  assert.match(block, /translate3d\(0, calc\(var\(--lnx-peek\) \* -2\), 0\) scale\(0\.92\)/, 'a second edge');
+  assert.match(block, /--lnx-peek: 12px;/, 'two edges of 12 px on a phone');
+  assert.match(block, /\.lc-scene__mini \{ display: block; \}/, 'each card carries its own header');
+  assert.match(block, /translate3d\(0, calc\(100% \+ 32px\), 0\)/, 'the next card waits below and rises');
+  assert.match(block, /transition: transform 420ms var\(--lnx-ease\), opacity 200ms linear;/);
+  assert.match(block, /\.lc-scene \{ overflow: clip; \}/, 'a card waiting below is out of sight');
+  const transitions = [...block.matchAll(/transition:([^;]+);/g)].map((m) => m[1]);
+  for (const t of transitions) for (const prop of t.split(',').map((p) => p.trim().split(/\s+/)[0])) assert.ok(['transform', 'opacity'].includes(prop), `transition on ${prop}`);
+  assert.match(block, /\[data-reduced='true'\][^{]*\.lc-scene__screen \{ opacity: 0; \}/, 'reduced motion: only the scene on show');
+  // Later scenes lie on top.
+  for (let i = 0; i < 5; i += 1) assert.ok(block.includes(`.lc-scene[data-ss-step='${i}'] { z-index: ${i + 1}; }`));
 });
 
 test('a tap shows its answer in a slot that holds its room; each scene has two taps; phones get one short line', async () => {

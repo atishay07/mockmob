@@ -2,7 +2,10 @@
 // chain code (src/lib/chain/chain.mjs) from illustrative days, never a real account. &streak= picks the student:
 //   new (no practice yet), day3 (3 days, the first rest pass), covered (yesterday kept by a rest pass, today counted),
 //   makeup (yesterday still open, 4 of 10 today), paused (exam pause days, today one of them), day30 (30 days, today counted),
-//   error (the read fails). Default: 12 days, one pass, 2 answered today. Pause days set here live in this tab only.
+//   error (the read fails), grow (21 Nov 2026: 12 days with 3 answered today; about 3 s after the first read the streak is read
+//   again and today counts, so the number rises to 13 and steps up once where it shows). Default: 12 days, one pass, 2 answered
+//   today. Pause days set here live in this tab only.
+import { refreshStreak } from '@/components/streak/useStreak';
 import { DAY_GOAL, MAKE_UP_EVERY, MAKE_UP_GOAL, PASS_EVERY, PASS_FIRST_AT, PASS_PER_FIXES, PAUSE_MAX, checkPause, computeChain } from '@/lib/chain/chain.mjs';
 
 const DAY = 86_400_000;
@@ -17,6 +20,7 @@ function fixtureInput(kind, T) {
     case 'covered': return { daily: [...run(add(T, -10), 9), { day: T, answered: 6 }], pauses: [] };
     case 'makeup': return { daily: [...run(add(T, -3), 2), { day: T, answered: 4 }], pauses: [] };
     case 'paused': return { daily: [...run(add(T, -9), 7)], pauses: [add(T, -2), add(T, -1), T, add(T, 1), add(T, 2)] };
+    case 'grow': return { daily: [...run(add(T, -12), 12).filter((d) => d.day !== add(T, -5)), { day: T, answered: 3 }], pauses: [] };
     case 'day30': return { daily: [...run(add(T, -30), 30).filter((d) => d.day !== add(T, -12)), { day: T, answered: 14 }], pauses: [] };
     default: return { daily: [...run(add(T, -12), 12).filter((d) => d.day !== add(T, -5)), { day: T, answered: 2 }], pauses: [] };
   }
@@ -36,7 +40,13 @@ export function previewStreak(url, method, init, fixture, json) {
   const memo = (window.__previewStreak ||= {});
   if (!memo[kind]) memo[kind] = fixtureInput(kind, T);
   const input = memo[kind];
-  if (url.pathname === '/api/me/streak' && method === 'GET') return json(body(input, T));
+  if (url.pathname === '/api/me/streak' && method === 'GET') {
+    if (kind === 'grow') {
+      // The first read: today 3 of 5. Then today's set lands (3 more answers) and the streak is read again, as after a set.
+      if (!input.grown) { input.grown = true; window.setTimeout(() => { input.daily = input.daily.map((d) => (d.day === T ? { ...d, answered: 6 } : d)); refreshStreak(); }, 3000); }
+    }
+    return json(body(input, T));
+  }
   if (url.pathname === '/api/me/streak/pause' && (method === 'POST' || method === 'DELETE')) {
     let sent = {};
     try { sent = JSON.parse(init?.body || '{}'); } catch { /* empty */ }

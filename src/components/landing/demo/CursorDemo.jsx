@@ -16,9 +16,14 @@
 //       the target will be: the same single read, then one write. `snap: 'row selector'`: the rows the pane may stop at
 //       (never a half-cut row at its top). `settle: 'pane selector'`: after the click, that pane
 //       eases back to its top (a key that brings a new question, which starts at the top of the paper).
-//   { wait: 600 }                         pause
+//   { wait: 600 }                         pause (`exact: true` on a wait or a click: never shortened to catch up, below)
 //   { run: (stage) => {} }                anything else the screen needs (rare; prefer a real click)
-// When the last step has run, the cursor fades and onDone() is called. The parent decides what comes next (the frame moves to
+//   `say: 'one short sentence'` on any step (owner LK365, 21 Nov 2026: "moving too fast and without much explanation"): the
+//       line that explains this beat. As the step begins, onSay(text, beat) is called (beat counts the `say` steps from 0);
+//       the parent shows it until the next `say`. `focus: 'selector'` on any step: that element carries `data-demo-focus`
+//       (and the stage `data-demo-focusing`) from this step until the next step that names a `focus` (`focus: null` clears
+//       it), so the screen's own CSS can stress the part the line is about. Attributes only: no layout is read for either.
+// When the last step has run, the focus is cleared, the cursor fades and onDone() is called. The parent decides what comes next (the frame moves to
 // its next row and remounts this with a new key, which also resets the screen).
 //
 // Rules (the 20 Nov speed rules, AGENT-COMMON.md): no frame loop. One layout read per step (the target's box and the stage's,
@@ -41,12 +46,14 @@ function reducedNow() {
   return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 }
 
-export default function CursorDemo({ steps, playing = false, onDone, onTakeover, touch, className = '', children }) {
+export default function CursorDemo({ steps, playing = false, onDone, onTakeover, onSay, touch, className = '', children }) {
   const stageRef = useRef(null);
   const cursorRef = useRef(null);
   const ringRef = useRef(null);
   const doneRef = useRef(onDone);
   const takeRef = useRef(onTakeover);
+  const sayRef = useRef(onSay);
+  useEffect(() => { sayRef.current = onSay; }, [onSay]);
   const [taken, setTaken] = useState(false);
   // Arrow on a mouse screen, a fingertip on a touch screen (decided once, a tick after mount).
   const [tip, setTip] = useState(touch === true ? 'touch' : 'arrow');
@@ -100,6 +107,18 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       const id = window.setTimeout(() => { timers.delete(id); resolve(); }, ms);
       timers.add(id);
     });
+    // The script keeps to its own clock (critic round, 21 Nov 2026 evening: on a slow phone every timer and every re-render
+    // came late, so a 15.7 s script played 18.8 s). Each pause is measured against where the script should be by now: a
+    // wait that comes late is shortened by the lateness, never below half its length, a dwell never below three quarters; a
+    // move always takes its full time (the cursor's own transition), and so do a beat's line (its `say` wait) and any step
+    // marked `exact: true`. So the run as a whole keeps to scriptMs.
+    let begun = 0;
+    let planned = 0;
+    const hold = (ms, floor = 0.5) => {
+      planned += ms;
+      const late = performance.now() - begun - (planned - ms);
+      return sleep(Math.max(ms * floor, ms - Math.max(0, late)));
+    };
 
     const place = (x, y, ms) => {
       cursor.style.transitionDuration = `${Math.max(0, ms)}ms`;
@@ -166,39 +185,65 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       timers.add(id);
     };
 
+    // `focus`: one element at a time carries data-demo-focus; the stage says a focus is on. Never while the part is out of the
+    // window (critic round, 21 Nov 2026 evening: a stressed key bar under a phone's window left everything on screen dimmed,
+    // with nothing lit): one read of its box as the beat begins, and a part not at least 24 px into the window is not stressed.
+    let focused = null;
+    const inWindow = (el) => {
+      const r = el.getBoundingClientRect();
+      return r.top < window.innerHeight - 24 && r.bottom > 24;
+    };
+    const focusOn = (selector) => {
+      focused?.removeAttribute('data-demo-focus');
+      focused = selector ? stage.querySelector(selector) : null;
+      if (focused && !inWindow(focused)) focused = null;
+      if (focused) { focused.setAttribute('data-demo-focus', ''); stage.dataset.demoFocusing = 'true'; } else delete stage.dataset.demoFocusing;
+    };
+
     (async () => {
       // Enter from the stage's lower right, already moving.
       const startX = stage.offsetWidth * 0.82;
       const startY = stage.offsetHeight * 0.9;
       place(startX, startY, 0);
-      await sleep(30);
+      begun = performance.now();
+      await hold(30, 1);
       if (stopped) return;
       cursor.dataset.shown = 'true';
-      await sleep(190);
+      await hold(190, 1);
+      let beat = 0;
       for (const step of steps) {
         if (stopped) return;
-        if (step.wait) { await sleep(step.wait); continue; }
-        if (step.run) { step.run(stage); await sleep(step.dwell ?? 0); continue; }
+        if (typeof step.say === 'string') { sayRef.current?.(step.say, beat); beat += 1; }
+        if ('focus' in step) focusOn(step.focus);
+        // A stressed part the screen has since removed (a rated card's keys): nothing is dimmed around nothing.
+        else if (focused && !focused.isConnected) focusOn(null);
+        // A beat's own line is never cut short (it is the reader's time to read, and a screen's own clock may be keyed to it),
+        // nor a wait marked `exact` (one that waits for the screen's own clock to finish something).
+        if (step.wait) { await hold(step.wait, typeof step.say === 'string' || step.exact ? 1 : 0.5); continue; }
+        if (step.run) { step.run(stage); await hold(step.dwell ?? 0); continue; }
         const el = step.target ? stage.querySelector(step.target) : null;
         if (!el) continue;
         stage.dataset.demoPhase = 'move';
         const [x, y] = pointOf(el, step.at, step.reveal, step.snap);
         place(x, y, step.move ?? MOVE_MS);
-        await sleep(step.move ?? MOVE_MS);
+        await hold(step.move ?? MOVE_MS, 1);
         if (stopped) return;
         if (step.click) {
           stage.dataset.demoPhase = 'press';
           press(x, y);
-          await sleep(PRESS_MS);
+          await hold(PRESS_MS, 1);
           if (stopped) return;
           fire(el, step.pointer);
           if (step.settle) { const pane = stage.querySelector(step.settle); if (pane && pane.scrollTop) scrollPane(pane, 0); }
         }
-        await sleep(step.dwell ?? DWELL_MS);
+        // A dwell waits for what the click started, so it gives up at most a quarter of its length.
+        await hold(step.dwell ?? DWELL_MS, step.exact ? 1 : 0.75);
       }
       if (stopped) return;
+      // The finished screen rests whole: no part stressed, no cursor.
+      focusOn(null);
       delete cursor.dataset.shown;
-      await sleep(260);
+      await hold(260, 1);
       if (!stopped) doneRef.current?.();
     })();
 
@@ -209,6 +254,7 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       cursor.classList.remove('is-press');
       delete cursor.dataset.shown;
       delete stage.dataset.demoPhase;
+      focusOn(null);
     };
   }, [playing, taken, steps]);
 

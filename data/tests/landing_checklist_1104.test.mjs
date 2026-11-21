@@ -87,7 +87,7 @@ const JSX_TEXT = SURFACE_CODE;
 const RENDERED = [...COPY, ...[...JSX_TEXT.matchAll(/>([^<>{}]{3,})</g)].map((m) => m[1]), ...[...JSX_TEXT.matchAll(/(?:aria-label|label|title|note|caption|alt)=["']([^"']{3,})["']/g)].map((m) => m[1]), ...[...JSX_TEXT.matchAll(/'([A-Z][^'\n]{12,})'/g)].map((m) => m[1])];
 
 test('the landing file set was found (guard for the tests below)', () => {
-  for (const f of ['src/app/page.js', 'src/components/landing/HeroTyped.jsx', 'src/components/landing/OpeningMo.jsx', 'src/components/landing/ScrollStory.jsx', 'src/components/landing/Statement.jsx', 'src/components/landing/LabCinema.jsx', 'src/components/landing/OnePlaceGate.jsx', 'src/components/landing/OnePlace.jsx', 'src/components/landing/TourScreens.jsx', 'src/components/landing/LabNextScreens.jsx']) {
+  for (const f of ['src/app/page.js', 'src/components/landing/HeroTyped.jsx', 'src/components/landing/OpeningMo.jsx', 'src/components/landing/ScrollStory.jsx', 'src/components/landing/Statement.jsx', 'src/components/landing/LabCinema.jsx', 'src/components/landing/OnePlaceGate.jsx', 'src/components/landing/OnePlace.jsx', 'src/components/landing/stories/MobiStory.jsx', 'src/components/landing/stories/LearnStory.jsx', 'src/components/landing/stories/RivalStory.jsx', 'src/components/landing/stories/MobStory.jsx', 'src/components/landing/LabNextScreens.jsx']) {
     assert.ok(LANDING_REL.includes(f), `${f} must be reached from page.js`);
   }
   assert.ok(LANDING_CSS.length >= 8, `landing css found: ${LANDING_CSS.length}`);
@@ -116,7 +116,10 @@ test('L-004 the full feature showcase is still there: every section, the tour, t
   // frame (#your-prep, OnePlace.jsx): the exam screen is its Practise row, and its address lands on the frame.
   assert.match(code(read('src/components/landing/OnePlace.jsx')), /<ExamStage gate="short" inline /, 'the exam-day screen is rendered (the frame\'s Practise row)');
   assert.match(PAGE_CODE, /<span id="exam-experience" className="op-anchor"/, 'it keeps its anchor');
-  assert.match(code(read('src/components/landing/OnePlace.jsx')), /TOUR_SCREENS\[row\.id\]/, 'the tour\'s screens are the frame\'s rows 4 to 6');
+  // Since the evening of 21 Nov 2026 (owner LK365) those rows play their stories (stories/<Id>Story.jsx) in the deck's card.
+  const frame = code(read('src/components/landing/OnePlace.jsx'));
+  for (const story of ['LearnStory', 'RivalStory', 'MobStory']) assert.match(frame, new RegExp(`<StoryCard row=\\{row\\}><${story}[\\s/>]`), `the tour's ${story} is one of the frame's rows 4 to 6`);
+  assert.match(frame, /<MobiStory photo=\{photo\} \/>/, 'Ask Mobi plays its story in the frame');
   // R3-D7 (owner LK107, 5 Nov 2026) supersedes the numbers band here: its true counts are lines of the one plan in #pricing
   // (HomePricing, PlanCounts), so the plan is what must be rendered, with the counts inside it.
   // R11: MistakeLab (the Recovery Lab's replay) left with its section; LabCinema tells the Lab once, in five scenes.
@@ -170,8 +173,8 @@ test.todo('L-007 (paid) no paid upsell for a paid student: the landing is a stat
 
 test('L-008 the bottom bar (LK83/LK88; round 4 LK135; R8 SEC-15): a guest gets two real keys, a ghost "Log in" and the volt "Sign up free" with its true line; signed in, one key; no linked text beside them', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
-  // The bar steps aside while the one frame is on screen (aside=".op-gate", 21 Nov 2026).
-  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate">\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
+  // The bar steps aside while the one frame is on screen (aside=".op-gate", 21 Nov 2026), and the Android app card (.lp-app).
+  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dwk-story__stage">\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
   const landingDock = code(read('src/components/landing/LandingDock.jsx'));
   assert.doesNotMatch(landingDock, /<Link|lp-docklink|Try a CUET question/, 'no link of its own beside the keys and no sample key in the dock');
   assert.match(landingDock, /label=\{dock\.primary\.label\}[\s\S]*secondary=\{dock\.secondary\}/, 'both keys come from one resolved state (wayIn)');
@@ -245,7 +248,7 @@ test('L-013 conversion paths (LK83/LK88): sign-up from the hero, the dock, the c
   assert.deepEqual([demo.wayIn({}).signup.href, demo.wayIn({}).login.href, demo.SAMPLE.href], ['/signup', '/login', '/#try-practice']);
   assert.deepEqual([demo.wayIn({}).dock.secondary.href, demo.wayIn({}).dock.primary.href], ['/login', '/signup'], 'the dock: log in, then sign up');
   for (const route of ['src/app/signup', 'src/app/login']) assert.ok(existsSync(join(ROOT, route)), `${route} exists`);
-  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate">[\s\S]*<LandingDock/, 'the phone dock');
+  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dwk-story__stage">[\s\S]*<LandingDock/, 'the phone dock');
   assert.match(PAGE_CODE, /<CloseActions[\s/>]/, 'the close band');
   assert.match(PAGE_CODE, /<MarketingFooter/, 'the footer');
   // No dead anchors: every in-page #id link points at an id that exists in the landing's own markup.

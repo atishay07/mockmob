@@ -160,6 +160,34 @@ html[data-theme='light'] .app-shell .arena-theme { --tint: 23 21 15; }
 html[data-motion='reduced'] .app-shell .arena-askkey { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .arena-askkey { transition: none; } .app-shell .arena-askkey:active { transform: none; } }
 
+/* On phones with a streak door, keep both units (days and credits) and the full Ask Mobi label. */
+@media (max-width: 639px) {
+  .app-shell[data-phone-streak] .arena-askkey { display: inline-flex; }
+  .app-shell[data-phone-streak] :is(.arena-askkey__name, .arena-acct__credits > span) {
+    position: static; width: auto; height: auto; overflow: visible; clip: auto;
+  }
+  .app-shell[data-phone-streak] .arena-acct__credits {
+    flex-direction: column; justify-content: center; gap: 2px; min-width: 44px; padding-inline: 8px; line-height: 1;
+  }
+  .app-shell[data-phone-streak] .arena-acct__you { justify-content: center; min-width: 44px; }
+}
+
+/* Keep two 44px rows even before the streak arrives, with the visual and keyboard orders aligned. */
+@media (max-width: 519px) {
+  .app-shell[data-phone-streak] { --arena-topbar-h: 105px; }
+  .app-shell[data-phone-streak] .arena-topbar__row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: repeat(2, 44px);
+    gap: 4px 8px; padding-block: 6px;
+  }
+  .app-shell[data-phone-streak] .arena-topbar__logo { display: flex; }
+  .app-shell[data-phone-streak] .arena-topbar .arena-topbar__logo .logo { --logo-h: 21px; width: auto; }
+  .app-shell[data-phone-streak] .arena-topbar .arena-topbar__logo .logo-b { margin-left: 0; }
+  .app-shell[data-phone-streak] .arena-theme .mm-theme-toggle { display: grid; }
+  .app-shell[data-phone-streak] .arena-topbar__end {
+    grid-column: 1 / -1; justify-content: space-between; gap: 8px; margin-left: 0;
+  }
+}
+
 /* ---------- Dock (below 1024 px) ---------- */
 @media (max-width: 1023px) {
   /* The capsule is the whole row now that the Start key is its centre slot. */

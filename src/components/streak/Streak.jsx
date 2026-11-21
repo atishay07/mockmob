@@ -9,10 +9,10 @@ import {
   PAUSE_TITLE, makeUpRule, passRule, STREAK_NAME, daysWord, milestoneLine, passLine, pauseDoneLine, pauseKey, pauseLine, pauseSetLine, ruleLine, statusLine,
   streakMonth, streakWeek, todayProgress, weekLegend, weekdayOf,
 } from '@/lib/streak/streakCopy.mjs';
-import { closeStreakSheet, sendPause, useStreak, useStreakSheet } from './useStreak';
+import { closeStreakSheet, sendPause, useStreak, useStreakGrow, useStreakSheet } from './useStreak';
 import { LOGO_B_MOBI } from '@/components/brand/logoB';
 import StreakLine from './StreakLine';
-import { KeepKey, MadeLines } from './StreakUseful';
+import { FinishLine, KeepKey, MadeFigures } from './StreakUseful';
 import './streak.css';
 import './streak-line.css';
 
@@ -27,6 +27,17 @@ export function StreakMobi({ lit = false, size = 52, className = '' }) {
       <path className="stk-mobi__visor" d={MOBI.visor} />
       <path className="stk-mobi__eyes" d={MOBI.eyes} />
     </svg>
+  );
+}
+
+/** The day number. `from`: the figure it steps up from, once, when the streak just rose (useStreakGrow): the old figure leaves
+ *  upward as the new one arrives (about 400 ms, transform and opacity). Without it, simply the number. */
+export function StreakTick({ days, from = null, className = '' }) {
+  if (from === null || !(days > from)) return <b className={`stk-tick ${className}`.trim()}>{days}</b>;
+  return (
+    <b className={`stk-tick ${className}`.trim()} data-tick="true">
+      <span className="stk-tick__old">{from}</span><span className="stk-tick__new">{days}</span>
+    </b>
   );
 }
 
@@ -192,6 +203,8 @@ export default function StreakSheet({ userId }) {
     return () => el.removeEventListener('close', closed);
   }, []);
   const status1 = body ? statusLine(body) : null;
+  // The sheet opened just as the number rose (from the chip's own moment, or a set just finished): its big figure steps up too.
+  const grew = useStreakGrow(userId, body, open && Boolean(body));
   return (
     <dialog ref={ref} className="stk-sheet" aria-labelledby="stk-sheet-h" onClick={(e) => { if (e.target === ref.current) ref.current.close(); }}>
       {open ? (
@@ -212,16 +225,21 @@ export default function StreakSheet({ userId }) {
           ) : (
             <>
               <div className="stk-hero" data-zero={body.days === 0 || undefined}>
-                {body.days > 0 ? <b className="stk-hero__n">{body.days}</b> : null}
+                {body.days > 0 ? <StreakTick days={body.days} from={grew} className="stk-hero__n" /> : null}
                 <span className="stk-hero__text">
                   <b>{body.days === 0 ? 'Your streak starts with one day' : body.days === 1 ? 'day in a row' : 'days in a row'}</b>
                   <span>{body.best > body.days ? `Your best is ${daysWord(body.best)}.` : body.days > 0 ? 'This is your best yet.' : 'Each day that counts adds one.'}</span>
                 </span>
               </div>
-              <StreakWeek body={body} />
-              <MadeLines body={body} userId={userId} />
+              {/* 21 Nov 2026 (owner LK365): the week with its finish line, today's one line and its key (today's five while they are
+                  still to play), then what the run has made, in the server's own counts. */}
+              <div className="stk-weekwrap">
+                <StreakWeek body={body} />
+                <FinishLine body={body} userId={userId} />
+              </div>
               {status1 ? <p className="stk-line stk-line--status" data-tone={status1.tone}>{status1.text}{status1.sub ? <span className="stk-hint">{status1.sub}</span> : null}</p> : null}
               <KeepKey body={body} className="stk-sheet__keep" />
+              <MadeFigures body={body} userId={userId} />
               <StreakMonth body={body} />
               <section className="stk-sec" aria-labelledby="stk-pass-h">
                 <h3 id="stk-pass-h" className="stk-sec__h">Rest passes</h3>

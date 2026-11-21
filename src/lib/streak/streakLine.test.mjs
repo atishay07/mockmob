@@ -99,13 +99,13 @@ test('the pace to CUET: from 3 days, only with an exam day ahead, today counted 
 
 test('the one key: a Daily Five while it is still to play, else today\'s practice set; the make-up\'s own count; none once today counts', () => {
   const open = chain([...run(add(T, -4), 4), { day: T, answered: 2 }]);
-  assert.deepEqual(keepAction(open, { daily: 'open' }), { kind: 'daily', label: 'Do today’s Daily Five', href: '/daily' });
-  assert.equal(keepAction(open, { daily: 'begun' }).label, 'Finish today’s Daily Five');
+  assert.deepEqual(keepAction(open, { daily: 'open' }), { kind: 'daily', label: 'Do today’s five', href: '/daily' });
+  assert.equal(keepAction(open, { daily: 'begun' }).label, 'Finish today’s five');
   assert.deepEqual(keepAction(open, { daily: 'played' }), { kind: 'practice', label: 'Start 10 practice questions', href: '/dashboard?mode=quick&count=10' });
   assert.equal(keepAction(open, { daily: null }).kind, 'practice', 'unknown is never guessed as open');
   const makeUp = chain([...run(add(T, -3), 2), { day: T, answered: 4 }]);
   assert.ok(makeUp.makeUp);
-  assert.deepEqual(keepAction(makeUp, { daily: 'open' }), { kind: 'practice', label: 'Answer 6 more: start 10 questions', href: '/dashboard?mode=quick&count=10' }, 'a Daily Five holds 5, the make-up needs 10');
+  assert.deepEqual(keepAction(makeUp, { daily: 'open' }), { kind: 'practice', label: 'Answer 6 more today', href: '/dashboard?mode=quick&count=10' }, 'a Daily Five holds 5, the make-up needs 10; one number on the key, the smallest Quick set that covers it');
   assert.equal(keepAction(chain([...run(add(T, -4), 4), { day: T, answered: 6 }]), { daily: 'open' }), null);
   assert.equal(keepAction(chain(run(add(T, -4), 4), { pauses: [T] }), { daily: 'open' }), null, 'a pause day needs nothing');
   // The key's start paths are the product's own: the Daily Five row's address and Practice's first-set address.

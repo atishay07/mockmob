@@ -8,7 +8,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  DAILY_FIGURES, DAILY_LINE, STRIP_HEAD, SUNDAY_FIGURES, SUNDAY_LINE, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, waitWords,
+  DAILY_FIGURES, DAILY_LINE, DAILY_PRINT, STRIP_HEAD, SUNDAY_FIGURES, SUNDAY_LINE, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine, waitWords,
 } from './dailyStripCopy.mjs';
 import { DAILY_FIVE_PATH, DAILY_FIVE_SIZE } from '../../lib/dailyFive.mjs';
 import { PAPER_COUNT, PAPER_MINUTES } from '../../lib/sundayMock.mjs';
@@ -38,10 +38,35 @@ test('the Daily Five card: open, begun and played each lead with the state and i
   }
 });
 
-test('the Daily Five says what it is in one sentence and three true figures', () => {
-  assert.match(DAILY_LINE, /^The same five for everyone today/);
-  assert.match(DAILY_LINE, /from English and the General Test\.$/);
+// 21 Nov 2026 ("Your five", tmp/1121-stories/DAILY-SPEC.md): a signed-in student's five come from their own record, so "the
+// same five for everyone" is no longer true for every reader of the home card. The sentence and the small print are true for
+// a guest (no sign-up) and for a student (picked for you).
+test('the Daily Five says what it is in words true for a guest and a student, and three true figures', () => {
+  assert.equal(DAILY_LINE, 'Five questions a day, new at 12:00 am. Signed in, the five are picked for you.');
+  assert.doesNotMatch(DAILY_LINE, /same five for everyone/);
+  assert.equal(DAILY_PRINT, 'No sign-up to try. Signed in, the five are picked for you.');
   assert.deepEqual(DAILY_FIGURES.map((f) => `${f.figure}${f.unit ? ` ${f.unit}` : ''}`), [`${DAILY_FIVE_SIZE} questions`, 'Free', 'No sign-up']);
+  const jsx = read('./DailyFiveRow.jsx');
+  assert.match(jsx, /<p className="dwk-story__print">\{DAILY_PRINT\}<\/p>/, 'the small print sits under the key');
+});
+
+test('Today\'s row: the student\'s own mix when GET /api/daily/mine built one, else the shared five\'s line', () => {
+  assert.equal(todayMineLine({ mix: { missed: 2, weak: 2, subject: 1 } }), 'Your five: 2 you missed, 2 weak chapters, 1 new.');
+  assert.equal(todayMineLine({ mix: { missed: 2, weak: 2, subject: 1 }, wait: '1 h 44 min' }), 'Your five: 2 you missed, 2 weak chapters, 1 new. Closes in 1 h 44 min.');
+  assert.equal(todayMineLine({ mix: { missed: 0, weak: 1, subject: 4 } }), 'Your five: 1 weak chapter, 4 new.');
+  assert.equal(todayMineLine({ mix: null }), '');
+  // Played: the score and the first thing the five did, else the wait (21 Nov 2026 critic: before and after read the same).
+  assert.equal(todayDoneLine({ score: 4, did: ['1 mistake fixed', '1 sent back to your mistakes'], wait: '1 h 44 min' }), 'Done today, 4/5. 1 mistake fixed.');
+  assert.equal(todayDoneLine({ score: 5, did: [], wait: '1 h 44 min' }), 'Done today, 5/5. Next five in 1 h 44 min.');
+  assert.equal(todayDoneLine({ score: 3, did: ['Nothing sent back to your mistakes.'] }), 'Done today, 3/5. Nothing sent back to your mistakes.');
+  const jsx = read('./DailyFiveRow.jsx');
+  // The route is read only once the account answered and today is not played; any failure is the shared five's line.
+  assert.match(jsx, /const askMine = Boolean\(ready && meDone && !result\);/);
+  assert.match(jsx, /fetch\(DAILY_MINE_ROUTE, \{ cache: 'no-store' \}\)/);
+  assert.match(jsx, /setMine\(got && got\.personal && got\.date === date \? \{ date: got\.date, mix: got\.mix \} : 'shared'\)/);
+  assert.match(jsx, /\.catch\(\(\) => \{ if \(alive\) setMine\('shared'\); \}\)/);
+  // "The same five for everyone" only once the route said this student plays the shared five.
+  assert.match(jsx, /mine === 'shared' \? 'The same five for everyone\. ' : ''/);
 });
 
 test('the Sunday Mock card through a week: the wait, Saturday, Sunday morning, open, the close, the answers, the next one', () => {
@@ -99,7 +124,7 @@ test('the block\'s college words are what the server counted; See all says its o
   assert.match(jsx, /const counted = COLLEGE_DAILY && fromAccount && account\.team && account\.team\.last === today\.date/);
   assert.match(jsx, /\$\{counted \? ` for \$\{counted\}` : ''\}/);
   // The choice is kept with its account on a shared phone: both doors that know the student pass who it is.
-  assert.match(jsx, /useTeamChoice\(\{ today: date, account: account\?\.team \|\| null, userId: /);
+  assert.match(jsx, /useTeamChoice\(\{ today: date, account: account\?\.team \|\| null, userId \}\)/);
   const page = read('./DailyFive.jsx');
   assert.match(page, /useTeamChoice\(\{ today: today\?\.date \|\| null, account: accountReady \? account\.team : null, userId \}\)/);
   assert.equal((page.match(/shareText\(result, shareCollege\)/g) || []).length, 2, 'the share line names the college today counted for');
@@ -110,7 +135,7 @@ test('no exclamation marks, arrows, upper-case times, ranks or day numbers in an
     dailyRow({ waitMs: HOUR }), dailyRow({ begun: true, at: 2, waitMs: HOUR }), dailyRow({ result: { score: 3, clock: '2:00' }, streak: 2, waitMs: HOUR }),
     ...['2026-11-18T14:00:00', '2026-11-21T18:00:00', '2026-11-22T08:00:00', '2026-11-22T11:00:00', '2026-11-22T22:30:00', '2026-11-22T23:30:00'].map((s) => sundayRow({ now: IST(s) })),
   ];
-  const all = JSON.stringify([STRIP_HEAD, ...rows, SUNDAY_LINE_SHORT, omrLabel(null), omrLabel([true, false, true, true, true])]);
+  const all = JSON.stringify([STRIP_HEAD, ...rows, SUNDAY_LINE_SHORT, DAILY_PRINT, todayMineLine({ mix: { missed: 2, weak: 2, subject: 1 } }), omrLabel(null), omrLabel([true, false, true, true, true])]);
   assert.doesNotMatch(all, /!|→|->|\bNo\. \d|\b(rank|percentile)\b/i);
   assert.doesNotMatch(all, /\d:\d{2} (AM|PM)/, 'times in lower case');
 });
@@ -164,7 +189,12 @@ test('the admit card is ours: no ink band, no date slab; the edition by name, Pl
 test('the simpler Daily Five is the default: no college names unless the switch is on, and the head says the personal game', async () => {
   const { COLLEGE_DAILY, PERSONAL_HEAD } = await import('./dailyStripCopy.mjs');
   assert.equal(COLLEGE_DAILY, false, 'off unless NEXT_PUBLIC_DAILY_COLLEGE_BOARD is set to true at build time');
-  assert.equal(PERSONAL_HEAD.h2, 'Five a day. Keep your streak.');
+  // 21 Nov 2026 (owner LK365, "Your five"): the head says what the five are for; the sub line says who gets which.
+  assert.equal(PERSONAL_HEAD.h2, 'Five a day, built from your mistakes.');
+  assert.ok(PERSONAL_HEAD.h2.endsWith(PERSONAL_HEAD.mark), 'the marked phrase is in the head');
+  assert.equal(STRIP_HEAD.mark, 'your college.');
+  assert.match(PERSONAL_HEAD.sub, /^Signed in, /, 'a guest is not told the five are built from their mistakes');
+  assert.doesNotMatch(PERSONAL_HEAD.sub, /same five|for everyone/);
   assert.doesNotMatch(`${PERSONAL_HEAD.h2} ${PERSONAL_HEAD.sub}`, /college/i);
   const row = read('./DailyFiveRow.jsx');
   assert.match(row, /\{COLLEGE_DAILY \? <PlayingFor team=\{team\} onOpen=\{\(\) => setSheet\(true\)\} \/> : null\}/);

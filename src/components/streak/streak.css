@@ -58,7 +58,7 @@ html[data-theme='light'] .stk-bubble[data-look='done'], html[data-theme='light']
 /* ---------- Shared type ---------- */
 .stk-line { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2); }
 .stk-line--status { display: grid; gap: 4px; font-size: 16px; font-weight: 550; color: var(--a-ink); }
-.stk-hint { margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); font-weight: 400; }
+.stk-hint { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-3); font-weight: 400; }
 .stk-sec { display: grid; gap: 12px; padding-top: 18px; border-top: 1px solid var(--a-line); }
 .stk-sec__h { margin: 0; font: 650 15px/1.25 var(--font-display); color: var(--a-ink); }
 .stk-note { margin: 0; min-height: 1.4em; font-size: 14px; color: var(--a-ink-2); }
@@ -114,7 +114,7 @@ html[data-theme='light'] .stk-bubble[data-look='done'], html[data-theme='light']
 .stk-cal { display: grid; gap: 8px; }
 .stk-cal__head { display: flex; align-items: center; justify-content: space-between; font: 650 15px/1 var(--font-display); }
 .stk-cal__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
-.stk-cal__dow { display: grid; place-items: center; height: 24px; font-size: 12px; font-weight: 650; color: var(--a-ink-3); }
+.stk-cal__dow { display: grid; place-items: center; height: 24px; font-size: 14px; font-weight: 650; color: var(--a-ink-3); }
 .stk-cal__day {
   display: grid; place-items: center; width: 100%; aspect-ratio: 1; min-height: 44px; max-height: 48px;
   border: 0; border-radius: 50%; background: transparent; color: var(--a-ink); font: 600 14.5px/1 var(--font-body); font-variant-numeric: tabular-nums;
@@ -128,14 +128,15 @@ html[data-theme='light'] .stk-bubble[data-look='done'], html[data-theme='light']
 
 /* ---------- The top bar chip: the account capsule's first door ---------- */
 .stk-chip {
-  display: inline-flex; align-items: center; gap: 6px; flex: none; margin-block: -1px; padding: 0 11px 0 12px;
-  border: 0; background: transparent; color: var(--a-ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: none; min-width: 44px;
+  margin-block: -1px; padding: 0 11px 0 12px;
+  border: 0; border-radius: 999px 0 0 999px; background: transparent; color: var(--a-ink);
   font: 750 15px/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; cursor: pointer;
   -webkit-tap-highlight-color: transparent; touch-action: manipulation;
   transition: background-color 160ms var(--stk-out);
 }
 .stk-chip:active { background: var(--a-sunken); transition-duration: 60ms; }
-.stk-chip:focus-visible { outline-offset: -3px; border-radius: 999px; }
+.stk-chip:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; border-radius: 999px; }
 .stk-chip__n {
   display: grid; place-items: center; min-width: 30px; height: 30px; padding: 0 4px; border-radius: 999px;
   box-shadow: inset 0 0 0 1.75px var(--a-ink); font: 750 14px/1 var(--font-display); letter-spacing: -0.02em;
@@ -143,13 +144,15 @@ html[data-theme='light'] .stk-bubble[data-look='done'], html[data-theme='light']
 .stk-chip__n[data-wide] { font-size: 12.5px; }
 .stk-chip__n[data-done] { background: var(--stk-volt); box-shadow: none; color: var(--stk-volt-ink); }
 html[data-theme='light'] .stk-chip__n[data-done] { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.45); }
-.stk-chip__unit { font-size: 13px; font-weight: 600; color: var(--a-ink-3); }
+.stk-chip__unit { font-size: 14px; font-weight: 600; color: var(--a-ink-3); }
 @media (hover: hover) and (pointer: fine) { .stk-chip:hover { background: var(--a-hover); } }
-/* Phones (under 640 px) leave the chip out (17 Nov review): a bare number beside the credits read as two unlabelled figures and
-   shortened Ask Mobi. StreakChip does not render or read there; this rule only backs it up. While the read is out on a wider
-   screen, an empty chip of the usual width holds the space so the bar does not shift when the number arrives. */
-@media (max-width: 639px) { .stk-chip, .stk-chip + .arena-acct__rule { display: none; } }
 .stk-chip--wait { width: 84px; height: 30px; padding: 0; pointer-events: none; }
+@media (max-width: 639px) {
+  .stk-chip { gap: 4px; padding-inline: 8px; }
+  .stk-chip .stk-chip__mobi { width: 20px; height: 20px; margin-right: 0; }
+  /* The capsule is right-aligned. The credit and account doors stay in place as the streak arrives at its left edge. */
+  .stk-chip--wait, .stk-chip--wait + .arena-acct__rule { display: none; }
+}
 
 /* ---------- Today's block (on the ground, like This week) ---------- */
 .app-shell .today-grid .tsk { order: 3; }
@@ -174,7 +177,7 @@ html[data-theme='light'] .stk-chip__n[data-done] { box-shadow: inset 0 0 0 1px r
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; border: 0; background: none; flex: none;
   color: var(--a-ink); font: 650 14.5px/1 var(--font-display); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; cursor: pointer;
 }
-.app-shell .tsk__rule { margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); }
+.app-shell .tsk__rule { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-3); }
 .app-shell .tsk__moment { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: var(--a-volt-wash); border: 1px solid var(--a-volt-line); }
 .app-shell .tsk__moment[data-play] .tsk__stamp { animation: stk-stamp 300ms var(--stk-out) 120ms both; }
 .app-shell .tsk__stamp { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--a-ink); color: var(--a-bg); font: 750 17px/1 var(--font-display); font-variant-numeric: tabular-nums; }
@@ -255,3 +258,65 @@ html[data-motion='reduced'] .app-shell .tsk[data-fresh] :is(.stk-mobi, .stk-mobi
 html[data-motion='reduced'] .app-shell .tsk__n[data-roll] > span:first-child { display: none; }
 .stk-chip__mobi { margin-right: -1px; }
 .stk-chip__days { font: 750 15px/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+
+/* ---------- 21 Nov 2026 (owner LK365: "make the streak way better and actually worth using") ----------
+   The number steps up once when it rises, the week carries its finish line, and the sheet says what the run made. */
+.tsk-pill { --stk-out: cubic-bezier(0.23, 1, 0.32, 1); --stk-volt: #d2f000; --stk-volt-ink: #0b1000; }
+.app-shell .today-grid :is(.tsk-pill, .tsk-summary) { order: 0; align-self: flex-start; margin: -10px 0 -24px; }
+.app-shell .tsk-summary {
+  display: flex; align-items: center; gap: 8px; min-height: 44px;
+  color: var(--a-ink-2); font: 550 14px/1.3 var(--font-display);
+}
+.app-shell .tsk-summary b { color: var(--a-ink); font-weight: 650; }
+.app-shell .tsk-summary span { padding-inline-start: 8px; border-inline-start: 1px solid var(--a-line-strong); }
+.app-shell .tsk-pill {
+  display: inline-flex; align-items: center; gap: 8px; max-width: 100%; height: 44px; padding: 0 10px 0 9px;
+  border: 1px solid var(--a-line); border-radius: 999px; background: var(--a-raised); color: var(--a-ink);
+  font: 600 14px/1 var(--font-display); white-space: nowrap; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: background-color 160ms var(--stk-out), transform 120ms var(--stk-out), border-color 160ms var(--stk-out);
+}
+.app-shell .tsk-pill--wait { width: 196px; visibility: hidden; pointer-events: none; }
+.app-shell .tsk-pill:active { transform: scale(0.97); background: var(--a-sunken); }
+.app-shell .tsk-pill:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .tsk-pill__lead { display: inline-flex; align-items: baseline; gap: 5px; color: var(--a-ink); font-weight: 650; font-size: 14.5px; }
+.app-shell .tsk-pill__n { font: 750 18px/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.app-shell .tsk-pill__today { display: inline-flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--a-ink-2); font-weight: 550; }
+.app-shell .tsk-pill__today::before { content: ''; flex: none; width: 1px; height: 16px; background: var(--a-line-strong); }
+.app-shell .tsk-pill[data-done] .tsk-pill__today { color: var(--a-ink); }
+.app-shell .tsk-pill__chev { flex: none; margin-left: -2px; color: var(--a-ink-3); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tsk-pill:hover { border-color: var(--a-line-strong); background: var(--a-hover); } }
+/* From 1100 px the block itself stands at the top of Today's glance column: the pill would say it twice. */
+@media (min-width: 1100px) { .app-shell .tsk-pill { display: none; } }
+
+/* The number steps up once (useStreakGrow): the old figure leaves upward as the new one arrives, and Mobi steps up with it. */
+.stk-tick { display: inline-block; font-variant-numeric: tabular-nums; }
+.stk-tick[data-tick] { display: inline-grid; overflow: hidden; vertical-align: bottom; }
+.stk-tick[data-tick] > span { grid-area: 1 / 1; }
+.stk-tick__old { animation: stk-tick-out 380ms var(--stk-out, ease-out) both; }
+.stk-tick__new { animation: stk-tick-in 380ms var(--stk-out, ease-out) both; }
+:is(.stk-chip, .tsk-pill)[data-grow] .stk-mobi { animation: stk-step 400ms var(--stk-out, ease-out) both; }
+@keyframes stk-tick-out { from { transform: none; opacity: 1; } to { transform: translateY(-80%); opacity: 0; } }
+@keyframes stk-tick-in { from { transform: translateY(80%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes stk-step { 0% { transform: translateY(0); } 45% { transform: translateY(-3px) scale(1.06); } 100% { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .stk-tick__old { display: none; }
+  .stk-tick__new, :is(.stk-chip, .tsk-pill)[data-grow] .stk-mobi { animation: none !important; }
+  .app-shell .tsk-pill { transition-duration: 1ms; }
+}
+html[data-motion='reduced'] .stk-tick__old { display: none; }
+html[data-motion='reduced'] :is(.stk-tick__new, .stk-chip[data-grow] .stk-mobi, .tsk-pill[data-grow] .stk-mobi) { animation: none !important; }
+
+/* The finish line, right under the week. */
+.stk-finish { display: flex; align-items: flex-start; gap: 7px; margin: 0; font: 600 14.5px/1.35 var(--font-display); color: var(--a-ink); }
+.stk-finish svg { flex: none; margin-top: 2px; color: var(--a-ink-2); }
+.stk-weekwrap { display: grid; gap: 10px; }
+
+/* "What 12 days made": the run's counts as figures, two to a row on a phone. */
+.stk-figs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.stk-fig { display: grid; align-content: start; gap: 4px; min-width: 0; padding: 12px 14px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised-2); }
+.stk-fig[data-key='answered'] { grid-column: 1 / -1; border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+.stk-fig__n { font: 750 26px/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--a-ink); }
+.stk-fig[data-key='answered'] .stk-fig__n { font-size: 34px; }
+.stk-fig__l { font-size: 14px; line-height: 1.3; color: var(--a-ink-2); }
+.stk-sheet__keep { width: 100%; }

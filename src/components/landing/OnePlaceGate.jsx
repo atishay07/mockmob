@@ -22,7 +22,12 @@ import '@/app/exam-screen.css';
 import './loading-kit.css';
 import './key-cards.css';
 import '@/app/brand-stamp.css';
-import './bring-mistake.css';
+// The row stories' own sheets (21 Nov 2026), in the frame's registry order, before the frame's sheet: one-place.css places
+// the stories on their cards and stays last, as it was.
+import './stories/mobi-story.css';
+import './stories/learn-story.css';
+import './stories/rival-story.css';
+import './stories/mob-story.css';
 import './one-place.css';
 
 /** How near the window the frame is when its code is asked for: 150 % of the window's height, above or below. */

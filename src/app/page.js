@@ -61,6 +61,7 @@ import { DAILY_FIVE_SIZE } from '@/lib/dailyFive.mjs';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import { CloseActions } from '@/components/landing/CloseActions';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
+import AndroidAppNudge from '@/components/landing/AndroidAppNudge';
 import LabCinema from '@/components/landing/LabCinema';
 import CreatorReels from '@/components/landing/CreatorReels';
 import OnePlaceGate from '@/components/landing/OnePlaceGate';
@@ -142,6 +143,8 @@ const STUDY_LESSONS = Object.keys(STUDY_RELEASE.units || {}).length;
 const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => id.split('-')[0])).size;
 const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE });
 const TOUR_SAMPLES = MOB_LIVE ? { mob: publicSample('Economics') } : null;
+// The Learn row story's foot line: the study release's lesson and subject counts (the tour slide's own first point).
+const STUDY_COUNTS = { lessons: STUDY_LESSONS, subjects: STUDY_SUBJECTS };
 // Ask Mobi's proof line: Bring a mistake's own credit line, from the app's prices and the free monthly credits (a photo is
 // promised only while Mobi reads photos).
 const MOBI_PRICE = mobiPrice({ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS });
@@ -277,7 +280,7 @@ export default function LandingPage() {
               <h2 className="lp-h2" id="op-title"><Marked text={ONE_PLACE.h2} marks={[[ONE_PLACE.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
               <p className="lp-sub">{ONE_PLACE.sub}</p>
             </Reveal>
-            <OnePlaceGate keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE} tour={TOUR} samples={TOUR_SAMPLES}>
+            <OnePlaceGate keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE} tour={TOUR} samples={TOUR_SAMPLES} study={STUDY_COUNTS}>
               <LandingActions mode="primary" />
             </OnePlaceGate>
           </div>
@@ -312,7 +315,7 @@ export default function LandingPage() {
             {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
               <BrandStamp {...BRAND_STAMPS.rhythm} />
-              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[[COLLEGE_DAILY ? 'your college.' : 'your streak.', { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
+              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[[dailyHead.mark, { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
               <p className="lp-sub">{dailyHead.sub}</p>
             </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
             <DailyFiveRow where="home" />
@@ -419,6 +422,7 @@ export default function LandingPage() {
               /#exam-experience: land there once the page has settled (on a phone the browser's own jump was lost). */}
           <HashSettle ids={HASH_IDS} />
         </section></Later>
+        <Later><AndroidAppNudge listed={process.env.PLAY_LISTING_PUBLIC === 'true'} /></Later>
       </main>
       <Later><MarketingFooter home /></Later>
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
@@ -433,7 +437,7 @@ export default function LandingPage() {
       <Later><AskMobiSheet /></Later>
       {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
-      <HeroDockGate aside=".op-gate">
+      <HeroDockGate aside=".op-gate, .lp-app, .dwk-story__stage">
         <LandingDock />
       </HeroDockGate>
     </div>

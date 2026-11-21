@@ -22,9 +22,24 @@
 //          few              three colleges, under every floor;  zero: nobody played for a college;  fail: 503
 // The checks of a signed-in fixture student are kept in this tab (window.__previewDaily): the first pick of each question
 // stands, and GET /api/daily/me builds today's record from them once all five are checked, as the server does.
+// "Your five" (21 Nov 2026, lane daily-ui; contract tmp/1121-stories/daily/CONTRACT.md): GET /api/daily/mine and the checks of
+// a personal five. &five= picks the state (/preview/daily, signed in; it works on /preview/arena too):
+//   (absent)   GET /api/daily/mine is not answered here (the preview's own 503): the page plays the shared five, quietly
+//   mine       the student's own five, untouched (2 they missed, 2 from their weak chapters, 1 new)
+//   two        the same five with places 1 and 2 answered on this device and the account (1: right on a question missed
+//              before, so a mistake fixed; 2: wrong, so sent back to the mistakes): the page resumes on question 3
+//   done       all five answered (4 of 5), the day's end not seen yet: the page opens on it. The streak reads 12 days first,
+//              then 13 with today counted (the five made today count), so the number steps up once (previewDailyStreak)
+//   shared     { personal: false }, &reason=no_subjects (default) | thin_bank | shared_started | off | unavailable
+//   fail       GET /api/daily/mine answers 503: the shared five, no error
+// A check of a personal question answers `fed` as the server does: a wrong first pick 'mistakes', a right first pick on a
+// question missed before 'fixed', else null (a retry: null).
 import { computeRhythm } from '@/lib/server/rhythm';
+import { DAY_GOAL, MAKE_UP_EVERY, MAKE_UP_GOAL, PASS_EVERY, PASS_FIRST_AT, PASS_PER_FIXES, computeChain } from '@/lib/chain/chain.mjs';
+import { previewStreak } from './previewStreak';
 import { DAILY_FIVE_SIZE, addDays, todayDaily } from '@/lib/dailyFive.mjs';
 import { ANSWER_LETTERS, questionRef } from '@/lib/dailyFiveAccount.mjs';
+import { DAILY_MINE_STORE } from '@/components/daily/dailyMineUi.mjs';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -123,6 +138,126 @@ function stripBody(kind, now) {
   };
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// "Your five": original illustrative questions (never real bank rows), their keys the fixture's own. `back`: how many days
+// ago the student missed it (a `missed` place's `since`).
+export const PREVIEW_MINE = [
+  { subject: 'accountancy', name: 'Accountancy', chapter: 'Accounting Ratios', kind: 'missed', back: 7, q: 'Which ratio compares current assets with current liabilities?', options: ['Quick ratio', 'Current ratio', 'Debt equity ratio', 'Proprietary ratio'], correct: 1, why: 'The current ratio is current assets divided by current liabilities. The quick ratio leaves out inventory and prepaid expenses.' },
+  { subject: 'economics', name: 'Economics', chapter: 'National Income Accounting', kind: 'missed', back: 9, q: 'Which of these is a stock, not a flow?', options: ['Income', 'Wealth', 'Consumption', 'Investment'], correct: 1, why: 'Wealth is measured at a point in time, so it is a stock. Income, consumption and investment are measured over a period, so they are flows.' },
+  { subject: 'accountancy', name: 'Accountancy', chapter: 'Admission of a Partner', kind: 'weak', q: 'Goodwill brought in cash by a new partner is credited to which account?', options: ['Premium for goodwill account', 'Revaluation account', 'Realisation account', 'Cash account'], correct: 0, why: 'The cash brought in for goodwill is credited to the premium for goodwill account, then shared by the old partners in their sacrificing ratio.' },
+  { subject: 'business-studies', name: 'Business Studies', chapter: 'Principles of Management', kind: 'weak', q: 'Which principle says each employee should take orders from one boss only?', options: ['Unity of direction', 'Unity of command', 'Scalar chain', 'Order'], correct: 1, why: 'Unity of command means one employee, one superior. Unity of direction is one plan for a group of activities with the same objective.' },
+  { subject: 'economics', name: 'Economics', chapter: 'Non-Competitive Markets', kind: 'subject', q: 'Which market has a single seller and no close substitutes?', options: ['Perfect competition', 'Monopoly', 'Oligopoly', 'Monopolistic competition'], correct: 1, why: 'A monopoly has one seller of a good with no close substitutes, so the seller can set the price.' },
+];
+/** The picks the `two` and `done` states hold: 1 right (a missed question: fixed), 2 wrong (sent back), 3 to 5 right. */
+export const PREVIEW_MINE_PICKS = [1, 0, 0, 1, 1];
+const MINE_STATES = ['mine', 'two', 'done'];
+const MINE_TOKEN = /^d1\.pmine-\d+-(\d)\./;
+const mineMemory = () => (memory().mine ||= { picks: {} });
+const fedFor = (n, pick) => (pick !== PREVIEW_MINE[n - 1].correct ? 'mistakes' : PREVIEW_MINE[n - 1].kind === 'missed' ? 'fixed' : null);
+
+/** GET /api/daily/mine's personal body for today: the server's shape, tokens that open nowhere. */
+export function previewMineBody(now = Date.now()) {
+  const { day, date } = todayDaily(now);
+  const mix = { missed: 0, weak: 0, subject: 0 };
+  const questions = PREVIEW_MINE.map((item, i) => {
+    mix[item.kind] += 1;
+    return {
+      subject: item.subject, q: item.q, options: [...item.options], chapter: item.chapter,
+      token: `d1.pmine-${day}-${i + 1}.fixture-token-not-a-seal`,
+      why: { kind: item.kind, subject: item.name, chapter: item.chapter, ...(item.kind === 'missed' ? { since: addDays(date, -item.back) } : {}) },
+    };
+  });
+  return { ok: true, personal: true, date, day, questions, mix };
+}
+
+/**
+ * The `two` and `done` states, set up before the page loads (DailyPreviewClient.jsx): the account holds the first k picks, and
+ * the page's own device record is handed the same k checks with what each fed. Returns { checks, fed }.
+ */
+export function seedPreviewMine(k) {
+  const held = mineMemory();
+  held.picks = {};
+  const checks = [];
+  const fed = {};
+  for (let n = 1; n <= k; n += 1) {
+    const pick = PREVIEW_MINE_PICKS[n - 1];
+    const { correct, why } = PREVIEW_MINE[n - 1];
+    held.picks[n] = pick;
+    checks.push({ pick, right: pick === correct, correct, why, recorded: true, team: null });
+    fed[n] = fedFor(n, pick);
+  }
+  if (k === DAILY_FIVE_SIZE) held.ms = 96_000;
+  return { checks, fed };
+}
+
+/**
+ * /preview/arena has no page-load seeding (DailyPreviewClient.jsx does it for /preview/daily): with &five=done (or two) and
+ * nothing held in this tab yet, the first read of the account seeds the same picks, and this device's note of what each fed
+ * (dailyMineUi.mjs DAILY_MINE_STORE, the preview student's), unless one for today is already there. So Today's row shows the
+ * played state of a personal five (21 Nov 2026 critic: five=done and five=mine printed the same line).
+ */
+function seedForArena(five, date) {
+  const want = five === 'done' ? DAILY_FIVE_SIZE : five === 'two' ? 2 : 0;
+  if (!want || Object.keys(mineMemory().picks).length) return;
+  const { fed } = seedPreviewMine(want);
+  if (typeof window === 'undefined') return;
+  try {
+    const held = JSON.parse(window.localStorage.getItem(DAILY_MINE_STORE) || 'null');
+    if (!held || held.date !== date) window.localStorage.setItem(DAILY_MINE_STORE, JSON.stringify({ v: 1, date, user: 'preview-user', personal: true, fed }));
+  } catch { /* storage blocked: the row reads the score alone */ }
+}
+
+function mineAccountBody(now, fixture) {
+  const { day, date } = todayDaily(now);
+  seedForArena(fixture.get('five'), date);
+  const held = mineMemory();
+  const picks = [1, 2, 3, 4, 5].map((n) => held.picks[n] ?? null);
+  const whole = picks.every((p) => Number.isInteger(p));
+  const marks = picks.map((p, i) => p === PREVIEW_MINE[i].correct);
+  const record = whole ? { date, day, score: marks.filter(Boolean).length, ms: held.ms ?? 60_000, marks, picks } : null;
+  const seat = fixture.get('seat') === 'none' ? null : Number(fixture.get('seat') || 4127);
+  return { day, date, record, review: record ? PREVIEW_MINE.map((q) => ({ correct: q.correct, why: q.why })) : null, played: record ? [date] : [], team: null, seat };
+}
+
+function mineCheck(n, asked, ms) {
+  const held = mineMemory();
+  const first = !Number.isInteger(held.picks[n]);
+  if (first) held.picks[n] = asked;
+  if (first && n === DAILY_FIVE_SIZE && Number.isFinite(Number(ms))) held.ms = Number(ms);
+  const pick = held.picks[n];
+  const { correct, why } = PREVIEW_MINE[n - 1];
+  return { n, pick, right: pick === correct, correct, why, recorded: true, for: null, fed: first ? fedFor(n, pick) : null };
+}
+
+const DAY = 86_400_000;
+const istToday = () => new Date(Date.now() + 330 * 60_000).toISOString().slice(0, 10);
+const addIst = (d, n) => new Date(Date.parse(`${d}T00:00:00Z`) + n * DAY).toISOString().slice(0, 10);
+/** Today's five finished in this tab (the shared five's picks, or the student's own). */
+const fiveDone = () => [1, 2, 3, 4, 5].every((n) => Number.isInteger(mineMemory().picks[n]))
+  || [1, 2, 3, 4, 5].every((n) => Number.isInteger(memory().picks[n]));
+
+/**
+ * GET /api/me/streak for /preview/daily (DailyPreviewClient.jsx only; the arena keeps previewStreak.js): with &streak= it is
+ * previewStreak's fixture; else 12 days in a row up to yesterday, computed by the real chain code. The first read of the tab
+ * is today not counted yet; a later read, once today's five are all answered, counts today (a whole five is a streak day:
+ * src/lib/server/streakDays.js), so the day's end sees the number rise from 12 to 13.
+ */
+export function previewDailyStreak(url, method, init, fixture, json) {
+  if (url.pathname !== '/api/me/streak') return null;
+  if (fixture.get('streak')) return previewStreak(url, method, init, fixture, json);
+  if (method !== 'GET') return json({ error: { code: 'BODY_INVALID', message: 'Preview only.' } }, 400);
+  const held = memory();
+  const reads = held.streakReads || 0;
+  held.streakReads = reads + 1;
+  const T = istToday();
+  const daily = Array.from({ length: 12 }, (_, i) => ({ day: addIst(T, i - 12), answered: 8 + ((i * 7) % 13) }));
+  if (reads > 0 && fiveDone()) daily.push({ day: T, answered: DAILY_FIVE_SIZE });
+  return json({
+    ...computeChain({ daily, pauses: [], today: T }),
+    rule: { answers: DAY_GOAL, makeUp: MAKE_UP_GOAL, makeUpEvery: MAKE_UP_EVERY, passFirstAt: PASS_FIRST_AT, passEvery: PASS_EVERY, passPerFixes: PASS_PER_FIXES },
+  });
+}
+
 /**
  * The fixture's answer for a Daily Five route (and Today's rhythm with &daily=played), or null when the request is not one.
  * `json(body, status)` is the preview's own reply.
@@ -130,7 +265,17 @@ function stripBody(kind, now) {
 export function previewDaily(url, method, init, fixture, json) {
   const now = Date.now();
   const kind = fixture.get('daily') || 'none';
+  const five = fixture.get('five');
+  const mineState = MINE_STATES.includes(five);
   if (url.pathname === '/api/daily' && method === 'GET') return json(previewFiveBody(now));
+  if (url.pathname === '/api/daily/mine' && method === 'GET') {
+    if (!five) return null;
+    if (fixture.get('auth') === 'out') return json({ error: 'unauthorized' }, 401);
+    if (five === 'fail') return json({ error: 'unavailable' }, 503);
+    if (five === 'shared') return json({ ok: true, personal: false, reason: fixture.get('reason') || 'no_subjects' });
+    return json(previewMineBody(now));
+  }
+  if (url.pathname === '/api/daily/me' && method === 'GET' && mineState && kind !== 'error') return json(mineAccountBody(now, fixture));
   if (url.pathname === '/api/daily/me' && method === 'GET') {
     if (kind === 'error') return json({ error: 'unavailable' }, 503);
     return json(accountBody(kind, now, fixture));
@@ -139,6 +284,11 @@ export function previewDaily(url, method, init, fixture, json) {
     const mode = fixture.get('check') || 'ok';
     if (mode === 'fail') return json({ error: 'unavailable' }, 503);
     const body = JSON.parse(init?.body || '{}');
+    const own = Number(MINE_TOKEN.exec(String(body.token || ''))?.[1]);
+    if (Number.isInteger(own) && own >= 1 && own <= DAILY_FIVE_SIZE && ANSWER_LETTERS.includes(body.pick)) {
+      const answer = mineCheck(own, ANSWER_LETTERS.indexOf(body.pick), body.ms);
+      return mode === 'slow' ? new Promise((resolve) => setTimeout(() => resolve(json(answer)), 1500)) : json(answer);
+    }
     const n = Number(/^d1\.preview-\d+-(\d)\./.exec(String(body.token || ''))?.[1]);
     const asked = ANSWER_LETTERS.indexOf(body.pick);
     if (!Number.isInteger(n) || n < 1 || n > DAILY_FIVE_SIZE || asked < 0) return json({ error: 'bad_question' }, 400);

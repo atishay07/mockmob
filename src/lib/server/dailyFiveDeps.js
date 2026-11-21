@@ -11,10 +11,48 @@ import { createDailyFive, createDailyWindows, dailyFiveSecret, dailyTokenKey } f
 import { createDailyHandlers, createDailyStore } from '@/lib/server/dailyFiveAccount';
 import { createBoardHandler, createTeamStore, seatOf } from '@/lib/server/dailyTeam';
 import { sundayMockEnabled } from '@/lib/sundayFlag.mjs';
+import { Database } from '@/../data/db';
+import { readHeldQuestionIds } from '@/lib/server/heldQuestions';
+import { answerRevise } from '@/lib/server/revise';
+import { createDailyMine } from '@/lib/server/dailyFiveMine';
+import { MINE_LIMITS, mineEnabled } from '@/lib/dailyFiveMine.mjs';
 
 let cached = null;
 let daily = null;
 let board = null;
+let store = null;
+let mine = null;
+
+const dailyStore = () => store || (store = createDailyStore({ db: () => supabaseAdmin() }));
+
+/**
+ * "Your five" (21 Nov 2026, src/lib/server/dailyFiveMine.js): GET /api/daily/mine, and the check's feedback into the student's
+ * mistakes through the writers practice and Revise already use. Off with DAILY_MINE_ENABLED=false.
+ */
+function dailyMine() {
+  if (mine) return mine;
+  mine = createDailyMine({
+    db: () => supabaseAdmin(),
+    auth: (request) => auth(request),
+    rateLimit: checkPersistentRateLimit,
+    store: dailyStore(),
+    key: dailyTokenKey(dailyFiveSecret()),
+    five: (query) => dailyFive().five(query),
+    held: (userId) => readHeldQuestionIds(supabaseAdmin(), userId),
+    // The newest papers only, in the lean 'plan' shape the guided plan reads weak chapters from (src/lib/server/learning.js).
+    attempts: (userId) => Database.getAttempts(userId, { limit: MINE_LIMITS.attempts, slim: 'plan' }),
+    // Practice's own progress writer (data/db.js), as the repair check and the doubt thread call it.
+    recordProgress: (args) => Database._recordAttemptProgress(args),
+    answerRevise: (userId, body) => answerRevise(userId, body),
+    enabled: () => mineEnabled(process.env),
+  });
+  return mine;
+}
+
+/** GET /api/daily/mine. */
+export function mineHandler() {
+  return dailyMine();
+}
 
 function dailyFive() {
   if (!daily) daily = createDailyFive({ windows: createDailyWindows({ db: () => supabaseAdmin() }), key: dailyTokenKey(dailyFiveSecret()) });
@@ -37,12 +75,13 @@ export function dailyHandlers() {
       host: request.headers.get('host'),
       appOrigin: Object.keys(mobileOptions(request)).length > 0,
     }),
-    store: createDailyStore({ db: () => supabaseAdmin() }),
+    store: dailyStore(),
     key,
     five: (query) => dailyFive().five(query),
     mobEnabled: () => process.env.MOB_ENABLED === 'true',
     // The seat on the admit card, shown to its owner only (dailyTeam.js seatOf): the token secret, under its own label.
     seat: (userId) => seatOf(dailyFiveSecret(), userId),
+    mine: dailyMine(),
   });
   return cached;
 }

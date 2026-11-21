@@ -12,7 +12,7 @@
 // the finished screen with the same marks. Only opacity and transform move. All numbers come from
 // labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
 // the replay further down the page. Words on the screens are the product's own.
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { ArrowLeftRight, BookOpen, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
@@ -344,16 +344,28 @@ function ScreenBar({ label }) {
 function Stage({ step, pinned, reduced, live, goTo, look }) {
   const ready = pinned && !reduced;
   const next = look === 'next';
-  // The next look plays itself (useLabAutoplay.js, owner LK364): each scene's cursor, a held moment, then the next scene,
-  // until the reader takes over. The default look never starts it.
-  const auto = useLabAutoplay({ enabled: next && pinned && !reduced, live, step, steps: SCENES.length, goTo });
+  // The next look plays itself (useLabAutoplay.js, owner LK364 and LK365): each scene's cursor, then at once the next scene,
+  // pausing only while the reader acts. Its scenes are cards that stack (lab-next.css). The default look never starts it.
+  const gridRef = useRef(null);
+  // Where is the page: inside the held stretch (the stage stuck to the window), a little short of it (the Lab in view, its
+  // top within 15 % of the window's height), or out? Read once, at the moment the autoplay would move.
+  const where = useCallback(() => {
+    const track = gridRef.current?.closest('.ss__track');
+    if (!track) return 'in';
+    const box = track.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if (box.bottom < vh - 2) return 'out';
+    return box.top <= 2 ? 'in' : box.top <= vh * 0.15 ? 'near' : 'out';
+  }, []);
+  // A wheel arrival that may still be put back on the first scene (useLabAutoplay ENTRY_MS): the cards' slide waits a moment.
+  const arriving = useCallback((on) => { gridRef.current?.toggleAttribute('data-lnx-arriving', on); }, []);
+  const auto = useLabAutoplay({ enabled: next && pinned && !reduced, live, step, steps: SCENES.length, goTo, where, arriving });
   // The first scene opens on step one, so its screen was already "on" while the lab was still far below
   // the reader and its story played unseen: the first screen (Time until round 11, Chapters now) met the
   // reader finished and still. It waits in its first frame (data-armed) while the lab is out of the window
   // and plays when half of it is in, each time the lab comes back; the scenes after it play when they come
   // on stage. It resets only once the lab is wholly out of view, so nothing visibly rewinds. Without
   // script, or before hydration, the screen is shown finished.
-  const gridRef = useRef(null);
   const [armed, setArmed] = useState(true);
   useEffect(() => {
     const node = gridRef.current;
@@ -366,6 +378,29 @@ function Stage({ step, pinned, reduced, live, goTo, look }) {
     io.observe(node);
     return () => io.disconnect();
   }, []);
+  // The next look: the rail's tab and the device's tab change in the same frame as the card (critic round, 21 Nov 2026
+  // evening: the old tab stayed marked for 520 to 800 ms while the new card slid in). ScrollStory writes the story's
+  // data-step the moment a step is decided and React's step catches up later, in a transition; this writes the tabs' marks
+  // from that attribute at once, and React's own render then writes the same values. Attributes only, no layout read.
+  useEffect(() => {
+    const grid = gridRef.current;
+    const root = grid?.closest('.ss');
+    if (!next || !root || typeof MutationObserver === 'undefined') return undefined;
+    const rail = [...grid.querySelectorAll('.lc__rail button')];
+    const tabs = [...grid.querySelectorAll('.lcd__tabs > span')];
+    const sync = () => {
+      const k = root.dataset.step;
+      rail.forEach((button, i) => {
+        const on = String(i) === k;
+        button.dataset.on = on ? 'true' : 'false';
+        if (on) button.setAttribute('aria-current', 'step'); else button.removeAttribute('aria-current');
+      });
+      tabs.forEach((tab, i) => { tab.dataset.on = String(i) === k ? 'true' : 'false'; });
+    };
+    const watch = new MutationObserver(sync);
+    watch.observe(root, { attributes: true, attributeFilter: ['data-step'] });
+    return () => watch.disconnect();
+  }, [next]);
   return (
     <div className="mm-wrap lc__grid" ref={gridRef} data-ready={ready ? 'true' : 'false'} data-look={next ? 'next' : undefined}>
       <ol className="lc__rail" aria-label="Mistake Lab, scene by scene">
@@ -415,7 +450,7 @@ function Stage({ step, pinned, reduced, live, goTo, look }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              {next ? <LabNextScreen fit="0.62" scene={key} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} onDone={() => auto.done(i)} onTakeover={auto.take} /> : <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>}
+              {next ? <LabNextScreen fit="0.62" scene={key} index={i} ready={pinned && (i !== 0 || armed)} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} onDone={() => auto.done(i)} onTakeover={() => auto.take(i)} /> : <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>}
             </figure>
           </article>
         );

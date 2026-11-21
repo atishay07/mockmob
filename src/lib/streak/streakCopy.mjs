@@ -24,7 +24,8 @@ export const WEEK_STATES = Object.freeze({
   made_up: 'made up',
   paused: 'paused for exams',
   open: 'still open',
-  today: 'today',
+  // Today, not counted yet (21 Nov 2026 critic: "Today: today" said nothing). Once it counts, today's look is 'done': "Today: counted".
+  today: 'not counted yet',
   none: 'no practice',
   ahead: 'still to come',
 });
@@ -134,10 +135,13 @@ export function milestoneLine(body) {
   const next = (body.streakMilestones || []).find((m) => !m.done);
   return next ? `Next milestone: ${daysWord(next.at)}, ${next.left === 1 ? '1 day' : `${next.left} days`} to go.` : null;
 }
-export function milestoneMoment(m) {
+export function milestoneMoment(m, days = null) {
   if (!m?.at) return null;
-  // Titled as the milestone, not the current run (17 Nov review): the block's head already says today's number.
-  return { title: `You reached ${daysWord(m.at)}`, text: `${qs(m.answered ?? 0)} answered since this streak began.` };
+  // Titled as the milestone, not the current run (17 Nov review): the block's head already says today's number. The moment
+  // shows for up to two days after the milestone (TodayStreak), so once the run is past it, it is said in the past (21 Nov
+  // 2026 critic: "30 You reached 30 days" beside "31 days in a row" read as two different numbers).
+  const past = Number.isFinite(Number(days)) && Number(days) > m.at;
+  return { title: `${past ? 'You passed' : 'You reached'} ${daysWord(m.at)}`, text: `${qs(m.answered ?? 0)} answered since this streak began.` };
 }
 export const momentKey = (at) => `mm:streak-moment:${at}:v1`;
 
@@ -258,12 +262,16 @@ export function keepAction(body, { daily = null } = {}) {
   if (!body || body.today?.done) return null;
   if (body.today?.paused && !body.makeUp?.day) return null;
   if (body.makeUp?.day) {
+    // The key says the one number the student owes (21 Nov 2026 critic: "Answer 6 more: start 10 questions" read as two
+    // debts). The set it starts is Quick practice's smallest size that covers it (data/test_modes.js quick.countOptions:
+    // 5, 10, 15, 20), so finishing it always answers enough.
     const left = Math.max(1, (body.makeUp.needed ?? 10) - (body.makeUp.answeredToday ?? 0));
-    const set = Math.max(KEEP_SET, Math.ceil(left / 5) * 5);
-    return { kind: 'practice', label: `Answer ${left} more: start ${set} questions`, href: `/dashboard?mode=quick&count=${set}` };
+    const set = Math.min(20, Math.max(5, Math.ceil(left / 5) * 5));
+    return { kind: 'practice', label: `Answer ${left} more today`, href: `/dashboard?mode=quick&count=${set}` };
   }
-  if (daily === 'open') return { kind: 'daily', label: 'Do today’s Daily Five', href: KEEP_DAILY_HREF };
-  if (daily === 'begun') return { kind: 'daily', label: 'Finish today’s Daily Five', href: KEEP_DAILY_HREF };
+  // 21 Nov 2026 (owner LK365, DAILY-SPEC): the five are the streak's daily unit, "Your five for today" on /daily.
+  if (daily === 'open') return { kind: 'daily', label: 'Do today’s five', href: KEEP_DAILY_HREF };
+  if (daily === 'begun') return { kind: 'daily', label: 'Finish today’s five', href: KEEP_DAILY_HREF };
   return { kind: 'practice', label: `Start ${KEEP_SET} practice questions`, href: KEEP_PRACTICE_HREF };
 }
 
@@ -275,3 +283,69 @@ export function countedLine(body) {
 
 /** The chip's words: the number in figures, the label for a screen reader. */
 export const chipLabel = (days, done) => `${STREAK_NAME}, ${daysWord(days)}${done ? ', today counted' : ''}. Opens your streak.`;
+
+// ---------- 21 Nov 2026 (owner LK365: "make the streak way better and actually worth using"): what it did, and where it ends ----------
+
+/** "What 12 days made" (the sheet's one section about the streak's work). */
+export const madeTitle = (days) => `What ${daysWord(Math.max(1, Math.round(Number(days) || 1)))} made`;
+
+/**
+ * The figures under it, from the server's own counts for the current run (computeChain: run.answered, practised, rested, madeUp,
+ * paused; each resets with the run). Questions first, always while there is a run; the others only when above zero.
+ * [{ key, n, label }] — empty with no run.
+ */
+export function madeFigures(body) {
+  if (!(body?.days >= 1)) return [];
+  const n = (v) => Math.max(0, Math.round(Number(v) || 0));
+  const out = [];
+  const answered = n(body.run?.answered);
+  out.push({ key: 'answered', n: answered, label: answered === 1 ? 'question answered' : 'questions answered' });
+  const practised = n(body.practised);
+  if (practised > 0) out.push({ key: 'practised', n: practised, label: practised === 1 ? 'day you practised' : 'days you practised' });
+  const rested = n(body.rested);
+  if (rested > 0) out.push({ key: 'rested', n: rested, label: rested === 1 ? 'day kept by a rest pass' : 'days kept by rest passes' });
+  const madeUp = n(body.madeUp);
+  if (madeUp > 0) out.push({ key: 'made_up', n: madeUp, label: madeUp === 1 ? 'day made up' : 'days made up' });
+  const paused = n(body.paused);
+  if (paused > 0) out.push({ key: 'paused', n: paused, label: paused === 1 ? 'exam pause day' : 'exam pause days' });
+  return out;
+}
+
+/**
+ * The finish line, one line with the week: "161 days to CUET. Keep it to exam day." With the expected window's first day
+ * (the student set no date of their own, the same date Road to CUET shows), it says "About". Null with no exam day ahead.
+ */
+export function finishLine({ examDay = null, today = null, own = false } = {}) {
+  if (!today || !examDay || !/^\d{4}-\d{2}-\d{2}$/.test(examDay) || !/^\d{4}-\d{2}-\d{2}$/.test(today) || examDay <= today) return null;
+  const left = Math.round((Date.parse(`${examDay}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / DAY_MS);
+  if (!(left > 0)) return null;
+  return `${own ? '' : 'About '}${left === 1 ? '1 day' : `${fmt(left)} days`} to CUET. Keep it to exam day.`;
+}
+
+/** Today in the head pill's few words: "Today counts", "2 of 5 today", "4 of 10 today" (a make-up), "Pause day". */
+export function todayShort(body) {
+  if (!body) return null;
+  if (body.today?.done) return 'Today counts';
+  const bar = todayProgress(body);
+  if (bar) return `${bar.answered} of ${bar.needed} today`;
+  if (body.today?.paused) return 'Pause day';
+  return null;
+}
+
+/**
+ * The moment it grows: what this device last saw of the streak ({ d: days, t: today counted }), so the number steps up once
+ * when it rises (at the end of a set, or the next visit after practice elsewhere). Stored per account.
+ */
+export const seenKey = (userId) => `mm:streak-seen:${userId}:v1`;
+export const writeSeen = (days, done) => JSON.stringify({ d: Math.max(0, Math.round(Number(days) || 0)), t: Boolean(done) });
+export function readSeen(raw) {
+  try {
+    const v = JSON.parse(raw || 'null');
+    return v && Number.isFinite(v.d) && v.d >= 0 ? { d: Math.round(v.d), t: Boolean(v.t) } : null;
+  } catch { return null; }
+}
+/** The number to step up from, or null: only when this device saw a smaller number before and the streak rose since. */
+export function grewFrom(prev, now) {
+  if (!prev || !now || !Number.isFinite(now.days)) return null;
+  return now.days > prev.d ? prev.d : null;
+}

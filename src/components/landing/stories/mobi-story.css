@@ -1,0 +1,365 @@
+/* The Ask Mobi row story (MobiStory.jsx, owner LK365, 21 Nov 2026). One fixed-size screen: the step row, then one stage
+   where every phase is drawn in the same grid cell, so nothing ever changes height. Motion is transform and opacity only,
+   keyed off data-phase; every move is a transition (no keyframe loops), so under reduced motion each phase is simply its
+   end state. Below 640 px of container the question layer and the chat take turns in the one cell; from 640 px they stand
+   side by side. The camera and the coaching sheet are a photo: dark and paper in both themes. */
+
+.st-mobi {
+  container-type: inline-size;
+  display: grid; gap: 8px; min-width: 0;
+  --sm-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --sm-paper: #fbf8ef; --sm-print: #1d1b16; --sm-pen: #c0392b; --sm-cam: #0e0d0b;
+  --sm-fs: 14px;
+}
+.st-mobi *, .st-mobi *::before, .st-mobi *::after { box-sizing: border-box; }
+.st-mobi p, .st-mobi ol { margin: 0; }
+.st-mobi :where(button) { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.st-mobi button:focus-visible, .st-mobi a:focus-visible { outline: 2px solid var(--volt-edge, #9db400); outline-offset: 2px; }
+
+.st-mobi__screen {
+  height: 488px; height: min(488px, calc(var(--op-room, 488px) - 4px)); display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0;
+  border: 1px solid var(--line); border-radius: 20px; background: var(--paper-raised); color: var(--ink); overflow: hidden;
+  font: 500 var(--sm-fs)/1.45 var(--font-body, system-ui);
+}
+
+/* ---------------------------------------------------------------- the step row: where the film is, and a way to jump */
+.st-mobi__steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 8px 8px 0; }
+.st-mobi__step {
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 4px;
+  border: 0; border-radius: 12px; background: transparent; color: var(--ink-3); font-weight: 700; font-size: 14px; white-space: nowrap;
+  transition: background-color 200ms ease-out, color 200ms ease-out;
+}
+.st-mobi__step-n {
+  display: inline-grid; place-items: center; width: 20px; height: 20px; flex: none; border-radius: 50%;
+  border: 1.5px solid currentColor; font: 750 14px/1 var(--font-display, inherit);
+}
+.st-mobi__step[data-done] { color: var(--ink-2); }
+.st-mobi__step[data-done] .st-mobi__step-n { background: var(--ink-2); border-color: var(--ink-2); color: var(--paper-raised); }
+.st-mobi__step[aria-pressed='true'] { background: var(--ink); color: var(--paper-raised); }
+.st-mobi__step[aria-pressed='true'] .st-mobi__step-n { background: var(--volt); border-color: var(--volt); color: var(--volt-ink, #0b1000); }
+
+/* ---------------------------------------------------------------- the stage: one cell, the layers take turns */
+.st-mobi__stage { position: relative; display: grid; grid-template-areas: 'one'; min-height: 0; overflow: hidden; }
+.st-mobi__in, .st-mobi__chat { grid-area: one; min-width: 0; min-height: 0; }
+.st-mobi__in {
+  display: grid; grid-template-rows: minmax(0, 1fr) 64px; gap: 10px; padding: 10px 12px 12px;
+  transform-origin: 14% 6%; transition: transform 440ms var(--sm-ease), opacity 340ms ease-out;
+}
+.st-mobi__chat {
+  position: relative; display: grid; grid-template-areas: 'card'; padding: 10px 12px 12px;
+  opacity: 0; transition: opacity 220ms ease-out;
+}
+.st-mobi[data-phase='asked'] .st-mobi__in, .st-mobi[data-phase='read'] .st-mobi__in,
+.st-mobi[data-phase='check'] .st-mobi__in, .st-mobi[data-phase='practice'] .st-mobi__in { opacity: 0; transform: scale(0.16); pointer-events: none; }
+.st-mobi[data-phase='asked'] .st-mobi__chat, .st-mobi[data-phase='read'] .st-mobi__chat,
+.st-mobi[data-phase='check'] .st-mobi__chat, .st-mobi[data-phase='practice'] .st-mobi__chat { opacity: 1; }
+
+/* ---------------------------------------------------------------- the camera and the coaching sheet */
+.st-mobi__finder {
+  position: relative; display: grid; place-items: center; min-height: 0; padding: 18px 16px; border-radius: 16px;
+  background: var(--sm-cam); overflow: hidden;
+}
+.st-mobi__photo { position: relative; width: 100%; max-width: 440px; }
+.st-mobi__sheet {
+  position: relative; padding: 10px 12px 10px 30px; border-radius: 3px; color: var(--sm-print); background-color: var(--sm-paper);
+  background-image:
+    linear-gradient(90deg, transparent 21px, rgba(192, 57, 43, 0.5) 21px, rgba(192, 57, 43, 0.5) 22.5px, transparent 22.5px),
+    repeating-linear-gradient(180deg, transparent 0 22px, rgba(52, 86, 160, 0.16) 22px 23px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5); transform: rotate(-1.2deg);
+  font: 600 14px/1.5 var(--font-stem, Georgia, serif);
+}
+.st-mobi__sheet-head {
+  display: flex; justify-content: space-between; gap: 8px; padding-bottom: 3px; margin-bottom: 5px;
+  border-bottom: 1.5px solid rgba(29, 27, 22, 0.7); font: 750 14px/1.35 var(--font-body, system-ui); letter-spacing: 0.01em;
+}
+.st-mobi__sheet-q { overflow-wrap: anywhere; }
+.st-mobi__sheet-opts { list-style: none; padding: 0; margin-top: 6px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 14px; }
+.st-mobi__sheet-opts li { position: relative; justify-self: start; white-space: nowrap; }
+.st-mobi__sheet-l { font-weight: 500; }
+/* The student's own pen: the option they marked, circled. */
+.st-mobi__sheet-opts li[data-chosen]::after {
+  content: ''; position: absolute; inset: -3px -8px -2px -7px; border: 2px solid var(--sm-pen); border-radius: 50%;
+  transform: rotate(-4deg); pointer-events: none;
+}
+/* The next question's first lines, out of focus at the foot of the photo. */
+.st-mobi__sheet-next { display: grid; gap: 7px; margin-top: 10px; opacity: 0.35; }
+.st-mobi__sheet-next i { display: block; height: 7px; border-radius: 4px; background: var(--sm-print); }
+.st-mobi__sheet-next i:nth-child(1) { width: 92%; } .st-mobi__sheet-next i:nth-child(2) { width: 70%; } .st-mobi__sheet-next i:nth-child(3) { width: 40%; }
+
+/* The lines Mobi reads light up as the scan passes them (their order is --lit). */
+.st-mobi__lit { position: relative; isolation: isolate; }
+.st-mobi__lit::before {
+  content: ''; position: absolute; inset: -1px -4px; z-index: -1; border-radius: 3px; background: rgba(210, 240, 0, 0.42);
+  opacity: 0; transition: opacity 160ms ease-out;
+}
+.st-mobi[data-phase='scan'] .st-mobi__lit::before { opacity: 1; transition-delay: calc(260ms + var(--lit, 0) * 430ms); }
+.st-mobi[data-phase='asked'] .st-mobi__in .st-mobi__lit::before, .st-mobi[data-phase='read'] .st-mobi__in .st-mobi__lit::before,
+.st-mobi[data-phase='check'] .st-mobi__in .st-mobi__lit::before, .st-mobi[data-phase='practice'] .st-mobi__in .st-mobi__lit::before { opacity: 0.55; }
+.st-mobi__sheet-opts .st-mobi__lit::before { inset: -1px -6px; }
+
+/* The camera's corner brackets: wide on the page, then they close on the question once the photo is taken. */
+.st-mobi__brackets { position: absolute; inset: -12px -10px; pointer-events: none; transition: transform 360ms var(--sm-ease); }
+.st-mobi__brackets i { position: absolute; width: 26px; height: 26px; border: 3px solid #f4f0e6; transition: border-color 200ms ease-out; }
+.st-mobi__brackets i:nth-child(1) { left: 0; top: 0; border-right: 0; border-bottom: 0; border-top-left-radius: 8px; }
+.st-mobi__brackets i:nth-child(2) { right: 0; top: 0; border-left: 0; border-bottom: 0; border-top-right-radius: 8px; }
+.st-mobi__brackets i:nth-child(3) { left: 0; bottom: 0; border-right: 0; border-top: 0; border-bottom-left-radius: 8px; }
+.st-mobi__brackets i:nth-child(4) { right: 0; bottom: 0; border-left: 0; border-top: 0; border-bottom-right-radius: 8px; }
+.st-mobi:not([data-phase='camera']) .st-mobi__brackets { transform: scale(0.95, 0.86) translateY(-5%); }
+.st-mobi:not([data-phase='camera']) .st-mobi__brackets i { border-color: var(--volt, #d2f000); }
+
+/* The shutter's flash: one short white, then gone. */
+.st-mobi__flash { position: absolute; inset: -40px; background: #fff; opacity: 0; pointer-events: none; }
+.st-mobi[data-phase='shot'][data-photo='on'] .st-mobi__flash { animation: sm-flash 420ms ease-out both; }
+@keyframes sm-flash { from { opacity: 0.85; } to { opacity: 0; } }
+
+/* One scan bar sweeps down the page while Mobi reads it. */
+.st-mobi__scan { position: absolute; inset: -4px -6px; overflow: hidden; pointer-events: none; border-radius: 4px; }
+.st-mobi__scan::before {
+  content: ''; position: absolute; inset: 0; opacity: 0; transform: translateY(-100%);
+  background: linear-gradient(180deg, rgba(210, 240, 0, 0) 55%, rgba(210, 240, 0, 0.32) 94%, #d2f000 94%, #d2f000 100%);
+}
+/* The sweep takes the whole beat "Mobi reads the page." (MOBI_TIMING.scan, 2.2 s: 2 s down the page, then it rests at the
+   foot), so the scan is the picture of the beat, not a flash in 2 of its 6 frames (critic round, 21 Nov 2026 evening). */
+.st-mobi[data-phase='scan'] .st-mobi__scan::before {
+  opacity: 1; transform: translateY(0); transition: transform 2000ms cubic-bezier(0.37, 0, 0.63, 1), opacity 120ms ease-out;
+}
+
+/* ---------------------------------------------------------------- the typed question (photo switch off) */
+.st-mobi__compose { display: grid; align-content: start; gap: 10px; min-height: 0; padding: 4px 2px 0; border-radius: 16px; }
+.st-mobi__hello { display: flex; align-items: center; gap: 10px; font: 750 18px/1.2 var(--font-display, inherit); letter-spacing: -0.01em; }
+.st-mobi__hello svg { flex: none; }
+.st-mobi__kind { display: inline-flex; justify-self: start; padding: 3px; gap: 2px; border: 1px solid var(--line); border-radius: 12px; }
+.st-mobi__kind span { padding: 6px 10px; border-radius: 9px; color: var(--ink-3); font-weight: 700; font-size: 14px; }
+.st-mobi__kind span[data-on] { background: var(--ink); color: var(--paper-raised); }
+.st-mobi__field {
+  position: relative; display: grid; grid-template-areas: 'f'; align-content: start; min-height: 168px; padding: 10px 12px; text-align: left;
+  border: 1.5px solid var(--line-strong); border-radius: 16px; background: var(--paper); font-size: 15px; line-height: 1.45;
+}
+.st-mobi__field > :is(.st-mobi__field-hint, .st-mobi__typed) { grid-area: f; }
+.st-mobi__field-hint { color: var(--ink-3); transition: opacity 120ms ease-out; }
+.st-mobi__typed span { opacity: 0; transition: opacity 1ms linear; }
+.st-mobi[data-photo='off']:not([data-phase='camera']) .st-mobi__field-hint { opacity: 0; }
+.st-mobi[data-photo='off']:not([data-phase='camera']) .st-mobi__typed span { opacity: 1; transition-delay: calc(var(--w, 0) * 34ms); }
+.st-mobi__mini { display: flex; align-items: baseline; gap: 10px; color: var(--ink-2); font-weight: 650; opacity: 0; transition: opacity 200ms ease-out; }
+.st-mobi__mini b { display: inline-grid; place-items: center; min-width: 30px; height: 30px; border-radius: 8px; border: 1.5px solid var(--line-strong); color: var(--ink); font: 750 15px/1 var(--font-display, inherit); }
+.st-mobi[data-photo='off']:not([data-phase='camera']) .st-mobi__mini { opacity: 1; transition-delay: 1300ms; }
+.st-mobi[data-photo='off'] .st-mobi__field .st-mobi__scan { inset: 6px; border-radius: 12px; }
+
+/* ---------------------------------------------------------------- the bar under the question: shutter, composer, wait */
+.st-mobi__bar { display: grid; grid-template-areas: 'bar'; min-height: 0; }
+.st-mobi__bar > * { grid-area: bar; align-self: center; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 240ms ease-out, transform 320ms var(--sm-ease); }
+.st-mobi[data-photo='on'][data-phase='camera'] [data-bar='shutter'],
+.st-mobi[data-photo='on'][data-phase='shot'] [data-bar='composer'],
+.st-mobi[data-photo='off']:is([data-phase='camera'], [data-phase='shot']) [data-bar='composer'],
+.st-mobi[data-phase='scan'] [data-bar='wait'],
+.st-mobi:is([data-phase='asked'], [data-phase='read'], [data-phase='check'], [data-phase='practice']) [data-bar='done'] { opacity: 1; transform: none; pointer-events: auto; }
+.st-mobi[data-photo='on'][data-phase='shot'] [data-bar='composer'] { transition-delay: 260ms; }
+
+.st-mobi__shutter-row { display: grid; place-items: center; }
+.st-mobi__shutter {
+  display: grid; place-items: center; width: 60px; height: 60px; padding: 0; border-radius: 50%;
+  border: 3px solid var(--ink); background: transparent;
+}
+.st-mobi__shutter span { width: 46px; height: 46px; border-radius: 50%; background: var(--ink); transition: transform 120ms ease-out; }
+.st-mobi__shutter:active span { transform: scale(0.88); }
+
+.st-mobi__composer {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 58px; padding: 6px 6px 6px 8px;
+  border: 1.5px solid var(--line-strong); border-radius: 20px; background: var(--paper);
+}
+.st-mobi[data-photo='off'] .st-mobi__composer { grid-template-columns: minmax(0, 1fr) auto; padding-left: 14px; }
+.st-mobi__composer-hint { color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-mobi__send {
+  display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--volt); color: var(--volt-ink, #0b1000); box-shadow: var(--key-hairline, none); transition: opacity 160ms ease-out, transform 120ms ease-out;
+}
+.st-mobi__send:active { transform: scale(0.92); }
+.st-mobi[data-photo='off'][data-phase='camera'] .st-mobi__send { opacity: 0.4; }
+
+/* The photo's thumbnail: the same sheet, made small. */
+.st-mobi__thumb { position: relative; display: block; width: 44px; height: 46px; flex: none; overflow: hidden; border-radius: 7px; background: var(--sm-paper); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12); }
+.st-mobi__sheet--mini { position: absolute; left: 0; top: 0; width: 300px; transform: scale(0.15); transform-origin: 0 0; box-shadow: none; }
+
+.st-mobi__wait { display: flex; align-items: center; gap: 10px; color: var(--ink-2); font-weight: 650; }
+.st-mobi__wait img { flex: none; width: auto; height: 46px; }
+.st-mobi__privacy { color: var(--ink-3); font-size: 14px; line-height: 1.4; }
+
+/* ---------------------------------------------------------------- the chat: three cards dealt onto one another */
+.st-mobi__empty {
+  grid-area: card; align-self: center; justify-self: center; display: grid; justify-items: center; gap: 10px; max-width: 18em; text-align: center;
+  color: var(--ink-2); font: 750 18px/1.25 var(--font-display, inherit); transition: opacity 240ms ease-out;
+}
+.st-mobi:is([data-phase='asked'], [data-phase='read'], [data-phase='check'], [data-phase='practice']) .st-mobi__empty { opacity: 0; }
+.st-mobi__card {
+  grid-area: card; align-self: end; min-height: 0; display: flex; flex-direction: column; gap: 8px; padding: 10px;
+  /* Each card its own layer, dealt in order: a dimmed (translucent) part of a card below never paints over the card on top. */
+  position: relative; isolation: isolate;
+  border: 1px solid var(--line-strong); border-radius: 18px; background: var(--paper); box-shadow: var(--sh-2);
+  transform-origin: 50% 0; transition: transform 460ms var(--sm-ease), opacity 300ms ease-out;
+}
+.st-mobi__card--read { height: 100%; z-index: 1; }
+.st-mobi__card--check { height: calc(100% - 12px); z-index: 2; }
+.st-mobi__card--practice { height: calc(100% - 24px); z-index: 3; }
+.st-mobi__card[data-card='away'] { opacity: 0; transform: translateY(48px); pointer-events: none; }
+.st-mobi__card[data-card='under'] { transform: scale(0.955); }
+.st-mobi__card > * { transition: opacity 260ms ease-out; }
+.st-mobi__card[data-card='under'] > *, .st-mobi .st-mobi__chat .st-mobi__card[data-card='under'] > .st-mobi__next { opacity: 0.28; }
+
+/* The read: the question as it went in, the chips Mobi found, then the read itself, line by line. */
+.st-mobi__blk { display: grid; gap: 8px; min-width: 0; border-radius: 12px; transition: opacity 260ms ease-out; }
+.st-mobi__ask {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; margin-left: 5%; padding: 8px 10px;
+  border-radius: 14px 14px 4px 14px; background: var(--paper-raised-2); transform-origin: 0 0;
+  opacity: 0; transform: scale(0.9); transition: opacity 220ms ease-out 40ms, transform 420ms var(--sm-ease) 40ms;
+}
+.st-mobi[data-photo='off'] .st-mobi__ask { grid-template-columns: minmax(0, 1fr); }
+.st-mobi__ask-body { display: grid; gap: 4px; min-width: 0; }
+.st-mobi__ask-q { font-size: 14px; line-height: 1.38; color: var(--ink); overflow-wrap: anywhere; }
+.st-mobi__chose { display: inline-flex; align-items: center; gap: 4px; color: var(--bad-text, #b0291f); font-weight: 750; font-size: 14px; }
+.st-mobi__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.st-mobi__chip {
+  display: grid; padding: 4px 11px 5px; border-radius: 11px; border: 1px solid var(--line-strong); background: var(--paper-raised);
+  opacity: 0; transform: translateY(8px); transition: opacity 220ms ease-out, transform 320ms var(--sm-ease);
+}
+.st-mobi__chip span { color: var(--ink-3); font-size: 14px; font-weight: 600; line-height: 1.3; }
+.st-mobi__chip b { font: 750 15px/1.3 var(--font-display, inherit); }
+.st-mobi__chip--volt { border-color: var(--volt-edge, #9db400); background: var(--volt); color: var(--volt-ink, #0b1000); }
+.st-mobi__chip--volt span { color: rgba(11, 16, 0, 0.72); }
+.st-mobi:is([data-phase='asked'], [data-phase='read'], [data-phase='check'], [data-phase='practice']) .st-mobi__ask { opacity: 1; transform: none; }
+.st-mobi:is([data-phase='asked'], [data-phase='read'], [data-phase='check'], [data-phase='practice']) .st-mobi__chip { opacity: 1; transform: none; }
+.st-mobi[data-phase='asked'] .st-mobi__chip { transition-delay: calc(300ms + var(--i, 0) * 420ms); }
+.st-mobi__chip--volt { transform-origin: 0 50%; }
+.st-mobi:not([data-phase='asked']):not([data-phase='read']):not([data-phase='check']):not([data-phase='practice']) .st-mobi__chip--volt { transform: translateY(8px) scale(0.92); }
+
+.st-mobi__mobi { display: flex; align-items: center; gap: 8px; font: 750 15px/1.3 var(--font-display, inherit); }
+.st-mobi__mobi svg { flex: none; }
+.st-mobi__why { list-style: none; padding: 0; display: grid; }
+.st-mobi__why li {
+  display: grid; grid-template-columns: 1.4em minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 2px 0;
+  border-bottom: 1px dashed var(--line-strong); font-size: 14px;
+}
+.st-mobi__why b { font: 750 15px/1.3 var(--font-display, inherit); }
+.st-mobi__why span { color: var(--ink-2); }
+.st-mobi__why em { font: 750 15px/1.3 var(--font-display, inherit); font-style: normal; font-variant-numeric: tabular-nums; }
+.st-mobi__slip { display: block; padding: 5px 10px; border-left: 3px solid var(--bad-text, #b0291f); border-radius: 4px; background: var(--paper-raised); }
+.st-mobi__slip-label { display: inline; color: var(--bad-text, #b0291f); font-weight: 750; font-size: 14px; }
+.st-mobi__slip-label::after { content: ' '; }
+.st-mobi__slip-text { display: inline; font-size: 14px; line-height: 1.5; }
+/* The answer's parts arrive one after another once the read is in: the label, each working line (140 ms apart), the slip. */
+.st-mobi__answer > *, .st-mobi__why li { opacity: 0; transform: translateY(6px); transition: opacity 220ms ease-out, transform 300ms var(--sm-ease); }
+.st-mobi__answer > .st-mobi__why { transform: none; }
+.st-mobi:is([data-phase='read'], [data-phase='check'], [data-phase='practice']) :is(.st-mobi__answer > *, .st-mobi__why li) { opacity: 1; transform: none; }
+.st-mobi[data-phase='read'] .st-mobi__why li { transition-delay: calc(120ms + var(--i, 0) * 120ms); }
+.st-mobi[data-phase='read'] .st-mobi__slip { transition-delay: calc(120ms + var(--i, 3) * 120ms); }
+.st-mobi__next {
+  margin-top: auto; min-height: 44px; padding: 0 14px; border: 0; border-radius: 12px; background: var(--ink); color: var(--paper-raised);
+  font-weight: 750; font-size: 15px; transition: opacity 220ms ease-out;
+}
+.st-mobi__card--read .st-mobi__next { opacity: 0; }
+.st-mobi:is([data-phase='read'], [data-phase='check'], [data-phase='practice']) .st-mobi__card--read .st-mobi__next { opacity: 1; }
+.st-mobi[data-phase='read'] .st-mobi__card--read .st-mobi__next { transition-delay: 900ms; }
+
+/* The check: a fresh question on the same idea, answered here. */
+.st-mobi__check-q { font: 600 15px/1.45 var(--font-stem, Georgia, serif); overflow-wrap: anywhere; }
+.st-mobi__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.st-mobi__opt {
+  display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 10px; text-align: left;
+  border: 1.5px solid var(--line-strong); border-radius: 12px; background: var(--paper-raised); font-weight: 650; font-size: 15px;
+  transition: opacity 200ms ease-out, transform 120ms ease-out;
+}
+.st-mobi__opt:active { transform: scale(0.97); }
+.st-mobi__opt-key { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border-radius: 7px; border: 1px solid var(--line-strong); font: 750 14px/1 var(--font-display, inherit); color: var(--ink-2); }
+.st-mobi__opt[data-state='correct'] { border-color: var(--good-text, #3d6600); box-shadow: inset 0 0 0 1px var(--good-text, #3d6600); }
+.st-mobi__opt[data-state='correct'] .st-mobi__opt-key { border-color: var(--good-text, #3d6600); background: var(--good-text, #3d6600); color: var(--paper); }
+.st-mobi__opt[data-state='wrong'] { border-color: var(--bad-text, #b0291f); }
+.st-mobi__opt[data-state='wrong'] .st-mobi__opt-key { border-color: var(--bad-text, #b0291f); color: var(--bad-text, #b0291f); }
+.st-mobi__opt[data-state='muted'] { opacity: 0.45; }
+.st-mobi__verdict { display: grid; align-content: start; gap: 2px; min-height: 5.6em; }
+.st-mobi__verdict-head { font: 750 16px/1.3 var(--font-display, inherit); color: var(--bad-text, #b0291f); }
+.st-mobi[data-pick='right'] .st-mobi__verdict-head { color: var(--good-text, #3d6600); }
+.st-mobi__verdict-why { color: var(--ink-2); font-size: 14px; line-height: 1.45; }
+.st-mobi__verdict-hint { color: var(--ink-3); font-size: 14px; }
+.st-mobi[data-pick] .st-mobi__verdict > * { transition: opacity 220ms ease-out; }
+.st-mobi__card--check .st-mobi__next { opacity: 0.35; }
+.st-mobi[data-pick] .st-mobi__card--check .st-mobi__next { opacity: 1; }
+
+/* The practice set from the bank. */
+.st-mobi__set { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.st-mobi__set b { font: 800 64px/0.95 var(--font-display, inherit); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; box-shadow: inset 0 -0.22em 0 var(--volt); }
+.st-mobi__set span { font: 750 18px/1.25 var(--font-display, inherit); }
+.st-mobi__from { color: var(--ink-2); font-weight: 650; }
+.st-mobi__deck { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.st-mobi__deck li {
+  display: grid; place-items: center; height: 34px; border-radius: 9px; border: 1px solid var(--line-strong); background: var(--paper-raised);
+  font: 750 14px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--ink-2);
+  opacity: 0; transform: translateY(10px) scale(0.92); transition: opacity 200ms ease-out, transform 320ms var(--sm-ease);
+}
+.st-mobi[data-phase='practice'] .st-mobi__deck li { opacity: 1; transform: none; transition-delay: calc(260ms + var(--i, 0) * 55ms); }
+.st-mobi__set-why { color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+.st-mobi__go {
+  margin-top: auto; display: grid; place-items: center; min-height: 52px; padding: 8px 14px; text-align: center; text-decoration: none;
+  border-radius: 14px; background: var(--volt); color: var(--volt-ink, #0b1000); box-shadow: var(--key-hairline, none); font: 750 15px/1.3 var(--font-body, inherit);
+}
+
+.st-mobi__honest { color: var(--ink-3); font-size: 14px; line-height: 1.4; }
+
+/* ---------------------------------------------------------------- the beat's subject (CursorDemo `focus`) */
+.st-mobi [data-demo-focus] { box-shadow: 0 0 0 2px var(--volt, #d2f000), 0 0 0 3.5px var(--volt-edge, #9db400); }
+.st-mobi__chip--volt[data-demo-focus] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--ink); }
+.st-mobi__card--read:has(.st-mobi__chip--volt[data-demo-focus]) :is(.st-mobi__ask, .st-mobi__chip:not(.st-mobi__chip--volt)) { opacity: 0.4; }
+.st-mobi__card--read:has(.st-mobi__slip[data-demo-focus]) :is(.st-mobi__head, .st-mobi__answer > .st-mobi__mobi, .st-mobi__why) { opacity: 0.4; }
+.st-mobi__slip[data-demo-focus] { box-shadow: 0 0 0 2px var(--volt, #d2f000), 0 0 0 3.5px var(--volt-edge, #9db400); }
+.st-mobi__finder[data-demo-focus] { box-shadow: 0 0 0 2px var(--volt, #d2f000); }
+.st-mobi:is([data-demo-focusing] *) .st-mobi__card--read:has(> [data-demo-focus]) > .st-mobi__blk:not([data-demo-focus]) { opacity: 0.4; }
+.st-mobi__head[data-demo-focus], .st-mobi__answer[data-demo-focus] { box-shadow: 0 0 0 2px var(--volt, #d2f000), 0 0 0 3.5px var(--volt-edge, #9db400); outline: 6px solid transparent; }
+/* The read's ring needs 6 px of room round its words. It is always there (not only while stressed): a box that grew when
+   stressed moved its corner, which the browser counts as a layout shift (integrate lane, tmp/1121-stories/frame/cls.mjs). */
+.st-mobi__answer { padding: 6px; margin: -6px; }
+
+/* A narrow phone (a 360 px window and less): the chips stay on one row and the question's bubble takes the whole width, so
+   the read still fits its card with its key. */
+@container (max-width: 400px) {
+  .st-mobi__chat { padding: 8px 8px 10px; }
+  .st-mobi__ask { margin-left: 0; gap: 8px; padding: 7px 9px; }
+  .st-mobi__ask .st-mobi__thumb { width: 34px; height: 40px; }
+  .st-mobi__chips { flex-wrap: nowrap; gap: 6px; }
+  .st-mobi__chip { min-width: 0; padding: 3px 8px 4px; }
+  .st-mobi__chip b { font-size: 14px; }
+  .st-mobi__chip:first-child { flex: none; }
+  .st-mobi__mobi { font-size: 14px; }
+}
+
+/* The narrowest stage (a 320 px phone): the step row without its numbers, the bubble without its thumbnail. */
+@container (max-width: 340px) {
+  .st-mobi__steps { gap: 2px; padding: 6px 6px 0; }
+  .st-mobi__step-n { display: none; }
+  .st-mobi__ask { grid-template-columns: minmax(0, 1fr); }
+  .st-mobi__ask .st-mobi__thumb { display: none; }
+  .st-mobi__card { gap: 6px; }
+  .st-mobi__why li { padding: 1px 0; }
+}
+
+/* ---------------------------------------------------------------- a wide screen: the question at the left, the chat beside it */
+@container (min-width: 640px) {
+  .st-mobi { --sm-fs: 15px; }
+  .st-mobi__screen { height: 548px; }
+  .st-mobi__steps { padding: 10px 12px 0; gap: 6px; }
+  .st-mobi__stage { grid-template-areas: 'in chat'; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
+  .st-mobi__in { grid-area: in; padding: 12px 6px 14px 14px; }
+  .st-mobi__chat { grid-area: chat; opacity: 1; padding: 12px 14px 14px 8px; }
+  .st-mobi[data-phase] .st-mobi__in { opacity: 1; transform: none; pointer-events: auto; }
+  .st-mobi__finder { padding: 22px 18px; }
+  .st-mobi__card { padding: 14px; }
+  .st-mobi__ask-q, .st-mobi__why li, .st-mobi__slip-text, .st-mobi__verdict-why, .st-mobi__set-why { font-size: 15px; }
+}
+
+/* Night: the camera and the paper stay as they are (they are a photo); only the screen's own surfaces follow the theme. */
+.st-mobi:is(html[data-theme='dark'] *) .st-mobi__card { box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 14px 32px rgba(0, 0, 0, 0.4); }
+.st-mobi:is(html[data-theme='dark'] *) .st-mobi__shutter { border-color: #f4f0e6; }
+.st-mobi:is(html[data-theme='dark'] *) .st-mobi__shutter span { background: #f4f0e6; }
+
+/* Reduced motion: no transitions; each phase is its end state, at once. */
+@media (prefers-reduced-motion: reduce) {
+  .st-mobi *, .st-mobi *::before, .st-mobi *::after { transition: none !important; animation: none !important; }
+}
+.st-mobi:is(html[data-motion='reduced'] *) *, .st-mobi:is(html[data-motion='reduced'] *) *::before, .st-mobi:is(html[data-motion='reduced'] *) *::after { transition: none !important; animation: none !important; }

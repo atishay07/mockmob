@@ -4,12 +4,15 @@
 //              the pace line only from 3 days in a row and only with the exam day Road to CUET shows.
 //   KeepKey    while today does not count, the one key that keeps the line: today's Daily Five while it is still to play,
 //              else today's practice set; with a day still open, the make-up's own count. Each counts by the server's rule.
+//   FinishLine    (21 Nov 2026) the days to CUET with the week, when the exam day is known: "161 days to CUET. Keep it to exam day."
+//   MadeFigures   (21 Nov 2026) the sheet's "What 12 days made": the run's own counts, then the pace line.
 //   StreakEarned  where the work ends (a practice result): "Today counts. 13 days in a row." with the week's line, the first
 //              time this device sees today counted (the same once-a-day key as Today's block), today's piece swiping in.
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Flag } from 'lucide-react';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
-import { countedKey, countedLine, keepAction, paceLine, runLine, streakWeek } from '@/lib/streak/streakCopy.mjs';
+import { countedKey, countedLine, finishLine, keepAction, madeFigures, madeTitle, paceLine, runLine, streakWeek } from '@/lib/streak/streakCopy.mjs';
 import { StreakMobi } from './Streak';
 import StreakLine from './StreakLine';
 import { loadStreak, openStreakSheet, useStreak } from './useStreak';
@@ -24,14 +27,48 @@ export function KeepKey({ body, className = '' }) {
   const action = keepAction(body, { daily: daily || 'played' });
   const href = usePreviewHref(action?.href || null);
   if (!action) return null;
-  if (!known) return <span className={`btn-outline md stk-keep stk-keep--wait ${className}`.trim()} aria-hidden="true">{action.label}</span>;
-  return <Link href={href} className={`btn-outline md mk-press stk-keep ${className}`.trim()} data-kind={action.kind}>{action.label}</Link>;
+  // 21 Nov 2026 (owner LK365): the streak's plain primary action, "Do today's five" while the five are still to play.
+  if (!known) return <span className={`btn-volt md stk-keep stk-keep--wait ${className}`.trim()} aria-hidden="true">{action.label}</span>;
+  return <Link href={href} className={`btn-volt md mk-press stk-keep ${className}`.trim()} data-kind={action.kind}>{action.label}</Link>;
+}
+
+/** The finish line, with the week: "161 days to CUET. Keep it to exam day." Only with an exam day ahead (Road to CUET's date). */
+export function FinishLine({ body, userId, className = '' }) {
+  const today = body?.week?.[body.week.length - 1]?.day || null;
+  const exam = useExamDay(userId, today);
+  const line = exam ? finishLine({ examDay: exam.examDay, own: exam.own, today }) : null;
+  if (!line) return null;
+  return <p className={`stk-finish ${className}`.trim()}><Flag size={15} strokeWidth={2.4} aria-hidden="true" /><span>{line}</span></p>;
+}
+
+/** "What 12 days made": the run's own counts from the server (questions answered, days practised, rest passes, make-ups, pause
+ *  days), then what the line makes by CUET at today's rule. Nothing with no run. */
+export function MadeFigures({ body, userId }) {
+  const figs = madeFigures(body);
+  const today = body?.week?.[body.week.length - 1]?.day || null;
+  const exam = useExamDay(body?.days >= 3 ? userId : null, today);
+  const pace = exam ? paceLine(body, { examDay: exam.examDay, own: exam.own, today }) : null;
+  if (!figs.length) return null;
+  return (
+    <section className="stk-sec stk-madesec" aria-labelledby="stk-made-h">
+      <h3 id="stk-made-h" className="stk-sec__h">{madeTitle(body.days)}</h3>
+      <ul className="stk-figs">
+        {figs.map((f) => (
+          <li key={f.key} className="stk-fig" data-key={f.key}>
+            <b className="stk-fig__n">{Number(f.n).toLocaleString('en-IN')}</b>
+            <span className="stk-fig__l">{f.label}</span>
+          </li>
+        ))}
+      </ul>
+      {pace ? <p className="stk-hint">{pace}</p> : null}
+    </section>
+  );
 }
 
 /** What the line has made, and what it makes by CUET (only where the exam day is known, from 3 days in a row). */
-export function MadeLines({ body, userId, className = '', run = true }) {
+export function MadeLines({ body, userId, className = '', run = true, pace: withPace = true }) {
   const today = body?.week?.[body.week.length - 1]?.day || null;
-  const exam = useExamDay(body?.days >= 3 ? userId : null, today);
+  const exam = useExamDay(withPace && body?.days >= 3 ? userId : null, today);
   const made = run ? runLine(body) : null;
   const pace = exam ? paceLine(body, { examDay: exam.examDay, own: exam.own, today }) : null;
   if (!made && !pace) return null;

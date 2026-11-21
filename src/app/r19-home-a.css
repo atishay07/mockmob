@@ -20,9 +20,14 @@ html[data-theme='light'] body .mm.lp #compass .cl__score input[type='range']::-m
   body .mm.lp #compass .cl__card { margin-inline: calc(12px - var(--gutter, 20px)); padding-inline: 12px; }
   body .mm.lp #compass .cl__courses { margin-inline: -12px; padding-inline: 12px; }
   body .mm.lp #compass .lp-guide-head { margin-bottom: 14px; }
+  /* The keys' words are 14 px (critic, 21 Nov 2026: never under 14 on a phone); the keys are narrower instead, so Category
+     and Round still share one line on a 360 px phone. */
+  body .mm.lp #compass .cl__seg button { min-width: 34px; padding-inline: 6px; }
+  body .mm.lp #compass .cl__row { column-gap: 6px; }
 }
 @media (max-width: 380px) {
-  body .mm.lp #compass .cl__seg button { min-width: 34px; padding-inline: 6px; font-size: 12px; }
+  body .mm.lp #compass .cl__seg { padding: 2px; }
+  body .mm.lp #compass .cl__seg button { min-width: 32px; padding-inline: 5px; font-size: 14px; }
 }
 
 /* Compass Pro: one line under the card with its link; what it adds opens under a labelled disclosure. */

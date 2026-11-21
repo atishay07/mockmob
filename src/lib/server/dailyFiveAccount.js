@@ -17,11 +17,13 @@ import {
   memberStrip, playedDates, questionRef, recordFromRows, reviewFrom,
 } from '../dailyFiveAccount.mjs';
 import { openDailyToken, parseDailyQuery } from './dailyFive.js';
+import { mineTag, readTag } from '../dailyFiveMine.mjs';
 import { accountTeam, teamForCheck, teamsByDay } from '../daily/team.mjs';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MAX_BODY = 4096;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const personalRow = (row) => Boolean(readTag(row?.metadata?.mine));
 /** How long a day's numbers are kept per server before they are counted again. */
 export const CROWD_TTL_MS = 5 * 60 * 1000;
 
@@ -50,7 +52,7 @@ export function createDailyStore({ db, now = Date.now }) {
   const qi = () => db().from('question_interactions');
 
   async function rows(userId, date) {
-    const { data, error } = await qi().select('question_id,metadata,created_at').eq('user_id', userId).is('flow_context', null)
+    const { data, error } = await qi().select('id,question_id,metadata,created_at').eq('user_id', userId).is('flow_context', null)
       .eq('interaction_type', DAILY_FIVE_INTERACTION).eq('session_id', dailySessionId(date)).limit(10);
     if (error) throw new StoreError('READ_FAILED', error);
     return data || [];
@@ -78,16 +80,37 @@ export function createDailyStore({ db, now = Date.now }) {
    * One checked answer, INSERT ... ON CONFLICT (id) DO NOTHING; then the row that stands for that place, whichever check
    * wrote it. Answers { n, pick, right, correct, sameQuestion } from the stored row.
    */
-  async function recordCheck(userId, { date, day, item, pick, ms, team = null }) {
+  async function recordCheck(userId, { date, day, item, pick, ms, team = null, tag = null, dayRows = null }) {
     const row = checkRow({ userId, date, day, n: item.n, id: item.id, pick, correct: item.correct, ms, team, at: new Date(now()).toISOString() });
-    const { error } = await qi().upsert([row], { onConflict: 'id', ignoreDuplicates: true });
-    if (error) throw new StoreError(error.code === '23503' ? 'QUESTION_GONE' : 'WRITE_FAILED', error);
-    const { data, error: readError } = await qi().select('question_id,metadata').eq('id', dailyRowId(date, userId, item.n)).eq('interaction_type', DAILY_FIVE_INTERACTION).limit(1);
-    if (readError) throw new StoreError('READ_FAILED', readError);
-    const stored = (data || [])[0];
+    // "Your five" (21 Nov 2026, src/lib/server/dailyFiveMine.js): a question of the student's own five keeps its kind, so a
+    // reload on another device shows why it was there. No reader of these rows looks at `mine`.
+    if (tag) row.metadata = { ...row.metadata, mine: mineTag(tag.k, tag.since, tag.r) };
+    async function save(id) {
+      const { error } = await qi().upsert([{ ...row, id }], { onConflict: 'id', ignoreDuplicates: true });
+      if (error) throw new StoreError(error.code === '23503' ? 'QUESTION_GONE' : 'WRITE_FAILED', error);
+      const { data, error: readError } = await qi().select('question_id,metadata,created_at').eq('id', id).eq('interaction_type', DAILY_FIVE_INTERACTION).limit(1);
+      if (readError) throw new StoreError('READ_FAILED', readError);
+      const standing = data?.[0];
+      if (!standing) throw new StoreError('UNCONFIRMED');
+      return standing;
+    }
+
+    let stored;
+    if (dayRows) {
+      // Every first answer competes for the same row, even when two devices start at different places.
+      // Slot zero is only the row ID. Its metadata and every reader still see the actual answer at n.
+      const firstId = dailyRowId(date, userId, 0);
+      const first = dayRows.find((r) => r.id === firstId) || dayRows[0] || await save(firstId);
+      if (personalRow(first) !== Boolean(tag)) return { modeConflict: true };
+      if (Number(first.metadata?.n) === item.n) stored = first;
+    }
+    stored ||= await save(row.id);
     const answer = stored ? checkAnswer(stored) : null;
     if (!answer) throw new StoreError('UNCONFIRMED');
-    return { ...answer, sameQuestion: stored.question_id === item.id };
+    // `fresh`: this check wrote the row that stands, not a retry or another tab. A tagged row carries this check's own random
+    // mark (`mine.r`), which tells two checks of one place apart even in the same millisecond; otherwise its timestamp.
+    const fresh = typeof tag?.r === 'string' ? stored.metadata?.mine?.r === tag.r : Date.parse(stored.created_at) === Date.parse(row.created_at);
+    return { ...answer, sameQuestion: stored.question_id === item.id, fresh };
   }
 
   /** Per question of the day: how many signed-in students saved an answer, and how many were right. Head counts only. */
@@ -138,6 +161,8 @@ export function createDailyStore({ db, now = Date.now }) {
  *   key                                   the token key (dailyTokenKey), or null
  *   five({ day, date }) -> [{ id, q, options, correct, why, ... }] | null   today's five with ids (createDailyFive.five)
  *   mobEnabled() -> boolean               MOB_ENABLED
+ *   mine                                  optional: createDailyMine (src/lib/server/dailyFiveMine.js), "Your five"'s tag, feed
+ *                                         and reasons; without it every answer is exactly as before
  *   now() -> ms
  * }
  */
@@ -154,10 +179,10 @@ export function createDailyHandlers(deps) {
   // The college a signed-in check counts for (src/lib/daily/team.mjs teamForCheck): today's own once a check of today carries
   // one (a cheap read of today's rows), else the asked one by the change rule, else the account's from its earlier fives. A
   // failed read writes no college rather than hold up the answer; a later check of the day can still carry it.
-  async function teamOfCheck(userId, today, asked) {
+  async function teamOfCheck(userId, today, asked, dayRows) {
     try {
       const session = dailySessionId(today.date);
-      const todays = teamsByDay((await deps.store.rows(userId, today.date)).map((r) => ({ ...r, session_id: session }))).get(today.date);
+      const todays = teamsByDay((dayRows || await deps.store.rows(userId, today.date)).map((r) => ({ ...r, session_id: session }))).get(today.date);
       if (todays) return todays;
       if (typeof deps.store.history !== 'function') return asked || null;
       return teamForCheck(await deps.store.history(userId), today.date, asked);
@@ -189,14 +214,31 @@ export function createDailyHandlers(deps) {
       // A question of another day (the page was left open past 12:00 am IST) is answered nowhere: the page loads today's.
       if (!opened.ok) return reply(opened.error === 'not_today' ? 409 : 400, { error: opened.error, day: today.day, date: today.date });
       const { item } = opened;
-      if (!userId) {
-        return reply(200, { n: item.n, pick: asked.pick, right: asked.pick === item.correct, correct: item.correct, why: item.why, recorded: false });
-      }
       try {
-        const team = await teamOfCheck(userId, today, asked.team);
+        if (await deps.mine?.heldAtCheck?.({ token: asked.token, item, userId })) {
+          return reply(409, { error: 'changed', day: today.day, date: today.date });
+        }
+        const unsaved = { n: item.n, pick: asked.pick, right: asked.pick === item.correct, correct: item.correct, why: item.why, recorded: false };
+        if (!userId) return reply(200, unsaved);
+        const dayRows = deps.mine ? await deps.store.rows(userId, today.date) : null;
+        const team = await teamOfCheck(userId, today, asked.team, dayRows);
+        // "Your five" (src/lib/server/dailyFiveMine.js): the kind of a question of THIS student's own five, read from the mark
+        // sealed in its token, kept on its row. A shared-five token, or one sealed for another student, has none.
+        const tag = deps.mine ? await deps.mine.tagOf({ token: asked.token, userId, item }) : null;
+        if (tag && dayRows.length === 0 && deps.mine.canStart?.() === false) {
+          return reply(409, { error: 'changed', day: today.day, date: today.date });
+        }
         // Recorded before it is answered: the key never reaches a signed-in student whose first pick is not on the account.
-        const stood = await deps.store.recordCheck(userId, { date: today.date, day: today.day, item, pick: asked.pick, ms: asked.ms, team });
-        return reply(200, { n: item.n, pick: stood.pick, right: stood.right, correct: stood.correct, why: stood.sameQuestion ? item.why : '', recorded: true, for: stood.team || null });
+        const stood = await deps.store.recordCheck(userId, { date: today.date, day: today.day, item, pick: asked.pick, ms: asked.ms, team, tag, dayRows });
+        if (stood.modeConflict && !tag) {
+          // Older apps still work through the shared questions. Their picks do not enter an account's personal five.
+          return reply(200, { ...unsaved, for: null });
+        }
+        if (stood.modeConflict || (tag && !stood.sameQuestion)) return reply(409, { error: 'changed', day: today.day, date: today.date });
+        // A first answer of the student's own five feeds their mistakes or fixes one; never fails the answer. Undefined for a
+        // question of the shared five: then the answer is exactly as before.
+        const fed = deps.mine ? await deps.mine.feed({ userId, item, stood, today, tag, fresh: stood.fresh === true }).catch(() => null) : undefined;
+        return reply(200, { n: item.n, pick: stood.pick, right: stood.right, correct: stood.correct, why: stood.sameQuestion ? item.why : '', recorded: true, for: stood.team || null, ...(fed !== undefined ? { fed } : {}) });
       } catch (error) {
         if (error?.code === 'QUESTION_GONE') return reply(409, { error: 'changed', day: today.day, date: today.date });
         return reply(503, { error: 'unavailable' });
@@ -213,7 +255,10 @@ export function createDailyHandlers(deps) {
         const [found, rows] = await Promise.all([deps.store.rows(userId, today.date), deps.store.history(userId)]);
         const record = recordFromRows(found, today.date);
         // The keys and reasons only with a whole five: the student has answered every question already.
-        const review = record ? reviewFrom(found, await Promise.resolve(deps.five(today)).catch(() => null)) : null;
+        let five = record ? await Promise.resolve(deps.five(today)).catch(() => null) : null;
+        // A personal five's reasons come from its own questions (src/lib/server/dailyFiveMine.js withReasons).
+        if (record && deps.mine) five = await deps.mine.withReasons(found, five).catch(() => five);
+        const review = record ? reviewFrom(found, five) : null;
         // The college the account's fives are played for, and its seat (shown to this student only; src/lib/server/dailyTeam.js).
         const seat = deps.seat ? deps.seat(userId) : null;
         return reply(200, { day: today.day, date: today.date, record, review, played: playedDates(rows), team: accountTeam(rows), seat });

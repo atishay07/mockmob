@@ -83,6 +83,10 @@ test('the deck is one held story on every pointer, plays each demo as its card c
   const page = read('../../app/page.js');
   // Since 21 Nov 2026 the home page draws the deck's screens as rows of its one frame (OnePlace.jsx), handed the same tour
   // and the same samples; the deck itself (TourDeck.jsx) stays for any page that draws it.
-  assert.match(page, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>/);
-  assert.match(read('./OnePlace.jsx'), /<TourStage Screen=\{Screen\} active=\{on\} play=\{on && playing\} epoch=\{stages\.gen\[i\]\} sample=\{samples\?\.\[row\.id\] \?\? null\} \/>/);
+  // Since the evening of 21 Nov 2026 (owner LK365) Learn, Benchmarks and the Mob play their stories (stories/<Id>Story.jsx)
+  // in the deck's card (StoryCard), the Mob's handed the same sample.
+  assert.match(page, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\} study=\{STUDY_COUNTS\}>/);
+  const frame = read('./OnePlace.jsx');
+  assert.match(frame, /<StoryCard row=\{row\}><RivalStory \/><\/StoryCard>/);
+  assert.match(frame, /<StoryCard row=\{row\}><MobStory sample=\{samples\?\.mob \?\? null\} \/><\/StoryCard>/);
 });

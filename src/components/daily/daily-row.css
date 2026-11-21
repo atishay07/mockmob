@@ -33,7 +33,9 @@ html[data-theme='dark'] .mm.lp .dwk-ticket { box-shadow: 0 1px 2px rgb(0 0 0 / 0
 .mm.lp .dwk-ticket__play { display: grid; align-content: start; min-width: 0; padding: 24px 18px 16px; }
 .mm.lp .dwk-ticket__head { display: grid; gap: 2px; min-width: 0; }
 .mm.lp .dwk-name { margin: 0; color: var(--ink); font: 800 1.75rem/1.05 var(--font-display); letter-spacing: -0.03em; }
-.mm.lp .dwk-edition { margin: 2px 0 0; color: var(--ink-2); font: 650 1rem/1.3 var(--font-body); }
+/* One line's height from the first paint (the server has no clock: the edition fills in after it), so the demo under it never
+   moves when it arrives (21 Nov 2026 critic: a 21 px shift as the demo began). */
+.mm.lp .dwk-edition { margin: 2px 0 0; min-height: 1.3em; color: var(--ink-2); font: 650 1rem/1.3 var(--font-body); }
 /* The state and its time: a still mark in an 18 px slot, the state, then the time beside it. */
 .mm.lp .dwk-state {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; margin: 8px 0 0; color: var(--ink); min-height: 1.5em;
@@ -52,7 +54,7 @@ html[data-theme='dark'] .mm.lp .dwk-ticket { box-shadow: 0 1px 2px rgb(0 0 0 / 0
 .mm.lp .dwk-figs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 18px; margin: 8px 0 0; padding: 0; list-style: none; }
 .mm.lp .dwk-figs li { display: inline-flex; align-items: baseline; gap: 5px; white-space: nowrap; }
 .mm.lp .dwk-figs b { color: var(--ink); font: 800 1.0625rem/1.2 var(--font-display); letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
-.mm.lp .dwk-figs span { color: var(--ink-2); font: 600 0.8125rem/1.2 var(--font-body); }
+.mm.lp .dwk-figs span { color: var(--ink-2); font: 600 0.875rem/1.2 var(--font-body); }
 
 /* The perforation: a dashed tear line with a notch cut from each edge, in the page's own ground. */
 .mm.lp .dwk-ticket__board { position: relative; min-width: 0; padding: 16px 18px 12px; border-top: 2px dashed var(--line-strong); }
@@ -159,3 +161,7 @@ html[data-motion='reduced'] .mm.lp .dwk-key { transition: none; }
   .mm.lp .dwk-ticket[data-personal] .dwk-figs { grid-column: 1; margin: 0; }
   .mm.lp .dwk-ticket[data-personal] .dwk-key { grid-column: 2; grid-row: 1 / 3; margin: 0; }
 }
+
+/* Today's row keeps two lines for its sentence on a phone: the line is filled in after the account and the student's own
+   five are read (21 Nov 2026, "Your five"), and a sentence that grows from one line to two would move everything under it. */
+@media (max-width: 719.98px) { .app-shell .dfr--today .tmask__text > span { min-height: calc(2em * 1.4); } }

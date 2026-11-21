@@ -319,6 +319,8 @@ test('sites: each narrowed route asks for the profile its builders were proved o
   const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
   const expect = [
     ['src/lib/server/learning.js', /getAttempts\(userId, \{ memo, slim: 'plan' \}\)/],
+    // "Your five" (21 Nov 2026): the weak chapters of the newest papers only, the same lean 'plan' shape as the guided plan.
+    ['src/lib/server/dailyFiveDeps.js', /getAttempts\(userId, \{ limit: MINE_LIMITS\.attempts, slim: 'plan' \}\)/],
     ['src/app/api/prepos/insights/route.js', /limit: 60, slim: 'insights'/],
     ['src/app/api/compass/pro/route.js', /limit: 60, slim: 'insights'/],
     ['src/services/mobi/standing.js', /limit: 60, slim: 'insights'/],

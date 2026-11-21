@@ -1,0 +1,104 @@
+/* "Your five" on /daily (owner LK365, 21 Nov 2026): the reason label above a question's stem (DailyWhy.jsx), the head's
+   signed-in line, the note under the rules, and the day's end (DailyEnd.jsx). Marketing surface tokens only (.mm); the
+   streak's own parts (src/components/streak) are drawn in the app's tokens, so the end maps those onto the page's here.
+   Every block has its size before its data arrives. Motion: transform and opacity only; none under reduced motion. */
+
+/* ---------- The head, signed in: the name stays; the line under it is either the shared five's sentence or "Your five for
+   today" with its mix. While GET /api/daily/mine is out the line holds its room (hidden), so nothing moves when it lands. */
+.mm.lp .dly__head[data-mine] .dly__what { min-height: calc(1.45em * 3); }
+.mm.lp .dly__head[data-pending] .dly__what { visibility: hidden; }
+.mm.lp .dly__what .dly__mine-lead { display: block; color: var(--ink); font: 750 1.25rem/1.25 var(--font-display); letter-spacing: -0.015em; }
+.mm.lp .dly__what .dly__mine-mix { display: block; margin-top: 2px; }
+@media (min-width: 560px) { .mm.lp .dly__head[data-mine] .dly__what { min-height: calc(1.45em * 2); } }
+@media (min-width: 960px) { .mm.lp .dly__what .dly__mine-lead { font-size: 1.4375rem; } }
+
+/* The one line under the five's rules (dailyMineUi.mjs noteFor): a guest's way to a five of their own, or what a miss does. */
+.mm.lp .lp-try.dly .dly__rules .dly__note { position: relative; margin-top: 4px; padding: 10px 12px 10px 38px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); font-weight: 600; min-height: calc(1.45em * 2 + 20px); }
+.mm.lp .lp-try.dly .dly__rules .dly__note[data-pending] { visibility: hidden; }
+.mm.lp .lp-try.dly .dly__note-icon { position: absolute; left: 12px; top: 12px; color: var(--ink-2); }
+
+/* ---------- The reason label: above the stem, a quiet tag with its own glyph ---------- */
+.mm.lp .lp-try.dly .dly-why {
+  display: inline-flex; align-items: center; gap: 7px; max-width: 100%; margin: 2px 0 0; padding: 5px 11px 5px 9px;
+  border: 1px solid var(--line-strong); border-radius: 12px; background: var(--paper);
+  color: var(--ink); font: 650 0.875rem/1.3 var(--font-body); letter-spacing: 0;
+  animation: dly-why-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.mm.lp .lp-try.dly .dly-why > span { min-width: 0; text-wrap: pretty; }
+.mm.lp .lp-try.dly .dly-why__icon { flex: none; color: var(--ink-2); }
+/* A question the student missed before: the one that matters most today, in the volt. */
+.mm.lp .lp-try.dly .dly-why[data-kind='missed'] { border-color: var(--volt-edge, var(--ink)); background: var(--volt); color: var(--volt-ink, #0b1000); }
+.mm.lp .lp-try.dly .dly-why[data-kind='missed'] .dly-why__icon { color: inherit; }
+.mm.lp .lp-try.dly .dly-why + .mm-drill__q { margin-top: 12px; }
+@keyframes dly-why-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mm.lp .lp-try.dly .dly-why { animation: none; } }
+html[data-motion='reduced'] .mm.lp .lp-try.dly .dly-why { animation: none; }
+
+/* In the result's list, a personal five's reason sits where the crowd's share sits for the shared five. */
+.mm.lp .lp-try.dly .dly__list .dly__crowd[data-why] { color: var(--ink-2); font-size: 0.875rem; font-weight: 600; }
+
+/* ---------- The day's end ---------- */
+.mm.lp .dly-end {
+  /* The streak's parts speak the app's tokens; on this page they take the page's. */
+  --a-ink: var(--ink); --a-ink-2: var(--ink-2); --a-ink-3: var(--ink-3); --a-raised-2: var(--paper); --a-line-strong: var(--line-strong);
+  --stk-out: cubic-bezier(0.23, 1, 0.32, 1); --stk-volt: #d2f000; --stk-volt-ink: #0b1000;
+  display: grid; gap: 18px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line);
+}
+.mm.lp .dly-end__streak {
+  display: grid; gap: 14px; min-height: 170px; padding: 16px 14px 14px; border: 1px solid var(--line-strong); border-radius: 18px; background: var(--paper);
+}
+.mm.lp .dly-end__streak[data-state='wait'], .mm.lp .dly-end__streak[data-state='failed'] { place-items: center; }
+.mm.lp .dly-end__wait { width: 60%; height: 14px; border-radius: 999px; background: var(--line); opacity: 0.7; }
+.mm.lp .dly-end__fail { margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; text-align: center; }
+.mm.lp .dly .dly-end__again {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; color: var(--ink);
+  font: 650 0.9375rem/1.3 var(--font-body); text-decoration: underline; text-underline-offset: 4px; cursor: pointer;
+}
+.mm.lp .dly-end__head { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.mm.lp .dly-end__count { display: grid; gap: 4px; min-width: 0; }
+.mm.lp .dly-end__n { display: flex; align-items: baseline; gap: 8px; margin: 0; color: var(--ink); }
+.mm.lp .dly-end__n .dly-end__tick { font: 800 2.5rem/1 var(--font-display); letter-spacing: -0.03em; }
+.mm.lp .dly-end__n > span { color: var(--ink-2); font: 700 1rem/1.2 var(--font-body); }
+.mm.lp .dly-end__line { margin: 0; min-height: calc(1.4em * 2); color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
+/* This week's line on a narrow phone: "Today" is the widest name, so its cell takes a little more of the row (the band is
+   measured from the cells, so it follows). */
+@media (max-width: 420px) {
+  .mm.lp .dly-end__streak { padding-inline: 10px; }
+  .mm.lp .dly-end .stk-band__row { grid-template-columns: repeat(6, minmax(0, 1fr)) minmax(0, 1.55fr); }
+}
+/* Mobi wakes as the number steps (once, with the step; the figure's own motion is streak.css .stk-tick). */
+.mm.lp .dly-end__streak[data-step] .dly-end__mobi { animation: dly-end-wake 420ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+@keyframes dly-end-wake { 0% { transform: scale(0.86) rotate(-6deg); } 60% { transform: scale(1.06) rotate(2deg); } 100% { transform: none; } }
+
+.mm.lp .dly-end__title { margin: 0; color: var(--ink); font: 750 1.125rem/1.25 var(--font-display); letter-spacing: -0.01em; }
+.mm.lp .dly-end__lines { display: grid; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.mm.lp .dly-end__did-line { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font: 650 1rem/1.35 var(--font-body); }
+.mm.lp .dly-end__did-icon { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink-2); color: var(--ink); }
+.mm.lp .dly-end__did-line[data-kind='fixed'] .dly-end__did-icon { border-color: var(--volt-edge, var(--ink)); background: var(--volt); color: var(--volt-ink, #0b1000); }
+.mm.lp .dly-end__none { margin: 8px 0 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+.mm.lp .dly-end__next { display: grid; gap: 8px; }
+.mm.lp .dly .dly-end__key { width: 100%; min-height: 48px; text-align: center; white-space: normal; }
+.mm.lp .dly-end__note { margin: 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.45; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp .dly-end__streak[data-step] .dly-end__mobi { animation: none; }
+  .mm.lp .dly-end .stk-tick__old { display: none; }
+  .mm.lp .dly-end .stk-tick__new { animation: none; }
+}
+html[data-motion='reduced'] .mm.lp .dly-end__streak[data-step] .dly-end__mobi { animation: none; }
+html[data-motion='reduced'] .mm.lp .dly-end .stk-tick__new { animation: none; }
+
+@media (min-width: 960px) {
+  .mm.lp .dly-end__streak { padding: 20px 20px 16px; }
+  .mm.lp .dly-end__n .dly-end__tick { font-size: 3rem; }
+}
+
+/* After a student's own five: Share is a text link under the one next-step key (DailyFive.jsx .dly__share[data-quiet]). */
+.mm.lp .dly__share[data-quiet] { display: grid; justify-items: center; margin-top: 10px; }
+.mm.lp .dly .dly__share-link {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 8px; border: 0;
+  background: none; color: var(--ink); font: 700 0.9375rem/1.2 var(--font-body); text-decoration: underline;
+  text-decoration-color: var(--ink-3); text-underline-offset: 4px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.mm.lp .dly .dly__share-link:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+.mm.lp .dly__share[data-quiet] .dly__share-note { margin-top: 0; }

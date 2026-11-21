@@ -1,0 +1,299 @@
+/* The Learn row's screen (LearnStory.jsx, owner LK365, 21 Nov 2026). Every selector starts with .st-learn. The look is the
+   real Learn's (src/components/study/study.css: the pips, the accent label, the lettered options, the ringed right answer)
+   in the home page's tokens. One fixed-size screen: 500 px tall below a 640 px container, 548 px from it, so nothing ever
+   shifts. Motion: transform and opacity only, from data-phase and the cursor's data-demo-focus; none under reduced motion
+   (every state is then simply there). */
+.st-learn {
+  --stl-ease: cubic-bezier(.2, .7, .2, 1);
+  --stl-good: #3d7413;
+  --stl-good-wash: #eef6dc;
+  --stl-bad: #b93225;
+  --stl-bad-wash: #fbe9e7;
+  --stl-ring: #9db400;
+  --stl-hl: rgba(210, 240, 0, .62);
+  --stl-accent: var(--brand-word, #526700);
+  container-type: inline-size;
+  width: 100%;
+  color: var(--ink);
+  font-family: var(--font-body, inherit);
+}
+html[data-theme='dark'] .st-learn {
+  --stl-good: #b6e36e;
+  --stl-good-wash: rgba(182, 227, 110, .12);
+  --stl-bad: #ff9d92;
+  --stl-bad-wash: rgba(255, 157, 146, .12);
+  --stl-ring: #d2f000;
+  --stl-hl: rgba(210, 240, 0, .3);
+}
+
+.st-learn__screen {
+  position: relative; display: grid; height: 500px; overflow: hidden; isolation: isolate;
+  border: 1px solid var(--line); border-radius: 22px; background: var(--paper-sunken);
+}
+.st-learn__main { display: contents; }
+.st-learn__intro { display: none; }
+
+/* ---------- the layers: one grid cell, each a card laid on the stack */
+.st-learn__layer {
+  position: relative; z-index: 1;
+  grid-area: 1 / 1; min-width: 0; min-height: 0; overflow: hidden;
+  display: flex; flex-direction: column; gap: 10px; padding: 16px;
+  background: var(--paper-raised);
+}
+/* Stack order is explicit: a layer that steps back (a transform) must never paint over the card laid on it. */
+.st-learn__lessonview { z-index: 2; }
+.st-learn__recall { z-index: 3; }
+.st-learn__list { transition: transform 420ms var(--stl-ease), opacity 420ms var(--stl-ease); transform-origin: 50% 0; }
+.st-learn__lessonview, .st-learn__recall {
+  border-radius: 20px; box-shadow: -10px 0 28px rgba(20, 18, 14, .12);
+  transform: translate3d(104%, 0, 0); visibility: hidden;
+  transition: transform 420ms var(--stl-ease), opacity 420ms var(--stl-ease), visibility 0s linear 420ms;
+  transform-origin: 50% 0;
+}
+.st-learn__lessonview[data-on], .st-learn__recall[data-on] { transform: none; visibility: visible; transition-delay: 0s; }
+/* The card underneath steps back as the next one lands on it. */
+.st-learn__layer[data-under] { transform: scale(.955) translate3d(0, 8px, 0); opacity: .42; }
+html[data-theme='dark'] :is(.st-learn__lessonview, .st-learn__recall) { box-shadow: -10px 0 30px rgba(0, 0, 0, .5); }
+
+/* ---------- the subject's lessons */
+.st-learn__app { margin: 0; font: 800 1.375rem/1.1 var(--font-display); letter-spacing: -0.02em; }
+.st-learn__sub { margin: -4px 0 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.4; }
+.st-learn__subject { display: flex; align-items: center; gap: 8px; margin: 2px 0 0; font-weight: 750; font-size: 0.9375rem; }
+.st-learn__subject span { margin-left: auto; color: var(--ink-2); font-weight: 600; font-size: 0.875rem; }
+.st-learn__lessons { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.st-learn__lesson {
+  position: relative; display: grid; gap: 2px; width: 100%; min-height: 44px; padding: 10px 40px 10px 14px;
+  border: 1px solid var(--line); border-radius: 14px; background: var(--paper-raised); color: var(--ink);
+  font: inherit; text-align: left;
+  transition: opacity 220ms ease-out;
+}
+.st-learn__lesson:is(button) { cursor: pointer; border-color: var(--line-strong); box-shadow: var(--sh-1); }
+.st-learn__lesson[data-open] { border-color: var(--stl-ring); }
+.st-learn__chap { color: var(--stl-accent); font-size: 0.875rem; font-weight: 700; line-height: 1.3; }
+.st-learn__ltitle { font-size: 1rem; line-height: 1.3; font-weight: 750; }
+.st-learn__meta { color: var(--ink-2); font-size: 0.875rem; }
+.st-learn__chev { position: absolute; right: 12px; top: 50%; margin-top: -9px; color: var(--ink-2); }
+
+/* ---------- a run's head (StudyRun.jsx): title, count, pips */
+.st-learn__runhead { display: flex; align-items: center; gap: 4px; min-height: 44px; margin: -6px 0 -6px -8px; }
+.st-learn__runhead--card { margin-left: 0; justify-content: space-between; gap: 10px; min-height: 0; margin: 0; }
+.st-learn__back {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 12px;
+  background: transparent; color: var(--ink); cursor: pointer;
+}
+.st-learn__runtitle { margin: 0; min-width: 0; color: var(--ink-2); font-size: 0.875rem; font-weight: 700; line-height: 1.3; }
+.st-learn__count { flex: none; color: var(--ink-2); font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+.st-learn__progress { display: flex; align-items: center; gap: 10px; }
+.st-learn__progress .st-learn__pips { flex: 1; }
+.st-learn__pips { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; }
+.st-learn__pips li { flex: 1; height: 6px; border-radius: 3px; background: var(--line); }
+.st-learn__pips li[data-s='done'] { background: var(--stl-accent); }
+.st-learn__pips li[data-s='now'] { background: var(--volt); }
+
+/* ---------- the worked example (StudyBlocks.jsx ReadingBlock) */
+.st-learn__worked { display: grid; gap: 6px; min-height: 0; padding: 12px 12px 10px; margin: 0 -4px; border-radius: 14px; transition: opacity 220ms ease-out; }
+.st-learn__label { margin: 0; color: var(--stl-accent); font-size: 0.875rem; font-weight: 750; }
+.st-learn__h { margin: 0; font: 800 1.25rem/1.15 var(--font-display); letter-spacing: -0.015em; }
+.st-learn__body { margin: 0; color: var(--ink); font-size: 0.9375rem; line-height: 1.45; }
+.st-learn__key { position: relative; display: inline-block; padding: 0 3px; margin: 2px -3px 0; background: none; color: inherit; font-weight: 700; }
+.st-learn__key > span { position: relative; z-index: 1; }
+.st-learn__key::before {
+  content: ''; position: absolute; inset: 1px 0; z-index: 0; border-radius: 4px; background: var(--stl-hl);
+  transform-origin: 0 50%;
+}
+/* As the lesson opens, the highlighter sweeps once across the key line and stays. While the cursor plays it waits for the
+   beat that reads the example (learnStory.mjs: the 1050 ms after the open click, then 400 ms into the beat). */
+.st-learn[data-phase='lesson'] .st-learn__key::before { animation: stl-hl 700ms var(--stl-ease) 500ms both; }
+.cd-stage[data-demo-live] .st-learn[data-phase='lesson'] .st-learn__key::before { animation-delay: 1350ms; }
+@keyframes stl-hl { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.st-learn__table { width: 100%; margin-top: 4px; border-collapse: collapse; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+.st-learn__table th, .st-learn__table td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; font-weight: 500; line-height: 1.3; }
+.st-learn__table thead th { color: var(--ink-2); font-weight: 650; }
+.st-learn__table tbody th { font-weight: 750; }
+.st-learn__table tr[data-key] :is(th, td) { color: var(--stl-good); font-weight: 750; }
+/* The worked example as motion (critic round, 21 Nov 2026 evening): the setup in one sentence, then the table fills a row at
+   a time as the lesson opens, each row's change last, and Z's gain lit in the volt. While the cursor plays, the rows wait for
+   the beat that reads the example (the open click's 950 ms dwell; rows 400 ms apart, Z's gain lit 1.2 s into the beat); by
+   hand they follow the slide-in. Transform and opacity
+   only; reduced motion shows the filled table at once. From 640 px the block's whole body shows as before. */
+.st-learn__more { display: none; }
+@container (min-width: 640px) { .st-learn__more { display: inline; } }
+.st-learn__table tbody tr { opacity: 0; transform: translateX(-10px); transition: opacity 240ms ease-out, transform 360ms var(--stl-ease); }
+.st-learn__table tbody td:last-child { opacity: 0; transition: opacity 240ms ease-out; }
+.st-learn:not([data-phase='list']) .st-learn__table tbody tr { opacity: 1; transform: none; transition-delay: calc(500ms + var(--r, 0) * 400ms); }
+.st-learn:not([data-phase='list']) .st-learn__table tbody td:last-child { opacity: 1; transition-delay: calc(720ms + var(--r, 0) * 400ms); }
+.cd-stage[data-demo-live] .st-learn[data-phase='lesson'] .st-learn__table tbody tr { transition-delay: calc(1050ms + var(--r, 0) * 400ms); }
+.cd-stage[data-demo-live] .st-learn[data-phase='lesson'] .st-learn__table tbody td:last-child { transition-delay: calc(1270ms + var(--r, 0) * 400ms); }
+.st-learn__table tbody tr[data-key] td:last-child { position: relative; isolation: isolate; }
+.st-learn__table tbody tr[data-key] td:last-child::before {
+  content: ''; position: absolute; inset: 3px 2px; z-index: -1; border-radius: 6px; background: var(--stl-hl);
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform 420ms var(--stl-ease);
+}
+.st-learn:not([data-phase='list']) .st-learn__table tbody tr[data-key] td:last-child::before { transform: scaleX(1); transition-delay: 1600ms; }
+.cd-stage[data-demo-live] .st-learn[data-phase='lesson'] .st-learn__table tbody tr[data-key] td:last-child::before { transition-delay: 2150ms; }
+
+/* ---------- the volt key (btn-volt) */
+.st-learn__volt {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 18px; margin-top: auto;
+  border: 0; border-radius: 14px; background: var(--volt); color: var(--volt-ink, #0b1000);
+  box-shadow: inset 0 0 0 1px var(--volt-edge, #9db400), 0 2px 0 var(--volt-edge, #9db400);
+  font: inherit; font-weight: 750; font-size: 1rem; cursor: pointer;
+  transition: opacity 220ms ease-out, transform 120ms ease-out;
+}
+.st-learn__volt:active { transform: translateY(1px); }
+.st-learn__volt:disabled { opacity: .5; cursor: default; }
+
+/* ---------- the recall card */
+.st-learn__card { display: flex; flex-direction: column; gap: 8px; min-height: 0; flex: 1; }
+.st-learn__prompt { margin: 0 0 2px; font: 800 1.1875rem/1.2 var(--font-display); letter-spacing: -0.012em; }
+.st-learn__opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; transition: opacity 220ms ease-out; border-radius: 14px; }
+.st-learn__opt {
+  position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr) 20px; gap: 10px; align-items: center;
+  width: 100%; min-height: 44px; padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 12px;
+  background: var(--paper-raised); color: var(--ink); font: inherit; font-size: 0.9375rem; text-align: left; cursor: pointer;
+  transition: transform 160ms ease-out;
+}
+.st-learn__opt:disabled { cursor: default; }
+.st-learn__letter {
+  display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; border: 1px solid var(--line-strong);
+  font-weight: 750; font-size: 0.875rem;
+}
+.st-learn__otext { display: grid; line-height: 1.3; }
+.st-learn__otext small { font-size: 0.875rem; font-weight: 700; color: inherit; }
+.st-learn__mark { justify-self: end; }
+.st-learn__opt[data-state='picked'] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.st-learn__opt[data-state='picked'] .st-learn__letter { background: var(--ink); color: var(--paper-raised); border-color: var(--ink); }
+.st-learn__opt[data-state='right'] { border-color: var(--stl-good); box-shadow: inset 0 0 0 1.5px var(--stl-good); background: var(--stl-good-wash); color: var(--stl-good); }
+.st-learn__opt[data-state='miss'] { border-color: var(--stl-bad); background: var(--stl-bad-wash); color: var(--stl-bad); }
+.st-learn__opt[data-state='right'] .st-learn__otext > :first-child, .st-learn__opt[data-state='miss'] .st-learn__otext > :first-child { color: var(--ink); }
+/* The card answers: the miss nudges once, the right row arrives a beat later (ResultOptions' order). */
+.st-learn__opt[data-state='miss'] { animation: stl-nudge 300ms ease-out both; }
+.st-learn__opt[data-state='right'] .st-learn__mark { animation: stl-pop 260ms var(--stl-ease) 260ms both; }
+@keyframes stl-nudge { 0%, 100% { transform: none; } 30% { transform: translateX(-5px); } 65% { transform: translateX(4px); } }
+@keyframes stl-pop { from { opacity: 0; transform: scale(.5); } to { opacity: 1; transform: none; } }
+
+.st-learn__answer { display: grid; margin-top: auto; border-radius: 14px; transition: opacity 220ms ease-out; }
+.st-learn__answer > * { grid-area: 1 / 1; }
+.st-learn__check { width: 100%; align-self: end; }
+.st-learn__check[inert] { opacity: 0; }
+.st-learn__feedback {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; min-height: 112px;
+  align-content: end;
+}
+.st-learn__fhead { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 800; font-size: 1.0625rem; }
+.st-learn[data-missed] .st-learn__fhead { color: var(--stl-bad); }
+.st-learn:not([data-missed]) .st-learn__fhead { color: var(--stl-good); }
+.st-learn__next { margin: 0; min-width: 92px; }
+.st-learn__fline { grid-column: 1 / -1; margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; }
+.st-learn__feedback > * { animation: stl-rise 300ms var(--stl-ease) both; }
+.st-learn__feedback > .st-learn__fline { animation-delay: 80ms; }
+@keyframes stl-rise { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
+
+/* ---------- the schedule strip: a sheet that rises over the card */
+.st-learn__sheet {
+  position: relative; grid-area: 1 / 1; align-self: end; z-index: 4; display: grid; gap: 10px; padding: 12px 16px 16px;
+  border-top: 1px solid var(--line-strong); border-radius: 20px 20px 0 0; background: var(--paper-raised);
+  box-shadow: 0 -12px 32px rgba(20, 18, 14, .16);
+  transform: translate3d(0, 104%, 0); visibility: hidden;
+  transition: transform 400ms var(--stl-ease), visibility 0s linear 400ms;
+}
+html[data-theme='dark'] .st-learn__sheet { box-shadow: 0 -12px 36px rgba(0, 0, 0, .55); }
+.st-learn__sheet[data-on] { transform: none; visibility: visible; transition-delay: 0s; }
+.st-learn[data-phase='schedule'] .st-learn__card { opacity: .45; transition: opacity 300ms ease-out; }
+.st-learn__stitle { margin: 0; font: 800 1.0625rem/1.2 var(--font-display); }
+.st-learn__lane { display: grid; gap: 2px; }
+.st-learn__lname { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 0.9375rem; line-height: 1.3; }
+.st-learn__lname b { min-width: 0; font-weight: 750; }
+.st-learn__lane[data-lane='missed'] .st-learn__lname svg { color: var(--stl-bad); flex: none; }
+.st-learn__lane[data-lane='known'] .st-learn__lname svg { color: var(--stl-good); flex: none; }
+.st-learn__lwhen { margin: 0 0 2px; color: var(--ink-2); font-size: 0.875rem; line-height: 1.3; }
+/* The track: the ticks sit at the centres of three equal columns (1/6, 1/2, 5/6 of its width); a run is as wide as the track,
+   so translateX(n%) of it is n% of the track, and its dot sits at its left edge. */
+.st-learn__track {
+  position: relative; height: 24px;
+  background:
+    linear-gradient(var(--line-strong), var(--line-strong)) 0 50% / 100% 2px no-repeat,
+    radial-gradient(circle, var(--line-strong) 3.5px, transparent 4px) 16.667% 50% / 12px 12px no-repeat,
+    radial-gradient(circle, var(--line-strong) 3.5px, transparent 4px) 50% 50% / 12px 12px no-repeat,
+    radial-gradient(circle, var(--line-strong) 3.5px, transparent 4px) 83.333% 50% / 12px 12px no-repeat;
+}
+.st-learn__run { position: absolute; inset: 0; }
+.st-learn__dot {
+  position: absolute; left: 0; top: 50%; width: 22px; height: 16px; margin: -8px 0 0 -11px; border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(20, 18, 14, .22);
+}
+.st-learn__lane[data-lane='missed'] .st-learn__dot { background: var(--stl-bad); }
+.st-learn__lane[data-lane='known'] .st-learn__dot { background: var(--stl-good); }
+/* Where each card lands (the resting state; reduced motion shows only this). */
+.st-learn__lane[data-lane='missed'] .st-learn__run { transform: translateX(16.667%); }
+.st-learn__lane[data-lane='known'] .st-learn__run { transform: translateX(83.333%); }
+.st-learn__lane[data-lane='known'] .st-learn__run--ghost { transform: translateX(50%); opacity: .38; }
+/* The flight, once, as the sheet rises: the missed card drops in today; the known one stops at 2 days, then goes on to 11. */
+.st-learn[data-phase='schedule'] .st-learn__lane[data-lane='missed'] .st-learn__run { animation: stl-missed 620ms var(--stl-ease) 450ms both; }
+.st-learn[data-phase='schedule'] .st-learn__lane[data-lane='known'] .st-learn__run:not(.st-learn__run--ghost) { animation: stl-known 1800ms var(--stl-ease) 750ms both; }
+.st-learn[data-phase='schedule'] .st-learn__run--ghost { animation: stl-ghost 240ms ease-out 1820ms both; }
+@keyframes stl-missed { from { transform: translateX(0); opacity: 0; } 20% { opacity: 1; } to { transform: translateX(16.667%); } }
+@keyframes stl-known {
+  0% { transform: translateX(0); opacity: 0; }
+  8% { opacity: 1; }
+  38%, 58% { transform: translateX(50%); }
+  100% { transform: translateX(83.333%); }
+}
+@keyframes stl-ghost { from { opacity: 0; } to { opacity: .38; } }
+.st-learn__ticks { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); margin: -2px 0 0; padding: 0; text-align: center; color: var(--ink-2); font-size: 0.875rem; font-weight: 650; }
+.st-learn__foot { display: flex; align-items: center; gap: 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+.st-learn__foot p { margin: 0; flex: 1; min-width: 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.35; }
+.st-learn__again {
+  flex: none; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-strong); border-radius: 12px;
+  background: transparent; color: var(--ink); font: inherit; font-size: 0.875rem; font-weight: 700; cursor: pointer;
+}
+
+/* ---------- the cursor's focus: the beat's subject stays, the rest of the screen steps back */
+.cd-stage[data-demo-focusing] .st-learn__fx:not([data-demo-focus]):not(:has([data-demo-focus])):not([data-demo-focus] .st-learn__fx) { opacity: .4; }
+.st-learn [data-demo-focus]:not(.st-learn__strip) { outline: 2px solid var(--stl-ring); outline-offset: 3px; }
+.st-learn__opts[data-demo-focus], .st-learn__answer[data-demo-focus] { outline-offset: 4px; }
+.st-learn__card { border-radius: 14px; }
+.st-learn__card[data-demo-focus] { outline-offset: 6px; }
+
+/* A narrow phone (a container under 400 px), or a narrow two-column screen: the page's sub line steps aside and the rows
+   tighten so all four lessons fit whole. */
+@container (max-width: 399px) or ((min-width: 640px) and (max-width: 859px)) {
+  .st-learn__sub { display: none; }
+  .st-learn__list { gap: 8px; }
+  .st-learn__lessons { gap: 6px; }
+  .st-learn__lesson { padding: 8px 36px 8px 12px; }
+  .st-learn__opts { gap: 6px; }
+}
+
+.st-learn :is(button):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+
+/* ---------- from a 640 px container: the lessons stay on the left, the layers stack on the right */
+@container (min-width: 640px) {
+  .st-learn__screen { height: 548px; grid-template-columns: minmax(284px, 38%) minmax(0, 1fr); }
+  .st-learn__list { grid-area: 1 / 1; border-right: 1px solid var(--line); background: var(--paper-raised); gap: 8px; }
+  .st-learn__lessons { gap: 6px; }
+  .st-learn__lesson { padding-top: 8px; padding-bottom: 8px; }
+  .st-learn__list[data-under] { transform: none; opacity: 1; }
+  .st-learn__main { display: grid; grid-area: 1 / 2; min-width: 0; min-height: 0; position: relative; padding: 14px; }
+  .st-learn__intro {
+    grid-area: 1 / 1; display: grid; place-content: center; justify-items: center; gap: 8px; color: var(--ink-2);
+    border: 1.5px dashed var(--line-strong); border-radius: 18px; font-size: 0.9375rem;
+  }
+  .st-learn__intro p { margin: 0; }
+  .st-learn__lessonview, .st-learn__recall {
+    border: 1px solid var(--line); box-shadow: var(--sh-2);
+    transform: translate3d(14%, 0, 0); opacity: 0;
+  }
+  .st-learn__lessonview[data-on], .st-learn__recall[data-on] { transform: none; opacity: 1; }
+  .st-learn__lessonview[data-on][data-under] { transform: scale(.955) translate3d(0, 8px, 0); opacity: .35; }
+  .st-learn__layer { padding: 18px 20px; }
+  .st-learn__h { font-size: 1.375rem; }
+  .st-learn__prompt { font-size: 1.3125rem; }
+  .st-learn__sheet { margin: 0 -14px -14px; }
+}
+
+/* ---------- reduced motion: no flights, no sweeps; every state is simply there */
+@media (prefers-reduced-motion: reduce) {
+  .st-learn *, .st-learn *::before { animation: none !important; transition: none !important; }
+}
+html[data-motion='reduced'] .st-learn :is(*, *::before) { animation: none !important; transition: none !important; }

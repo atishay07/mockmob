@@ -34,10 +34,24 @@ html[data-theme='dark'] .op-row[data-on] .op-row__track { background: var(--line
 @media (hover: hover) and (pointer: fine) {
   .op-row:not([data-on]):hover { background: var(--surface-hover, var(--paper-raised)); color: var(--ink); }
 }
-.op-caption { margin: 2px 2px 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-align: center; }
-/* The rows' lines are one line at 390 px; on a narrower phone one may wrap, so the caption keeps two lines' room there and
-   the frame never changes height between rows. */
-@media (max-width: 379px) { .op-caption { min-height: 2.8em; } }
+/* ---- the caption strip (OnePlace.jsx op-say; owner LK365, 21 Nov 2026: "moving too fast and without much explanation") ----
+   Right above the stage: a quiet line (the tool, and "step 2 of 4" while its story plays) and the beat's line in bold. The
+   line keeps two lines' height at every width (no say is longer than two lines: onePlaceModel SAY_MAX_CHARS), so nothing
+   under the strip ever moves. A new line rises and fades in (200 ms, transform and opacity). */
+.op-say { display: grid; gap: 3px; min-width: 0; padding: 0 6px; }
+.op-say__where {
+  margin: 0; overflow: hidden; color: var(--ink-2); font: 600 0.875rem/1.25 var(--font-body, inherit); letter-spacing: 0.005em;
+  white-space: nowrap; text-overflow: ellipsis;
+}
+.op-say__line {
+  margin: 0; min-height: calc(2em * 1.28); color: var(--ink);
+  font: 750 1.0625rem/1.28 var(--font-display); letter-spacing: -0.014em; text-wrap: balance;
+}
+.op-say__text { display: block; }
+.op-say[data-live] .op-say__text { animation: op-say-in 200ms var(--op-ease) both; }
+@keyframes op-say-in { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
+@media (prefers-reduced-motion: reduce) { .op-say[data-live] .op-say__text { animation: none; } }
+html[data-motion='reduced'] .op-say[data-live] .op-say__text { animation: none; }
 
 /* ---- the stage: three slots in one grid cell, only the chosen one shown ---- */
 .op-stages { display: grid; min-width: 0; }
@@ -103,18 +117,8 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   }
   .op-win__bar { display: flex; margin: 0; border-bottom: 1px solid var(--line); }
   .op-win__body { align-content: center; justify-items: center; padding: 24px; }
-  /* No card inside a blank window: the components lose their own outer edge and sit on the app's page. Key cards keeps its
-     card (it is the thing turned over) without the frame around it; Bring a mistake's card IS the page, edge to edge. */
+  /* No card inside a blank window: Key cards keeps its card (it is the thing turned over) without the frame around it. */
   .op-win .kc-demo__face { border-color: transparent; box-shadow: none; }
-  /* Ask Mobi: the card from the window's top edge at its content's height, on the card's own paper (so the space under it is
-     the same page, not a band); each step's content packs to the top (the live card spreads it to its tallest step's
-     height, which left a gap above "See Mobi's read"); the honest line sits at the window's foot. */
-  .op-win__body--fill { padding: 0; align-content: stretch; justify-items: stretch; background: var(--paper-raised); }
-  .op-win .op-bmk { justify-items: stretch; padding: 0; }
-  .mm.lp .op-win .op-bmk .bmk__demo { max-width: none; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 0; }
-  .op-win .op-bmk .bmk__card { border: 0; border-radius: 0; }
-  .op-win .op-bmk .bmk__pane > :last-child, .op-win .op-bmk .bmk__pane .bmk__set-why { margin-top: 0; }
-  .op-win .op-bmk .bmk__honest { align-self: end; margin: 0; padding: 10px 24px 14px; }
 }
 
 /* Key cards: the demo alone, centred, with the live section's progress row (home-sheets.css, #key-cards). */
@@ -133,15 +137,9 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 /* Phones and tablets: the card's face at the live section's own phone height (home-sheets.css, #key-cards, below 640 px). */
 @media (max-width: 959px) { .op-kc .kc-demo__face:not(.kc-demo__face--end) { min-height: 22rem; } }
 
-/* Ask Mobi: Bring a mistake's card alone (the .bmk wrapper carries the block's own scoped rules). */
-.op-bmk { display: grid; justify-items: center; padding: 0; }
-/* The block places its card with grid-area: demo, an area this wrapper has not got: the grid then made an empty implicit row
-   above the card (the band above the tabs). Here the card is the wrapper's only item. */
-.mm.lp .op-bmk .bmk__demo { grid-area: auto; width: 100%; max-width: 34rem; }
-
 /* The live page's desktop depth drift (home-sheets.css lp-depth: these parts slide 40 px against their section as it scrolls)
    is off inside the frame: here they sit in a window or a fixed stage, and the drift showed as a band above the card. */
-.mm.lp .op-frame .op-stages :is(.kc-demo, .bmk__demo, .xs-device) { animation: none; translate: none; }
+.mm.lp .op-frame .op-stages :is(.kc-demo, .xs-device) { animation: none; translate: none; }
 
 /* ---- each row's proof line under its stage (the live section's own words) ---- */
 .op-proof { margin: 12px 0 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; text-wrap: pretty; }
@@ -151,27 +149,21 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 .op-foot { display: grid; justify-items: center; gap: 1rem; margin-top: 1.5rem; text-align: center; }
 .op-foot .mm-actions { justify-content: center; }
 
-/* The section's place while the browser skips drawing it (content-visibility: auto on every home section): the live page's
-   #your-prep held the tour deck's tall track (633 px + 378 svh on a phone), which would make the page jump here. Measured
-   21 Nov 2026 (after the critic's round: proof lines, chips, the growing stage) at 390x844, 360x740, 820x1180, 1024x768,
-   1366x768, 1440x900 and 1920x1080 (tmp/1121-oneplace/measure.mjs). From 1280 px the stage follows the window's height, so
-   the reserve does too (about 0.8 of the monitor's width plus the head, the rows' margin and the foot). */
-.lp main > #your-prep.op { contain-intrinsic-size: auto 1125px; }
-@media (min-width: 700px) and (max-width: 959px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1136px; } }
-@media (min-width: 960px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 970px; } }
-@media (min-width: 1280px) { .lp main > #your-prep.op { contain-intrinsic-size: auto calc(max(760px, min(1200px, (100svh - 230px) * 1.3)) * 0.8 + 440px); } }
 
 /* ---- the section's head: the live page's #your-prep rules were written for the tour's one-line head ---- */
-@media (min-width: 1280px) {
-  #your-prep.op .lp-head--left { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2rem, 5vw, 6rem); }
-  #your-prep.op .lp-head--left .lp-h2 { max-width: 17ch; white-space: normal; }
+@media (min-width: 1100px) {
+  #your-prep.op .lp-head--left { grid-template-columns: minmax(0, max-content) minmax(12rem, 1fr); column-gap: clamp(1rem, 2.5vw, 2rem); }
+  #your-prep.op .lp-head--left .lp-h2 { max-width: none; font-size: clamp(2.5rem, 4.1vw, 4rem); white-space: normal; }
   #your-prep.op .lp-head--left > .lp-sub { max-width: 30rem; align-self: end; }
 }
 
 /* ---- 960 px and up: the rows stand beside the stage ---- */
 @media (min-width: 960px) {
-  .op-frame { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); grid-template-areas: 'rows stage' '. foot'; align-items: center; column-gap: clamp(2rem, 4vw, 4rem); row-gap: 0; margin-top: 2rem; }
+  .op-frame { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); grid-template-areas: 'rows say' 'rows stage' '. foot'; align-items: center; column-gap: clamp(2rem, 4vw, 4rem); row-gap: 0; margin-top: 1rem; }
   .op-rows { grid-area: rows; grid-template-columns: minmax(0, 1fr); gap: 8px; align-self: center; }
+  /* The strip at the top of the stage's column, its left edge on the app window's (and the monitor's glass). */
+  .op-say { grid-area: say; align-self: end; width: calc(min(var(--op-dev), 100%) * 0.974); margin-inline: auto; padding: 0 0 14px; }
+  .op-say__line { font-size: 1.1875rem; }
   .op-row {
     display: grid; grid-template-columns: 48px minmax(0, 1fr); grid-template-areas: 'obj name' 'obj line';
     align-items: center; justify-items: start; column-gap: 14px; row-gap: 2px;
@@ -181,7 +173,6 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   .op-row__name { grid-area: name; }
   .op-row__line { grid-area: line; display: block; color: var(--ink-2); font: 500 14px/1.35 var(--font-body, inherit); letter-spacing: 0; }
   .op-row__track { left: 16px; right: 16px; bottom: 8px; }
-  .op-caption { display: none; }
   .op-stages { grid-area: stage; }
   .op-slot { align-content: center; }
   /* Except Practise: its runner is sized to the window under the chips and the switch, so it starts at the top, or its key
@@ -195,21 +186,14 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
    monitor and its stand can be while the frame still fits the window's height, and it starts at the rows' side. The app
    windows keep to the monitor's screen: the glass starts 1.3% in from the device's edge. */
 @media (min-width: 1280px) {
-  .op-frame { --op-dev: max(760px, min(1200px, calc((100svh - 230px) * 1.3))); }
+  .op-frame { --op-dev: max(760px, min(1200px, calc((100svh - 310px) * 1.3))); }
   .op-slot[data-tool='practise'] .xs-layout { margin-inline: 0; }
-  .op-win, .op-slot .op-proof { margin-inline: calc(min(var(--op-dev), 100%) * 0.013) 0; }
+  .op-win, .op-slot .op-proof, .op-say { margin-inline: calc(min(var(--op-dev), 100%) * 0.013) 0; }
+  /* The widest caption lines fit beside the rows. Reserve the second line only where it can wrap. */
+  .op-say { container: op-say / inline-size; }
   .op-foot { justify-self: start; }
 }
-
-/* ---- lane one-place, round 3 (21 Nov 2026) ----
-   Desktop Ask Mobi: the card and its honest line centred in the window (the window keeps the frame's height, so changing rows
-   never moves the frame), on the card's own paper, so no band shows. */
-@media (min-width: 960px) {
-  .op-win__body--fill { align-content: center; }
-  .mm.lp .op-win .op-bmk { align-content: center; }
-  .mm.lp .op-win .op-bmk .bmk__demo { grid-template-rows: auto auto; align-self: center; }
-  .mm.lp .op-win .op-bmk .bmk__honest { align-self: start; }
-}
+@container op-say (min-width: 650px) { .op-say__line { min-height: 1.28em; } }
 
 /* ---- lane one-place, round 4 (21 Nov 2026): below 640 px the Practise stage is the exam as a phone shows it ----
    ExamStage `inline` draws the full-screen view's own screen (the MockMob phone runner, PhoneNta) in the monitor's place, at
@@ -221,8 +205,6 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper-raised);
 }
 .op-slot[data-tool='practise'] .xs-inline > .xs-frame { flex: 1 1 auto; }
-/* The section's reserve while undrawn, re-measured with the window-sized runner (1217 px at 390x844, 1237 at 360x676). */
-@media (max-width: 639px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1225px; } }
 /* Phones (round 5): no gate card in the frame; the NTA line under the switch carries the proof. */
 @media (max-width: 639px) { .op-slot[data-tool='practise'] .xs-gate { display: none; } }
 /* Inline, the runner's "Saved on this device." line is left out (nothing is saved from a demo; ExamStage also starts the
@@ -239,13 +221,6 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   .op-slot[data-tool='cards'] > .op-proof { display: none; }
 }
 @media (min-width: 640px) { .op-kc .kc-foot { display: none; } }
-/* Ask Mobi on a phone: under the card, the live block's own "What you leave with" list (BringMistakeValue), placed in this
-   wrapper's flow (the block puts it in its own grid area). From 640 px the card stands alone in its window. */
-.mm.lp .op-bmk .bmk__value { grid-area: auto; width: 100%; max-width: 34rem; margin-top: 16px; }
-@media (min-width: 640px) { .mm.lp .op-bmk .bmk__value { display: none; } }
-/* Phones (round 5): the list as its four heads only (CUET chapter, Your slip, 2 checks, 10 more), so Ask Mobi is not the
-   frame's tallest row; the card's own steps say what each one is. */
-@media (max-width: 639px) { .mm.lp .op-bmk .bmk__get-line { display: none; } }
 /* The inline runner is a picture of the exam in the page, not a scroller (21 Nov 2026, lane-hn-weight's swipe runs: a
    finger on the stem stopped the page, because the runner's own panes scroll with overscroll-behavior: contain). It shows
    the whole question, so its panes are clipped, never scrolled, and a vertical swipe anywhere on it moves the page; taps
@@ -262,49 +237,28 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
    (the chips name the row) and the NTA line moves under the runner; "Try it full screen" leaves the frame (the runner is
    already full size; "/" keeps its key). In Night the runner sits in a charcoal device edge, so NTA's white screen reads
    as a screen, not a glare panel; NTA's own colours are untouched. */
+/* (21 Nov 2026, LK365: the caption strip is back above the stage, 75 px with its gap, so the runner is that much shorter.) */
 @media (max-width: 639px) {
-  .op-caption { display: none; }
   .op-slot[data-tool='practise'] .xs-layout { grid-template-areas: 'switch' 'device' 'note'; }
   .op-slot[data-tool='practise'] .xs-layout > .op-proof--switch { margin: 0; }
-  .op-slot[data-tool='practise'] .xs-layout > .xs-inline { height: min(560px, calc(100svh - 216px)); }
+  .op-slot[data-tool='practise'] .xs-layout > .xs-inline { height: calc(var(--op-room) - var(--op-switch-h) - 12px); }
   .op-slot[data-tool='practise'] .xs-layout > .xs-full-open { display: none; }
 }
 html[data-theme='dark'] .op-slot[data-tool='practise'] .xs-layout > .xs-inline {
   border: 7px solid #1c1a16; border-radius: 22px; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08);
 }
 
-/* Desktop Ask Mobi, from 1280 px: the live block's "What you leave with" beside the card, so the window is full on every
-   step; the window keeps the frame's height (the card is no taller for it). 960 to 1279 px: the card alone, as before. */
-@media (min-width: 1280px) {
-  .mm.lp .op-win .op-bmk { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: center; }
-  .mm.lp .op-win .op-bmk .bmk__value { display: grid; margin: 0; padding: 24px 28px 24px 8px; }
-  .mm.lp .op-win .op-bmk .bmk__gets { grid-template-columns: minmax(0, 1fr); }
-}
-/* A window tall enough (from 860 px of window height) holds the list under the card instead, its four items in one row,
-   so the card keeps the window's full width and the space under it is filled. */
-@media (min-width: 1280px) and (min-height: 860px) {
-  .mm.lp .op-win .op-bmk { grid-template-columns: minmax(0, 1fr); align-content: start; }
-  .mm.lp .op-win .op-bmk .bmk__value { max-width: none; padding: 18px 24px 22px; border-top: 1px solid var(--line); }
-  .mm.lp .op-win .op-bmk .bmk__gets { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-
 /* ---- lane one-place, round 6 (21 Nov 2026) ----
    The runner's paper, while the demo has scrolled it (CursorDemo sets data-scrolled): a soft 12 px fade on its top edge, so
-   the cut reads as a scroll edge. Phones: each row's content is centred in the frame's shared stage height, so a shorter
-   row's spare space splits above and below instead of pooling before Sign up; Ask Mobi's list is one line of its four
-   heads. */
+   the cut reads as a scroll edge. */
 .op-slot[data-tool='practise'] .xs-inline :is(.xs-ph-paper, .xs-ph-pane)[data-scrolled] {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12px);
   mask-image: linear-gradient(to bottom, transparent 0, #000 12px);
 }
 @media (max-width: 639px) {
-  .op-slot { align-content: center; }
-  /* Except Practise: its runner is sized to the window under the chips and the switch, so it starts at the top, or its key
-     bar would drop below the window on a short phone. */
-  .op-slot[data-tool='practise'] { align-content: start; }
-  .mm.lp .op-bmk .bmk__gets { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-  .mm.lp .op-bmk .bmk__gets li { padding-top: 8px; }
-  .mm.lp .op-bmk .bmk__get-lead { font-size: 1rem; line-height: 1.15; }
+  /* 21 Nov 2026 (LK365): every row's screen starts right under the caption strip that explains it (centred, the strip and
+     the screen stood apart, and Key cards' keys fell below a 676 px window); the spare space falls below, before Sign up. */
+  .op-slot { align-content: start; }
 }
 
 /* ---- lane one-place, round 7 (21 Nov 2026, owner LK364) ----
@@ -322,11 +276,7 @@ html[data-theme='dark'] .op-slot[data-tool='practise'] .xs-layout > .xs-inline {
 html[data-theme='dark'] .op-td { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 1px 2px rgba(0, 0, 0, 0.3), 0 14px 30px -18px rgba(0, 0, 0, 0.6); }
 .op-td__copy { display: grid; gap: 6px; min-width: 0; padding: 16px 16px 12px; }
 .op-td__title { margin: 0; color: var(--ink); font: 800 clamp(1.3125rem, 5.8vw, 1.5rem)/1.1 var(--font-display); letter-spacing: -0.028em; text-wrap: balance; }
-.op-td__lede { margin: 0; color: var(--ink-2); font: 400 0.9375rem/1.45 var(--font-body); text-wrap: pretty; }
 .op-td__shot { display: flex; flex-direction: column; min-width: 0; min-height: 0; margin: 0 6px 6px; padding: 0; border-radius: 17px; background: #1f1d1a; }
-.op-td__shot > .ts { flex: 1 1 auto; min-height: 19rem; border-width: 4px; border-radius: 17px; }
-.op-td__shot .ts__q { font-size: 1rem; }
-.op-td__shot :is(.ts__choice, .ts__level) { min-height: 48px; }
 /* The card fills the stage's shared height, so changing rows never changes the frame's height. */
 .op-slot:is([data-tool='learn'], [data-tool='rival'], [data-tool='mob']) { align-content: stretch; grid-template-rows: minmax(0, 1fr) auto; }
 .op-slot:is([data-tool='learn'], [data-tool='rival'], [data-tool='mob']) .op-stage { align-self: stretch; display: grid; }
@@ -337,9 +287,7 @@ html[data-theme='dark'] .op-td { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) i
   }
   .op-td__copy { align-content: center; gap: 14px; padding: 2rem 1rem 2rem 2.5rem; }
   .op-td__title { font-size: clamp(1.75rem, 2.4vw, 2.4rem); line-height: 1.05; letter-spacing: -0.032em; }
-  .op-td__lede { font-size: 1.0625rem; line-height: 1.5; max-width: 34ch; }
   .op-td__shot { justify-content: center; margin: 14px; padding: 22px; border-radius: 22px; background: var(--paper-sunken); box-shadow: inset 0 1px 2px rgba(32, 26, 14, 0.07); }
-  .op-td__shot > .ts { flex: 0 0 auto; width: 100%; max-width: 27rem; margin-inline: auto; border-width: 6px; border-radius: 24px; }
 }
 @media (min-width: 1280px) { .op-td { margin-inline: calc(min(var(--op-dev), 100%) * 0.013) 0; } }
 
@@ -382,30 +330,153 @@ html[data-motion='reduced'] .op-slot[data-leaving] { visibility: hidden; opacity
   .op-row__obj { width: 31px; height: 28px; }
   .op-row .brand-icon { --bi-size: 28px !important; }
 }
-/* A short phone (up to 760 px tall): the deck's card as the deck drew it on a phone (no lede; its screen's foot line goes
-   when the screen has panes), a little tighter, so every press on it is on screen while the chips sit under the site bar
-   (tmp/1121-oneplace/widths.mjs at 360x676). The screen's content keeps to its top, so a stretched card moves no press. */
-@media (max-width: 639px) and (max-height: 760px) {
-  .op-td__copy { padding: 12px 14px 8px; }
-  .op-td__title { font-size: 1.25rem; }
-  .op-td__lede { display: none; }
-  .op-td__shot .ts__bar { height: 34px; }
-  .op-td__shot .ts__body { padding: 0.6rem 0.7rem; gap: 0.4rem; }
-  .op-td__shot .ts__foot { display: none; }
-  .op-td__shot :is(.ts__choice, .ts__level) { min-height: 44px; padding-block: 0.35rem; }
-  .op-td__shot .ts__q { font-size: 0.9375rem; }
-  .op-td__shot .ts__fix .ts__opts { gap: 0.25rem; }
-}
-
-/* The section's reserve while undrawn, re-measured with six rows (21 Nov 2026, round 7; tmp/1121-oneplace/measure.mjs):
-   1025 px at 390x844, 1021 at 360x740, 1148 at 820x1180, 1014 at 1024x768, 974 at 1366x768, 1065 at 1440x900, 1292 at
-   1920x1080 (from 1280 px it follows the stage: 0.92 of the monitor's width plus 275 px). */
-.lp main > #your-prep.op { contain-intrinsic-size: auto 1025px; }
-@media (min-width: 700px) and (max-width: 959px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1148px; } }
-@media (min-width: 960px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1014px; } }
-@media (min-width: 1280px) { .lp main > #your-prep.op { contain-intrinsic-size: auto calc(max(760px, min(1200px, (100svh - 230px) * 1.3)) * 0.92 + 275px); } }
 
 /* ---- the home page (21 Nov 2026): the replaced sections' addresses land on this section (page.js .op-anchor) ---- */
 .op-anchor { display: block; height: 0; overflow: hidden; scroll-margin-top: 76px; }
 /* Arriving at /#your-prep (the site bar's "Your prep tools"), or at a row's address: the heading lands clear of the site bar. */
 #your-prep.op { scroll-margin-top: 48px; }
+
+/* ---- the stress (21 Nov 2026, owner LK365) ----
+   While a beat's line is about one part of a screen (a script's `focus`: CursorDemo sets data-demo-focus on it and
+   data-demo-focusing on the stage), the other parts of that screen step back to 0.4 and the part itself carries a 2 px ring
+   in the brand word's colour (the volt in Night, its olive in Day). Opacity and an outline only: nothing moves. The parts
+   are siblings, never one inside another, so a stressed part is never inside a dimmed one. */
+/* Practise: the switch and its NTA line; the phone runner's head, paper and key bar, or its NTA head, pane and keys; the
+   monitor's header, paper and review, or its NTA head, question, keys and palette. */
+.op-slot[data-tool='practise'] :is(.xs-layout > .xs-switch, .xs-layout > .op-proof--switch, .xs-ph > :not(dialog), .xs-ph-nta > :not(dialog), .xs-app:not(.xs-ph) > .xs-header, .xs-body > *, .xs-nta:not(.xs-ph-nta) > :is(.xs-n-head, .xs-n-sections), .xs-n-main > *, .xs-n-body > :not(.xs-n-main)) {
+  transition: opacity 200ms ease;
+}
+.op-slot[data-tool='practise'] .op-stage[data-demo-focusing] :is(.xs-layout > .xs-switch, .xs-layout > .op-proof--switch, .xs-ph > :not(dialog), .xs-ph-nta > :not(dialog), .xs-app:not(.xs-ph) > .xs-header, .xs-body > *, .xs-nta:not(.xs-ph-nta) > :is(.xs-n-head, .xs-n-sections), .xs-n-main > *, .xs-n-body > :not(.xs-n-main)):not([data-demo-focus]) {
+  opacity: 0.4;
+}
+.op-slot[data-tool='practise'] .op-stage [data-demo-focus] { outline: 2px solid var(--brand-word); outline-offset: -2px; }
+.op-slot[data-tool='practise'] .op-stage .xs-switch[data-demo-focus] { outline-offset: 2px; }
+/* Key cards: the count, the card, the dots, each rating key and (on a phone) the foot; the Turn over key is never dimmed (the
+   cursor is on its way to it). Inside a stressed group of keys, its keys stay whole. */
+.op-kc :is(.kc-demo__top, .kc-demo__scene, .kc-demo__pips, .kc-demo__rate, .kc-foot) { transition: opacity 200ms ease; }
+.op-stage[data-demo-focusing] .op-kc :is(.kc-demo__top, .kc-demo__scene, .kc-demo__pips, .kc-demo__rate, .kc-foot):not([data-demo-focus]) { opacity: 0.4; }
+.op-stage[data-demo-focusing] .op-kc [data-demo-focus] .kc-demo__rate { opacity: 1; }
+.op-kc :is(.kc-demo__rates, .kc-demo__rate)[data-demo-focus] { outline: 2px solid var(--brand-word); outline-offset: 3px; }
+.op-kc .kc-demo__rates[data-demo-focus] { border-radius: 14px; }
+@media (prefers-reduced-motion: reduce) {
+  .op-slot[data-tool='practise'] :is(.xs-layout > .xs-switch, .xs-ph > :not(dialog), .xs-ph-nta > :not(dialog), .xs-body > *, .xs-n-main > *), .op-kc :is(.kc-demo__top, .kc-demo__scene, .kc-demo__pips, .kc-demo__rate, .kc-foot) { transition: none; }
+}
+
+/* ---- the row stories (21 Nov 2026, owner LK365: "focus more on showing the feature very well through animations") ----
+   Ask Mobi, Learn, Benchmarks and the Mob are each a story: one fixed-size screen of the product (stories/<Id>Story.jsx,
+   its own sheet stories/<id>-story.css) that the cursor works, beat by beat, under the caption strip. A story fills its
+   container's width (it is a size container: a grid that centred it would shrink it to nothing), so it is stretched here. */
+.op-win__body > .st, .op-td--story .op-td__shot > .st { width: 100%; justify-self: stretch; }
+/* Ask Mobi in the app's window. Start its working screen directly below the browser bar. */
+@media (min-width: 960px) {
+  .op-slot[data-tool='mobi'] .op-win { align-self: start; }
+  .op-slot[data-tool='mobi'] .op-win__body { align-content: start; justify-items: stretch; padding: 12px 16px; }
+}
+/* Learn, Benchmarks and the Mob on the deck's card, under its short title: the story's own screen is the card's well (no dark
+   well around it). The card keeps the frame's shared height; the story sits at its top on a phone (every press under the
+   strip), centred in it from 960 px. One column at every width, so the story keeps the room it was built for. */
+.op-td--story .op-td__shot { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; margin: 0 8px 8px; padding: 0; border-radius: 0; background: none; }
+/* Phones: the story takes the frame's whole width (the race's ten answer cells and the tabs need every pixel at 360 px), so
+   the card's own edge goes and its title stands over the story as a heading; the story's screen is the card. */
+@media (max-width: 639px) {
+  .op-td.op-td--story { border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; }
+  .op-td--story .op-td__copy { padding: 2px 4px 10px; }
+  .op-td--story .op-td__shot { margin: 0; }
+}
+@media (min-width: 960px) {
+  .op-td.op-td--story { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .op-td--story .op-td__copy { align-content: end; padding: 22px 26px 14px; }
+  .op-td--story .op-td__title { font-size: clamp(1.5rem, 1.8vw, 1.875rem); }
+  .op-td--story .op-td__shot { align-content: center; margin: 0 14px 14px; padding: 0; background: none; box-shadow: none; border-radius: 0; }
+}
+/* A short phone (up to 760 px tall, the owner's own Galaxy class at 360x676 to 740): every press of a story lands on screen
+   while the chips sit under the site bar (tmp/1121-stories/integrate/film.mjs at 360x676: the lowest presses, Learn's
+   Next and the Mob's See the podium, were at 751 px). The chips are their names alone (44 px; the chip's desk object goes),
+   the frame's gaps 8 px, and a story card shows no title: the chip names the row and the caption strip says each beat. */
+@media (max-width: 639px) and (max-height: 760px) {
+  .op-frame { gap: 8px; }
+  .op-row { min-height: 44px; padding: 4px 14px 10px; }
+  .op-row__obj, .op-row .brand-icon { display: none; }
+}
+/* Phones: the stage's shared cell is never shorter than the Practise row as the browser draws it (the phone runner, sized to
+   the window, with the switch above and the NTA line under: 96 px), so the frame keeps its height when that row goes live
+   over the server's drawing (the server cannot know the window, and draws the monitor). */
+@media (max-width: 639px) { .op-stages { min-height: calc(var(--op-room) + 64px); } }
+
+/* The section's place while the browser skips drawing it (content-visibility: auto on every home section). r19-home-b.css
+   gives every home section a measured reserve with `body .mm.lp main > #id` (it held 3500 px here, the old tour deck's), so
+   this one carries one class more to win. Measured 21 Nov 2026 with the four row stories (tmp/1121-stories/integrate/
+   measure.mjs, the same when drawn and live): 1066 px at 390x844, 1073 at 412x915, 972 at 360x676 and 360x740 (the short
+   phone's compact chips), 1215 at 820x1180, 1020 at 1024x768, 1086 at 1366x768, 1096 at 1440x900, 1308 at 1920x1080 (from
+   1280 px it follows the stage: 0.92 of the monitor's width plus 390 px). */
+/* Phones since the critic round of 21 Nov evening (no sub, 44 px chips, the two-line caption): 912 px at 390x844, 412x915,
+   360x676, 360x740 and 360x800 alike (tmp/1121-stories/fix-oneplace/section.mjs), the stage's cell being Key cards' 588 px. */
+body .mm.lp main > #your-prep.op { contain-intrinsic-size: auto 912px; }
+@media (min-width: 640px) and (max-width: 959px) { body .mm.lp main > #your-prep.op { contain-intrinsic-size: auto 1215px; } }
+@media (min-width: 960px) { body .mm.lp main > #your-prep.op { contain-intrinsic-size: auto 1020px; } }
+@media (min-width: 1280px) { body .mm.lp main > #your-prep.op { contain-intrinsic-size: auto calc(max(760px, min(1200px, (100svh - 310px) * 1.3)) * 0.92 + 390px); } }
+
+/* ---- fix-oneplace (critic round, 21 Nov 2026 evening): on a phone the whole working screen is in the window ----
+   The critic's film at 390x844 and 360x676: the stage was taller than the room under the heading (271 px of heading, line,
+   chips and caption above stages of 516 to 649 px), the run started when the heading crossed 15 %, and 5 of 26 presses at
+   390 (16 of 26 at 360) happened under the window: results appeared with no cause. Now, below 640 px:
+   - the stage's working ROOM is min(520 px, the window less the site bar 61, the chips 44, the caption 40 and the gaps):
+     --op-room, 507 px at 360x676 and 520 px at 390x844. Every stage keeps the controls the cursor presses inside it (the
+     Practise runner is sized to it, the stories are at most 500 px, Key cards' card and keys are 446 px), and the run starts
+     only when the room is wholly in the window (OnePlace.jsx .op-room, onePlaceModel triggerPassed);
+   - the stack above the stage is cut: no sub under the heading (its words are what the frame does anyway), the chips their
+     names alone (44 px, no desk object) at every phone height, the caption strip the beat's line alone with "2 of 5" before
+     it (two lines, 40 px; the chip above names the tool). */
+.op-stages { position: relative; }
+.op-room { position: absolute; left: 0; top: 0; width: 1px; height: var(--op-room, 0px); visibility: hidden; pointer-events: none; }
+@media (min-width: 640px) {
+  /* OnePlace places this one-pixel marker at the later of the heading line and the working screens' bottom. */
+  .op-room { top: calc(var(--op-trigger-foot, 100vh) - 1px); height: 1px; }
+}
+.op-say__n { display: none; }
+@media (max-width: 639px) {
+  .op-frame { --op-room: min(520px, calc(100svh - 169px)); --op-switch-h: 46px; gap: 8px; }
+  #your-prep.op .lp-head > .lp-sub { display: none; }
+  .op-row { min-height: 44px; padding: 4px 14px 10px; }
+  .op-row__obj, .op-row .brand-icon { display: none; }
+  .op-say { padding: 0 4px; }
+  .op-say__where { display: none; }
+  .op-say__line { min-height: calc(2em * 1.25); font-size: 1rem; line-height: 1.25; text-wrap: pretty; }
+  /* 18 px tall, inside the line's 20 px, so the pill never grows the strip (a 1 px change moved everything under it). */
+  .op-say__n {
+    display: inline-block; margin-right: 8px; padding: 0 7px; border-radius: 7px; vertical-align: 1px;
+    background: var(--paper-sunken); color: var(--ink-2); font: 700 14px/18px var(--font-body, inherit); letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  /* The switch above the runner at its measured height, so the runner and the switch fill the room exactly. */
+  .op-slot[data-tool='practise'] .xs-layout > .xs-switch { min-height: var(--op-switch-h); }
+  /* The chips strip: both edges fade (opacity only), so a chip at an edge reads as "more this way", never as cut text; it
+     snaps so a chip comes to rest whole at the left edge. */
+  .op-rows {
+    padding-inline: 4px; scroll-snap-type: x proximity; scroll-padding-inline: 4px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 10px, #000 calc(100% - 44px), transparent);
+    mask-image: linear-gradient(to right, transparent 0, #000 10px, #000 calc(100% - 44px), transparent);
+  }
+  .op-row { scroll-snap-align: start; }
+  .op-row:last-child { margin-right: 40px; }
+}
+
+/* Practise on a phone (critic round): the inline runner's chrome at 14 px, and what says nothing to a newcomer on the home
+   stage left out ("Quick practice" and the difficulty). The full-screen view and "/" keep them. */
+@media (max-width: 639px) {
+  .op-slot[data-tool='practise'] .xs-inline .xs-title span,
+  .op-slot[data-tool='practise'] .xs-inline .xs-tags > span:nth-child(2) { display: none; }
+  /* The Pro mark stays (NTA style is a Pro screen), at 14 px. */
+  .op-slot[data-tool='practise'] .xs-layout > .xs-switch small { font-size: 14px; }
+  .op-slot[data-tool='practise'] .xs-inline :is(.xs-tags span, .xs-progress span, .xs-state, .xs-text, .xs-ph-bar .xs-btn, .xs-ph-keys .xs-n-key, .xs-n-paper, .xs-ph-time span, .xs-n-tab) { font-size: 14px; }
+}
+
+/* Key cards (critic round): each rating key's "back in ..." is the beat's point ("It comes back before you are likely to
+   forget it"): 14 px, and full ink on the key the line is about. */
+.op-kc .kc-demo__rate-when { font-size: 14px; white-space: nowrap; }
+/* One line each at 360 px ("back tomorrow" is 94 px at 14 px), so the keys row is as tall as the Turn over row it replaces. */
+@media (max-width: 639px) { .op-kc .kc-demo__rate { padding-inline: 2px; } }
+.op-kc .kc-demo__rate[data-demo-focus] .kc-demo__rate-when, .op-kc .kc-demo__rates[data-demo-focus] .kc-demo__rate-when { color: inherit; opacity: 1; }
+.op-kc .kc-demo__rate-name { font-size: 15px; }
+/* The card's own small lines (its subject and kind, "Tap the card to turn it over", its source) at 14 px on the home stage. */
+.op-kc :is(.kc-demo__head, .kc-demo__cue, .kc-demo__foot) { font-size: 14px; }

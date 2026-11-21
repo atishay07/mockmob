@@ -82,8 +82,21 @@ body .mm.lp #pricing .lp-usual__obj-sm { width: 4rem; margin-left: -0.25rem; }
 /* The comparison: the question, the five counts as one segmented row, and the punch line under it. */
 body .mm.lp #pricing .lp-plan__vs { margin-top: 1rem; padding-top: 0.875rem; border-top: 1px solid var(--line); }
 body .mm.lp #pricing .lp-usual__q { margin: 0 0 0.5rem; font-size: 0.875rem; }
-body .mm.lp #pricing .lp-usual__steps { gap: 0; border: 1px solid var(--line-strong); border-radius: 14px; overflow: hidden; background: var(--paper); }
-body .mm.lp #pricing .lp-usual__step { min-height: 44px; border: 0; border-radius: 0; background: transparent; }
+/* Every point of the row selects the number painted under it (owner LK365, 21 Nov 2026: "when I am clicking on the edges ...
+   the middle numbers are fine"). The row used to clip its keys to its rounded frame (overflow: hidden), and a clipped corner
+   is not hit either, so a press on the rounded ends of 1 and 5, or on the 1 px rim, fell on the card and did nothing; and the
+   press-down scale (r13-motion.css) shrank a held key, so a release near its edge left it and the browser fired no click.
+   Now nothing clips: the end keys carry the frame's own inner radius, each key's ::before reaches 4 px past its painted cell
+   over the rim (the ends too), and the key does not move while pressed (the wash below is the press feedback). Pinned by
+   data/tests/pricing_steps_hit_1121.test.mjs. */
+body .mm.lp #pricing .lp-usual__steps { gap: 0; border: 1px solid var(--line-strong); border-radius: 14px; overflow: visible; background: var(--paper); }
+body .mm.lp #pricing .lp-usual__step { position: relative; min-height: 44px; border: 0; border-radius: 0; background: transparent; transform: none; -webkit-tap-highlight-color: transparent; }
+body .mm.lp #pricing .lp-usual__step:first-child { border-radius: 13px 0 0 13px; }
+body .mm.lp #pricing .lp-usual__step:last-child { border-radius: 0 13px 13px 0; }
+body .mm.lp #pricing .lp-usual__step::before { content: ''; position: absolute; inset: -5px 0; }
+body .mm.lp #pricing .lp-usual__step:first-child::before { left: -5px; }
+body .mm.lp #pricing .lp-usual__step:last-child::before { right: -5px; }
+body .mm.lp #pricing .lp-usual__step:active { transform: none; }
 body .mm.lp #pricing .lp-usual__step + .lp-usual__step { box-shadow: inset 1px 0 0 var(--line); }
 body .mm.lp #pricing .lp-usual__step[aria-pressed='true'] { background: var(--volt); color: var(--volt-ink); box-shadow: none; }
 html[data-theme='light'] body .mm.lp #pricing .lp-usual__step[aria-pressed='true'] { background: var(--paper-raised); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--sel-rim); }

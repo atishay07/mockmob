@@ -13,6 +13,7 @@ export const metadata = { robots: { index: false, follow: false } };
 // bar, the Daily Five card, the footer) with a fixture student and the Daily Five routes answered in this tab
 // (../arena/previewDaily.js). No production session, read or write. Never in production. The sheets are the /daily page's.
 //   /preview/daily?daily=none|played|other|error&crowd=some|none&save=ok|fail&auth=out&fresh=1
+// "Your five" (21 Nov 2026): &five=mine|two|done|shared|fail (&reason= with shared); previewDaily.js has what each holds.
 export default function DailyPreview() {
   if (process.env.NODE_ENV === 'production') notFound();
   return <Suspense fallback={null}><DailyPreviewClient /></Suspense>;

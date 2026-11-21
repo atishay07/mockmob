@@ -49,7 +49,7 @@ import { GUIDE_AUTO_DELAY_MS, GUIDE_AUTO_WINDOW_MS, guideAutoStart, tourSteps } 
 import { TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
 import { captureInstallPrompt } from '@/lib/installPrompt';
-import StreakChip from '@/components/streak/StreakChip';
+import StreakChip, { chipHiddenOn } from '@/components/streak/StreakChip';
 import StreakSheet from '@/components/streak/Streak';
 import SearchHost from '@/components/search/SearchHost';
 import { SearchKey } from '@/components/search/SearchButtons';
@@ -380,8 +380,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     try { window.localStorage.setItem(tourSeenKey, 'true'); } catch { /* storage blocked: nothing to record */ }
   }
 
+  const phoneStreakHeader = Boolean(user?.id && !isTestRoute && !chipHiddenOn(activePath, true));
   return (
-    <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} data-phone-streak={phoneStreakHeader || undefined} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* Keyboard users reach the page before the navigation's stops; hidden until it has focus. */}
       <a href="#app-main" className="arena-skip">Skip to content</a>
       <aside className="arena-sidebar" aria-label="Main navigation">
@@ -440,20 +441,17 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <AppIcon name="moderation" /> Moderator
               </Link>
             )}
-            {/* Ask Mobi, a first-class door at every width (owner LK143, 5 Nov 2026: "completely gone from the UI ... one of our main
-                features"): his face and his name at every width (R8 TOOLS-07: "Ask Mobi" in words from 380 px, "Ask" on a 360 px phone),
-                so a first-time student reads what the face does. A plain link to his own page, like the sidebar's door. */}
+            {/* Ask Mobi, with his face and name. The narrow streak header gives these controls a second row. */}
             <Link href={mentorHref} className="arena-askkey" data-tour="nav-mentor-top" aria-current={isActive('mentor') ? 'page' : undefined}>
               <Image className="arena-askkey__face" src={MOBI_FACE.src} width={22} height={30} sizes="22px" alt="" />
               <span className="arena-askkey__label">Ask<span className="arena-askkey__name"> Mobi</span></span>
             </Link>
             {/* The account, as one piece (owner LK42, 2 Nov 2026: the Pro badge, the credits and the wallet symbol read as low quality).
-                One capsule, two doors: the balance in words opens the Wallet (D76; one balance, D78: the wallet read is the live total,
+                The balance in words opens the Wallet (D76; one balance, D78: the wallet read is the live total,
                 free this month + bought/held, and until it answers the account's own total stands in), and the person opens Account,
                 with the plan beside the name when it is Pro. No coin glyph: the unit is a word. Free shows no plan tag and no pitch. */}
             <div className="arena-acct" role="group" aria-label="Your account">
-              {/* The daily streak (17 Nov 2026, LK296): the capsule's first door, its number opening the streak sheet. Not on the
-                  pages that show the streak themselves (Today, You, the Mob den), and not while it is 0. */}
+              {/* The current streak, when visible, opens its sheet from the capsule's first door. */}
               <StreakChip userId={user?.id || null} path={activePath} />
               <Link href={previewLinks?.wallet || '/wallet'} className="arena-acct__credits" data-tour="credits-pill" data-state={wallet.wallet?.state || 'unknown'} aria-label={`${creditsWords(barCredits)}. Open Wallet`}>
                 <b>{Number(barCredits).toLocaleString('en-IN')}</b><span>{barCredits === 1 ? 'credit' : 'credits'}</span>

@@ -2,8 +2,9 @@
 // One read of the daily streak (GET /api/me/streak) shared by the top bar chip, Today, You and the streak sheet, so every place
 // prints the same number and a pause set in the sheet shows everywhere at once. A failed read is { status: 'error' }: the chip
 // and the blocks step aside, nothing guesses a number.
-import { useCallback, useEffect, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import { api } from '@/lib/fetcher';
+import { grewFrom, readSeen, seenKey, writeSeen } from '@/lib/streak/streakCopy.mjs';
 
 let state = { status: 'idle', data: null, user: null, at: 0 };
 // A read is kept for a minute: a page change after that (a paper just finished) reads again, quietly, keeping the old number meanwhile.
@@ -27,6 +28,9 @@ export function loadStreak(userId, { force = false } = {}) {
   inFlight = run;
   return run;
 }
+
+/** Read the streak again for whoever it was last read for (the preview's `grow` fixture uses it to show the number rising). */
+export function refreshStreak() { return state.user ? loadStreak(state.user, { force: true }) : Promise.resolve(null); }
 
 /** Put a fresh body in (after a pause is set or cleared). */
 export function putStreak(userId, data) { if (userId && data) set({ status: 'ready', data, user: userId, at: Date.now() }); }
@@ -60,3 +64,36 @@ const CLOSED = { open: false, view: 'streak' };
 export function openStreakSheet(view = 'streak') { sheet = { open: true, view }; for (const l of sheetListeners) l(); }
 export function closeStreakSheet() { sheet = { ...sheet, open: false }; for (const l of sheetListeners) l(); }
 export const useStreakSheet = () => useSyncExternalStore(sheetSub, sheetSnap, () => CLOSED);
+
+// The moment it grows (21 Nov 2026, owner LK365): when the day number rises past what this device last saw, the number steps up
+// once (the old figure out, the new in, about 400 ms, streak.css .stk-tick) and Mobi lights. Returns the figure to step up from
+// while that moment plays, else null. Decided in the first render that has the new number (a read of this device's record, so
+// the new figure is never drawn plain first and then stepped), once per (account, number, today counted): a second mount
+// (React's development double run, the sheet opened after the chip) never plays it again. The record is written after commit.
+// Reduced motion: the CSS shows the new figure at once.
+const grewDecided = new Map();
+export function useStreakGrow(userId, body, active = true) {
+  const days = Number.isFinite(body?.days) ? body.days : null;
+  const done = Boolean(body?.today?.done);
+  const on = Boolean(active && userId && days !== null && typeof window !== 'undefined');
+  const id = `${userId}:${days}:${done}`;
+  const [over, setOver] = useState(null);
+  let from = null;
+  if (on) {
+    if (!grewDecided.has(id)) {
+      let prev = null;
+      try { prev = readSeen(window.localStorage.getItem(seenKey(userId))); } catch { prev = null; }
+      grewDecided.set(id, grewFrom(prev, { days, done }));
+    }
+    from = grewDecided.get(id);
+  }
+  useEffect(() => {
+    if (!on) return undefined;
+    try { window.localStorage.setItem(seenKey(userId), writeSeen(days, done)); } catch { /* the moment may show again */ }
+    if (grewDecided.get(id) === null || grewDecided.get(id) === undefined) return undefined;
+    const t = window.setTimeout(() => { grewDecided.set(id, null); setOver(id); }, 1100);
+    // Leaving mid-moment counts as seen: the next page never plays it again (the figures drawn are already the final ones).
+    return () => { window.clearTimeout(t); grewDecided.set(id, null); };
+  }, [on, id, userId, days, done]);
+  return over === id ? null : from;
+}

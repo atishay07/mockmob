@@ -15,10 +15,10 @@
 .stk-band__cell { position: relative; display: grid; place-items: center; min-width: 0; height: var(--stk-cell-h); }
 .stk-band__name {
   position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 2px; padding: 3px;
-  font: 650 12.5px/1 var(--font-display); letter-spacing: -0.005em; color: var(--a-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums;
+  font: 650 14px/1 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums;
 }
-.stk-band[data-names='date'] .stk-band__name { font-size: 13.5px; }
-.stk-band[data-size='lg'] .stk-band__name { font-size: 13.5px; }
+.stk-band[data-names='date'] .stk-band__name { font-size: 14px; }
+.stk-band[data-size='lg'] .stk-band__name { font-size: 14px; }
 .stk-band__moon { flex: none; margin-right: 1px; }
 .stk-band__cell[data-look='none'] .stk-band__name { color: var(--a-ink-3); font-weight: 600; }
 .stk-band__cell[data-look='ahead'] .stk-band__name { color: var(--a-ink-3); font-weight: 550; opacity: 0.7; }
@@ -49,7 +49,7 @@ html[data-motion='reduced'] .stk-band__fill[data-swipe] { animation: none; }
 /* What the line has made, and what it makes by CUET: two short lines under it. */
 .stk-made { display: grid; gap: 3px; margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; }
 .stk-made > span:first-child { color: var(--a-ink); font-weight: 600; }
-.stk-made > span + span { color: var(--a-ink-3); font-size: 13.5px; }
+.stk-made > span + span { color: var(--a-ink-3); font-size: 14px; }
 
 /* The one tap that keeps the line (a Daily Five, or a practice set), in its own words. */
 .stk-keep { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; text-decoration: none; text-align: center; }
@@ -58,7 +58,7 @@ html[data-motion='reduced'] .stk-band__fill[data-swipe] { animation: none; }
 /* The sheet's month: the weekday initials over the line, which wraps row by row. */
 .stk-month { display: grid; gap: 4px; }
 .stk-month__dow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
-.stk-month__dow span { display: grid; place-items: center; height: 20px; font-size: 12px; font-weight: 650; color: var(--a-ink-3); }
+.stk-month__dow span { display: grid; place-items: center; height: 20px; font-size: 14px; font-weight: 650; color: var(--a-ink-3); }
 
 /* ---------- Today's block: Mobi and the number, the line, what it made, the status and the one key ---------- */
 .app-shell .tsk__head-btn {
@@ -119,6 +119,9 @@ html[data-motion='reduced'] .stk-band__fill[data-swipe] { animation: none; }
 
 /* A phone's seven cells are about 44 px wide: "Today" at 13.5 px weight 750 touched its own ring (20 Nov 2026, the phone look
    after owner LK359). It steps down a little there so the ring closes clear of the word. */
+/* 21 Nov 2026: nothing under 14 px on a phone (owner's floor): "Today" keeps 14 px, drawn a little tighter, and its ring may reach
+   3 px into the neighbouring cells' spare room (their short names sit centred, well clear of the edge). */
 @media (max-width: 480px) {
-  .stk-band__cell[data-look='today'] .stk-band__name, .stk-band__cell[data-today] .stk-band__name { font-size: 12px; letter-spacing: -0.01em; }
+  .stk-band__cell[data-look='today'] .stk-band__name, .stk-band__cell[data-today] .stk-band__name { font-size: 14px; font-weight: 700; letter-spacing: -0.03em; padding-inline: 1px; }
+  .stk-band__cell:is([data-look='today'], [data-look='open'])[data-today]::after { inset: 12% -4px 8%; }
 }

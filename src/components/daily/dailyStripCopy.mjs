@@ -16,19 +16,58 @@ export const COLLEGE_DAILY = process.env.NEXT_PUBLIC_DAILY_COLLEGE_BOARD === 'tr
 // Owner LK321 (18 Nov 2026), of "Play for your college": "I don't know if you should add like colleges names ... any issues
 // legally ... something more simpler can be done". The simpler game is the default: the same five for everyone, and your own
 // run of days. The college board stays in the code behind this switch (set at build time) until he decides.
+// 21 Nov 2026 (owner LK365: "this Daily 5 feature has to be completely rethought ... it should be more than just this basic
+// thing"; tmp/1121-stories/DAILY-SPEC.md "Your five"): a signed-in student's five come from their own record (the questions
+// they got wrong, their weak chapters, their subjects: src/lib/dailyFiveMine.mjs); a guest plays the shared five. So the head
+// says what the five are for, and the sub line says who gets which, true for a guest and for a student. `mark` is the phrase
+// the page's head underlines (page.js).
 export const PERSONAL_HEAD = Object.freeze({
-  h2: 'Five a day. Keep your streak.',
-  sub: 'The same five English and General Test questions for everyone, new every day. Play today’s, then come back tomorrow.',
+  h2: 'Five a day, built from your mistakes.',
+  // 21 Nov 2026 critic: "each day's five bring back what you got wrong" overstated it for a new account (no mistakes yet).
+  sub: 'Signed in, your five bring back questions you got wrong and test your weak chapters. Finish them to keep your streak.',
+  mark: 'your mistakes.',
 });
 export const STRIP_HEAD = Object.freeze({
   h2: 'Five a day. Play for your college.',
   // Only a signed-in five counts on the college board (a guest's is kept on the device alone): the line says so.
   sub: 'The same five English and General Test questions for everyone. Each five you play signed in counts for the DU college you pick.',
+  mark: 'your college.',
 });
 
-// What the five are: the two papers nearly every CUET student sits, so one five can be the same for everyone. How many and
-// "no sign-up" are two of the card's three figures, so the sentence does not say them twice.
-export const DAILY_LINE = 'The same five for everyone today, from English and the General Test.';
+// What the five are, true for every reader (21 Nov 2026, "Your five"): a guest gets today's shared five, a signed-in student
+// their own (it falls back to the shared five when theirs cannot be built). How many and "no sign-up" are two of the card's
+// three figures, so the sentence does not say them twice.
+export const DAILY_LINE = 'Five questions a day, new at 12:00 am. Signed in, the five are picked for you.';
+/** The home card's small print under its key (DAILY-SPEC.md): true for a guest, who can play without an account. */
+export const DAILY_PRINT = 'No sign-up to try. Signed in, the five are picked for you.';
+
+/**
+ * Today's row for a signed-in student whose own five is built (GET /api/daily/mine, personal), before it is played: the mix in
+ * short words and the time left ("Your five: 2 you missed, 2 weak chapters, 1 new. Closes in 1 h 44 min."). `mix` is the
+ * route's { missed, weak, subject }; `wait` the time left in words (untilShort), '' before the clock is read. 21 Nov 2026
+ * critic: the row had dropped the time and read the same before and after the five.
+ */
+export function todayMineLine({ mix, wait = '' } = {}) {
+  const n = (v) => Math.max(0, Math.round(Number(v) || 0));
+  if (!mix) return '';
+  const parts = [
+    n(mix.missed) ? `${n(mix.missed)} you missed` : null,
+    n(mix.weak) ? `${n(mix.weak)} ${n(mix.weak) === 1 ? 'weak chapter' : 'weak chapters'}` : null,
+    n(mix.subject) ? `${n(mix.subject)} new` : null,
+  ].filter(Boolean);
+  if (!parts.length) return '';
+  return `Your five: ${parts.join(', ')}.${wait ? ` Closes in ${wait}.` : ''}`;
+}
+
+/**
+ * Today's row once a personal five is played: the score, then the first thing the five did (dailyMineUi.mjs didLines, from
+ * this device's note of each check's `fed`; "1 mistake fixed"), else the wait to the next five. Short enough for two lines.
+ */
+export function todayDoneLine({ score, did = [], wait = '' } = {}) {
+  const first = Array.isArray(did) ? did.find((l) => typeof l === 'string' && l) : null;
+  const tail = first ? ` ${first.charAt(0).toUpperCase()}${first.slice(1)}${/[.]$/.test(first) ? '' : '.'}` : wait ? ` Next five in ${wait}.` : '';
+  return `Done today, ${score}/${DAILY_FIVE_SIZE}.${tail}`;
+}
 // The paper's size is in its figures; the sentence says what it is and that it needs an account (the five does not).
 export const SUNDAY_LINE = 'One full paper in each of your subjects, the same for everyone. Sign up to sit it.';
 /** The home card's shorter sentence (17 Nov 2026): the figures under it say the paper's size. */

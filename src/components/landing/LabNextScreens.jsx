@@ -21,7 +21,7 @@
 // holds the room of its tallest answer from the first frame, so a tap moves nothing (no layout shift) and the answer rises in
 // (transform and opacity, 240 ms). Bars fill as a scene comes on; the Changes totals count up once. Reduced motion, or a story
 // that is not held: no cursor, the finished state, the controls still work by hand. No layout read but CursorDemo's, once a step.
-import { useEffect, useRef, useState } from 'react';
+import { memo, startTransition, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Check, ChevronRight, KeyRound, Wrench, X } from 'lucide-react';
 import CursorDemo from './demo/CursorDemo';
 import MarksLedger, { withNumbers } from '@/components/result/MarksLedger';
@@ -41,6 +41,11 @@ const reducedNow = () => {
   if (typeof window === 'undefined') return true;
   return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 };
+/**
+ * How long an arriving card takes to stand (lab-next.css: the card's 420 ms slide). A scene's reveal (its bars, its counts)
+ * starts once the card stands, never while it travels (critic round, 21 Nov 2026 evening).
+ */
+export const LNX_IN_MS = 420;
 
 /**
  * What a tap shows, in one place under the rows. Every answer is drawn in the same grid cell, only the chosen one visible, so
@@ -170,31 +175,32 @@ function PickChip({ letter, verdict, label, end }) {
   );
 }
 // The totals count up once, 420 ms, written straight into their text (no re-render a frame). The real figure is in the markup
-// from the first paint and is where every count ends; reduced motion keeps it as it is.
-function useCountUp(ref, run) {
+// from the first paint (the server's drawing, reduced motion, a story that is not held). In the held story a fresh screen
+// waits in its start state (every count at 0) until its scene is on stage, and counts once the card stands (LNX_IN_MS): the
+// card never lands showing its finished figures and then wipes them (critic round, 21 Nov 2026 evening).
+function useCountUp(ref, still, on) {
   useEffect(() => {
     const root = ref.current;
-    if (!run || !root || reducedNow()) return undefined;
+    if (still || !root || reducedNow()) return undefined;
     const nodes = [...root.querySelectorAll('[data-count]')];
-    const start = performance.now();
+    const write = (k) => { for (const node of nodes) node.textContent = `${node.dataset.prefix || ''}${signedMarks(Math.round(Number(node.dataset.count) * k))}`; };
+    if (!on) { write(0); return undefined; }
     let frame = 0;
+    let start = 0;
     const tick = (now) => {
+      start ||= now;
       const t = Math.min(1, (now - start) / 420);
-      const eased = 1 - (1 - t) ** 3;
-      for (const node of nodes) node.textContent = `${node.dataset.prefix || ''}${signedMarks(Math.round(Number(node.dataset.count) * eased))}`;
+      write(1 - (1 - t) ** 3);
       if (t < 1) frame = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
-    return () => {
-      cancelAnimationFrame(frame);
-      for (const node of nodes) node.textContent = `${node.dataset.prefix || ''}${signedMarks(Number(node.dataset.count))}`;
-    };
-  }, [ref, run]);
+    const wait = window.setTimeout(() => { frame = requestAnimationFrame(tick); }, LNX_IN_MS);
+    return () => { window.clearTimeout(wait); cancelAnimationFrame(frame); write(1); };
+  }, [ref, still, on]);
 }
-function ChangesScreen({ still }) {
+function ChangesScreen({ still, on }) {
   const [open, setOpen] = useState(still ? S.changes[0].n : null);
   const sumRef = useRef(null);
-  useCountUp(sumRef, !still);
+  useCountUp(sumRef, still, on);
   return (
     <div className="lnx lnx--changes">
       <p className="lnx-h">{TIME_COPY.changesTitle}</p>
@@ -328,8 +334,43 @@ function SwotScreen({ still }) {
 }
 
 // ---------- The cursor's scripts (CursorDemo steps: each clicks the screen's real control) ----------
-// Two taps a scene, 4 to 7 s each. A selector that finds nothing is skipped, so a screen that changes never strands the
-// cursor. `lastShown` marks the last row the device shows (it shows fewer on a small phone), one layout read, once.
+// Two taps a scene. A selector that finds nothing is skipped, so a screen that changes never strands the cursor. `lastShown`
+// marks the last row the device shows (it shows fewer on a small phone), one layout read, once.
+// Hand-offs (owner LK365, 21 Nov 2026: the next scene should come "as soon as one animation ends"; critic round the same
+// evening: the dead gap between one scene's last change and the next one's first was 3 to 4 s on a phone):
+// - The last step's dwell is what the last tap's answer needs to come in (its rise, 260 to 670 ms) and about 300 ms more;
+//   then the script ends and LabNextScreen's end step hands over at once. Repair ends on its rule's reveal, no move after it.
+// - The next scene's cursor does not travel in from the stage's corner: it waits, hidden, until the card stands (`arrive`
+//   shows it where the last scene's cursor stopped, the cards lie in the same place), then goes straight to its first control
+//   and clicks about 650 ms after the card stands.
+// The cursor's last point, in the stage's own px (the cards share one size and place). No layout read: CursorDemo's own
+// inline transform says where it is, and where it put the cursor on entry (82 % and 90 % of the stage's size) gives the
+// stage's size.
+let handoff = null;
+const cursorOf = (stage) => stage.querySelector(':scope > .cd-cursor');
+const pointOf = (cursor) => {
+  const m = cursor?.style.transform.match(/translate3d\(([-\d.]+)px, ([-\d.]+)px/);
+  return m ? { x: Number(m[1]), y: Number(m[2]) } : null;
+};
+const keepPoint = (stage) => { handoff = pointOf(cursorOf(stage)) ?? handoff; };
+/** Shows the cursor (hidden by lab-next.css until now) at the last scene's end point, or where CursorDemo entered it. */
+const arrive = (stage) => {
+  const cursor = cursorOf(stage);
+  const entry = pointOf(cursor);
+  if (!cursor || !entry) return;
+  const w = entry.x / 0.82;
+  const h = entry.y / 0.9;
+  const x = handoff ? Math.min(w - 8, Math.max(8, handoff.x)) : entry.x;
+  const y = handoff ? Math.min(h - 8, Math.max(8, handoff.y)) : entry.y;
+  cursor.style.transitionDuration = '0ms, 160ms';
+  cursor.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+  stage.dataset.lnxCursor = 'in';
+};
+// When the story's step last changed (useStoryStep), so the arriving cursor shows as its card stands (LNX_IN_MS) however
+// long the screen took to start: CursorDemo spends 220 ms on its own entry, and on a slow phone the screen starts a few
+// hundred ms after the step. The wait is read as the step runs (a getter), never fixed in advance.
+let steppedAt = -Infinity;
+const ARRIVE = Object.freeze({ run: () => {}, get dwell() { return Math.max(0, Math.round(steppedAt + LNX_IN_MS - performance.now())); } });
 const lastShown = (selector) => (stage) => {
   for (const node of stage.querySelectorAll('[data-lnx-last]')) node.removeAttribute('data-lnx-last');
   const shown = [...stage.querySelectorAll(selector)].filter((node) => node.getClientRects().length > 0);
@@ -337,58 +378,141 @@ const lastShown = (selector) => (stage) => {
 };
 const SCRIPTS = Object.freeze({
   chapters: Object.freeze([
-    { wait: 400 },
-    { target: '.ml-row:first-child .ml-row__btn', at: [0.3, 0.5], move: 680, click: true, dwell: 800 },
-    { target: '.ml-row[data-open] .ml-chip:nth-child(2)', at: [0.5, 0.55], move: 520, click: true, dwell: 1500 },
+    ARRIVE,
+    { run: arrive },
+    { target: '.ml-row:first-child .ml-row__btn', at: [0.3, 0.5], move: 380, click: true, dwell: 900 },
+    { target: '.ml-row[data-open] .ml-chip:nth-child(2)', at: [0.5, 0.55], move: 460, click: true, dwell: 600 },
   ]),
   time: Object.freeze([
-    { wait: 400 },
-    { target: '.td-long li:first-child .td-long__row', at: [0.62, 0.4], move: 680, click: true, dwell: 1300 },
+    ARRIVE,
+    { run: arrive },
+    { target: '.td-long li:first-child .td-long__row', at: [0.62, 0.4], move: 380, click: true, dwell: 1100 },
     { run: lastShown('.td-long__row') },
-    { target: '[data-lnx-last]', at: [0.62, 0.45], move: 560, click: true, dwell: 1400 },
+    { target: '[data-lnx-last]', at: [0.62, 0.45], move: 500, click: true, dwell: 600 },
   ]),
   changes: Object.freeze([
-    { wait: 500 },
-    { target: '.td-changes li:first-child .td-changes__row', at: [0.55, 0.45], move: 680, click: true, dwell: 1400 },
+    ARRIVE,
+    { run: arrive },
+    { target: '.td-changes li:first-child .td-changes__row', at: [0.55, 0.45], move: 380, click: true, dwell: 1200 },
     { run: lastShown('.td-changes__row') },
-    { target: '[data-lnx-last]', at: [0.55, 0.45], move: 560, click: true, dwell: 1400 },
+    { target: '[data-lnx-last]', at: [0.55, 0.45], move: 500, click: true, dwell: 760 },
   ]),
   repair: Object.freeze([
-    { wait: 500 },
-    { target: '.mr-start', at: [0.2, 0.45], move: 700, click: true, dwell: 900 },
-    { target: '.mr-rule', at: [0.6, 0.6], move: 620, dwell: 1500 },
+    ARRIVE,
+    { run: arrive },
+    // The repair's blocks rise 50 ms apart and its rule ("Keep this") is in by 670 ms (mistake-repair.css mr-rule-in).
+    { target: '.mr-start', at: [0.2, 0.45], move: 380, click: true, dwell: 960 },
   ]),
   swot: Object.freeze([
-    { wait: 400 },
-    { target: '.sw-q[data-q="weakness"] .lnx-quad', at: [0.45, 0.45], move: 680, click: true, dwell: 1400 },
-    { target: '.sw-q[data-q="threat"] .lnx-quad', at: [0.45, 0.45], move: 560, click: true, dwell: 1600 },
+    ARRIVE,
+    { run: arrive },
+    { target: '.sw-q[data-q="weakness"] .lnx-quad', at: [0.45, 0.45], move: 380, click: true, dwell: 1300 },
+    { target: '.sw-q[data-q="threat"] .lnx-quad', at: [0.45, 0.45], move: 500, click: true, dwell: 1100 },
   ]),
 });
 
-const SCREENS = { chapters: ChaptersScreen, time: TimeScreen, changes: ChangesScreen, repair: RepairScreen, swot: SwotScreen };
+// Memoised: a step change re-renders the Lab's stage, and only the screen that comes on (a new key) needs to draw again.
+const SCREENS = { chapters: memo(ChaptersScreen), time: memo(TimeScreen), changes: memo(ChangesScreen), repair: memo(RepairScreen), swot: memo(SwotScreen) };
+
+/**
+ * Is scene `index` the story's step? Read from the story root's data-step, which ScrollStory writes the moment a step is
+ * decided, not from React's step, which catches up in a transition (600 to 900 ms later on a slow phone, critic round, 21 Nov
+ * 2026 evening): so the scene that comes on starts its cursor as its card starts to slide, never after it has landed.
+ * Outside a story (no root), `fallback` decides.
+ */
+function useStoryStep(probe, index, fallback) {
+  // null until a story root is found: then `fallback` answers, read live on every render (no state set in the effect).
+  const [on, setOn] = useState(null);
+  useEffect(() => {
+    const root = probe.current?.closest('.ss');
+    if (!root || !Number.isInteger(index)) return undefined;
+    // React writes the same data-step again when it catches up: only a change of this scene's state counts as its arrival.
+    let was = null;
+    const read = () => {
+      const now = root.dataset.step === String(index);
+      if (now && was === false) steppedAt = performance.now();
+      was = now;
+      setOn(now);
+    };
+    read();
+    const watch = new MutationObserver(read);
+    watch.observe(root, { attributes: true, attributeFilter: ['data-step'] });
+    return () => watch.disconnect();
+  }, [probe, index]);
+  return on === null ? fallback : on;
+}
+
+/** A screen that has played is drawn afresh this long after its scene leaves (its card has settled under the next one). */
+const RESET_MS = 480;
+// Never while a finger is on the glass: a touch that began on a card keeps its target, and were that node replaced, the
+// browser would send the touch's end to a node no longer in the page, so the story would never hear the finger lift (its
+// settle and the autoplay wait on it). A fresh drawing waits for the last finger to leave.
+let fingers = 0;
+const afterTouch = new Set();
+// Counted from the moment this file loads (it loads before any scene plays), so no touch is ever missed.
+if (typeof window !== 'undefined') {
+  const count = (event) => {
+    fingers = event.touches ? event.touches.length : 0;
+    if (!fingers) { const waiting = [...afterTouch]; afterTouch.clear(); for (const fn of waiting) fn(); }
+  };
+  for (const kind of ['touchstart', 'touchend', 'touchcancel']) window.addEventListener(kind, count, { capture: true, passive: true });
+}
+function whenUntouched(run) {
+  if (!fingers) { run(); return () => {}; }
+  afterTouch.add(run);
+  return () => afterTouch.delete(run);
+}
 
 /**
  * One scene's screen in the next look.
  * scene       the scene's key (LAB_SCENES)
- * live        this scene is the one on stage of a held story: the cursor plays
+ * index       the scene's step in the story (its card's data-ss-step)
+ * ready       the story is held and this scene may play (the first scene only once the Lab is half in view)
+ * live        the old signal (React's step), used only outside a story
  * still       reduced motion, or a story that is not held: no cursor, the finished state
- * onDone      the cursor finished its script (the Lab's autoplay moves on from here)
+ * onDone      the cursor's script has ended (the Lab's autoplay moves on from here): called by the script's own last step, the
+ *             moment its last dwell is over, so the next scene starts arriving at once (CursorDemo calls it again 260 ms
+ *             later, as its cursor has faded; the autoplay ignores a second call)
  * onTakeover  the reader's own tap or key inside the screen took over from the cursor
- * Each time the scene comes on stage the screen starts fresh (a new key), so the cursor's work plays again from the top and a
+ * The screen is drawn afresh (a new key) once its scene has left and its card has settled, so it waits in its start state
+ * (bars empty, counts at 0: lab-next.css holds a waiting card's reveal) and plays from the top the next time it comes on,
+ * with the same nodes that slid in: a card never lands finished and then replays (critic round, 21 Nov 2026 evening). A
  * reader who took over once gets the cursor back next time.
  */
-export default function LabNextScreen({ scene, live = false, still = false, onDone, onTakeover }) {
-  const [entries, setEntries] = useState(0);
-  const [wasLive, setWasLive] = useState(live);
-  if (live !== wasLive) {
-    setWasLive(live);
-    if (live) setEntries((n) => n + 1);
+export default function LabNextScreen({ scene, index, ready, live = false, still = false, onDone, onTakeover }) {
+  const probe = useRef(null);
+  const onStage = useStoryStep(probe, index, live);
+  const playing = (ready ?? live) && onStage && !still;
+  const [wasPlaying, setWasPlaying] = useState(playing);
+  const [mount, setMount] = useState({ key: 0, used: playing });
+  if (playing !== wasPlaying) {
+    setWasPlaying(playing);
+    // A scene back on stage before its fresh drawing (a reader who went back at once): drawn afresh as soon as no finger is
+    // down (stale until then: its cursor waits).
+    if (playing) setMount((m) => (m.used ? { ...m, stale: true } : { key: m.key, used: true }));
   }
+  useEffect(() => {
+    if (!mount.stale) return undefined;
+    return whenUntouched(() => setMount((m) => (m.stale ? { key: m.key + 1, used: true } : m)));
+  }, [mount.stale]);
+  useEffect(() => {
+    if (playing || !mount.used) return undefined;
+    let drop = () => {};
+    const fresh = () => startTransition(() => setMount((m) => (m.used && !m.stale ? { key: m.key + 1, used: false } : m)));
+    const id = window.setTimeout(() => { drop = whenUntouched(fresh); }, RESET_MS);
+    return () => { window.clearTimeout(id); drop(); };
+  }, [playing, mount.used]);
+  const doneRef = useRef(onDone);
+  useEffect(() => { doneRef.current = onDone; }, [onDone]);
+  const steps = useMemo(() => (SCRIPTS[scene] ? [...SCRIPTS[scene], { run: (stage) => { keepPoint(stage); doneRef.current?.(); } }] : null), [scene]);
   const Screen = SCREENS[scene];
   if (!Screen) return null;
   return (
-    <CursorDemo key={`${entries}${still ? '-still' : ''}`} steps={SCRIPTS[scene]} playing={live && !still} onDone={onDone} onTakeover={onTakeover} className="lnx-stage">
-      <Screen still={still} />
-    </CursorDemo>
+    <>
+      <CursorDemo key={`${mount.key}${still ? '-still' : ''}`} steps={steps} playing={playing && !mount.stale} onDone={onDone} onTakeover={onTakeover} className="lnx-stage">
+        <Screen still={still} on={scene === 'changes' ? playing : undefined} />
+      </CursorDemo>
+      <i ref={probe} hidden />
+    </>
   );
 }

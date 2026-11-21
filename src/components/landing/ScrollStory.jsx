@@ -399,7 +399,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       data-reduced={reduced ? 'true' : 'false'}
       data-live={live && !quiet ? 'true' : 'false'}
       data-flow={flow ? 'true' : undefined}
-      data-step={step}
+      data-step="0"
       style={{ '--ss-steps': steps, ...(beat ? { '--ss-beat': beat } : null) }}
     >
       <div className="ss__track" ref={trackRef}>

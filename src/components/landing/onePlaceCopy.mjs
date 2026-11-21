@@ -38,6 +38,15 @@ export const ONE_PLACE = Object.freeze({
   decksLink: KEY_CARDS_WORDS.seeChapter,
 });
 
+/**
+ * The caption strip's quiet line (OnePlace.jsx op-say, owner LK365): the tool's name, and while its demo explains itself,
+ * where the story is: "Key cards, step 2 of 3". At rest (or for a row with no beats) the name alone.
+ */
+export function sayWhere(name, beat = -1, beats = 0) {
+  if (!(beats > 0) || !(beat >= 0)) return name;
+  return `${name}, step ${Math.min(beat + 1, beats)} of ${beats}`;
+}
+
 const n = (value) => Number(value).toLocaleString('en-IN');
 /** The Key cards bank line, in the live section's words: "<cards> Key cards across <subjects> subjects." (null without a bank). */
 export function bankLine(bank) {
@@ -70,12 +79,18 @@ export function freeFaq({ freeCredits, dailySize }) {
   });
 }
 
+// The proof line under a row story's card (21 Nov 2026, the stories' reports). Benchmarks: the slide's two points (its chip,
+// "Race a set target score against the clock.", is what the story itself now shows); Learn and the Mob: the slide's chip.
+const POINTS_PROOF = Object.freeze(['rival']);
+const proofOf = (slide) => (POINTS_PROOF.includes(slide.id) && slide.points?.length ? slide.points.map((point) => `${point}.`).join(' ') : slide.chip);
+
 /**
  * The tour's tools as the frame's rows 4 to 6, from the tour the server built (buildTour: only live tools are in it), in the
- * tour's order: { id, icon, name, line, title, lede, href, cta }. The icon is the tour's own desk object (TOUR_ICON).
+ * tour's order: { id, icon, name, line, title, lede, chip, proof, href, cta }. The icon is the tour's own desk object
+ * (TOUR_ICON); `proof` is the line under the row's card.
  */
 export function tourRows(tour = []) {
   return tour.filter((slide) => ONE_PLACE.tourIds.includes(slide.id)).map((slide) => Object.freeze({
-    id: slide.id, icon: TOUR_ICON[slide.id], name: slide.tab || slide.label, line: `${slide.line}.`, title: slide.title, lede: slide.lede, chip: slide.chip, href: slide.href, cta: slide.cta, tour: true,
+    id: slide.id, icon: TOUR_ICON[slide.id], name: slide.tab || slide.label, line: `${slide.line}.`, title: slide.title, lede: slide.lede, chip: slide.chip, proof: proofOf(slide), href: slide.href, cta: slide.cta, tour: true,
   }));
 }

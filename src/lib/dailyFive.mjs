@@ -462,6 +462,15 @@ export function keepAnswer(record, { date, index, pick }) {
   return { ...record, run: { ...run, picks } };
 }
 
+/** A server-replaced question needs a new pick. Answers already checked still stand. */
+export function clearPendingAnswer(record, { date, index }) {
+  const run = record.run;
+  if (!run || run.date !== date || run.checks[index] || !Number.isInteger(run.picks[index])) return record;
+  const picks = [...run.picks];
+  picks[index] = null;
+  return { ...record, run: { ...run, picks } };
+}
+
 /**
  * The record with a check's answer kept for question `index`. The server's pick is the one that stands (for a signed-in
  * student, the first check of that question, perhaps from another tab), so it replaces the device's if they differ.

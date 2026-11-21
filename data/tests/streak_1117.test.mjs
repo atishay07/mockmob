@@ -332,10 +332,9 @@ test('review: the extra days keep the past for 10 minutes and read only today be
   assert.deepEqual(calls.slice(-2), [from, from], 'a read with a failed source is not kept');
 });
 
-test('review: the top bar chip respects "Hide my streak" and stays off phones', () => {
+test('review: the top bar chip respects "Hide my streak" and omits an empty count', () => {
   const src = read('src/components/streak/StreakChip.jsx');
-  assert.match(src, /body\.hidden/);
-  assert.match(src, /CHIP_MIN_WIDTH = 640/);
+  assert.match(src, /!body\.hidden && body\.days > 0/);
   assert.doesNotMatch(read('src/components/streak/streak.css'), /arena-askkey/);
 });
 

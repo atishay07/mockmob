@@ -7,11 +7,16 @@
 //             style (answers kept), pick an option, NTA's Save & Next. From 640 px it plays on the monitor; below, on the
 //             exam as a phone shows it (ExamStage `inline`: the MockMob phone runner, then PhoneNta), in real pixels. The
 //             same hooks are on both, so one script serves both.
-//   cards     KeyCardsDemo.jsx: turn the card, rate it Got it (the app's key), the next card rises, turn it.
-//   mobi      BringMistakeCard (BringMistakeBlock.jsx): Question, then Read, then Check (the right option of the fresh
-//             question), then Practise.
+//   cards     KeyCardsDemo.jsx: turn the card, rest on the rating keys, rate it Got it (the app's key), the next card rises.
+//   mobi, learn, rival, mob   the row stories (stories/<Id>Story.jsx), each playing its own script (stories/<id>Story.mjs).
 // Every target is a data-demo hook the component itself carries (the test reads them out of the component's source). Every
 // step names its own move and dwell, so scriptMs is the script's real length and the row's line fills over exactly that.
+//
+// Say beats (owner LK365, 21 Nov 2026: "the screens are moving too fast and without much explanation"): a step's `say` is the
+// line the frame's caption strip shows for that beat (OnePlace.jsx op-say), and its `focus` the part of the screen the line
+// is about (CursorDemo sets data-demo-focus on it; one-place.css stresses it). The pace rules (PACE, sayPace below): every
+// line stays at least 2.2 s; the cursor waits at least 500 ms after a line appears before it moves (the reader reads first,
+// then watches); a row runs 11 to 16 s. Each line opens on a `wait` step, so the cursor is still while it is read.
 //
 // The rules of the frame (useOnePlace in OnePlace.jsx):
 //   * It plays only while all of these hold: hydrated, motion not reduced (prefers-reduced-motion or html[data-motion]),
@@ -24,7 +29,10 @@
 //     the stage is the reader taking over, and the stage is never remounted under them: with a mouse, autoplay holds until
 //     the pointer (or the focus) has been outside the frame for TAKEOVER_HOLD_MS; on touch (lifting a finger ends the
 //     pointer too), only until the frame leaves the window or another row is chosen.
-import { BRING_MISTAKE } from './bringMistakeCopy.mjs';
+import { MOBI_STORY, MOBI_STORY_TYPED } from './stories/mobiStory.mjs';
+import { LEARN_STORY } from './stories/learnStory.mjs';
+import { RIVAL_STORY } from './stories/rivalStory.mjs';
+import { MOB_STORY } from './stories/mobStory.mjs';
 
 export const TAKEOVER_HOLD_MS = 8000;
 // CursorDemo's own fixed parts: the press, the cursor's entry and its fade at the end.
@@ -41,14 +49,43 @@ export const PHONE_PANE = '.xs-ph-paper, .xs-ph-pane';
 // ever left half cut at the pane's top edge.
 export const PHONE_ROWS = '.xs-qhead, .xs-stem, .xs-option, .xs-n-qhead, .xs-n-stem, .xs-n-option';
 
-// The fresh question's right option in Bring a mistake's Check step (bringMistakeCopy.mjs, held there by its own test).
-const RIGHT = BRING_MISTAKE.check.correct + 1;
-
 // No camera (21 Nov 2026, round 4): a laptop exam screen squeezed onto a phone cannot show a whole question at a readable
 // size (7 to 8 px options at best), so below 640 px the stage is the phone runner itself (ExamStage `inline`).
 
-// Every row runs 8 s or less (owner: each screen lasts about 5 s; the critic timed 9.7 and 10.4).
-export const ROW_MAX_MS = 8000;
+// A row runs 11 to 13 s of script (owner LK365, 21 Nov 2026: "moving too fast"; it was 8 s or less after his "about 5 s" of
+// LK363). Every row explains itself (say beats) and keeps to ROW_MIN_MS..ROW_MAX_MS. 13 s, not 16 (critic round, 21 Nov
+// evening): on a 6x-throttled phone the timers and React's work stretch a script by 15 to 25 %, so a 15.7 s script played
+// 18.8 s and the whole pass took 1 min 42 s; 13 s of script keeps the measured row at or under 16 s
+// (tmp/1121-stories/fix-oneplace/film.mjs measures it).
+export const ROW_MAX_MS = 13000;
+export const ROW_MIN_MS = 11000;
+/** Between rows: a row's finished screen holds this long before the next row is dealt (OnePlace.jsx advance). */
+export const ROW_HOLD_MS = 700;
+/** The pace rules for a script's say beats. */
+export const PACE = Object.freeze({ sayMinMs: 2200, readFirstMs: 500 });
+/** The longest say line, in characters (the caption strip reserves two lines for it on a phone). */
+export const SAY_MAX_CHARS = 58;
+
+// The parts of the Practise screen a line can be about. One selector serves the phone runner (ExamStage `inline`) and the
+// monitor: only one of each pair is drawn at a time (the phone's paper, key bar, NTA pane and NTA keys; the monitor's paper,
+// NTA question and NTA keys). one-place.css dims the others while one is stressed.
+export const PRACTISE_FOCUS = Object.freeze({
+  paper: '.xs-ph-paper, .xs-paper',
+  next: '.xs-ph-bar, .xs-paper',
+  style: '.xs-layout > .xs-switch',
+  ntaQuestion: '.xs-ph-pane, .xs-n-qbody',
+  ntaKeys: '.xs-ph-keys, .xs-n-keys',
+});
+export const CARDS_FOCUS = Object.freeze({
+  card: '.kc-demo__scene',
+  rates: '.kc-demo__rates',
+  gotIt: '[data-demo="kc-rate"]:nth-child(2)',
+});
+/** Where the cursor rests on the Got it key: its top right corner, clear of both "Got it" and "back in 3 days" (fractions of
+ *  the key's box; a fingertip is a 34 px disc centred there, an arrow hangs down and right from it, past the key's edge). */
+export const CARDS_REST = Object.freeze([0.93, 0.12]);
+// A beat's line: shown as its `wait` begins, with the cursor still, and the part of the screen it is about stressed.
+const say = (line, focus, wait) => Object.freeze({ say: line, focus, wait });
 
 export const SCRIPTS = Object.freeze({
   // A look at Q3 opens the row (the camera comes in on the question), then: MockMob pick, chip 4 in the review panel, look
@@ -57,47 +94,52 @@ export const SCRIPTS = Object.freeze({
   // The held shot of Q3; pick B and press Next inside it (the shot eases down just enough for the key: Q4 arrives in the same
   // shot); out to 1 for the switch; the NTA question's held shot as the pick is made; Save & Next (the shot eases to the key);
   // back to the held shot of Q5. About five camera moves a pass.
+  // 21 Nov 2026 (LK365): four beats, each with its line. True to ExamScreen.jsx: a MockMob pick is the answer at once
+  // (`choose`), and Next keeps it (the header counts "1 answered") and opens the next question (`go`); the switch draws NTA
+  // style, which the exam section calls "an exact copy of the real NTA exam screen" (EXAM_HEAD.sub); in NTA style a pick is
+  // held until Save & Next saves it (`hold`, `saveAndNext`: "exam-true saving"), as the real exam's screen does.
   practise: Object.freeze([
-    Object.freeze({ wait: 400 }),
-    click('[data-demo="xs-option"]:nth-child(2)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
-    click('[data-demo="xs-next"]', 420, 750, null, { settle: PHONE_PANE }),
-    click('[data-demo="xs-nta"]', 450, 550),
-    click('[data-demo="xs-n-option"]:nth-child(3)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
-    click('[data-demo="xs-n-save"]', 420, 1000, null, { settle: PHONE_PANE }),
+    say('Answer a question, as you would in the exam.', PRACTISE_FOCUS.paper, 700),
+    click('[data-demo="xs-option"]:nth-child(2)', 600, 1000, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
+    say('Next keeps your answer and moves on.', PRACTISE_FOCUS.next, 600),
+    click('[data-demo="xs-next"]', 550, 1300, null, { settle: PHONE_PANE }),
+    say('Switch to NTA style, the real exam’s screen.', PRACTISE_FOCUS.style, 600),
+    click('[data-demo="xs-nta"]', 600, 1300),
+    say('Save & Next keeps your pick, as in the real exam.', PRACTISE_FOCUS.ntaQuestion, 600),
+    click('[data-demo="xs-n-option"]:nth-child(3)', 600, 700, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
+    click('[data-demo="xs-n-save"]', 550, 1500, null, { settle: PHONE_PANE, focus: PRACTISE_FOCUS.ntaKeys }),
   ]),
+  // Key cards (KeyCardsDemo.jsx): turn the card (its answer stays 2.4 s to be read), rest on the rating keys (each says when
+  // the card comes back: keyCardsPicks.mjs ratingKeys, from the app's scheduler), then Got it, and the next card rises.
+  // "Before you are likely to forget it": the scheduler is FSRS asked for 90% recall (data/keycards.js KEYCARD_RULES.retention
+  // 0.9), so a card comes back when the chance you still know it has fallen to 90%.
   cards: Object.freeze([
-    Object.freeze({ wait: 400 }),
-    click('[data-demo="kc-turn"]', 520, 1500),
-    click('[data-demo="kc-rate"]:nth-child(2)', 500, 900),
-    click('[data-demo="kc-turn"]', 520, 1600),
+    say('Turn the card to see the answer.', CARDS_FOCUS.card, 900),
+    click('[data-demo="kc-turn"]', 600, 2400),
+    say('Say how well you knew it.', CARDS_FOCUS.rates, 700),
+    // The cursor rests on the key's very corner, so neither "Got it" nor its "back in 3 days" is covered (critic round, 21 Nov
+    // evening: at [0.8, 0.28] it covered the "t" of "Got it"; at the lower right a fingertip covers "days").
+    Object.freeze({ target: '[data-demo="kc-rate"]:nth-child(2)', at: CARDS_REST, move: 650, dwell: 1300 }),
+    say('It comes back before you are likely to forget it.', CARDS_FOCUS.gotIt, 2000),
+    click('[data-demo="kc-rate"]:nth-child(2)', 250, 300, CARDS_REST),
+    // The rated key is gone with its card: the stress moves to the next card as it rises.
+    Object.freeze({ focus: CARDS_FOCUS.card, wait: 1700 }),
   ]),
-  mobi: Object.freeze([
-    Object.freeze({ wait: 500 }),
-    click('[data-demo="bmk-tab"]:nth-child(2)', 420, 1200),
-    click('[data-demo="bmk-tab"]:nth-child(3)', 420, 1200),
-    click(`[data-demo="bmk-option"]:nth-child(${RIGHT})`, 420, 1200, [0.25, 0.5]),
-    click('[data-demo="bmk-tab"]:nth-child(4)', 420, 1200),
-  ]),
-  // The old tour deck's screens (TourScreens.jsx), which answer taps: their own short demo plays first, then the cursor
-  // works them. Learn: a miss (C), the meaning shown, then the right one (B). Benchmarks: aim for College level, then DU
-  // level (the target lane and the points short follow). The Mob: open Fix it together, answer it, back to the sprint.
-  learn: Object.freeze([
-    Object.freeze({ wait: 1100 }),
-    click('.ts__opts li:nth-child(3) .ts__choice', 480, 1800, [0.3, 0.5]),
-    click('.ts__opts li:nth-child(2) .ts__choice', 440, 2300, [0.3, 0.5]),
-  ]),
-  rival: Object.freeze([
-    Object.freeze({ wait: 1100 }),
-    click('.ts__ladder li:nth-child(2) .ts__level', 480, 1900),
-    click('.ts__ladder li:nth-child(1) .ts__level', 440, 2300),
-  ]),
-  mob: Object.freeze([
-    Object.freeze({ wait: 1000 }),
-    click('.ts__fix-key', 480, 1100),
-    click('.ts__fix .ts__opts li:nth-child(2) .ts__choice', 440, 1900, [0.3, 0.5]),
-    click('.ts__back', 420, 900),
-  ]),
+  // Rows 3 to 6 are row stories (21 Nov 2026, owner LK365: "focus more on showing the feature very well through
+  // animations"): each is its own screen (stories/<Id>Story.jsx) and its own script (stories/<id>Story.mjs), held by its own
+  // test (data/tests/story_<id>_1121.test.mjs). Ask Mobi: photograph the wrong question, Mobi reads the page, names the
+  // chapter and the slip, a fresh check, then 10 more from the bank (typed instead of photographed while Mobi does not read
+  // photos: SCRIPTS_TYPED). Learn: open a lesson, read the worked example, recall a card, the missed card comes back sooner.
+  // Benchmarks: pick a level, race its target, see the gap, a finished mock adds to your standing. The Mob: share the code,
+  // the same five for 24 hours, the podium and its trap, fix the trap together.
+  mobi: MOBI_STORY.steps,
+  learn: LEARN_STORY.steps,
+  rival: RIVAL_STORY.steps,
+  mob: MOB_STORY.steps,
 });
+
+/** The scripts that change with a switch: Ask Mobi typed, while Mobi does not read photos (data/mistake_photo.mjs). */
+export const SCRIPTS_TYPED = Object.freeze({ mobi: MOBI_STORY_TYPED.steps });
 
 /** A script's length in ms, as CursorDemo plays it: the entry, each wait, each move, press and dwell, then the fade. */
 export function scriptMs(steps = []) {
@@ -107,6 +149,31 @@ export function scriptMs(steps = []) {
     ms += (step.move ?? 0) + (step.click ? CURSOR_PRESS_MS : 0) + (step.dwell ?? 0);
   }
   return ms;
+}
+
+/** How many say beats a script has (the caption strip's "step n of m"). */
+export const sayCount = (steps = []) => steps.filter((step) => typeof step.say === 'string').length;
+
+/**
+ * Each say beat as CursorDemo plays it: { say, at, holds, firstMove }. `at`: when the line appears (ms from the script's
+ * start); `holds`: how long it stays (to the next line, or to the script's end); `firstMove`: how long the cursor stays still
+ * after it appears (to the start of the beat's first move; Infinity when the beat has none).
+ */
+export function sayPace(steps = []) {
+  const beats = [];
+  let t = CURSOR_ENTER_MS;
+  let open = null;
+  for (const step of steps) {
+    if (typeof step.say === 'string') { open = { say: step.say, at: t, holds: 0, firstMove: Infinity }; beats.push(open); }
+    if (step.wait) { t += step.wait; continue; }
+    if (step.target) {
+      if (open && open.firstMove === Infinity) open.firstMove = t - open.at;
+      t += (step.move ?? 0) + (step.click ? CURSOR_PRESS_MS : 0) + (step.dwell ?? 0);
+    }
+  }
+  const end = t + CURSOR_EXIT_MS;
+  beats.forEach((beat, i) => { beat.holds = (beats[i + 1]?.at ?? end) - beat.at; });
+  return beats;
 }
 
 /** Every data-demo hook a script aims at, for the test to find in the component's source. */
@@ -125,13 +192,31 @@ export const nextIndex = (index, count) => (count > 0 ? (index + 1) % count : 0)
 // ------------------------------------------------------------------ when the run starts and stops (owner LK364, 21 Nov 2026)
 // "It should detect when a person is scrolling through and when he reaches the 'Your whole CUET prep in one place' sentence
 // on top of the screen. Then the autoplay should start automatically and should not stop until all the slides are
-// finished." The run starts when the section's heading crosses TRIGGER_LINE (a share of the window's height, from its top)
-// on the way up the screen, or on the way down if no run has started yet; when the frame's code arrives with the heading
-// already above the line; or when the frame comes into the window with it there (a flick that jumped past the heading).
+// finished." On wider screens the run starts when the heading reaches TRIGGER_LINE, as soon as the controls fit below it.
+// If the window is too short at that point, the reader scrolls just far enough to see the working screens.
 // Once running it plays every row to the end; only the hidden tab, the frame wholly out of the window and a reader's own tap
 // in a stage pause it (and the paused row plays again from its start). After the last row it rests; a new run needs the
 // reader to go back above the heading (the heading comes down past the line) and come down to it again.
 export const TRIGGER_LINE = 0.15;
+// PHONES (critic round, 21 Nov 2026 evening: on a phone the heading crossed 15 % while the stage's working controls were still
+// under the window, so presses happened off-screen and results appeared with no cause). In the phone layout (the chips above
+// the stage, one-place.css below 640 px) the run starts instead when the stage's working room is wholly in the window: the
+// room's foot at least ROOM_FOOT_PX above the window's bottom. The room (one-place.css --op-room, OnePlace.jsx op-room) is
+// min(520 px, the window less the site bar, the chips and the caption strip), and every stage keeps the controls the cursor
+// presses inside it, so the reader sees the whole screen work. The same events drive runStep: 'up' when the room's foot
+// rises past the line, 'down' when it drops back under it, 'arrive' when the frame is here with the foot already above.
+export const PHONE_LAYOUT = '(max-width: 639px)';
+export const ROOM_FOOT_PX = 8;
+/** Place the desktop marker, measured from the stage's top. It crosses the bottom line after both conditions hold. */
+export function desktopTriggerFoot({ headingOffset, workingBottom, innerHeight }) {
+  const headingFoot = headingOffset + innerHeight * (1 - TRIGGER_LINE) - ROOM_FOOT_PX;
+  return Math.max(headingFoot, workingBottom);
+}
+
+/** Has the marker reached the viewport's bottom line? */
+export function triggerPassed({ roomBottom = Infinity, innerHeight = 0 } = {}) {
+  return roomBottom <= innerHeight - ROOM_FOOT_PX + 0.5;
+}
 /** How long the next row's card takes to slide up over the one on show (one-place.css op-deal), ms. */
 export const DEAL_MS = 460;
 /** The run's next state: `run` = { phase: 'idle' | 'running' | 'rested', armed }, `event` = 'up' (the heading went above

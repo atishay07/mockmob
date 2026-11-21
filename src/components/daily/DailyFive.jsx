@@ -8,7 +8,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { FIRST_SET_LABEL, firstSetHref } from '@/lib/firstSet.mjs';
 import { signupPathFor } from '@/lib/auth-redirect';
 import {
-  DAILY_FIVE_PATH, DAILY_FIVE_SIZE, DAILY_FIVE_STORE, acceptDailyFive, adoptAccount, beginRun, clockWords, dailyFiveUrl, dayLabel, dropForeign, finishDay,
+  DAILY_FIVE_PATH, DAILY_FIVE_SIZE, DAILY_FIVE_STORE, acceptDailyFive, adoptAccount, beginRun, clearPendingAnswer, clockWords, dailyFiveUrl, dayLabel, dropForeign, finishDay,
   formatClock, keepAnswer, keepCheck, nextOpen, readRecord, resultFor, runStats, scoreRun, shareText, shortDate, streakLine, streakOf,
   todayDaily, withChecks,
 } from '@/lib/dailyFive.mjs';
@@ -25,6 +25,12 @@ import { editionName, seatWords } from '@/lib/daily/team.mjs';
 import { omrLabel } from './dailyStripCopy.mjs';
 import { Marked } from '@/components/doodle/Doodle';
 import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
+import { Sparkles } from 'lucide-react';
+import { DAILY_MINE_ROUTE, acceptMine, mineLabel, mixLine as mineMix } from '@/lib/dailyFiveMine.mjs';
+import { loadStreak } from '@/components/streak/useStreak';
+import DailyWhy from './DailyWhy';
+import DailyEnd from './DailyEnd';
+import { DAILY_MINE_STORE, fedOf, keepFed, markFor, noteFor, readMark } from './dailyMineUi.mjs';
 import '@/components/landing/demo-subject.css';
 import './daily.css';
 
@@ -58,6 +64,16 @@ import './daily.css';
 // account keeps, so the account's five is built from the checks alone, and the account's record wins over the device's: a
 // five finished on another phone shows here as played, and the run of days is the account's. Nothing says "on your account"
 // before the server has it. Guests get the same checks; nothing is kept for them anywhere but this device.
+// "Your five" (21 Nov 2026, owner LK365; spec tmp/1121-stories/DAILY-SPEC.md, contract tmp/1121-stories/daily/CONTRACT.md):
+// signed in, the five come from the student's own record (GET /api/daily/mine: two they missed, two from their weak chapters,
+// one new; acceptMine). The shared five are asked at once as before, so a guest waits for nothing new; once the account is
+// known, a signed-in student's own five are asked too (MINE_MS at most) and win when the route gives them. Any other answer,
+// or none, plays the shared five without a word of error, EXCEPT under a personal five already begun on this device today
+// (dailyMineUi.mjs DAILY_MINE_STORE): its answers belong to those questions, so the page says it could not load and offers
+// Try again instead of swapping the five under them. The head leads with "Your five for today" and the mix; each question
+// carries its reason above the stem (DailyWhy.jsx); each check's `fed` is kept on the device; after the fifth answer the
+// result opens on the day's end (DailyEnd.jsx: the streak moment, what today's five did, one next step). Guests, and a
+// signed-in student on the shared five, read one line under the rules (dailyMineUi.mjs noteFor).
 
 const KEYS = ['A', 'B', 'C', 'D'];
 /** Set once a student plays without a college: the pick step is not asked again on this device (the card's field stays). */
@@ -66,6 +82,8 @@ const skippedTeam = () => { try { return window.localStorage.getItem(SKIP_STORE)
 const skipTeam = () => { try { window.localStorage.setItem(SKIP_STORE, '1'); } catch { /* this visit only */ } };
 /** A request that has not answered in this long is dropped and the page offers Try again (the sample's patchy-4G rule). */
 const SLOW_MS = 8000;
+/** How long the page waits for a signed-in student's own five before it plays the shared five. */
+const MINE_MS = 5000;
 const LONG_STEM = 110;
 
 /** The wall clock, read in event handlers and timers only (never during render). */
@@ -75,6 +93,25 @@ const readStore = () => { try { return readRecord(window.localStorage.getItem(DA
 const writeStore = (record) => { try { window.localStorage.setItem(DAILY_FIVE_STORE, JSON.stringify(record)); } catch { /* this visit only */ } };
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const todayDateOf = (today) => (today && typeof today.date === 'string' ? today.date : null);
+const readMarkStore = (date, userId) => { try { return readMark(window.localStorage.getItem(DAILY_MINE_STORE), { date, userId }); } catch { return null; } };
+const writeMarkStore = (mark) => { try { window.localStorage.setItem(DAILY_MINE_STORE, JSON.stringify(mark)); } catch { /* this visit only */ } };
+
+/** The student's own five (acceptMine's reading), or null on any failure, refusal or a wait past MINE_MS. */
+async function askMine(outer) {
+  const controller = new AbortController();
+  const stop = () => controller.abort();
+  outer.addEventListener('abort', stop);
+  const timer = window.setTimeout(stop, MINE_MS);
+  try {
+    const response = await fetch(DAILY_MINE_ROUTE, { cache: 'no-store', signal: controller.signal });
+    return acceptMine(response.ok ? await response.json() : null);
+  } catch {
+    return null;
+  } finally {
+    window.clearTimeout(timer);
+    outer.removeEventListener('abort', stop);
+  }
+}
 
 /** Where a key must sit to be reachable: the window's foot (this page has no phone bar). */
 const reachLimit = () => window.innerHeight;
@@ -141,6 +178,11 @@ export default function DailyFive() {
   const [crowd, setCrowd] = useState(null);
   // "Who are you playing for?": null, 'pick' (the card's field) or 'start' (a first Start with no college).
   const [sheet, setSheet] = useState(null);
+  // Which five today's are, for a signed-in student: null (not known yet, or a guest), { personal: true, mix } or
+  // { personal: false, reason }. The device's note of the day (its `fed` per place) is `mark`.
+  const [ownFive, setOwnFive] = useState(null);
+  const [mark, setMark] = useState(null);
+  const mineRef = useRef(null);
   const rootRef = useRef(null);
   const footRef = useRef(null);
   const optionsRef = useRef(null);
@@ -153,6 +195,22 @@ export default function DailyFive() {
   const fiveRef = useRef(null);
   const accountRef = useRef(null);
   const leadId = useId();
+  // The account, as load() needs it: it waits for the sign-in state once, then reads the user it holds.
+  const authRef = useRef({ known: false, userId: null, waiters: [] });
+  useEffect(() => {
+    const held = authRef.current;
+    held.known = authKnown;
+    held.userId = userId;
+    if (!authKnown) return;
+    const waiting = held.waiters;
+    held.waiters = [];
+    for (const wake of waiting) wake();
+  }, [authKnown, userId]);
+  const authSettled = useCallback(() => new Promise((resolve) => {
+    const held = authRef.current;
+    if (held.known) resolve(held.userId);
+    else held.waiters.push(() => resolve(authRef.current.userId));
+  }), []);
 
   const run = record?.run && today && record.run.date === today.date ? record.run : null;
   const result = record && today ? resultFor(record, today.date, userId) : null;
@@ -204,35 +262,67 @@ export default function DailyFive() {
     setPhase(finished ? 'result' : 'loading');
     let slow = false;
     const timer = window.setTimeout(() => { slow = true; controller.abort(); }, SLOW_MS);
-    try {
+    // The shared five, asked at once as before.
+    const shared = (async () => {
       let response = await fetch(dailyFiveUrl(local.day), { signal: controller.signal });
       // A device clock on the wrong side of midnight: the server names today, and the page asks once more for it.
       if (response.status === 400) {
         const body = await response.json().catch(() => null);
         if (Number.isInteger(body?.day) && body.day !== local.day) response = await fetch(dailyFiveUrl(body.day), { signal: controller.signal });
       }
-      const accepted = acceptDailyFive(response.ok ? await response.json() : null);
+      const got = acceptDailyFive(response.ok ? await response.json() : null);
+      if (!got) throw new Error('unavailable');
+      return got;
+    })();
+    shared.catch(() => {});
+    try {
+      // Signed in: the student's own five, unless this device already began today's shared five (its answers stay with it).
+      const uid = await authSettled();
+      if (request.current !== controller) return;
+      let own = null;
+      let chose = null;
+      if (uid) {
+        const held = readMarkStore(local.date, uid);
+        const begun = finished || stored.run?.date === local.date;
+        if (begun && !held?.personal) chose = { personal: false, reason: 'shared_started' };
+        else {
+          const got = await askMine(controller.signal);
+          if (request.current !== controller) return;
+          if (got?.personal) { own = got; chose = { personal: true, mix: got.mix }; }
+          // A personal five begun here, or one the server says is under way on another device (`retry`): never swapped (below).
+          else if (begun || got?.reason === 'retry') chose = { personal: true, mix: null };
+          else chose = got || { personal: false, reason: 'unavailable' };
+        }
+        const kept = own ? markFor({ date: own.date, userId: uid, personal: true }, readMarkStore(own.date, uid)) : held;
+        if (own) writeMarkStore(kept);
+        setMark(kept?.personal ? kept : null);
+      }
+      mineRef.current = chose;
+      setOwnFive(chose);
+      if (chose?.personal && !own) throw new Error('mine_lost');
+      const accepted = own || await shared;
       window.clearTimeout(timer);
       if (request.current !== controller) return;
-      if (!accepted) throw new Error('unavailable');
       request.current = null;
       const day = { day: accepted.day, date: accepted.date };
       setToday(day);
       fiveRef.current = accepted.questions;
       setFive(accepted.questions);
       setNow(clockNow());
-      const held = accountRef.current;
-      if (held?.state === 'ready' && held.date === day.date && held.record) applyAccount(held, held.userId);
+      const heldAccount = accountRef.current;
+      if (heldAccount?.state === 'ready' && heldAccount.date === day.date && heldAccount.record) applyAccount(heldAccount, heldAccount.userId);
       if (resultFor(stored, day.date, null)) { setPhase('result'); return; }
       const begun = stored.run && stored.run.date === day.date ? stored.run : null;
       if (begun) {
         const at = nextOpen(begun);
         if (at >= DAILY_FIVE_SIZE) {
-          // All five were checked before the page closed: the day is finished as it stood.
+          // All five were checked before the page closed: the day is finished as it stood (for a student's own five, the day's
+          // end has not been seen yet, so it opens as just finished).
           const scored = scoreRun(begun.picks, withChecks(accepted.questions, begun.checks));
           const done = finishDay(stored, { date: day.date, ...scored, ms: clockNow() - begun.startedAt });
           writeStore(done);
           setRecord(done);
+          if (own) setJustFinished(true);
           setPhase('result');
           return;
         }
@@ -252,7 +342,7 @@ export default function DailyFive() {
       setFailure(typeof navigator !== 'undefined' && navigator.onLine === false ? 'offline' : slow ? 'slow' : 'error');
       setPhase('failed');
     }
-  }, [applyAccount]);
+  }, [applyAccount, authSettled]);
 
   useEffect(() => {
     const t = window.setTimeout(load, 0);
@@ -339,10 +429,26 @@ export default function DailyFive() {
         body: JSON.stringify({ token: list[at].token, pick: ANSWER_LETTERS[choice], ...last, ...(teamRef.current ? { for: teamRef.current } : {}) }),
         signal: controller.signal,
       });
-      // The day closed while the question was open: today's five load instead.
-      if (response.status === 409) { inFlight.current = null; load(); return; }
-      const answer = response.ok ? acceptCheck(await response.json(), at + 1) : null;
+      if (response.status === 409) {
+        const conflict = await response.json().catch(() => null);
+        // A replaced question must not inherit the old option index when the five reloads.
+        if (conflict?.error === 'changed') {
+          writeStore(clearPendingAnswer(readStore(), { date, index: at }));
+        }
+        setChecking('idle');
+        inFlight.current = null;
+        load();
+        return;
+      }
+      const raw = response.ok ? await response.json() : null;
+      const answer = raw ? acceptCheck(raw, at + 1) : null;
       if (!answer) throw new Error('unchecked');
+      // A student's own five: what this answer fed (the mistakes, or a mistake fixed), kept for the day's end.
+      if (userId && mineRef.current?.personal) {
+        const held = readMarkStore(date, userId);
+        const fed = held?.personal ? keepFed(held, at + 1, fedOf(raw)) : null;
+        if (fed && fed !== held) { writeMarkStore(fed); setMark(fed); }
+      }
       let next = keepCheck(readStore(), { date, index: at, check: answer });
       if (nextOpen(next.run) >= DAILY_FIVE_SIZE) {
         // The fifth answer stops the clock and finishes the day at once; "See my score" only opens it.
@@ -394,16 +500,24 @@ export default function DailyFive() {
     return () => window.clearInterval(id);
   }, [showResult, today, newDay]);
 
-  // How everyone did: read once the result is on screen (guests too). A failed read shows nothing extra.
+  // A student's own five: the streak is read as the five begin (or resume), so the day's end can step up from today's figure
+  // (DailyEnd.jsx). One read, shared with every streak part on the page (useStreak's own store keeps it a minute).
+  const personalNow = Boolean(userId && ownFive?.personal);
   useEffect(() => {
-    if (!showResult || !today || crowd) return undefined;
+    if (phase === 'playing' && personalNow) loadStreak(userId);
+  }, [phase, personalNow, userId]);
+
+  // How everyone did: read once the result is on screen (guests too). A failed read shows nothing extra. A student's own five
+  // is theirs alone: there is no crowd to read.
+  useEffect(() => {
+    if (!showResult || !today || crowd || personalNow) return undefined;
     let alive = true;
     fetch(`${DAILY_FIVE_STATS_ROUTE}?day=${today.day}`).then((r) => (r.ok ? r.json() : null)).then((body) => {
       const accepted = acceptCrowd(body, today.date);
       if (alive && accepted) setCrowd(accepted);
     }).catch(() => {});
     return () => { alive = false; };
-  }, [showResult, today, crowd]);
+  }, [showResult, today, crowd, personalNow]);
 
   useEffect(() => {
     const target = focusNext.current;
@@ -513,12 +627,23 @@ export default function DailyFive() {
   // The head: the name, and in one line what the five are (16 Nov 2026, evening: the owner could not tell which subjects they
   // come from, and the day's number, "No. 2", told him nothing; it is gone). Under it the page itself: the admit card's head
   // (17 Nov 2026) joined to the card.
+  // Signed in (21 Nov 2026): the line under the name is "Your five for today" and the mix when the five are the student's own;
+  // it holds its room, hidden, while the page asks which five they are (daily-mine.css), so nothing moves when it lands.
+  const mineKnown = !signedIn || ownFive !== null;
   const head = (
-    <div className="dly__head">
+    <div className="dly__head" data-mine={signedIn ? 'true' : undefined} data-pending={mineKnown ? undefined : 'true'}>
       <h1 className="dly__title"><Marked text="Daily Five" marks={[PUBLIC_MARKS.daily.head]} />{today ? <span className="sr-only">, {dayLabel(today.date)}</span> : null}</h1>
-      <p className="dly__what">Five questions from English and the General Test. The same five for everyone, new at 12:00 am.</p>
+      {personalNow ? (
+        <p className="dly__what"><b className="dly__mine-lead">Your five for today</b>{ownFive.mix ? <span className="dly__mine-mix">{mineMix(ownFive.mix)}.</span> : null}</p>
+      ) : <p className="dly__what">Five questions from English and the General Test. The same five for everyone, new at 12:00 am.</p>}
     </div>
   );
+  // The one line under the rules (dailyMineUi.mjs noteFor): a guest's way to a five of their own, what a miss does in a
+  // student's own five, or why a signed-in student has the shared five today. Its room is held while that is not known.
+  const noteText = noteFor({ signedIn, mine: ownFive });
+  const noteLine = !authKnown || !mineKnown
+    ? <li className="dly__note" data-pending="true" aria-hidden="true" />
+    : noteText ? <li className="dly__note"><Sparkles className="dly__note-icon" size={18} strokeWidth={2.2} aria-hidden="true" />{noteText}</li> : null;
   // The admit card's head: the edition, the seat (signed in), "Playing for", the clock to 12:00 am and what the five hold.
   const band = (done) => (
     <div className="dly-admit">
@@ -575,6 +700,8 @@ export default function DailyFive() {
     const countedLine = !COLLEGE_DAILY || !signedIn ? ''
       : counted ? `Today’s five counts for ${teamName(counted)} on the college board.`
         : saveState === 'saved' && !team.college ? 'Today’s five counts for no college. Pick one for tomorrow’s.' : '';
+    // A student's own five: the day's end under the score, one next-step key (DailyEnd.jsx), each row's reason in the list.
+    const personalResult = Boolean(userId && (ownFive?.personal || mark?.personal));
     const missedAt = new Map(result.missed.map((m) => [m.n, m]));
     const chapters = result.chapters || (five ? five.map((q) => q.chapter) : null);
     const rows = result.marks.map((right, i) => {
@@ -584,7 +711,7 @@ export default function DailyFive() {
       const told = result.review?.[i] || null;
       // A right answer opens to its question and reason when the page holds the five and its check; a miss always opens.
       const body = miss || (right && q && told ? { n, chapter: q.chapter, q: q.q, picked: q.options[told.correct], answer: null, why: told.why } : null);
-      return { n, right, chapter: chapters?.[i] || miss?.chapter || `Question ${n}`, body, crowd: crowdLineFor(crowd, five, i) };
+      return { n, right, chapter: chapters?.[i] || miss?.chapter || `Question ${n}`, body, crowd: personalResult ? (q?.why ? mineLabel({ ...q.why, chapter: '' }) : null) : crowdLineFor(crowd, five, i) };
     });
     return (
       <>
@@ -603,9 +730,12 @@ export default function DailyFive() {
                 </div>
                 <OmrFive marks={result.marks} size="l" label={omrLabel(result.marks)} />
                 {countedLine ? <p className="dly__counted">{countedLine}</p> : null}
+                {personalResult ? <DailyEnd userId={userId} live={justFinished} mark={mark} marks={result.marks} questions={five} headingId={`${leadId}-end`} /> : null}
 
-                <div className="dly__share">
-                  <button type="button" className="mm-btn mm-btn--primary" onClick={shareScore} data-state={share}>
+                {/* A student's own five ends on ONE next-step key (DailyEnd); sharing is then a quiet text link under it (21 Nov
+                    2026 critic: a second large key competed with it). The shared five keeps its primary Share key. */}
+                <div className="dly__share" data-quiet={personalResult || undefined}>
+                  <button type="button" className={personalResult ? 'dly__share-link' : 'mm-btn mm-btn--primary'} onClick={shareScore} data-state={share}>
                     {share === 'copied' ? <><Icon name="check" className="dly__share-icon" />Copied</> : 'Share your score'}
                   </button>
                   <p className="dly__share-note" aria-live="polite">
@@ -614,9 +744,13 @@ export default function DailyFive() {
                   {share === 'failed' ? <p className="dly__share-text">{shareText(result, shareCollege)}</p> : null}
                 </div>
 
-                <RunBlock days={days} today={today.date} numbers note={runNote(saveState)}>
-                  {saveState === 'failed' ? <button type="button" className="dly__again" onClick={retryAccount}>Try again</button> : null}
-                </RunBlock>
+                {/* A student's own five: the streak above is the run that counts (a whole five is a streak day); a second "in a
+                    row" figure for the Daily Five alone would contradict it, so the end stands in its place. */}
+                {personalResult ? (saveState === 'failed' ? <p className="dly__streak-note" aria-live="polite">{runNote(saveState)} <button type="button" className="dly__again" onClick={retryAccount}>Try again</button></p> : null) : (
+                  <RunBlock days={days} today={today.date} numbers note={runNote(saveState)}>
+                    {saveState === 'failed' ? <button type="button" className="dly__again" onClick={retryAccount}>Try again</button> : null}
+                  </RunBlock>
+                )}
 
                 <div className="mm-drill__readout dly__list">
                   <p className="mm-drill__readout-head">{result.score === DAILY_FIVE_SIZE ? 'All five right today.' : 'Question by question'}</p>
@@ -629,7 +763,7 @@ export default function DailyFive() {
                           <span className="mm-drill__miss-n">Q{row.n}</span>{' '}
                           <span className="mm-drill__miss-chapter">
                             {row.chapter}
-                            {row.crowd ? <span className="dly__crowd">{row.crowd}</span> : null}
+                            {row.crowd ? <span className="dly__crowd" data-why={personalResult ? 'true' : undefined}>{row.crowd}</span> : null}
                           </span>
                           <span className="dly__mark" data-right={row.right ? 'true' : 'false'} aria-hidden="true"><Icon name={row.right ? 'check' : 'x'} className="dly__mark-icon" /></span>
                           <span className="sr-only">{row.right ? ', right' : ', missed'}</span>
@@ -676,11 +810,12 @@ export default function DailyFive() {
                   </ul>
                 </div>
 
-                {/* One quiet key on: a guest keeps their papers by signing up; a signed-in student starts a set in Practice. A guest
+                {/* One quiet key on (none under a student's own five: the day's end holds its one next step): a guest keeps their
+                    papers by signing up; a signed-in student starts a set in Practice. A guest
                     has no seat (it is the account's, GET /api/daily/me) and no five of theirs counts on the board: this line says
                     both, once. */}
                 <div className="dly__on">
-                  {status === 'loading' ? null : isAuthenticated
+                  {status === 'loading' || personalResult ? null : isAuthenticated
                     ? <Link href={firstSetHref()} className="mm-drill__replay">{FIRST_SET_LABEL}</Link>
                     : <Link href={signupPathFor(DAILY_FIVE_PATH)} className="mm-drill__replay">{COLLEGE_DAILY && team.college ? `Sign up free to count for ${teamName(team.college)} and get your seat number` : 'Sign up free to keep today’s five and get your seat number'}</Link>}
                 </div>
@@ -732,6 +867,7 @@ export default function DailyFive() {
                       <li>The clock starts when you press Start.</li>
                       <li>One go a day. An answer can’t be changed.</li>
                       {signedIn ? <li>Your score is saved to your account and counts as a study day.</li> : null}
+                      {noteLine}
                     </ul>
                     <div className="dly__go">
                       <button type="button" className="mm-btn mm-btn--secondary dly__wait" disabled aria-live="polite">Loading today’s five</button>
@@ -767,6 +903,7 @@ export default function DailyFive() {
                   <li>The clock starts when you press Start.</li>
                   <li>One go a day. An answer can’t be changed.</li>
                   {signedIn ? <li>Your score is saved to your account and counts as a study day.</li> : null}
+                  {noteLine}
                 </ul>
                 <div className="dly__go">
                   <button type="button" className="mm-btn mm-btn--primary" onClick={start}>Start today’s five</button>
@@ -815,6 +952,7 @@ export default function DailyFive() {
             </div>
 
             <div className="lp-card__body" data-seq={index > 0 ? 'true' : null}>
+              {question.why ? <DailyWhy key={`why-${index}`} why={question.why} /> : null}
               <p key={index} className="mm-drill__q" data-long={question.q.length > LONG_STEM ? 'true' : undefined}>{question.q}</p>
               {question.pastPaper ? <p className="mm-drill__past-paper">{question.pastPaper}</p> : null}
 

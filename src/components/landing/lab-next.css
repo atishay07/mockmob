@@ -48,6 +48,10 @@ html[data-theme='light'] body .lc__grid[data-look='next'] {
 html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tab-ink { background: #17150f; }
 html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tabs span[data-on='true'] { color: #f4f0e6; }
 
+/* ---------- The cursor of a scene that has just come on waits, hidden, until the card stands; its script shows it where the
+   last scene's cursor stopped (LabNextScreens `arrive`), so it never travels in from the corner. ---------- */
+.lc__grid[data-look='next'] .lnx-stage:not([data-lnx-cursor]) > .cd-cursor { opacity: 0; }
+
 /* ---------- The active screen takes taps (the held story keeps every scene pointer-less) ---------- */
 .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-on='true'] .lc-scene__screen { pointer-events: auto; }
 .lc__grid[data-look='next'] .lnx-stage { min-width: 0; }
@@ -69,6 +73,126 @@ html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tabs span[data-on='tr
   }
   .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.35rem) 12px 10px; }
 }
+
+/* ---------- The scenes are cards that stack (owner LK365, 21 Nov 2026: "It should overall feel like stacking cards on top of
+   each other"). Each scene's screen is a card inside the device, under its title bar. The next scene's card rises from below
+   and lands on top of the one on show (transform only, 420 ms, ease-out); the card underneath settles back (scale 0.94, a few
+   px up, dimmer) and its top edge stays in sight behind the new card, up to two edges; going back, the top card drops away and
+   the one under it comes forward. The words change with the card. Keyed to the story's own data-step, which ScrollStory
+   writes the moment a step is decided, so a card moves on the next frame, never after React's render of the step. A scene
+   reaches the device's bottom edge, so its article clips there: a card waiting below is out of sight. Later scenes lie on
+   top (z-index by scene). Reduced motion: no travel, the scene on show alone, a short fade (lab-cinema.css). ---------- */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] { --lnx-peek: 12px; --lnx-card-top: calc(var(--lnx-peek) * 2 + 8px); --lnx-card-pad: 10px; --lnx-card-r: 16px 16px 21px 21px; --lnx-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+@media (min-width: 960px) and (min-height: 600px) {
+  body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] { --lnx-peek: 14px; --lnx-card-top: calc(var(--lnx-peek) * 2 + 14px); --lnx-card-pad: 12px; --lnx-card-r: 18px 18px 27px 27px; }
+}
+/* Whole cards (critic round, 21 Nov 2026 evening: with the device's header fixed, a hand-off read as the body of one device
+   swapping, not a card landing on a stack). Each card carries its own header, the mock's name and score (the scene's own
+   ScreenBar, .lc-scene__mini), so the whole card travels; the device keeps only its ground and the Accountancy object, which
+   sits over the stack's corner like a paperweight. The cards under the one on show leave two edges in sight, 12 px each on
+   a phone (14 px wide), each its own tone (the veil) and scale (0.96, 0.92), and an arriving card throws a deeper shadow up
+   onto the stack that settles as it lands (opacity only). */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lcd .lcd-bar { visibility: hidden; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini { display: block; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar {
+  padding: 2px var(--lc-obj-clear) 9px 2px; margin-bottom: 10px; border-bottom: 1px solid var(--a-line);
+}
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__title { min-height: 0; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__tab { display: none; }
+/* The device behind the cards is the screen's sunken ground, so a card and its edge read against it. */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lcd__frame { background: var(--a-sunken); }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene { overflow: clip; }
+/* The Accountancy object stays above every card (the cards lie at z-index 1 to 5). */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc__prop { z-index: 7; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] { z-index: 1; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] { z-index: 2; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] { z-index: 3; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] { z-index: 4; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] { z-index: 5; }
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen {
+  position: relative; margin-top: var(--lnx-card-top); padding-top: var(--lnx-card-pad); border-radius: var(--lnx-card-r);
+  background: var(--s-bg); box-shadow: inset 0 1px 0 var(--a-line-strong), 0 -6px 18px -10px rgba(0, 0, 0, 0.32);
+  transform-origin: 50% 0; opacity: 1; transform: translate3d(0, calc(100% + 32px), 0); overflow: visible;
+}
+/* The arriving card's shadow, thrown up onto the stack: full while the card travels, settling once it stands. */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 -14px 30px -10px rgba(0, 0, 0, 0.5); opacity: 1;
+}
+/* The settle-back dim: a veil over the card in the ground's own colour (opacity only). */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::after {
+  content: ''; position: absolute; inset: 0; z-index: 3; border-radius: inherit; background: var(--a-sunken); opacity: 0; pointer-events: none;
+}
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__copy { opacity: 0; transform: translate3d(0, 0.6rem, 0); }
+/* On show. */
+body .ss.lc[data-pinned='true'][data-step='0'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] .lc-scene__screen { transform: none; }
+body .ss.lc[data-pinned='true'][data-step='0'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen::before,
+body .ss.lc[data-pinned='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen::before,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__screen::before,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lc-scene__screen::before,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] .lc-scene__screen::before { opacity: 0.25; transition-delay: 300ms; }
+body .ss.lc[data-pinned='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen::before,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene:is([data-ss-step='0'], [data-ss-step='1']) .lc-scene__screen::before,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene:is([data-ss-step='0'], [data-ss-step='1'], [data-ss-step='2']) .lc-scene__screen::before,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene:not([data-ss-step='4']) .lc-scene__screen::before { opacity: 0; }
+body .ss.lc[data-pinned='true'][data-step='0'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] .lc-scene__copy { opacity: 1; transform: none; }
+/* One card down: its top edge shows above the card on show. */
+body .ss.lc[data-pinned='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lc-scene__screen { transform: translate3d(0, calc(var(--lnx-peek) * -1), 0) scale(0.96); }
+body .ss.lc[data-pinned='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen::after,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen::after,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__screen::after,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lc-scene__screen::after { opacity: 0.3; }
+/* Two down: the second edge. */
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen { transform: translate3d(0, calc(var(--lnx-peek) * -2), 0) scale(0.92); }
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen::after,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen::after,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__screen::after { opacity: 0.55; }
+/* Three or more down: under the stack, out of sight. */
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen { opacity: 0; }
+body .ss.lc[data-pinned='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__copy,
+body .ss.lc[data-pinned='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__copy { transform: translate3d(0, -0.6rem, 0); }
+body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen { transition: transform 420ms var(--lnx-ease), opacity 200ms linear; }
+body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::after { transition: opacity 420ms var(--lnx-ease); }
+body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::before { transition: opacity 420ms var(--lnx-ease); }
+body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] .lc-scene .lc-scene__copy { transition: opacity 260ms var(--lnx-ease), transform 420ms var(--lnx-ease); }
+/* A wheel arrival that may still be put back on the first scene (useLabAutoplay ENTRY_MS): a scene the wheel passes for a
+   moment does not start to rise before it is taken back. */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'][data-lnx-arriving] .lc-scene :is(.lc-scene__screen, .lc-scene__copy) { transition-delay: 260ms; }
+/* Reduced motion: nothing travels (lab-cinema.css), only the scene on show is drawn, and scenes swap with a short fade. */
+body .ss.lc[data-pinned='true'][data-reduced='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen { opacity: 0; }
+body .ss.lc[data-pinned='true'][data-reduced='true'][data-step='0'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-reduced='true'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-reduced='true'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-reduced='true'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lc-scene__screen,
+body .ss.lc[data-pinned='true'][data-reduced='true'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] .lc-scene__screen { opacity: 1; }
+body .ss.lc[data-pinned='true'][data-reduced='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::after,
+body .ss.lc[data-pinned='true'][data-reduced='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::before { display: none; }
 
 /* ---------- Every screen: its part's name, one headline line, then the rows ---------- */
 .lc__grid[data-look='next'] .lnx { display: grid; gap: 12px; align-content: start; min-width: 0; color: var(--a-ink); font-variant-numeric: tabular-nums; }
@@ -269,8 +393,20 @@ html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tabs span[data-on='tr
 @keyframes lnx-settle { 0% { opacity: 0; transform: scale(0.82); } 70% { opacity: 1; transform: scale(1.04); } 100% { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: no-preference) {
   /* A screen comes on (it remounts each time its scene does): the bars fill, one after another. */
-  .lc__grid[data-look='next'] .lnx--time .td-long__fill { animation: lnx-fill 340ms var(--a-ease) both; animation-delay: calc(120ms + var(--i, 0) * 40ms); }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg { transform-origin: left center; animation: lnx-fill 320ms var(--a-ease) both; animation-delay: calc(120ms + var(--d, 0) * 60ms); }
+  .lc__grid[data-look='next'] .lnx--time .td-long__fill { animation: lnx-fill 340ms var(--a-ease) both; animation-delay: calc(var(--lnx-in, 120ms) + var(--i, 0) * 40ms); }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-seg { transform-origin: left center; animation: lnx-fill 320ms var(--a-ease) both; animation-delay: calc(var(--lnx-in, 120ms) + var(--d, 0) * 60ms); }
+  /* In the held story a card waits in its start state (bars empty) and its reveal starts when its scene comes on, keyed to
+     the story's own data-step (written the moment a step is decided, so the slide carries the start state), once the card
+     stands (--lnx-in, the slide's 420 ms). The first scene also waits for the Lab to be half in view (data-armed). A card
+     that has played is drawn afresh after it leaves (LabNextScreens), so it waits again for its next turn. Critic round,
+     21 Nov 2026 evening: a card used to land finished, then wipe and replay 600 to 870 ms later. */
+  body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] { --lnx-in: 420ms; }
+  body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] .lc-scene .lnx :is(.td-long__fill, .ml-seg, .ml-share i) { animation-play-state: paused; }
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='0'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'][data-armed='true'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i) { animation-play-state: running; }
   /* The chosen change: its final pick settles in after its first. */
   .lc__grid[data-look='next'] .lnx-slot__item[data-shown] .lnx-pick[data-end='to'] > i { animation: lnx-settle 320ms var(--a-ease) 140ms both; }
 }

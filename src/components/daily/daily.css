@@ -47,12 +47,12 @@ html[data-theme='dark'] .mm.lp .lp-try.dly .lp-desk[data-band] { box-shadow: 0 1
   display: grid; justify-items: center; flex: none; margin: 0; padding: 6px 12px 7px; border: 1.5px solid var(--ink); border-radius: 10px;
   box-shadow: inset 0 0 0 3px var(--paper-raised), inset 0 0 0 4px var(--line-strong);
 }
-.mm.lp .dly-admit__seat span { color: var(--ink-3); font: 650 0.75rem/1.2 var(--font-body); }
+.mm.lp .dly-admit__seat span { color: var(--ink-3); font: 650 0.875rem/1.2 var(--font-body); }
 .mm.lp .dly-admit__seat b { color: var(--ink); font: 800 1.375rem/1.05 var(--font-display); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
 .mm.lp .dly-admit__fields { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); margin: 0; border: 1px solid var(--line); border-radius: 12px; }
 .mm.lp .dly-admit__fields > div { display: grid; align-content: start; gap: 3px; min-width: 0; padding: 9px 12px 10px; }
 .mm.lp .dly-admit__fields > div + div { border-left: 1px solid var(--line); }
-.mm.lp .dly-admit__fields dt { color: var(--ink-3); font: 600 0.8125rem/1.25 var(--font-body); }
+.mm.lp .dly-admit__fields dt { color: var(--ink-3); font: 600 0.875rem/1.25 var(--font-body); }
 .mm.lp .dly-admit__fields dd { margin: 0; min-width: 0; color: var(--ink); }
 .mm.lp .dly-admit .df-clock__label { display: none; }
 .mm.lp .dly-admit .df-clock__digits { font-size: 1.25rem; }
@@ -146,7 +146,7 @@ html[data-theme='dark'] .mm.lp .dly-board { box-shadow: 0 1px 2px rgb(0 0 0 / 0.
 .mm.lp .dly__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 2px 0 0; }
 .mm.lp .dly__stats > div { display: flex; flex-direction: column-reverse; align-items: center; gap: 2px; text-align: center; }
 .mm.lp .dly__stats dd { margin: 0; color: var(--ink); font: 800 1.625rem/1.1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.mm.lp .dly__stats dt { color: var(--ink-2); font-size: 0.8125rem; line-height: 1.3; }
+.mm.lp .dly__stats dt { color: var(--ink-2); font-size: 0.875rem; line-height: 1.3; }
 .mm.lp .dly__streak-note { margin: 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.4; text-align: center; }
 
 /* The run's own Try again (a save that did not reach the account): a quiet text key, 44 px tall. */
@@ -162,7 +162,8 @@ html[data-theme='dark'] .mm.lp .dly-board { box-shadow: 0 1px 2px rgb(0 0 0 / 0.
 .mm.lp .lp-try.dly .mm-drill__readout { margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line); }
 .mm.lp .lp-try.dly .mm-drill__miss-body > .dly__miss-why { padding-bottom: 12px; }
 .mm.lp .lp-try.dly .dly__list .mm-drill__miss-chapter { display: grid; gap: 2px; }
-.mm.lp .lp-try.dly .dly__crowd { color: var(--ink-3); font: 500 0.8125rem/1.35 var(--font-body); font-variant-numeric: tabular-nums; }
+.mm.lp .lp-try.dly .dly__list :is(.mm-drill__miss-n, .mm-drill__miss-answer dt) { font-size: 0.875rem; }
+.mm.lp .lp-try.dly .dly__crowd { color: var(--ink-3); font: 500 0.875rem/1.35 var(--font-body); font-variant-numeric: tabular-nums; }
 .mm.lp .lp-try.dly .dly__mark { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--ink-2); background: transparent; color: var(--ink-2); }
 .mm.lp .lp-try.dly .dly__mark[data-right='true'] { border-color: var(--volt-edge); background: var(--volt); color: var(--volt-ink); }
 /* The mark's own ink: the readout tints every icon in a row with the good tone (.mm-drill__readout li svg). */

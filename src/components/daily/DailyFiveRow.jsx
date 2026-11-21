@@ -11,13 +11,21 @@ import { editionName } from '@/lib/daily/team.mjs';
 import { teamName } from '@/lib/daily/colleges.mjs';
 import { Icon } from '@/components/ui/Icons';
 import { useAuth } from '@/components/AuthProvider';
+import { DAILY_MINE_ROUTE, acceptMine } from '@/lib/dailyFiveMine.mjs';
+import CursorDemo from '@/components/landing/demo/CursorDemo';
 import { useOnScreen } from './DailyParts';
 import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
-import { COLLEGE_DAILY, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow } from './dailyStripCopy.mjs';
+import DailyStory from './DailyStory.jsx';
+import { DAILY_STORY, REST_LINE } from './dailyStoryScript.mjs';
+import { COLLEGE_DAILY, DAILY_PRINT, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine } from './dailyStripCopy.mjs';
+import { DAILY_MINE_STORE, didLines, readMark } from './dailyMineUi.mjs';
 import './daily-row.css';
 
 // The doors to the Daily Five.
-//   where="home"   the home page's block, low on the page under the exam screen. 17 Nov 2026 (owner LK293: the look was
+//   where="home"   the home page's block, low on the page under the exam screen. 21 Nov 2026 (owner LK365: "this Daily 5
+//                  feature has to be completely rethought"; tmp/1121-stories/DAILY-SPEC.md "Your five"): the Daily Five's card
+//                  is a small demo that plays by itself (DailyDemo: DailyStory worked by the landing's demo cursor, the beat's
+//                  line above it), then the key and the small print. The Sunday Mock's card is unchanged. Before that: 17 Nov 2026 (owner LK293: the look was
 //                  understood, but the ink "Open now" band and the date slab read as Prepium's; build "something unique"
 //                  around the team idea). One admit card for the Daily Five, in the exam's own materials: the five's name and
 //                  today's edition ("Tuesday's five, 17 Nov", never a bare number), the state and its time, "Playing for" (the
@@ -27,7 +35,8 @@ import './daily-row.css';
 //                  Mock's card follows. The words are dailyStripCopy.mjs's. The block carries one volt key: the Sunday Mock's
 //                  while its paper is open, else the Daily Five's. Nothing here moves by itself.
 //   where="today"  on Today for a signed-in student, under the lead card's rows, drawn as Today's Ask Mobi row (today.css
-//                  .tmask). It reads the account (GET /api/daily/me): today's score, the run of days and the college are the
+//                  .tmask). While today is not played, it shows the student's own five's mix (GET /api/daily/mine) when the
+//                  route built one, else the shared five's line. It reads the account (GET /api/daily/me): today's score, the run of days and the college are the
 //                  account's, so a five played on another phone shows here too; while the account has not answered (or
 //                  cannot), the device's record stands in.
 // The first paint has no date and no record (the server has neither): every part holds its size and fills in once.
@@ -84,6 +93,73 @@ function StateMark({ mark }) {
   );
 }
 
+const reducedNow = () => typeof window !== 'undefined'
+  && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced');
+
+/**
+ * The Daily Five's demo: DailyStory worked by the demo cursor, with the beat's line above it. It plays once each time the
+ * stage comes into the window (most of it on screen), and stops and resets when it leaves mid-way. A real tap inside it
+ * takes over (CursorDemo): from then on it is the reader's, and it never plays by itself again on this visit. Reduced
+ * motion: no cursor, no script, the day's end shown, still usable by hand.
+ */
+function DailyDemo() {
+  const stageRef = useRef(null);
+  const [run, setRun] = useState(0);
+  const [mode, setMode] = useState('idle'); // idle | playing | done | taken
+  const [line, setLine] = useState({ text: '', beat: -1 });
+  const [reduced, setReduced] = useState(false);
+  const modeRef = useRef(mode);
+  useEffect(() => { modeRef.current = mode; }, [mode]);
+  useEffect(() => {
+    const t = window.setTimeout(() => setReduced(reducedNow()), 0);
+    return () => window.clearTimeout(t);
+  }, []);
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el || reduced || typeof IntersectionObserver !== 'function') return undefined;
+    let armed = true; // may play on the next entry
+    const io = new IntersectionObserver(([entry]) => {
+      const m = modeRef.current;
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+        if (armed && m !== 'taken') {
+          armed = false;
+          setLine({ text: '', beat: -1 });
+          if (m !== 'idle') setRun((n) => n + 1);
+          setMode('playing');
+        }
+      } else if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
+        if (m === 'playing') { setMode('idle'); setRun((n) => n + 1); setLine({ text: '', beat: -1 }); }
+        if (m !== 'taken') armed = true;
+      }
+    }, { threshold: [0, 0.2, 0.55] });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [reduced]);
+  const onSay = useCallback((text, beat) => setLine({ text, beat }), []);
+  const onDone = useCallback(() => setMode('done'), []);
+  const onTakeover = useCallback(() => setMode('taken'), []);
+  const again = () => { setLine({ text: '', beat: -1 }); setRun((n) => n + 1); setMode('playing'); };
+  const live = mode === 'playing' && line.beat >= 0;
+  const beats = DAILY_STORY.steps.filter((s) => typeof s.say === 'string').length;
+  return (
+    <>
+      <div className="dst-say" data-live={live || undefined}>
+        <p className="dst-say__where">
+          <span className="dst-say__dots" aria-hidden="true">{Array.from({ length: beats }, (_, i) => <i key={i} data-on={(live && i === line.beat) || undefined} data-done={(live && i < line.beat) || undefined} />)}</span>
+          <span aria-hidden="true">{live ? `Step ${line.beat + 1} of ${beats}` : 'How your five work'}</span>
+          {(mode === 'done' || mode === 'taken') && !reduced ? <button type="button" className="dst-say__again" onClick={again}>Watch again</button> : null}
+        </p>
+        <p className="dst-say__line" aria-hidden="true"><span key={live ? `${run}-${line.beat}` : 'rest'} className="dst-say__text">{live ? line.text : REST_LINE}</span></p>
+      </div>
+      <div className="dwk-story__stage" ref={stageRef}>
+        <CursorDemo key={run} steps={DAILY_STORY.steps} playing={mode === 'playing'} onSay={onSay} onDone={onDone} onTakeover={onTakeover} className="dst-stage">
+          <DailyStory rest={reduced} />
+        </CursorDemo>
+      </div>
+    </>
+  );
+}
+
 function HomeBlock() {
   const ref = useRef(null);
   const record = useDeviceRecord();
@@ -111,7 +187,7 @@ function HomeBlock() {
   // One volt key in the block: the Sunday Mock's while a paper can be started (12 hours a week), else the Daily Five's.
   return (
     <div className="dwk" ref={ref}>
-      <article className="dwk-ticket" data-personal={!COLLEGE_DAILY || undefined} data-state={daily.state} aria-labelledby="dwk-daily">
+      <article className="dwk-ticket" data-story="" data-board={COLLEGE_DAILY || undefined} data-state={daily.state} aria-labelledby="dwk-daily">
         <div className="dwk-ticket__play">
           <div className="dwk-ticket__head">
             <h3 className="dwk-name" id="dwk-daily">Daily Five</h3>
@@ -122,13 +198,17 @@ function HomeBlock() {
               <span className="dwk-when">{daily.when}</span>
             </p>
           </div>
-          {COLLEGE_DAILY ? <PlayingFor team={team} onOpen={() => setSheet(true)} /> : null}
-          {/* The bubbles carry this device's state: shown once a question is answered (open, they would only repeat the 5). */}
-          {marks ? <OmrFive marks={marks} current={current} label={omrLabel(marks, current)} /> : null}
-          <ul className="dwk-figs">
-            {daily.figures.map((f) => <li key={f.figure + f.unit}><b>{f.figure}</b>{f.unit ? <span>{f.unit}</span> : null}</li>)}
-          </ul>
-          <Link href={daily.href} prefetch={false} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
+          <DailyDemo />
+          <div className="dwk-story__foot">
+            {COLLEGE_DAILY ? <PlayingFor team={team} onOpen={() => setSheet(true)} /> : null}
+            {/* The bubbles carry this device's state: shown once a question is answered (open, they would only repeat the 5). */}
+            {marks ? <OmrFive marks={marks} current={current} label={omrLabel(marks, current)} /> : null}
+            <ul className="dwk-figs">
+              {daily.figures.map((f) => <li key={f.figure + f.unit}><b>{f.figure}</b>{f.unit ? <span>{f.unit}</span> : null}</li>)}
+            </ul>
+            <Link href={daily.href} prefetch={false} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
+            <p className="dwk-story__print">{DAILY_PRINT}</p>
+          </div>
         </div>
         {COLLEGE_DAILY ? <div className="dwk-ticket__board">
           <CollegeBoard
@@ -171,21 +251,53 @@ function TodayRow() {
   }, []);
   const today = now === null ? null : todayDaily(now);
   const date = today?.date || null;
+  // The account's day (GET /api/daily/me), then, while today is not played, the student's own five (GET /api/daily/mine,
+  // "Your five", 21 Nov 2026): its mix is the row's line. One read each, after the account answers; any failure, a 401, a
+  // 429 or `personal: false` leaves the shared five's line (`mine` 'shared').
+  const [meDone, setMeDone] = useState(false);
   useEffect(() => {
     if (!date) return undefined;
     let alive = true;
     fetch(DAILY_FIVE_ME_ROUTE, { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
       .then((body) => { const acc = acceptAccount(body); if (alive && acc && acc.date === date) setAccount(acc); })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => { if (alive) setMeDone(true); });
     return () => { alive = false; };
   }, [date]);
+  const [mine, setMine] = useState(null); // null while unknown, 'shared', or the personal five ({ date, mix })
   const { isAuthenticated, user } = useAuth();
-  const team = useTeamChoice({ today: date, account: account?.team || null, userId: isAuthenticated && user?.id ? String(user.id) : null });
+  const userId = isAuthenticated && user?.id ? String(user.id) : null;
+  const team = useTeamChoice({ today: date, account: account?.team || null, userId });
+  // This device's note of today's personal five (dailyMineUi.mjs): whether today's five was the student's own, and what each
+  // answer fed. Read once the account has answered (the note is written as the five is played, here or on /daily).
+  const [note, setNote] = useState(null);
+  useEffect(() => {
+    if (!meDone || !date || !userId) return undefined;
+    const t = window.setTimeout(() => {
+      try { setNote(readMark(window.localStorage.getItem(DAILY_MINE_STORE), { date, userId })); } catch { setNote(null); }
+    }, 0);
+    return () => window.clearTimeout(t);
+  }, [meDone, date, userId]);
 
   const ready = Boolean(today && record);
   const fromAccount = ready && account && account.date === today.date;
   const result = !ready ? null : fromAccount ? account.record : resultFor(record, today.date, null);
+  const askMine = Boolean(ready && meDone && !result);
+  useEffect(() => {
+    if (!askMine || !date) return undefined;
+    let alive = true;
+    fetch(DAILY_MINE_ROUTE, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body) => {
+        if (!alive) return;
+        const got = acceptMine(body);
+        setMine(got && got.personal && got.date === date ? { date: got.date, mix: got.mix } : 'shared');
+      })
+      .catch(() => { if (alive) setMine('shared'); });
+    return () => { alive = false; };
+  }, [askMine, date]);
+  const own = mine && mine !== 'shared' && today && mine.date === today.date ? mine : null;
   const streak = !ready ? 0 : fromAccount
     ? streakOf(runDays(account.played, today.date, Boolean(result)), today.date).count
     : streakOf(record.played, today.date).count;
@@ -194,9 +306,16 @@ function TodayRow() {
   // A played five names the college it counted for: the account's for today (its rows say so), never this device's choice,
   // which may already be the next day's.
   const counted = COLLEGE_DAILY && fromAccount && account.team && account.team.last === today.date ? teamName(account.team.college) : '';
-  const line = !ready ? ' ' : result
+  // A personal five (21 Nov 2026 critic): before it is played, the mix and the time left; once played, the score and what the
+  // five did. Both fit the row's two lines, so it never grows when the answer comes.
+  const line = !ready ? ' ' : result && note?.personal
+    ? todayDoneLine({ score: result.score, did: didLines(note).lines, wait })
+    : result
     ? `Played today: ${result.score}/5 in ${formatClock(result.ms)}${counted ? ` for ${counted}` : ''}.${streak >= 2 ? ` Day ${streak} in a row.` : ''} Next five in ${wait}.`
-    : `${streak >= 2 ? `${streak} days in a row so far.` : streak === 1 ? 'You played yesterday.' : college ? `Playing for ${college}.` : 'Five questions, the same for everyone.'} Today’s five closes in ${wait}.`;
+    : own ? todayMineLine({ mix: own.mix, wait })
+    // Until the student's own five is known, nothing is said about whose five it is: "the same for everyone" is true only once
+    // the route says this student plays the shared five.
+    : `${streak >= 2 ? `${streak} days in a row so far. ` : streak === 1 ? 'You played yesterday. ' : college ? `Playing for ${college}. ` : mine === 'shared' ? 'The same five for everyone. ' : ''}Today’s five closes in ${wait}.`;
   return (
     <Link href={DAILY_FIVE_PATH} className="tmask dfr dfr--today" data-played={result ? 'true' : 'false'}>
       <Mark marks={result?.marks} />
