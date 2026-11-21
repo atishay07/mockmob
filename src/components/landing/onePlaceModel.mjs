@@ -3,9 +3,10 @@
 // (data/tests/home_next_1120.test.mjs); OnePlace.jsx plays it in the browser.
 //
 // SCRIPTS: what the demo cursor (demo/CursorDemo.jsx) does on each row's stage, the landing's own real component:
-//   practise  ExamStage (ExamScreen.jsx): look at the question, pick an option in MockMob style, chip 4, look, switch to NTA
-//             style (answers kept), pick an option, NTA's Save & Next, look at the new question. The palette's counts change
-//             as it goes. On a phone the camera frames each step (EXAM_CAMERA, SHOT) and looks at each new question.
+//   practise  ExamStage (ExamScreen.jsx): pick an option in MockMob style, Next (the next question appears), switch to NTA
+//             style (answers kept), pick an option, NTA's Save & Next. From 640 px it plays on the monitor; below, on the
+//             exam as a phone shows it (ExamStage `inline`: the MockMob phone runner, then PhoneNta), in real pixels. The
+//             same hooks are on both, so one script serves both.
 //   cards     KeyCardsDemo.jsx: turn the card, rate it Got it (the app's key), the next card rises, turn it.
 //   mobi      BringMistakeCard (BringMistakeBlock.jsx): Question, then Read, then Check (the right option of the fresh
 //             question), then Practise.
@@ -31,45 +32,13 @@ export const CURSOR_PRESS_MS = 130;
 export const CURSOR_ENTER_MS = 220;
 export const CURSOR_EXIT_MS = 260;
 
-const click = (target, move, dwell, at, zoom, frame, more = {}) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}), ...(zoom ? { zoom } : {}), ...(frame ? { frame } : {}), ...more });
+const click = (target, move, dwell, at) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}) });
 
 // The fresh question's right option in Bring a mistake's Check step (bringMistakeCopy.mjs, held there by its own test).
 const RIGHT = BRING_MISTAKE.check.correct + 1;
 
-// The camera on the exam screen (21 Nov 2026): below 640 px the monitor's screen is drawn at about 40% of its design size, so
-// its stem came out at 7 px and its options at under 6. Each step on the screen zooms the screen (the frame inside the glass;
-// the monitor stays a monitor, LK319) about its target, at least ZOOM_AT and enough that the target's text is drawn at 12 px
-// or more. The switch beside the monitor eases back out. CursorDemo's `zoom` prop takes this.
-export const ZOOM_AT = 2.1;
-export const EXAM_CAMERA = Object.freeze({ el: '.xs-glass > .xs-frame', below: 640, minPx: 12, max: 3.2 });
-// The shots are composed, not centred on the key (21 Nov, the coordinator's look at the first camera: a key and blank boxes,
-// no question). A pick frames the stem and the four options. A key press frames the key with the palette beside it, whose
-// counts and chips change with the press: at the camera's least scale the chosen option (the screen's left) and the key (its
-// right) never fit one shot, and between the options and the key bar both screens are blank paper (measured: 60 to 95% of
-// the shot blank). So the key the script presses is the one next to the palette (Next; Save & Next), never NTA's Mark key at
-// the far left. After a press that brings a new question, a look beat pans to its stem and options and holds. Both screens'
-// parts are named, since only the one on show matches.
-export const SHOT = Object.freeze({
-  question: '.xs-stem, .xs-options, .xs-n-stem, .xs-n-options',
-  panel: '.xs-review, .xs-n-palette',
-});
-// A question shot's least scale comes from its text (21 Nov, the critic's second round: options came out at 11.4 px on a
-// 360 px phone): every option's words at 12 px, the stem at 11 px (the stem may go a point under, so more of it fits). The
-// option's letter chip (one bold capital) is not held to 12: it would force the scale from 2.2 to 2.5 and cut more stem. The screen is the real one, so its lines cannot rewrap: when the stem and the four options still do not fit, the
-// look beat opens on the stem's start and pans to its end and the last option during the hold.
-export const QUESTION_TEXT = Object.freeze([
-  Object.freeze(['.xs-opt-text, .xs-n-option > span:last-child', 12]),
-  Object.freeze(['.xs-stem, .xs-n-stem', 11]),
-]);
-// Where a look beat pans when the question cannot fit: along the stem's line, to its end (and down to the last option).
-export const STEM = '.xs-stem, .xs-n-stem';
-export const LOOK_MS = 700;
-const look = (move, dwell) => Object.freeze({ look: SHOT.question, text: QUESTION_TEXT, pan: STEM, move, dwell });
-const pick = (target, move, dwell, at) => click(target, move, dwell, at, ZOOM_AT, SHOT.question, { text: QUESTION_TEXT });
-// A key press: the key and the palette right of it, the shot starting at the key's left edge and below the options.
-const key = (target, move, dwell) => click(target, move, dwell, null, ZOOM_AT, SHOT.panel, { anchor: 'key', clear: '.xs-options, .xs-n-options' });
-// A palette chip: the shot is the palette (its counts and chips) alone.
-const chip = (target, move, dwell) => click(target, move, dwell, null, ZOOM_AT, SHOT.panel, { anchor: 'region' });
+// No camera (21 Nov 2026, round 4): a laptop exam screen squeezed onto a phone cannot show a whole question at a readable
+// size (7 to 8 px options at best), so below 640 px the stage is the phone runner itself (ExamStage `inline`).
 
 // Every row runs 8 s or less (owner: each screen lasts about 5 s; the critic timed 9.7 and 10.4).
 export const ROW_MAX_MS = 8000;
@@ -78,17 +47,16 @@ export const SCRIPTS = Object.freeze({
   // A look at Q3 opens the row (the camera comes in on the question), then: MockMob pick, chip 4 in the review panel, look
   // at Q4. The switch: the one shot out at scale 1, about 600 ms (move in 380, press, a short dwell), then straight into the
   // NTA question: pick, Save & Next (the palette counts it), look at Q5. Each look pans when the question cannot fit whole.
+  // The held shot of Q3; pick B and press Next inside it (the shot eases down just enough for the key: Q4 arrives in the same
+  // shot); out to 1 for the switch; the NTA question's held shot as the pick is made; Save & Next (the shot eases to the key);
+  // back to the held shot of Q5. About five camera moves a pass.
   practise: Object.freeze([
-    look(400, LOOK_MS),
-    pick('[data-demo="xs-option"]:nth-child(2)', 440, 250, [0.25, 0.5]),
-    // MockMob's Next sits under the options' right ends, which no shot at a readable scale can leave out (the critic's
-    // "empty option boxes"), so the move to Q4 is the review panel's own chip 4: the same real control a student uses.
-    chip('[data-demo="xs-chip"]:nth-child(4)', 380, 150),
-    look(400, LOOK_MS),
-    click('[data-demo="xs-nta"]', 380, 150),
-    pick('[data-demo="xs-n-option"]:nth-child(3)', 440, 250, [0.3, 0.5]),
-    key('[data-demo="xs-n-save"]', 380, 300),
-    look(400, LOOK_MS),
+    Object.freeze({ wait: 400 }),
+    click('[data-demo="xs-option"]:nth-child(2)', 450, 350, [0.3, 0.5]),
+    click('[data-demo="xs-next"]', 420, 750),
+    click('[data-demo="xs-nta"]', 450, 550),
+    click('[data-demo="xs-n-option"]:nth-child(3)', 450, 350, [0.3, 0.5]),
+    click('[data-demo="xs-n-save"]', 420, 1000),
   ]),
   cards: Object.freeze([
     Object.freeze({ wait: 400 }),
@@ -110,7 +78,6 @@ export function scriptMs(steps = []) {
   let ms = CURSOR_ENTER_MS + CURSOR_EXIT_MS;
   for (const step of steps) {
     if (step.wait) { ms += step.wait; continue; }
-    if (step.look) { ms += (step.move ?? 0) + (step.dwell ?? 0); continue; }
     ms += (step.move ?? 0) + (step.click ? CURSOR_PRESS_MS : 0) + (step.dwell ?? 0);
   }
   return ms;
@@ -156,3 +123,36 @@ export function motionReduced(win = globalThis.window) {
 
 /** The live home's old section addresses (the hero strip still links them): which row each opens on this page. */
 export const ROW_OF_HASH = Object.freeze({ '#exam-experience': 'practise', '#key-cards': 'cards', '#bring-a-mistake': 'mobi' });
+
+// ------------------------------------------------------------------ which stages are live (21 Nov 2026, load weight)
+// The server draws all three stages; in the browser only the row on show is made live (a React component) at first, the
+// others stay as the server drew them (OnePlaceGate.jsx keeps that markup), so the frame keeps its height and the page does
+// not build three demos at once. The next row's stage is made live in idle time shortly before its turn (STAGE_LEAD_MS
+// before the shown row's script ends), or at once when a reader taps its row. Each live stage has a mount generation (its
+// React key): a stage that has played is mounted fresh before it plays again, so every run starts from the component's
+// start state; a stage made live ahead of its turn has not played, so it is not mounted a second time when its turn comes.
+/** How long before the shown row's script ends the next row's stage is made live (in idle time). */
+export const STAGE_LEAD_MS = 2500;
+
+/** The stages at the start: `drawn` (the server's markup is kept) makes only the shown row live; otherwise all are. */
+export function stagesStart(count, { active = 0, drawn = false } = {}) {
+  return {
+    live: Array.from({ length: count }, (_, i) => !drawn || i === active),
+    gen: Array.from({ length: count }, () => 0),
+    used: Array.from({ length: count }, (_, i) => i === active),
+  };
+}
+
+/** `start`: row `index` begins a run (live, and mounted fresh if it has played). `ready`: make it live, unplayed, ahead of its turn. */
+export function stagesStep(state, { type, index }) {
+  if (!Number.isInteger(index) || index < 0 || index >= state.live.length) return state;
+  if (type === 'ready' && state.live[index] && !state.used[index]) return state;
+  if (type !== 'start' && type !== 'ready') return state;
+  const live = state.live.slice();
+  const gen = state.gen.slice();
+  const used = state.used.slice();
+  if (used[index]) gen[index] += 1;
+  live[index] = true;
+  used[index] = type === 'start';
+  return { live, gen, used };
+}

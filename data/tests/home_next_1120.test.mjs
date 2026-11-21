@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { CREATORS_SUB, ONE_PLACE, alsoInside, bankLine, freeFaq, mobiPrice } from '../../src/components/landing/onePlaceCopy.mjs';
 import { EXAM_HEAD, INSTAGRAM_HEAD } from '../../src/components/landing/homeCopy.mjs';
 import {
-  EXAM_CAMERA, LOOK_MS, QUESTION_TEXT, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, SHOT, TAKEOVER_HOLD_MS, ZOOM_AT, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
+  ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
   scriptHooks, scriptMs,
 } from '../../src/components/landing/onePlaceModel.mjs';
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
@@ -24,6 +24,8 @@ const read = (rel) => readFileSync(join(root, rel), 'utf8').replace(/\r\n/g, '\n
 const PAGE = read('src/app/home-next/page.js');
 const LIVE = read('src/app/page.js');
 const FRAME = read('src/components/landing/OnePlace.jsx');
+const { stagesStart, stagesStep, STAGE_LEAD_MS } = await import('../../src/components/landing/onePlaceModel.mjs');
+const { OPENING_FAST, openingGateScript } = await import('../../src/components/landing/openingGate.mjs');
 const EXAM_SRC = read('src/components/landing/ExamScreen.jsx');
 const CARDS_SRC = read('src/components/landing/KeyCardsDemo.jsx');
 const BMK_SRC = read('src/components/landing/BringMistakeBlock.jsx');
@@ -70,7 +72,11 @@ test('"/" is untouched: it still draws the tour deck, Key cards, Bring a mistake
 test('the shared components keep the live markup by default (their new props are optional and off on "/")', () => {
   // ExamScreen is the section with its head, drawn through ExamStage; the gate card stays on by default.
   assert.match(EXAM_SRC, /export function ExamScreen\(\) \{\n  return \(\n    <section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">\n      <div className="mm-wrap">\n        <ExamStage head=\{<>/);
-  assert.match(EXAM_SRC, /export function ExamStage\(\{ head = null, gate = true, note = null \}\)/);
+  assert.match(EXAM_SRC, /export function ExamStage\(\{ head = null, gate = true, note = null, inline = false \}\)/);
+  // `inline` (off on "/"): below 640 px the phone view in the monitor's place; without it the monitor is drawn as before.
+  assert.match(EXAM_SRC, /if \(!inline\) return undefined;\n\s*const query = window\.matchMedia\('\(max-width: 639px\)'\);/);
+  assert.match(EXAM_SRC, /\{inlineNow \? \(\n\s*<div className="xs-inline" ref=\{deviceRef\}>\n\s*\{full \? <div className="xs-frame xs-frame--away" aria-hidden="true" \/> : phone\}/);
+  assert.doesNotMatch(read('src/app/page.js'), /inline/);
   // The gate's short form drops only the warning rule; by default it is drawn as before.
   assert.match(EXAM_SRC, /<b>\{EXAM\.gateTitle\}\.<\/b> \{EXAM\.gate\}\{gate === 'short' \? null : <> \{EXAM\.warningRule\}<\/>\}/);
   assert.match(EXAM_SRC, /<div className="xs-layout">\n        \{head\}/);
@@ -78,6 +84,9 @@ test('the shared components keep the live markup by default (their new props are
   assert.match(CARDS_SRC, /export default function KeyCardsDemo\(\{ cards = \[\], keys = \[\], bank = null, subjects = null, foot = true \}\)/);
   assert.match(CARDS_SRC, /\{foot \? <div className="kc-foot">/);
   assert.match(BMK_SRC, /<BringMistakeCard id=\{id\} photo=\{photo\} \/>/);
+  // "What you leave with" is its own piece now; the block draws it with its own id, as before.
+  assert.match(BMK_SRC, /<BringMistakeValue id=\{id\} \/>/);
+  assert.match(BMK_SRC, /export function BringMistakeValue\(\{ id: given \}\)/);
   assert.match(BMK_SRC, /export function BringMistakeCard\(\{ id: given, photo = false \}\)/);
   assert.match(BMK_SRC, /const id = given \|\| own;/);
 });
@@ -85,7 +94,7 @@ test('the shared components keep the live markup by default (their new props are
 test('/home-next draws the new section and none of the four it replaces, in the live order around it', () => {
   for (const gone of [/<TourDeck/, /id="key-cards"/, /<KeyCardsDemo/, /<BringMistakeBlock/, /<ExamScreen/, /TOUR_HEAD/]) assert.doesNotMatch(PAGE, gone);
   assert.match(PAGE, /<section className="lp-sec op" id="your-prep" aria-labelledby="op-title">/);
-  assert.match(PAGE, /<OnePlace keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\}>\n\s*<LandingActions mode="primary" \/>/);
+  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\}>\n\s*<LandingActions mode="primary" \/>/);
   assert.match(PAGE, /<LabCinema look="next" \/>/);
   const order = ['className="lp-hero"', '<CollegeStrip', 'id="try"', 'id="your-prep"', '<Statement', 'id="inside-the-lab"', 'id="daily-and-sunday"', 'id="compass"', 'id="pricing"', 'id="on-instagram"', 'id="wall-of-love"', 'id="faq"', 'className="lp-close"'];
   const at = order.map((mark) => PAGE.indexOf(mark));
@@ -106,11 +115,27 @@ test('the page draws the home sections with the home sheet, loaded after the mar
 test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   assert.match(FRAME, /import \{ ExamStage \} from '\.\/ExamScreen';/);
   assert.match(FRAME, /import KeyCardsDemo from '\.\/KeyCardsDemo';/);
-  assert.match(FRAME, /import \{ BringMistakeCard \} from '\.\/BringMistakeBlock';/);
+  assert.match(FRAME, /import \{ BringMistakeCard, BringMistakeValue \} from '\.\/BringMistakeBlock';/);
   assert.match(FRAME, /import CursorDemo from '\.\/demo\/CursorDemo';/);
-  assert.match(FRAME, /if \(row\.id === 'practise'\) return <ExamStage gate="short" note=\{<p className="op-proof op-proof--switch">\{ONE_PLACE\.practiseProof\}<\/p>\} \/>;/);
-  assert.match(FRAME, /<KeyCardsDemo cards=\{keyCards\.cards\} keys=\{keyCards\.keys\} bank=\{keyCards\.bank\} subjects=\{keyCards\.subjects\} foot=\{false\} \/>/);
+  assert.match(FRAME, /if \(row\.id === 'practise'\) return <ExamStage gate="short" inline note=\{<p className="op-proof op-proof--switch">\{ONE_PLACE\.practiseProof\}<\/p>\} \/>;/);
+  // Key cards draws its own foot (shown on phones only, without its sign-up key: one-place.css).
+  assert.match(FRAME, /<KeyCardsDemo cards=\{keyCards\.cards\} keys=\{keyCards\.keys\} bank=\{keyCards\.bank\} subjects=\{keyCards\.subjects\} \/>/);
+  const css = read('src/components/landing/one-place.css');
+  assert.match(css, /\.op-kc \.kc-foot > \.mm-btn \{ display: none; \}/);
+  assert.match(css, /@media \(min-width: 640px\) \{ \.op-kc \.kc-foot \{ display: none; \} \}/);
+  // Phones: no gate card and no saved line in the frame; the inline runner starts with its strike-out note dismissed.
+  assert.match(css, /@media \(max-width: 639px\) \{ \.op-slot\[data-tool='practise'\] \.xs-gate \{ display: none; \} \}/);
+  assert.match(EXAM_SRC, /const sync = \(\) => \{ setInlineNow\(query\.matches\); if \(query\.matches\) setNoteOn\(false\); \};/);
+  // The inline runner is never a scroller: a swipe on it moves the page (lane-hn-weight's runs got stuck on the stem). Its
+  // panes are clipped with no scroll containment, and the view passes vertical pans to the page. The full-screen view and
+  // "/" keep their own scrolling panes (exam-screen.css is not touched).
+  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{ overflow: clip; touch-action: pan-y; \}/);
+  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-inline :is\(\.xs-ph-paper, \.xs-ph-pane\) \{ overflow: clip; overscroll-behavior: auto; touch-action: pan-y; \}/);
+  assert.match(read('src/app/exam-screen.css'), /\.xs-ph-paper \{[^}]*overflow-y: auto; overscroll-behavior: contain;/);
   assert.match(FRAME, /<BringMistakeCard photo=\{photo\} \/>/);
+  // Phones: the live block's "What you leave with" under the card (hidden from 640 px).
+  assert.match(FRAME, /<BringMistakeCard photo=\{photo\} \/><BringMistakeValue \/><\/div>/);
+  assert.match(read('src/components/landing/one-place.css'), /@media \(min-width: 640px\) \{ \.mm\.lp \.op-bmk \.bmk__value \{ display: none; \} \}/);
   // Key cards and Ask Mobi sit in the exam monitor's own browser bar, at the addresses they really live at in the app.
   assert.match(FRAME, /<div className="xs-browser op-win__bar" aria-hidden="true">/);
   assert.match(FRAME, /<AppWindow path=\{row\.path\}><div className="op-kc"><KeyCardsDemo/);
@@ -118,8 +143,9 @@ test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   assert.deepEqual(ONE_PLACE.rows.map((r) => r.path), [undefined, '/cards', '/mentor']);
   assert.match(read('src/components/landing/bringMistakeCopy.mjs'), /export const BRING_MISTAKE_PATH = '\/mentor';/);
   assert.ok(sourceFiles(join(root, 'src/app/(app)/cards')).length > 0, 'Key cards live at /cards');
-  // Every stage starts fresh: the shown one is keyed by the run, the others idle.
-  assert.match(FRAME, /key=\{on \? `on-\$\{cycle\}` : 'idle'\}/);
+  // Every stage starts fresh: a live stage is keyed by its mount generation, which moves on before a stage that has played
+  // plays again (onePlaceModel.mjs stagesStep; the behaviour is held in the load-weight test below).
+  assert.match(FRAME, /<CursorDemo key=\{`run-\$\{stages\.gen\[i\]\}`\}/);
 });
 
 test('every script aims at a data-demo hook its component really carries', () => {
@@ -134,7 +160,7 @@ test('every script aims at a data-demo hook its component really carries', () =>
   // Practise switches to NTA style in the middle and ends on NTA's Save & Next (the key beside the palette); Ask Mobi picks
   // the fresh question's right option.
   const p = SCRIPTS.practise.filter((s) => s.target).map((s) => s.target);
-  assert.ok(p.indexOf('[data-demo="xs-nta"]') > p.indexOf('[data-demo="xs-chip"]:nth-child(4)'));
+  assert.ok(p.indexOf('[data-demo="xs-nta"]') > p.indexOf('[data-demo="xs-next"]'));
   assert.equal(p.at(-1), '[data-demo="xs-n-save"]');
   assert.equal(p.filter((t) => t === '[data-demo="xs-n-save"]').length, 1);
   assert.ok(SCRIPTS.mobi.some((s) => s.target === `[data-demo="bmk-option"]:nth-child(${BRING_MISTAKE.check.correct + 1})`));
@@ -149,7 +175,6 @@ test('each row runs for its own script, 8 seconds or less, and its line fills ov
     for (const step of steps) if (step.target) assert.ok(Number.isFinite(step.move) && Number.isFinite(step.dwell), `${tool}: every step names its move and dwell`);
   }
   assert.equal(scriptMs([{ wait: 500 }, { target: 'x', move: 400, dwell: 600, click: true }]), 220 + 260 + 500 + 400 + 130 + 600);
-  assert.equal(scriptMs([{ look: 'x', move: 400, dwell: 700 }]), 220 + 260 + 400 + 700, 'a look beat counts its pan and its hold');
   assert.match(FRAME, /'--op-ms': `\$\{scriptMs\(SCRIPTS\[row\.id\]\)\}ms`/);
 });
 
@@ -174,7 +199,7 @@ test('the frame never plays under reduced motion, off screen, in a hidden tab, h
   assert.equal(afterRow(1, 3), 2);
   assert.equal(afterRow(2, 3), null);
   assert.match(FRAME, /autoplayRuns\(\{ ready, reduced, onScreen, visible, held \}\) && !resting/);
-  assert.match(FRAME, /if \(!was && on && restRef\.current\) \{ setResting\(false\); setIndex\(0\); setCycle\(\(c\) => c \+ 1\); \}/);
+  assert.match(FRAME, /if \(!was && on && restRef\.current\) \{ setResting\(false\); start\(0\); \}/);
   // A finger lifting ends the pointer too: only a mouse leaving starts the 8 s hold, and the stage is never remounted under
   // a reader who took over (the frame leaving the window, or another row, lets them go).
   assert.equal(leaveStartsHold('mouse'), true);
@@ -184,35 +209,24 @@ test('the frame never plays under reduced motion, off screen, in a hidden tab, h
   assert.deepEqual(ROW_OF_HASH, { '#exam-experience': 'practise', '#key-cards': 'cards', '#bring-a-mistake': 'mobi' });
 });
 
-test('below 640 px the exam screen\'s camera composes each shot, looks at each new question, and goes out only for the switch', () => {
-  assert.deepEqual({ ...EXAM_CAMERA }, { el: '.xs-glass > .xs-frame', below: 640, minPx: 12, max: 3.2 });
-  assert.ok(ZOOM_AT >= 2 && ZOOM_AT <= 2.2);
+test('below 640 px the Practise row plays the exam as a phone shows it: one script, no camera', () => {
   const steps = SCRIPTS.practise;
-  for (const step of steps) {
-    if (step.look) { assert.equal(step.look, SHOT.question); assert.equal(step.dwell, LOOK_MS); continue; }
-    if (step.target === '[data-demo="xs-nta"]') { assert.equal(step.zoom, undefined, 'the switch is outside the screen'); assert.ok(step.move + 130 + step.dwell <= 800, 'the shot out is short'); continue; }
-    assert.equal(step.zoom, ZOOM_AT, step.target);
-    // A pick frames the question; a key press frames the palette beside the key.
-    assert.equal(step.frame, /option/.test(step.target) ? SHOT.question : SHOT.panel, step.target);
-  }
-  // Every press that brings a new question (Next, the first Save & Next) is followed by a look beat at that question.
-  steps.forEach((step, i) => {
-    if (/xs-chip|xs-n-save/.test(step.target || '')) assert.ok(steps[i + 1]?.look, `a look after ${step.target}`);
-  });
-  assert.equal(LOOK_MS, 700);
-  assert.match(FRAME, /zoom=\{row\.id === 'practise' \? EXAM_CAMERA : null\}/);
+  // One script for the monitor and the phone view: the same hooks are on both (the phone runner's Next, PhoneNta's options
+  // and Save & Next), so it reads MockMob pick, Next, the switch, NTA pick, Save & Next on either.
+  assert.deepEqual(steps.filter((st) => st.target).map((st) => st.target.replace(/:nth-child\(\d\)/, '')),
+    ['[data-demo="xs-option"]', '[data-demo="xs-next"]', '[data-demo="xs-nta"]', '[data-demo="xs-n-option"]', '[data-demo="xs-n-save"]']);
+  const phoneRunner = EXAM_SRC.slice(EXAM_SRC.indexOf('const phone = ('));
+  assert.match(phoneRunner, /className="xs-btn xs-btn--next" data-demo="xs-next"/);
+  const phoneNta = EXAM_SRC.slice(EXAM_SRC.indexOf('function PhoneNta('));
+  assert.match(phoneNta, /className="xs-n-option" data-demo="xs-n-option"/);
+  assert.match(phoneNta, /className="xs-n-key xs-n-key--save" data-demo="xs-n-save"/);
+  // No camera anywhere: no zoom prop, no camera steps, none of its code left in CursorDemo.
+  for (const step of steps) for (const k of ['zoom', 'camera', 'frame', 'look', 'fit']) assert.equal(step[k], undefined, `${k} in ${step.target}`);
   const cursor = read('src/components/landing/demo/CursorDemo.jsx');
-  assert.match(cursor, /zoom = null/);
-  assert.match(cursor, /Math\.max\(step\.zoom, font \? \(zoom\.minPx \?\? 12\) \/ font : 0\)/, 'big enough that the target\'s text is drawn at minPx');
-  assert.match(cursor, /cam\.style\.transform = next\.s === 1 \? '' : `translate3d\(/, 'one transform on the screen');
-  assert.match(cursor, /const pans = look\(step, step\.move \?\? MOVE_MS\);/, 'a look beat pans when the question cannot fit');
-  // The question shot's floor comes from its text: option words at 12 px, the stem at 11 px; a key shot starts at the key.
-  assert.deepEqual(QUESTION_TEXT.map(([, px]) => px), [12, 11]);
-  assert.match(cursor, /const textFloor = \(pairs\) =>/);
-  assert.match(cursor, /const anchorX = anchor === 'key' \? keep\.l : anchor === 'region' \? region\.l : null;/);
-  for (const step of steps) if (step.look || step.frame === SHOT.question) assert.equal(step.text, QUESTION_TEXT);
-  for (const step of steps) if (step.frame === SHOT.panel) assert.ok(step.anchor === 'key' || step.anchor === 'region', step.target);
-  assert.match(EXAM_SRC, /className="xs-frame" data-interface=\{mode\}/, 'the screen inside the glass the camera moves');
+  assert.doesNotMatch(cursor, /zoom = |zoom\?\.|const compose|textFloor|cam\.style/);
+  assert.doesNotMatch(FRAME, /zoom=|EXAM_CAMERA/);
+  // The phone view has a fixed height, so the frame never changes height between rows.
+  assert.match(read('src/components/landing/one-place.css'), /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{\n\s*grid-area: device; display: flex; flex-direction: column; height: 648px;/);
 });
 
 test('no frame loop and no interval in the new section\'s files; transform and opacity only, no blur', () => {
@@ -253,9 +267,13 @@ test('"Also inside" is three linked chips with their icons, only the tools that 
   assert.deepEqual(names({}), ['Benchmarks']);
   // Never a signed-in route (a guest lands on Log in): Benchmarks opens the features page's Practise group ("Your standing"
   // is there); Learn and the Mob have no public page, so Sign up, keeping the tool as where to land.
-  assert.deepEqual(alsoInside({ studyLive: true, mobLive: true }).map((t) => [t.href, t.icon]), [['/signup?next=%2Flearn', 'lesson'], ['/features#fx-practise', 'you'], ['/signup?next=%2Fmob', 'mob']]);
-  assert.match(read('src/app/features/page.js'), /const slug = \(text\) => `fx-\$\{text\.replace\(\/\\W\+\/g, '-'\)\.toLowerCase\(\)\}`;/);
-  assert.match(read('src/app/features/page.js'), /\{ title: 'Practise', parts: \['Practice', 'NTA mode', 'Saved questions', 'Your standing'\] \}/);
+  assert.deepEqual(alsoInside({ studyLive: true, mobLive: true }).map((t) => [t.href, t.icon]), [['/signup?next=%2Flearn', 'lesson'], ['/signup?next=%2Fleaderboard', 'you'], ['/signup?next=%2Fmob', 'mob']]);
+  // The chips open Sign up, so the line under them says so (true of all three on Free: buildTour's own points).
+  assert.equal(ONE_PLACE.alsoNote, 'Free to open once you sign up.');
+  assert.match(PAGE, /<p className="op-also__note">\{ONE_PLACE\.alsoNote\}<\/p>/);
+  assert.match(read('src/components/landing/homeCopy.mjs'), /Lessons and recall are free, no credits/);
+  assert.match(read('src/components/landing/homeCopy.mjs'), /The daily benchmark is free/);
+  assert.match(read('src/components/landing/homeCopy.mjs'), /Playing every game your Mob starts is free on every plan\./);
   assert.match(PAGE, /const ALSO = alsoInside\(\{ studyLive: STUDY_LIVE, mobLive: MOB_LIVE \}\);/);
   assert.match(PAGE, /<Link href=\{tool\.href\} prefetch=\{false\} className="op-chip"><BrandIcon name=\{tool\.icon\} size=\{32\} \/>\{tool\.name\}<\/Link>/);
   assert.match(PAGE, /const MOB_LIVE = process\.env\.MOB_ENABLED === 'true' && process\.env\.MOB_V3_ENABLED === 'true';/);
@@ -273,7 +291,7 @@ test('each row carries its live section\'s proof line, in that section\'s words 
   assert.equal(mobiPrice({ photo: true, credits: 1, photoCredits: 2, free: 50 }), 'A typed question uses 1 credit, a photo 2 credits. Free gives you 50 credits a month.');
   assert.doesNotMatch(mobiPrice({ photo: false, credits: 1, photoCredits: 2, free: 50 }), /photo/, 'a photo only while Mobi reads photos');
   assert.match(PAGE, /mobiPrice\(\{ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS \}\)/);
-  assert.match(PAGE, /<OnePlace keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\}>/);
+  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\}>/);
 });
 
 test('the phone nav draws the Pricing pill here too, and the Lab\'s Skip finds the next section when the bar is read', () => {
@@ -295,4 +313,60 @@ test('carried over from the first /home-next: the creators\' sign-up floor and "
   assert.match(PAGE, /freeFaq\(\{ freeCredits: AI_FREE_MONTHLY_CREDITS, dailySize: DAILY_FIVE_SIZE \}\)/);
   assert.match(PAGE, /<ReadLineHere \/>/);
   assert.match(PAGE, /<SampleHere \/>/);
+});
+
+// ------------------------------------------------------------------ load weight, the bar, the opening (21 Nov 2026)
+test('the frame loads late: the server draws it whole, the browser asks for its code only near the window', () => {
+  const GATE = read('src/components/landing/OnePlaceGate.jsx');
+  assert.match(PAGE, /^import OnePlaceGate from '@\/components\/landing\/OnePlaceGate';$/m);
+  assert.doesNotMatch(PAGE, /^import OnePlace from/m, 'the page never imports the frame itself');
+  assert.doesNotMatch(GATE, /^import .*from '\.\/OnePlace';/m, 'never a static import of the frame');
+  assert.match(GATE, /export const SERVER_READY = typeof window === 'undefined' \? import\('\.\/OnePlace'\)/);
+  assert.match(GATE, /const ServerFrame = lazy\(\(\) => \(serverModule \? \{ then: \(done\) => done\(serverModule\) \} : SERVER_READY\)\);/);
+  assert.match(GATE, /export const ONE_PLACE_NEAR = '150% 0px 150% 0px';/);
+  assert.match(GATE, /dangerouslySetInnerHTML=\{\{ __html: readDrawn\(\) \}\} suppressHydrationWarning/);
+  // The frame's sheets come with the gate, in the order the frame's own imports bring them (so the drawn frame is styled).
+  const sheets = [...GATE.matchAll(/^import '([^']+\.css)';/gm)].map((m) => m[1].split('/').pop());
+  assert.deepEqual(sheets, ['cursor-demo.css', 'doodle.css', 'exam-device.css', 'exam-screen.css', 'loading-kit.css', 'key-cards.css', 'brand-stamp.css', 'bring-mistake.css', 'one-place.css']);
+  for (const f of ['src/components/landing/OnePlaceGate.jsx', 'src/components/landing/LabNextGate.jsx']) assert.doesNotMatch(read(f), /requestAnimationFrame|setInterval|getBoundingClientRect|offsetHeight/, f);
+});
+
+test('only the shown stage is live; the next is made live unplayed before its turn, and a played one is mounted fresh', () => {
+  let s = stagesStart(3, { drawn: true });
+  assert.deepEqual(s.live, [true, false, false]);
+  assert.deepEqual(stagesStart(3).live, [true, true, true], 'no drawing to keep (a client visit): every stage live, as before');
+  s = stagesStep(s, { type: 'ready', index: 1 });
+  assert.deepEqual([s.live[1], s.gen[1], s.used[1]], [true, 0, false]);
+  s = stagesStep(s, { type: 'start', index: 1 });
+  assert.equal(s.gen[1], 0, 'made live ahead of its turn: not mounted a second time when it starts');
+  s = stagesStep(s, { type: 'start', index: 1 });
+  assert.equal(s.gen[1], 1, 'a restart after it has played: mounted fresh');
+  s = stagesStep(s, { type: 'start', index: 0 });
+  assert.equal(s.gen[0], 1, 'the first stage played at once, so it too is fresh when it starts again');
+  s = stagesStep(s, { type: 'ready', index: 1 });
+  assert.deepEqual([s.gen[1], s.used[1]], [2, false], 'a played stage made ready again is remounted in idle time, not on its turn');
+  assert.equal(stagesStep(s, { type: 'start', index: 7 }), s);
+  assert.ok(STAGE_LEAD_MS >= 1000 && STAGE_LEAD_MS <= 4000);
+  assert.match(FRAME, /if \(!stages\.live\[i\]\) return <div key=\{row\.id\} \{\.\.\.slot\} data-drawn="" dangerouslySetInnerHTML=\{\{ __html: drawn\[row\.id\] \}\} \/>;/);
+  assert.match(FRAME, /window\.requestIdleCallback\(make, \{ timeout: 1200 \}\)/);
+});
+
+test('the bar steps aside for the whole frame on /home-next only; the live home passes nothing', () => {
+  assert.match(PAGE, /<HeroDockGate aside="\.op-gate">/);
+  assert.match(LIVE, /<HeroDockGate>/);
+  const gate = read('src/components/landing/HeroDockGate.jsx');
+  assert.match(gate, /export function HeroDockGate\(\{ children, aside = null \}\)/);
+  assert.match(gate, /\{ rootMargin: `-\$\{NAV\}px 0px 0px 0px`, threshold: 0 \}\);\n    blocks\.forEach/);
+});
+
+test('the opening hands over once the hero has painted on /home-next; the live home keeps its opening', () => {
+  assert.match(PAGE, /<OpeningMo fast \/>/);
+  assert.match(LIVE, /<OpeningMo \/>/);
+  assert.deepEqual({ ...OPENING_FAST }, { wait: 700, lite: 800 });
+  const live = openingGateScript();
+  const fast = openingGateScript({ fast: true });
+  assert.doesNotMatch(live, /largest-contentful-paint|"fast"/, 'the live home\'s script carries none of it');
+  assert.match(fast, /largest-contentful-paint/);
+  assert.match(fast, /"fast":\{"wait":700,"lite":800\}/);
+  assert.doesNotThrow(() => new Function(fast));
 });

@@ -59,17 +59,7 @@ export default function BringMistakeBlock({ photo = false, credits = 1, photoCre
             <h2 className="lp-h2" id="bmk-title"><Marked text={W.h2} marks={[['wrong', { mark: 'circle', tone: 'pen' }]]} /></h2>
             <p className="lp-sub">{words.sub}</p>
           </Reveal><MascotSeat station="photo" pose="camera" label="Show me the page." /></div>
-          <div className="bmk__value">
-            <p className="bmk__value-label" id={`${id}-value`}>{W.value.label}</p>
-            <ul className="bmk__gets" aria-labelledby={`${id}-value`}>
-              {W.value.items.map((item) => (
-                <li key={item.lead}>
-                  <span className="bmk__get-lead">{item.figure ? <><span className="bmk__fig">{item.figure}</span> </> : null}{item.lead}</span>
-                  <span className="bmk__get-line">{item.line}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <BringMistakeValue id={id} />
           <div className="bmk__foot">
             <Link href={isAuthenticated ? BRING_MISTAKE_PATH : signupPathFor(BRING_MISTAKE_PATH)} className="mm-btn mm-btn--primary bmk__key">
               {isAuthenticated ? W.keyStudent : W.keyGuest}
@@ -81,6 +71,27 @@ export default function BringMistakeBlock({ photo = false, credits = 1, photoCre
         <BringMistakeCard id={id} photo={photo} />
       </div>
     </section>
+  );
+}
+
+// "What you leave with": the CUET chapter, the slip, the checks and the practice set, in the app's own counts
+// (bringMistakeCopy.mjs). BringMistakeBlock draws it in its words' column (with its own useId, so the live home's ids are as
+// before); /home-next's frame draws it under the card on phones (OnePlace.jsx).
+export function BringMistakeValue({ id: given }) {
+  const own = useId();
+  const id = given || own;
+  return (
+    <div className="bmk__value">
+      <p className="bmk__value-label" id={`${id}-value`}>{W.value.label}</p>
+      <ul className="bmk__gets" aria-labelledby={`${id}-value`}>
+        {W.value.items.map((item) => (
+          <li key={item.lead}>
+            <span className="bmk__get-lead">{item.figure ? <><span className="bmk__fig">{item.figure}</span> </> : null}{item.lead}</span>
+            <span className="bmk__get-line">{item.line}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

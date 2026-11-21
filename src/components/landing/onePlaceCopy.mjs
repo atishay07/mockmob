@@ -33,6 +33,10 @@ export const ONE_PLACE = Object.freeze({
   decksHref: '/key-cards',
   decksLink: KEY_CARDS_WORDS.seeChapter,
   alsoLead: 'Also inside',
+  // Each chip opens Sign up with the tool as where to land, so the line says so. True of all three on Free: lessons and
+  // recall need no credits, the daily benchmark is free, and playing every game a Mob starts is free on every plan
+  // (homeCopy.mjs buildTour, each tool's own points).
+  alsoNote: 'Free to open once you sign up.',
 });
 
 const n = (value) => Number(value).toLocaleString('en-IN');
@@ -47,14 +51,13 @@ export const mobiPrice = ({ photo, credits, photoCredits, free }) => bringMistak
 
 /**
  * The other live tools, as chips: [{ id, name, href, icon }], from the live switches. A chip never opens a signed-in route
- * (a guest would land on Log in): Benchmarks opens the features page's Practise group, where "Your standing" is shown; Learn
- * and the Mob have no public page, so theirs is Sign up, which keeps the tool as the place to land (signupPathFor).
+ * (a guest would land on Log in) and no public page shows these three, so each opens Sign up with the tool as where to land
+ * (signupPathFor), and the line under the chips (ONE_PLACE.alsoNote) says so.
  */
-export const FEATURES_PRACTISE = '/features#fx-practise';
 export function alsoInside({ studyLive = false, mobLive = false } = {}) {
   return [
     ...(studyLive ? [{ id: 'learn', name: 'Learn', href: signupPathFor('/learn'), icon: TOUR_ICON.learn }] : []),
-    { id: 'rival', name: 'Benchmarks', href: FEATURES_PRACTISE, icon: TOUR_ICON.rival },
+    { id: 'rival', name: 'Benchmarks', href: signupPathFor('/leaderboard'), icon: TOUR_ICON.rival },
     ...(mobLive ? [{ id: 'mob', name: 'The Mob', href: signupPathFor('/mob'), icon: TOUR_ICON.mob }] : []),
   ];
 }

@@ -74,8 +74,11 @@ export function ExamScreen() {
 // `head` is drawn first inside the layout grid (the section's heading, sub and Mobi); `gate` keeps NTA mode's gate card.
 // The data-demo attributes are inert hooks for the demo cursor's scripts (onePlaceScripts.mjs).
 // `note` (optional) is drawn right under the switch; `gate: 'short'` keeps the gate card to its title and first sentence (the
-// one frame on /home-next, phones). The defaults draw the live section exactly as before.
-export function ExamStage({ head = null, gate = true, note = null }) {
+// one frame on /home-next, phones). `inline` (21 Nov 2026, /home-next's frame): below 640 px the stage draws the exam as a
+// phone really shows it, in place of the monitor: the same view "Try it full screen" opens (the MockMob phone runner, or
+// PhoneNta), inline in the page, at its real pixel size, under the same switch. The defaults draw the live section exactly
+// as before.
+export function ExamStage({ head = null, gate = true, note = null, inline = false }) {
   const { user } = useAuth();
   const [mode, setModeRaw] = useState('mockmob');
   const [index, setIndex] = useState(EXAM.start.index);
@@ -100,6 +103,17 @@ export function ExamStage({ head = null, gate = true, note = null }) {
     query.addEventListener('change', sync);
     return () => query.removeEventListener('change', sync);
   }, []);
+  // `inline`: the phone view in place of the monitor, below 640 px (read after mount, like the picture above).
+  const [inlineNow, setInlineNow] = useState(false);
+  useEffect(() => {
+    if (!inline) return undefined;
+    const query = window.matchMedia('(max-width: 639px)');
+    // Inline, the runner starts with its strike-out note already dismissed, so the question sits higher in the view.
+    const sync = () => { setInlineNow(query.matches); if (query.matches) setNoteOn(false); };
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, [inline]);
   const fullOpener = useRef(null);
   const fullClose = useRef(null);
   const fullBox = useRef(null);
@@ -127,14 +141,15 @@ export function ExamStage({ head = null, gate = true, note = null }) {
   const nta = mode === 'nta';
   const words = EXAM.mockmob;
 
-  // The monitor is on screen (the view opens from beside it; the clock also runs while the view is open).
+  // The monitor (or the inline phone view) is on screen (the view opens from beside it; the clock also runs while the view is
+  // open).
   useEffect(() => {
     const node = deviceRef.current;
     if (!node || typeof IntersectionObserver === 'undefined') return undefined;
     const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting));
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [inlineNow]);
   useEffect(() => {
     if (!started || !(onScreen || full) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
     const id = window.setInterval(() => { if (document.visibilityState === 'visible') setClock((s) => Math.max(0, s - 1)); }, 1000);
@@ -307,7 +322,7 @@ export function ExamStage({ head = null, gate = true, note = null }) {
   const chipGrid = (names) => (
     <div className="xs-grid" role="group" aria-label={nta ? names.paletteTitle : words.paletteTitle}>
       {states.map((state, i) => (i < LIVE
-        ? <button key={i} type="button" className="xs-chip" data-demo="xs-chip" data-state={state} aria-current={index === i ? 'step' : undefined} aria-label={`Question ${i + 1}, ${names.stateName(state)}`} onClick={() => { go(i); setSheet(false); }}>{i + 1}</button>
+        ? <button key={i} type="button" className="xs-chip" data-state={state} aria-current={index === i ? 'step' : undefined} aria-label={`Question ${i + 1}, ${names.stateName(state)}`} onClick={() => { go(i); setSheet(false); }}>{i + 1}</button>
         : <span key={i} className="xs-chip" data-state={state} aria-hidden="true">{i + 1}</span>))}
     </div>
   );
@@ -427,7 +442,7 @@ export function ExamStage({ head = null, gate = true, note = null }) {
           <div className="xs-ph-bar">
             <button type="button" className="xs-btn" disabled={index === 0} onClick={prev}><ChevronLeft aria-hidden="true" />{words.prev}</button>
             <button ref={sheetOpener} type="button" className="xs-btn" aria-haspopup="dialog" aria-expanded={sheet} aria-label={words.paletteKey(answered, EXAM.total)} onClick={() => setSheet(true)}>{words.palette}</button>
-            <button type="button" className="xs-btn xs-btn--next" disabled={index === LIVE - 1} onClick={next}>{words.next}<ChevronRight aria-hidden="true" /></button>
+            <button type="button" className="xs-btn xs-btn--next" data-demo="xs-next" disabled={index === LIVE - 1} onClick={next}>{words.next}<ChevronRight aria-hidden="true" /></button>
           </div>
           <dialog ref={sheetBox} className="xs-ph-sheet" aria-label={words.paletteSheet} onClick={sheetScrim}>
             <div className="xs-ph-sheet__head">
@@ -456,10 +471,16 @@ export function ExamStage({ head = null, gate = true, note = null }) {
         <div className="xs-switch" role="group" aria-label={words.switchLabel}>{switchKeys}</div>
         {note}
 
-        <ExamDevice ref={deviceRef}>
-          {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : frame}
-          {pictureOnly && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
-        </ExamDevice>
+        {inlineNow ? (
+          <div className="xs-inline" ref={deviceRef}>
+            {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : phone}
+          </div>
+        ) : (
+          <ExamDevice ref={deviceRef}>
+            {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : frame}
+            {pictureOnly && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
+          </ExamDevice>
+        )}
 
         {/* R10: NTA mode's own gate (ExamIntegrityGuard's words), set as a small card: a mark, the words (with the
             warning rule in one plain sentence; R11 dropped the "Warnings 0/3" pill, which did nothing) and the way to it. */}
@@ -591,7 +612,7 @@ function PhoneNta({ index, question, answers, states, answered, clock, started, 
           <p className="xs-n-stem" aria-live="polite">{question.text}</p>
           <div className="xs-n-options" role="group" aria-label={`Options for question ${index + 1}`}>
             {question.options.map((text, option) => (
-              <button key={`${index}-${option}`} type="button" className="xs-n-option" aria-pressed={answers[index] === option} onClick={() => pick(option)}>
+              <button key={`${index}-${option}`} type="button" className="xs-n-option" data-demo="xs-n-option" aria-pressed={answers[index] === option} onClick={() => pick(option)}>
                 <span className="xs-n-radio" aria-hidden="true" />
                 <span className="xs-n-num">{option + 1}.</span>
                 <span>{text}</span>
@@ -609,7 +630,7 @@ function PhoneNta({ index, question, answers, states, answered, clock, started, 
         <button type="button" className="xs-n-key" disabled={answers[index] === undefined} onClick={clearAnswer}>{t.clearResponse}</button>
         <button ref={sheetOpener} type="button" className="xs-n-key" aria-haspopup="dialog" aria-expanded={sheet} aria-label={EXAM.mockmob.paletteKey(answered, EXAM.total)} onClick={() => setSheet(true)}>{t.paletteTitle}</button>
         <button type="button" className="xs-n-key xs-n-key--review" onClick={markAndNext}>{t.markNext}</button>
-        <button type="button" className="xs-n-key xs-n-key--save" onClick={saveAndNext}>{t.save}</button>
+        <button type="button" className="xs-n-key xs-n-key--save" data-demo="xs-n-save" onClick={saveAndNext}>{t.save}</button>
       </div>
 
       <dialog ref={sheetBox} className="xs-ph-sheet" aria-label={t.paletteTitle} onClick={sheetScrim}>

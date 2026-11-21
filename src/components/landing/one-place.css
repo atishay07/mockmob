@@ -208,3 +208,53 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   .op-win, .op-slot .op-proof { margin-inline: calc(min(var(--op-dev), 100%) * 0.013) 0; }
   .op-foot { justify-self: start; }
 }
+
+/* ---- lane one-place, round 3 (21 Nov 2026) ----
+   The line under the chips, on its own line. Desktop Ask Mobi: the card and its honest line centred in the window (the window
+   keeps the frame's height, so changing rows never moves the frame), on the card's own paper, so no band shows. */
+.op-also__note { flex-basis: 100%; margin: 0; color: var(--ink-2); font-size: 0.8125rem; line-height: 1.4; }
+@media (min-width: 960px) {
+  .op-win__body--fill { align-content: center; }
+  .mm.lp .op-win .op-bmk { align-content: center; }
+  .mm.lp .op-win .op-bmk .bmk__demo { grid-template-rows: auto auto; align-self: center; }
+  .mm.lp .op-win .op-bmk .bmk__honest { align-self: start; }
+}
+
+/* ---- lane one-place, round 4 (21 Nov 2026): below 640 px the Practise stage is the exam as a phone shows it ----
+   ExamStage `inline` draws the full-screen view's own screen (the MockMob phone runner, PhoneNta) in the monitor's place, at
+   its real pixel size: no drawn phone, one hairline edge. Its height is fixed (648 px: measured, the smallest at which the
+   MockMob runner shows its fourth option whole at 390 and 360 px without its saved line; NTA needs 560), so the frame never
+   changes height. */
+.op-slot[data-tool='practise'] .xs-layout > .xs-inline {
+  grid-area: device; display: flex; flex-direction: column; height: 648px; min-width: 0; overflow: hidden;
+  border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper-raised);
+}
+.op-slot[data-tool='practise'] .xs-inline > .xs-frame { flex: 1 1 auto; }
+/* The section's reserve while undrawn, re-measured with the phone view (1500 px at 390x844, 1542 at 360x780). */
+@media (max-width: 639px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1520px; } }
+/* Phones (round 5): no gate card in the frame; the NTA line under the switch carries the proof. */
+@media (max-width: 639px) { .op-slot[data-tool='practise'] .xs-gate { display: none; } }
+/* Inline, the runner's "Saved on this device." line is left out (nothing is saved from a demo; ExamStage also starts the
+   inline runner with its strike-out note dismissed), so the question sits higher. */
+.op-slot[data-tool='practise'] .xs-inline .xs-saved { display: none; }
+/* Key cards' own foot (the live section's: the bank line, what Free opens, the subjects' public decks and "See a chapter's
+   cards") fills the row on a phone, as on "/"; its sign-up key is left out (the frame's volt key is the one key), and so is
+   the row's proof line, which would say the bank line twice. From 640 px the demo stands alone in its window. */
+.op-kc .kc-foot { width: 100%; max-width: 30rem; margin-top: 0.75rem; }
+.op-kc .kc-foot > .mm-btn { display: none; }
+@media (max-width: 639px) {
+  .op-kc .kc-open__list li[data-extra] { display: none; }
+  @media (max-width: 379px) { .op-kc .kc-open { display: none; } }
+  .op-slot[data-tool='cards'] > .op-proof { display: none; }
+}
+@media (min-width: 640px) { .op-kc .kc-foot { display: none; } }
+/* Ask Mobi on a phone: under the card, the live block's own "What you leave with" list (BringMistakeValue), placed in this
+   wrapper's flow (the block puts it in its own grid area). From 640 px the card stands alone in its window. */
+.mm.lp .op-bmk .bmk__value { grid-area: auto; width: 100%; max-width: 34rem; margin-top: 16px; }
+@media (min-width: 640px) { .mm.lp .op-bmk .bmk__value { display: none; } }
+/* The inline runner is a picture of the exam in the page, not a scroller (21 Nov 2026, lane-hn-weight's swipe runs: a
+   finger on the stem stopped the page, because the runner's own panes scroll with overscroll-behavior: contain). It shows
+   the whole question, so its panes are clipped, never scrolled, and a vertical swipe anywhere on it moves the page; taps
+   still reach its controls. The full-screen view and "/" keep their scrolling panes. */
+.op-slot[data-tool='practise'] .xs-layout > .xs-inline { overflow: clip; touch-action: pan-y; }
+.op-slot[data-tool='practise'] .xs-inline :is(.xs-ph-paper, .xs-ph-pane) { overflow: clip; overscroll-behavior: auto; touch-action: pan-y; }

@@ -55,6 +55,13 @@ export const OPENING_LATE = Object.freeze({ short: 900, out: 1800 });
 export const OPENING_WAIT_MS = 3000;
 /** A release past OPENING_LATE.out: the held still dissolves this fast (opening.css html[data-opening-late]). */
 export const OPENING_LATE_MS = 160;
+/**
+ * The quick hand-off (21 Nov 2026, /home-next only: OpeningMo `fast`). After the release the layer plays no beat sequence:
+ * it hands over (the skip's own hand-off, OPENING_HAND_MS) as soon as the hero's own content has painted (a
+ * largest-contentful-paint entry inside .lp-hero), and `wait` ms after the release at the latest. A weak device
+ * (html[data-lite]) dissolves the still instead (OPENING_LATE_MS), the layer gone within `lite` ms of the release.
+ */
+export const OPENING_FAST = Object.freeze({ wait: 700, lite: 800 });
 
 // FLIP VARIABLES (19 Nov 2026, owner LK326: "the screen stutters in the first five [seconds]"). The hand-off's five values
 // (--mo-fx, --mo-fy, --mo-fs, --mo-flip-delay, --mo-land) go in a one-rule sheet (<style id="mm-opening-vars">) that names
@@ -63,7 +70,7 @@ export const OPENING_LATE_MS = 160;
 // 2,029 elements and 135 ms on a phone-class CPU, right at the hand-off. <html> stays the fallback where a sheet cannot
 // be added. The explanation lives here, outside the function, because the function is inlined whole and kept small.
 // Written in plain ES2017 with no outside references: OpeningMo.jsx inlines it as `(${openingGate})(window, document, cfg)`.
-export function openingGate(w, d, cfg) {
+export function openingGate(w, d, cfg, quick) {
   var html = d.documentElement;
   var mode = 'skip';
   var signed = false;
@@ -188,6 +195,8 @@ export function openingGate(w, d, cfg) {
       later(done, cfg.out + 40);
       return;
     }
+    // The quick hand-off (/home-next only): openingQuick below, inlined only on that page.
+    if (quick) { quick(w, html, cfg, st, later, clear, flip, handoff, done); return; }
     if (late > cfg.late.short && mode === 'first') {
       mode = st.mode = 'short';
       html.setAttribute('data-opening', mode);
@@ -214,10 +223,40 @@ export function openingGate(w, d, cfg) {
   return mode;
 }
 
-/** The inline script OpeningMo.jsx renders (before its layer). */
-export function openingGateScript() {
+// The quick hand-off (OPENING_FAST; cfg.fast), called by openingGate at the release with its own helpers. It hands over as the
+// skip does once a largest-contentful-paint entry inside .lp-hero is reported (the hero has painted), or at cfg.fast.wait at
+// the latest; a weak device (html[data-lite]) dissolves the still instead, gone within cfg.fast.lite of the release. Plain
+// ES2017 with no outside references, inlined after the gate only when OpeningMo is given `fast`.
+export function openingQuick(w, html, cfg, st, later, clear, flip, handoff, done) {
+  var lite = html.hasAttribute('data-lite');
+  var o = null;
+  var go = function () {
+    if (o) { try { o.disconnect(); } catch (e) { /* gone */ } }
+    if (st.phase !== 'run') return;
+    clear();
+    st.quick = Math.round(w.performance.now() - st.t0);
+    if (lite) { html.setAttribute('data-opening-late', ''); handoff(); later(done, cfg.out + 40); return; }
+    html.setAttribute('data-opening-cut', '');
+    flip(0, cfg.hand);
+    handoff();
+    later(done, cfg.hand + 40);
+  };
+  later(go, lite ? cfg.fast.lite - cfg.out - 40 : cfg.fast.wait);
+  try {
+    o = new w.PerformanceObserver(function (list) {
+      var entries = list.getEntries();
+      for (var i = 0; i < entries.length; i++) { var el = entries[i].element; if (el && el.closest && el.closest('.lp-hero')) { go(); return; } }
+    });
+    o.observe({ type: 'largest-contentful-paint', buffered: true });
+  } catch (e) { go(); }
+}
+
+const inlined = (fn) => fn.toString().replace(/\r\n/g, '\n').replace(/^[ \t]*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '');
+
+/** The inline script OpeningMo.jsx renders (before its layer). `fast`: the quick hand-off (openingQuick), /home-next only. */
+export function openingGateScript({ fast = false } = {}) {
   const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, flip: { ...OPENING_FLIP_MS }, hand: OPENING_HAND_MS, settle: OPENING_SETTLE_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], late: { ...OPENING_LATE }, wait: OPENING_WAIT_MS, out: OPENING_LATE_MS };
+  if (fast) cfg.fast = { ...OPENING_FAST };
   // Every visitor downloads it in the HTML: whole-line comments and indentation stay in this file, not in the page.
-  const source = openingGate.toString().replace(/\r\n/g, '\n').replace(/^[ \t]*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '');
-  return `(${source})(window,document,${JSON.stringify(cfg)})`;
+  return `(${inlined(openingGate)})(window,document,${JSON.stringify(cfg)}${fast ? `,${inlined(openingQuick)}` : ''})`;
 }

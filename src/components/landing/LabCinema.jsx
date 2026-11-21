@@ -29,7 +29,9 @@ const PEN_AFTER = 1100;
 // look="next" (21 Nov 2026): the same story, words and figures, with each screen redone as the result page's own UI worked by
 // a cursor (LabNextScreens.jsx, its styles in lab-next.css under [data-look='next']). Loaded only when that look is asked
 // for, so the default look's page carries none of its code or styles.
-const LabNextScreen = dynamic(() => import('./LabNextScreens'));
+// The screens' own code waits further: LabNextGate.jsx keeps the server's drawing and loads LabNextScreens only as the Lab
+// nears the window (21 Nov 2026, load weight on /home-next). The gate draws the screen's fit box itself.
+const LabNextScreen = dynamic(() => import('./LabNextGate'));
 
 const S = labStory();
 const VERDICT = { right: 'right', wrong: 'wrong', blank: 'left blank' };
@@ -409,7 +411,7 @@ function Stage({ step, pinned, reduced, goTo, look }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              <div className="lc-scene__fit" data-ss-fit="0.62">{next ? <LabNextScreen scene={key} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} /> : <Panel on={on && (i !== 0 || armed)} />}</div>
+              {next ? <LabNextScreen fit="0.62" scene={key} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} /> : <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>}
             </figure>
           </article>
         );

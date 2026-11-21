@@ -51,6 +51,11 @@
   backface-visibility: hidden; -webkit-backface-visibility: hidden;
 }
 .kc-demo__face--back { transform: rotateY(180deg); }
+/* Each face is its own stacking context (21 Nov 2026: on an Android phone the front's subject art was drawn over its glass
+   and words while a card turned and while a new card faded in). Without it the art and the glass were ordered in the card's
+   3D context (preserve-3d) instead of inside their face, so the art's rotated corner covered the glass's top edge even at
+   rest, and more of it mid-move. With it the glass (z-index 1) always lies over the art (z-index 0), as drawn. */
+.kc-demo__face { isolation: isolate; }
 @media (min-width: 960px) { .kc-demo__face { min-height: 22rem; } }
 
 /* Front: the card's subject object in its subject light (the app's light fields), the glass laid over its lower half. */
@@ -60,7 +65,7 @@
   background: radial-gradient(95% 70% at 70% 24%, var(--kc-light) 0%, transparent 72%), var(--paper-raised);
 }
 .kc-demo__art {
-  position: absolute; top: 9%; right: -9%; width: 92%; max-width: 25rem; height: auto;
+  position: absolute; z-index: 0; top: 9%; right: -9%; width: 92%; max-width: 25rem; height: auto;
   transform: rotate(-4deg); pointer-events: none; user-select: none; -webkit-user-drag: none;
 }
 /* Day on a wide screen (review, 5 Nov): the art sits higher and smaller, so only a sliver of it runs under the glass. */

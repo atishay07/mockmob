@@ -132,13 +132,15 @@ function Piece({ p }) {
   );
 }
 
-export default function OpeningMo() {
+// `fast` (21 Nov 2026, /home-next only): the quick hand-off, openingGate.mjs OPENING_FAST. The live home passes nothing and
+// keeps its opening exactly.
+export default function OpeningMo({ fast = false } = {}) {
   const ratio = LOGO_OPEN_BOX.h / LOGO_OPEN_BOX.w;
   const back = PIECES.filter((p) => p.depth < 2);
   const front = PIECES.filter((p) => p.depth === 2);
   return (
     <>
-      <script id="mm-opening-gate" dangerouslySetInnerHTML={{ __html: openingGateScript() }} />
+      <script id="mm-opening-gate" dangerouslySetInnerHTML={{ __html: openingGateScript({ fast }) }} />
       <div className="mo-open" aria-hidden="true" style={{ '--mo-ratio': ratio.toFixed(5) }}>
         <div className="mo-open__ground" />
         <div className="mo-rain mo-rain--back">

@@ -63,7 +63,7 @@ import { DAILY_FIVE_SIZE } from '@/lib/dailyFive.mjs';
 import { CloseActions, CreatorReels, DemoDrill, HeroDockGate, LabCinema } from '@/components/home2/landingParts';
 import ReadLineHere from '@/components/home2/ReadLineHere';
 import SampleHere from '@/components/home2/SampleHere';
-import OnePlace from '@/components/landing/OnePlace';
+import OnePlaceGate from '@/components/landing/OnePlaceGate';
 import { CREATORS_SUB, ONE_PLACE, alsoInside, freeFaq, mobiPrice } from '@/components/landing/onePlaceCopy.mjs';
 import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/mistakePrices.mjs';
 import { BrandIcon } from '@/components/brand/BrandIcon';
@@ -163,7 +163,8 @@ export default function HomeNextPage() {
   return (
     <div className="mm lp">
       {/* The opening (OpeningMo, P3): the app's "mo" opening, first child of the page; its gate decides first / short / skip. */}
-      <OpeningMo />
+      {/* fast (21 Nov 2026): it hands over as soon as the hero has painted; a weak device is clear within 800 ms. */}
+      <OpeningMo fast />
       {/* The page's hairline grid, behind everything (10 Nov 2026; brand-texture.css). */}
       <PageGrid />
       <HomeFonts />
@@ -268,7 +269,7 @@ export default function HomeNextPage() {
               <h2 className="lp-h2" id="op-title"><Marked text={ONE_PLACE.h2} marks={[[ONE_PLACE.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
               <p className="lp-sub">{ONE_PLACE.sub}</p>
             </Reveal>
-            <OnePlace keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE}>
+            <OnePlaceGate keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE}>
               <LandingActions mode="primary" />
               {ALSO.length ? (
                 <nav className="op-also" aria-label={`${ONE_PLACE.alsoLead} MockMob`}>
@@ -278,9 +279,10 @@ export default function HomeNextPage() {
                       <li key={tool.id}><Link href={tool.href} prefetch={false} className="op-chip"><BrandIcon name={tool.icon} size={32} />{tool.name}</Link></li>
                     ))}
                   </ul>
+                  <p className="op-also__note">{ONE_PLACE.alsoNote}</p>
                 </nav>
               ) : null}
-            </OnePlace>
+            </OnePlaceGate>
           </div>
         </section></Later>
 
@@ -435,7 +437,7 @@ export default function HomeNextPage() {
       <SampleHere />
       {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
-      <HeroDockGate>
+      <HeroDockGate aside=".op-gate">
         <LandingDock />
       </HeroDockGate>
     </div>

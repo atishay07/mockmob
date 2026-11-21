@@ -13,7 +13,11 @@ const NAV = 64;
 const DOCK = 96;
 const DEMO_MIN_PX = 96;
 
-export function HeroDockGate({ children }) {
+// `aside` (21 Nov 2026, /home-next only): a selector for blocks the bar must never cover. While any part of one is on screen
+// below the nav (the bar's own strip at the foot included), the bar steps aside, and it comes back when the block has gone.
+// /home-next passes its one-place frame (OnePlaceGate's .op-gate): its demo runs to the frame's foot, where the bar sat over
+// "Try it full screen", the Key card's answer and Ask Mobi's options. The live home passes nothing and is unchanged.
+export function HeroDockGate({ children, aside = null }) {
   const gate = useRef(null);
 
   useEffect(() => {
@@ -29,11 +33,12 @@ export function HeroDockGate({ children }) {
     // One volt per screen (W-075): while a section's own volt button (pricing, the eligibility teaser, the close band)
     // is in the band between the nav and the bar, the bar steps aside so that button is the only volt on screen.
     const volts = [...document.querySelectorAll('.lp main :is(.mm-btn--primary, .btn-volt)')].filter((el) => !el.closest('.lp-hero, .lp-dockgate'));
+    const blocks = aside ? [...document.querySelectorAll(aside)] : [];
     const show = (on) => { node.dataset.shown = on ? 'true' : 'false'; };
     if (typeof IntersectionObserver === 'undefined' || (!cta && !demo)) { show(true); return undefined; }
-    const state = { cta: Boolean(cta), demo: Boolean(demo), panels: new Set(), volts: new Set() };
+    const state = { cta: Boolean(cta), demo: Boolean(demo), panels: new Set(), volts: new Set(), blocks: new Set() };
     const update = () => {
-      show(!state.cta && !state.demo && state.panels.size === 0 && state.volts.size === 0);
+      show(!state.cta && !state.demo && state.panels.size === 0 && state.volts.size === 0 && state.blocks.size === 0);
     };
     const band = `-${NAV}px 0px -${DOCK}px 0px`;
     const ctaWatch = new IntersectionObserver((entries) => {
@@ -56,10 +61,16 @@ export function HeroDockGate({ children }) {
       update();
     }, { rootMargin: `-${NAV}px 0px 0px 0px`, threshold: 0 });
     volts.forEach((button) => voltWatch.observe(button));
+    // `aside` blocks: on screen anywhere below the nav, down to the screen's foot where the bar stands.
+    const blockWatch = new IntersectionObserver((entries) => {
+      for (const entry of entries) { if (entry.isIntersecting) state.blocks.add(entry.target); else state.blocks.delete(entry.target); }
+      update();
+    }, { rootMargin: `-${NAV}px 0px 0px 0px`, threshold: 0 });
+    blocks.forEach((block) => blockWatch.observe(block));
     if (cta) ctaWatch.observe(cta);
     if (demo) demoWatch.observe(demo);
-    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); panelWatch.disconnect(); voltWatch.disconnect(); };
-  }, []);
+    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); panelWatch.disconnect(); voltWatch.disconnect(); blockWatch.disconnect(); };
+  }, [aside]);
 
   // One loop at a time (ship gate, 4 Nov 2026): a lit shelf object (the statement's shelf, the lab's prop) floats for as
   // long as it is on screen, so while one is in view the page says so on <html> and the guide Mobi holds his breath

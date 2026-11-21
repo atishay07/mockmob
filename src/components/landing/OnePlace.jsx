@@ -8,30 +8,41 @@
 // Layout (one-place.css): from 960 px the rows stand beside the stage; on a phone they are three chips above it, with the
 // row's line under them. The three stages share one grid cell, so the frame is as tall as its tallest stage and never
 // changes height between rows (nothing below it moves). Only the shown stage is live; the others are inert and hidden, and
-// each is mounted fresh (a new React key) whenever it starts, so every demo begins from the component's start state.
+// each is mounted fresh (a new React key) before it plays again, so every demo begins from the component's start state.
+//
+// Load weight (21 Nov 2026): OnePlaceGate.jsx loads this file only as the frame nears the window and passes `drawn`, the
+// stages as the server drew them. Then only the shown row's stage is a live component; the others stay that markup (same
+// size, so the frame never changes height) until the next row's stage is made live in idle time shortly before its turn, or
+// at once on a tap (stagesStart / stagesStep in onePlaceModel.mjs).
 //
 // Speed (AGENT-COMMON.md, 20 Nov rules): no frame loop, no interval. One IntersectionObserver, the visibility event, the
 // motion setting. The row's line is one CSS transform animation as long as the script; the cursor moves by a CSS transition.
 // The only timer here is the 8 s hold after a reader takes over.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Lock, RotateCw } from 'lucide-react';
 import CursorDemo from './demo/CursorDemo';
 import { ExamStage } from './ExamScreen';
 import KeyCardsDemo from './KeyCardsDemo';
-import { BringMistakeCard } from './BringMistakeBlock';
+import { BringMistakeCard, BringMistakeValue } from './BringMistakeBlock';
 import { STRIP_OBJECT_BOX, stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
 import { ONE_PLACE, bankLine } from './onePlaceCopy.mjs';
 import { EXAM } from './homeCopy.mjs';
 import Link from 'next/link';
-import { EXAM_CAMERA, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, scriptMs } from './onePlaceModel.mjs';
+import { ROW_OF_HASH, SCRIPTS, STAGE_LEAD_MS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, scriptMs, stagesStart, stagesStep } from './onePlaceModel.mjs';
 import './one-place.css';
 
-function useOnePlace(count) {
+function useOnePlace(rowIds, drawn) {
+  const count = rowIds.length;
   const frameRef = useRef(null);
   const holdTimer = useRef(0);
   const [index, setIndex] = useState(0);
-  // Bumped at every row start (and whenever a run was cut short): it keys the shown stage and its line, so both start fresh.
+  // Bumped at every row start (and whenever a run was cut short): it keys the shown row's line, so it starts fresh.
   const [cycle, setCycle] = useState(0);
+  // Which stages are live components, and each one's mount generation (its key): onePlaceModel.mjs stagesStep.
+  const [stages, setStages] = useReducer(stagesStep, null, () => stagesStart(count, { drawn }));
+  const indexRef = useRef(0);
+  // A row begins a run: it is shown, its line restarts, and its stage is live and fresh.
+  const start = useCallback((to) => { setIndex(to); setCycle((c) => c + 1); setStages({ type: 'start', index: to }); }, []);
   const [ready, setReady] = useState(false);
   const [reduced, setReduced] = useState(true);
   const [onScreen, setOnScreen] = useState(false);
@@ -41,7 +52,7 @@ function useOnePlace(count) {
   const [resting, setResting] = useState(false);
   const heldRef = useRef(false);
   const restRef = useRef(false);
-  useEffect(() => { heldRef.current = held; restRef.current = resting; }, [held, resting]);
+  useEffect(() => { heldRef.current = held; restRef.current = resting; indexRef.current = index; }, [held, resting, index]);
 
   useEffect(() => {
     const query = window.matchMedia?.('(prefers-reduced-motion: reduce)');
@@ -65,24 +76,24 @@ function useOnePlace(count) {
       setOnScreen(on);
       if (was && !on) {
         if (heldRef.current) { window.clearTimeout(holdTimer.current); setHeld(false); }
-        if (!restRef.current) setCycle((c) => c + 1);
+        if (!restRef.current) start(indexRef.current);
       }
-      if (!was && on && restRef.current) { setResting(false); setIndex(0); setCycle((c) => c + 1); }
+      if (!was && on && restRef.current) { setResting(false); start(0); }
       was = on;
     }, { rootMargin: '-20% 0px -20% 0px' });
     io.observe(node);
     return () => io.disconnect();
-  }, []);
+  }, [start]);
 
   useEffect(() => {
     const read = () => {
       const shown = document.visibilityState !== 'hidden';
       setVisible(shown);
-      if (!shown && !heldRef.current && !restRef.current) setCycle((c) => c + 1);
+      if (!shown && !heldRef.current && !restRef.current) start(indexRef.current);
     };
     document.addEventListener('visibilitychange', read);
     return () => document.removeEventListener('visibilitychange', read);
-  }, []);
+  }, [start]);
 
   useEffect(() => () => window.clearTimeout(holdTimer.current), []);
 
@@ -90,17 +101,15 @@ function useOnePlace(count) {
     window.clearTimeout(holdTimer.current);
     setHeld(false);
     setResting(false);
-    setIndex(to);
-    setCycle((c) => c + 1);
-  }, []);
+    start(to);
+  }, [start]);
 
   // A row's script has ended: the next row, or rest on this one after the last (no remount: its finished screen stays).
   const advance = useCallback(() => {
     const next = afterRow(index, count);
     if (next === null) { setResting(true); return; }
-    setIndex(next);
-    setCycle((c) => c + 1);
-  }, [index, count]);
+    start(next);
+  }, [index, count, start]);
 
   const takeover = useCallback(() => {
     window.clearTimeout(holdTimer.current);
@@ -117,15 +126,32 @@ function useOnePlace(count) {
     const end = () => {
       if (document.querySelector('dialog.xs-full[open]')) { holdTimer.current = window.setTimeout(end, TAKEOVER_HOLD_MS); return; }
       setHeld(false);
-      setCycle((c) => c + 1);
+      start(indexRef.current);
     };
     holdTimer.current = window.setTimeout(end, TAKEOVER_HOLD_MS);
-  }, []);
+  }, [start]);
   const stayHeld = useCallback(() => window.clearTimeout(holdTimer.current), []);
 
   const playing = autoplayRuns({ ready, reduced, onScreen, visible, held }) && !resting;
   const blurOut = useCallback((event) => { if (!event.currentTarget.contains(event.relatedTarget)) armRelease(); }, [armRelease]);
-  return { frameRef, index, cycle, reduced, held, resting, playing, choose, advance, takeover, stayHeld, armRelease, blurOut };
+
+  // The next row's stage is made live (unplayed) in idle time, STAGE_LEAD_MS before the shown row's script ends; while the
+  // frame rests after its pass, the first row's, for the next pass. Nothing is scheduled while nothing plays: a tap makes its
+  // row live at once (start).
+  const upcoming = resting ? 0 : afterRow(index, count);
+  const upcomingReady = upcoming === null || upcoming === index || (stages.live[upcoming] && !stages.used[upcoming]);
+  const runMs = scriptMs(SCRIPTS[rowIds[index]]);
+  useEffect(() => {
+    if (upcomingReady || (!playing && !resting)) return undefined;
+    let idle = 0;
+    const make = () => setStages({ type: 'ready', index: upcoming });
+    const timer = window.setTimeout(() => {
+      if (typeof window.requestIdleCallback === 'function') idle = window.requestIdleCallback(make, { timeout: 1200 }); else make();
+    }, resting ? 0 : Math.max(0, runMs - STAGE_LEAD_MS));
+    return () => { window.clearTimeout(timer); if (idle) window.cancelIdleCallback?.(idle); };
+  }, [upcoming, upcomingReady, cycle, playing, resting, runMs]);
+
+  return { frameRef, index, cycle, stages, reduced, held, resting, playing, choose, advance, takeover, stayHeld, armRelease, blurOut };
 }
 
 function RowObject({ name }) {
@@ -156,10 +182,13 @@ function AppWindow({ path, fill = false, children }) {
 
 // `price`: Bring a mistake's credit line, worked out on the server from the app's prices (onePlaceCopy.mjs mobiPrice).
 // `children`: what goes under the stage (the volt key and the other tools), in the stage's column from 960 px.
-export default function OnePlace({ keyCards = null, photo = false, price = null, children = null }) {
+// `drawn` (OnePlaceGate.jsx): each row's stage as the server drew it, by row id; kept as markup until that stage goes live.
+export default function OnePlace({ keyCards = null, photo = false, price = null, drawn = null, children = null }) {
   const rows = useMemo(() => ONE_PLACE.rows.filter((row) => row.id !== 'cards' || keyCards), [keyCards]);
   const count = rows.length;
-  const { frameRef, index, cycle, reduced, held, playing, choose, advance, takeover, stayHeld, armRelease, blurOut } = useOnePlace(count);
+  const rowIds = useMemo(() => rows.map((row) => row.id), [rows]);
+  const kept = Boolean(drawn) && rowIds.every((id) => typeof drawn[id] === 'string' && drawn[id].length > 0);
+  const { frameRef, index, cycle, stages, reduced, held, playing, choose, advance, takeover, stayHeld, armRelease, blurOut } = useOnePlace(rowIds, kept);
   const tabs = useRef([]);
   const active = rows[index] || rows[0];
 
@@ -198,9 +227,10 @@ export default function OnePlace({ keyCards = null, photo = false, price = null,
   };
 
   const stage = (row) => {
-    if (row.id === 'practise') return <ExamStage gate="short" note={<p className="op-proof op-proof--switch">{ONE_PLACE.practiseProof}</p>} />;
-    if (row.id === 'cards') return <AppWindow path={row.path}><div className="op-kc"><KeyCardsDemo cards={keyCards.cards} keys={keyCards.keys} bank={keyCards.bank} subjects={keyCards.subjects} foot={false} /></div></AppWindow>;
-    return <AppWindow path={row.path} fill><div className="bmk op-bmk"><BringMistakeCard photo={photo} /></div></AppWindow>;
+    // Below 640 px `inline`: the exam as a phone shows it (the phone runner, then PhoneNta), not the monitor.
+    if (row.id === 'practise') return <ExamStage gate="short" inline note={<p className="op-proof op-proof--switch">{ONE_PLACE.practiseProof}</p>} />;
+    if (row.id === 'cards') return <AppWindow path={row.path}><div className="op-kc"><KeyCardsDemo cards={keyCards.cards} keys={keyCards.keys} bank={keyCards.bank} subjects={keyCards.subjects} /></div></AppWindow>;
+    return <AppWindow path={row.path} fill><div className="bmk op-bmk"><BringMistakeCard photo={photo} /><BringMistakeValue /></div></AppWindow>;
   };
 
   return (
@@ -227,11 +257,13 @@ export default function OnePlace({ keyCards = null, photo = false, price = null,
       <div className="op-stages">
         {rows.map((row, i) => {
           const on = i === index;
+          const slot = { className: 'op-slot', 'data-tool': row.id, 'data-on': on || undefined, role: 'tabpanel', id: `op-panel-${row.id}`, 'aria-labelledby': `op-tab-${row.id}`, inert: !on || undefined, 'aria-hidden': on ? undefined : true };
+          // Not live yet: this stage as the server drew it (the same markup and size, no script).
+          if (!stages.live[i]) return <div key={row.id} {...slot} data-drawn="" dangerouslySetInnerHTML={{ __html: drawn[row.id] }} />;
+          // Live: keyed by its mount generation, so a stage that has played is mounted fresh before it plays again.
           return (
-            <div key={row.id} className="op-slot" data-tool={row.id} data-on={on || undefined} role="tabpanel" id={`op-panel-${row.id}`} aria-labelledby={`op-tab-${row.id}`}
-              inert={!on || undefined} aria-hidden={on ? undefined : true}>
-              <CursorDemo key={on ? `on-${cycle}` : 'idle'} steps={SCRIPTS[row.id]} playing={on && playing} onDone={advance} onTakeover={takeover}
-                zoom={row.id === 'practise' ? EXAM_CAMERA : null} className="op-stage">
+            <div key={row.id} {...slot}>
+              <CursorDemo key={`run-${stages.gen[i]}`} steps={SCRIPTS[row.id]} playing={on && playing} onDone={advance} onTakeover={takeover} className="op-stage">
                 {stage(row)}
               </CursorDemo>
               {proof(row)}
