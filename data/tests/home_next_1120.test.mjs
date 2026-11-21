@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { CREATORS_SUB, ONE_PLACE, bankLine, freeFaq, mobiPrice, sayWhere, tourRows } from '../../src/components/landing/onePlaceCopy.mjs';
 import { EXAM_HEAD, INSTAGRAM_HEAD, TOUR_ICON, buildTour } from '../../src/components/landing/homeCopy.mjs';
 import {
-  CARDS_FOCUS, DEAL_MS, PACE, PHONE_PANE, PHONE_ROWS, PRACTISE_FOCUS, ROW_HOLD_MS, ROW_MAX_MS, ROW_MIN_MS, ROW_OF_HASH, SAY_MAX_CHARS, SCRIPTS, SCRIPTS_TYPED, TAKEOVER_HOLD_MS,
+  CARDS_FOCUS, DEAL_MS, PACE, PHONE_PANE, PHONE_ROWS, ROW_HOLD_MS, ROW_MAX_MS, ROW_MIN_MS, ROW_OF_HASH, SAY_MAX_CHARS, SCRIPTS, SCRIPTS_TYPED, TAKEOVER_HOLD_MS,
   TRIGGER_LINE, PHONE_LAYOUT, ROOM_FOOT_PX, triggerPassed, afterRow, autoplayRuns, desktopTriggerFoot, keyStep, leaveStartsHold, motionReduced, nextIndex, runStep, sayCount, sayPace, scriptHooks, scriptMs,
 } from '../../src/components/landing/onePlaceModel.mjs';
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
@@ -252,16 +252,20 @@ test('every script aims at a data-demo hook its component really carries', () =>
     [['[data-demo="kc-turn"]', true], ['[data-demo="kc-rate"]:nth-child(2)', false], ['[data-demo="kc-rate"]:nth-child(2)', true]]);
 });
 
-test('each row runs for its own script, 13 seconds or less (11 to 13 with its say beats), and its line fills over exactly that', () => {
+test('each row runs for its own script, 8.5 to 13 seconds with its say beats, and its line fills over exactly that', () => {
   // Owner LK365 (21 Nov 2026): "the screens are moving too fast". It was 8 s or less (LK363); every row now explains itself
   // (3 to 5 say beats) and runs 11 to 13 s, the row stories included. 13, not 16 (critic round, 21 Nov evening): on a slow
   // phone a 15.7 s script played 18.8 s and the pass took 1 min 42 s; with 13 s scripts and the cursor keeping to its own
   // clock (CursorDemo `hold`) a measured row stays under 16 s (tmp/1121-stories/fix-oneplace/film.mjs).
   assert.equal(ROW_MAX_MS, 13000);
-  assert.equal(ROW_MIN_MS, 11000);
+  // Owner LK366 (22 Nov 2026): "both of these first two are quite slow": Practise and Key cards run three beats in about
+  // 9 to 11 s; the four row stories, which he likes, keep 11 to 13 s.
+  assert.equal(ROW_MIN_MS, 8500);
+  for (const tool of ['practise', 'cards']) assert.ok(scriptMs(SCRIPTS[tool]) <= 11000, `${tool} is quick: ${scriptMs(SCRIPTS[tool])} ms`);
+  for (const tool of ['mobi', 'learn', 'rival', 'mob']) assert.ok(scriptMs(SCRIPTS[tool]) >= 11000, `${tool} keeps its pace: ${scriptMs(SCRIPTS[tool])} ms`);
   for (const [tool, steps] of [...Object.entries(SCRIPTS), ['mobi typed', SCRIPTS_TYPED.mobi]]) {
     const ms = scriptMs(steps);
-    assert.ok(ms >= ROW_MIN_MS && ms <= ROW_MAX_MS, `${tool}: ${ms} ms, 11 to 13 s`);
+    assert.ok(ms >= ROW_MIN_MS && ms <= ROW_MAX_MS, `${tool}: ${ms} ms, 8.5 to 13 s`);
     assert.ok(sayCount(steps) >= 3 && sayCount(steps) <= 5, `${tool} explains itself in 3 to 5 beats`);
     for (const step of steps) if (step.target) assert.ok(Number.isFinite(step.move) && Number.isFinite(step.dwell), `${tool}: every step names its move and dwell`);
   }
@@ -288,11 +292,15 @@ test('the caption strip says each beat: one line at a time, read before the curs
     // Every line opens on a wait (the cursor is still while it is read) and names the part of the screen it is about.
     for (const step of scripts[tool].filter((st) => typeof st.say === 'string')) {
       assert.ok(step.wait >= PACE.readFirstMs && !step.target, step.say);
-      assert.ok(typeof step.focus === 'string' && step.focus.length > 0, step.say);
+      // The row stories name the part each line is about. Practise and Key cards (the real screens) stress nothing but the
+      // Got it key (owner LK366: "it's just introducing some boxes here and there, which are not looking as they should").
+      if (tool === 'practise') assert.equal(step.focus, null, step.say);
+      else if (tool === 'cards') assert.ok(step.focus === null || step.focus === CARDS_FOCUS.gotIt, step.say);
+      else assert.ok(typeof step.focus === 'string' && step.focus.length > 0, step.say);
     }
   }
   assert.deepEqual(SCRIPTS.practise.filter((st) => st.say).map((st) => st.say), [
-    'Answer a question, as you would in the exam.', 'Next keeps your answer and moves on.',
+    'Answer a question, as you would in the exam.',
     'Switch to NTA style, the real exam\u2019s screen.', 'Save & Next keeps your pick, as in the real exam.',
   ]);
   assert.deepEqual(SCRIPTS.cards.filter((st) => st.say).map((st) => st.say), [
@@ -303,8 +311,13 @@ test('the caption strip says each beat: one line at a time, read before the curs
   assert.match(EXAM_SRC, /choose=\{hold\}/);
   assert.match(read('data/keycards.js'), /retention: 0\.9,/);
   // Each focus names parts the stage really draws (ExamScreen.jsx, KeyCardsDemo.jsx).
-  for (const sel of Object.values(PRACTISE_FOCUS)) for (const cls of sel.match(/\.[\w-]+/g)) assert.match(EXAM_SRC, new RegExp(`className="[^"]*\\b${cls.slice(1)}\\b`), cls);
-  for (const cls of [CARDS_FOCUS.card, CARDS_FOCUS.rates]) assert.match(CARDS_SRC, new RegExp(`className="[^"]*\\b${cls.slice(1)}\\b`), cls);
+  assert.deepEqual({ ...CARDS_FOCUS }, { gotIt: '[data-demo="kc-rate"]:nth-child(2)' });
+  assert.match(CARDS_SRC, /className="kc-demo__rate" data-demo="kc-rate"/);
+  // The third Key cards line is shown: the rated card is filed and a time line says when it returns, in the key's own words.
+  assert.match(CARDS_SRC, /const FILE_MS = 1500;/);
+  assert.match(CARDS_SRC, /export const filedLine = \(when\) => `This card is \$\{when\}\.`;/);
+  assert.match(CARDS_SRC, /<p className="kc-demo__filed-line">\{filedLine\(keys\[filed\]\.when\)\}<\/p>/);
+  assert.match(CARDS_SRC, /if \(isMotionReduced\(\)\) \{ next\(\); return; \}/);
   // sayPace counts as CursorDemo plays: the entry, then each wait, move, press and dwell; a line holds to the next one.
   assert.deepEqual(sayPace([{ say: 'One.', wait: 600 }, { target: 'x', move: 400, dwell: 1300, click: true }, { say: 'Two.', wait: 500 }]),
     [{ say: 'One.', at: 220, holds: 2430, firstMove: 600 }, { say: 'Two.', at: 2650, holds: 760, firstMove: Infinity }]);
@@ -329,7 +342,9 @@ test('the caption strip says each beat: one line at a time, read before the curs
   // From 960 px it heads the stage's column.
   assert.match(CSS, /grid-template-areas: 'rows say' 'rows stage' '\. foot';/);
   // The stress is opacity and an outline only (nothing moves), and the finished screen rests whole.
-  assert.match(CSS, /\.op-slot\[data-tool='practise'\] \.op-stage \[data-demo-focus\] \{ outline: 2px solid var\(--brand-word\); outline-offset: -2px; \}/);
+  assert.doesNotMatch(CSS, /\.op-slot\[data-tool='practise'\][^{]*\[data-demo-focus/);
+  assert.doesNotMatch(CSS, /data-demo-focusing\] \.op-kc/);
+  assert.match(CSS, /\.op-kc \.kc-demo__rate\[data-demo-focus\] \{ outline: 2px solid var\(--brand-word\); outline-offset: 3px; \}/);
   const cd = read('src/components/landing/demo/CursorDemo.jsx');
   assert.match(cd, /\/\/ The finished screen rests whole: no part stressed, no cursor\.\n\s*focusOn\(null\);/);
 });

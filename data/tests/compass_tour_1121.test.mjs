@@ -19,7 +19,9 @@ test('the tour never waits for the page to stop scrolling', () => {
 
 test('the tour goes round without stopping by itself', () => {
   assert.doesNotMatch(code, /played\s*>=/, 'no "played one sweep, stop"');
-  assert.match(code, /phaseRef\.current = \(phaseRef\.current \+ dt \/ SWEEP_PERIOD_MS\) % 1/);
+  // The bars' sweep animation is the clock (LK366); without bars it falls back to the frame time.
+  assert.match(code, /phaseRef\.current = clock \? \(Number\(clock\.currentTime\) \/ SWEEP_PERIOD_MS\) % 1 : \(phaseRef\.current \+ dt \/ SWEEP_PERIOD_MS\) % 1/);
+  assert.match(code, /\{ duration: SWEEP_PERIOD_MS, iterations: Infinity \}/, 'the sweep animation goes round');
 });
 
 test('only the key sets the paused state', () => {
@@ -37,8 +39,8 @@ test('only the key sets the paused state', () => {
 
 test('it rests only while the card is wholly out of the window or the tab is hidden, and carries on by itself', () => {
   assert.match(code, /new IntersectionObserver\(\(\[entry\]\) => setInView\(entry\.isIntersecting\), \{ threshold: 0 \}\)/);
-  assert.match(code, /if \(paused \|\| !inView \|\| !shown \|\| reduced\) return undefined;/);
-  assert.match(code, /\[paused, inView, shown, reduced, heldAt, rows\]/);
+  assert.match(code, /if \(paused \|\| !inView \|\| !shown \|\| reduced \|\| motionReduced\(\)\) return undefined;/);
+  assert.match(code, /\[paused, inView, shown, reduced, heldAt, rows, glide\]/);
   assert.match(code, /setShown\(!document\.hidden\)/);
 });
 
@@ -67,11 +69,12 @@ test('a step changes paint inside boxes that do not move', () => {
   assert.match(css, /\.cl__num\[data-digits='4'\] \{ width: 4ch; \}/);
   assert.match(css, /\.cl__gap \{[^}]*width: [\d.]+em;/, 'each college gap has a fixed width, so the name column never moves');
   assert.match(css, /\.cl__track u \{[^}]*transform: scaleX\(var\(--fill, 0\)\)/, 'the bars read one custom property as a transform');
-  assert.match(code, /className="cl__list" style=\{\{ '--fill': pct\(score\) \/ 100 \}\}/);
+  // The list carries only the first score and never changes (a change restyled its 112 children); each bar has its own.
+  assert.match(code, /className="cl__list" style=\{\{ '--fill': pct\(INITIAL_SCORE\) \/ 100 \}\}/);
   assert.doesNotMatch(code, /<u style=/, 'no per-row inline transform');
   assert.match(code, /const LadderRow = memo\(/, 'rows re-render only when their words change');
   assert.match(code, /setScore\(next\)/);
-  assert.match(code, /Math\.round\(\(SWEEP_LOW \+ \(SWEEP_HIGH - SWEEP_LOW\) \* eased\) \/ SWEEP_STEP\) \* SWEEP_STEP/, 'steps, not every frame');
+  assert.match(code, /const next = Math\.round\(sweepAt\(phaseRef\.current\) \/ SWEEP_STEP\) \* SWEEP_STEP;/, 'the words step, not every frame');
 });
 
 // fix-misc (21 Nov 2026, evening): a React render for every step made about one frame in three take over 50 ms on a phone
@@ -79,19 +82,40 @@ test('a step changes paint inside boxes that do not move', () => {
 test('a step of the tour writes the card directly, and React renders only when a college flips', () => {
   assert.match(code, /const SWEEP_STEP = 10;/, 'steps of 10 points: at most about 10 a second');
   assert.ok([650, 800, 950, 600, 960].every((v) => v % 10 === 0), 'the quick scores and the band ends are on the grid');
-  assert.match(code, /function paintScore\(root, rows, value\)/);
+  assert.match(code, /function paintScore\(root, rows, value, bars = true\)/);
   assert.match(code, /firstChild\.nodeValue = digits/, 'the digits through the text node React keeps');
   assert.match(code, /words\.nodeValue = gapFor\(cutoff, value\)/, 'each college gap through its own text node');
   assert.match(code, /input\.style\.setProperty\('--p'/, 'the slider fill on the slider itself');
-  assert.match(code, /li\.querySelector\('\.cl__track u'\)\?\.style\.setProperty\('--fill', fill\)/, 'each bar its own fill (one property on the list restyled 112 children)');
+  assert.match(code, /if \(bars\) li\.querySelector\('\.cl__track u'\)\?\.style\.setProperty\('--fill', fill\)/, 'each bar its own fill (one property on the list restyled 112 children)');
   const tick = code.match(/const tick = \(now\) => \{([\s\S]*?)\n {4}\};/);
   assert.ok(tick, 'the tour tick');
-  assert.match(tick[1], /paintScore\(root, rows, next\);\s*const key = flipKey\(next\);\s*if \(key !== keyShown\) \{ keyShown = key; setScore\(next\); \}/, 'React only on a flip, after the paint');
+  assert.match(tick[1], /paintScore\(root, rows, next, false\);\s*const key = flipKey\(next\);\s*if \(key !== keyShown\) \{ keyShown = key; setScore\(next\); \}/, 'React only on a flip, after the paint');
   assert.match(code, /const flipKey = \(value\) => cutoffs\.filter\(\(c\) => c !== null && value >= c\)\.length;/);
   const take = code.match(/const take = \(value\) => \{([^}]*)\}/);
   assert.match(take[1], /paintScore\(rootRef\.current, rows, value\)/, 'the reader’s take is painted too, so React and the screen stay one truth');
-  assert.match(code, /setScore\(liveRef\.current\); \};\n {2}\}, \[paused/, 'when the tour rests, React takes the score on screen');
+  assert.match(code, /setScore\(liveRef\.current\);\n {4}\};\n {2}\}, \[paused/, 'when the tour rests, React takes the score on screen');
   assert.match(code, /\(was, now\) => was\.college === now\.college && was\.women === now\.women && was\.cutoff === now\.cutoff && was\.state === now\.state/, 'a row renders only when it flips');
   assert.doesNotMatch(code, /\? <span className="lp-sr">, cutoff cleared<\/span> : null/, 'no element added or removed as a row flips');
   assert.doesNotMatch(css, /\.cl__track u \{[^}]*transition/, 'no transition events from ten bars a step');
+});
+
+// LK366 (22 Nov 2026), owner: "these bars used to be very smooth previously, and now they are a bit choppy". The words step
+// in 10s for speed; the bars must not: they glide by Web Animations of transform (no DOM events, no per-step style write).
+test('the bars glide: a Web Animation of transform runs the sweep, and a take eases them', () => {
+  assert.match(css, /\.cl__track u \{[^}]*transform: scaleX\(var\(--fill, 0\)\);[^}]*transform-origin: left center;/, 'the fill moves by scaleX from its left edge');
+  assert.doesNotMatch(css, /\.cl__track u \{[^}]*\bwidth:/, 'never by width');
+  assert.match(code, /const scaleOf = \(value\) => `scaleX\(\$\{pct\(value\) \/ 100\}\)`;/);
+  assert.match(code, /const TOUR_FRAMES = Array\.from\(\{ length: 97 \}, \(_, k\) => \(\{ offset: k \/ 96, transform: scaleOf\(sweepAt\(k \/ 96\)\) \}\)\);/, 'the sweep sampled as transform keyframes');
+  assert.match(code, /u\.animate\(TOUR_FRAMES, \{ duration: SWEEP_PERIOD_MS, iterations: Infinity \}\)/, 'every bar runs the sweep while the tour plays');
+  assert.match(code, /a\.currentTime = phase \* SWEEP_PERIOD_MS;/, 'from where the tour is');
+  assert.match(code, /const GLIDE_MS = 180;/);
+  assert.match(code, /u\.animate\(\[\{ transform: scaleOf\(from\) \}, \{ transform: scaleOf\(to\) \}\], \{ duration: GLIDE_MS, easing: GLIDE_EASE \}\)/, 'a take eases from where the bar is drawn');
+  const take = code.match(/const take = \(value\) => \{([^}]*)\}/);
+  assert.match(take[1], /glide\.ease\(rootRef\.current, value, reduced\)/, 'drags and quick scores glide; reduced motion sets the bars at once');
+  assert.match(code, /glide\.tour\(root, phaseRef\.current\)/, 'the tour starts the glide');
+  assert.match(code, /if \(glide\.touring\(\)\) \{ paintBars\(root, liveRef\.current\); glide\.ease\(root, liveRef\.current, false\); \}/, 'resting settles the bars on the score on screen');
+  const tick = code.match(/const tick = \(now\) => \{([\s\S]*?)\n {4}\};/);
+  assert.doesNotMatch(tick[1], /--fill|paintBars|\.animate\(/, 'a step writes no bar: the animation moves them');
+  assert.doesNotMatch(code, /addEventListener\('(transition|animation)/, 'no listener on the glide');
+  assert.match(code, /useEffect\(\(\) => \(\) => glide\.stop\(\), \[glide\]\);/, 'the animations end with the card');
 });

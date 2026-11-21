@@ -336,32 +336,14 @@ html[data-motion='reduced'] .op-slot[data-leaving] { visibility: hidden; opacity
 /* Arriving at /#your-prep (the site bar's "Your prep tools"), or at a row's address: the heading lands clear of the site bar. */
 #your-prep.op { scroll-margin-top: 48px; }
 
-/* ---- the stress (21 Nov 2026, owner LK365) ----
-   While a beat's line is about one part of a screen (a script's `focus`: CursorDemo sets data-demo-focus on it and
-   data-demo-focusing on the stage), the other parts of that screen step back to 0.4 and the part itself carries a 2 px ring
-   in the brand word's colour (the volt in Night, its olive in Day). Opacity and an outline only: nothing moves. The parts
-   are siblings, never one inside another, so a stressed part is never inside a dimmed one. */
-/* Practise: the switch and its NTA line; the phone runner's head, paper and key bar, or its NTA head, pane and keys; the
-   monitor's header, paper and review, or its NTA head, question, keys and palette. */
-.op-slot[data-tool='practise'] :is(.xs-layout > .xs-switch, .xs-layout > .op-proof--switch, .xs-ph > :not(dialog), .xs-ph-nta > :not(dialog), .xs-app:not(.xs-ph) > .xs-header, .xs-body > *, .xs-nta:not(.xs-ph-nta) > :is(.xs-n-head, .xs-n-sections), .xs-n-main > *, .xs-n-body > :not(.xs-n-main)) {
-  transition: opacity 200ms ease;
-}
-.op-slot[data-tool='practise'] .op-stage[data-demo-focusing] :is(.xs-layout > .xs-switch, .xs-layout > .op-proof--switch, .xs-ph > :not(dialog), .xs-ph-nta > :not(dialog), .xs-app:not(.xs-ph) > .xs-header, .xs-body > *, .xs-nta:not(.xs-ph-nta) > :is(.xs-n-head, .xs-n-sections), .xs-n-main > *, .xs-n-body > :not(.xs-n-main)):not([data-demo-focus]) {
-  opacity: 0.4;
-}
-.op-slot[data-tool='practise'] .op-stage [data-demo-focus] { outline: 2px solid var(--brand-word); outline-offset: -2px; }
-.op-slot[data-tool='practise'] .op-stage .xs-switch[data-demo-focus] { outline-offset: 2px; }
-/* Key cards: the count, the card, the dots, each rating key and (on a phone) the foot; the Turn over key is never dimmed (the
-   cursor is on its way to it). Inside a stressed group of keys, its keys stay whole. */
-.op-kc :is(.kc-demo__top, .kc-demo__scene, .kc-demo__pips, .kc-demo__rate, .kc-foot) { transition: opacity 200ms ease; }
-.op-stage[data-demo-focusing] .op-kc :is(.kc-demo__top, .kc-demo__scene, .kc-demo__pips, .kc-demo__rate, .kc-foot):not([data-demo-focus]) { opacity: 0.4; }
-.op-stage[data-demo-focusing] .op-kc [data-demo-focus] .kc-demo__rate { opacity: 1; }
-.op-kc :is(.kc-demo__rates, .kc-demo__rate)[data-demo-focus] { outline: 2px solid var(--brand-word); outline-offset: 3px; }
-.op-kc .kc-demo__rates[data-demo-focus] { border-radius: 14px; }
-@media (prefers-reduced-motion: reduce) {
-  .op-slot[data-tool='practise'] :is(.xs-layout > .xs-switch, .xs-ph > :not(dialog), .xs-ph-nta > :not(dialog), .xs-body > *, .xs-n-main > *), .op-kc :is(.kc-demo__top, .kc-demo__scene, .kc-demo__pips, .kc-demo__rate, .kc-foot) { transition: none; }
-}
-
+/* ---- the stress ----
+   21 Nov 2026 (owner LK365): a beat's line can be about one part of a screen (a script's `focus`: CursorDemo sets
+   data-demo-focus on it and data-demo-focusing on the stage).
+   22 Nov 2026 (owner LK366, of Practise and Key cards: "it's just introducing some boxes here and there, which are not
+   looking as they should"): on these two real screens nothing is dimmed and no box is drawn round a group. The cursor and
+   what it changes are the stress. One small control may carry a ring that follows its own corners: the Got it key, while
+   the line says when the card comes back. The row stories keep their own stress (stories/*.css). */
+.op-kc .kc-demo__rate[data-demo-focus] { outline: 2px solid var(--brand-word); outline-offset: 3px; }
 /* ---- the row stories (21 Nov 2026, owner LK365: "focus more on showing the feature very well through animations") ----
    Ask Mobi, Learn, Benchmarks and the Mob are each a story: one fixed-size screen of the product (stories/<Id>Story.jsx,
    its own sheet stories/<id>-story.css) that the cursor works, beat by beat, under the caption strip. A story fills its

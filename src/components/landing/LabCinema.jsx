@@ -26,6 +26,15 @@ import Doodle from '@/components/doodle/Doodle';
 // The pen on the Lab's screens (18 Nov 2026, owner LK308): one mark a scene, drawn after the screen's own rows have come in,
 // on the figure the scene is about. The screens are dark in both themes, so the pen is the dark screen's red and its volt.
 const PEN_AFTER = 1100;
+/** The next look plays while held: the track crosses this strip along the window's top edge (0.4 % of its height, 3 px). */
+const HELD_STRIP = '0px 0px -99.6% 0px';
+/** A page still this long, no finger down, has come to rest (a swipe's momentum and the story's own settle are over). */
+const SETTLE_STILL_MS = 120;
+/**
+ * A reader who stops on the way in with the Lab's heading (its section's top) in the top half of the window is reading the
+ * Lab: they are carried in. Lower than that, they may still be reading the section before it, and are left where they are.
+ */
+const GLIDE_REACH = 0.5;
 
 // look="next" (21 Nov 2026): the same story, words and figures, with each screen redone as the result page's own UI worked by
 // a cursor (LabNextScreens.jsx, its styles in lab-next.css under [data-look='next']). Loaded only when that look is asked
@@ -378,6 +387,70 @@ function Stage({ step, pinned, reduced, live, goTo, look }) {
     io.observe(node);
     return () => io.disconnect();
   }, []);
+  // The next look plays only while the Lab is whole (owner LK366, 22 Nov 2026: "especially on the phone, it's getting cut
+  // off"; the orchestrator's film: a reader who stopped with the Lab's heading at the top saw its device cut by the phone's
+  // position band, its first scene played there unseen, then sat 34 s). The stage stands whole in the window only once it is
+  // held (the track's top has reached the window's top: the sticky stage keeps clear of the site bar and the band). `held`
+  // says so, from an IntersectionObserver on the track against a strip along the window's top edge (no layout read). Until
+  // then a scene waits calm in its start state, and none plays.
+  const [held, setHeld] = useState(false);
+  useEffect(() => {
+    const track = gridRef.current?.closest('.ss__track');
+    if (!next || !track || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver((entries) => setHeld(entries[entries.length - 1].isIntersecting), { rootMargin: HELD_STRIP, threshold: 0 });
+    io.observe(track);
+    return () => io.disconnect();
+  }, [next]);
+  // ... and a reader who stops on the way in, the Lab's heading and rail in view but its stage not yet held, is carried the
+  // rest of the way: once the page has been still SETTLE_STILL_MS with no finger down, if the last move went down the page
+  // and the Lab's heading is in the top half of the window (GLIDE_REACH), the page glides (the browser's own smooth scroll)
+  // to the Lab's first resting place, where the story holds it and the first scene starts. A reader on the way out (moving
+  // up) or with the Lab still low in the window is left where they are. Two reads (the heading's and the track's boxes) when
+  // the page has come to rest, never per scroll event; a finger on the glass stops the glide (the browser's rule).
+  useEffect(() => {
+    const track = gridRef.current?.closest('.ss__track');
+    const head = track?.closest('section') ?? track;
+    if (!next || !pinned || reduced || !track || typeof IntersectionObserver === 'undefined') return undefined;
+    let near = false;
+    let fingers = 0;
+    let timer = 0;
+    let lastY = null;
+    const settle = () => {
+      timer = 0;
+      if (!near || fingers > 0 || document.hidden) return;
+      const y = window.scrollY;
+      const down = lastY !== null && y > lastY + 1;
+      lastY = y;
+      if (!down) return;
+      if (head.getBoundingClientRect().top > window.innerHeight * GLIDE_REACH) return;
+      const top = track.getBoundingClientRect().top;
+      if (top <= 2) return;
+      window.scrollTo({ top: Math.round(y + top), behavior: 'smooth' });
+    };
+    const later = () => { window.clearTimeout(timer); timer = window.setTimeout(settle, SETTLE_STILL_MS); };
+    const onTouch = (event) => {
+      fingers = event.touches ? event.touches.length : 0;
+      if (fingers > 0) { window.clearTimeout(timer); timer = 0; } else if (near) later();
+    };
+    const onScroll = () => { if (near) later(); };
+    const io = new IntersectionObserver((entries) => {
+      near = entries[entries.length - 1].isIntersecting;
+      if (near && lastY === null) lastY = window.scrollY;
+      if (!near) { lastY = null; window.clearTimeout(timer); timer = 0; }
+    }, { threshold: 0 });
+    io.observe(track);
+    const opts = { capture: true, passive: true };
+    for (const kind of ['touchstart', 'touchend', 'touchcancel']) window.addEventListener(kind, onTouch, opts);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      for (const kind of ['touchstart', 'touchend', 'touchcancel']) window.removeEventListener(kind, onTouch, opts);
+      window.removeEventListener('scroll', onScroll, { passive: true });
+      window.clearTimeout(timer);
+    };
+  }, [next, pinned, reduced]);
+  // The first scene waits for the Lab to be half in view (armed) and, in the next look, held.
+  const firstReady = next ? armed && held : armed;
   // The next look: the rail's tab and the device's tab change in the same frame as the card (critic round, 21 Nov 2026
   // evening: the old tab stayed marked for 520 to 800 ms while the new card slid in). ScrollStory writes the story's
   // data-step the moment a step is decided and React's step catches up later, in a transition; this writes the tabs' marks
@@ -437,7 +510,7 @@ function Stage({ step, pinned, reduced, live, goTo, look }) {
         const Panel = PANELS[key];
         const on = pinned ? step === i : true;
         return (
-          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-armed={i === 0 && !armed ? 'false' : 'true'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
+          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-armed={i === 0 && !firstReady ? 'false' : 'true'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
             <div className="lc-scene__copy">
               <p className="lc-scene__step"><span>{String(i + 1).padStart(2, '0')}</span>{tab}</p>
               <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>
@@ -450,7 +523,7 @@ function Stage({ step, pinned, reduced, live, goTo, look }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              {next ? <LabNextScreen fit="0.62" scene={key} index={i} ready={pinned && (i !== 0 || armed)} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} onDone={() => auto.done(i)} onTakeover={() => auto.take(i)} /> : <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>}
+              {next ? <LabNextScreen fit="0.62" scene={key} index={i} ready={pinned && held && (i !== 0 || armed)} live={pinned && held && on && (i !== 0 || armed)} still={reduced || !pinned} onDone={() => auto.done(i)} onTakeover={() => auto.take(i)} /> : <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>}
             </figure>
           </article>
         );

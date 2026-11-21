@@ -1,21 +1,39 @@
-/* The Daily Five's demo on the home page (DailyStory.jsx, dailyStoryScript.mjs; owner LK365, 21 Nov 2026). Two parts:
-   1. the card around it (DailyFiveRow.jsx HomeBlock, .dwk-ticket[data-story]): the beat's line, the stage, the key and the
-      small print; side by side from 960 px;
+/* The Daily Five's demo on the home page (DailyStory.jsx, dailyStoryScript.mjs; owner LK365, 21 Nov 2026; rebuilt 22 Nov 2026,
+   owner LK366: "This daily 5: I'm unable to understand"). Two parts:
+   1. the card (DailyFiveRow.jsx HomeBlock, .dwk-ticket[data-story]): ONE surface. Its head row ("Daily Five" and the small
+      "Example" mark), the beat's line with its step dots, the demo screen drawn flat on the card (no border of its own, no
+      second title), then today's facts in one quiet line, the key and the small print. Side by side from 960 px;
    2. the screen itself (.st-daily): the five with their reasons, a question, the day's end. Its three views share one grid
-      cell (the height never changes). Motion answers the demo's clicks only: transform and opacity, 160 to 520 ms, ease-out,
-      and none under reduced motion (the end state is shown). */
+      cell of one fixed height (no layout shift, and the same room through all four beats). Motion answers the demo's
+      clicks only: transform and opacity, 160 to 520 ms, ease-out, and none under reduced motion (the end state is shown).
+   Stress without boxes: the part a beat is about keeps full strength, the rest falls to half over 200 ms. No outline or ring
+   around groups of rows. */
 
 /* ---------- 1. The card ---------- */
 .mm.lp .dwk-ticket[data-story] .dwk-ticket__play { gap: 0; }
-@media (max-width: 719.98px) { .mm.lp .dwk-ticket[data-story] .dwk-ticket__play { padding-inline: 14px; } }
-.mm.lp .dwk-story__stage { min-width: 0; margin-top: 12px; }
+@media (max-width: 719.98px) { .mm.lp .dwk-ticket[data-story] .dwk-ticket__play { padding: 22px 14px 16px; } }
+/* The head row: the name, and the mark that says the screen under it is an example. */
+.mm.lp .dwk-ticket[data-story] .dwk-ticket__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mm.lp .dwk-example {
+  flex: none; padding: 2px 10px; border: 1.5px dashed var(--line-strong); border-radius: 999px; color: var(--ink-2); font: 700 0.875rem/1.3 var(--font-body);
+}
+.mm.lp .dst-demo { display: grid; gap: 10px; min-width: 0; margin-top: 12px; }
+.mm.lp .dwk-story__stage { min-width: 0; }
 .mm.lp .dwk-story__foot { display: grid; min-width: 0; }
 .mm.lp .dwk-story__foot .dt-omr { margin-top: 14px; }
+/* Today's facts, one quiet line beside the key: the state's mark, the edition, the state and its time. Two lines' room on a
+   phone from the first paint (the clock is read after it), so nothing under it moves when it fills in. */
+.mm.lp .dwk-today { display: flex; align-items: flex-start; gap: 8px; min-height: calc(2em * 1.4); margin: 16px 0 0; color: var(--ink-2); font: 500 0.9375rem/1.4 var(--font-body); }
+.mm.lp .dwk-today .dwk-mark { margin-top: 2px; }
+.mm.lp .dwk-today__text { min-width: 0; text-wrap: pretty; }
+.mm.lp .dwk-today .dwk-status { color: var(--ink); font: 750 0.9375rem/1.4 var(--font-body); letter-spacing: 0; }
+.mm.lp .dwk-today .dwk-when { color: var(--ink-2); font: 500 0.9375rem/1.4 var(--font-body); }
+.mm.lp .dwk-story__foot .dwk-key { margin-top: 12px; }
 .mm.lp .dwk-story__print { margin: 10px 0 0; color: var(--ink-2); font: 500 0.875rem/1.45 var(--font-body); text-wrap: pretty; }
 
-/* The beat's line: a quiet "step 2 of 4" and the line in bold, two lines' height at every width (no line is longer than two),
-   so the stage under it never moves. A new line rises and fades in. */
-.mm.lp .dst-say { display: grid; gap: 4px; min-width: 0; margin: 14px 0 0; }
+/* The beat's line: "Step 2 of 4" with its dots, then the line in bold, two lines' height at every width (no line is longer
+   than two), so the screen under it never moves. A new line rises and fades in. */
+.mm.lp .dst-say { display: grid; gap: 4px; min-width: 0; }
 .mm.lp .dst-say__where { display: flex; align-items: center; gap: 10px; height: 24px; margin: 0; white-space: nowrap; color: var(--ink-2); font: 600 0.875rem/1.25 var(--font-body); }
 .mm.lp .dst-say__dots { display: inline-flex; gap: 4px; }
 .mm.lp .dst-say__dots i { display: block; width: 14px; height: 4px; border-radius: 2px; background: var(--line-strong); }
@@ -23,7 +41,7 @@
 .mm.lp .dst-say__dots i[data-on] { background: var(--ink); }
 .mm.lp .dst-say__line { margin: 0; min-height: calc(2em * 1.28); color: var(--ink); font: 750 1.0625rem/1.28 var(--font-display); letter-spacing: -0.014em; text-wrap: balance; }
 .mm.lp .dst-say__text { display: block; }
-.mm.lp .dst-say[data-live] .dst-say__text { animation: dst-say-in 220ms cubic-bezier(0.2, 0.8, 0.3, 1) both; }
+.mm.lp .dst-demo[data-mode='playing'] .dst-say__text { animation: dst-say-in 240ms cubic-bezier(0.2, 0.8, 0.3, 1) both; }
 @keyframes dst-say-in { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
 .mm.lp .dst-say__again {
   display: inline-flex; align-items: center; min-height: 44px; margin: -11px 0 -11px auto; padding: 0 2px; border: 0; background: none;
@@ -31,12 +49,19 @@
   text-underline-offset: 4px; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .mm.lp .dst-say__again:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+/* Reduced motion: the four beats as a still numbered list. */
+.mm.lp .dst-say__all { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; counter-reset: dst-beat; color: var(--ink); font: 700 1rem/1.35 var(--font-body); }
+.mm.lp .dst-say__all li { display: grid; grid-template-columns: 1.5em minmax(0, 1fr); counter-increment: dst-beat; }
+.mm.lp .dst-say__all li::before { content: counter(dst-beat) '.'; color: var(--ink-2); }
 
 @media (min-width: 720px) {
   .mm.lp .dst-say__line { font-size: 1.1875rem; }
   .mm.lp .dwk-story__print { font-size: 0.9375rem; }
+  .mm.lp .dwk-today { min-height: 1.4em; font-size: 1rem; }
+  .mm.lp .dwk-today .dwk-status, .mm.lp .dwk-today .dwk-when { font-size: 1rem; }
+  .mm.lp .dwk-example { font-size: 0.9375rem; }
 }
-/* Desktop: the words and the key on the left, the screen on the right. */
+/* Desktop: the head, the beat's line and the key on the left, the screen on the right. */
 @media (min-width: 960px) {
   /* No college board beside it (the switch is off): the play side takes the whole card. */
   .mm.lp .dwk-ticket[data-story]:not([data-board]) { grid-template-columns: minmax(0, 1fr); }
@@ -44,47 +69,50 @@
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); grid-template-rows: auto auto 1fr;
     grid-template-areas: 'head stage' 'say stage' 'foot stage'; column-gap: 44px; align-items: start;
   }
-  .mm.lp .dwk-ticket[data-story] .dwk-ticket__head { grid-area: head; }
+  .mm.lp .dwk-ticket[data-story] .dwk-ticket__head { grid-area: head; justify-content: flex-start; gap: 16px; }
+  .mm.lp .dwk-ticket[data-story] .dst-demo { display: contents; }
   .mm.lp .dwk-ticket[data-story] .dst-say { grid-area: say; margin-top: 22px; }
-  .mm.lp .dwk-ticket[data-story] .dst-say__line { font-size: 1.625rem; max-width: 22ch; }
+  .mm.lp .dwk-ticket[data-story] .dst-say__line { font-size: 1.625rem; max-width: 22ch; min-height: calc(3em * 1.28); }
   .mm.lp .dwk-ticket[data-story] .dwk-story__stage { grid-area: stage; margin-top: 0; }
   .mm.lp .dwk-ticket[data-story] .dwk-story__foot { grid-area: foot; align-self: end; }
   .mm.lp .dwk-ticket[data-story] .dwk-key { width: 100%; max-width: 20rem; }
 }
 
 /* ---------- 2. The screen ---------- */
+/* Drawn flat on the card: no border, no background, no title of its own. One fixed height through all four beats, the
+   tallest view's (the question) with room to spare; it fits a 360 x 676 phone between the site bar and the screen's foot
+   together with the beat's line above it. */
 .st-daily {
-  container-type: inline-size; display: grid; gap: 10px; min-width: 0; padding: 12px 10px 10px;
-  border: 1px solid var(--line-strong); border-radius: 18px; background: var(--paper);
+  --dst-h: 364px;
+  container-type: inline-size; display: grid; min-width: 0; height: var(--dst-h); overflow: clip; overflow-clip-margin: 8px;
   color: var(--ink); font-family: var(--font-body);
 }
-.st-daily .dst-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; padding: 0 2px; }
-.st-daily .dst-top__head { color: var(--ink); font: 800 1.0625rem/1.2 var(--font-display); letter-spacing: -0.015em; }
-.st-daily .dst-top__ex {
-  flex: none; padding: 2px 10px; border: 1.5px dashed var(--line-strong); border-radius: 999px; color: var(--ink-2); font: 700 0.875rem/1.3 var(--font-body);
-}
-.st-daily .dst-cell { display: grid; min-width: 0; }
+@media (max-width: 359.98px) { .st-daily { --dst-h: 392px; } }
+@media (min-width: 720px) { .st-daily { --dst-h: 404px; } }
+@media (min-width: 960px) { .st-daily { --dst-h: 420px; } }
 .st-daily .dst-view {
   grid-area: 1 / 1; display: grid; gap: 10px; align-content: start; min-width: 0;
   opacity: 0; visibility: hidden; transform: translate3d(18px, 0, 0);
-  transition: opacity 240ms ease-out, transform 360ms cubic-bezier(0.2, 0.8, 0.3, 1), visibility 0s linear 360ms;
+  /* The view that leaves fades fast, so the two never read as one muddle while they cross. */
+  transition: opacity 140ms ease-out, transform 360ms cubic-bezier(0.2, 0.8, 0.3, 1), visibility 0s linear 360ms;
 }
 .st-daily[data-phase='list'] .dst-list,
 .st-daily[data-phase='q'] .dst-q,
-.st-daily[data-phase='day'] .dst-day { opacity: 1; visibility: visible; transform: none; transition-delay: 60ms, 60ms, 0s; }
+.st-daily[data-phase='day'] .dst-day {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity 240ms ease-out 100ms, transform 360ms cubic-bezier(0.2, 0.8, 0.3, 1) 100ms, visibility 0s linear 0s;
+}
 
-/* The part the beat's line is about (CursorDemo `focus`): the rest of the view steps back, the part keeps a volt ring. */
-.st-daily [data-part] { border-radius: 12px; transition: opacity 220ms ease-out; }
-.cd-stage[data-demo-focusing] .st-daily [data-part]:not([data-demo-focus]) { opacity: 0.38; }
-.st-daily [data-demo-focus] { outline: 2px solid var(--volt-edge); outline-offset: 3px; }
+/* The part the beat's line is about (CursorDemo `focus`): it keeps full strength, the rest of the view falls to half. */
+.st-daily [data-part] { transition: opacity 200ms ease-out; }
+.cd-stage[data-demo-focusing] .st-daily [data-part]:not([data-demo-focus]) { opacity: 0.5; }
 
-/* The five, by kind. */
-.st-daily .dst-mix { margin: 0; padding: 0 2px; color: var(--ink-2); font: 650 0.9375rem/1.35 var(--font-body); text-wrap: balance; }
-.st-daily .dst-slots { display: grid; gap: 8px; }
-.st-daily .dst-group { display: grid; gap: 6px; }
+/* The five, one row each: the place's number, why it is there, and its subject. */
+.st-daily .dst-slots { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.st-daily .dst-row { min-width: 0; }
 .st-daily .dst-slot {
-  display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; column-gap: 10px; width: 100%; min-height: 50px;
-  margin: 0; padding: 6px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper-raised);
+  display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; column-gap: 12px; width: 100%; min-height: 54px;
+  margin: 0; padding: 7px 12px 7px 10px; border: 0; border-radius: 12px; background: var(--paper);
   color: var(--ink); text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .st-daily .dst-slot:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
@@ -96,24 +124,44 @@
 .st-daily .dst-slot[data-kind='missed'] .dst-slot__n { border-color: var(--ink); color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .st-daily .dst-slot[data-kind='weak'] .dst-slot__n { border-style: dashed; border-color: var(--ink-2); color: var(--ink); }
 .st-daily .dst-slot__text { display: grid; gap: 1px; min-width: 0; }
-.st-daily .dst-slot__text b { color: var(--ink); font: 700 0.9375rem/1.3 var(--font-body); text-wrap: pretty; }
-.st-daily .dst-slot__text span { overflow: hidden; color: var(--ink-2); font: 500 0.875rem/1.3 var(--font-body); white-space: nowrap; text-overflow: ellipsis; }
+.st-daily .dst-slot__text b { color: var(--ink); font: 700 0.9375rem/1.28 var(--font-body); text-wrap: pretty; }
+.st-daily .dst-slot__text span { overflow: hidden; color: var(--ink-2); font: 500 0.875rem/1.28 var(--font-body); white-space: nowrap; text-overflow: ellipsis; }
+/* Before the demo plays the rows wait faint (the screen is never an empty box while the reader scrolls to it); as it begins
+   they come up one by one, 220 ms apart (the fifth is up at about 1.4 s). Once it has run, or when it never runs (reduced
+   motion, no script), they simply show. */
+.mm.lp .dst-demo[data-wait] .dst-row { opacity: 0.4; }
+.cd-stage[data-demo-live] .st-daily[data-phase='list'] .dst-row {
+  animation: dst-arrive 360ms cubic-bezier(0.2, 0.8, 0.3, 1) backwards; animation-delay: calc(200ms + var(--i, 0) * 220ms);
+}
+@keyframes dst-arrive { from { opacity: 0.4; transform: translate3d(0, 6px, 0); } }
 
+/* The card's own bubbles keep their margin (daily-row.css .dwk-ticket .dt-omr); the screen's sit flush in their row. */
+.mm.lp .dwk-ticket .st-daily .dt-omr { margin-top: 0; grid-template-columns: repeat(5, 36px); justify-content: start; gap: 6px; }
+.mm.lp .dwk-ticket .st-daily .dt-omr__b { width: 32px; height: 32px; font-size: 0.875rem; }
 /* A question, as /daily asks it. */
+.st-daily .dst-q__bar { position: relative; padding: 0 0 12px 6px; }
 .st-daily .dst-q__bar .dt-omr { grid-template-columns: repeat(5, 36px); justify-content: start; gap: 6px; }
 .st-daily .dst-q__bar .dt-omr__b { width: 32px; height: 32px; font-size: 0.875rem; }
 .st-daily .dst-q__bar .dt-omr__icon { width: 16px; height: 16px; }
-.st-daily .dst-q__ask { display: grid; gap: 10px; min-width: 0; }
-.st-daily .dst-q__why { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 0; padding: 0 2px; }
+/* "Fixed" lands on place 1's bubble once it is answered right: a small ink tag across the bubble's foot. */
+.st-daily .dst-q__fixed {
+  position: absolute; left: 0; top: 22px; z-index: 1; padding: 1px 7px; border-radius: 6px; background: var(--ink); color: var(--paper);
+  font: 750 0.875rem/1.25 var(--font-body); white-space: nowrap; pointer-events: none;
+  opacity: 0; transform: translate3d(0, -8px, 0) scale(1.25);
+  transition: opacity 200ms ease-out 260ms, transform 320ms cubic-bezier(0.2, 0.8, 0.3, 1) 260ms;
+}
+.st-daily[data-answered='right'] .dst-q__fixed { opacity: 1; transform: none; }
+.st-daily .dst-q__ask { display: grid; gap: 8px; min-width: 0; }
+.st-daily .dst-q__why { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 0; }
 .st-daily .dst-q__why b {
   padding: 3px 9px; border-radius: 8px; background: var(--ink); color: var(--paper); font: 700 0.875rem/1.3 var(--font-body);
 }
 .st-daily .dst-q__why span { color: var(--ink-2); font: 600 0.875rem/1.3 var(--font-body); }
-.st-daily .dst-q__stem { margin: 0; padding: 0 2px; color: var(--ink); font: 700 1.0625rem/1.32 var(--font-display); letter-spacing: -0.01em; text-wrap: pretty; }
+.st-daily .dst-q__stem { margin: 0; color: var(--ink); font: 700 1.0625rem/1.32 var(--font-display); letter-spacing: -0.01em; text-wrap: pretty; }
 .st-daily .dst-q__options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .st-daily .dst-opt {
   display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: center; column-gap: 8px; width: 100%; min-height: 48px;
-  margin: 0; padding: 5px 8px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper-raised);
+  margin: 0; padding: 5px 8px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--paper);
   color: var(--ink); text-align: left; font: 600 0.9375rem/1.25 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .st-daily .dst-opt:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
@@ -128,12 +176,12 @@
 .st-daily .dst-opt[data-state='muted'] { opacity: 0.5; }
 @keyframes dst-pop { 0% { transform: scale(1); } 45% { transform: scale(1.03); } 100% { transform: scale(1); } }
 .st-daily .dst-q__foot { display: grid; gap: 8px; }
-.st-daily .dst-q__said { min-height: calc(2em * 1.4); margin: 0; padding: 0 2px; color: var(--ink-2); font: 500 0.875rem/1.4 var(--font-body); }
+.st-daily .dst-q__said { min-height: calc(2em * 1.4); margin: 0; color: var(--ink-2); font: 500 0.875rem/1.4 var(--font-body); }
 .st-daily .dst-q__said strong { color: var(--ink); font-weight: 800; }
 .st-daily .dst-q__row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .st-daily .dst-chip { padding: 4px 10px; border-radius: 999px; font: 750 0.875rem/1.3 var(--font-body); white-space: nowrap; }
 .st-daily .dst-chip[data-tone='fixed'] { background: var(--volt); color: var(--volt-ink); box-shadow: inset 0 0 0 1px var(--volt-edge); }
-.st-daily .dst-chip[data-tone='sent'] { background: var(--paper-sunken, var(--paper-raised)); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.st-daily .dst-chip[data-tone='sent'] { background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-strong); }
 .st-daily .dst-q__said, .st-daily .dst-chip { opacity: 0; transform: translate3d(0, 6px, 0); transition: opacity 220ms ease-out, transform 320ms cubic-bezier(0.2, 0.8, 0.3, 1); }
 .st-daily[data-answered] .dst-q__said, .st-daily[data-answered] .dst-chip { opacity: 1; transform: none; }
 .st-daily[data-answered] .dst-chip { transition-delay: 180ms; }
@@ -147,14 +195,12 @@
 /* The day's end. */
 .st-daily .dst-day { gap: 14px; }
 .st-daily .dst-day__top { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'tag score' 'omr omr'; align-items: center; gap: 8px 12px; }
-.st-daily .dst-day__tag { grid-area: tag; padding: 0 2px; color: var(--ink-2); font: 700 0.875rem/1.3 var(--font-body); }
+.st-daily .dst-day__tag { grid-area: tag; color: var(--ink-2); font: 700 0.875rem/1.3 var(--font-body); }
 .st-daily .dst-day__top .dt-omr { grid-area: omr; grid-template-columns: repeat(5, 36px); justify-content: start; gap: 6px; }
 .st-daily .dst-day__top .dt-omr__b { width: 32px; height: 32px; font-size: 0.875rem; }
 .st-daily .dst-day__top .dt-omr__icon { width: 16px; height: 16px; }
-.st-daily .dst-day__score { grid-area: score; justify-self: end; padding-right: 2px; color: var(--ink); font: 800 1rem/1.2 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.st-daily .dst-day__streak {
-  display: grid; gap: 12px; padding: 14px 12px; border: 1px solid var(--line); background: var(--paper-raised); border-radius: 14px;
-}
+.st-daily .dst-day__score { grid-area: score; justify-self: end; color: var(--ink); font: 800 1rem/1.2 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.st-daily .dst-day__streak { display: grid; gap: 12px; padding: 14px 12px; background: var(--paper); border-radius: 14px; }
 .st-daily .dst-day__run { display: flex; align-items: baseline; gap: 8px; margin: 0; }
 .st-daily .dst-day__num { display: inline-block; height: 1em; overflow: hidden; color: var(--ink); font: 800 3rem/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .st-daily .dst-day__num > span { display: block; height: 1em; transform: translate3d(0, 0, 0); }
@@ -166,7 +212,7 @@
 .st-daily .dst-day__week li[data-today] i::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--volt); box-shadow: inset 0 0 0 1.5px var(--volt-edge); transform: scale(0); opacity: 0; }
 .st-daily .dst-day__week span { color: var(--ink-2); font: 600 0.875rem/1 var(--font-body); }
 .st-daily .dst-day__week li[data-today] span { color: var(--ink); font-weight: 800; }
-.st-daily .dst-day__did { display: grid; gap: 4px; padding: 0 2px; }
+.st-daily .dst-day__did { display: grid; gap: 4px; }
 .st-daily .dst-day__did b { color: var(--ink); font: 750 0.9375rem/1.3 var(--font-display); }
 .st-daily .dst-day__did ul { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
 .st-daily .dst-day__did li { color: var(--ink); font: 600 0.9375rem/1.4 var(--font-body); }
@@ -178,7 +224,7 @@
 .st-daily .dst-again:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
 
 /* What happens as the day's end comes in: the four other answers land one by one, then the run steps up by a day and
-   today's square fills, then the lines of what the five did. Each once, as the view opens. */
+   today's square fills, then the lines of what the five did. Each once, as the view opens (all done by 1.8 s). */
 .st-daily[data-phase='day'] .dst-day__top .dt-omr__b:nth-child(n + 2) { animation: dst-in 260ms cubic-bezier(0.2, 0.8, 0.3, 1) both; }
 .st-daily[data-phase='day'] .dst-day__top .dt-omr__b:nth-child(2) { animation-delay: 220ms; }
 .st-daily[data-phase='day'] .dst-day__top .dt-omr__b:nth-child(3) { animation-delay: 340ms; }
@@ -194,26 +240,8 @@
   .st-daily .dst-day__streak { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 18px; }
 }
 @media (min-width: 720px) {
-  .st-daily { padding: 18px 16px 16px; gap: 12px; }
-  .st-daily .dst-q__ask { gap: 12px; }
-}
-/* A short phone (360x676 and the like): the five, the beat's line and the stage fit above the phone bar (21 Nov 2026 critic:
-   place 5 sat under the bar as the line said "one new"). Tighter rows, never under a 44 px target or 14 px text. */
-@media (max-width: 719.98px) and (max-height: 720px) {
-  .mm.lp .dst-say { margin-top: 10px; gap: 2px; }
-  .mm.lp .dwk-story__stage { margin-top: 8px; }
-  .st-daily { gap: 8px; padding: 10px 8px 8px; }
-  .st-daily .dst-view { gap: 8px; }
-  .st-daily .dst-q__ask { gap: 8px; }
-  .st-daily .dst-slots { gap: 6px; }
-  .st-daily .dst-group { gap: 4px; }
-  .st-daily .dst-slot { grid-template-columns: 26px minmax(0, 1fr); column-gap: 8px; min-height: 44px; padding: 3px 8px; }
-  .st-daily .dst-slot__n { width: 26px; height: 26px; font-size: 0.875rem; }
-  .st-daily .dst-slot__text b { line-height: 1.22; }
-  .st-daily .dst-slot__text span { line-height: 1.22; }
-  .st-daily .dst-opt { min-height: 44px; }
-  .st-daily .dst-day { gap: 10px; }
-  .st-daily .dst-day__streak { gap: 10px; padding: 10px; }
+  .st-daily .dst-view { gap: 12px; }
+  .st-daily .dst-q__ask { gap: 10px; }
 }
 
 /* Reduced motion: nothing moves; every view and its end state just show. */

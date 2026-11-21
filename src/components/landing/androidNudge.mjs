@@ -3,8 +3,11 @@
 // nobody else. Pure: no I/O, no React, so androidNudge.test.mjs can hold it.
 //
 // The switch: the Play listing for in.mockmob.app is not public yet (it answers 404), so the section exists only while
-// PLAY_LISTING_PUBLIC is exactly 'true' (the same switch /r/<code> reads, src/lib/referrals/friendInvite.mjs). In development
-// it can be previewed with ?appnudge=1 whatever the switch says.
+// PLAY_LISTING_PUBLIC is exactly 'true' (the same switch /r/<code> reads, src/lib/referrals/friendInvite.mjs).
+// The preview (owner LK366, 22 Nov 2026: "I don't see anything related to that Android app ... even as a placeholder ... let
+// me know how I can check that"): /?appnudge=1 shows it on an Android phone whatever the switch says, on the live site too,
+// so he can judge it on his own phone. Nobody reaches that address by accident, and while the listing is not public the
+// preview says so under the key.
 // No funnel step is recorded for it: a new funnel step needs a database migration (the funnel's step list is in the database).
 import { ANDROID_PACKAGE } from '../../lib/referrals/friendInvite.mjs';
 import { IN_APP_BROWSER_RE } from '../result/installOffer.mjs';
@@ -15,7 +18,7 @@ export const NUDGE_PLAY_URL = `https://play.google.com/store/apps/details?${new 
   referrer: 'utm_source=web&utm_medium=home_nudge',
 }).toString()}`;
 
-/** The query that previews the section in development: /?appnudge=1 */
+/** The query that previews the section, in development and on the live site: /?appnudge=1 */
 export const NUDGE_PREVIEW_PARAM = 'appnudge';
 
 /**
@@ -31,6 +34,8 @@ export const NUDGE_COPY = Object.freeze({
   line: 'Mocks, your results, mistake fixes and Ask Mobi on your phone.',
   key: 'Get the app on Google Play',
   alt: 'The MockMob app: unlimited mocks, every one new',
+  // Shown only in the preview while the listing is not public (the key then leads to a page Google Play does not have yet).
+  previewNote: 'Preview. This appears once the app is public on Google Play.',
 });
 
 /** An Android phone: the user agent says Android AND Mobile (an Android tablet leaves out Mobile). Never an iPhone. */
@@ -40,23 +45,24 @@ export function isAndroidPhone(ua = '') {
 }
 
 /**
- * May the server draw the section at all? In production only while the listing is public; in development always (it stays
- * hidden there until the browser rule below shows it).
+ * May the server draw the section at all? Always, and always hidden: the browser rule below shows it. (Until 22 Nov 2026
+ * production drew nothing while the listing was not public; the owner then had no way to see it on his phone.) Hidden, its
+ * lazy picture is never fetched.
  */
-export function nudgeDrawn({ listed = false, dev = false } = {}) {
-  return dev === true || listed === true;
+export function nudgeDrawn() {
+  return true;
 }
 
 /**
  * The browser's rule, after hydration. True only when every one holds:
- *   allowed:    production with the switch on, or development with ?appnudge=1 (development never shows it otherwise);
+ *   allowed:    ?appnudge=1 anywhere (the preview), or production with the switch on (development shows it only as a preview);
  *   an Android phone (not an iPhone, a tablet or a desktop);
  *   not an in-app browser or a WebView (Instagram, Facebook, WhatsApp, "; wv)"): installing fails there;
  *   not opened from the app (html[data-app-view], src/app/app-view.css);
  *   not an installed web app (display-mode: standalone).
  */
 export function showAndroidNudge({ ua = '', listed = false, dev = false, preview = false, appView = false, standalone = false } = {}) {
-  const allowed = dev === true ? preview === true : listed === true;
+  const allowed = preview === true || (dev !== true && listed === true);
   if (!allowed) return false;
   if (appView === true || standalone === true) return false;
   const s = String(ua || '');

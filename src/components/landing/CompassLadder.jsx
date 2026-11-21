@@ -5,7 +5,7 @@
 // Every number is a minimum allocation score printed
 // in DU's own round lists (CSAS UG 2026-27). It states a gap to a past cutoff and nothing else:
 // no admission chance, no prediction, no conversion of practice marks into a CUET score.
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Doodle from '@/components/doodle/Doodle';
 import { Play, Pause } from 'lucide-react';
@@ -32,17 +32,81 @@ const fmt = (n) => ONE_DECIMAL.format(n);
 const INITIAL_SCORE = 780;
 // The clock, read only from the reader's own events (take, hold) and the tour's effect, never while rendering.
 const now = () => performance.now();
+// The reader's motion setting: the system's, or the site's own (html[data-motion='reduced']).
+const REDUCED_QUERY = '(prefers-reduced-motion: reduce)';
+const motionReduced = () => window.matchMedia(REDUCED_QUERY).matches || document.documentElement.dataset.motion === 'reduced';
 const PRESETS = [650, 800, 950];
 // A college's words for a score: the one rule, used by the render and by the tour's direct writes.
 const gapFor = (cutoff, value) => (cutoff === null ? 'Not listed' : value >= cutoff ? (value === cutoff ? 'At cutoff' : fmt(cutoff)) : `Short by ${fmt(cutoff - value)}`);
+// The tour's score at a phase of the sweep: a cosine ping-pong, so it slows at each end instead of bouncing.
+const sweepAt = (phase) => SWEEP_LOW + ((SWEEP_HIGH - SWEEP_LOW) * (1 - Math.cos(phase * 2 * Math.PI))) / 2;
+const scaleOf = (value) => `scaleX(${pct(value) / 100})`;
+
+// The bars glide (owner LK366, 22 Nov 2026: "these bars used to be very smooth previously, and now they are a bit choppy").
+// Since 21 Nov the digits and the words step in 10s for speed, and the bars stepped with them. Now the bars do not step:
+// while the tour plays, every bar runs one Web Animation of the whole sweep (TOUR_FRAMES, the same cosine sampled 96 times,
+// linear between), so they move every frame on the compositor while the main thread only writes a step's words. The tour's
+// clock is that animation's own time, so the digits and the bars never drift apart. When the reader takes the score, or the
+// tour rests, the bars ease from where they are drawn to the new score in GLIDE_MS. Not a CSS transition: the steps come
+// about 100 ms apart in the middle of the band and over 500 ms apart at its ends, so no one length joins them, and ten
+// transitions a step sent about thirty transition events through React's root listener (fix-misc, 21 Nov 2026). A Web
+// Animation fires no DOM event. Reduced motion: no tour and no glide; a bar is set at once.
+const GLIDE_MS = 180;
+const GLIDE_EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+const TOUR_FRAMES = Array.from({ length: 97 }, (_, k) => ({ offset: k / 96, transform: scaleOf(sweepAt(k / 96)) }));
+const barsOf = (root) => (root ? [...root.querySelectorAll('.cl__track u')] : []);
+function makeGlide(initial) {
+  let anims = [];
+  let mode = 'still';
+  let from = initial;
+  let to = initial;
+  const clock = () => (mode === 'tour' && anims[0]?.currentTime != null ? anims[0] : null);
+  // The score the bars are drawn at now, from the running animation's own time (no style or layout read).
+  const drawn = () => {
+    const tour = clock();
+    if (tour) return sweepAt((Number(tour.currentTime) / SWEEP_PERIOD_MS) % 1);
+    const progress = mode === 'ease' ? anims[0]?.effect?.getComputedTiming().progress : null;
+    return progress == null ? to : from + (to - from) * progress;
+  };
+  const stop = () => { anims.forEach((a) => a.cancel()); anims = []; };
+  return {
+    clock,
+    touring: () => mode === 'tour',
+    // The whole sweep from `phase` on, round and round; each bar's own --fill stays under it for when it stops.
+    tour(root, phase) {
+      stop();
+      mode = 'tour';
+      anims = barsOf(root).map((u) => {
+        const a = u.animate(TOUR_FRAMES, { duration: SWEEP_PERIOD_MS, iterations: Infinity });
+        a.currentTime = phase * SWEEP_PERIOD_MS;
+        return a;
+      });
+    },
+    // From where the bars are drawn to `value` (already written to each bar's --fill), with a short ease-out.
+    ease(root, value, still) {
+      from = drawn();
+      stop();
+      mode = 'ease';
+      to = value;
+      if (still || Math.abs(from - to) < 0.05) return;
+      anims = barsOf(root).map((u) => u.animate([{ transform: scaleOf(from) }, { transform: scaleOf(to) }], { duration: GLIDE_MS, easing: GLIDE_EASE }));
+    },
+    stop,
+  };
+}
+// Each bar's own fill (--fill on the bar): what it shows when no animation runs.
+function paintBars(root, value) {
+  const fill = String(pct(value) / 100);
+  barsOf(root).forEach((u) => u.style.setProperty('--fill', fill));
+}
 
 // Writes a score straight into the boxes React drew (the tour's steps, and the reader's own takes so both stay one truth):
 // the digits' and each college's text node (nodeValue on the node React keeps, so React's own later updates still land),
-// the slider's value and its fill (--p on the slider itself), which quick score is pressed, and each bar's fill (--fill on
-// the bar itself). Measured on a
-// phone at CPU 6x (tmp/1121-stories/fix-misc/costs.mjs): about 7 ms of style and layout a step, where --fill set once on the
+// the slider's value and its fill (--p on the slider itself), which quick score is pressed, and, unless the tour's glide
+// draws them, each bar's fill (--fill on the bar itself). Measured on a
+// phone at CPU 6x (tmp/1121-stories/fix-misc/costs.mjs): about 7 ms of style and layout a step, where --fill set on the
 // list restyled its 112 children for about 25 ms. Words and paint only, inside boxes of fixed size in a contained card.
-function paintScore(root, rows, value) {
+function paintScore(root, rows, value, bars = true) {
   if (!root) return;
   const digits = String(value);
   const num = root.querySelector('.cl__num');
@@ -55,7 +119,7 @@ function paintScore(root, rows, value) {
   });
   const fill = String(pct(value) / 100);
   root.querySelectorAll('.cl__list > li').forEach((li, i) => {
-    li.querySelector('.cl__track u')?.style.setProperty('--fill', fill);
+    if (bars) li.querySelector('.cl__track u')?.style.setProperty('--fill', fill);
     const cutoff = rows[i]?.cutoff ?? null;
     const words = li.querySelector('.cl__gap')?.firstChild;
     if (cutoff !== null && words) words.nodeValue = gapFor(cutoff, value);
@@ -107,10 +171,12 @@ export default function CompassLadder({ data }) {
   // The score on screen. Between the renders the tour asks for, it writes the score's own words and paint straight into the
   // card (see the tour), so this, not `score`, is what the reader sees while it plays.
   const liveRef = useRef(INITIAL_SCORE);
+  // The bars' glide (see makeGlide): one per card, made once.
+  const [glide] = useState(() => makeGlide(INITIAL_SCORE));
 
   useEffect(() => {
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReduced(query.matches || document.documentElement.dataset.motion === 'reduced');
+    const query = window.matchMedia(REDUCED_QUERY);
+    const sync = () => setReduced(motionReduced());
     sync();
     query.addEventListener('change', sync);
     window.addEventListener('mm-prefs', sync);
@@ -145,8 +211,12 @@ export default function CompassLadder({ data }) {
     const listed = data.programmes[programme].rows.map((r) => ({ ...r, cutoff: r.cutoffs[round]?.[category] ?? null }));
     return [...listed.filter((r) => r.cutoff !== null).sort((a, b) => b.cutoff - a.cutoff), ...listed.filter((r) => r.cutoff === null)];
   }, [data, programme, round, category]);
+  // New rows (another course, round or category) start with their bars at the score on screen, before they are drawn.
+  useLayoutEffect(() => { paintBars(rootRef.current, liveRef.current); }, [rows]);
   useEffect(() => {
-    if (paused || !inView || !shown || reduced) return undefined;
+    // motionReduced() too: on a reload with the card in view, the window's own setting can reach this effect before the
+    // `reduced` state does (lane compass, 22 Nov 2026: one step of the tour ran under reduced motion).
+    if (paused || !inView || !shown || reduced || motionReduced()) return undefined;
     const root = rootRef.current;
     const cutoffs = rows.map((r) => r.cutoff);
     const flipKey = (value) => cutoffs.filter((c) => c !== null && value >= c).length;
@@ -158,23 +228,31 @@ export default function CompassLadder({ data }) {
     const tick = (now) => {
       const dt = last ? Math.min(64, now - last) : 0;
       last = now;
-      phaseRef.current = (phaseRef.current + dt / SWEEP_PERIOD_MS) % 1;
-      const eased = (1 - Math.cos(phaseRef.current * 2 * Math.PI)) / 2;
-      // Steps of SWEEP_STEP points, never a step a frame (round 13, audit F10).
-      const next = Math.round((SWEEP_LOW + (SWEEP_HIGH - SWEEP_LOW) * eased) / SWEEP_STEP) * SWEEP_STEP;
+      // The bars' animation is the clock, so the digits step exactly where the gliding bars are.
+      const clock = glide.clock();
+      phaseRef.current = clock ? (Number(clock.currentTime) / SWEEP_PERIOD_MS) % 1 : (phaseRef.current + dt / SWEEP_PERIOD_MS) % 1;
+      // Steps of SWEEP_STEP points for the words, never a step a frame (round 13, audit F10); the bars glide between them.
+      const next = Math.round(sweepAt(phaseRef.current) / SWEEP_STEP) * SWEEP_STEP;
       if (next !== stepShown) {
         stepShown = next;
         liveRef.current = next;
-        paintScore(root, rows, next);
+        paintScore(root, rows, next, false);
         const key = flipKey(next);
         if (key !== keyShown) { keyShown = key; setScore(next); }
       }
       frame = window.requestAnimationFrame(tick);
     };
     const wait = heldAt ? heldAt + READER_HOLD_MS - now() : 0;
-    const start = window.setTimeout(() => { frame = window.requestAnimationFrame(tick); }, Math.max(0, wait));
-    return () => { window.clearTimeout(start); window.cancelAnimationFrame(frame); setScore(liveRef.current); };
-  }, [paused, inView, shown, reduced, heldAt, rows]);
+    const start = window.setTimeout(() => { glide.tour(root, phaseRef.current); frame = window.requestAnimationFrame(tick); }, Math.max(0, wait));
+    return () => {
+      window.clearTimeout(start);
+      window.cancelAnimationFrame(frame);
+      // The bars settle on the score on screen; a reader's take has already eased them to theirs.
+      if (glide.touring()) { paintBars(root, liveRef.current); glide.ease(root, liveRef.current, false); }
+      setScore(liveRef.current);
+    };
+  }, [paused, inView, shown, reduced, heldAt, rows, glide]);
+  useEffect(() => () => glide.stop(), [glide]);
 
   // The sweep's phase that lands on a score, so the tour goes on from the reader's score rather than jumping.
   const phaseFrom = (value) => {
@@ -185,7 +263,7 @@ export default function CompassLadder({ data }) {
     if (paused) { phaseFrom(liveRef.current); setHeldAt(0); setPaused(false); } else setPaused(true);
   };
   // The reader takes the score: the tour holds (the key still says Pause) and later goes on from their score.
-  const take = (value) => { phaseFrom(value); liveRef.current = value; paintScore(rootRef.current, rows, value); setHeldAt(now()); setScore(value); };
+  const take = (value) => { phaseFrom(value); liveRef.current = value; paintScore(rootRef.current, rows, value); glide.ease(rootRef.current, value, reduced); setHeldAt(now()); setScore(value); };
   const touring = !paused && !reduced;
   const current = data.programmes[programme];
   const listed = rows.filter((r) => r.cutoff !== null);
@@ -255,9 +333,10 @@ export default function CompassLadder({ data }) {
             )}
           </p>
           <p className="cl__top"><span>{current.label}</span> <span className="cl__tag">{data.cycle}, {ROUND_LABEL[round]}, {category}</span></p>
-          {/* --fill, how far along the axis the score sits (0 to 1), is set once on the list; every bar's fill reads it as a
-              transform (compass-ladder.css), so a step does not re-render a row for its bar. */}
-          <ul className="cl__list" style={{ '--fill': pct(score) / 100 }}>
+          {/* --fill, how far along the axis the score sits (0 to 1): the list carries only the first score, for the page as
+              the server sends it, and never changes (a change restyled the list's 112 children); each bar's own --fill
+              (paintBars) and the glide's animations carry the score after that (compass-ladder.css reads it as a transform). */}
+          <ul className="cl__list" style={{ '--fill': pct(INITIAL_SCORE) / 100 }}>
             {rows.map((r) => {
               const none = r.cutoff === null;
               const clear = !none && score >= r.cutoff;

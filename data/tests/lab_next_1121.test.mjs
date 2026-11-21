@@ -211,19 +211,78 @@ test('the next look plays itself, pausing only while the reader acts, and only t
   // The script's own last step hands over (LabNextScreens), not CursorDemo's onDone 260 ms after the cursor has faded.
   const screens = read('src/components/landing/LabNextScreens.jsx');
   assert.match(screens, /\[\.\.\.SCRIPTS\[scene\], \{ run: \(stage\) => \{ keepPoint\(stage\); doneRef\.current\?\.\(\); \} \}\]/);
-  const scripts = screens.slice(screens.indexOf('const SCRIPTS'), screens.indexOf('const SCREENS'));
-  // Critic round, 21 Nov 2026 evening: the hand-off comes about 300 ms after the last tap's answer has come in (its rise: 260 ms,
-  // a change's final pick 460 ms, the repair's rule 670 ms), not a second of dwell after it. The last scene rests, no hand-off.
-  const RISE = { chapters: 260, time: 260, changes: 460, repair: 670 };
-  for (const key of ['chapters', 'time', 'changes', 'repair', 'swot']) {
-    const body = scripts.slice(scripts.indexOf(`${key}:`), scripts.indexOf(']),', scripts.indexOf(`${key}:`)));
-    const lastStep = body.trim().split('\n').filter((line) => line.trim().startsWith('{')).at(-1);
-    assert.match(lastStep, /click: true/, `${key}: the script ends on its last tap, no move after it`);
-    const last = Number(lastStep.match(/dwell: (\d+) \}/)?.[1]);
-    if (RISE[key]) assert.ok(last - RISE[key] >= 200 && last - RISE[key] <= 400, `${key}: hands over about 300 ms after its last answer is in (${last})`);
-    // The next scene's cursor waits for its card to stand, shows where the last one stopped, and goes straight to its control.
-    assert.match(body, /Object\.freeze\(\[\s*ARRIVE,\s*\{ run: arrive \},(?:\s*\/\/[^\n]*)*\s*\{ target: [^}]*move: 380, click: true/, `${key}: arrives in place`);
+});
+
+// LK366 (22 Nov 2026), the owner: "the auto play is a bit too fast. Previously, it was a bit too slow, but I prefer the previous
+// one only over this one. This is just way too fast ... No one can even read it properly". Every scene keeps one rhythm, timed
+// from the moment its card stands: the first tap 1.4 to 1.7 s in; 1.8 s or more of rest after each answer before the next tap;
+// 2.0 to 2.4 s after the last answer, then the next card; a scene 6.5 to 7.5 s, the Lab 32 to 38 s; the last scene rests.
+test('the Lab keeps the pace the owner can read: every scene alike, every rest long enough', async () => {
+  await lab();
+  const { LAB_PACE, REVEAL_MS, LAB_TAPS, LAB_SCRIPTS, LNX_IN_MS, sceneMs } = await load('src/components/landing/LabNextScreens.jsx');
+  const { firstTapMs, readMs, lastReadMs, minReadMs, minLastReadMs, moveMs, pressMs } = LAB_PACE;
+  assert.ok(firstTapMs >= 1400 && firstTapMs <= 1700, `first tap ${firstTapMs} ms after the card stands`);
+  assert.ok(minReadMs >= 1800 && readMs >= minReadMs, `rest after an answer ${readMs} ms (never under ${minReadMs})`);
+  assert.ok(minLastReadMs >= 2000 && lastReadMs >= minLastReadMs && lastReadMs <= 2400, `rest after the last answer ${lastReadMs} ms`);
+  // The press is CursorDemo's own.
+  assert.match(read('src/components/landing/demo/CursorDemo.jsx'), new RegExp(`const PRESS_MS = ${pressMs};`));
+  // Each reveal is what its sheet draws: the slot's rise, a change's final pick, the ledger's opened chapter, the repair's rule.
+  const sheet = read('src/components/landing/lab-next.css');
+  assert.match(sheet, /\.lnx-slot__item\[data-shown\] \{ visibility: visible; animation: lnx-rise 260ms/);
+  assert.equal(REVEAL_MS.line, 260);
+  assert.match(sheet, /\.lnx-pick\[data-end='to'\] > i \{ animation: lnx-settle 320ms var\(--a-ease\) 140ms both; \}/);
+  assert.equal(REVEAL_MS.picks, 140 + 320);
+  assert.match(sheet, /\.ml-row__panel:not\(\[hidden\]\) > \* \{ animation: lnx-rise 240ms[^}]*\}\s*[^{]*\.ml-row__panel:not\(\[hidden\]\) > \.ml-chips \{ animation-delay: 60ms; \}/);
+  assert.equal(REVEAL_MS.row, 240 + 60);
+  assert.match(sheet, /\.lnx-answers > \.rx-row__opts\[data-shown\] \{ animation: lnx-rise 260ms/);
+  assert.equal(REVEAL_MS.answers, 260);
+  const repairCss = read('src/components/recovery/mistake-repair.css');
+  assert.match(repairCss, /\.mr-rule\[data-stagger\] \{ animation: mr-rule-in 520ms/);
+  assert.equal(REVEAL_MS.repair, 520 + 3 * 50, 'the rule is the fourth block, 50 ms apart');
+  // Two taps a scene, every scene (Repair too: the row opens, then the repair), each a real control of the screen.
+  let total = 0;
+  for (const scene of ['chapters', 'time', 'changes', 'repair', 'swot']) {
+    const taps = LAB_TAPS[scene];
+    assert.equal(taps.length, 2, `${scene}: two taps`);
+    const script = LAB_SCRIPTS[scene];
+    const clicks = script.filter((s) => s.click);
+    assert.equal(clicks.length, 2, `${scene}: the script taps twice`);
+    for (const c of clicks) { assert.equal(c.move, moveMs); assert.equal(c.exact, true, `${scene}: a rest is never cut short to catch up`); }
+    // The script ends on its last tap's rest (then the hand-off): no move after it.
+    assert.ok(script.at(-1).click, `${scene}: ends on its last tap`);
+    // The cursor waits for its card to stand, shows where the last one stopped, and rests before its first move.
+    assert.ok(script.findIndex((s) => s.click) >= 4, `${scene}: stands, arrives, rests, then taps`);
+    // Scripted length, from the scene's step to the next one's: within 6.5 to 7.5 s, and 6.5 s or more from its card standing.
+    const ms = sceneMs(scene);
+    assert.equal(ms, LNX_IN_MS + firstTapMs + taps[0].reveal + readMs + moveMs + pressMs + taps[1].reveal + lastReadMs);
+    assert.ok(ms >= 6500 && ms <= 7500, `${scene}: ${ms} ms a scene`);
+    assert.ok(ms - LNX_IN_MS >= 6500, `${scene}: ${ms - LNX_IN_MS} ms from its card standing`);
+    total += ms;
   }
+  assert.ok(total >= 32000 && total <= 38000, `the whole Lab ${total} ms`);
+  // The pace's targets are named in the code with the owner's words.
+  const screens = read('src/components/landing/LabNextScreens.jsx');
+  assert.match(screens, /"the auto play is a bit too fast\./);
+  assert.match(screens, /export const LAB_PACE = Object\.freeze\(\{ firstTapMs: \d+, readMs: \d+, lastReadMs: \d+, minReadMs: 1800, minLastReadMs: 2000,/);
+});
+
+// LK366: nothing cut off on a phone. The Lab plays only while its stage is held whole in the window (the track's top at the
+// window's top, clear of the site bar and the position band); a reader who stops on the way in with the Lab's heading in the
+// top half of the window is carried to the first resting place, and one on the way out is left alone.
+test('the Lab plays only while it is whole, and a reader who stops on the way in is carried to it', () => {
+  const cinema = read('src/components/landing/LabCinema.jsx');
+  assert.match(cinema, /const HELD_STRIP = '0px 0px -99\.6% 0px';/);
+  assert.match(cinema, /new IntersectionObserver\(\(entries\) => setHeld\(entries\[entries\.length - 1\]\.isIntersecting\), \{ rootMargin: HELD_STRIP, threshold: 0 \}\)/);
+  assert.match(cinema, /ready=\{pinned && held && \(i !== 0 \|\| armed\)\}/, 'no scene plays until the stage is held');
+  assert.match(cinema, /const firstReady = next \? armed && held : armed;/, 'the first card waits calm in its start state');
+  assert.match(cinema, /const GLIDE_REACH = 0\.5;/);
+  assert.match(cinema, /window\.scrollTo\(\{ top: Math\.round\(y \+ top\), behavior: 'smooth' \}\)/, 'the browser\'s own smooth scroll');
+  assert.match(cinema, /const down = lastY !== null && y > lastY \+ 1;/, 'only on the way in');
+  assert.match(cinema, /if \(!near \|\| fingers > 0 \|\| document\.hidden\) return;/, 'never under a finger');
+  assert.match(cinema, /if \(!next \|\| !pinned \|\| reduced \|\| !track/, 'never under reduced motion, never for the default look');
+  // No layout read per scroll event: the scroll listener only re-arms the timer.
+  assert.match(cinema, /const onScroll = \(\) => \{ if \(near\) later\(\); \};/);
+  assert.doesNotMatch(read('src/components/landing/ScrollStory.jsx'), /autoplay|useLabAutoplay|GLIDE_REACH|HELD_STRIP/i, 'ScrollStory is unchanged for every story');
 });
 
 // Critic round, 21 Nov 2026 evening: a card lands in its start state and plays its reveal once, never finished-then-replayed.
@@ -277,12 +336,13 @@ test('a tap shows its answer in a slot that holds its room; each scene has two t
   const scenes = scenesOf(next);
   for (const i of [0, 1, 2, 4]) assert.match(scenes[i], /class="lnx-slot[ "]/, `scene ${i}: the slot`);
   assert.ok(textOf(scenes[0]).includes('Q4: wrong after 3:18. You changed B to D.'));
-  const screens = read('src/components/landing/LabNextScreens.jsx');
-  const scripts = screens.slice(screens.indexOf('const SCRIPTS'), screens.indexOf('const SCREENS'));
-  for (const key of ['chapters', 'time', 'changes', 'swot']) {
-    const body = scripts.slice(scripts.indexOf(`${key}:`), scripts.indexOf(']),', scripts.indexOf(`${key}:`)));
-    assert.equal((body.match(/click: true/g) || []).length, 2, `${key}: two taps`);
-  }
+  const { LAB_TAPS } = await load('src/components/landing/LabNextScreens.jsx');
+  for (const key of ['chapters', 'time', 'changes', 'repair', 'swot']) assert.equal(LAB_TAPS[key].length, 2, `${key}: two taps`);
+  // Repair's first tap opens the mistake row (a real button that says it is open), and its answers wait in the picks' room.
+  assert.match(scenes[3], /<button type="button" class="lnx-mistake" data-verdict="wrong" aria-expanded="false"/);
+  assert.match(scenes[3], /class="lnx-answers"><span class="rx-row__facts" data-shown="">[\s\S]*class="rx-row__opts" aria-hidden="true">/);
+  assert.ok(textOf(scenes[3]).includes(`Your answer ${REPAIR.options.find(([l]) => l === REPAIR.picked)[1]}`));
+  assert.ok(textOf(scenes[3]).includes(`Correct answer ${REPAIR.options.find(([l]) => l === REPAIR.key)[1]}`));
   for (const scene of LAB_SCENES) {
     assert.ok(scene.next?.short, `${scene.key}: a short line for phones`);
     assert.ok(scene.next.short.length <= 52, `${scene.key}: one short line`);

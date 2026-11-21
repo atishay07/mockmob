@@ -242,28 +242,41 @@ function ChangesScreen({ still, on }) {
   );
 }
 
-// ---------- 3. Repair: the mistake's row, the repair's start key, then the repair ----------
-// The row is the result's mistake row (picks as "yours" and "answer", the marks it cost). The key is MistakeRepair's own
-// start ("Repair Q4", FIX_COPY's line and price). The finished repair is Repair v3's layout in its own words (REPAIR_COPY):
-// the trap as its heading, "Explained from the answer key (B).", why D looked right, why B is right, and the rule to keep.
+// ---------- 3. Repair: the mistake's row, opened, then the repair ----------
+// Two taps, the way a student does it on the result page (owner LK366, 22 Nov 2026: one tap made this scene a third as long
+// as the others). The row is the result's mistake row (MistakeList.jsx Row: the chapter, the question, the picks as "yours"
+// and "answer", the marks it cost). Tapped, it opens and writes the two answers out in the row's own words ("Your answer",
+// "Correct answer", REPAIR.options), in the room its picks held, so the opening moves nothing. The key under it is
+// MistakeRepair's own start ("Repair Q4", FIX_COPY's line and price). The finished repair is Repair v3's layout in its own
+// words (REPAIR_COPY): the trap as its heading, "Explained from the answer key (B).", why D looked right, why B is right, and
+// the rule to keep.
 const REPAIR_BLOCK = Object.fromEntries(REPAIR.blocks.map((b) => [b.kind, b]));
+const OPTION_TEXT = Object.fromEntries(REPAIR.options);
 function RepairScreen({ still }) {
+  const [open, setOpen] = useState(still);
   const [done, setDone] = useState(still);
   return (
     <div className="lnx lnx--repair">
       <p className="lnx-h">Your mistakes</p>
-      <div className="lnx-mistake" data-verdict="wrong">
+      <button type="button" className="lnx-mistake" data-verdict="wrong" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <span className="rx-row__n" aria-hidden="true">{REPAIR.n}</span>
         <span className="rx-row__main">
           <span className="rx-row__ch"><span className="sr-only">Question {REPAIR.n}, </span>{REPAIR.chapter}</span>
           <span className="rx-row__stem">{REPAIR.stem}</span>
-          <span className="rx-row__facts">
-            <span className="rx-pick" data-kind="mine"><i>{REPAIR.picked}</i>yours</span>
-            <span className="rx-pick" data-kind="key"><i>{REPAIR.key}</i>answer</span>
+          <span className="lnx-answers">
+            <span className="rx-row__facts" data-shown={open ? undefined : ''}>
+              <span className="rx-pick" data-kind="mine"><i>{REPAIR.picked}</i>yours</span>
+              <span className="rx-pick" data-kind="key"><i>{REPAIR.key}</i>answer</span>
+            </span>
+            <span className="rx-row__opts" data-shown={open ? '' : undefined} aria-hidden={open ? undefined : true}>
+              <span className="rx-opt" data-kind="mine"><i>{REPAIR.picked}</i><span><small>Your answer</small>{OPTION_TEXT[REPAIR.picked]}</span></span>
+              <span className="rx-opt" data-kind="key"><i>{REPAIR.key}</i><span><small>Correct answer</small>{OPTION_TEXT[REPAIR.key]}</span></span>
+            </span>
           </span>
         </span>
         <span className="rx-row__cost">{signedMarks(-GAP.wrong)}</span>
-      </div>
+        <ChevronRight className="lnx-chev" size={16} strokeWidth={2.4} aria-hidden="true" />
+      </button>
       {done ? (
         <section className="mr mr--panel mr--done" data-fresh={still ? undefined : ''} aria-label="Mistake Repair">
           <header className="mr-head" data-stagger style={{ '--mr-i': 0 }}>
@@ -334,15 +347,41 @@ function SwotScreen({ still }) {
 }
 
 // ---------- The cursor's scripts (CursorDemo steps: each clicks the screen's real control) ----------
-// Two taps a scene. A selector that finds nothing is skipped, so a screen that changes never strands the cursor. `lastShown`
-// marks the last row the device shows (it shows fewer on a small phone), one layout read, once.
-// Hand-offs (owner LK365, 21 Nov 2026: the next scene should come "as soon as one animation ends"; critic round the same
-// evening: the dead gap between one scene's last change and the next one's first was 3 to 4 s on a phone):
-// - The last step's dwell is what the last tap's answer needs to come in (its rise, 260 to 670 ms) and about 300 ms more;
-//   then the script ends and LabNextScreen's end step hands over at once. Repair ends on its rule's reveal, no move after it.
-// - The next scene's cursor does not travel in from the stage's corner: it waits, hidden, until the card stands (`arrive`
-//   shows it where the last scene's cursor stopped, the cards lie in the same place), then goes straight to its first control
-//   and clicks about 650 ms after the card stands.
+// Two taps a scene, every scene. A selector that finds nothing is skipped, so a screen that changes never strands the cursor.
+// `lastShown` marks the last row the device shows (it shows fewer on a small phone), one layout read, once.
+// Hand-offs (owner LK365, 21 Nov 2026: the next scene comes "as soon as one animation ends"): the script's last rest ends,
+// then LabNextScreen's end step hands over at once. The next scene's cursor does not travel in from the stage's corner: it
+// waits, hidden, until the card stands (`arrive` shows it where the last scene's cursor stopped, the cards lie in the same
+// place), rests, then goes straight to its first control.
+//
+// THE PACE (owner, 22 Nov 2026, LK366: "the auto play is a bit too fast. Previously, it was a bit too slow, but I prefer the
+// previous one only over this one. This is just way too fast ... No one can even read it properly"). The round before ran
+// about 5.4 s a scene with some 3 s of nothing after a scene's last answer; the hand-off round ran 1.6 to 4 s a scene, unevenly
+// (Repair had one tap, every scene its own dwells, and CursorDemo cut a late dwell by up to a quarter to catch up). Now every
+// scene keeps one rhythm, timed from the moment its card stands (LNX_IN_MS after its step; the first scene's card stands as it
+// starts):
+//   LAB_PACE.firstTapMs   the cursor's first tap lands 1.5 s after the card stands (target 1.4 to 1.7 s): the reader reads
+//                         the scene's heading and sees the screen; the cursor shows at once and moves for the last 550 ms;
+//   LAB_PACE.readMs       once a tap's answer is in (REVEAL_MS), 1.85 s of stillness, then the cursor moves (420 ms) and
+//                         presses (130 ms): 2.4 s from the answer to the next tap (target: 1.8 s or more of rest before it);
+//   LAB_PACE.lastReadMs   once the scene's last answer is in, 2.1 s, then the next card comes (target 2.0 to 2.4 s);
+//   a scene runs 6.5 to 7.5 s from its step to the next (sceneMs: 6.94 to 7.35 s), 6.5 s or more from its card standing, the
+//   Lab about 35 s; the last scene rests when done.
+// The rests keep to the scene's own clock: each ends at its planned time after the card stood, so a timer that came late on a
+// slow phone is made up in the rest that follows, but never below minReadMs / minLastReadMs (and CursorDemo never shortens
+// them itself: `exact`). So the scene keeps its length and a rest is never too short to read. lab_next_1121.test.mjs pins it.
+export const LAB_PACE = Object.freeze({ firstTapMs: 1500, readMs: 1850, lastReadMs: 2100, minReadMs: 1800, minLastReadMs: 2000, moveMs: 420, pressMs: 130 });
+/** CursorDemo's own entry before its first step (its 30 ms and 190 ms holds): the first scene's card already stands then. */
+const CURSOR_ENTRY_MS = 220;
+/**
+ * How long each kind of answer takes to come in after its tap (the CSS that draws it; the test reads the sheets):
+ *   row      a ledger chapter opens: its line and its chips rise (lab-next.css, 240 ms, the chips 60 ms behind);
+ *   line     a slot's answer rises (lnx-rise, 260 ms);
+ *   picks    a change's two picks: the final pick settles 140 ms in, over 320 ms (lnx-settle);
+ *   answers  the mistake row opens: its two answers rise (lnx-rise, 260 ms);
+ *   repair   the repair's blocks rise 50 ms apart, the rule last (mistake-repair.css mr-rule-in, 520 ms from 150 ms).
+ */
+export const REVEAL_MS = Object.freeze({ row: 300, line: 260, picks: 460, answers: 260, repair: 670 });
 // The cursor's last point, in the stage's own px (the cards share one size and place). No layout read: CursorDemo's own
 // inline transform says where it is, and where it put the cursor on entry (82 % and 90 % of the stage's size) gives the
 // stage's size.
@@ -370,46 +409,84 @@ const arrive = (stage) => {
 // long the screen took to start: CursorDemo spends 220 ms on its own entry, and on a slow phone the screen starts a few
 // hundred ms after the step. The wait is read as the step runs (a getter), never fixed in advance.
 let steppedAt = -Infinity;
-const ARRIVE = Object.freeze({ run: () => {}, get dwell() { return Math.max(0, Math.round(steppedAt + LNX_IN_MS - performance.now())); } });
+// When this scene's card stands: LNX_IN_MS after its step (the card's slide is keyed to the step itself, so it stands then
+// however late a slow phone starts the script; the first rest makes up the delay). The first scene's card does not slide
+// (no fresh step): it stands as its script starts. Fixed by the script's first step; the rests below count from it.
+let standAt = 0;
+const FRESH_STEP_MS = 2500;
+const STAND = Object.freeze({
+  run: () => {
+    const now = performance.now();
+    standAt = now - steppedAt < FRESH_STEP_MS ? steppedAt + LNX_IN_MS : now - CURSOR_ENTRY_MS;
+  },
+});
+const ARRIVE = Object.freeze({ run: () => {}, get dwell() { return Math.max(0, Math.round(standAt - performance.now())); } });
+/** The rest before the first tap: its move and press start so that the tap lands firstTapMs after the card stood. */
+const FIRST_REST = Object.freeze({
+  exact: true,
+  get wait() { return Math.max(0, Math.round(standAt + LAB_PACE.firstTapMs - LAB_PACE.moveMs - LAB_PACE.pressMs - performance.now())); },
+});
 const lastShown = (selector) => (stage) => {
   for (const node of stage.querySelectorAll('[data-lnx-last]')) node.removeAttribute('data-lnx-last');
   const shown = [...stage.querySelectorAll(selector)].filter((node) => node.getClientRects().length > 0);
   shown.at(-1)?.setAttribute('data-lnx-last', '');
 };
-const SCRIPTS = Object.freeze({
+/**
+ * Each scene's two taps: the control (a selector inside the stage), where on it, what it reveals (REVEAL_MS), and `before`, a
+ * step run just before the tap's move.
+ */
+export const LAB_TAPS = Object.freeze({
   chapters: Object.freeze([
-    ARRIVE,
-    { run: arrive },
-    { target: '.ml-row:first-child .ml-row__btn', at: [0.3, 0.5], move: 380, click: true, dwell: 900 },
-    { target: '.ml-row[data-open] .ml-chip:nth-child(2)', at: [0.5, 0.55], move: 460, click: true, dwell: 600 },
+    { target: '.ml-row:first-child .ml-row__btn', at: [0.3, 0.5], reveal: REVEAL_MS.row },
+    { target: '.ml-row[data-open] .ml-chip:nth-child(2)', at: [0.5, 0.55], reveal: REVEAL_MS.line },
   ]),
   time: Object.freeze([
-    ARRIVE,
-    { run: arrive },
-    { target: '.td-long li:first-child .td-long__row', at: [0.62, 0.4], move: 380, click: true, dwell: 1100 },
-    { run: lastShown('.td-long__row') },
-    { target: '[data-lnx-last]', at: [0.62, 0.45], move: 500, click: true, dwell: 600 },
+    { target: '.td-long li:first-child .td-long__row', at: [0.62, 0.4], reveal: REVEAL_MS.line },
+    { before: lastShown('.td-long__row'), target: '[data-lnx-last]', at: [0.62, 0.45], reveal: REVEAL_MS.line },
   ]),
   changes: Object.freeze([
-    ARRIVE,
-    { run: arrive },
-    { target: '.td-changes li:first-child .td-changes__row', at: [0.55, 0.45], move: 380, click: true, dwell: 1200 },
-    { run: lastShown('.td-changes__row') },
-    { target: '[data-lnx-last]', at: [0.55, 0.45], move: 500, click: true, dwell: 760 },
+    { target: '.td-changes li:first-child .td-changes__row', at: [0.55, 0.45], reveal: REVEAL_MS.picks },
+    { before: lastShown('.td-changes__row'), target: '[data-lnx-last]', at: [0.55, 0.45], reveal: REVEAL_MS.picks },
   ]),
   repair: Object.freeze([
-    ARRIVE,
-    { run: arrive },
-    // The repair's blocks rise 50 ms apart and its rule ("Keep this") is in by 670 ms (mistake-repair.css mr-rule-in).
-    { target: '.mr-start', at: [0.2, 0.45], move: 380, click: true, dwell: 960 },
+    { target: '.lnx-mistake', at: [0.55, 0.3], reveal: REVEAL_MS.answers },
+    { target: '.mr-start', at: [0.2, 0.45], reveal: REVEAL_MS.repair },
   ]),
   swot: Object.freeze([
-    ARRIVE,
-    { run: arrive },
-    { target: '.sw-q[data-q="weakness"] .lnx-quad', at: [0.45, 0.45], move: 380, click: true, dwell: 1300 },
-    { target: '.sw-q[data-q="threat"] .lnx-quad', at: [0.45, 0.45], move: 500, click: true, dwell: 1100 },
+    { target: '.sw-q[data-q="weakness"] .lnx-quad', at: [0.45, 0.45], reveal: REVEAL_MS.line },
+    { target: '.sw-q[data-q="threat"] .lnx-quad', at: [0.45, 0.45], reveal: REVEAL_MS.line },
   ]),
 });
+/**
+ * A scene's script: the card stands, the cursor shows, rests, then each tap and the rest after its answer (LAB_PACE). A tap's
+ * dwell (its answer coming in, then the rest) ends at its planned time after the card stood, never shorter than the answer
+ * plus the rest's floor.
+ */
+function paced(taps) {
+  const { firstTapMs, readMs, lastReadMs, minReadMs, minLastReadMs, moveMs, pressMs } = LAB_PACE;
+  const steps = [STAND, ARRIVE, { run: arrive }, FIRST_REST];
+  let clickAt = firstTapMs;
+  taps.forEach((tap, i) => {
+    const last = i === taps.length - 1;
+    const floor = tap.reveal + (last ? minLastReadMs : minReadMs);
+    const end = clickAt + tap.reveal + (last ? lastReadMs : readMs);
+    if (tap.before) steps.push({ run: tap.before });
+    steps.push({
+      target: tap.target, at: tap.at, move: moveMs, click: true, exact: true,
+      get dwell() { return Math.max(floor, Math.round(standAt + end - performance.now())); },
+    });
+    clickAt = end + moveMs + pressMs;
+  });
+  return Object.freeze(steps);
+}
+/** The scripted length of a scene, from its step to the next scene's (or, for the last, to the end of its rest). */
+export function sceneMs(scene) {
+  const { firstTapMs, readMs, lastReadMs, moveMs, pressMs } = LAB_PACE;
+  const taps = LAB_TAPS[scene];
+  return LNX_IN_MS + firstTapMs + taps.reduce((ms, tap, i) => ms + tap.reveal + (i === taps.length - 1 ? lastReadMs : readMs + moveMs + pressMs), 0);
+}
+const SCRIPTS = Object.freeze(Object.fromEntries(Object.entries(LAB_TAPS).map(([scene, taps]) => [scene, paced(taps)])));
+export const LAB_SCRIPTS = SCRIPTS;
 
 // Memoised: a step change re-renders the Lab's stage, and only the screen that comes on (a new key) needs to draw again.
 const SCREENS = { chapters: memo(ChaptersScreen), time: memo(TimeScreen), changes: memo(ChangesScreen), repair: memo(RepairScreen), swot: memo(SwotScreen) };

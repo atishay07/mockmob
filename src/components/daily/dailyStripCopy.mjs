@@ -24,7 +24,12 @@ export const COLLEGE_DAILY = process.env.NEXT_PUBLIC_DAILY_COLLEGE_BOARD === 'tr
 export const PERSONAL_HEAD = Object.freeze({
   h2: 'Five a day, built from your mistakes.',
   // 21 Nov 2026 critic: "each day's five bring back what you got wrong" overstated it for a new account (no mistakes yet).
-  sub: 'Signed in, your five bring back questions you got wrong and test your weak chapters. Finish them to keep your streak.',
+  // 22 Nov 2026 (owner LK366: "the overall explanation is really weak about what exactly this is"): one plain sentence says
+  // what the five are, in MINE_PLAN's numbers (src/lib/dailyFiveMine.mjs: 2 missed, 2 weak, 1 from your subjects; a place
+  // with nothing to fill it passes to the next kind), and one says the streak rule (a whole five is a streak day:
+  // src/lib/server/streakDays.js, chain.mjs DAY_GOAL 5). It still opens "Signed in": a guest plays the shared five (the
+  // card's small print says so), so a guest is never told the five are their own mistakes.
+  sub: 'Signed in, you get five questions a day: two you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.',
   mark: 'your mistakes.',
 });
 export const STRIP_HEAD = Object.freeze({
@@ -39,7 +44,11 @@ export const STRIP_HEAD = Object.freeze({
 // three figures, so the sentence does not say them twice.
 export const DAILY_LINE = 'Five questions a day, new at 12:00 am. Signed in, the five are picked for you.';
 /** The home card's small print under its key (DAILY-SPEC.md): true for a guest, who can play without an account. */
-export const DAILY_PRINT = 'No sign-up to try. Signed in, the five are picked for you.';
+// 22 Nov 2026 (LK366): the head's line now opens "Signed in, you get five questions a day", so the print says the guest's
+// half: free, and without an account the shared five (DailyFive.jsx loads dailyFiveUrl(day) first: one five for every
+// guest; a signed-in student's own five replaces it only when GET /api/daily/mine builds one). It also
+// carries the card's "Free" and "No sign-up" figures, which the card no longer draws.
+export const DAILY_PRINT = 'Free. Without an account, you get the same five as every other guest.';
 
 /**
  * Today's row for a signed-in student whose own five is built (GET /api/daily/mine, personal), before it is played: the mix in

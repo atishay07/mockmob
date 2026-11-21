@@ -1637,8 +1637,8 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 0 0 4px #2a2823, 0 0 0 5px r
    scores, gaps, tag line and caption were 12 to 13 px). */
 /* LK365 (21 Nov 2026): the tour now plays while the page scrolls, so a step of it must stay cheap: the card is contained
    (contain: layout paint), the digits (.cl__num) and each college's gap (.cl__gap, a fixed width) sit in boxes of fixed size
-   so new words never resize or move anything, and the bars' fill reads one custom property set on the list (--fill) as a
-   transform. Pinned by data/tests/compass_tour_1121.test.mjs. */
+   so new words never resize or move anything, and the bars' fill is a transform (each bar's own --fill at rest, a Web
+   Animation while it glides, LK366). Pinned by data/tests/compass_tour_1121.test.mjs. */
 .cl { display: grid; gap: 1rem; align-items: start; }
 .cl__card { display: grid; gap: 14px; min-width: 0; padding: 14px 14px 8px; border: 1px solid var(--line-strong); border-radius: 20px; background: var(--paper-raised); box-shadow: 0 18px 44px -30px rgb(27 25 20 / 0.4); contain: layout paint; }
 .cl__controls { display: grid; gap: 12px; min-width: 0; }
@@ -1711,9 +1711,11 @@ body .cl__tick { display: block; width: 20px; height: 20px; }
 .cl__list li[data-state='none'] :is(.cl__name, .cl__gap) { color: var(--ink-3); }
 /* The bar under each college: the score's fill along the whole axis and the cutoff's mark, 4 px, the row's own rule. */
 .cl__track { position: absolute; left: 32px; right: 0; bottom: 0; display: block; height: 4px; border-radius: 999px; background: rgb(var(--tint, 23 21 15) / 0.07); }
-/* No transition on the fill (fix-misc, 21 Nov 2026, evening): the tour moves it in 5-point steps (under 2 px), and a
-   transition on ten bars sent about thirty transition events a step through React's root listener, about a fifth of each
-   step's cost on a phone. */
+/* The fill is one element moved only by transform (scaleX from its left edge), never by width. It glides (LK366, 22 Nov
+   2026): while the tour plays a Web Animation of the whole sweep runs on it, and a reader's take eases it in 180 ms
+   (CompassLadder.jsx, makeGlide). No CSS transition here: one would fire transition events through React's root listener
+   on every step (fix-misc, 21 Nov 2026, evening), and the steps' spacing changes along the sweep. --fill is the bar's
+   resting value, set on the bar itself. */
 .cl__track u { position: absolute; inset: 0; border-radius: inherit; background: rgb(var(--tint, 23 21 15) / 0.16); transform: scaleX(var(--fill, 0)); transform-origin: left center; }
 .cl__track b { position: absolute; top: -3px; width: 2px; height: 10px; margin-left: -1px; border-radius: 1px; background: var(--ink-2); }
 .cl__list li[data-state='clear'] .cl__track u { background: var(--brand-word); }

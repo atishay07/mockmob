@@ -57,3 +57,6 @@
   .lp-app .lp-app__key { justify-self: start; }
 }
 html[data-theme='dark'] .lp-app__card { border-color: var(--line-strong, var(--line)); }
+/* The preview's note (/?appnudge=1 while the Play listing is not public): hidden everywhere else. */
+.lp-app__preview { display: none; margin: 0.75rem 0 0; font-size: 0.875rem; line-height: 1.35; color: var(--ink-2); }
+.lp-app[data-preview] .lp-app__preview { display: block; }

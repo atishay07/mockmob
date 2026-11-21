@@ -43,14 +43,14 @@ export const MOBI_PRACTICE = Object.freeze({
 
 export const MOBI_SAYS = Object.freeze({
   photo: Object.freeze([
-    'Photograph the question you got wrong.',
+    'Photograph a school or coaching question you got wrong.',
     'Mobi reads the page.',
     'It names the chapter.',
     'And finds where you slipped.',
     practiceLine(),
   ]),
   typed: Object.freeze([
-    'Type the question you got wrong.',
+    'Type a school or coaching question you got wrong.',
     'Mobi reads the question.',
     'It names the chapter.',
     'And finds where you slipped.',
@@ -66,7 +66,7 @@ export function mobiSteps(photo = true) {
   const question = photo ? '.st-mobi__finder' : '.st-mobi__compose';
   return Object.freeze([
     // 1. The question: the sheet in the camera, the shutter, then Send (or the field, where the question is typed).
-    Object.freeze({ say: says[0], focus: question, wait: 590 }),
+    Object.freeze({ say: says[0], focus: question, wait: 800 }),
     photo
       ? click('[data-demo="mobi-shoot"]', 520, 420)
       : click('[data-demo="mobi-type"]', 520, 420, { at: [0.3, 0.4] }),

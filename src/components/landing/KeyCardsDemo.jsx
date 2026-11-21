@@ -19,7 +19,14 @@ import { CountUp, staggerStyle } from './LoadingKit';
 import { BANK_WORDS, KEY_CARDS_WORDS as W, backRow, cardOf } from './keyCardsCopy.mjs';
 import './key-cards.css';
 
-const LEAVE_MS = 180; // the rated card steps aside before the next one rises in
+// The rated card is filed before the next one rises (owner LK366, 22 Nov 2026: the Key cards row "is not looking very good";
+// its third line, "It comes back before you are likely to forget it", had nothing on screen to show it). For FILE_MS the card
+// steps back and a short line with a time line says when it returns, in the rating key's own words (ratingKeys `when`, from
+// the app's scheduler): the dot runs from Today to that key's place. Under reduced motion the next card comes at once.
+const FILE_MS = 1500;
+/** "back in 3 days" as the line over the time line, and as a tick's label. */
+export const filedLine = (when) => `This card is ${when}.`;
+export const filedTick = (when) => { const w = String(when).replace(/^back /, ''); return w.charAt(0).toUpperCase() + w.slice(1); };
 const CARDS_ART = '/art/icons/keycards-192.webp'; // the Key cards desk object, beside the end card's title
 // "Sign up free to keep going" names Key cards as the way back (the signup page saves the path and a student who already
 // has an account lands on /cards). A brand-new account goes through onboarding first, and its last key, "Finish and open Key
@@ -56,6 +63,7 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
   const [at, setAt] = useState(0);
   const [turned, setTurned] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [filed, setFiled] = useState(null); // the place (in `keys`) of the rating just given, while its card is filed
   const [ratings, setRatings] = useState([]);
   const { isAuthenticated } = useAuth();
   const promptId = useId();
@@ -97,17 +105,21 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
       setAt((n) => n + 1);
       setTurned(false);
       setLeaving(false);
+      setFiled(null);
     };
     if (isMotionReduced()) { next(); return; }
+    const place = keys.findIndex((key) => key.rating === rating);
+    setFiled(place < 0 ? null : place);
     setLeaving(true);
-    timer.current = window.setTimeout(next, LEAVE_MS);
-  }, [turned, leaving, done]);
+    timer.current = window.setTimeout(next, FILE_MS);
+  }, [turned, leaving, done, keys]);
 
   const again = useCallback(() => {
     if (holdsFocus(root.current)) focusAfter.current = 'next';
     setRatings([]);
     setTurned(false);
     setLeaving(false);
+    setFiled(null);
     setAt(0);
   }, []);
 
@@ -173,6 +185,19 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
               </div>
             </div>
           )}
+          {filed !== null && keys[filed] ? (
+            <div className="kc-demo__filed" aria-hidden="true" style={{ '--kc-to': `${((filed + 1) / (keys.length + 1)) * 100}%`, '--kc-cols': keys.length + 1 }}>
+              <p className="kc-demo__filed-said">{keys[filed].label}</p>
+              <p className="kc-demo__filed-line">{filedLine(keys[filed].when)}</p>
+              <div className="kc-demo__filed-track">
+                <span className="kc-demo__filed-run"><i /></span>
+                <ol>
+                  <li>Today</li>
+                  {keys.map((key, i) => <li key={key.rating} data-on={i === filed || undefined}>{filedTick(key.when)}</li>)}
+                </ol>
+              </div>
+            </div>
+          ) : null}
         </div>
 
         <ol className="kc-demo__pips" aria-hidden="true">

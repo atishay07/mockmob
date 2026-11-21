@@ -44,9 +44,12 @@ test('off while the switch is off; development shows it only with ?appnudge=1', 
   assert.equal(showAndroidNudge({ ua: UA.androidChrome, listed: true, dev: true }), false, 'development needs the query');
   assert.equal(showAndroidNudge({ ua: UA.androidChrome, dev: true, preview: true }), true);
   assert.equal(showAndroidNudge({ ua: UA.iphone, dev: true, preview: true }), false);
-  assert.equal(nudgeDrawn({ listed: false, dev: false }), false, 'production draws nothing while the listing is not public');
-  assert.equal(nudgeDrawn({ listed: true, dev: false }), true);
-  assert.equal(nudgeDrawn({ listed: false, dev: true }), true);
+  // Owner LK366 (22 Nov 2026): the preview works on the live site too, so he can see it on his own phone; the section is
+  // always drawn hidden, and without the query production still shows it only while the listing is public.
+  assert.equal(showAndroidNudge({ ua: UA.androidChrome, listed: false, dev: false, preview: true }), true);
+  assert.equal(showAndroidNudge({ ua: UA.iphone, listed: false, dev: false, preview: true }), false);
+  assert.equal(showAndroidNudge({ ua: UA.androidChrome, listed: false, dev: false }), false, 'no query, no public listing: nothing shows');
+  assert.equal(nudgeDrawn(), true);
 });
 
 test('the key goes to the app\'s Play listing with a referrer that names only the source', () => {
@@ -71,7 +74,8 @@ test('the words follow the copy rules', () => {
 test('the component reads the rule, draws nothing in production while the switch is off, and never floats', () => {
   const src = readFileSync(fileURLToPath(new URL('./AndroidAppNudge.jsx', import.meta.url)), 'utf8');
   const css = readFileSync(fileURLToPath(new URL('./android-app-nudge.css', import.meta.url)), 'utf8');
-  assert.match(src, /if \(!nudgeDrawn\(\{ listed, dev: DEV \}\)\) return null;/);
+  assert.match(src, /if \(!nudgeDrawn\(\)\) return null;/);
+  assert.match(src, /node\.toggleAttribute\('data-preview', show && preview && !listed\);/);
   assert.match(src, /const DEV = process\.env\.NODE_ENV !== 'production';/);
   assert.match(src, /<section[^>]*className="lp-app"[^>]*hidden/);
   assert.match(src, /loading="lazy"/);

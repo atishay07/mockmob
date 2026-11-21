@@ -58,7 +58,9 @@ export const PHONE_ROWS = '.xs-qhead, .xs-stem, .xs-option, .xs-n-qhead, .xs-n-s
 // 18.8 s and the whole pass took 1 min 42 s; 13 s of script keeps the measured row at or under 16 s
 // (tmp/1121-stories/fix-oneplace/film.mjs measures it).
 export const ROW_MAX_MS = 13000;
-export const ROW_MIN_MS = 11000;
+// 22 Nov 2026 (owner LK366: "both of these first two are quite slow"): Practise and Key cards run three beats in about
+// 9 to 10 s; the four row stories, which he likes, keep their 11 to 13 s.
+export const ROW_MIN_MS = 8500;
 /** Between rows: a row's finished screen holds this long before the next row is dealt (OnePlace.jsx advance). */
 export const ROW_HOLD_MS = 700;
 /** The pace rules for a script's say beats. */
@@ -66,21 +68,10 @@ export const PACE = Object.freeze({ sayMinMs: 2200, readFirstMs: 500 });
 /** The longest say line, in characters (the caption strip reserves two lines for it on a phone). */
 export const SAY_MAX_CHARS = 58;
 
-// The parts of the Practise screen a line can be about. One selector serves the phone runner (ExamStage `inline`) and the
-// monitor: only one of each pair is drawn at a time (the phone's paper, key bar, NTA pane and NTA keys; the monitor's paper,
-// NTA question and NTA keys). one-place.css dims the others while one is stressed.
-export const PRACTISE_FOCUS = Object.freeze({
-  paper: '.xs-ph-paper, .xs-paper',
-  next: '.xs-ph-bar, .xs-paper',
-  style: '.xs-layout > .xs-switch',
-  ntaQuestion: '.xs-ph-pane, .xs-n-qbody',
-  ntaKeys: '.xs-ph-keys, .xs-n-keys',
-});
-export const CARDS_FOCUS = Object.freeze({
-  card: '.kc-demo__scene',
-  rates: '.kc-demo__rates',
-  gotIt: '[data-demo="kc-rate"]:nth-child(2)',
-});
+// The one part a Key cards line stresses: the Got it key, while the line says when the card comes back. (Until 22 Nov 2026
+// the Practise and Key cards lines each stressed a part of the screen; owner LK366 called those boxes wrong, so the two real
+// screens play at full strength with no box and no dimming.)
+export const CARDS_FOCUS = Object.freeze({ gotIt: '[data-demo="kc-rate"]:nth-child(2)' });
 /** Where the cursor rests on the Got it key: its top right corner, clear of both "Got it" and "back in 3 days" (fractions of
  *  the key's box; a fingertip is a 34 px disc centred there, an arrow hangs down and right from it, past the key's edge). */
 export const CARDS_REST = Object.freeze([0.93, 0.12]);
@@ -98,32 +89,36 @@ export const SCRIPTS = Object.freeze({
   // (`choose`), and Next keeps it (the header counts "1 answered") and opens the next question (`go`); the switch draws NTA
   // style, which the exam section calls "an exact copy of the real NTA exam screen" (EXAM_HEAD.sub); in NTA style a pick is
   // held until Save & Next saves it (`hold`, `saveAndNext`: "exam-true saving"), as the real exam's screen does.
+  // 22 Nov 2026 (owner LK366: "it's just introducing some boxes here and there, which are not looking as they should ...
+  // both of these first two are quite slow"): three beats, no stress boxes and no dimming (the exam screen plays at full
+  // strength; the cursor and what it changes are the stress), and "Next keeps your answer" is shown, not said.
   practise: Object.freeze([
-    say('Answer a question, as you would in the exam.', PRACTISE_FOCUS.paper, 700),
-    click('[data-demo="xs-option"]:nth-child(2)', 600, 1000, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
-    say('Next keeps your answer and moves on.', PRACTISE_FOCUS.next, 600),
-    click('[data-demo="xs-next"]', 550, 1300, null, { settle: PHONE_PANE }),
-    say('Switch to NTA style, the real exam’s screen.', PRACTISE_FOCUS.style, 600),
-    click('[data-demo="xs-nta"]', 600, 1300),
-    say('Save & Next keeps your pick, as in the real exam.', PRACTISE_FOCUS.ntaQuestion, 600),
-    click('[data-demo="xs-n-option"]:nth-child(3)', 600, 700, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
-    click('[data-demo="xs-n-save"]', 550, 1500, null, { settle: PHONE_PANE, focus: PRACTISE_FOCUS.ntaKeys }),
+    say('Answer a question, as you would in the exam.', null, 700),
+    click('[data-demo="xs-option"]:nth-child(2)', 550, 650, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
+    click('[data-demo="xs-next"]', 500, 1100, null, { settle: PHONE_PANE }),
+    say('Switch to NTA style, the real exam’s screen.', null, 600),
+    click('[data-demo="xs-nta"]', 550, 1300),
+    say('Save & Next keeps your pick, as in the real exam.', null, 600),
+    click('[data-demo="xs-n-option"]:nth-child(3)', 550, 600, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
+    click('[data-demo="xs-n-save"]', 500, 1400, null, { settle: PHONE_PANE }),
   ]),
   // Key cards (KeyCardsDemo.jsx): turn the card (its answer stays 2.4 s to be read), rest on the rating keys (each says when
   // the card comes back: keyCardsPicks.mjs ratingKeys, from the app's scheduler), then Got it, and the next card rises.
   // "Before you are likely to forget it": the scheduler is FSRS asked for 90% recall (data/keycards.js KEYCARD_RULES.retention
   // 0.9), so a card comes back when the chance you still know it has fallen to 90%.
+  // 22 Nov 2026 (owner LK366: "the key cards one is also not looking very good ... quite slow"): no dimmed card and no box
+  // round the keys; the third line is now shown: the rated card is filed and a time line says when it returns
+  // (KeyCardsDemo.jsx FILE_MS, a second and a half), then the next card rises.
   cards: Object.freeze([
-    say('Turn the card to see the answer.', CARDS_FOCUS.card, 900),
-    click('[data-demo="kc-turn"]', 600, 2400),
-    say('Say how well you knew it.', CARDS_FOCUS.rates, 700),
-    // The cursor rests on the key's very corner, so neither "Got it" nor its "back in 3 days" is covered (critic round, 21 Nov
-    // evening: at [0.8, 0.28] it covered the "t" of "Got it"; at the lower right a fingertip covers "days").
-    Object.freeze({ target: '[data-demo="kc-rate"]:nth-child(2)', at: CARDS_REST, move: 650, dwell: 1300 }),
-    say('It comes back before you are likely to forget it.', CARDS_FOCUS.gotIt, 2000),
-    click('[data-demo="kc-rate"]:nth-child(2)', 250, 300, CARDS_REST),
-    // The rated key is gone with its card: the stress moves to the next card as it rises.
-    Object.freeze({ focus: CARDS_FOCUS.card, wait: 1700 }),
+    say('Turn the card to see the answer.', null, 700),
+    click('[data-demo="kc-turn"]', 550, 2000),
+    say('Say how well you knew it.', null, 600),
+    // The cursor rests on the key's very corner, so neither "Got it" nor its "back in 3 days" is covered.
+    Object.freeze({ target: '[data-demo="kc-rate"]:nth-child(2)', at: CARDS_REST, move: 550, dwell: 1100 }),
+    say('It comes back before you are likely to forget it.', CARDS_FOCUS.gotIt, 700),
+    click('[data-demo="kc-rate"]:nth-child(2)', 200, 300, CARDS_REST),
+    // The card is filed (its time line plays for a second and a half), then the next card rises and rests.
+    Object.freeze({ focus: null, wait: 2700 }),
   ]),
   // Rows 3 to 6 are row stories (21 Nov 2026, owner LK365: "focus more on showing the feature very well through
   // animations"): each is its own screen (stories/<Id>Story.jsx) and its own script (stories/<id>Story.mjs), held by its own

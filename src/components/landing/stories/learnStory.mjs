@@ -105,12 +105,12 @@ export const LEARN_STORY = Object.freeze({
     click(LOCK, 150, 600, { at: [0.7, 0.5] }),
     // 3. The recall card slides in over the lesson. A miss first (B, the sacrifice), then Check answer: the card answers, and
     // the cursor parks on Next (never on the explanation's words).
-    Object.freeze({ say: 'Then recall it from memory.', focus: '.st-learn__opts', wait: 550 }),
+    Object.freeze({ say: 'Then a quick card checks you remember it.', focus: '.st-learn__opts', wait: 550 }),
     click(option(LEARN_CARD.miss), 480, 360, { at: [0.3, 0.5] }),
     click(CHECK, 450, 500, { focus: '.st-learn__card' }),
     Object.freeze({ target: NEXT, move: 400, dwell: 700, at: [0.8, 0.6] }),
     // 4. Next: the schedule strip rises; the missed card lands today, the known one in 2 days, then 11.
-    Object.freeze({ say: 'A card you missed comes back sooner.', focus: NEXT, wait: 500 }),
+    Object.freeze({ say: 'Miss one and that card comes back sooner.', focus: NEXT, wait: 500 }),
     click(NEXT, 150, 250, { at: [0.8, 0.6] }),
     // The cursor steps off the strip's marks to the corner of its Back to lessons key (never pressed), and rests there while
     // the cards land.

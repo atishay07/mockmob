@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CalendarClock, ChevronRight } from 'lucide-react';
 import {
@@ -16,13 +16,16 @@ import CursorDemo from '@/components/landing/demo/CursorDemo';
 import { useOnScreen } from './DailyParts';
 import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
 import DailyStory from './DailyStory.jsx';
-import { DAILY_STORY, REST_LINE } from './dailyStoryScript.mjs';
+import { DAILY_SAY, DAILY_STORY, STORY_WORDS } from './dailyStoryScript.mjs';
 import { COLLEGE_DAILY, DAILY_PRINT, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine } from './dailyStripCopy.mjs';
 import { DAILY_MINE_STORE, didLines, readMark } from './dailyMineUi.mjs';
 import './daily-row.css';
 
 // The doors to the Daily Five.
-//   where="home"   the home page's block, low on the page under the exam screen. 21 Nov 2026 (owner LK365: "this Daily 5
+//   where="home"   the home page's block, low on the page under the exam screen. 22 Nov 2026 (owner LK366: "This daily 5: I'm
+//                  unable to understand"): the Daily Five's card is ONE surface: "Daily Five" with the "Example" mark, the
+//                  beat's line, the demo screen drawn flat, then today's facts in one quiet line (TodayLine), the key and the
+//                  small print. The demo starts only once its line and screen are wholly in the window. 21 Nov 2026 (owner LK365: "this Daily 5
 //                  feature has to be completely rethought"; tmp/1121-stories/DAILY-SPEC.md "Your five"): the Daily Five's card
 //                  is a small demo that plays by itself (DailyDemo: DailyStory worked by the landing's demo cursor, the beat's
 //                  line above it), then the key and the small print. The Sunday Mock's card is unchanged. Before that: 17 Nov 2026 (owner LK293: the look was
@@ -96,18 +99,29 @@ function StateMark({ mark }) {
 const reducedNow = () => typeof window !== 'undefined'
   && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced');
 
+// The site bar's height on the home page (HeroDockGate NAV): the demo starts only once its line and its screen are both
+// wholly below it.
+const SITE_BAR_PX = 64;
+// "Wholly inside the window": a ratio this close to 1 (at most about 4 px of the screen lost to rounding still counts as whole).
+const WHOLE = 0.99;
+
 /**
- * The Daily Five's demo: DailyStory worked by the demo cursor, with the beat's line above it. It plays once each time the
- * stage comes into the window (most of it on screen), and stops and resets when it leaves mid-way. A real tap inside it
- * takes over (CursorDemo): from then on it is the reader's, and it never plays by itself again on this visit. Reduced
- * motion: no cursor, no script, the day's end shown, still usable by hand.
+ * The Daily Five's demo: the beat's line with its step dots, then DailyStory worked by the demo cursor (owner LK366, 22 Nov
+ * 2026: "This daily 5: I'm unable to understand"). It plays once each time its line AND its screen are wholly inside the
+ * window below the site bar (an IntersectionObserver on both, the way the one-place frame waits for its room), so nothing
+ * happens where the reader cannot see it; it stops and resets when the screen leaves mid-way. A real tap inside it takes
+ * over (CursorDemo): from then on it is the reader's, and it never plays by itself again on this visit. When it ends it
+ * rests on the day's end with the fourth line kept, and a quiet "Watch again". Before it plays, the line is the first beat's.
+ * Reduced motion: no cursor, no script; the four lines listed, the day's end shown, still usable by hand.
  */
 function DailyDemo() {
+  const sayRef = useRef(null);
   const stageRef = useRef(null);
   const [run, setRun] = useState(0);
   const [mode, setMode] = useState('idle'); // idle | playing | done | taken
-  const [line, setLine] = useState({ text: '', beat: -1 });
-  const [reduced, setReduced] = useState(false);
+  const [line, setLine] = useState({ text: DAILY_SAY[0], beat: 0 });
+  // null until read after the first paint (the server cannot know): then true or false.
+  const [reduced, setReduced] = useState(null);
   const modeRef = useRef(mode);
   useEffect(() => { modeRef.current = mode; }, [mode]);
   useEffect(() => {
@@ -115,48 +129,79 @@ function DailyDemo() {
     return () => window.clearTimeout(t);
   }, []);
   useEffect(() => {
+    const say = sayRef.current;
     const el = stageRef.current;
-    if (!el || reduced || typeof IntersectionObserver !== 'function') return undefined;
+    if (!say || !el || reduced !== false || typeof IntersectionObserver !== 'function') return undefined;
     let armed = true; // may play on the next entry
-    const io = new IntersectionObserver(([entry]) => {
+    const ratio = new Map([[say, 0], [el, 0]]);
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) ratio.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
       const m = modeRef.current;
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+      if (ratio.get(say) >= WHOLE && ratio.get(el) >= WHOLE) {
         if (armed && m !== 'taken') {
           armed = false;
-          setLine({ text: '', beat: -1 });
+          setLine({ text: DAILY_SAY[0], beat: 0 });
           if (m !== 'idle') setRun((n) => n + 1);
           setMode('playing');
         }
-      } else if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
-        if (m === 'playing') { setMode('idle'); setRun((n) => n + 1); setLine({ text: '', beat: -1 }); }
+      } else if (ratio.get(el) < 0.2) {
+        if (m === 'playing') { setMode('idle'); setRun((n) => n + 1); setLine({ text: DAILY_SAY[0], beat: 0 }); }
         if (m !== 'taken') armed = true;
       }
-    }, { threshold: [0, 0.2, 0.55] });
+    }, { rootMargin: `-${SITE_BAR_PX}px 0px 0px 0px`, threshold: [0, 0.2, 0.5, WHOLE, 1] });
+    io.observe(say);
     io.observe(el);
     return () => io.disconnect();
   }, [reduced]);
   const onSay = useCallback((text, beat) => setLine({ text, beat }), []);
   const onDone = useCallback(() => setMode('done'), []);
   const onTakeover = useCallback(() => setMode('taken'), []);
-  const again = () => { setLine({ text: '', beat: -1 }); setRun((n) => n + 1); setMode('playing'); };
-  const live = mode === 'playing' && line.beat >= 0;
-  const beats = DAILY_STORY.steps.filter((s) => typeof s.say === 'string').length;
+  const again = () => { setLine({ text: DAILY_SAY[0], beat: 0 }); setRun((n) => n + 1); setMode('playing'); };
+  const beats = DAILY_SAY.length;
+  // The screen as one kept element: a new beat's line re-renders this block, never the screen (on a slow phone each needless
+  // re-render of it stretched the script).
+  const story = useMemo(() => <DailyStory rest={reduced === true} />, [reduced]);
+  // The rows wait out of sight until the demo plays (they then arrive one by one); only once the page knows it will play.
+  const waiting = reduced === false && mode === 'idle';
   return (
-    <>
-      <div className="dst-say" data-live={live || undefined}>
-        <p className="dst-say__where">
-          <span className="dst-say__dots" aria-hidden="true">{Array.from({ length: beats }, (_, i) => <i key={i} data-on={(live && i === line.beat) || undefined} data-done={(live && i < line.beat) || undefined} />)}</span>
-          <span aria-hidden="true">{live ? `Step ${line.beat + 1} of ${beats}` : 'How your five work'}</span>
-          {(mode === 'done' || mode === 'taken') && !reduced ? <button type="button" className="dst-say__again" onClick={again}>Watch again</button> : null}
-        </p>
-        <p className="dst-say__line" aria-hidden="true"><span key={live ? `${run}-${line.beat}` : 'rest'} className="dst-say__text">{live ? line.text : REST_LINE}</span></p>
+    <div className="dst-demo" data-mode={reduced ? 'still' : mode} data-wait={waiting || undefined}>
+      <div className="dst-say" ref={sayRef}>
+        {reduced ? (
+          // Reduced motion: the four beats as a still list, beside the day's end.
+          <ol className="dst-say__all">{DAILY_SAY.map((text) => <li key={text}>{text}</li>)}</ol>
+        ) : (
+          <>
+            <p className="dst-say__where">
+              <span className="dst-say__dots" aria-hidden="true">{Array.from({ length: beats }, (_, i) => <i key={i} data-on={i === line.beat || undefined} data-done={i < line.beat || undefined} />)}</span>
+              <span aria-hidden="true">{`Step ${line.beat + 1} of ${beats}`}</span>
+              {mode === 'done' || mode === 'taken' ? <button type="button" className="dst-say__again" onClick={again}>Watch again</button> : null}
+            </p>
+            <p className="dst-say__line" aria-hidden="true"><span key={`${run}-${line.beat}`} className="dst-say__text">{line.text}</span></p>
+            {/* A screen reader gets the four lines at once, not one every few seconds. */}
+            <ol className="sr-only">{DAILY_SAY.map((text) => <li key={text}>{text}</li>)}</ol>
+          </>
+        )}
       </div>
       <div className="dwk-story__stage" ref={stageRef}>
         <CursorDemo key={run} steps={DAILY_STORY.steps} playing={mode === 'playing'} onSay={onSay} onDone={onDone} onTakeover={onTakeover} className="dst-stage">
-          <DailyStory rest={reduced} />
+          {story}
         </CursorDemo>
       </div>
-    </>
+    </div>
+  );
+}
+
+/** Today's facts in one quiet line beside the key: the edition, the state and its time (dailyRow's own words). */
+function TodayLine({ today, daily }) {
+  return (
+    <p className="dwk-today">
+      <StateMark mark={daily.state === 'played' ? 'done' : today ? 'open' : 'none'} />
+      <span className="dwk-today__text">
+        {today ? <span className="dwk-today__ed">{editionName(today.date)}.</span> : null}
+        {daily.status ? <>{' '}<b className="dwk-status">{daily.status}{daily.when ? ',' : '.'}</b></> : null}
+        {daily.when ? <>{' '}<span className="dwk-when">{daily.when}.</span></> : null}
+      </span>
+    </p>
   );
 }
 
@@ -189,23 +234,20 @@ function HomeBlock() {
     <div className="dwk" ref={ref}>
       <article className="dwk-ticket" data-story="" data-board={COLLEGE_DAILY || undefined} data-state={daily.state} aria-labelledby="dwk-daily">
         <div className="dwk-ticket__play">
+          {/* One surface (owner LK366, 22 Nov 2026: the card in a card read as five layers of words): its head row, the
+              beat's line, the demo screen drawn flat on the card, then today's facts in one quiet line beside the key. */}
           <div className="dwk-ticket__head">
             <h3 className="dwk-name" id="dwk-daily">Daily Five</h3>
-            <p className="dwk-edition">{today ? editionName(today.date) : ' '}</p>
-            <p className="dwk-state">
-              <StateMark mark={daily.state === 'played' ? 'done' : today ? 'open' : 'none'} />
-              <span className="dwk-status">{daily.status || ' '}</span>
-              <span className="dwk-when">{daily.when}</span>
-            </p>
+            <span className="dwk-example">{STORY_WORDS.example}</span>
           </div>
           <DailyDemo />
           <div className="dwk-story__foot">
             {COLLEGE_DAILY ? <PlayingFor team={team} onOpen={() => setSheet(true)} /> : null}
             {/* The bubbles carry this device's state: shown once a question is answered (open, they would only repeat the 5). */}
             {marks ? <OmrFive marks={marks} current={current} label={omrLabel(marks, current)} /> : null}
-            <ul className="dwk-figs">
-              {daily.figures.map((f) => <li key={f.figure + f.unit}><b>{f.figure}</b>{f.unit ? <span>{f.unit}</span> : null}</li>)}
-            </ul>
+            {/* The card's three figures (dailyRow figures: 5 questions, Free, No sign-up) are said by the head's line (five a
+                day) and the small print (free, no account needed), so the card does not say them a third time. */}
+            <TodayLine today={today} daily={daily} />
             <Link href={daily.href} prefetch={false} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
             <p className="dwk-story__print">{DAILY_PRINT}</p>
           </div>

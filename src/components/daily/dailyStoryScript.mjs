@@ -3,15 +3,15 @@
 // (dailyStoryScript.test.mjs); the screen that plays it is DailyStory.jsx, worked by the landing's demo cursor
 // (src/components/landing/demo/CursorDemo.jsx) inside DailyFiveRow.jsx HomeBlock.
 //
-// The story, in four beats a 16 year old can follow with the sound off:
-//   1. the five and why each is there (two you missed, two from your weak chapters, one new);
-//   2. the cursor opens the first: a question this student got wrong on 14 Nov comes back;
-//   3. it is answered right: the bubble turns, and the mistake is fixed;
-//   4. after all five, the day counts: the streak's day fills and the day's end says what the five did.
+// The story, in four beats a 16 year old can follow with the sound off (rebuilt 22 Nov 2026, owner LK366):
+//   1. five questions are picked for you: the five rows arrive one by one, each with why it is there;
+//   2. the first is one you got wrong before: the cursor opens it, the question shows with "You missed this on 14 Nov";
+//   3. get it right and that mistake is fixed: the option turns, a small "Fixed" lands on place 1's bubble;
+//   4. finish all five and your streak grows by a day: the bubbles fill, the run steps from 6 to 7, today's square fills.
 // The data is an EXAMPLE (the card says so): one sample student's five, built by the real rules. Each reason line is the
 // page's own (src/lib/dailyFiveMine.mjs mineLabel), the mix line is mixLine, the day's end lines are fedLines, all called
 // here so the demo can never say what /daily would not.
-import { DAILY_FIVE_SIZE, shortDate } from '../../lib/dailyFive.mjs';
+import { DAILY_FIVE_SIZE } from '../../lib/dailyFive.mjs';
 import { MINE_COPY, MINE_PLAN, fedLines, mineLabel, mixLine } from '../../lib/dailyFiveMine.mjs';
 
 // The sample five, places 1 to 5 in the order the server builds them (MINE_PLAN: 2 missed, 2 weak, 1 subject). Subjects and
@@ -60,51 +60,66 @@ export const STORY_WORDS = Object.freeze({
   next: 'Next question',
   correct: 'Correct.',
   fixed: 'Mistake fixed',
+  fixedMark: 'Fixed', // the small mark that lands on place 1's bubble (beat 3)
   after: `After all ${DAILY_FIVE_SIZE}`,
   score: `${STORY_SCORE}/${DAILY_FIVE_SIZE} today`,
   dayUnit: 'days in a row',
   didHead: MINE_COPY.doneHead, // 'What today’s five did'
 });
 
-// The beats' lines (the card shows each above the screen while it plays; at rest it shows REST_LINE).
+// The beats' lines, in the order a student meets the thing (owner LK366, 22 Nov 2026: "This daily 5: I'm unable to understand,
+// and the overall explanation is really weak about what exactly this is"). Each is a whole plain sentence of at most 58
+// characters. The card shows the line of the beat under way above the screen; before the demo plays it shows the first, and
+// after it ends it keeps the fourth (the screen rests on the day's end). Under reduced motion it lists all four.
 export const DAILY_SAY = Object.freeze([
-  'Your five: two you missed, two weak chapters, one new.',
-  `A question you got wrong on ${shortDate(STORY_FIVE[0].why.since)} comes back.`,
-  // A right answer on a missed question is fed 'fixed' (the server's word); it does not clear the item from Revise (critic 21 Nov).
-  'Get it right now and it counts as fixed.',
-  'Finish all five and today counts for your streak.',
+  // The sample's five are MINE_PLAN's mix (2 missed, 2 weak, 1 new), each row with its reason (mineLabel).
+  'Each day, five questions are picked for you.',
+  // Place 1 is a missed question (kind 'missed'); its label says the day ("You missed this on 14 Nov").
+  'The first is one you got wrong before.',
+  // A right answer on a missed question is fed 'fixed' (the server's word, fedLines "1 mistake fixed"); it does not clear
+  // the item from Revise (critic 21 Nov), so the line says the mistake is fixed, nothing more.
+  'Get it right and that mistake is fixed.',
+  // A whole Daily Five (all five places answered) is a streak day: src/lib/server/streakDays.js dailyFiveStreakDays (5
+  // answers, chain.mjs DAY_GOAL 5); a guest's own run is this device's record (dailyFive.mjs streakOf).
+  'Finish all five and your streak grows by a day.',
 ]);
-/** The line before the story plays, after it ends, and under reduced motion (the end state is shown). */
-// True for every signed-in student: one with no mistakes yet gets weak-chapter and new questions from their subjects, and one
-// with no subjects plays the shared five (CONTRACT.md reasons no_subjects, thin_bank), so the line names both sources.
-export const REST_LINE = 'Signed in, your five come from your subjects and mistakes.';
 
 // The script (CursorDemo steps). Every target is a real <button> in DailyStory.jsx with that data-demo hook; what follows a
-// click is DailyStory's own state and its CSS (daily-story.css), transform and opacity only. Pace (COMMON.md): each line stays
-// at least 2.2 s, the cursor waits at least 500 ms after a new line, the whole runs about 13.4 s.
+// click is DailyStory's own state and its CSS (daily-story.css), transform and opacity only.
+// Pace (owner LK366, 22 Nov 2026: the last version changed its beats every 2.8 s while the screen changed twice under each):
+// every line stays at least 3.2 s; the cursor's first move comes 800 ms after its line; nothing on the screen changes in
+// the last 1.2 s of a beat (each beat ends on an `exact` wait the catch-up clock never shortens); the whole runs about
+// 15.9 s (scriptMs) and then rests on the day's end. Stress: the part a beat is about keeps full strength and the rest
+// falls to half (daily-story.css `[data-part]`); no outline around groups of rows.
+/** The still end of every beat: nothing on the screen changes in it (the line before the next one is read on a still screen). */
+export const QUIET_MS = 1300;
 export const DAILY_STORY = Object.freeze({
   id: 'daily',
   title: 'Daily Five',
   steps: Object.freeze([
-    // 1. The five and why each is there: the eye walks the three kinds, one group at a time.
-    // The cursor points at each kind's bubbles as the stress moves (no click).
-    { say: DAILY_SAY[0], focus: '[data-kind-group="missed"]', wait: 600 },
-    { target: '[data-kind-group="missed"]', at: [0.09, 0.5], move: 520, dwell: 420 },
-    { focus: '[data-kind-group="weak"]', target: '[data-kind-group="weak"]', at: [0.09, 0.5], move: 420, dwell: 560 },
-    { focus: '[data-kind-group="subject"]', target: '[data-kind-group="subject"]', at: [0.09, 0.5], move: 420, dwell: 640 },
-    // 2. The first place opens: the question and the day it was missed, read together (the label and the stem; the options
-    // wait for beat 3), so the thing that came back is the part in focus.
-    { say: DAILY_SAY[1], focus: '[data-kind-group="missed"]', wait: 600 },
-    { target: '[data-demo="daily-slot-1"]', at: [0.5, 0.5], move: 650, click: true, dwell: 450 },
-    { focus: '.dst-q__ask', wait: 1000 },
-    // 3. The right answer: the option and the bubble turn, the line says the mistake is fixed.
-    { say: DAILY_SAY[2], focus: '.dst-q__options', wait: 600 },
-    { target: '[data-demo="daily-pick-B"]', at: [0.4, 0.5], move: 600, click: true, dwell: 400 },
-    { focus: '.dst-q__foot', wait: 1200 },
-    // 4. After all five: the streak's day fills and the day's end says what the five did.
-    { say: DAILY_SAY[3], focus: null, wait: 550 },
-    { target: '[data-demo="daily-next"]', at: [0.5, 0.5], move: 600, click: true, dwell: 300 },
-    { focus: '.dst-day__streak', wait: 2200 },
+    // 1. The five arrive one by one with why each is there (daily-story.css: 220 ms apart, the last lands at about 1.4 s).
+    // The cursor waits; nothing is stressed: all five are the subject.
+    { say: DAILY_SAY[0], focus: null, wait: 3600 },
+    // 2. Place 1 is stressed, the cursor opens it, and the question shows with its reason label (the options wait for beat 3).
+    { say: DAILY_SAY[1], focus: '[data-demo="daily-slot-1"]', wait: 800 },
+    { target: '[data-demo="daily-slot-1"]', at: [0.5, 0.5], move: 650, click: true, dwell: 0 },
+    // The screen's change (the question view, 420 ms) lands inside the first wait; a slow phone may shorten that one to
+    // catch up with the script's clock, never the last 1.3 s (`exact`), so a beat always ends on a still screen.
+    { focus: '.dst-q__ask', wait: 700 },
+    { wait: QUIET_MS, exact: true },
+    // 3. The options are stressed, the cursor answers B (right): the option turns, "Fixed" lands on place 1's bubble, and
+    // the line under the options says why (all landed 600 ms after the click). Then nothing is stressed: the answer and
+    // what it did are all the subject.
+    { say: DAILY_SAY[2], focus: '.dst-q__options', wait: 800 },
+    { target: '[data-demo="daily-pick-B"]', at: [0.4, 0.5], move: 600, click: true, dwell: 0 },
+    { focus: null, wait: 800 },
+    { wait: QUIET_MS, exact: true },
+    // 4. Next: after all five, the bubbles fill, the run steps from 6 to 7 and today's square fills (daily-story.css, by
+    // 1.4 s after the click), then what the five did (by 1.8 s). The screen then rests there.
+    { say: DAILY_SAY[3], wait: 800 },
+    { target: '[data-demo="daily-next"]', at: [0.5, 0.5], move: 600, click: true, dwell: 0 },
+    { wait: 1800 },
+    { wait: QUIET_MS, exact: true },
   ]),
 });
 

@@ -44,10 +44,13 @@ test('the Daily Five card: open, begun and played each lead with the state and i
 test('the Daily Five says what it is in words true for a guest and a student, and three true figures', () => {
   assert.equal(DAILY_LINE, 'Five questions a day, new at 12:00 am. Signed in, the five are picked for you.');
   assert.doesNotMatch(DAILY_LINE, /same five for everyone/);
-  assert.equal(DAILY_PRINT, 'No sign-up to try. Signed in, the five are picked for you.');
+  // 22 Nov 2026 (LK366): the head's line says the signed-in five; the print says the guest's half, and carries the card's
+  // "Free" and "No sign-up" (the card no longer draws its three figures: the head says five a day).
+  assert.equal(DAILY_PRINT, 'Free. Without an account, you get the same five as every other guest.');
   assert.deepEqual(DAILY_FIGURES.map((f) => `${f.figure}${f.unit ? ` ${f.unit}` : ''}`), [`${DAILY_FIVE_SIZE} questions`, 'Free', 'No sign-up']);
   const jsx = read('./DailyFiveRow.jsx');
   assert.match(jsx, /<p className="dwk-story__print">\{DAILY_PRINT\}<\/p>/, 'the small print sits under the key');
+  assert.doesNotMatch(jsx, /daily\.figures\.map/, 'the Daily card draws no figures row');
 });
 
 test('Today\'s row: the student\'s own mix when GET /api/daily/mine built one, else the shared five\'s line', () => {
@@ -194,6 +197,11 @@ test('the simpler Daily Five is the default: no college names unless the switch 
   assert.ok(PERSONAL_HEAD.h2.endsWith(PERSONAL_HEAD.mark), 'the marked phrase is in the head');
   assert.equal(STRIP_HEAD.mark, 'your college.');
   assert.match(PERSONAL_HEAD.sub, /^Signed in, /, 'a guest is not told the five are built from their mistakes');
+  // 22 Nov 2026 (owner LK366: "the overall explanation is really weak about what exactly this is"): what the five are, in
+  // MINE_PLAN's numbers, and the streak rule (a whole five is a streak day).
+  assert.equal(PERSONAL_HEAD.sub, 'Signed in, you get five questions a day: two you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.');
+  const { MINE_PLAN } = await import('../../lib/dailyFiveMine.mjs');
+  assert.deepEqual({ ...MINE_PLAN }, { missed: 2, weak: 2, subject: 1 }, 'the line says the plan');
   assert.doesNotMatch(PERSONAL_HEAD.sub, /same five|for everyone/);
   assert.doesNotMatch(`${PERSONAL_HEAD.h2} ${PERSONAL_HEAD.sub}`, /college/i);
   const row = read('./DailyFiveRow.jsx');

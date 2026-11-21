@@ -53,8 +53,8 @@ test('the say lines: 3 to 5 plain sentences of at most 58 characters', () => {
   assert.deepEqual(says.map((s) => s.say), [
     'Open a short lesson on the chapter.',
     'Read the worked example.',
-    'Then recall it from memory.',
-    'A card you missed comes back sooner.',
+    'Then a quick card checks you remember it.',
+    'Miss one and that card comes back sooner.',
   ]);
 });
 

@@ -33,8 +33,24 @@
 .kc-demo__count { margin: 0; min-width: 2.75em; font: 700 0.9375rem/1 var(--font-display); font-variant-numeric: tabular-nums; color: var(--ink); }
 
 /* The scene: the rated card steps aside (opacity only, then the next one rises in on its own wrapper). */
-.kc-demo__scene[data-leave] { opacity: 0; transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1); }
-.kc-demo__arrive { perspective: 1000px; animation: kc-card-in 260ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.kc-demo__scene { position: relative; }
+.kc-demo__arrive { perspective: 1000px; animation: kc-card-in 260ms cubic-bezier(0.23, 1, 0.32, 1) backwards; transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+/* The rated card is filed (22 Nov 2026, owner LK366): it steps back, and over it one line and a time line say when it
+   returns; the dot runs from Today to the rating's place. Opacity and transform only. */
+.kc-demo__scene[data-leave] .kc-demo__arrive { opacity: 0; transform: scale(0.97); }
+.kc-demo__filed { position: absolute; inset: 0; display: grid; align-content: center; gap: 0.75rem; padding: 0 clamp(1.125rem, 7%, 2rem); pointer-events: none; border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--sh-2); background: var(--paper-raised, var(--paper)); animation: kc-filed-in 160ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.kc-demo__filed-said { margin: 0; font-size: 0.875rem; font-weight: 700; line-height: 1.2; color: var(--ink-2); }
+@keyframes kc-filed-in { from { opacity: 0; } }
+.kc-demo__filed-line { margin: 0; font: 800 1.3125rem/1.2 var(--font-display); letter-spacing: -0.022em; color: var(--ink); }
+.kc-demo__filed-track { position: relative; margin-top: 0.5rem; padding-top: 1.375rem; }
+.kc-demo__filed-track::before { content: ''; position: absolute; left: 4px; right: calc(100% / var(--kc-cols, 4) - 4px); top: 5px; height: 2px; border-radius: 2px; background: var(--line-strong, var(--line)); }
+.kc-demo__filed-track ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--kc-cols, 4), minmax(0, 1fr)); }
+.kc-demo__filed-track li { position: relative; font-size: 0.875rem; font-weight: 600; line-height: 1.2; color: var(--ink-2); }
+.kc-demo__filed-track li::before { content: ''; position: absolute; left: 0; top: calc(-1.375rem + 1px); width: 10px; height: 10px; box-sizing: border-box; border-radius: 50%; background: var(--paper-raised, var(--paper)); border: 2px solid var(--ink-2); }
+.kc-demo__filed-track li[data-on] { font-weight: 800; color: var(--ink); }
+.kc-demo__filed-run { position: absolute; z-index: 1; left: 0; top: 0; width: 100%; animation: kc-filed-run 520ms 240ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.kc-demo__filed-run i { display: block; width: 16px; height: 16px; margin: -2px 0 0 -3px; box-sizing: border-box; border-radius: 50%; background: var(--volt); border: 2px solid var(--ink); }
+@keyframes kc-filed-run { to { transform: translateX(var(--kc-to, 50%)); } }
 @keyframes kc-card-in { from { opacity: 0; transform: translateY(10px); } }
 
 /* The card: two faces on one grid cell, so it is as tall as its taller face; the flip is a real 3D turn. */

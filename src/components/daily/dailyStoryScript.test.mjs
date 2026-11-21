@@ -6,12 +6,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  DAILY_SAY, DAILY_STORY, REST_LINE, STORY_FED, STORY_FED_LINES, STORY_FIVE, STORY_MIX, STORY_QUESTION, STORY_SCORE, STORY_SLOTS,
+  DAILY_SAY, DAILY_STORY, QUIET_MS, STORY_FED, STORY_FED_LINES, STORY_FIVE, STORY_MIX, STORY_QUESTION, STORY_SCORE, STORY_SLOTS,
   STORY_STREAK, STORY_WORDS,
 } from './dailyStoryScript.mjs';
-import { DAILY_FIVE_SIZE, shortDate } from '../../lib/dailyFive.mjs';
+import { DAILY_FIVE_SIZE } from '../../lib/dailyFive.mjs';
 import { MINE_COPY, MINE_PLAN, fedCounts, fedLines, mineLabel, mixLine } from '../../lib/dailyFiveMine.mjs';
-import { SAY_MAX_CHARS, sayCount, sayPace, scriptHooks, scriptMs } from '../landing/onePlaceModel.mjs';
+import { CURSOR_ENTER_MS, SAY_MAX_CHARS, sayCount, sayPace, scriptHooks, scriptMs } from '../landing/onePlaceModel.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const JSX = read('./DailyStory.jsx');
@@ -20,25 +20,34 @@ const CSS = read('./daily-story.css');
 
 test('every control the script clicks is a real button of the screen, with its hook', () => {
   assert.deepEqual(scriptHooks(DAILY_STORY.steps).sort(), ['daily-next', 'daily-pick-B', 'daily-slot-1']);
-  assert.match(JSX, /<button key=\{s\.n\} type="button" className="dst-slot" data-kind=\{s\.kind\} data-demo=\{`daily-slot-\$\{s\.n\}`\}/);
+  assert.match(JSX, /<button type="button" className="dst-slot" data-kind=\{s\.kind\} data-demo=\{`daily-slot-\$\{s\.n\}`\}/);
   assert.match(JSX, /<button key=\{option\} type="button" className="dst-opt" [^>]*data-demo=\{`daily-pick-\$\{LETTERS\[i\]\}`\}/);
   assert.match(JSX, /<button type="button" className="dst-next" data-demo="daily-next"/);
   assert.equal(STORY_QUESTION.right, 1, 'the cursor picks B, the right option');
-  // Every stressed part and every pointed-at group is one the screen draws.
+  // Every stressed part is one the screen draws, and one part only: a single row or a single block, never a group of rows
+  // (owner LK366, 22 Nov 2026: the boxes around groups of rows read as "boxes here and there").
   for (const step of DAILY_STORY.steps) {
     if (step.focus) {
-      const group = step.focus.match(/data-kind-group="([a-z]+)"/)?.[1];
-      if (group) assert.ok(['missed', 'weak', 'subject'].includes(group) && JSX.includes('data-kind-group={kind}'), step.focus);
-      else assert.ok(JSX.includes(`className="${step.focus.slice(1)}"`), step.focus);
+      if (step.focus.startsWith('[data-demo=')) assert.equal(scriptHooks([{ target: step.focus }]).length, 1, step.focus);
+      else assert.ok(JSX.includes(`className="${step.focus.slice(1)}" data-part=""`), step.focus);
     }
   }
+  assert.match(JSX, /data-demo=\{`daily-slot-\$\{s\.n\}`\} data-part=""/, 'each row is its own part');
+  assert.doesNotMatch(JSX, /data-kind-group/, 'no group of rows to stress');
   assert.ok(!/<a[\s>]|<Link/.test(JSX), 'the cursor can never click a link: the screen has none');
 });
 
-test('four beats, each one plain sentence, read before the cursor moves, at the frame pace', () => {
+test('four beats, each one plain sentence, read before the cursor moves, at the reader pace (owner LK366)', () => {
   assert.equal(sayCount(DAILY_STORY.steps), 4);
   assert.deepEqual(DAILY_STORY.steps.filter((s) => s.say).map((s) => s.say), [...DAILY_SAY]);
-  for (const line of [...DAILY_SAY, REST_LINE]) {
+  // The reader's order: what it is, the first, what a right answer does, the streak.
+  assert.deepEqual([...DAILY_SAY], [
+    'Each day, five questions are picked for you.',
+    'The first is one you got wrong before.',
+    'Get it right and that mistake is fixed.',
+    'Finish all five and your streak grows by a day.',
+  ]);
+  for (const line of DAILY_SAY) {
     assert.ok(line.length <= SAY_MAX_CHARS, line);
     assert.match(line, /^[A-Z]/, line);
     assert.match(line, /\.$/, line);
@@ -46,11 +55,29 @@ test('four beats, each one plain sentence, read before the cursor moves, at the 
     assert.equal(line.split(/\.\s/).length, 1, `one sentence: ${line}`);
   }
   for (const beat of sayPace(DAILY_STORY.steps)) {
-    assert.ok(beat.holds >= 2200, `${beat.say} holds ${beat.holds}`);
-    assert.ok(beat.firstMove >= 500, `${beat.say} moves after ${beat.firstMove}`);
+    assert.ok(beat.holds >= 3200, `${beat.say} holds ${beat.holds}`);
+    assert.ok(beat.firstMove >= 700, `${beat.say} moves after ${beat.firstMove}`);
   }
   const ms = scriptMs(DAILY_STORY.steps);
-  assert.ok(ms >= 9000 && ms <= 14000, `script ${ms} ms`);
+  assert.ok(ms >= 15000 && ms <= 18000, `script ${ms} ms`);
+  // Nothing changes in the last 1.2 s of a beat: beats 2 to 4 end on an exact wait of QUIET_MS after the screen's own change
+  // has landed (a view or an answer at most 600 ms after the click, the day's end 1.8 s: the waits before cover them).
+  assert.ok(QUIET_MS >= 1200);
+  const steps = DAILY_STORY.steps;
+  const sayAt = steps.map((s, i) => (typeof s.say === 'string' ? i : -1)).filter((i) => i >= 0);
+  sayAt.forEach((start, b) => {
+    const beat = steps.slice(start, sayAt[b + 1] ?? steps.length);
+    const last = beat.at(-1);
+    if (b === 0) { assert.ok(last.wait >= 1400 + 1200 && !beat.some((s) => s.target), 'beat 1: the rows are up by 1.4 s, then still'); return; }
+    assert.equal(last.wait, QUIET_MS, `beat ${b + 1} ends on the still wait`);
+    assert.equal(last.exact, true, `beat ${b + 1}: the still wait is never shortened`);
+    const click = beat.findIndex((s) => s.click);
+    // A wait that is not exact may be halved on a slow phone: count half.
+    const afterClick = beat.slice(click + 1, -1).reduce((t, s) => t + (s.wait || 0) / 2, 0) + beat[click].dwell;
+    assert.ok(afterClick >= (b === 3 ? 900 : 350), `beat ${b + 1}: room for the change before the still wait (${afterClick} ms)`);
+  });
+  // Before the run the card already shows the first line, so beat 1 is read for longer than its own wait.
+  assert.ok(CURSOR_ENTER_MS + steps[0].wait >= 3200);
 });
 
 test('the sample five obeys the real rules, and every word on it is the page own', () => {
@@ -64,7 +91,9 @@ test('the sample five obeys the real rules, and every word on it is the page own
   assert.equal(STORY_WORDS.didHead, MINE_COPY.doneHead);
   STORY_SLOTS.forEach((slot, i) => assert.equal(slot.label, mineLabel(STORY_FIVE[i].why)));
   assert.equal(STORY_SLOTS[0].label, 'You missed this on 14 Nov');
-  assert.ok(DAILY_SAY[1].includes(shortDate(STORY_FIVE[0].why.since)), 'the beat names the day the card shows');
+  assert.equal(STORY_FIVE[0].why.kind, 'missed', 'the beat says the first is one you got wrong: place 1 is a missed question');
+  assert.equal(STORY_WORDS.fixedMark, 'Fixed');
+  assert.match(JSX, /<span className="dst-q__fixed" aria-hidden="true">\{STORY_WORDS\.fixedMark\}<\/span>/);
   // The day's end: counted from the marks and the checks' fed values, never typed.
   assert.equal(STORY_SCORE, STORY_FIVE.filter((p) => p.mark).length);
   assert.equal(STORY_WORDS.score, `${STORY_SCORE}/${DAILY_FIVE_SIZE} today`);
@@ -81,24 +110,46 @@ test('the sample five obeys the real rules, and every word on it is the page own
   // The screen counts its own day's end from the click (a wrong pick by hand changes the lines honestly).
   assert.match(JSX, /const did = fedLines\(fedCounts\(fed\)\);/);
   assert.match(JSX, /i === 0 \? \(right \? 'fixed' : 'mistakes'\) : f/);
-  // It reads plainly as an example.
+  // It reads plainly as an example: the card's head row says so, beside "Daily Five" (one surface, no second title).
   assert.equal(STORY_WORDS.example, 'Example');
-  assert.match(JSX, /<span className="dst-top__ex">\{STORY_WORDS\.example\}<\/span>/);
+  assert.match(ROW, /<h3 className="dwk-name" id="dwk-daily">Daily Five<\/h3>\s*<span className="dwk-example">\{STORY_WORDS\.example\}<\/span>/);
+  assert.doesNotMatch(JSX, /dst-top|STORY_WORDS\.head|STORY_WORDS\.mix/, 'no second title or mix line on the screen');
 });
 
-test('the card plays when it is in the window, once a visit; a real tap takes over; reduced motion shows the end', () => {
+test('the card plays when its line and screen are wholly in the window, once a visit; a real tap takes over; reduced motion shows the end', () => {
   assert.match(ROW, /new IntersectionObserver\(/);
+  // Both the line and the screen, wholly below the site bar (owner LK366: the action ran where the reader could not see it).
+  assert.match(ROW, /const WHOLE = 0\.99;/);
+  assert.match(ROW, /if \(ratio\.get\(say\) >= WHOLE && ratio\.get\(el\) >= WHOLE\)/);
+  assert.match(ROW, /rootMargin: `-\$\{SITE_BAR_PX\}px 0px 0px 0px`/);
+  assert.match(ROW, /io\.observe\(say\);\s*io\.observe\(el\);/);
   assert.match(ROW, /if \(armed && m !== 'taken'\)/, 'never replays itself after the reader took over');
   assert.match(ROW, /if \(m === 'playing'\) \{ setMode\('idle'\); setRun\(\(n\) => n \+ 1\);/, 'leaving mid-way resets it');
   assert.match(ROW, /<CursorDemo key=\{run\} steps=\{DAILY_STORY\.steps\} playing=\{mode === 'playing'\} onSay=\{onSay\} onDone=\{onDone\} onTakeover=\{onTakeover\}/);
-  assert.match(ROW, /<DailyStory rest=\{reduced\} \/>/);
+  assert.match(ROW, /useMemo\(\(\) => <DailyStory rest=\{reduced === true\} \/>, \[reduced\]\)/);
   assert.match(JSX, /if \(!rest\) return undefined;[\s\S]*setPhase\('day'\)/, 'reduced motion: the day end');
+  // At rest the fourth line stays (no closing line replaces it), with a quiet Watch again; reduced motion lists all four.
+  assert.match(ROW, /\{mode === 'done' \|\| mode === 'taken' \? <button type="button" className="dst-say__again" onClick=\{again\}>Watch again<\/button> : null\}/);
+  assert.match(ROW, /<ol className="dst-say__all">\{DAILY_SAY\.map/);
+  assert.doesNotMatch(ROW, /REST_LINE/);
+  // One surface: the card in a card is gone; today's facts sit in one line beside the key.
+  assert.match(ROW, /<TodayLine today=\{today\} daily=\{daily\} \/>\s*<Link href=\{daily\.href\}/);
+  assert.match(ROW, /editionName\(today\.date\)/);
   // The Sunday Mock card is untouched.
   assert.match(ROW, /<article className="dwk-card" data-kind="sunday" data-state=\{sunday\.phase\} aria-labelledby="dwk-sunday">/);
 });
 
-test('the screen never changes height, and its motion is transform and opacity only', () => {
+test('the screen never changes height, is drawn flat, stresses without boxes, and its motion is transform and opacity only', () => {
   assert.match(CSS, /\.st-daily \.dst-view \{\n\s+grid-area: 1 \/ 1;/, 'the three views share one grid cell');
+  assert.match(CSS, /\.st-daily \{\n\s+--dst-h: \d+px;\n\s+container-type: inline-size; display: grid; min-width: 0; height: var\(--dst-h\);/, 'one fixed height');
+  const screen = CSS.match(/\.st-daily \{\n([^}]*)\}/)[1];
+  assert.doesNotMatch(screen, /border|background/, 'no card in the card');
+  // The rest falls to half over 200 ms; nothing draws an outline or a ring around a stressed part.
+  assert.match(CSS, /\.cd-stage\[data-demo-focusing\] \.st-daily \[data-part\]:not\(\[data-demo-focus\]\) \{ opacity: 0\.5; \}/);
+  assert.match(CSS, /\.st-daily \[data-part\] \{ transition: opacity 200ms ease-out; \}/);
+  assert.doesNotMatch(CSS, /data-demo-focus\][^{]*\{[^}]*(outline|box-shadow)/);
+  // The rows come up one by one, 220 ms apart.
+  assert.match(CSS, /animation-delay: calc\(200ms \+ var\(--i, 0\) \* 220ms\)/);
   for (const m of CSS.matchAll(/transition:\s*([^;]+);/g)) {
     for (const part of m[1].split(/,(?![^(]*\))/)) {
       const prop = part.trim().split(/\s+/)[0];

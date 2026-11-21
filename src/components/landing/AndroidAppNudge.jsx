@@ -12,8 +12,8 @@ const DEV = process.env.NODE_ENV !== 'production';
  * Play listing, for an Android phone's own browser only (there is no iPhone app). A normal section at the foot of the home
  * page, after the close band; nothing floats.
  *
- * `listed` is the server's PLAY_LISTING_PUBLIC === 'true' (the listing answers 404 until it is public). In production the
- * server draws nothing while it is off. In development the section is drawn but stays hidden unless ?appnudge=1.
+ * `listed` is the server's PLAY_LISTING_PUBLIC === 'true' (the listing answers 404 until it is public). The section is always
+ * drawn hidden; ?appnudge=1 previews it on an Android phone, on the live site too (owner LK366, 22 Nov 2026).
  * It is drawn hidden and shown after hydration only when the rule in androidNudge.mjs holds, by flipping the `hidden`
  * attribute (no re-render). It sits below everything a reader has seen, so showing it moves nothing on screen.
  * The phone bar (HeroDockGate) steps aside over it: page.js lists .lp-app in its `aside` selector.
@@ -27,7 +27,7 @@ export default function AndroidAppNudge({ listed = false }) {
     if (!node) return;
     let preview = false;
     let standalone = false;
-    try { preview = DEV && new URLSearchParams(window.location.search).get(NUDGE_PREVIEW_PARAM) === '1'; } catch { preview = false; }
+    try { preview = new URLSearchParams(window.location.search).get(NUDGE_PREVIEW_PARAM) === '1'; } catch { preview = false; }
     try { standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; } catch { standalone = false; }
     const show = showAndroidNudge({
       ua: window.navigator.userAgent,
@@ -38,9 +38,11 @@ export default function AndroidAppNudge({ listed = false }) {
       standalone,
     });
     node.hidden = !show;
+    // The preview of a listing that is not public yet says so (the note is hidden otherwise).
+    node.toggleAttribute('data-preview', show && preview && !listed);
   }, [listed]);
 
-  if (!nudgeDrawn({ listed, dev: DEV })) return null;
+  if (!nudgeDrawn()) return null;
 
   return (
     <section ref={ref} className="lp-app" aria-labelledby="lp-app-title" hidden>
@@ -67,6 +69,7 @@ export default function AndroidAppNudge({ listed = false }) {
               {NUDGE_COPY.key}
               <ArrowUpRight size={18} aria-hidden="true" />
             </a>
+            <p className="lp-app__preview">{NUDGE_COPY.previewNote}</p>
           </div>
         </div>
       </div>
