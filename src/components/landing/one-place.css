@@ -230,8 +230,8 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper-raised);
 }
 .op-slot[data-tool='practise'] .xs-inline > .xs-frame { flex: 1 1 auto; }
-/* The section's reserve while undrawn, re-measured with the phone view (1500 px at 390x844, 1542 at 360x780). */
-@media (max-width: 639px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1520px; } }
+/* The section's reserve while undrawn, re-measured with the window-sized runner (1217 px at 390x844, 1237 at 360x676). */
+@media (max-width: 639px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1225px; } }
 /* Phones (round 5): no gate card in the frame; the NTA line under the switch carries the proof. */
 @media (max-width: 639px) { .op-slot[data-tool='practise'] .xs-gate { display: none; } }
 /* Inline, the runner's "Saved on this device." line is left out (nothing is saved from a demo; ExamStage also starts the
@@ -244,7 +244,7 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 .op-kc .kc-foot > .mm-btn { display: none; }
 @media (max-width: 639px) {
   .op-kc .kc-open__list li[data-extra] { display: none; }
-  @media (max-width: 379px) { .op-kc .kc-open { display: none; } }
+  .op-kc .kc-open { display: none; } /* the subject chips: the tallest row otherwise (21 Nov, round 5) */
   .op-slot[data-tool='cards'] > .op-proof { display: none; }
 }
 @media (min-width: 640px) { .op-kc .kc-foot { display: none; } }
@@ -252,9 +252,47 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
    wrapper's flow (the block puts it in its own grid area). From 640 px the card stands alone in its window. */
 .mm.lp .op-bmk .bmk__value { grid-area: auto; width: 100%; max-width: 34rem; margin-top: 16px; }
 @media (min-width: 640px) { .mm.lp .op-bmk .bmk__value { display: none; } }
+/* Phones (round 5): the list as its four heads only (CUET chapter, Your slip, 2 checks, 10 more), so Ask Mobi is not the
+   frame's tallest row; the card's own steps say what each one is. */
+@media (max-width: 639px) { .mm.lp .op-bmk .bmk__get-line { display: none; } }
 /* The inline runner is a picture of the exam in the page, not a scroller (21 Nov 2026, lane-hn-weight's swipe runs: a
    finger on the stem stopped the page, because the runner's own panes scroll with overscroll-behavior: contain). It shows
    the whole question, so its panes are clipped, never scrolled, and a vertical swipe anywhere on it moves the page; taps
    still reach its controls. The full-screen view and "/" keep their scrolling panes. */
 .op-slot[data-tool='practise'] .xs-layout > .xs-inline { overflow: clip; touch-action: pan-y; }
-.op-slot[data-tool='practise'] .xs-inline :is(.xs-ph-paper, .xs-ph-pane) { overflow: clip; overscroll-behavior: auto; touch-action: pan-y; }
+.op-slot[data-tool='practise'] .xs-inline :is(.xs-ph-paper, .xs-ph-pane) { overflow: hidden; overscroll-behavior: auto; touch-action: pan-y; }
+
+/* ---- lane one-place, round 5 (21 Nov 2026, the critic: presses happened below the fold) ----
+   Phones: the runner is sized to the window, as a phone runner is: its header, its paper and its key bar pinned at the
+   bottom, at most 560 px and never taller than the window less what sits above it when the frame's chips are just under
+   the site bar (the bar, the chips and the switch: 216 px, measured). Its paper holds the rest of the question; it is
+   overflow: hidden (never a scroller a finger could catch: a swipe moves the page), and the demo cursor brings a target
+   into it by setting the paper's scrollTop (CursorDemo `reveal`). Above the runner only the switch: the row's caption goes
+   (the chips name the row) and the NTA line moves under the runner; "Try it full screen" leaves the frame (the runner is
+   already full size; "/" keeps its key). In Night the runner sits in a charcoal device edge, so NTA's white screen reads
+   as a screen, not a glare panel; NTA's own colours are untouched. */
+@media (max-width: 639px) {
+  .op-caption { display: none; }
+  .op-slot[data-tool='practise'] .xs-layout { grid-template-areas: 'switch' 'device' 'note'; }
+  .op-slot[data-tool='practise'] .xs-layout > .op-proof--switch { margin: 0; }
+  .op-slot[data-tool='practise'] .xs-layout > .xs-inline { height: min(560px, calc(100svh - 216px)); }
+  .op-slot[data-tool='practise'] .xs-layout > .xs-full-open { display: none; }
+}
+html[data-theme='dark'] .op-slot[data-tool='practise'] .xs-layout > .xs-inline {
+  border: 7px solid #1c1a16; border-radius: 22px; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08);
+}
+
+/* Desktop Ask Mobi, from 1280 px: the live block's "What you leave with" beside the card, so the window is full on every
+   step; the window keeps the frame's height (the card is no taller for it). 960 to 1279 px: the card alone, as before. */
+@media (min-width: 1280px) {
+  .mm.lp .op-win .op-bmk { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: center; }
+  .mm.lp .op-win .op-bmk .bmk__value { display: grid; margin: 0; padding: 24px 28px 24px 8px; }
+  .mm.lp .op-win .op-bmk .bmk__gets { grid-template-columns: minmax(0, 1fr); }
+}
+/* A window tall enough (from 860 px of window height) holds the list under the card instead, its four items in one row,
+   so the card keeps the window's full width and the space under it is filled. */
+@media (min-width: 1280px) and (min-height: 860px) {
+  .mm.lp .op-win .op-bmk { grid-template-columns: minmax(0, 1fr); align-content: start; }
+  .mm.lp .op-win .op-bmk .bmk__value { max-width: none; padding: 18px 24px 22px; border-top: 1px solid var(--line); }
+  .mm.lp .op-win .op-bmk .bmk__gets { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}

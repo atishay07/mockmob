@@ -11,7 +11,7 @@
 //
 // The frame's sheets are imported here, in the order OnePlace's own imports bring them, so the server-drawn frame is styled
 // from the page's head exactly as before (a lazily loaded module's CSS would only arrive with its code).
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { lazy, useEffect, useRef, useState } from 'react';
 import './demo/cursor-demo.css';
 import '@/components/doodle/doodle.css';
 import '@/app/exam-device.css';
@@ -27,7 +27,10 @@ export const ONE_PLACE_NEAR = '150% 0px 150% 0px';
 
 // The server render: the frame as part of the page's own HTML. The module is asked for as soon as this file is evaluated on
 // the server, and once it is there the lazy component resolves at once (a thenable that answers synchronously), so the
-// server draws it in place rather than streaming it after the page. In the browser this import never runs.
+// server draws it in place rather than streaming it after the page. It has no Suspense boundary of its own (21 Nov 2026,
+// round 4): each boundary is one more streamed part that React reveals later, and on a first visit the reveals that fall
+// together made one 700 ms frame; were it ever still loading, the section's own boundary waits for it. In the browser this
+// import never runs.
 let serverModule = null;
 export const SERVER_READY = typeof window === 'undefined' ? import('./OnePlace').then((m) => { serverModule = m; return m; }) : null;
 const ServerFrame = lazy(() => (serverModule ? { then: (done) => done(serverModule) } : SERVER_READY));
@@ -87,7 +90,7 @@ export default function OnePlaceGate(props) {
     };
   }, []);
 
-  if (typeof window === 'undefined') return <div className="op-gate"><Suspense fallback={null}><ServerFrame {...props} /></Suspense></div>;
+  if (typeof window === 'undefined') return <div className="op-gate"><ServerFrame {...props} /></div>;
   if (!live) return <div ref={hold} className="op-gate" dangerouslySetInnerHTML={{ __html: readDrawn() }} suppressHydrationWarning />;
   const { Frame, drawn } = live;
   return <div ref={hold} className="op-gate"><Frame {...props} drawn={drawn} /></div>;

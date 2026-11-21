@@ -145,9 +145,8 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
   // rows and two changes; a change's picks stack with the arrow turned down on any 380 px phone.
   assert.match(sheet, /@media \(max-width: 380px\) and \(max-height: 760px\) \{[^@]*\.lnx-h \{ display: none; \}/);
   assert.match(sheet, /@media \(max-width: 380px\) and \(min-height: 761px\) \{[^@]*li:nth-child\(n \+ 6\)[^@]*li:nth-child\(n \+ 3\)/);
-  // The repair's row keeps "D yours / B answer" beside the written repair everywhere but the small, short window (360 x 740).
-  const factsHidden = [...sheet.matchAll(/@media ([^{]+)\{[^@]*rx-row__facts \{ display: none; \}/g)].map((m) => m[1].trim());
-  assert.deepEqual(factsHidden, ['(max-width: 380px) and (max-height: 760px)']);
+  // The repair's row keeps "D yours / B answer" beside the written repair at every size (360 x 676 included): no rule hides them.
+  assert.doesNotMatch(sheet, /rx-row__facts[^{]*\{[^}]*display: none/);
   assert.match(sheet, /\.lnx-picks__row \{ flex-direction: column;[^}]*\}\s*\.lc__grid\[data-look='next'\] \.lnx-picks__arrow \{ transform: rotate\(90deg\)/);
   const css = read('src/components/landing/lab-next.css');
   assert.match(css, /\.lnx-first \{ display: none; \}[\s\S]*@media \(min-width: 960px\) \{\s*\.lc__grid\[data-look='next'\] \.lnx-first \{\s*display: block;/, 'the re-mark line shows on the wide device only');
@@ -176,9 +175,8 @@ test('the next look loads only with it, and its styles are scoped to it', () => 
   for (const sel of selectors) for (const one of parts(sel)) assert.match(one, /\[data-look='next'\]/, `unscoped: ${one.trim()}`);
   // Speed rules (AGENT-COMMON, 20 Nov): no blur, no :has(), no layout read in the next screens.
   assert.doesNotMatch(css, /blur|backdrop-filter/);
-  // :has() only on a screen's own small list (the 380 px trims), never on a large ancestor.
+  // :has(), if any, only on a screen's own small list, never on a large ancestor.
   const hasSubjects = [...css.matchAll(/([.\w-]+):has\(/g)].map((m) => m[1]);
-  assert.ok(hasSubjects.length > 0);
   for (const subject of hasSubjects) assert.ok(['.ml-rows', '.td-changes', '.lnx--repair', '.lnx-quads'].includes(subject), `:has() on ${subject}`);
   const screens = read('src/components/landing/LabNextScreens.jsx');
   assert.doesNotMatch(screens, /getBoundingClientRect|offsetWidth|offsetHeight|getComputedStyle|requestAnimationFrame/);

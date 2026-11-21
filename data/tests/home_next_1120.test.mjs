@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { CREATORS_SUB, ONE_PLACE, alsoInside, bankLine, freeFaq, mobiPrice } from '../../src/components/landing/onePlaceCopy.mjs';
 import { EXAM_HEAD, INSTAGRAM_HEAD } from '../../src/components/landing/homeCopy.mjs';
 import {
-  ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
+  PHONE_PANE, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
   scriptHooks, scriptMs,
 } from '../../src/components/landing/onePlaceModel.mjs';
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
@@ -122,6 +122,9 @@ test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   assert.match(FRAME, /<KeyCardsDemo cards=\{keyCards\.cards\} keys=\{keyCards\.keys\} bank=\{keyCards\.bank\} subjects=\{keyCards\.subjects\} \/>/);
   const css = read('src/components/landing/one-place.css');
   assert.match(css, /\.op-kc \.kc-foot > \.mm-btn \{ display: none; \}/);
+  // Phones keep the frame's rows close in height: Key cards without its subject chips, Ask Mobi's list as its four heads.
+  assert.match(css, /  \.op-kc \.kc-open \{ display: none; \}/);
+  assert.match(css, /@media \(max-width: 639px\) \{ \.mm\.lp \.op-bmk \.bmk__get-line \{ display: none; \} \}/);
   assert.match(css, /@media \(min-width: 640px\) \{ \.op-kc \.kc-foot \{ display: none; \} \}/);
   // Phones: no gate card and no saved line in the frame; the inline runner starts with its strike-out note dismissed.
   assert.match(css, /@media \(max-width: 639px\) \{ \.op-slot\[data-tool='practise'\] \.xs-gate \{ display: none; \} \}/);
@@ -130,7 +133,18 @@ test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   // panes are clipped with no scroll containment, and the view passes vertical pans to the page. The full-screen view and
   // "/" keep their own scrolling panes (exam-screen.css is not touched).
   assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{ overflow: clip; touch-action: pan-y; \}/);
-  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-inline :is\(\.xs-ph-paper, \.xs-ph-pane\) \{ overflow: clip; overscroll-behavior: auto; touch-action: pan-y; \}/);
+  // Hidden, not clipped: the demo cursor sets the paper's scrollTop (`reveal`), and a hidden overflow is never a scroller a
+  // finger can catch (tmp/1121-oneplace/swipe.mjs).
+  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-inline :is\(\.xs-ph-paper, \.xs-ph-pane\) \{ overflow: hidden; overscroll-behavior: auto; touch-action: pan-y; \}/);
+  // Phones: the runner fits the window under the chips and the switch (key bar on screen at 676 px tall); nothing else above
+  // it (no caption, the NTA line under it), no full-screen key in the frame; a charcoal device edge in Night.
+  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{ height: min\(560px, calc\(100svh - 216px\)\); \}/);
+  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout \{ grid-template-areas: 'switch' 'device' 'note'; \}/);
+  assert.match(css, /@media \(max-width: 639px\) \{\n  \.op-caption \{ display: none; \}/);
+  assert.match(css, /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-full-open \{ display: none; \}/);
+  assert.match(css, /html\[data-theme='dark'\] \.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{\n\s*border: 7px solid #1c1a16; border-radius: 22px;/);
+  // Desktop from 1280 px: "What you leave with" in the Ask Mobi window too.
+  assert.match(css, /@media \(min-width: 1280px\) \{\n  \.mm\.lp \.op-win \.op-bmk \{ grid-template-columns: minmax\(0, 3fr\) minmax\(0, 2fr\); align-items: center; \}\n  \.mm\.lp \.op-win \.op-bmk \.bmk__value \{ display: grid;/);
   assert.match(read('src/app/exam-screen.css'), /\.xs-ph-paper \{[^}]*overflow-y: auto; overscroll-behavior: contain;/);
   assert.match(FRAME, /<BringMistakeCard photo=\{photo\} \/>/);
   // Phones: the live block's "What you leave with" under the card (hidden from 640 px).
@@ -222,11 +236,21 @@ test('below 640 px the Practise row plays the exam as a phone shows it: one scri
   assert.match(phoneNta, /className="xs-n-key xs-n-key--save" data-demo="xs-n-save"/);
   // No camera anywhere: no zoom prop, no camera steps, none of its code left in CursorDemo.
   for (const step of steps) for (const k of ['zoom', 'camera', 'frame', 'look', 'fit']) assert.equal(step[k], undefined, `${k} in ${step.target}`);
+  // The runner's paper may hold more than it shows: picks bring their option into it (the pane's scrollTop, never the
+  // page's) and the keys that bring a new question put it back at its top.
+  for (const step of steps) {
+    if (/option/.test(step.target)) assert.equal(step.reveal, PHONE_PANE, step.target);
+    if (/xs-next|xs-n-save/.test(step.target)) assert.equal(step.settle, PHONE_PANE, step.target);
+  }
+  assert.equal(PHONE_PANE, '.xs-ph-paper, .xs-ph-pane');
   const cursor = read('src/components/landing/demo/CursorDemo.jsx');
   assert.doesNotMatch(cursor, /zoom = |zoom\?\.|const compose|textFloor|cam\.style/);
   assert.doesNotMatch(FRAME, /zoom=|EXAM_CAMERA/);
   // The phone view has a fixed height, so the frame never changes height between rows.
   assert.match(read('src/components/landing/one-place.css'), /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{\n\s*grid-area: device; display: flex; flex-direction: column; height: 648px;/);
+  assert.match(cursor, /const revealBy = \(el, r, selector\) => \{/);
+  assert.match(cursor, /try \{ pane\.scrollTo\(\{ top, behavior \}\); \} catch \{ pane\.scrollTop = top; \}/, 'the pane scrolls, never the page');
+  assert.match(cursor, /if \(step\.settle\) \{ const pane = stage\.querySelector\(step\.settle\); if \(pane && pane\.scrollTop\) scrollPane\(pane, 0\); \}/);
 });
 
 test('no frame loop and no interval in the new section\'s files; transform and opacity only, no blur', () => {

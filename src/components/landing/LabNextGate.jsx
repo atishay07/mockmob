@@ -12,7 +12,7 @@
 // The screens' sheets are imported here, in the order LabNextScreens' own imports bring them, so the server-drawn screens
 // are styled from the start (a lazily loaded module's CSS would only arrive with its code). They load only with this file,
 // that is only for the next look: the live home's Lab carries none of them.
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { lazy, useEffect, useRef, useState } from 'react';
 import './demo/cursor-demo.css';
 import '@/components/result/marks-ledger.css';
 import '@/components/result/swot.css';
@@ -24,7 +24,10 @@ export const LAB_NEAR = '150% 0px 150% 0px';
 
 // The server render: the screens as part of the page's own HTML. The module is asked for as soon as this file is evaluated on
 // the server, and once it is there the lazy component resolves at once (a thenable that answers synchronously), so the
-// server draws it in place rather than streaming it after the page. In the browser this import never runs.
+// server draws it in place rather than streaming it after the page. It has no Suspense boundary of its own (21 Nov 2026,
+// round 4): each boundary is one more streamed part that React reveals later, and on a first visit the reveals that fall
+// together made one 700 ms frame; were it ever still loading, the section's own boundary waits for it. In the browser this
+// import never runs.
 let serverModule = null;
 export const SERVER_READY = typeof window === 'undefined' ? import('./LabNextScreens').then((m) => { serverModule = m; return m; }) : null;
 const ServerScreens = lazy(() => (serverModule ? { then: (done) => done(serverModule) } : SERVER_READY));
@@ -86,7 +89,7 @@ export default function LabNextGate({ fit, ...props }) {
     return () => { gone = true; io?.disconnect(); };
   }, []);
 
-  if (typeof window === 'undefined') return <div className="lc-scene__fit" data-ss-fit={fit}><Suspense fallback={null}><ServerScreens {...props} /></Suspense></div>;
+  if (typeof window === 'undefined') return <div className="lc-scene__fit" data-ss-fit={fit}><ServerScreens {...props} /></div>;
   if (!Screen) return <div ref={box} className="lc-scene__fit" data-ss-fit={fit} dangerouslySetInnerHTML={{ __html: DRAWN[props.scene] ?? readDrawn()[props.scene] ?? '' }} suppressHydrationWarning />;
   return <div ref={box} className="lc-scene__fit" data-ss-fit={fit}><Screen {...props} /></div>;
 }

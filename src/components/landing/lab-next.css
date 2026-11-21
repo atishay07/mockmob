@@ -313,11 +313,8 @@ html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, 
 /* Phones: the totals carry the lead's numbers, so the lead steps aside and the rows keep their full size. */
 @media (max-width: 759px) and (orientation: portrait) { .lc__grid[data-look='next'] .lnx--changes .td-lead { display: none; } }
 
-/* ---------- Repair: the row keeps "D yours / B answer" beside the written repair, so "Why D looked right" reads as the reader's
-   own pick. Only the small, short window (360 x 740) lets the picks go once the repair is written. ---------- */
-@media (max-width: 380px) and (max-height: 760px) {
-  .lc__grid[data-look='next'] .lnx--repair:has(> .mr--done) .rx-row__facts { display: none; }
-}
+/* ---------- Repair: the row keeps "D yours / B answer" beside the written repair at every size, so "Why D looked right" reads
+   as the reader's own pick (the small windows set the repair tighter to make the room). ---------- */
 
 /* ---------- SWOT: the groups' own heading ---------- */
 .lc__grid[data-look='next'] .lnx--swot .lnx-swot-h { margin-bottom: -4px; }
@@ -360,6 +357,28 @@ html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, 
   .lc__grid[data-look='next'] .lnx--changes .td-changes > li:not(:first-child) { display: none; }
   .lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { display: none; }
   .lc__grid[data-look='next'] .lnx--repair .mr-check { display: none; }
+  /* The repair is set a little tighter, so its row keeps "D yours / B answer" beside it at full size. */
+  .lc__grid[data-look='next'] .lnx.lnx--repair { gap: 4px; }
+  .lc__grid[data-look='next'] .lnx--repair .lnx-mistake { padding: 0 0 4px; }
+  .lc__grid[data-look='next'] .lnx--repair .rx-row__facts { margin-top: 0; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-title { font-size: 15px; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { padding-block: 6px; gap: 3px; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair :is(.mr-block > p, .mr-rule > p) { line-height: 1.32; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-rule { padding: 4px 10px; }
+}
+
+/* Smallest and shortest (a 360 x 676 device, 290 px of room): on top of the 360 x 740 trims, Chapters lets its bar go (the
+   chapter rows carry the same split), the repair is set at 12.5 px with its row's picks kept, and the SWOT plan row sits closer,
+   so every screen keeps its full size. */
+@media (max-width: 380px) and (max-height: 700px) {
+  /* The finished screens' heights at 360 x 676 (tmp/1121-lab/measure2.mjs), all inside the 290 px of room. */
+  .lc__grid[data-look='next'] { --lnx-h-chapters: 262px; --lnx-h-time: 282px; --lnx-h-changes: 280px; --lnx-h-repair: 290px; --lnx-h-swot: 288px; }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-bar { display: none; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair :is(.mr-block > .mr-label, .mr-block > p, .mr-rule > p) { font-size: 12.5px; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-title { font-size: 14.5px; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { gap: 2px; padding-block: 5px; }
+  .lc__grid[data-look='next'] .lnx--swot .sw-plan__row { padding: 2px 0 4px; }
+  .lc__grid[data-look='next'] .lnx-quads .sw-item__detail { line-height: 1.32; padding-bottom: 6px; }
 }
 
 /* Small and taller (a 360 x 800 device, 375 px of room): the part names stay; Chapters' across line drops its title; Time shows

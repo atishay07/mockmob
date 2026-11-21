@@ -32,7 +32,11 @@ export const CURSOR_PRESS_MS = 130;
 export const CURSOR_ENTER_MS = 220;
 export const CURSOR_EXIT_MS = 260;
 
-const click = (target, move, dwell, at) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}) });
+const click = (target, move, dwell, at, more = {}) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}), ...more });
+// The phone runner's paper (MockMob) and pane (NTA): sized to the window, they may hold more than they show, so a pick
+// brings its option into view (CursorDemo `reveal`, the pane's scrollTop, never the page's), and a key that brings a new
+// question puts the paper back at its top (`settle`). On the monitor neither selector matches, so they do nothing.
+export const PHONE_PANE = '.xs-ph-paper, .xs-ph-pane';
 
 // The fresh question's right option in Bring a mistake's Check step (bringMistakeCopy.mjs, held there by its own test).
 const RIGHT = BRING_MISTAKE.check.correct + 1;
@@ -52,11 +56,11 @@ export const SCRIPTS = Object.freeze({
   // back to the held shot of Q5. About five camera moves a pass.
   practise: Object.freeze([
     Object.freeze({ wait: 400 }),
-    click('[data-demo="xs-option"]:nth-child(2)', 450, 350, [0.3, 0.5]),
-    click('[data-demo="xs-next"]', 420, 750),
+    click('[data-demo="xs-option"]:nth-child(2)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE }),
+    click('[data-demo="xs-next"]', 420, 750, null, { settle: PHONE_PANE }),
     click('[data-demo="xs-nta"]', 450, 550),
-    click('[data-demo="xs-n-option"]:nth-child(3)', 450, 350, [0.3, 0.5]),
-    click('[data-demo="xs-n-save"]', 420, 1000),
+    click('[data-demo="xs-n-option"]:nth-child(3)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE }),
+    click('[data-demo="xs-n-save"]', 420, 1000, null, { settle: PHONE_PANE }),
   ]),
   cards: Object.freeze([
     Object.freeze({ wait: 400 }),

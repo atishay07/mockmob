@@ -230,14 +230,17 @@ export function openingGate(w, d, cfg, quick) {
 export function openingQuick(w, html, cfg, st, later, clear, flip, handoff, done) {
   var lite = html.hasAttribute('data-lite');
   var o = null;
+  // The FLIP's one layout read (its two boxes) comes before any attribute the hand-off writes, so the page is styled once
+  // there, not twice (21 Nov 2026, round 4). Waiting for the next frame instead was tried: it only moved the hand-off behind
+  // the page's start-up work (0.5 to 1 s later) and left the long frames as they were.
   var go = function () {
     if (o) { try { o.disconnect(); } catch (e) { /* gone */ } }
     if (st.phase !== 'run') return;
     clear();
     st.quick = Math.round(w.performance.now() - st.t0);
     if (lite) { html.setAttribute('data-opening-late', ''); handoff(); later(done, cfg.out + 40); return; }
-    html.setAttribute('data-opening-cut', '');
     flip(0, cfg.hand);
+    html.setAttribute('data-opening-cut', '');
     handoff();
     later(done, cfg.hand + 40);
   };

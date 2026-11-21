@@ -11,6 +11,10 @@
 //   { target: 'css selector inside the stage', at: [0.5, 0.5], move: 620, click: true, dwell: 700, pointer: false }
 //       travel to that point of the element (fractions of its box) in `move` ms, then (click) press and click it, then wait
 //       `dwell` ms. `pointer: true` also sends pointerdown and pointerup first, for a control that listens to those.
+//   `reveal: 'pane selector'`: the target sits in a pane that holds more than it shows (a phone runner's paper). Before the
+//       move, the pane (never the page) eases its scrollTop just far enough to show the target, and the cursor goes to where
+//       the target will be: the same single read, then one write. `settle: 'pane selector'`: after the click, that pane
+//       eases back to its top (a key that brings a new question, which starts at the top of the paper).
 //   { wait: 600 }                         pause
 //   { run: (stage) => {} }                anything else the screen needs (rare; prefer a real click)
 // When the last step has run, the cursor fades and onDone() is called. The parent decides what comes next (the frame moves to
@@ -98,11 +102,31 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       cursor.style.transitionDuration = `${Math.max(0, ms)}ms`;
       cursor.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
     };
-    const pointOf = (el, at = [0.5, 0.5]) => {
+    // The pane's scroll write: eased by the browser (no frame loop here), instant under reduced motion.
+    const scrollPane = (pane, top) => {
+      const behavior = reducedNow() ? 'auto' : 'smooth';
+      try { pane.scrollTo({ top, behavior }); } catch { pane.scrollTop = top; }
+    };
+    // `reveal`: how far the pane must move (px, + down) so the target shows with a margin; 0 when it already shows.
+    const revealBy = (el, r, selector) => {
+      const pane = selector ? el.closest(selector) : null;
+      if (!pane) return { pane: null, dy: 0 };
+      const p = pane.getBoundingClientRect();
+      const m = 12;
+      let dy = 0;
+      if (r.bottom > p.bottom - m) dy = r.bottom - (p.bottom - m);
+      if (r.top - dy < p.top + m) dy = r.top - (p.top + m);
+      const max = pane.scrollHeight - pane.clientHeight;
+      const top = Math.max(0, Math.min(max, pane.scrollTop + dy));
+      return { pane, dy: top - pane.scrollTop, top };
+    };
+    const pointOf = (el, at = [0.5, 0.5], reveal = null) => {
       const s = stage.getBoundingClientRect();
       const r = el.getBoundingClientRect();
       const k = stage.offsetWidth ? s.width / stage.offsetWidth : 1;
-      return [(r.left - s.left + r.width * at[0]) / (k || 1), (r.top - s.top + r.height * at[1]) / (k || 1)];
+      const shift = revealBy(el, r, reveal);
+      if (shift.pane && shift.dy) scrollPane(shift.pane, shift.top);
+      return [(r.left - s.left + r.width * at[0]) / (k || 1), (r.top - shift.dy - s.top + r.height * at[1]) / (k || 1)];
     };
     const fire = (el, pointer) => {
       const x = window.scrollX;
@@ -149,7 +173,7 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
         const el = step.target ? stage.querySelector(step.target) : null;
         if (!el) continue;
         stage.dataset.demoPhase = 'move';
-        const [x, y] = pointOf(el, step.at);
+        const [x, y] = pointOf(el, step.at, step.reveal);
         place(x, y, step.move ?? MOVE_MS);
         await sleep(step.move ?? MOVE_MS);
         if (stopped) return;
@@ -159,6 +183,7 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
           await sleep(PRESS_MS);
           if (stopped) return;
           fire(el, step.pointer);
+          if (step.settle) { const pane = stage.querySelector(step.settle); if (pane && pane.scrollTop) scrollPane(pane, 0); }
         }
         await sleep(step.dwell ?? DWELL_MS);
       }
