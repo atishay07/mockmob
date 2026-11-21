@@ -11,7 +11,7 @@
 // Renders two grid items (the demo and its foot) into page.js's section grid: the head is the page's own.
 import { Fragment, useCallback, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
-import { RotateCw } from 'lucide-react';
+import { BookOpen, RotateCw } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { signupPathFor } from '@/lib/auth-redirect';
 import { isMotionReduced } from '@/lib/motion/draw';
@@ -45,14 +45,8 @@ function Gapped({ text }) {
     : <Fragment key={i}>{part}</Fragment>));
 }
 
-function Art({ art, className = 'kc-demo__art', sizes = '(max-width: 959px) 62vw, 300px' }) {
-  if (!art) return null;
-  return (
-    // eslint-disable-next-line @next/next/no-img-element -- pre-sized webp set (data/subject_art.mjs), no optimizer round trip
-    <img className={className} src={art.src} srcSet={art.srcSet} sizes={sizes} width={art.width} height={art.height}
-      alt="" decoding="async" loading="lazy" draggable={false} />
-  );
-}
+/** Where a card's line is from, as the card prints it: "NCERT Accountancy Part 2, Ch 2, p. 75"; another source as it is. */
+export const sourceLabel = (card) => (card?.ncert ? `NCERT ${card.source}` : card?.source || '');
 
 const PHONE_SUBJECTS = 6;
 
@@ -126,8 +120,6 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
   if (!total) return null;
 
   const rows = keys.map((key) => ({ ...key, count: ratings.filter((r) => r === key.rating).length })).filter((key) => key.count > 0);
-  // The other subjects' art, fetched quietly ahead (lazy, off screen), so the next card's object is there when it rises.
-  const ahead = [...new Map(cards.filter((c) => c.art && c.art.src !== card?.art?.src).map((c) => [c.art.src, c.art])).values()];
 
   return (
     <>
@@ -143,23 +135,22 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
           {card ? (
             <div key={`${card.id}-${at}`} className="kc-demo__arrive">
               <div className="kc-demo__card" data-turned={turned || undefined} data-subject={card.subject}
-                style={card.art ? { '--kc-light-n': card.art.light.night, '--kc-light-d': card.art.light.day } : undefined}
                 onClick={(e) => { if (!turned && !e.target.closest('button, a')) turn(); }}>
+                {/* Owner LK367 (22 Nov 2026): no picture on a card. A Key card is a line to remember from the book, so the front is
+                    a page: where the line is from, then the prompt under a highlighter. */}
                 <div className="kc-demo__face kc-demo__face--front" aria-hidden={turned || undefined}>
-                  <Art art={card.art} />
-                  <div className="kc-demo__glass">
-                    <p className="kc-demo__head"><b>{card.subjectName}</b><span>{card.label}</span></p>
-                    <p className="kc-demo__prompt" id={promptId}><Gapped text={card.front} /></p>
-                    <p className="kc-demo__cue"><RotateCw size={14} strokeWidth={2.2} aria-hidden="true" />{W.turnCue}</p>
-                  </div>
+                  <p className="kc-demo__head"><b>{card.subjectName}</b><span>{card.label}</span></p>
+                  {card.source ? <p className="kc-demo__from"><BookOpen size={15} strokeWidth={2.2} aria-hidden="true" />{sourceLabel(card)}</p> : null}
+                  <p className="kc-demo__prompt" id={promptId}><span className="kc-demo__hl"><Gapped text={card.front} /></span></p>
+                  <p className="kc-demo__cue"><RotateCw size={14} strokeWidth={2.2} aria-hidden="true" />{W.turnCue}</p>
                 </div>
                 <div className="kc-demo__face kc-demo__face--back" aria-hidden={turned ? undefined : true}>
                   <p className="kc-demo__head"><b>{card.subjectName}</b><span>{card.label}</span></p>
                   <p className="kc-demo__asked"><Gapped text={card.front} /></p>
-                  <p className="kc-demo__answer" ref={answer} tabIndex={-1}>{card.back}</p>
+                  <p className="kc-demo__answer" ref={answer} tabIndex={-1}><span className="kc-demo__hl">{card.back}</span></p>
                   {card.note ? <p className="kc-demo__note">{card.noteLabel ? <b>{card.noteLabel}</b> : null}{card.note}</p> : null}
                   <p className="kc-demo__foot">
-                    {card.source ? <span>{card.source}</span> : <span />}
+                    {card.source ? <span className="kc-demo__src"><BookOpen size={14} strokeWidth={2.2} aria-hidden="true" />{sourceLabel(card)}</span> : <span />}
                     {card.must ? <span className="kc-demo__must">{W.mustKnow}</span> : null}
                   </p>
                 </div>
@@ -221,9 +212,6 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
           )}
         </div>
 
-        <span className="kc-demo__ahead" aria-hidden="true">
-          {ahead.map((art) => <Art key={art.src} art={art} className="kc-demo__ahead-img" />)}
-        </span>
       </div>
 
       {foot ? <div className="kc-foot">

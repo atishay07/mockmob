@@ -62,6 +62,7 @@ import { DemoDrill } from '@/components/landing/DemoDrill';
 import { CloseActions } from '@/components/landing/CloseActions';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import AndroidAppNudge from '@/components/landing/AndroidAppNudge';
+import CoverageProof from '@/components/landing/CoverageProof';
 import LabCinema from '@/components/landing/LabCinema';
 import CreatorReels from '@/components/landing/CreatorReels';
 import OnePlaceGate from '@/components/landing/OnePlaceGate';
@@ -286,6 +287,9 @@ export default function LandingPage() {
           </div>
         </section></Later>
 
+        {/* The real CUET 2026 paper, checked against MockMob (owner, 22 Nov 2026): the share already taught, by subject. */}
+        <Later><CoverageProof /></Later>
+
         {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
         <Later><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></Later>
 
@@ -386,6 +390,8 @@ export default function LandingPage() {
 
 
         {/* -------------------------------- FAQ ----------------------------- */}
+        {/* The Android app, above "Before your first mock." (owner LK367, 22 Nov 2026). Android phones only. */}
+        <Later><AndroidAppNudge listed={process.env.PLAY_LISTING_PUBLIC === 'true'} /></Later>
         <Later><section className="lp-sec lp-sec--band" id="faq">
           <div className="mm-wrap lp-faq-desk">
             <Reveal className="lp-faq-desk__head">
@@ -422,7 +428,6 @@ export default function LandingPage() {
               /#exam-experience: land there once the page has settled (on a phone the browser's own jump was lost). */}
           <HashSettle ids={HASH_IDS} />
         </section></Later>
-        <Later><AndroidAppNudge listed={process.env.PLAY_LISTING_PUBLIC === 'true'} /></Later>
       </main>
       <Later><MarketingFooter home /></Later>
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}

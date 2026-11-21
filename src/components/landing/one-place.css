@@ -417,7 +417,7 @@ body .mm.lp main > #your-prep.op { contain-intrinsic-size: auto 912px; }
 }
 .op-say__n { display: none; }
 @media (max-width: 639px) {
-  .op-frame { --op-room: min(520px, calc(100svh - 169px)); --op-switch-h: 46px; gap: 8px; }
+  .op-frame { --op-room: min(568px, calc(100svh - 169px)); --op-switch-h: 46px; gap: 8px; }
   #your-prep.op .lp-head > .lp-sub { display: none; }
   .op-row { min-height: 44px; padding: 4px 14px 10px; }
   .op-row__obj, .op-row .brand-icon { display: none; }
@@ -462,3 +462,23 @@ body .mm.lp main > #your-prep.op { contain-intrinsic-size: auto 912px; }
 .op-kc .kc-demo__rate-name { font-size: 15px; }
 /* The card's own small lines (its subject and kind, "Tap the card to turn it over", its source) at 14 px on the home stage. */
 .op-kc :is(.kc-demo__head, .kc-demo__cue, .kc-demo__foot) { font-size: 14px; }
+
+/* ---- owner LK367 (22 Nov 2026): "the practice-first feature itself is kind of broken on mobile ... there is just too little
+   space to even show the question properly" ----
+   On a phone the home runner gives its room to the question: the chapter and level tags and the Mark and Clear keys are left
+   out here (the full-screen view and the product keep them), so the stem and all four options show whole. The palette sheet
+   rises inside the device (ExamScreen opens it as a plain dialog in the inline runner), never over the page. */
+@media (max-width: 639px) {
+  .op-slot[data-tool='practise'] .xs-layout > .xs-inline { position: relative; }
+  /* The header already says "Question 3 of 15", so the paper's own question line goes too: stem and four options fit whole. */
+  .op-slot[data-tool='practise'] .xs-inline :is(.xs-tags, .xs-qhead, .xs-ph-end) { display: none; }
+  .op-slot[data-tool='practise'] .xs-inline .xs-stem { margin-top: 0; margin-bottom: 10px; }
+  .op-slot[data-tool='practise'] .xs-inline .xs-options { gap: 6px; }
+  .op-slot[data-tool='practise'] .xs-inline .xs-n-qhead { padding-top: 3px; padding-bottom: 3px; }
+  .op-slot[data-tool='practise'] .xs-inline .xs-n-qbody { padding-top: 8px; padding-bottom: 6px; }
+  .op-slot[data-tool='practise'] .xs-inline .xs-ph-paper { padding-top: 10px; padding-bottom: 8px; }
+  .op-slot[data-tool='practise'] .xs-inline .xs-ph-sheet { position: absolute; inset: auto 0 0; z-index: 4; max-height: 86%; box-shadow: 0 -16px 36px rgb(0 0 0 / 0.26); }
+}
+/* Ask Mobi's tag (owner LK367): a volt pill before the price line under its stage. */
+.op-proof--mobi { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.op-ai { display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px; border-radius: 999px; background: var(--volt); color: #14130f; font: 700 0.875rem/1 var(--font-body); white-space: nowrap; }

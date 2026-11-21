@@ -62,6 +62,8 @@ export function slimCard(card) {
     note: typeof card.note === 'string' && card.note.trim() ? card.note.trim() : null,
     noteLabel: card.source?.kind === 'ncert' && typeof card.note === 'string' && card.note.trim() ? 'In short' : null,
     source: sourceOf(card.source),
+    // Is the line from an NCERT book? Then the card says so (owner LK367, 22 Nov 2026: Key cards are NCERT's own lines).
+    ncert: card.source?.kind === 'ncert',
     art: art ? { src: subjectArtSrc(art, 512), srcSet: subjectArtSrcSet(art), width: art.width, height: art.height, light: { night: art.light.night, day: art.light.day } } : null,
   };
 }

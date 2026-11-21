@@ -29,9 +29,16 @@ export const NUDGE_PREVIEW_PARAM = 'appnudge';
  * and the newer listing (v13) dropped it too, so "your answers wait until you are back online" was more than we can promise.
  */
 export const NUDGE_COPY = Object.freeze({
-  eyebrow: 'For Android phones',
+  eyebrow: 'MockMob for Android',
   title: 'Practise in the MockMob app',
   line: 'Mocks, your results, mistake fixes and Ask Mobi on your phone.',
+  // The same four things as the line, one a row (owner LK367, 22 Nov 2026: the section was "very boring").
+  pointMocks: 'Mocks and practice, sized for a phone',
+  pointResults: 'Your results and mistake fixes',
+  pointMobi: 'Ask Mobi, any time',
+  // The Google Play key's two lines, and its name for a screen reader.
+  badgeSmall: 'Get it on',
+  badgeBig: 'Google Play',
   key: 'Get the app on Google Play',
   alt: 'The MockMob app: unlimited mocks, every one new',
   // Shown only in the preview while the listing is not public (the key then leads to a page Google Play does not have yet).

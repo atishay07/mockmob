@@ -95,7 +95,8 @@ body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] { --lnx-peek: 12px; 
 body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lcd .lcd-bar { visibility: hidden; }
 body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini { display: block; }
 body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar {
-  padding: 2px var(--lc-obj-clear) 9px 2px; margin-bottom: 10px; border-bottom: 1px solid var(--a-line);
+  /* 22 Nov 2026 (owner LK367): the subject object is gone from this look, so the score runs to the card's right edge. */
+  padding: 2px 2px 9px 2px; margin-bottom: 10px; border-bottom: 1px solid var(--a-line);
 }
 body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__title { min-height: 0; }
 body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__tab { display: none; }

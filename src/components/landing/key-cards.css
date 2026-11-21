@@ -74,26 +74,30 @@
 .kc-demo__face { isolation: isolate; }
 @media (min-width: 960px) { .kc-demo__face { min-height: 22rem; } }
 
-/* Front: the card's subject object in its subject light (the app's light fields), the glass laid over its lower half. */
+/* Front (owner LK367, 22 Nov 2026: the generated pictures were "AI slop"; "keycards are basically important, highlighted
+   NCERT terms ... lines, definitions, and keywords to remember from the chapters"): a page of the book. Where the line is
+   from, the prompt under a highlighter, and the turn cue at the foot. The page's ruled lines are one quiet repeating rule. */
 .kc-demo__face--front {
-  --kc-light: var(--kc-light-n, #2c2a24);
-  justify-content: flex-end; padding: 0.75rem;
-  background: radial-gradient(95% 70% at 70% 24%, var(--kc-light) 0%, transparent 72%), var(--paper-raised);
+  gap: 0.75rem; padding: 1.25rem 1.25rem 1.125rem;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 2.25rem, color-mix(in srgb, var(--line) 70%, transparent) 2.25rem calc(2.25rem + 1px)),
+    var(--paper-raised);
 }
-.kc-demo__art {
-  position: absolute; z-index: 0; top: 9%; right: -9%; width: 92%; max-width: 25rem; height: auto;
-  transform: rotate(-4deg); pointer-events: none; user-select: none; -webkit-user-drag: none;
+.kc-demo__from, .kc-demo__src { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0; font: 600 0.875rem/1.3 var(--font-body); color: var(--ink-2); }
+.kc-demo__from svg, .kc-demo__src svg { flex: none; color: var(--brand-word, var(--ink)); }
+.kc-demo__face--front .kc-demo__prompt { margin: auto 0; font-size: clamp(1.5rem, 1.2rem + 1.4vw, 1.875rem); line-height: 1.38; }
+.kc-demo__face--front .kc-demo__cue { margin-top: 0; }
+/* The highlighter: a band behind each line of the words, as a marked line in a textbook. */
+.kc-demo__hl {
+  padding: 0.04em 0.18em; margin: 0 -0.18em; border-radius: 0.2em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  background: linear-gradient(to bottom, transparent 10%, var(--kc-hl) 10% 92%, transparent 92%);
 }
-/* Day on a wide screen (review, 5 Nov): the art sits higher and smaller, so only a sliver of it runs under the glass. */
-@media (min-width: 960px) { .kc-demo__art { top: 3%; right: -4%; width: 76%; max-width: 21rem; } }
+.kc-demo { --kc-hl: color-mix(in srgb, var(--volt) 30%, transparent); }
+html[data-theme='light'] .kc-demo { --kc-hl: color-mix(in srgb, var(--volt) 62%, transparent); }
+.kc-demo__answer .kc-demo__hl { --kc-hl: color-mix(in srgb, var(--volt) 20%, transparent); }
+html[data-theme='light'] .kc-demo__answer .kc-demo__hl { --kc-hl: color-mix(in srgb, var(--volt) 42%, transparent); }
 
-.kc-demo__glass {
-  position: relative; z-index: 1; display: grid; gap: 0.625rem; padding: 1.125rem 1.125rem 1rem; border-radius: 18px;
-  background: linear-gradient(180deg, rgba(244, 240, 230, 0.1) 49%, rgba(244, 240, 230, 0.05));
-  border: 1px solid rgba(244, 240, 230, 0.14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.28);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4);
-}
 .kc-demo__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin: 0; font: 500 0.8125rem/1.25 var(--font-body); color: var(--ink-2); }
 .kc-demo__head b { font-weight: 650; color: var(--ink); }
 .kc-demo__prompt {
@@ -170,8 +174,6 @@ html[data-theme='light'] .kc-demo__pips li[data-state='now']::after { content: '
 }
 
 /* The other subjects' art, fetched ahead and never seen. */
-.kc-demo__ahead { position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
-.kc-demo__ahead-img { width: 1px; height: 1px; }
 
 /* ---------- the foot: the bank (true numbers that count up once), what Free opens, and the one key ---------- */
 .kc-foot { display: grid; gap: 0.75rem; justify-items: start; }
@@ -213,14 +215,7 @@ html[data-theme='light'] .kc-demo__pips li[data-state='now']::after { content: '
 @media (min-width: 1440px) { .lp-kc__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 36rem); } }
 
 /* ---------- Day: the same roles on the cream tokens ---------- */
-html[data-theme='light'] .kc-demo__face--front { --kc-light: var(--kc-light-d, #efe9dc); }
 html[data-theme='light'] :is(.kc-demo__face--back, .kc-demo__face--end) { background: var(--paper-raised); }
-html[data-theme='light'] .kc-demo__glass {
-  background: linear-gradient(180deg, rgba(255, 253, 248, 0.8) 49%, rgba(243, 239, 230, 0.8));
-  border-color: var(--line);
-  box-shadow: 0 4px 24px rgba(42, 32, 16, 0.08), inset 0 1px 0 #fff;
-}
-
 /* ---------- reduced motion (the device or the site's own switch): the card fades between its faces, nothing moves ---------- */
 @media (prefers-reduced-motion: reduce) {
   .kc-demo__card, .kc-demo__card[data-turned] { transform: none; transition: none; }

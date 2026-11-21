@@ -239,8 +239,11 @@ export function ExamStage({ head = null, gate = true, note = null, inline = fals
   useLayoutEffect(() => {
     const el = sheetBox.current;
     if (sheet && el) {
-      if (!el.open) { try { el.showModal(); } catch { el.setAttribute('open', ''); } }
-      sheetClose.current?.focus({ preventScroll: true });
+      // In the home page's inline phone runner (owner LK367, 22 Nov 2026: "show the palette ... especially in the NTA mode") the
+      // sheet rises inside the device, not over the page: a plain open dialog there, so the demo can show it and the page stays free.
+      const inlineHost = el.closest('.xs-inline');
+      if (!el.open) { try { if (inlineHost) el.show(); else el.showModal(); } catch { el.setAttribute('open', ''); } }
+      if (!inlineHost) sheetClose.current?.focus({ preventScroll: true });
       sheetWas.current = true;
       const onCancel = (event) => { event.preventDefault(); setSheet(false); };
       const onClose = () => setSheet(false);
@@ -628,8 +631,8 @@ function PhoneNta({ index, question, answers, states, answered, clock, started, 
       <div className="xs-ph-keys">
         <button type="button" className="xs-n-key" disabled={index === 0} onClick={prev}>{EXAM.mockmob.previous}</button>
         <button type="button" className="xs-n-key" disabled={answers[index] === undefined} onClick={clearAnswer}>{t.clearResponse}</button>
-        <button ref={sheetOpener} type="button" className="xs-n-key" aria-haspopup="dialog" aria-expanded={sheet} aria-label={EXAM.mockmob.paletteKey(answered, EXAM.total)} onClick={() => setSheet(true)}>{t.paletteTitle}</button>
-        <button type="button" className="xs-n-key xs-n-key--review" onClick={markAndNext}>{t.markNext}</button>
+        <button ref={sheetOpener} type="button" className="xs-n-key" data-demo="xs-n-palette" aria-haspopup="dialog" aria-expanded={sheet} aria-label={EXAM.mockmob.paletteKey(answered, EXAM.total)} onClick={() => setSheet(true)}>{t.paletteTitle}</button>
+        <button type="button" className="xs-n-key xs-n-key--review" data-demo="xs-n-mark" onClick={markAndNext}>{t.markNext}</button>
         <button type="button" className="xs-n-key xs-n-key--save" data-demo="xs-n-save" onClick={saveAndNext}>{t.save}</button>
       </div>
 

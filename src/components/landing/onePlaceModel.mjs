@@ -93,19 +93,21 @@ export const SCRIPTS = Object.freeze({
   // both of these first two are quite slow"): three beats, no stress boxes and no dimming (the exam screen plays at full
   // strength; the cursor and what it changes are the stress), and "Next keeps your answer" is shown, not said.
   practise: Object.freeze([
-    say('Answer a question, as you would in the exam.', null, 700),
-    click('[data-demo="xs-option"]:nth-child(2)', 550, 650, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
-    click('[data-demo="xs-next"]', 500, 1100, null, { settle: PHONE_PANE }),
-    say('Switch to NTA style, the real exam’s screen.', null, 600),
-    click('[data-demo="xs-nta"]', 550, 1300),
-    say('Save & Next keeps your pick, as in the real exam.', null, 600),
-    click('[data-demo="xs-n-option"]:nth-child(3)', 550, 600, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
-    click('[data-demo="xs-n-save"]', 500, 1400, null, { settle: PHONE_PANE }),
+    // 22 Nov 2026, later (owner LK367): one flow for the monitor and the phone: answer one question, Next, switch to NTA
+    // style, and end there on NTA's own keys: pick, Mark for Review & Next, then the question palette (on a phone the
+    // palette key raises its sheet inside the device; the monitor's palette is always on show, so that step is skipped).
+    say('Answer a question, as you would in the exam.', null, 600),
+    click('[data-demo="xs-option"]:nth-child(2)', 500, 500, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
+    click('[data-demo="xs-next"]', 450, 900, null, { settle: PHONE_PANE }),
+    say('Switch to NTA style, the real exam\u2019s screen.', null, 500),
+    click('[data-demo="xs-nta"]', 500, 1100),
+    say('Mark a doubtful one for review, as in NTA.', null, 500),
+    click('[data-demo="xs-n-option"]:nth-child(3)', 500, 450, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
+    click('[data-demo="xs-n-mark"]', 450, 900, null, { settle: PHONE_PANE }),
+    say('The palette shows every question in NTA\u2019s colours.', null, 600),
+    click('[data-demo="xs-n-palette"]', 450, 300),
+    Object.freeze({ wait: 1700 }),
   ]),
-  // Key cards (KeyCardsDemo.jsx): turn the card (its answer stays 2.4 s to be read), rest on the rating keys (each says when
-  // the card comes back: keyCardsPicks.mjs ratingKeys, from the app's scheduler), then Got it, and the next card rises.
-  // "Before you are likely to forget it": the scheduler is FSRS asked for 90% recall (data/keycards.js KEYCARD_RULES.retention
-  // 0.9), so a card comes back when the chance you still know it has fallen to 90%.
   // 22 Nov 2026 (owner LK366: "the key cards one is also not looking very good ... quite slow"): no dimmed card and no box
   // round the keys; the third line is now shown: the rated card is filed and a time line says when it returns
   // (KeyCardsDemo.jsx FILE_MS, a second and a half), then the next card rises.

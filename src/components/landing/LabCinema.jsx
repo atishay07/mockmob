@@ -500,9 +500,12 @@ function Stage({ step, pinned, reduced, live, goTo, look }) {
 
       {/* The mock's subject, the lamp-lit Accountancy object, sits in the screen's header beside the score
           on every screen size, inside the bezel, and drifts a little with the story. */}
-      <div className="lc__prop" aria-hidden="true">
-        <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
-      </div>
+      {/* Owner LK367 (22 Nov 2026), of the next look on his phone: "remove this accountancy sticker floating on the top". */}
+      {next ? null : (
+        <div className="lc__prop" aria-hidden="true">
+          <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
+        </div>
+      )}
 
       {SCENES.map((scene, i) => {
         // The next look may say what its screen shows in its own words (LAB_SCENES `next`); the default look never reads them.

@@ -435,7 +435,8 @@ export default function OnePlace({ keyCards = null, photo = false, price = null,
     if (row.id === 'practise') return null; // its NTA line sits under the switch (ExamStage note)
     if (row.tour) return row.proof ? <p className="op-proof">{row.proof}</p> : null;
     if (row.id === 'cards') return <p className="op-proof">{bank ? <>{bank} </> : null}<Link href={ONE_PLACE.decksHref} prefetch={false} className="lp-link">{ONE_PLACE.decksLink}</Link></p>;
-    return price ? <p className="op-proof">{price}</p> : null;
+    // Ask Mobi carries its tag (owner LK367, 22 Nov 2026: "add a label somewhere ... for the marketing"), then the price line.
+    return <p className="op-proof op-proof--mobi"><b className="op-ai">{ONE_PLACE.mobiTag}</b>{price ? <span>{price}</span> : null}</p>;
   };
 
   const stage = (row, i) => ROW_STAGES[row.id]?.stage({ row, i, on: i === index, playing, stages, keyCards, photo, samples, study }) ?? null;

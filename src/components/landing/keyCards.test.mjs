@@ -193,13 +193,15 @@ test('the rating keys fade in after the turn (200 ms after 300 ms), Got it is th
   assert.match(DEMO, /role="group" aria-label=\{W\.ratingsLabel\}/);
 });
 
-test('the glass is the card front only, over its subject object: blurred, saturated, a hairline and a highlight in both themes', () => {
-  const glass = [...CSS.matchAll(/([^{}]+)\{([^{}]*backdrop-filter[^{}]*)\}/g)].map((m) => m[1].trim());
-  assert.deepEqual(glass, ['.kc-demo__glass']);
-  assert.match(CSS, /\.kc-demo__glass \{[^}]*backdrop-filter: blur\(14px\) saturate\(1\.4\);/);
-  assert.match(CSS, /html\[data-theme='light'\] \.kc-demo__glass \{[^}]*inset 0 1px 0 #fff;/);
-  assert.match(DEMO, /<Art art=\{card\.art\} \/>\s*<div className="kc-demo__glass">/, 'the art is drawn under the glass');
-  assert.match(CSS, /\.kc-demo__face--front \{[^}]*radial-gradient\([^)]*var\(--kc-light\)/, 'the subject light (the app\'s light field), never volt');
+test('the card front is a page of the book: where the line is from, the prompt under a highlighter, no picture (owner LK367)', () => {
+  // 22 Nov 2026: he called the generated subject pictures "AI slop"; a Key card is a line to remember from NCERT.
+  assert.doesNotMatch(DEMO, /<Art\b|kc-demo__glass|card\.art/);
+  assert.doesNotMatch(CSS, /backdrop-filter|kc-demo__art|kc-demo__glass/);
+  assert.match(DEMO, /export const sourceLabel = \(card\) => \(card\?\.ncert \? `NCERT \$\{card\.source\}` : card\?\.source \|\| ''\);/);
+  assert.match(DEMO, /<p className="kc-demo__from"><BookOpen size=\{15\} strokeWidth=\{2\.2\} aria-hidden="true" \/>\{sourceLabel\(card\)\}<\/p>/);
+  assert.match(DEMO, /<p className="kc-demo__prompt" id=\{promptId\}><span className="kc-demo__hl"><Gapped text=\{card\.front\} \/><\/span><\/p>/);
+  assert.match(DEMO, /<span className="kc-demo__hl">\{card\.back\}<\/span>/);
+  assert.match(CSS, /\.kc-demo__hl \{[^}]*box-decoration-break: clone;[^}]*var\(--kc-hl\)/);
 });
 
 test('progress: "1 / 5" in words for the eye and "Card 1 of 5" for a screen reader, and dots below in the brand word colour (no second bar, R8 SEC-06)', () => {

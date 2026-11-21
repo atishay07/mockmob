@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { NUDGE_COPY, NUDGE_PLAY_URL, NUDGE_PREVIEW_PARAM, nudgeDrawn, showAndroidNudge } from './androidNudge.mjs';
 import './android-app-nudge.css';
 
@@ -64,10 +64,20 @@ export default function AndroidAppNudge({ listed = false }) {
           <div className="lp-app__body">
             <p className="lp-app__eyebrow">{NUDGE_COPY.eyebrow}</p>
             <h2 id="lp-app-title" className="lp-app__title">{NUDGE_COPY.title}</h2>
-            <p className="lp-app__line">{NUDGE_COPY.line}</p>
-            <a className="mm-btn mm-btn--secondary lp-app__key" href={NUDGE_PLAY_URL} rel="noopener">
-              {NUDGE_COPY.key}
-              <ArrowUpRight size={18} aria-hidden="true" />
+            <ul className="lp-app__points">
+              {[NUDGE_COPY.pointMocks, NUDGE_COPY.pointResults, NUDGE_COPY.pointMobi].map((point) => (
+                <li key={point}><Check strokeWidth={3} aria-hidden="true" />{point}</li>
+              ))}
+            </ul>
+            {/* The Google Play key as apps draw it: the Play mark and two lines. One link; its name is the plain sentence. */}
+            <a className="lp-app__badge" href={NUDGE_PLAY_URL} rel="noopener" aria-label={NUDGE_COPY.key}>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="#00c3ff" d="M3.3 2.4c-.2.3-.3.7-.3 1.1v17c0 .4.1.8.3 1.1L13 12 3.3 2.4z" />
+                <path fill="#00e676" d="M16.4 8.6 5.3 2.3c-.7-.4-1.4-.4-2 .1L13 12l3.4-3.4z" />
+                <path fill="#ff3d57" d="M3.3 21.6c.6.5 1.3.5 2 .1l11.1-6.3L13 12l-9.7 9.6z" />
+                <path fill="#ffd600" d="m20.4 10.9-4-2.3L13 12l3.4 3.4 4-2.3c1-.6 1-1.6 0-2.2z" />
+              </svg>
+              <span><small>{NUDGE_COPY.badgeSmall}</small><b>{NUDGE_COPY.badgeBig}</b></span>
             </a>
             <p className="lp-app__preview">{NUDGE_COPY.previewNote}</p>
           </div>

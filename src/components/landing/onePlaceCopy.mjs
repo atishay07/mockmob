@@ -33,6 +33,9 @@ export const ONE_PLACE = Object.freeze({
   tourIds: Object.freeze(['learn', 'rival', 'mob']),
   // The exam section's own first sentence (homeCopy.mjs EXAM_HEAD.sub).
   practiseProof: firstSentence(EXAM_HEAD.sub),
+  // Owner LK367 (22 Nov 2026): a marketing tag on Ask Mobi. He asked for words like "most advanced CUET AI"; a superlative
+  // nobody can prove is left out, so the tag says what is true: an AI tutor set up for CUET.
+  mobiTag: 'Advanced AI tutor, built for CUET',
   // The Key cards section's way to the public decks (KeyCardsDemo.jsx: /key-cards, "See a chapter's cards").
   decksHref: '/key-cards',
   decksLink: KEY_CARDS_WORDS.seeChapter,
@@ -55,6 +58,7 @@ export function bankLine(bank) {
 }
 
 /** Bring a mistake's credit line, as the live block prints it (photos promised only while Mobi reads them). */
+// (ONE_PLACE.mobiTag is the Ask Mobi row's marketing tag, drawn as a pill before its price line.)
 export const mobiPrice = ({ photo, credits, photoCredits, free }) => bringMistakeWords({ photo, credits, photoCredits, free }).price;
 
 // Sign-ups (owner LK362, 20 Nov 2026: "You can write 1,500+"). True as a floor: 1,493 students signed up last season and 61

@@ -233,8 +233,14 @@ test('every script aims at a data-demo hook its component really carries', () =>
   // the fresh question's right option.
   const p = SCRIPTS.practise.filter((s) => s.target).map((s) => s.target);
   assert.ok(p.indexOf('[data-demo="xs-nta"]') > p.indexOf('[data-demo="xs-next"]'));
-  assert.equal(p.at(-1), '[data-demo="xs-n-save"]');
-  assert.equal(p.filter((t) => t === '[data-demo="xs-n-save"]').length, 1);
+  // Owner LK367 (22 Nov 2026): it ends in NTA style on Mark for Review & Next, then the question palette (a phone-only
+  // hook: the monitor's palette is always on show, so CursorDemo skips that step there).
+  assert.equal(p.at(-1), '[data-demo="xs-n-palette"]');
+  assert.equal(p.filter((t) => t === '[data-demo="xs-n-mark"]').length, 1);
+  assert.match(EXAM_SRC, /className="xs-n-key xs-n-key--review" data-demo="xs-n-mark" onClick=\{markAndNext\}/);
+  assert.match(EXAM_SRC, /data-demo="xs-n-palette" aria-haspopup="dialog"/);
+  // In the inline phone runner the palette sheet is a plain open dialog inside the device, never a modal over the page.
+  assert.match(EXAM_SRC, /if \(inlineHost\) el\.show\(\); else el\.showModal\(\);/);
   assert.ok(SCRIPTS.mobi.some((s) => s.target === `[data-demo="mobi-option"]:nth-child(${BRING_MISTAKE.check.correct + 1})`));
   // The cursor never clicks a link (the page would leave): Ask Mobi's practice key is a link, so the cursor only rests on it.
   for (const [tool, steps] of all) for (const step of steps) if (step.click) {
@@ -261,7 +267,9 @@ test('each row runs for its own script, 8.5 to 13 seconds with its say beats, an
   // Owner LK366 (22 Nov 2026): "both of these first two are quite slow": Practise and Key cards run three beats in about
   // 9 to 11 s; the four row stories, which he likes, keep 11 to 13 s.
   assert.equal(ROW_MIN_MS, 8500);
-  for (const tool of ['practise', 'cards']) assert.ok(scriptMs(SCRIPTS[tool]) <= 11000, `${tool} is quick: ${scriptMs(SCRIPTS[tool])} ms`);
+  assert.ok(scriptMs(SCRIPTS.cards) <= 11000, `Key cards is quick: ${scriptMs(SCRIPTS.cards)} ms`);
+  // Practise (owner LK367, later on 22 Nov): one flow that ends on NTA's mark-for-review key and its palette, four beats.
+  assert.ok(scriptMs(SCRIPTS.practise) <= 12500, `Practise: ${scriptMs(SCRIPTS.practise)} ms`);
   for (const tool of ['mobi', 'learn', 'rival', 'mob']) assert.ok(scriptMs(SCRIPTS[tool]) >= 11000, `${tool} keeps its pace: ${scriptMs(SCRIPTS[tool])} ms`);
   for (const [tool, steps] of [...Object.entries(SCRIPTS), ['mobi typed', SCRIPTS_TYPED.mobi]]) {
     const ms = scriptMs(steps);
@@ -300,8 +308,8 @@ test('the caption strip says each beat: one line at a time, read before the curs
     }
   }
   assert.deepEqual(SCRIPTS.practise.filter((st) => st.say).map((st) => st.say), [
-    'Answer a question, as you would in the exam.',
-    'Switch to NTA style, the real exam\u2019s screen.', 'Save & Next keeps your pick, as in the real exam.',
+    'Answer a question, as you would in the exam.', 'Switch to NTA style, the real exam\u2019s screen.',
+    'Mark a doubtful one for review, as in NTA.', 'The palette shows every question in NTA\u2019s colours.',
   ]);
   assert.deepEqual(SCRIPTS.cards.filter((st) => st.say).map((st) => st.say), [
     'Turn the card to see the answer.', 'Say how well you knew it.', 'It comes back before you are likely to forget it.',
@@ -490,7 +498,7 @@ test('below 640 px the Practise row plays the exam as a phone shows it: one scri
   // One script for the monitor and the phone view: the same hooks are on both (the phone runner's Next, PhoneNta's options
   // and Save & Next), so it reads MockMob pick, Next, the switch, NTA pick, Save & Next on either.
   assert.deepEqual(steps.filter((st) => st.target).map((st) => st.target.replace(/:nth-child\(\d\)/, '')),
-    ['[data-demo="xs-option"]', '[data-demo="xs-next"]', '[data-demo="xs-nta"]', '[data-demo="xs-n-option"]', '[data-demo="xs-n-save"]']);
+    ['[data-demo="xs-option"]', '[data-demo="xs-next"]', '[data-demo="xs-nta"]', '[data-demo="xs-n-option"]', '[data-demo="xs-n-mark"]', '[data-demo="xs-n-palette"]']);
   const phoneRunner = EXAM_SRC.slice(EXAM_SRC.indexOf('const phone = ('));
   assert.match(phoneRunner, /className="xs-btn xs-btn--next" data-demo="xs-next"/);
   const phoneNta = EXAM_SRC.slice(EXAM_SRC.indexOf('function PhoneNta('));
@@ -502,7 +510,7 @@ test('below 640 px the Practise row plays the exam as a phone shows it: one scri
   // page's) and the keys that bring a new question put it back at its top.
   for (const step of steps) {
     if (/option/.test(step.target)) assert.equal(step.reveal, PHONE_PANE, step.target);
-    if (/xs-next|xs-n-save/.test(step.target)) assert.equal(step.settle, PHONE_PANE, step.target);
+    if (/xs-next|xs-n-save|xs-n-mark/.test(step.target)) assert.equal(step.settle, PHONE_PANE, step.target);
   }
   assert.equal(PHONE_PANE, '.xs-ph-paper, .xs-ph-pane');
   // The pane never stops with a row half cut at its top: it stops at its own top or at a whole row (head, stem, option).
@@ -684,7 +692,7 @@ test('the frame keeps one height: phones reserve the Practise runner, short phon
   // Every phone (critic round, 21 Nov evening): the working room is min(520 px, the window less the site bar, the chips, the
   // caption and the gaps, 169 px); names-only chips (44 px), 8 px gaps, no sub under the heading, and the caption the beat's
   // line with "n of m" before it, so a phone's stack above the stage is 100 px, not 271.
-  assert.match(CSS, /\.op-frame \{ --op-room: min\(520px, calc\(100svh - 169px\)\); --op-switch-h: 46px; gap: 8px; \}/);
+  assert.match(CSS, /\.op-frame \{ --op-room: min\(568px, calc\(100svh - 169px\)\); --op-switch-h: 46px; gap: 8px; \}/);
   assert.match(CSS, /#your-prep\.op \.lp-head > \.lp-sub \{ display: none; \}/);
   assert.match(CSS, /\.op-row \{ min-height: 44px; padding: 4px 14px 10px; \}\n  \.op-row__obj, \.op-row \.brand-icon \{ display: none; \}/);
   assert.match(CSS, /\.op-say__where \{ display: none; \}/);
