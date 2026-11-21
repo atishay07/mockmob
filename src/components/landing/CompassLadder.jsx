@@ -18,6 +18,8 @@ const ROUND_LABEL = { 'round-1': 'Round 1', 'round-2': 'Round 2', 'round-3': 'Ro
 const SWEEP_LOW = 600;
 const SWEEP_HIGH = 960;
 const SWEEP_PERIOD_MS = 11000;
+// How long the page must be still before the tour moves again (a flick's momentum still fires scroll events).
+const SCROLL_REST_MS = 220;
 // One formatter, kept: the ladder formats every row on each step of the sweep.
 const ONE_DECIMAL = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const fmt = (n) => ONE_DECIMAL.format(n);
@@ -67,18 +69,29 @@ export default function CompassLadder({ data }) {
   // sweep (11 seconds), ending on the score it began with, where some colleges clear and others do not. It also stops the
   // moment the card leaves the screen, the tab is hidden or the visitor takes the score; Play starts it again. Filters can
   // change while it plays.
+  // The tour waits while the page moves (lane compass-gap, 21 Nov 2026). Each 5-point step restyles, lays out and repaints
+  // the card; on a phone that step landed in the same frames as the scroll and made them late (on /home-next, where the
+  // Lab's held story sits two sections up and is still drawn, each step cost about twice as much). So the tour plays only
+  // while the page is still: a scroll pauses it where it is, and it carries on once the page has rested for
+  // SCROLL_REST_MS. It plays SWEEP_PERIOD_MS of tour in all, counted while it plays, so it still ends on the score it
+  // began with. Started by the card coming into view, it first waits for the page to rest; started by Play, at once.
+  const playNowRef = useRef(false);
   useEffect(() => {
     if (!sweeping || !inView || reduced) return undefined;
     let frame = 0;
-    const stop = window.setTimeout(() => setSweeping(false), SWEEP_PERIOD_MS + 80);
+    let still = 0;
+    let played = 0;
+    let last = 0;
+    let shown = null;
     const hide = () => { if (document.hidden) setSweeping(false); };
     document.addEventListener('visibilitychange', hide);
-    let last = performance.now();
-    let shown = null;
     const tick = (now) => {
-      const dt = Math.min(64, now - last);
+      frame = 0;
+      const dt = last ? Math.min(64, now - last) : 0;
       last = now;
       if (!document.hidden) {
+        played += dt;
+        if (played >= SWEEP_PERIOD_MS) { setSweeping(false); return; }
         phaseRef.current = (phaseRef.current + dt / SWEEP_PERIOD_MS) % 1;
         const eased = (1 - Math.cos(phaseRef.current * 2 * Math.PI)) / 2;
         // Steps of 5 points (round 13, audit F10): the ladder re-rendered on nearly every frame; the bars ease between steps.
@@ -87,10 +100,19 @@ export default function CompassLadder({ data }) {
       }
       frame = window.requestAnimationFrame(tick);
     };
-    frame = window.requestAnimationFrame(tick);
+    const play = () => { still = 0; last = 0; if (!frame) frame = window.requestAnimationFrame(tick); };
+    const moved = () => {
+      if (frame) { window.cancelAnimationFrame(frame); frame = 0; }
+      window.clearTimeout(still);
+      still = window.setTimeout(play, SCROLL_REST_MS);
+    };
+    window.addEventListener('scroll', moved, { passive: true });
+    if (playNowRef.current) play(); else moved();
+    playNowRef.current = false;
     return () => {
-      window.clearTimeout(stop);
+      window.clearTimeout(still);
       window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', moved);
       document.removeEventListener('visibilitychange', hide);
     };
   }, [sweeping, inView, reduced]);
@@ -99,6 +121,7 @@ export default function CompassLadder({ data }) {
   const resume = () => {
     const x = Math.min(1, Math.max(0, (score - SWEEP_LOW) / (SWEEP_HIGH - SWEEP_LOW)));
     phaseRef.current = Math.acos(1 - 2 * x) / (2 * Math.PI);
+    playNowRef.current = true;
     setSweeping(true);
   };
   const take = (fn) => (...args) => { setSweeping(false); fn(...args); };
