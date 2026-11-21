@@ -195,6 +195,9 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   .op-caption { display: none; }
   .op-stages { grid-area: stage; }
   .op-slot { align-content: center; }
+  /* Except Practise: its runner is sized to the window under the chips and the switch, so it starts at the top, or its key
+     bar would drop below the window on a short phone. */
+  .op-slot[data-tool='practise'] { align-content: start; }
   .op-slot[data-tool='practise'] .xs-layout { max-width: var(--op-dev); width: 100%; margin-inline: auto; }
   .op-slot .op-proof { width: calc(min(var(--op-dev), 100%) * 0.974); margin-inline: auto; }
   .op-foot { grid-area: foot; width: min(var(--op-dev), 100%); justify-self: center; margin-top: 2rem; }
@@ -295,4 +298,23 @@ html[data-theme='dark'] .op-slot[data-tool='practise'] .xs-layout > .xs-inline {
   .mm.lp .op-win .op-bmk { grid-template-columns: minmax(0, 1fr); align-content: start; }
   .mm.lp .op-win .op-bmk .bmk__value { max-width: none; padding: 18px 24px 22px; border-top: 1px solid var(--line); }
   .mm.lp .op-win .op-bmk .bmk__gets { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ---- lane one-place, round 6 (21 Nov 2026) ----
+   The runner's paper, while the demo has scrolled it (CursorDemo sets data-scrolled): a soft 12 px fade on its top edge, so
+   the cut reads as a scroll edge. Phones: each row's content is centred in the frame's shared stage height, so a shorter
+   row's spare space splits above and below instead of pooling before Sign up; Ask Mobi's list is one line of its four
+   heads. */
+.op-slot[data-tool='practise'] .xs-inline :is(.xs-ph-paper, .xs-ph-pane)[data-scrolled] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 12px);
+}
+@media (max-width: 639px) {
+  .op-slot { align-content: center; }
+  /* Except Practise: its runner is sized to the window under the chips and the switch, so it starts at the top, or its key
+     bar would drop below the window on a short phone. */
+  .op-slot[data-tool='practise'] { align-content: start; }
+  .mm.lp .op-bmk .bmk__gets { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .mm.lp .op-bmk .bmk__gets li { padding-top: 8px; }
+  .mm.lp .op-bmk .bmk__get-lead { font-size: 1rem; line-height: 1.15; }
 }

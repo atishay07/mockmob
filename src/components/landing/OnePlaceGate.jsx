@@ -4,14 +4,17 @@
 // 10 on "/", because the frame's three real stages hydrated with the page). The server still draws the whole frame
 // (OnePlace.jsx: its rows, its three stages and the volt key under them), so the page is complete without script and the
 // frame's height is real from the first paint. In the browser this wrapper keeps that drawing as plain markup (its
-// dangerouslySetInnerHTML below: React leaves a server-drawn element's insides alone) and asks for the frame's code only when
-// the frame comes within about one and a half screens of the window, or a finger or the focus reaches it. When the code has
-// arrived (in idle time), the drawn stages are kept as they are (OnePlace `drawn`) and only the row on show becomes live; the
-// next row's stage is made live in idle time shortly before its turn (OnePlace.jsx).
+// dangerouslySetInnerHTML below: React leaves a server-drawn element's insides alone). It asks for the frame's code in quiet
+// time once the page has loaded and the opening has handed over (idleQueue.mjs: critic round 5, 21 Nov 2026, the code used
+// to arrive as the frame neared the window, inside a reader's swipes), or sooner if the frame comes within about one and a
+// half screens of the window or a finger or the focus reaches it. When the code has arrived, in the next idle period, the
+// drawn stages are kept as they are (OnePlace `drawn`) and only the row on show becomes live; the next row's stage is made
+// live in idle time shortly before its turn (OnePlace.jsx).
 //
 // The frame's sheets are imported here, in the order OnePlace's own imports bring them, so the server-drawn frame is styled
 // from the page's head exactly as before (a lazily loaded module's CSS would only arrive with its code).
 import { lazy, useEffect, useRef, useState } from 'react';
+import { afterOpening, inIdle } from './idleQueue.mjs';
 import './demo/cursor-demo.css';
 import '@/components/doodle/doodle.css';
 import '@/app/exam-device.css';
@@ -52,8 +55,6 @@ if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', readDrawn, { once: true }); else readDrawn();
 }
 
-const idle = (fn) => (typeof window.requestIdleCallback === 'function' ? window.requestIdleCallback(fn, { timeout: 900 }) : window.setTimeout(fn, 1));
-
 export default function OnePlaceGate(props) {
   const hold = useRef(null);
   const [live, setLive] = useState(null);
@@ -64,29 +65,33 @@ export default function OnePlaceGate(props) {
     let gone = false;
     let started = false;
     let io = null;
-    const go = () => {
-      if (started) return;
+    // `near`: the reader is at the frame (the approach watch, a touch, the focus): its steps go to the front of the queue.
+    const go = (near = false) => {
+      if (started || gone) return;
       started = true;
       io?.disconnect();
-      node.removeEventListener('pointerdown', go, true);
-      node.removeEventListener('focusin', go, true);
+      node.removeEventListener('pointerdown', onTouch, true);
+      node.removeEventListener('focusin', onTouch, true);
       import('./OnePlace').then((mod) => {
         if (gone) return;
-        idle(() => { if (!gone) setLive({ Frame: mod.default, drawn: drawnStages(node) }); });
+        inIdle(() => { if (!gone) setLive({ Frame: mod.default, drawn: drawnStages(node) }); }, { first: near });
       });
     };
+    const onTouch = () => go(true);
     // A client-side visit has no server drawing to keep: the frame is made at once.
     io = node.childElementCount && typeof IntersectionObserver !== 'undefined'
-      ? new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) go(); }, { rootMargin: ONE_PLACE_NEAR })
+      ? new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) go(true); }, { rootMargin: ONE_PLACE_NEAR })
       : null;
-    if (io) io.observe(node); else window.setTimeout(go, 0);
-    node.addEventListener('pointerdown', go, true);
-    node.addEventListener('focusin', go, true);
+    if (io) io.observe(node); else window.setTimeout(() => go(true), 0);
+    node.addEventListener('pointerdown', onTouch, true);
+    node.addEventListener('focusin', onTouch, true);
+    // Quiet time after the opening: the code is asked for in an idle period of its own.
+    afterOpening().then(() => inIdle(() => go(false)));
     return () => {
       gone = true;
       io?.disconnect();
-      node.removeEventListener('pointerdown', go, true);
-      node.removeEventListener('focusin', go, true);
+      node.removeEventListener('pointerdown', onTouch, true);
+      node.removeEventListener('focusin', onTouch, true);
     };
   }, []);
 

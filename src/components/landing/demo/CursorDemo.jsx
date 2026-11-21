@@ -13,7 +13,8 @@
 //       `dwell` ms. `pointer: true` also sends pointerdown and pointerup first, for a control that listens to those.
 //   `reveal: 'pane selector'`: the target sits in a pane that holds more than it shows (a phone runner's paper). Before the
 //       move, the pane (never the page) eases its scrollTop just far enough to show the target, and the cursor goes to where
-//       the target will be: the same single read, then one write. `settle: 'pane selector'`: after the click, that pane
+//       the target will be: the same single read, then one write. `snap: 'row selector'`: the rows the pane may stop at
+//       (never a half-cut row at its top). `settle: 'pane selector'`: after the click, that pane
 //       eases back to its top (a key that brings a new question, which starts at the top of the paper).
 //   { wait: 600 }                         pause
 //   { run: (stage) => {} }                anything else the screen needs (rare; prefer a real click)
@@ -103,28 +104,34 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       cursor.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
     };
     // The pane's scroll write: eased by the browser (no frame loop here), instant under reduced motion.
+    // `data-scrolled` on the pane while it is not at its top (one-place.css draws a soft fade on that edge).
     const scrollPane = (pane, top) => {
       const behavior = reducedNow() ? 'auto' : 'smooth';
+      if (top > 0) pane.dataset.scrolled = 'true'; else delete pane.dataset.scrolled;
       try { pane.scrollTo({ top, behavior }); } catch { pane.scrollTop = top; }
     };
-    // `reveal`: how far the pane must move (px, + down) so the target shows with a margin; 0 when it already shows.
-    const revealBy = (el, r, selector) => {
+    // `reveal`: where the pane must stand so the target shows. It never leaves a row half cut at the pane's top: the pane
+    // stops at its own top, or at the top of one of `snap`'s rows (the question's head, its stem, an option), the first of
+    // those that keeps the whole target in view, so as much of the question as possible stays above it.
+    const revealBy = (el, r, selector, snap) => {
       const pane = selector ? el.closest(selector) : null;
       if (!pane) return { pane: null, dy: 0 };
       const p = pane.getBoundingClientRect();
       const m = 12;
-      let dy = 0;
-      if (r.bottom > p.bottom - m) dy = r.bottom - (p.bottom - m);
-      if (r.top - dy < p.top + m) dy = r.top - (p.top + m);
       const max = pane.scrollHeight - pane.clientHeight;
-      const top = Math.max(0, Math.min(max, pane.scrollTop + dy));
+      const at = (box) => box.top - p.top + pane.scrollTop; // a box's top in the pane's own content
+      const need = Math.max(0, at(r) + r.height - (pane.clientHeight - m)); // the least scrollTop that shows the target's foot
+      const stops = [0, ...(snap ? [...pane.querySelectorAll(snap)].map((n) => Math.round(at(n.getBoundingClientRect()) - 4)) : [])]
+        .filter((t) => t >= 0 && t <= max).sort((a, b) => a - b);
+      let top = stops.find((t) => t >= need && t <= at(r) - 4);
+      if (top === undefined) top = Math.min(max, Math.max(0, need));
       return { pane, dy: top - pane.scrollTop, top };
     };
-    const pointOf = (el, at = [0.5, 0.5], reveal = null) => {
+    const pointOf = (el, at = [0.5, 0.5], reveal = null, snap = null) => {
       const s = stage.getBoundingClientRect();
       const r = el.getBoundingClientRect();
       const k = stage.offsetWidth ? s.width / stage.offsetWidth : 1;
-      const shift = revealBy(el, r, reveal);
+      const shift = revealBy(el, r, reveal, snap);
       if (shift.pane && shift.dy) scrollPane(shift.pane, shift.top);
       return [(r.left - s.left + r.width * at[0]) / (k || 1), (r.top - shift.dy - s.top + r.height * at[1]) / (k || 1)];
     };
@@ -173,7 +180,7 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
         const el = step.target ? stage.querySelector(step.target) : null;
         if (!el) continue;
         stage.dataset.demoPhase = 'move';
-        const [x, y] = pointOf(el, step.at, step.reveal);
+        const [x, y] = pointOf(el, step.at, step.reveal, step.snap);
         place(x, y, step.move ?? MOVE_MS);
         await sleep(step.move ?? MOVE_MS);
         if (stopped) return;

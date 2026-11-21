@@ -37,6 +37,9 @@ const click = (target, move, dwell, at, more = {}) => Object.freeze({ target, mo
 // brings its option into view (CursorDemo `reveal`, the pane's scrollTop, never the page's), and a key that brings a new
 // question puts the paper back at its top (`settle`). On the monitor neither selector matches, so they do nothing.
 export const PHONE_PANE = '.xs-ph-paper, .xs-ph-pane';
+// Where the pane may stop when it reveals an option: the question's head row, its stem, or an option's top, so no row is
+// ever left half cut at the pane's top edge.
+export const PHONE_ROWS = '.xs-qhead, .xs-stem, .xs-option, .xs-n-qhead, .xs-n-stem, .xs-n-option';
 
 // The fresh question's right option in Bring a mistake's Check step (bringMistakeCopy.mjs, held there by its own test).
 const RIGHT = BRING_MISTAKE.check.correct + 1;
@@ -56,10 +59,10 @@ export const SCRIPTS = Object.freeze({
   // back to the held shot of Q5. About five camera moves a pass.
   practise: Object.freeze([
     Object.freeze({ wait: 400 }),
-    click('[data-demo="xs-option"]:nth-child(2)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE }),
+    click('[data-demo="xs-option"]:nth-child(2)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
     click('[data-demo="xs-next"]', 420, 750, null, { settle: PHONE_PANE }),
     click('[data-demo="xs-nta"]', 450, 550),
-    click('[data-demo="xs-n-option"]:nth-child(3)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE }),
+    click('[data-demo="xs-n-option"]:nth-child(3)', 450, 350, [0.3, 0.5], { reveal: PHONE_PANE, snap: PHONE_ROWS }),
     click('[data-demo="xs-n-save"]', 420, 1000, null, { settle: PHONE_PANE }),
   ]),
   cards: Object.freeze([

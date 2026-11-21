@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { CREATORS_SUB, ONE_PLACE, alsoInside, bankLine, freeFaq, mobiPrice } from '../../src/components/landing/onePlaceCopy.mjs';
 import { EXAM_HEAD, INSTAGRAM_HEAD } from '../../src/components/landing/homeCopy.mjs';
 import {
-  PHONE_PANE, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
+  PHONE_PANE, PHONE_ROWS, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
   scriptHooks, scriptMs,
 } from '../../src/components/landing/onePlaceModel.mjs';
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
@@ -243,12 +243,23 @@ test('below 640 px the Practise row plays the exam as a phone shows it: one scri
     if (/xs-next|xs-n-save/.test(step.target)) assert.equal(step.settle, PHONE_PANE, step.target);
   }
   assert.equal(PHONE_PANE, '.xs-ph-paper, .xs-ph-pane');
+  // The pane never stops with a row half cut at its top: it stops at its own top or at a whole row (head, stem, option).
+  for (const step of steps) if (step.reveal) assert.equal(step.snap, PHONE_ROWS, step.target);
+  assert.equal(PHONE_ROWS, '.xs-qhead, .xs-stem, .xs-option, .xs-n-qhead, .xs-n-stem, .xs-n-option');
+  const cd = read('src/components/landing/demo/CursorDemo.jsx');
+  assert.match(cd, /let top = stops\.find\(\(t\) => t >= need && t <= at\(r\) - 4\);/);
+  assert.match(cd, /if \(top > 0\) pane\.dataset\.scrolled = 'true'; else delete pane\.dataset\.scrolled;/);
+  const sheet = read('src/components/landing/one-place.css');
+  assert.match(sheet, /:is\(\.xs-ph-paper, \.xs-ph-pane\)\[data-scrolled\] \{\n\s*-webkit-mask-image: linear-gradient\(to bottom, transparent 0, #000 12px\);/);
+  // Phones: the shorter rows centre in the shared stage height; Practise keeps the top (its key bar stays on screen).
+  assert.match(sheet, /  \.op-slot \{ align-content: center; \}/);
+  assert.match(sheet, /  \.op-slot\[data-tool='practise'\] \{ align-content: start; \}/);
   const cursor = read('src/components/landing/demo/CursorDemo.jsx');
   assert.doesNotMatch(cursor, /zoom = |zoom\?\.|const compose|textFloor|cam\.style/);
   assert.doesNotMatch(FRAME, /zoom=|EXAM_CAMERA/);
   // The phone view has a fixed height, so the frame never changes height between rows.
   assert.match(read('src/components/landing/one-place.css'), /\.op-slot\[data-tool='practise'\] \.xs-layout > \.xs-inline \{\n\s*grid-area: device; display: flex; flex-direction: column; height: 648px;/);
-  assert.match(cursor, /const revealBy = \(el, r, selector\) => \{/);
+  assert.match(cursor, /const revealBy = \(el, r, selector, snap\) => \{/);
   assert.match(cursor, /try \{ pane\.scrollTo\(\{ top, behavior \}\); \} catch \{ pane\.scrollTop = top; \}/, 'the pane scrolls, never the page');
   assert.match(cursor, /if \(step\.settle\) \{ const pane = stage\.querySelector\(step\.settle\); if \(pane && pane\.scrollTop\) scrollPane\(pane, 0\); \}/);
 });
@@ -353,6 +364,13 @@ test('the frame loads late: the server draws it whole, the browser asks for its 
   const sheets = [...GATE.matchAll(/^import '([^']+\.css)';/gm)].map((m) => m[1].split('/').pop());
   assert.deepEqual(sheets, ['cursor-demo.css', 'doodle.css', 'exam-device.css', 'exam-screen.css', 'loading-kit.css', 'key-cards.css', 'brand-stamp.css', 'bring-mistake.css', 'one-place.css']);
   for (const f of ['src/components/landing/OnePlaceGate.jsx', 'src/components/landing/LabNextGate.jsx']) assert.doesNotMatch(read(f), /requestAnimationFrame|setInterval|getBoundingClientRect|offsetHeight/, f);
+  // Critic round 5 (21 Nov 2026): both gates ask for their code in quiet time after the opening, one step per idle period
+  // (idleQueue.mjs), not only on approach; a Lab scene already on stage goes live at once.
+  for (const f of ['src/components/landing/OnePlaceGate.jsx', 'src/components/landing/LabNextGate.jsx']) assert.match(read(f), /afterOpening\(\)\.then\(\(\) => inIdle\(/, f);
+  assert.match(read('src/components/landing/LabNextGate.jsx'), /const Live = Screen \|\| \(props\.live && loaded \? loaded : null\);/);
+  const queue = read('src/components/landing/idleQueue.mjs');
+  assert.match(queue, /requestIdleCallback\(fn, \{ timeout: IDLE_TIMEOUT_MS \}\)/);
+  assert.match(queue, /st\.phase === 'done'/);
 });
 
 test('only the shown stage is live; the next is made live unplayed before its turn, and a played one is mounted fresh', () => {

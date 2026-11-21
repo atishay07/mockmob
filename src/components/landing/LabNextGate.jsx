@@ -4,15 +4,17 @@
 // this small file (next/dynamic) for each scene's screen box; the screens themselves (LabNextScreens.jsx, the result page's
 // own parts) are drawn by the server as before, so the Lab is complete without script and its boxes keep their size. In the
 // browser this file keeps that drawing as plain markup (its dangerouslySetInnerHTML: React leaves a server-drawn
-// element's insides alone) and asks for the screens' code only when the Lab comes within about one and a half screens of
-// the window; once it has arrived, the five screens go live in idle time, one per idle period, in the same boxes. The Lab is a held
-// story, so it is never on screen before this has run unless a reader flings straight to it, and even then it shows the
-// server's finished screens until they go live.
+// element's insides alone). It asks for the screens' code in quiet time once the page has loaded and the opening has handed
+// over (idleQueue.mjs; critic round 5, 21 Nov 2026: on approach, the code and the mounts landed inside a reader's swipes, and
+// on a slow busy line the Lab could stay in its start state), or sooner if the Lab comes within about one and a half screens
+// of the window. Once the code is here, the five screens go live in the same boxes, one per idle period; a scene that is on
+// stage (live) goes live at once and its cursor starts.
 //
 // The screens' sheets are imported here, in the order LabNextScreens' own imports bring them, so the server-drawn screens
 // are styled from the start (a lazily loaded module's CSS would only arrive with its code). They load only with this file,
 // that is only for the next look: the live home's Lab carries none of them.
 import { lazy, useEffect, useRef, useState } from 'react';
+import { afterOpening, inIdle } from './idleQueue.mjs';
 import './demo/cursor-demo.css';
 import '@/components/result/marks-ledger.css';
 import '@/components/result/swot.css';
@@ -56,17 +58,6 @@ const loadScreens = () => {
   loading ||= import('./LabNextScreens').then((mod) => { loaded = mod.default; return loaded; });
   return loading;
 };
-const idle = (fn) => (typeof window.requestIdleCallback === 'function' ? window.requestIdleCallback(fn, { timeout: 900 }) : window.setTimeout(fn, 1));
-// The screens go live one per idle period (each its own render), never five in one long task.
-const turns = [];
-let turning = false;
-const nextTurn = () => {
-  const fn = turns.shift();
-  if (!fn) { turning = false; return; }
-  fn();
-  idle(nextTurn);
-};
-const inTurn = (fn) => { turns.push(fn); if (!turning) { turning = true; idle(nextTurn); } };
 
 // `fit`: the box's ScrollStory fit floor (data-ss-fit). The other props go to the screen (LabNextScreens.jsx).
 export default function LabNextGate({ fit, ...props }) {
@@ -78,18 +69,27 @@ export default function LabNextGate({ fit, ...props }) {
     if (!node) return undefined;
     let gone = false;
     let io = null;
+    let asked = false;
+    // The screens go live one per idle period (each its own render), never five in one long task.
     const go = () => {
+      if (asked || gone) return;
+      asked = true;
       io?.disconnect();
-      loadScreens().then((C) => { if (!gone) inTurn(() => { if (!gone) setScreen(() => C); }); });
+      loadScreens().then((C) => { if (!gone) inIdle(() => { if (!gone) setScreen(() => C); }); });
     };
     // A client-side visit has no server drawing to keep; a second mount finds the code already here.
     if (loaded || !node.childElementCount || typeof IntersectionObserver === 'undefined') { window.setTimeout(go, 0); return () => { gone = true; }; }
     io = new IntersectionObserver((entries) => { if (entries.some((entry) => entry.isIntersecting)) go(); }, { rootMargin: LAB_NEAR });
     io.observe(node.closest('.lc') || node);
+    // Quiet time after the opening: the code is asked for in an idle period of its own (one load for the five boxes).
+    afterOpening().then(() => inIdle(go));
     return () => { gone = true; io?.disconnect(); };
   }, []);
 
+  // A scene on stage whose code is here goes live at once (its cursor starts), without waiting for its idle turn.
+  const Live = Screen || (props.live && loaded ? loaded : null);
+
   if (typeof window === 'undefined') return <div className="lc-scene__fit" data-ss-fit={fit}><ServerScreens {...props} /></div>;
-  if (!Screen) return <div ref={box} className="lc-scene__fit" data-ss-fit={fit} dangerouslySetInnerHTML={{ __html: DRAWN[props.scene] ?? readDrawn()[props.scene] ?? '' }} suppressHydrationWarning />;
-  return <div ref={box} className="lc-scene__fit" data-ss-fit={fit}><Screen {...props} /></div>;
+  if (!Live) return <div ref={box} className="lc-scene__fit" data-ss-fit={fit} dangerouslySetInnerHTML={{ __html: DRAWN[props.scene] ?? readDrawn()[props.scene] ?? '' }} suppressHydrationWarning />;
+  return <div ref={box} className="lc-scene__fit" data-ss-fit={fit}><Live {...props} /></div>;
 }
