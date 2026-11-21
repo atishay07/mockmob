@@ -9,9 +9,10 @@ import { Logo } from '@/components/Logo';
 import { useAuthMaybe } from '@/components/AuthProvider';
 import ErrorState from '@/components/errors/ErrorState';
 import { ERROR_COPY } from '@/components/errors/errorCopy.mjs';
-import '@/app/(app)/arena.css';
-import '@/app/(app)/student-pages.css';
-import '@/components/site-not-found.css';
+import { lazy, Suspense } from 'react';
+
+// The page's sheets come with the page, not with every page's first visit (RootErrorStyles.jsx, 21 Nov 2026 speed pass).
+const RootErrorStyles = lazy(() => import('@/components/errors/RootErrorStyles'));
 
 export default function RootError({ error, reset, unstable_retry: retry }) {
   // useAuthMaybe(), not useAuth(): an error page must never throw on its own.
@@ -21,6 +22,8 @@ export default function RootError({ error, reset, unstable_retry: retry }) {
   // that page without breaking the root layout. The production build drops this line.
   if (process.env.NODE_ENV !== 'production' && error?.mmPreviewGlobal) throw error;
   return (
+    <Suspense fallback={null}>
+    <RootErrorStyles />
     <div className="view app-shell snf">
       <header className="snf__bar"><Logo /></header>
       <main id="app-main" className="snf__main" tabIndex={-1}>
@@ -34,5 +37,6 @@ export default function RootError({ error, reset, unstable_retry: retry }) {
         />
       </main>
     </div>
+    </Suspense>
   );
 }
