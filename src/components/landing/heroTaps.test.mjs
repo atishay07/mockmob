@@ -165,9 +165,12 @@ test('round 4 (owner LK124): the features strip names the main features, each a 
   assert.match(page, /const FEATURES = heroFeatures\(\{ compass: SHOWCASE\.programmes\.length > 0, keyCards: Boolean\(KEY_CARDS\) \}\);/);
   // Every anchor it links to is drawn on the page (Compass and Key cards only when they are).
   for (const id of ['inside-the-lab', 'your-prep', 'pricing', 'compass', 'key-cards']) assert.match(page, new RegExp(`id="${id}"`), id);
-  // The exam section is drawn by ExamScreen, which carries its own id.
-  assert.match(page, /<ExamScreen \/>/);
-  assert.match(read('./ExamScreen.jsx'), /id="exam-experience"/);
+  // The exam screen is the one frame's Practise row (21 Nov 2026): its old address is an anchor at the frame, and the frame
+  // opens that row for it (and Key cards' row for #key-cards).
+  assert.match(page, /<span id="exam-experience" className="op-anchor" aria-hidden="true" \/>/);
+  assert.match(page, /\{KEY_CARDS \? <span id="key-cards" className="op-anchor" aria-hidden="true" \/> : null\}/);
+  assert.match(read('./onePlaceModel.mjs'), /export const ROW_OF_HASH = Object\.freeze\(\{ '#exam-experience': 'practise', '#key-cards': 'cards', '#bring-a-mistake': 'mobi' \}\);/);
+  for (const f of all) if (f.href.startsWith('#')) assert.match(page, new RegExp(`id="${f.href.slice(1)}"`), f.href);
   assert.doesNotMatch(page, /heroBeat\(|className="lp-proof"|className="lp-beat"/, 'the number strip and its facts are gone');
 });
 

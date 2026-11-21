@@ -57,10 +57,12 @@
 @media (max-width: 639px) and (orientation: portrait) {
   .mm.lp .lc[data-pinned='true'] .lc__grid { row-gap: 0.45rem; }
   .mm.lp .lc[data-pinned='true'] .lc-scene__title { font-size: clamp(1.2rem, 5.4vw, 1.5rem); }
-  .mm.lp .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) {
+  body .mm.lp .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) {
     position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
   }
-  .mm.lp .lc[data-pinned='true'] .lc-scene__body--short { display: block; margin-top: 0.25rem; }
+  body .mm.lp .lc[data-pinned='true'] .lc-scene__body--short { display: block; margin-top: 0.25rem; }
   .mm.lp .lc[data-pinned='true'] :is(.lcd, .lc-scene__screen) { margin-inline: -6px; }
-  .mm.lp .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.3rem) 0.55rem 0.45rem; }
+  /* `body` (21 Nov 2026): one type more than lab-next.css's rules for the same parts, which lost to these by load order on
+     /home-next; now they win by weight, so "/" looks as it did there whatever order the sheets load in (cssCascade.mjs). */
+  body .mm.lp .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.3rem) 0.55rem 0.45rem; }
 }

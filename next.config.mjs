@@ -104,6 +104,12 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      // The home page's preview (21 Nov 2026) became the home page itself: its address keeps working, as "/".
+      {
+        source: '/home-next',
+        destination: '/',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

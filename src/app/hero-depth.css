@@ -216,7 +216,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   }
   /* `body` here and below: one type more than landing-close.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
   html[data-theme] body .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
-  html[data-theme] .mm.lp[data-story-live] .lp-dockgate .mm-dock:not(:focus-within) {
+  html[data-theme] body .mm.lp[data-story-live] .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));
     pointer-events: none;

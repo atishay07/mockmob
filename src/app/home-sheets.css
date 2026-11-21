@@ -1418,8 +1418,11 @@ body .lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--
    MISTAKE LAB  —  landing explainer (.ml). Rail follows the page theme; the stage is a
    product screen, so it stays dark in both themes. Only opacity and transform animate.
    ========================================================================== */
-.ml { display: grid; gap: 1.75rem; align-items: start; }
-@media (min-width: 960px) { .ml { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
+/* `body .ml` (21 Nov 2026): the home page now also draws the result page's marks ledger (its root is .ml too, marks-ledger.css,
+   in the Mistake Lab's next look); one type more than its .ml, so these keep winning whatever order the sheets load in
+   (src/lib/cssCascade.mjs), as they did. */
+body .ml { display: grid; gap: 1.75rem; align-items: start; }
+@media (min-width: 960px) { body .ml { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
 
 .ml__rail { display: grid; gap: 1rem; min-width: 0; }
 .ml__steps { list-style: none; margin: 0; padding: 0; display: grid; }
@@ -1567,7 +1570,7 @@ body .lp-head--left { text-align: left; justify-items: start; margin-inline: 0; 
 .ml__stage { box-shadow: 0 0 0 4px #22201d, 0 0 0 5px rgba(244, 240, 230, 0.08), 0 30px 70px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(244, 240, 230, 0.08); }
 html[data-theme='light'] .ml__stage { box-shadow: 0 0 0 4px #2a2823, 0 0 0 5px rgba(32, 26, 14, 0.28), 0 30px 60px -34px rgba(32, 26, 14, 0.5), inset 0 1px 0 rgba(244, 240, 230, 0.08); }
 @media (max-width: 959px) {
-  .ml { gap: 1rem; }
+  body .ml { gap: 1rem; }
   .ml__rail { display: contents; }
   .ml__steps { order: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; }
   .ml__steps li, .ml__steps li:last-child { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
@@ -2083,7 +2086,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   }
   /* `body` here and below: one type more than landing-close.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
   html[data-theme] body .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
-  html[data-theme] .mm.lp[data-story-live] .lp-dockgate .mm-dock:not(:focus-within) {
+  html[data-theme] body .mm.lp[data-story-live] .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));
     pointer-events: none;
@@ -6324,12 +6327,14 @@ html[data-motion='reduced'] body .ft-story[data-pinned='false'] .ft__track[data-
 @media (max-width: 639px) and (orientation: portrait) {
   .mm.lp .lc[data-pinned='true'] .lc__grid { row-gap: 0.45rem; }
   .mm.lp .lc[data-pinned='true'] .lc-scene__title { font-size: clamp(1.2rem, 5.4vw, 1.5rem); }
-  .mm.lp .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) {
+  body .mm.lp .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) {
     position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
   }
-  .mm.lp .lc[data-pinned='true'] .lc-scene__body--short { display: block; margin-top: 0.25rem; }
+  body .mm.lp .lc[data-pinned='true'] .lc-scene__body--short { display: block; margin-top: 0.25rem; }
   .mm.lp .lc[data-pinned='true'] :is(.lcd, .lc-scene__screen) { margin-inline: -6px; }
-  .mm.lp .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.3rem) 0.55rem 0.45rem; }
+  /* `body` (21 Nov 2026): one type more than lab-next.css's rules for the same parts, which lost to these by load order on
+     /home-next; now they win by weight, so "/" looks as it did there whatever order the sheets load in (cssCascade.mjs). */
+  body .mm.lp .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.3rem) 0.55rem 0.45rem; }
 }
 
 /* ==== src/app/r18-tour-deck.css ==== */

@@ -132,8 +132,8 @@ function Piece({ p }) {
   );
 }
 
-// `fast` (21 Nov 2026, /home-next only): the quick hand-off, openingGate.mjs OPENING_FAST. The live home passes nothing and
-// keeps its opening exactly.
+// `fast` (21 Nov 2026, the home page): the quick hand-off, openingGate.mjs OPENING_FAST. Without it the opening plays as
+// before.
 export default function OpeningMo({ fast = false } = {}) {
   const ratio = LOGO_OPEN_BOX.h / LOGO_OPEN_BOX.w;
   const back = PIECES.filter((p) => p.depth < 2);

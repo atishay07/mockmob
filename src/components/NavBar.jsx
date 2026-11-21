@@ -144,7 +144,7 @@ export function NavBar() {
     if (target.getBoundingClientRect().top < 0) target.scrollIntoView({ block: 'start', behavior: 'instant' });
   };
 
-  const homeLike = pathname === '/' || pathname === '/home-next';
+  const homeLike = pathname === '/';
   return (
     <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'}>
       <a href="#main-content" className="mm-skip" onClick={skipToContent}>Skip to content</a>
@@ -172,9 +172,8 @@ export function NavBar() {
         <div className="mm-nav__end">
           {/* The home page's small Pricing pill on a phone (R3-D4, LK104), styled in section-position.css and shown below
               900 px. Round 4 (owner LK133, 5 Nov 2026): it opens the /pricing page itself, not the home page's #pricing.
-              Hidden with the other prices in the app's Custom Tabs (data-commerce). The home page's preview (/home-next, never
-              linked) draws it too, so a phone sees the same bar there. */}
-          {pathname === '/' || pathname === '/home-next' ? (
+              Hidden with the other prices in the app's Custom Tabs (data-commerce). */}
+          {pathname === '/' ? (
             <Link href="/pricing" className="mm-nav__price" data-commerce="">
               <span>Pricing</span>
             </Link>

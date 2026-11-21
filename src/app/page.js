@@ -1,19 +1,16 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
-import { Fragment, Suspense } from 'react';
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
-import { DemoDrill } from '@/components/landing/DemoDrill';
 import DailyFiveRow from '@/components/daily/DailyFiveRow';
 import { COLLEGE_DAILY, PERSONAL_HEAD, STRIP_HEAD } from '@/components/daily/dailyStripCopy.mjs';
-import { CloseActions } from '@/components/landing/CloseActions';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
@@ -25,25 +22,20 @@ import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/c
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
 import { HeroProof } from '@/components/landing/HeroProof';
 import { BrandTexture, PageGrid } from '@/components/landing/BrandTexture';
-import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
-import { publicSample } from '@/components/landing/sampleFive.mjs';
+import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, COMPASS_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { DesktopNote } from '@/components/landing/DesktopNote';
-import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import HeroFilm from '@/components/landing/HeroFilm';
 import { CollegeStrip } from '@/components/landing/CollegeStrip';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
 import { HomePricing } from '@/components/landing/HomePricing';
 import { referralsLive } from '@/lib/referrals/friendInvite.mjs';
-import { ExamScreen } from '@/components/landing/ExamScreen';
 import OpeningMo from '@/components/landing/OpeningMo';
 import HeroTyped from '@/components/landing/HeroTyped';
 import { HomeFonts } from '@/components/landing/HomeFonts';
 import { Statement } from '@/components/landing/Statement';
-import TourDeck from '@/components/landing/TourDeck';
 import { Marked } from '@/components/doodle/Doodle';
 import HeroMark from '@/components/landing/HeroMark';
-import LabCinema from '@/components/landing/LabCinema';
 import { SectionPosition } from '@/components/landing/SectionPosition';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
 import { subjectArt } from '@/../data/subject_art.mjs';
@@ -52,7 +44,6 @@ import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
 import { buildCompassShowcase } from '@/lib/du/showcase';
 import CompassLadder from '@/components/landing/CompassLadder';
-import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
 import PipGuide from '@/components/brand/PipGuideLazy';
 import AskMobiSheet from '@/components/landing/AskMobiSheet';
@@ -61,20 +52,35 @@ import DesktopCursor from '@/components/landing/DesktopCursor';
 import AssetWarm from '@/components/landing/AssetWarm';
 import WallOfLove from '@/components/landing/WallOfLove';
 import { BrandStamp } from '@/components/landing/BrandStamp';
-import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
-import BringMistakeBlock from '@/components/landing/BringMistakeBlock';
 import { MISTAKE_PHOTO_ON } from '@/../data/mistake_photo.mjs';
-import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/mistakePrices.mjs';
 import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
-import { KEY_CARDS_HEAD, headPhrases } from '@/components/landing/keyCardsCopy.mjs';
-import { BrandIcon } from '@/components/brand/BrandIcon';
+import { headPhrases } from '@/components/landing/keyCardsCopy.mjs';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
+import { AI_FREE_MONTHLY_CREDITS } from '@/services/credits/freeGrant.mjs';
+import { DAILY_FIVE_SIZE } from '@/lib/dailyFive.mjs';
+import { DemoDrill } from '@/components/landing/DemoDrill';
+import { CloseActions } from '@/components/landing/CloseActions';
+import { HeroDockGate } from '@/components/landing/HeroDockGate';
+import LabCinema from '@/components/landing/LabCinema';
+import CreatorReels from '@/components/landing/CreatorReels';
+import OnePlaceGate from '@/components/landing/OnePlaceGate';
+import { CREATORS_SUB, ONE_PLACE, freeFaq, mobiPrice } from '@/components/landing/onePlaceCopy.mjs';
+import { publicSample } from '@/components/landing/sampleFive.mjs';
+import STUDY_RELEASE from '@/../data/study/release.json';
+import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/mistakePrices.mjs';
 // Shared with app pages: MobiFigure.jsx already loads it before this point, so this line only keeps it ahead of the sheets below.
 import '@/components/brand/mobi-figure.css';
 // The home page's own 24 sheets (landing.css ... r16-tour-stack.css), joined in their cascade order into one file, so a phone
 // makes one render-blocking request for them instead of seven (paint pass, 15 Nov 2026). The list, its order and why are in
 // src/lib/homeCss.mjs. Edit those sheets, never home-sheets.css: node scripts/gen-home-css.mjs rewrites it (next dev does too).
 import './home-sheets.css';
+
+// The home page (21 Nov 2026, owner: "Switch it live", after judging /home-next on his phone, LK363 and LK364). The tour deck,
+// the Key cards section, Bring a mistake and the exam screen section are one frame, "Your whole CUET prep, in one place."
+// (OnePlace.jsx), right after the five sample questions: six rows, each stage a real landing component (or the tour deck's
+// own screen) worked by a demo cursor. The Mistake Lab plays its next look (LabCinema look="next"). The creators' line says
+// the sign-up floor and the FAQ answers "What do I get free?". /home-next, where it was built, now redirects here
+// (next.config.mjs). The page's title, description and canonical are the root layout's ("/").
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -97,9 +103,9 @@ const WALL_VOICES = publishedVoices();
 // The held stories, as the position band under the site bar names them while one runs (SectionPosition). Each name is
 // the words of its section's own heading: the Mistake Lab's kicker, the tour's title. Round 11 (owner, 10 Nov 2026): the
 // Score Recovery Lab told the Mistake Lab's feature a second time, so it is one Lab now (#inside-the-lab).
+// On this page the Lab is the one held story (the tour deck that shared the band with it is gone).
 const POSITION = [
   { id: 'inside-the-lab', name: 'Inside the Mistake Lab' },
-  { id: 'your-prep', name: <>More inside <em>MockMob</em></> },
 ];
 
 // The statement (homeCopy.mjs STATEMENT) scrubs word by word with the scroll (on phones it holds the screen while it
@@ -130,32 +136,39 @@ const SHELF = [
 const MOB_LIVE = process.env.MOB_ENABLED === 'true' && process.env.MOB_V3_ENABLED === 'true';
 // Learn is marketed only while study content is switched on; counts come from the release proof.
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
+// The one frame's rows 4 to 6 (owner LK364): Learn, Benchmarks and the Mob as the live home's tour builds them, from the same
+// switches ("/" page.js TOUR), so a tool is shown only while it is live; the Mob's screen opens one of the sample's questions.
 const STUDY_LESSONS = Object.keys(STUDY_RELEASE.units || {}).length;
 const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => id.split('-')[0])).size;
-// The feature tour: every product area, one idea per slide (homeCopy.mjs buildTour; the rail draws each slide's desk
-// object, BrandIcon). Screens are labelled illustrations (TourScreens.jsx, keyed by id). Learn and the Mob appear only
-// while they are live, from the same switches their pages read.
 const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE });
-// The question the Mob's screen opens for Fix it together (16 Nov 2026): one of the home sample's own five, read here on the
-// server and handed down, so the tour can only ever show a question every signed-out visitor already plays on this page.
 const TOUR_SAMPLES = MOB_LIVE ? { mob: publicSample('Economics') } : null;
-
+// Ask Mobi's proof line: Bring a mistake's own credit line, from the app's prices and the free monthly credits (a photo is
+// promised only while Mobi reads photos).
+const MOBI_PRICE = mobiPrice({ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS });
 // Key cards (R3-D10, LK112): five real cards from the app's decks, read once at build (keyCardsPicks.mjs), shown only while
 // Key cards are live for students (KEY_CARDS_ENABLED, the switch every Key cards route reads). No card readable, no section.
 const KEY_CARDS_LIVE = process.env.KEY_CARDS_ENABLED === 'true';
 const KEY_CARDS = KEY_CARDS_LIVE ? keyCardsDemo() : null;
-const faqs = buildFaqs({ offer: OFFER, mobLive: MOB_LIVE });
+// The FAQ as on "/", with "What do I get free?" after its first question, answered from the code's constants.
+const faqs = (() => {
+  const all = buildFaqs({ offer: OFFER, mobLive: MOB_LIVE });
+  return [all[0], freeFaq({ freeCredits: AI_FREE_MONTHLY_CREDITS, dailySize: DAILY_FIVE_SIZE }), ...all.slice(1)];
+})();
 // The hero's features strip and its price hook (round 4, owner LK124; docs/design-decisions/web-r4-hero.md): the main
 // features, each a link to its own section on this page (Compass falls back to the DU calculator, Key cards only while
 // their section is drawn), and "As low as ₹X a mock" worked out from the live offer at the pricing slider's top pace.
 const FEATURES = heroFeatures({ compass: SHOWCASE.programmes.length > 0, keyCards: Boolean(KEY_CARDS) });
 const PRICE_HOOK = heroPriceHook(OFFER, { from: BUILT });
+// The addresses a visitor arrives at from elsewhere (HashSettle): the FAQ, the one frame, and the frame's rows by their old
+// sections' names (page.js keeps an anchor for each; the frame opens that row).
+const HASH_IDS = ['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake'];
 
 export default function LandingPage() {
   return (
     <div className="mm lp">
       {/* The opening (OpeningMo, P3): the app's "mo" opening, first child of the page; its gate decides first / short / skip. */}
-      <OpeningMo />
+      {/* fast (21 Nov 2026): it hands over as soon as the hero has painted; a weak device is clear within 800 ms. */}
+      <OpeningMo fast />
       {/* The page's hairline grid, behind everything (10 Nov 2026; brand-texture.css). */}
       <PageGrid />
       <HomeFonts />
@@ -249,6 +262,27 @@ export default function LandingPage() {
           </div>
         </section></Later>
 
+        {/* ----------------------- YOUR WHOLE CUET PREP, IN ONE PLACE (the one frame) ----------------------- */}
+        {/* id "your-prep": the guide's waypoint (PipGuide.jsx WAYPOINTS) and Ask Mobi's no-script link. Six rows, one stage:
+            the exam screen, Key cards, Bring a mistake's card, then Learn, Benchmarks and the Mob on the old tour deck's card,
+            each worked by a demo cursor (OnePlace.jsx). Under it the one volt key. */}
+        <Later><section className="lp-sec op" id="your-prep" aria-labelledby="op-title">
+          {/* The addresses of the sections this frame replaced (the hero strip's links, the app's "/#exam-experience"): each lands
+              here, and the frame opens that row (OnePlace.jsx ROW_OF_HASH). */}
+          <span id="exam-experience" className="op-anchor" aria-hidden="true" />
+          {KEY_CARDS ? <span id="key-cards" className="op-anchor" aria-hidden="true" /> : null}
+          <span id="bring-a-mistake" className="op-anchor" aria-hidden="true" />
+          <div className="mm-wrap">
+            <Reveal className="lp-head lp-head--left">
+              <h2 className="lp-h2" id="op-title"><Marked text={ONE_PLACE.h2} marks={[[ONE_PLACE.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
+              <p className="lp-sub">{ONE_PLACE.sub}</p>
+            </Reveal>
+            <OnePlaceGate keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE} tour={TOUR} samples={TOUR_SAMPLES}>
+              <LandingActions mode="primary" />
+            </OnePlaceGate>
+          </div>
+        </section></Later>
+
         {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
         <Later><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></Later>
 
@@ -263,45 +297,8 @@ export default function LandingPage() {
               <p className="lp-sub">{LAB_HEAD.sub}</p>
             </Reveal>
           </div>
-          <LabCinema />
+          <LabCinema look="next" />
         </section></Later>
-
-        {/* --------------------------- FEATURE TOUR -------------------------- */}
-        <Later><section className="lp-sec lp-sec--tour lp-pos-host" id="your-prep">
-          <div className="mm-wrap">
-            <Reveal className="lp-head lp-head--left">
-              <h2 className="lp-h2">{TOUR_HEAD.h2}</h2>
-              <p className="lp-sub">{TOUR_HEAD.sub}</p>
-            </Reveal>
-            {/* 18 Nov 2026: one deck of cards the scroll deals, on every pointer (TourDeck.jsx; the owner of the sideways row a
-                finger had: "these sliding cards ... are not good"). */}
-            <TourDeck slides={TOUR} samples={TOUR_SAMPLES} />
-          </div>
-        </section></Later>
-
-        {/* ------------------------------ KEY CARDS ------------------------------ */}
-        {/* R3-D10 (owner LK112, 5 Nov 2026): a real card that turns over in 3D, glass over its subject object, rated with the
-            app's keys; the bank's true numbers count up once (LoadingKit). The stamp is the product's name (R3-D2). */}
-        {KEY_CARDS ? (
-          <Later><section className="lp-sec lp-kc" id="key-cards" aria-labelledby="key-cards-title" data-section-name={KEY_CARDS_HEAD.stamp}>
-            <div className="mm-wrap lp-kc__grid">
-              <Reveal className="lp-head lp-head--left lp-kc__head">
-                <p className="lp-kc__stamp"><BrandIcon name="keycards" size={32} style={{ '--bi-size': '28px' }} />{KEY_CARDS_HEAD.stamp}</p>
-                <h2 className="lp-h2" id="key-cards-title">{headPhrases(KEY_CARDS_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[['on time.', { mark: 'circle', tone: 'brand' }]]} /></span>)}</h2>
-                <p className="lp-sub">{KEY_CARDS_HEAD.sub}</p>
-              </Reveal>
-              <KeyCardsDemo cards={KEY_CARDS.cards} keys={KEY_CARDS.keys} bank={KEY_CARDS.bank} subjects={KEY_CARDS.subjects} />
-            </div>
-          </section></Later>
-        ) : null}
-
-        {/* Bring a mistake (16 Nov 2026): Ask Mobi reads a question from any other test, typed or (while the app's photo switch
-            is on) photographed; live in the app, shown here. The two prices are the app's own constants; the 50 free credits a
-            month in the same line is held to the wallet's constant by bringMistakeCopy.test.mjs. */}
-        <Later><BringMistakeBlock photo={MISTAKE_PHOTO_ON} credits={MISTAKE_CREDITS} photoCredits={MISTAKE_PHOTO_CREDITS} /></Later>
-
-        {/* Practice first, admissions second (R11): the exam screen sits before DU Compass and the DU tool. */}
-        <Later><ExamScreen /></Later>
 
         {/* ------------------- THE WEEK'S TWO FIXED DATES: Daily Five and Sunday Mock ------------------- */}
         {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
@@ -364,7 +361,7 @@ export default function LandingPage() {
             <Reveal className="lp-head lp-head--left">
               <BrandStamp {...BRAND_STAMPS.instagram} />
               <h2 className="lp-h2">{INSTAGRAM_HEAD.h2}</h2>
-              <p className="lp-sub">{INSTAGRAM_HEAD.sub}</p>
+              <p className="lp-sub">{CREATORS_SUB}</p>
             </Reveal>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
@@ -418,8 +415,9 @@ export default function LandingPage() {
           </Reveal>
           {/* Every same-page link to the sample ("Try 5 questions first") lands on the live sample question, every time. */}
           <DemoJump />
-          {/* The footer's Help sends guests to /#faq from any page: land on the questions once the page has settled. */}
-          <HashSettle />
+          {/* The footer's Help sends guests to /#faq from any page, the site bar's "Your prep tools" to /#your-prep, the app to
+              /#exam-experience: land there once the page has settled (on a phone the browser's own jump was lost). */}
+          <HashSettle ids={HASH_IDS} />
         </section></Later>
       </main>
       <Later><MarketingFooter home /></Later>
@@ -435,7 +433,7 @@ export default function LandingPage() {
       <Later><AskMobiSheet /></Later>
       {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
-      <HeroDockGate>
+      <HeroDockGate aside=".op-gate">
         <LandingDock />
       </HeroDockGate>
     </div>

@@ -1,8 +1,10 @@
-// /home-next, 21 Nov 2026 (owner LK363): the live home as it is, with ONE frame in place of the tour deck, the Key cards
+// The home page, 21 Nov 2026 (owner: "Switch it live"; built as /home-next, LK363 and LK364): the home as it was, with ONE
+// frame in place of the tour deck, the Key cards
 // section, Bring a mistake and the exam screen section: "Your whole CUET prep, in one place." Three rows, one stage; each
 // stage is the landing's own real component, worked by a demo cursor; rows 4 to 6 (owner LK364) are the tour deck's Learn,
 // Benchmarks and Mob screens on the deck's card (OnePlace.jsx, onePlaceModel.mjs, demo/CursorDemo.jsx).
-// What these hold: the page's place (noindex, in no sitemap, linked from nowhere; "/" untouched with its four sections), the
+// What these hold: the page's place ("/" itself, its home metadata; /home-next a permanent redirect to it, linked from
+// nowhere; the replaced sections' components kept, off the page), the
 // order of the sections, the stages being the real components, every script aiming at a hook the component really carries,
 // the autoplay rules, no frame loop or interval in the frame's files, and the words (seven-word heading, one sentence, no
 // em dash, no "!", only live tools named).
@@ -22,8 +24,7 @@ import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs
 const root = fileURLToPath(new URL('../../', import.meta.url));
 // Line ends normalised: the release gate's checkout writes CRLF, and the patterns below are written with \n.
 const read = (rel) => readFileSync(join(root, rel), 'utf8').replace(/\r\n/g, '\n');
-const PAGE = read('src/app/home-next/page.js');
-const LIVE = read('src/app/page.js');
+const PAGE = read('src/app/page.js');
 const FRAME = read('src/components/landing/OnePlace.jsx');
 const { stagesStart, stagesStep, STAGE_LEAD_MS } = await import('../../src/components/landing/onePlaceModel.mjs');
 const { OPENING_FAST, openingGateScript } = await import('../../src/components/landing/openingGate.mjs');
@@ -46,30 +47,32 @@ function sourceFiles(dir) {
 }
 
 // ------------------------------------------------------------------ the page's place
-test('/home-next is noindex, in no sitemap and linked from nowhere', () => {
-  assert.match(PAGE, /robots: \{ index: false, follow: false, googleBot: \{ index: false, follow: false \} \}/);
+test('/home-next is a permanent redirect to "/", in no sitemap and linked from nowhere', () => {
+  assert.match(read('next.config.mjs'), /\{\n\s*source: '\/home-next',\n\s*destination: '\/',\n\s*permanent: true,\n\s*\}/);
+  assert.throws(() => statSync(join(root, 'src/app/home-next')), 'no page of its own: the redirect is the address');
+  assert.throws(() => statSync(join(root, 'src/components/home2')), 'the preview-only helpers are gone');
   assert.doesNotMatch(read('src/app/sitemap.js'), /home-next/);
   assert.doesNotMatch(read('src/lib/seo.js'), /home-next/);
   const linkers = [];
-  for (const p of sourceFiles(join(root, 'src'))) {
-    const rel = relative(root, p).split(sep).join('/');
-    if (rel.startsWith('src/app/home-next/') || rel.startsWith('src/components/home2/')) continue;
-    // NavBar names the path only to draw the home's Pricing pill there too (a pathname check, not a link).
-    const text = readFileSync(p, 'utf8').replace(/pathname === '\/home-next'/g, '');
-    if (/['"`]\/home-next/.test(text)) linkers.push(rel);
+  for (const f of sourceFiles(join(root, 'src'))) {
+    const rel = relative(root, f).split(sep).join('/');
+    if (/['"`]\/home-next|pathname === '\/home-next'|components\/home2\//.test(readFileSync(f, 'utf8'))) linkers.push(rel);
   }
   assert.deepEqual(linkers, []);
 });
 
-test('"/" is untouched: it still draws the tour deck, Key cards, Bring a mistake and the exam screen, and none of this page', () => {
-  assert.match(LIVE, /<TourDeck slides=\{TOUR\} samples=\{TOUR_SAMPLES\} \/>/);
-  assert.match(LIVE, /id="your-prep"/);
-  assert.match(LIVE, /id="key-cards"/);
-  assert.match(LIVE, /<KeyCardsDemo cards=\{KEY_CARDS\.cards\} keys=\{KEY_CARDS\.keys\} bank=\{KEY_CARDS\.bank\} subjects=\{KEY_CARDS\.subjects\} \/>/);
-  assert.match(LIVE, /<BringMistakeBlock photo=\{MISTAKE_PHOTO_ON\} credits=\{MISTAKE_CREDITS\} photoCredits=\{MISTAKE_PHOTO_CREDITS\} \/>/);
-  assert.match(LIVE, /<Later><ExamScreen \/><\/Later>/);
-  assert.match(LIVE, /<LabCinema \/>/);
-  assert.doesNotMatch(LIVE, /home2|home-next|OnePlace|onePlace/);
+test('"/" is the home page: indexed, with the home JSON-LD from its own FAQ list; the replaced sections stay in the code', () => {
+  // No metadata of its own: the root layout's is the home page's (title, description, canonical "/", indexed).
+  assert.doesNotMatch(PAGE, /export const metadata/);
+  assert.doesNotMatch(PAGE, /robots|noindex|preview/i);
+  assert.match(read('src/app/layout.js'), /\.\.\.seoMetadata\(\{\n\s*title: "CUET Mock Tests & Practice Questions \| MockMob",\n\s*description: siteConfig\.description,\n\s*path: "\/",/);
+  assert.match(PAGE, /<JsonLd id="home-breadcrumb-json-ld" data=\{breadcrumbJsonLd\(\[\{ name: 'Home', path: '\/' \}\]\)\} \/>/);
+  assert.match(PAGE, /<JsonLd id="home-faq-json-ld" data=\{faqJsonLd\(faqs\)\} \/>/);
+  assert.match(PAGE, /export default function LandingPage\(\)/);
+  // The four sections it replaced are off the page, but their components stay (other pages and their own tests use them).
+  for (const f of ['TourDeck.jsx', 'KeyCardsDemo.jsx', 'BringMistakeBlock.jsx', 'ExamScreen.jsx', 'LabCinema.jsx']) assert.ok(statSync(join(root, 'src/components/landing', f)).isFile(), f);
+  assert.match(EXAM_SRC, /export function ExamScreen\(\)/);
+  assert.match(read('src/components/landing/LabCinema.jsx'), /const next = look === 'next';/, 'LabCinema keeps its default look; the page asks for the next one');
 });
 
 test('the shared components keep the live markup by default (their new props are optional and off on "/")', () => {
@@ -79,7 +82,7 @@ test('the shared components keep the live markup by default (their new props are
   // `inline` (off on "/"): below 640 px the phone view in the monitor's place; without it the monitor is drawn as before.
   assert.match(EXAM_SRC, /if \(!inline\) return undefined;\n\s*const query = window\.matchMedia\('\(max-width: 639px\)'\);/);
   assert.match(EXAM_SRC, /\{inlineNow \? \(\n\s*<div className="xs-inline" ref=\{deviceRef\}>\n\s*\{full \? <div className="xs-frame xs-frame--away" aria-hidden="true" \/> : phone\}/);
-  assert.doesNotMatch(read('src/app/page.js'), /inline/);
+  assert.doesNotMatch(PAGE, /<ExamStage|<ExamScreen/, 'the page draws the exam only through the frame (inline there)');
   // The gate's short form drops only the warning rule; by default it is drawn as before.
   assert.match(EXAM_SRC, /<b>\{EXAM\.gateTitle\}\.<\/b> \{EXAM\.gate\}\{gate === 'short' \? null : <> \{EXAM\.warningRule\}<\/>\}/);
   assert.match(EXAM_SRC, /<div className="xs-layout">\n        \{head\}/);
@@ -94,8 +97,18 @@ test('the shared components keep the live markup by default (their new props are
   assert.match(BMK_SRC, /const id = given \|\| own;/);
 });
 
-test('/home-next draws the new section and none of the four it replaces, in the live order around it', () => {
-  for (const gone of [/<TourDeck/, /id="key-cards"/, /<KeyCardsDemo/, /<BringMistakeBlock/, /<ExamScreen/, /TOUR_HEAD/]) assert.doesNotMatch(PAGE, gone);
+test('the home page draws the new section and none of the four it replaces, in the live order around it', () => {
+  for (const gone of [/<TourDeck/, /className="lp-sec lp-kc"/, /id="key-cards-title"/, /<KeyCardsDemo/, /<BringMistakeBlock/, /<ExamScreen/, /TOUR_HEAD/]) assert.doesNotMatch(PAGE, gone);
+  // Their addresses land on the frame (the hero strip, the app's "/#exam-experience"), which opens that row.
+  for (const id of ['exam-experience', 'key-cards', 'bring-a-mistake']) assert.match(PAGE, new RegExp(`<span id="${id}" className="op-anchor" aria-hidden="true" />`), id);
+  assert.match(FRAME, /const id = ROW_OF_HASH\[window\.location\.hash\];/);
+  assert.match(FRAME, /window\.addEventListener\('hashchange', open\);/);
+  // Arriving from elsewhere (the site bar's /#your-prep, the app's /#exam-experience): the page settles on them (a phone's own
+  // jump was lost while the page grew), with the heading clear of the site bar.
+  assert.match(PAGE, /const HASH_IDS = \['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake'\];/);
+  assert.match(PAGE, /<HashSettle ids=\{HASH_IDS\} \/>/);
+  assert.match(CSS, /\.op-anchor \{ display: block; height: 0; overflow: hidden; scroll-margin-top: 76px; \}/);
+  assert.match(CSS, /#your-prep\.op \{ scroll-margin-top: 48px; \}/);
   assert.match(PAGE, /<section className="lp-sec op" id="your-prep" aria-labelledby="op-title">/);
   assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>\n\s*<LandingActions mode="primary" \/>\n\s*<\/OnePlaceGate>/);
   assert.match(PAGE, /<LabCinema look="next" \/>/);
@@ -110,8 +123,7 @@ test('/home-next draws the new section and none of the four it replaces, in the 
 
 test('the page draws the home sections with the home sheet, loaded after the marketing sheet, as "/" does', () => {
   const css = [...PAGE.matchAll(/^import '([^']+\.css)';/gm)].map((m) => m[1]);
-  assert.deepEqual(css, ['@/app/marketing.css', '@/components/brand/mobi-figure.css', '../home-sheets.css']);
-  assert.match(read('src/components/home2/landingParts.js'), /from '\.\.\/landing\/LabCinema'/);
+  assert.deepEqual(css, ['@/app/marketing.css', '@/components/brand/mobi-figure.css', './home-sheets.css']);
 });
 
 // ------------------------------------------------------------------ the stages are the real components
@@ -384,7 +396,10 @@ test('each row carries its live section\'s proof line, in that section\'s words 
 });
 
 test('the phone nav draws the Pricing pill here too, and the Lab\'s Skip finds the next section when the bar is read', () => {
-  assert.match(read('src/components/NavBar.jsx'), /\{pathname === '\/' \|\| pathname === '\/home-next' \? \(\n\s*<Link href="\/pricing" className="mm-nav__price"/);
+  const nav = read('src/components/NavBar.jsx');
+  assert.match(nav, /\{pathname === '\/' \? \(\n\s*<Link href="\/pricing" className="mm-nav__price"/);
+  // The reading line along the bar is NavBar's own on "/" (the preview needed ReadLineHere for it).
+  assert.match(nav, /\{pathname === '\/' \? <NavReadLine \/> : null\}/);
   const pos = read('src/components/landing/SectionPosition.jsx');
   assert.match(pos, /const next = nextSection\(hosts\[index\]\);/);
   assert.doesNotMatch(pos, /const nexts = hosts\.map\(nextSection\)/);
@@ -398,10 +413,17 @@ test('carried over from the first /home-next: the creators\' sign-up floor and "
   assert.equal(faq.question, 'What do I get free?');
   assert.ok(faq.answer.split(/\s+/).length <= 45, 'the FAQ answer budget (homeCopy COPY_BUDGET.faq)');
   assert.doesNotMatch(faq.answer, /Full mock on credits/i, 'the plan card\'s item read like a slip mid-sentence');
-  assert.match(read('src/services/credits/aiCreditWallet.js'), /export const AI_FREE_MONTHLY_CREDITS = 50;/, 'the free credits the FAQ reads');
+  // The free credits the FAQ and Ask Mobi's line read: the wallet's grant, through a module with no imports (the wallet is
+  // server-only and loads the database client; the home page never imports it).
+  const grant = Number(read('src/services/credits/freeGrant.mjs').match(/export const AI_FREE_MONTHLY_CREDITS = (\d+);/)[1]);
+  assert.equal(grant, Number(read('src/services/credits/aiCreditWallet.js').match(/export const AI_FREE_MONTHLY_CREDITS = (\d+);/)[1]));
+  assert.doesNotMatch(read('src/services/credits/freeGrant.mjs'), /^import /m);
+  assert.match(PAGE, /^import \{ AI_FREE_MONTHLY_CREDITS \} from '@\/services\/credits\/freeGrant\.mjs';$/m);
+  assert.doesNotMatch(PAGE, /aiCreditWallet/);
   assert.match(PAGE, /freeFaq\(\{ freeCredits: AI_FREE_MONTHLY_CREDITS, dailySize: DAILY_FIVE_SIZE \}\)/);
-  assert.match(PAGE, /<ReadLineHere \/>/);
-  assert.match(PAGE, /<SampleHere \/>/);
+  // On "/" the shared ways in already link this page's sample ("/#try-practice"); the preview's helpers are gone.
+  assert.match(PAGE, /<div className="lp-desk" id="try-practice">/);
+  assert.doesNotMatch(PAGE, /ReadLineHere|SampleHere/);
 });
 
 // ------------------------------------------------------------------ load weight, the bar, the opening (21 Nov 2026)
@@ -447,21 +469,21 @@ test('only the shown stage is live; the next is made live unplayed before its tu
   assert.match(FRAME, /window\.requestIdleCallback\(make, \{ timeout: 1200 \}\)/);
 });
 
-test('the bar steps aside for the whole frame on /home-next only; the live home passes nothing', () => {
+test('the bar steps aside for the whole frame on the home page', () => {
   assert.match(PAGE, /<HeroDockGate aside="\.op-gate">/);
-  assert.match(LIVE, /<HeroDockGate>/);
+  assert.equal((PAGE.match(/<HeroDockGate/g) || []).length, 1);
   const gate = read('src/components/landing/HeroDockGate.jsx');
   assert.match(gate, /export function HeroDockGate\(\{ children, aside = null \}\)/);
   assert.match(gate, /\{ rootMargin: `-\$\{NAV\}px 0px 0px 0px`, threshold: 0 \}\);\n    blocks\.forEach/);
 });
 
-test('the opening hands over once the hero has painted on /home-next; the live home keeps its opening', () => {
+test('the opening hands over once the hero has painted on the home page; without `fast` it plays as before', () => {
   assert.match(PAGE, /<OpeningMo fast \/>/);
-  assert.match(LIVE, /<OpeningMo \/>/);
+  assert.equal((PAGE.match(/<OpeningMo/g) || []).length, 1);
   assert.deepEqual({ ...OPENING_FAST }, { wait: 700, lite: 800 });
-  const live = openingGateScript();
+  const live = openingGateScript(); // without `fast`, as before
   const fast = openingGateScript({ fast: true });
-  assert.doesNotMatch(live, /largest-contentful-paint|"fast"/, 'the live home\'s script carries none of it');
+  assert.doesNotMatch(live, /largest-contentful-paint|"fast"/, 'the script without `fast` carries none of it');
   assert.match(fast, /largest-contentful-paint/);
   assert.match(fast, /"fast":\{"wait":700,"lite":800\}/);
   assert.doesNotThrow(() => new Function(fast));

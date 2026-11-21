@@ -253,7 +253,7 @@ export default function OnePlace({ keyCards = null, photo = false, price = null,
   const tabs = useRef([]);
   const active = rows[index] || rows[0];
 
-  // The hero strip still links the live home's old addresses (#exam-experience, #key-cards): here they open their row.
+  // The hero strip links the old sections' addresses (#exam-experience, #key-cards): a click on one opens its row.
   useEffect(() => {
     const onClick = (event) => {
       const link = event.target instanceof Element ? event.target.closest('a[href^="#"]') : null;
@@ -268,6 +268,21 @@ export default function OnePlace({ keyCards = null, photo = false, price = null,
     document.addEventListener('click', onClick, true);
     return () => document.removeEventListener('click', onClick, true);
   }, [rows, choose, frameRef]);
+
+  // Arriving at one of those addresses (the app's "/#exam-experience", a hash typed or followed before this code arrived): the
+  // page has landed on the section (page.js keeps an anchor for each); the frame opens that row. A tick later, never in the
+  // effect's own pass.
+  useEffect(() => {
+    let tick = 0;
+    const open = () => {
+      const id = ROW_OF_HASH[window.location.hash];
+      const to = id ? rows.findIndex((row) => row.id === id) : -1;
+      if (to >= 0) choose(to);
+    };
+    tick = window.setTimeout(open, 0);
+    window.addEventListener('hashchange', open);
+    return () => { window.clearTimeout(tick); window.removeEventListener('hashchange', open); };
+  }, [rows, choose]);
 
   // Phones: the chips are one row that scrolls sideways; the shown row's chip is kept in view (one read, one write).
   useEffect(() => {

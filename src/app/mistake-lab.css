@@ -2,8 +2,11 @@
    MISTAKE LAB  —  landing explainer (.ml). Rail follows the page theme; the stage is a
    product screen, so it stays dark in both themes. Only opacity and transform animate.
    ========================================================================== */
-.ml { display: grid; gap: 1.75rem; align-items: start; }
-@media (min-width: 960px) { .ml { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
+/* `body .ml` (21 Nov 2026): the home page now also draws the result page's marks ledger (its root is .ml too, marks-ledger.css,
+   in the Mistake Lab's next look); one type more than its .ml, so these keep winning whatever order the sheets load in
+   (src/lib/cssCascade.mjs), as they did. */
+body .ml { display: grid; gap: 1.75rem; align-items: start; }
+@media (min-width: 960px) { body .ml { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
 
 .ml__rail { display: grid; gap: 1rem; min-width: 0; }
 .ml__steps { list-style: none; margin: 0; padding: 0; display: grid; }
@@ -151,7 +154,7 @@ body .lp-head--left { text-align: left; justify-items: start; margin-inline: 0; 
 .ml__stage { box-shadow: 0 0 0 4px #22201d, 0 0 0 5px rgba(244, 240, 230, 0.08), 0 30px 70px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(244, 240, 230, 0.08); }
 html[data-theme='light'] .ml__stage { box-shadow: 0 0 0 4px #2a2823, 0 0 0 5px rgba(32, 26, 14, 0.28), 0 30px 60px -34px rgba(32, 26, 14, 0.5), inset 0 1px 0 rgba(244, 240, 230, 0.08); }
 @media (max-width: 959px) {
-  .ml { gap: 1rem; }
+  body .ml { gap: 1rem; }
   .ml__rail { display: contents; }
   .ml__steps { order: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; }
   .ml__steps li, .ml__steps li:last-child { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }

@@ -68,7 +68,11 @@ test('a missing deck or pick drops the cards, and with none at all there is no s
   assert.match(PAGE, /const KEY_CARDS_LIVE = process\.env\.KEY_CARDS_ENABLED === 'true';/);
   assert.equal(keyCardsEnabled({ KEY_CARDS_ENABLED: 'true' }), true, 'the same switch every Key cards route reads');
   assert.match(PAGE, /const KEY_CARDS = KEY_CARDS_LIVE \? keyCardsDemo\(\) : null;/);
-  assert.match(PAGE, /\{KEY_CARDS \? \(\s*<Later><section className="lp-sec lp-kc" id="key-cards"/);
+  // Since 21 Nov 2026 Key cards are a row of the one frame: the page hands the frame KEY_CARDS, and the frame (and the
+  // address #key-cards) has no Key cards row without it.
+  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\}/);
+  assert.match(PAGE, /\{KEY_CARDS \? <span id="key-cards" className="op-anchor" aria-hidden="true" \/> : null\}/);
+  assert.match(read('OnePlace.jsx'), /ONE_PLACE\.rows\.filter\(\(row\) => row\.id !== 'cards' \|\| keyCards\)/);
 });
 
 // ------------------------------------------------------------------------------------------------ the keys and the numbers
@@ -113,20 +117,23 @@ test('the head keeps the page\'s copy rules: a sub of at most 20 words, sentence
 });
 
 test('the stamp (R3-D2): the Key cards desk object at 28 px and the product\'s name in the brand word colour, above the h2', () => {
-  assert.match(PAGE, /<p className="lp-kc__stamp"><BrandIcon name="keycards" size=\{32\} style=\{\{ '--bi-size': '28px' \}\} \/>\{KEY_CARDS_HEAD\.stamp\}<\/p>\s*<h2 className="lp-h2" id="key-cards-title">/);
+  // The section with this stamp is no longer on the home page (21 Nov 2026: Key cards are a row of the one frame); the stamp's
+  // words and style stay for the section, and the frame's row names the product the same way.
+  assert.match(read('onePlaceCopy.mjs'), /id: 'cards', icon: 'keycards', name: 'Key cards'/);
   assert.equal(KEY_CARDS_HEAD.stamp, 'Key cards');
   assert.match(CSS, /\.lp-kc__stamp \{[^}]*color: var\(--brand-word\);/);
   assert.doesNotMatch(CSS, /\.lp-kc__stamp \{[^}]*text-transform/, 'sentence case, no caps');
 });
 
 // ------------------------------------------------------------------------------------------------ placement and size
-test('the section sits right after the tour and before Compass, with its own reserved height on both widths', () => {
+test('Key cards sit in the one frame (#your-prep) before Compass; the section keeps its reserved height on both widths', () => {
   // R11 (owner, 10 Nov 2026): the Score Recovery Lab, which stood between the tour and Key cards, merged into the Mistake Lab.
+  // 21 Nov 2026: the tour and Key cards are rows of one frame, so #key-cards is the frame's anchor, inside #your-prep.
   const tour = PAGE.indexOf('id="your-prep"');
   const cards = PAGE.indexOf('id="key-cards"');
   const compass = PAGE.indexOf('id="compass"');
   assert.ok(tour > 0 && cards > tour && compass > cards);
-  assert.equal((PAGE.slice(tour, cards).match(/<section /g) || []).length, 1, 'no section between the tour and Key cards');
+  assert.equal((PAGE.slice(tour, cards).match(/<section /g) || []).length, 0, 'Key cards are inside the frame\'s section');
   assert.doesNotMatch(PAGE, /id="score-recovery-lab"/);
   assert.equal((PAGE.match(/id="key-cards"/g) || []).length, 1, 'one section block');
   const wide = LANDING_CSS.indexOf('@media (min-width: 960px) {\n  .lp main > #inside-the-lab');

@@ -13,10 +13,10 @@ const NAV = 64;
 const DOCK = 96;
 const DEMO_MIN_PX = 96;
 
-// `aside` (21 Nov 2026, /home-next only): a selector for blocks the bar must never cover. While any part of one is on screen
+// `aside` (21 Nov 2026, the home page): a selector for blocks the bar must never cover. While any part of one is on screen
 // below the nav (the bar's own strip at the foot included), the bar steps aside, and it comes back when the block has gone.
-// /home-next passes its one-place frame (OnePlaceGate's .op-gate): its demo runs to the frame's foot, where the bar sat over
-// "Try it full screen", the Key card's answer and Ask Mobi's options. The live home passes nothing and is unchanged.
+// The home page passes its one-place frame (OnePlaceGate's .op-gate): its demo runs to the frame's foot, where the bar sat
+// over the Key card's answer and Ask Mobi's options. Without it the bar behaves as before.
 export function HeroDockGate({ children, aside = null }) {
   const gate = useRef(null);
 

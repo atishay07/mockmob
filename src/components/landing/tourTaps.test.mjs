@@ -170,7 +170,10 @@ test('The Mob: Fix it together opens one of the home sample\'s own public questi
   const page = read('../../app/page.js');
   assert.match(page, /import \{ publicSample \} from '@\/components\/landing\/sampleFive\.mjs';/);
   assert.match(page, /const TOUR_SAMPLES = MOB_LIVE \? \{ mob: publicSample\('Economics'\) \} : null;/);
-  assert.match(page, /<TourDeck slides=\{TOUR\} samples=\{TOUR_SAMPLES\} \/>/); // the deck draws the tour since 18 Nov 2026
+  // Since 21 Nov 2026 the home page draws the deck's screens as rows of its one frame (OnePlace.jsx), handed the same tour
+  // and the same samples; the deck itself (TourDeck.jsx) stays for any page that draws it.
+  assert.match(page, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>/);
+  assert.match(read('./OnePlace.jsx'), /<TourStage Screen=\{Screen\} active=\{on\} play=\{on && playing\} epoch=\{stages\.gen\[i\]\} sample=\{samples\?\.\[row\.id\] \?\? null\} \/>/);
   assert.match(read('./DemoDrill.jsx'), /import \{ DRILL as SAMPLE_FIVE \} from '\.\/sampleFive\.mjs';/);
   // The screen draws only what it is given: none of the five's words are written in the tour's own source.
   const screens = read('./TourScreens.jsx');

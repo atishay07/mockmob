@@ -253,7 +253,9 @@ test('footer Help: a guest goes to the landing’s public questions, a signed-in
   assert.match(read('src/app/page.js'), /<section className="lp-sec lp-sec--band" id="faq">/, 'the public questions have the anchor');
   // Arriving from another page (/pricing -> /#faq), the landing settles on the questions after its sections grow,
   // and the heading lands clear of the sticky nav. The student's own scroll stops the settle.
-  assert.match(read('src/app/page.js'), /<HashSettle \/>/);
+  // 21 Nov 2026: the home page settles on its other arrival addresses too (HASH_IDS), the FAQ still among them.
+  assert.match(read('src/app/page.js'), /<HashSettle ids=\{HASH_IDS\} \/>/);
+  assert.match(read('src/app/page.js'), /const HASH_IDS = \['faq', /);
   const settle = read('src/components/landing/HashSettle.jsx');
   assert.match(settle, /const DEFAULT_IDS = \['faq'\];/);
   assert.match(settle, /USER_INPUT\.forEach\(\(type\) => window\.addEventListener\(type, stop/);

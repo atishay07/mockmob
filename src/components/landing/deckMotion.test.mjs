@@ -81,5 +81,8 @@ test('the deck is one held story on every pointer, plays each demo as its card c
   assert.doesNotMatch(css, /transition:\s*all/);
   assert.match(css, /\.td-story\[data-pinned='false'\] \.td__card \{ position: static;/, 'without the hold the cards are a plain list');
   const page = read('../../app/page.js');
-  assert.match(page, /<TourDeck slides=\{TOUR\} samples=\{TOUR_SAMPLES\} \/>/);
+  // Since 21 Nov 2026 the home page draws the deck's screens as rows of its one frame (OnePlace.jsx), handed the same tour
+  // and the same samples; the deck itself (TourDeck.jsx) stays for any page that draws it.
+  assert.match(page, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>/);
+  assert.match(read('./OnePlace.jsx'), /<TourStage Screen=\{Screen\} active=\{on\} play=\{on && playing\} epoch=\{stages\.gen\[i\]\} sample=\{samples\?\.\[row\.id\] \?\? null\} \/>/);
 });

@@ -22,8 +22,9 @@ test('the band is mounted once, right under the site bar, with the page\'s held 
   assert.match(PAGE, /import \{ SectionPosition \} from '@\/components\/landing\/SectionPosition';/);
   assert.equal((PAGE.match(/<SectionPosition /g) || []).length, 1);
   assert.match(PAGE, /<NavBar \/>\s*<SectionPosition sections=\{POSITION\} \/>/);
-  // R11 (owner, 10 Nov 2026): the Score Recovery Lab told the Mistake Lab's feature again; it is one Lab now.
-  assert.deepEqual(IDS, ['inside-the-lab', 'your-prep']);
+  // R11 (owner, 10 Nov 2026): the Score Recovery Lab told the Mistake Lab's feature again; it is one Lab now. 21 Nov 2026:
+  // the tour deck (the other held story) became the one frame, which does not hold the screen, so the Lab is the only one.
+  assert.deepEqual(IDS, ['inside-the-lab']);
 });
 
 test('every name is a real section on the page, in page order, and a host for the stage offset', () => {
@@ -38,13 +39,15 @@ test('every name is a real section on the page, in page order, and a host for th
 
 test('the names are the product\'s own words for each held story; the headings now come from homeCopy.mjs (no kickers)', () => {
   assert.match(POSITION, /name: 'Inside the Mistake Lab'/);
-  assert.match(POSITION, /name: <>More inside <em>MockMob<\/em><\/>/);
+  assert.doesNotMatch(POSITION, /More inside/, 'the tour deck is not on the home page (21 Nov 2026)');
   assert.doesNotMatch(POSITION, /Score Recovery Lab/, 'R11: no Recovery story on the page');
   // 1104 P5 moved the headings into homeCopy.mjs and dropped the kickers above every h2: each held section still opens
   // with its own h2, and the tour's band name is that h2's words.
   // 18 Nov 2026: the Lab's heading carries one pen mark (Marked); its words are still LAB_HEAD.h2.
   assert.match(PAGE, /<h2 className="lp-h2" id="inside-the-lab-title"><Marked text=\{LAB_HEAD\.h2\} marks=/);
-  assert.match(PAGE, /<h2 className="lp-h2">\{TOUR_HEAD\.h2\}<\/h2>/);
+  // 21 Nov 2026: the tour's section is the one frame now, opening with its own h2 (ONE_PLACE.h2), not a held story.
+  assert.doesNotMatch(PAGE, /TOUR_HEAD/);
+  assert.match(PAGE, /<h2 className="lp-h2" id="op-title"><Marked text=\{ONE_PLACE\.h2\}/);
   assert.doesNotMatch(PAGE, /RECOVERY_HEAD/, 'R11: the Recovery section and its head are gone from the page');
   assert.match(read('./homeCopy.mjs'), /export const TOUR_HEAD = Object\.freeze\(\{\s*h2: 'More inside MockMob\.'/);
 });

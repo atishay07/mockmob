@@ -56,7 +56,7 @@ export const OPENING_WAIT_MS = 3000;
 /** A release past OPENING_LATE.out: the held still dissolves this fast (opening.css html[data-opening-late]). */
 export const OPENING_LATE_MS = 160;
 /**
- * The quick hand-off (21 Nov 2026, /home-next only: OpeningMo `fast`). After the release the layer plays no beat sequence:
+ * The quick hand-off (21 Nov 2026, the home page: OpeningMo `fast`). After the release the layer plays no beat sequence:
  * it hands over (the skip's own hand-off, OPENING_HAND_MS) as soon as the hero's own content has painted (a
  * largest-contentful-paint entry inside .lp-hero), and `wait` ms after the release at the latest. A weak device
  * (html[data-lite]) dissolves the still instead (OPENING_LATE_MS), the layer gone within `lite` ms of the release.
@@ -195,7 +195,7 @@ export function openingGate(w, d, cfg, quick) {
       later(done, cfg.out + 40);
       return;
     }
-    // The quick hand-off (/home-next only): openingQuick below, inlined only on that page.
+    // The quick hand-off (OpeningMo `fast`): openingQuick below, inlined only where it is asked for.
     if (quick) { quick(w, html, cfg, st, later, clear, flip, handoff, done); return; }
     if (late > cfg.late.short && mode === 'first') {
       mode = st.mode = 'short';
@@ -256,7 +256,7 @@ export function openingQuick(w, html, cfg, st, later, clear, flip, handoff, done
 
 const inlined = (fn) => fn.toString().replace(/\r\n/g, '\n').replace(/^[ \t]*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '');
 
-/** The inline script OpeningMo.jsx renders (before its layer). `fast`: the quick hand-off (openingQuick), /home-next only. */
+/** The inline script OpeningMo.jsx renders (before its layer). `fast`: the quick hand-off (openingQuick), the home page. */
 export function openingGateScript({ fast = false } = {}) {
   const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, flip: { ...OPENING_FLIP_MS }, hand: OPENING_HAND_MS, settle: OPENING_SETTLE_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], late: { ...OPENING_LATE }, wait: OPENING_WAIT_MS, out: OPENING_LATE_MS };
   if (fast) cfg.fast = { ...OPENING_FAST };
