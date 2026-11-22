@@ -1,0 +1,1316 @@
+{
+ "paper": "cuet2026-history",
+ "subject": "history",
+ "subjectName": "History",
+ "subjectCode": "314",
+ "examDate": "2026-05-24",
+ "shift": "Second",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper History, 42 PDF pages: a cover plus 41 numbered pages), https://docs.aglasem.com/view/71d24a10-c701-11f1-8cb1-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/71d24a10-c701-11f1-8cb1-0aa932765c8b/71d24a10-c701-11f1-8cb1-0aa932765c8b.pdf (9,870,409 bytes), downloaded 22 Nov 2026 under the owner's 22 Nov 2026 request for more subjects. English text transcribed from the page images (OCR used as a cross-check). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 314.",
+ "provenance": {
+  "viewUrl": "https://docs.aglasem.com/view/71d24a10-c701-11f1-8cb1-0aa932765c8b",
+  "pdfUrl": "https://cdn.aglasem.com/aglasem-doc/71d24a10-c701-11f1-8cb1-0aa932765c8b/71d24a10-c701-11f1-8cb1-0aa932765c8b.pdf",
+  "downloaded": "2026-11-22",
+  "fileBytes": 9870409,
+  "localFile": "tmp/1122-coverage/papers/history/dl/cuet2026-history.pdf",
+  "shift": "24-05-2026 (Second)",
+  "keySubjectCode": "314",
+  "keyRowsForShift": 50,
+  "authenticated": 50
+ },
+ "structure": "One mandatory section of 50 numbered questions (101 to 150) printed in English then Hindi: sub-section 1 has 40 stand-alone MCQs (101-140), sub-sections 2 and 3 have one comprehension passage each with 5 questions (141-145 and 146-150). The paper's own header says 'Number of Questions: 42' and 'Section Marks: 250'; fifty questions are printed.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 314 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question.",
+ "transcribedBy": "Subagent paper stage, 22 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed. Spelling and wording kept as printed (e.g. Q15 option 3 'Socarates', Q49 option D 'Deprive of', Q1 'decadent phase', Q9 'c.first-century CE').",
+  "Page = the PDF page image (pNN.png of the 42-page PDF; the printed footer is one lower) where the question header is printed; the English stem can sit at the top of the next page.",
+  "Match tables are written as rows 'List-I item | List-II item' in the order the paper prints them (A with I, B with II, C with III, D with IV). Lettered statement lists are written one per line.",
+  "OCR (RapidOCR at 200 and 300 dpi) missed the header of some questions; their option ids were read from the page image and agree with the consecutive-id pattern and with NTA's key option id.",
+  "Passage texts were taken from 300 dpi OCR of the page image and corrected against the image (41 OCR slips fixed in the passages; question stems and options were typed from the images, not OCR).",
+  "NTA's final key for subject 314 holds 13 shifts (11-05-2026 (First), 11-05-2026 (Second), 13-05-2026 (First), 13-05-2026 (Second), 20-05-2026 (First), 21-05-2026 (First), 21-05-2026 (Second), 23-05-2026 (First), 23-05-2026 (Second), 24-05-2026 (First), 24-05-2026 (Second), 25-05-2026 (First), 29-05-2026 (Second)); this paper is the 24-05-2026 (Second) shift, and all 50 question ids fall in that one shift. All 50 rows are single-answer, none dropped."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "keyRows": 50
+ },
+ "problems": [],
+ "passages": {
+  "P1-226895791401": {
+   "questionId": "226895791401",
+   "questionNumbers": "141 to 145",
+   "title": "1857: Shah Mal",
+   "page": 32,
+   "text": "Shah Mal lived in a large village in Uttar Pradesh. He belonged to a clan of Jat cultivators whose kinship ties extended over chaurasee des. The lands in the region were irrigated and fertile, with rich dark loam soil. Many of the villagers were prosperous and saw the British land revenue system as oppressive: the revenue demand was high and its collection inflexible. Consequently cultivators were losing land to outsiders, to traders and moneylenders who were coming into the area. Shah Mal mobilised the headmen and cultivators of chaurasee des, moving at night from village to village, urging people to rebel against the British. As in many other places, the revolt against the British turned into a general rebellion against all signs of oppression and injustice. Cultivators left their fields and plundered the houses of moneylenders and traders. Displaced proprietors took possession of the lands they had lost. Shah Mal’s men attacked government buildings, destroyed the bridge over the river, and dug up metalled roads – partly to prevent government forces from coming into the area, and partly because bridges and roads were seen as symbols of British rule. They sent supplies to the sepoys who had mutinied in Delhi and stopped all official communication between British headquarters and Meerut. Locally acknowledged as the Raja, Shah Mal took over the bungalow of an English officer, turned it into a “hall of justice”, settling disputes and dispensing judgments. He also set up an amazingly effective network of intelligence. For a period the people of the area felt that firangi raj was over, and their raj had come. Shah Mal was killed in battle in July 1857."
+  },
+  "P2-226895791407": {
+   "questionId": "226895791407",
+   "questionNumbers": "146 to 150",
+   "title": "Constitution: Welcoming the Objectives Resolution",
+   "page": 37,
+   "text": "\"...As an Adibasi, I am not expected to understand the legal intricacies of the Resolution. But my common sense tells me that every one of us should march in that road to freedom and fight together. Sir, if there is any group of Indian people that has been shabbily treated it is my people. They have been disgracefully treated, neglected for the last 6,000 years. … The whole history of my people is one of continuous exploitation and dispossession by the non-aboriginals of India punctuated by rebellions and disorder, and yet I take Pandit Jawaharlal Nehru at his word. I take you all at your word that now we are going to start a new chapter, a new chapter of independent India where there is equality of opportunity, where no one would be neglected.\" Singh spoke eloquently on the need to protect the tribes, and ensure conditions that could help them come up to the level of the general population. Tribes were not a numerical minority, he argued, but they needed protection. They had been dispossessed of the land they had settled, deprived of their forests and pastures, and forced to move in search of new homes. Perceiving them as primitive and backward, the rest of society had turned away from them, spurned them. He made a moving plea for breaking the emotional and physical distance that separated the tribals from the rest of society: “Our point is that you have got to mix with us. We are willing to mix with you … ”. Singh was not asking for separate electorates, but he felt that reservation of seats in the legislature was essential to allow tribals to represent themselves. It would be a way, he said, of compelling others to hear the voice of tribals, and come near them."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "questionId": "226895791361",
+   "page": 3,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Which of the following is the decadent phase of the Harappan Civilization?",
+   "options": [
+    "1900 BCE - 1300 BCE",
+    "2600 BCE - 1900 BCE",
+    "3000 BCE - 1300 BCE",
+    "3500 BCE - 2600 BCE"
+   ],
+   "optionIds": [
+    "2268953068889",
+    "2268953068890",
+    "2268953068891",
+    "2268953068892"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068889",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "questionId": "226895791362",
+   "page": 4,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Archaeo-botanists are specialised in ______.",
+   "options": [
+    "Ancient animal remains",
+    "Ancient plant remains",
+    "Ancient aquatic-animal remains",
+    "Ancient human remains"
+   ],
+   "optionIds": [
+    "2268953068893",
+    "2268953068894",
+    "2268953068895",
+    "2268953068896"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068894",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "questionId": "226895791363",
+   "page": 4,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Terracotta-models of the 'plough' have been found at which sites?",
+   "options": [
+    "Manda and Shortughai",
+    "Daimabad and Rangpur",
+    "Cholistan and Banawali",
+    "Lothal and Nageshwar"
+   ],
+   "optionIds": [
+    "2268953068897",
+    "2268953068898",
+    "2268953068899",
+    "2268953068900"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068899",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "questionId": "226895791364",
+   "page": 5,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Who was the first professional archaeologist to bring his experience of working in Greece and Crete to the field in India?",
+   "options": [
+    "R.E.M. Wheeler",
+    "John Marshall",
+    "G.F. Dales",
+    "Alexander Cunningham"
+   ],
+   "optionIds": [
+    "2268953068901",
+    "2268953068902",
+    "2268953068903",
+    "2268953068904"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068902",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "questionId": "226895791365",
+   "page": 5,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Identify the correct statements in terms of 'Mohenjodaro: as planned urban centre':\nA. The Lower Town at Mohenjodaro provides examples of residential buildings.\nB. There are no windows in the walls along the ground level.\nC. What is also interesting is an apparent no concern for privacy.\nD. Every house had its own bathroom paved with bricks.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953068905",
+    "2268953068906",
+    "2268953068907",
+    "2268953068908"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068905",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "questionId": "226895791366",
+   "page": 6,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Associations) | LIST-II (Term/Name/Place)\nA. The study of DNA of ancient population | I. Mohenjodaro\nB. The first Director-General of the ASI | II. Shamans\nC. The stone statue of 'Priest-king' | III. Alexander Cunningham\nD. Men and women who claim magical and healing powers | IV. Archaeogenetics\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - I, B - III, C - II, D - IV",
+    "A - IV, B - III, C - I, D - II",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "optionIds": [
+    "2268953068909",
+    "2268953068910",
+    "2268953068911",
+    "2268953068912"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068911",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "questionId": "226895791367",
+   "page": 8,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Which of the following evidence shows that the Harappans believed in the afterlife?",
+   "options": [
+    "Metal Figurines and Vessels",
+    "Great Bath and Docks",
+    "Pottery and Ornaments",
+    "Massive Pyramids"
+   ],
+   "optionIds": [
+    "2268953068913",
+    "2268953068914",
+    "2268953068915",
+    "2268953068916"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068915",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "questionId": "226895791368",
+   "page": 8,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Arrange the following early-states from north to south:\nA. Ashmaka\nB. Matsya\nC. Gandhara\nD. Avanti\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, A, C, D",
+    "C, B, D, A"
+   ],
+   "optionIds": [
+    "2268953068917",
+    "2268953068918",
+    "2268953068919",
+    "2268953068920"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068920",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "questionId": "226895791369",
+   "page": 9,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Which rulers issued the largest hoards of gold coins in the c.first-century CE?",
+   "options": [
+    "Mauryas",
+    "Guptas",
+    "Shakas",
+    "Kushanas"
+   ],
+   "optionIds": [
+    "2268953068921",
+    "2268953068922",
+    "2268953068923",
+    "2268953068924"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068924",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "questionId": "226895791370",
+   "page": 10,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Identify the scripts which were deciphered by James Prinsep in 1830s?",
+   "options": [
+    "Pali and Greek",
+    "Prakrit and Gurumukhi",
+    "Brahmi and Kharosthi",
+    "Roman and Sanskrit"
+   ],
+   "optionIds": [
+    "2268953068925",
+    "2268953068926",
+    "2268953068927",
+    "2268953068928"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068927",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "questionId": "226895791371",
+   "page": 10,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "From c. ______, the most visible trend was the emergence of early states, empires and kingdoms.",
+   "options": [
+    "Sixth-Century BCE",
+    "Seventh-Century CE",
+    "Fifth-Century BP",
+    "Fourth-Century BCE"
+   ],
+   "optionIds": [
+    "2268953068929",
+    "2268953068930",
+    "2268953068931",
+    "2268953068932"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068929",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "questionId": "226895791372",
+   "page": 11,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Arrange the following textual traditions in chronological order:\nA. The works on astronomy and mathematics by Aryabhata and Varahamihira\nB. Early Buddhist texts including the Tripitaka\nC. Ashtadhyayi of Panini, a work on Sanskrit grammar\nD. Natyashastra of Bharata, a work on dramaturgy\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, D, C, A",
+    "C, B, D, A"
+   ],
+   "optionIds": [
+    "2268953068933",
+    "2268953068934",
+    "2268953068935",
+    "2268953068936"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068936",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "questionId": "226895791373",
+   "page": 12,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Who provided money for the preservation of the ancient site of 'Sanchi'?",
+   "options": [
+    "Sultan Jehan Begum",
+    "Sultana Jahanara Begum",
+    "Sultan Shahnur Begum",
+    "Sultan Rokeya Begum"
+   ],
+   "optionIds": [
+    "2268953068937",
+    "2268953068938",
+    "2268953068939",
+    "2268953068940"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068937",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "questionId": "226895791374",
+   "page": 12,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "According to the ______, the paternal estate was to be divided equally amongst sons after the death of the parents, with a special share for the eldest.",
+   "options": [
+    "Manusmriti",
+    "Upanishads",
+    "Mahabharata",
+    "Puranas"
+   ],
+   "optionIds": [
+    "2268953068941",
+    "2268953068942",
+    "2268953068943",
+    "2268953068944"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068941",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "questionId": "226895791375",
+   "page": 13,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Identify the incorrect match in terms of thinkers and their associative countries:",
+   "options": [
+    "Zarathustra - Iran",
+    "Kong Zi - China",
+    "Socarates - Germany",
+    "Mahavira - India"
+   ],
+   "optionIds": [
+    "2268953068945",
+    "2268953068946",
+    "2268953068947",
+    "2268953068948"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068947",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "questionId": "226895791376",
+   "page": 14,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "'Hagiography' is a ______ of a saint or a religious leader.",
+   "options": [
+    "Biography",
+    "Autobiography",
+    "Excerpt",
+    "Poem"
+   ],
+   "optionIds": [
+    "2268953068949",
+    "2268953068950",
+    "2268953068951",
+    "2268953068952"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068949",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "questionId": "226895791377",
+   "page": 14,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Jaina monks and nuns took five vows. Identify the correct statements from below:\nA. Abstain from killing\nB. Abstain from stealing and lying\nC. Renounce monastic existence and embrace the world\nD. Abstain from possessing property\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and C only",
+    "A, B and D only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953068953",
+    "2268953068954",
+    "2268953068955",
+    "2268953068956"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068954",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "questionId": "226895791378",
+   "page": 15,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "According to which tradition, “Be lamps unto yourselves as all of you must work out your own liberation”?",
+   "options": [
+    "Buddhist",
+    "Jainism",
+    "Ajivikas",
+    "Lokayatas"
+   ],
+   "optionIds": [
+    "2268953068957",
+    "2268953068958",
+    "2268953068959",
+    "2268953068960"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068957",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "questionId": "226895791379",
+   "page": 16,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Who appointed Ibn Battuta the qazi or judge of Delhi?",
+   "options": [
+    "Balban",
+    "Firoz Shah Tughlaq",
+    "Mahmud of Ghazni",
+    "Muhammad bin Tughlaq"
+   ],
+   "optionIds": [
+    "2268953068961",
+    "2268953068962",
+    "2268953068963",
+    "2268953068964"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068964",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "questionId": "226895791380",
+   "page": 16,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Traveller) | LIST-II (Origin-Country)\nA. Marco Polo | I. Portugal\nB. Duarte Barbosa | II. Italy\nC. Peter Mundy | III. Russia\nD. Afanasii Nikitich Nikitin | IV. England\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - II, B - I, C - IV, D - III",
+    "A - I, B - II, C - III, D - IV",
+    "A - II, B - I, C - III, D - IV",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "optionIds": [
+    "2268953068965",
+    "2268953068966",
+    "2268953068967",
+    "2268953068968"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068965",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "questionId": "226895791381",
+   "page": 17,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Sculpture of a Buddhist goddess 'Marichi' was found in ______.",
+   "options": [
+    "Bihar",
+    "United Provinces",
+    "Maharashtra",
+    "Bengal"
+   ],
+   "optionIds": [
+    "2268953068969",
+    "2268953068970",
+    "2268953068971",
+    "2268953068972"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068969",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "questionId": "226895791382",
+   "page": 18,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "According to the historians of religion, 'Saguna bhakti' included which type of traditions?",
+   "options": [
+    "Worship of an abstract form of god",
+    "Worship of non-specific deities",
+    "Worship of gods often conceptualised in anthropomorphic forms",
+    "No worship of any form of god"
+   ],
+   "optionIds": [
+    "2268953068973",
+    "2268953068974",
+    "2268953068975",
+    "2268953068976"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068975",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "questionId": "226895791383",
+   "page": 18,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Which woman 'Alvar' saw herself as the beloved of Vishnu?",
+   "options": [
+    "Appar",
+    "Andal",
+    "Karaikkal Ammaiyar",
+    "Nalayira Andala"
+   ],
+   "optionIds": [
+    "2268953068977",
+    "2268953068978",
+    "2268953068979",
+    "2268953068980"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068978",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "questionId": "226895791384",
+   "page": 19,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Arrange the following major religious teachers in chronological order:\nA. Sambandar in Tamil Nadu\nB. Basavanna in Karnataka\nC. Lal Shahbaz Qalandar in Sind\nD. Sri Chaitanya in Bengal\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, A, D, C",
+    "C, B, D, A"
+   ],
+   "optionIds": [
+    "2268953068981",
+    "2268953068982",
+    "2268953068983",
+    "2268953068984"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068981",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "questionId": "226895791385",
+   "page": 20,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "The Vijayanagara Empire, was described by the contemporaries as the ______.",
+   "options": [
+    "Tamilkam Samrajyamu",
+    "Karnataka Samrajyamu",
+    "Vijayanagara Samrajyamu",
+    "Kerala Samrajyamu"
+   ],
+   "optionIds": [
+    "2268953068985",
+    "2268953068986",
+    "2268953068987",
+    "2268953068988"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068986",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "questionId": "226895791386",
+   "page": 20,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Which Vijayanagara ruler took pride in the title, “establisher of the Yavana kingdom”?",
+   "options": [
+    "Harihara Raya",
+    "Rama Raya",
+    "Krishnadeva Raya",
+    "Bukka Raya"
+   ],
+   "optionIds": [
+    "2268953068989",
+    "2268953068990",
+    "2268953068991",
+    "2268953068992"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068991",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "questionId": "226895791387",
+   "page": 21,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Structures) | LIST-II (Use/Purpose/ Characteristics)\nA. Mahanavami Dibba | I. Made to store rainwater\nB. Kamalapuram tank | II. Chariot streets\nC. Vitthala temple | III. Massive platform\nD. Hazara Rama temple | IV. Used only by the king and his family\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - III, B - I, C - II, D - IV",
+    "A - I, B - II, C - III, D - IV",
+    "A - I, B - II, C - IV, D - III",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "optionIds": [
+    "2268953068993",
+    "2268953068994",
+    "2268953068995",
+    "2268953068996"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068993",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "questionId": "226895791388",
+   "page": 22,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Identify the correct statements in relation to 'Vijayanagara Empire':\nA. The first dynasty, Sangama dynasty exercised control till 1488.\nB. They were supplanted by the Saluvas.\nC. The Saluvas remained in power till 1503.\nD. Krishnadeva Raya belonged to the Tuluva dynasty.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "B, C and D only",
+    "A, B and C only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953068997",
+    "2268953068998",
+    "2268953068999",
+    "2268953069000"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068998",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "questionId": "226895791389",
+   "page": 23,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Which dynasty ruled from 'Penukonda'?",
+   "options": [
+    "Tuluvas",
+    "Gajapatis",
+    "Deccan Sultans",
+    "Aravidu"
+   ],
+   "optionIds": [
+    "2268953069001",
+    "2268953069002",
+    "2268953069003",
+    "2268953069004"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069004",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "questionId": "226895791390",
+   "page": 24,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Which crop was introduced into India via Africa and Spain by the seventeenth-century?",
+   "options": [
+    "Tobacco",
+    "Maize",
+    "Cotton",
+    "Sugarcane"
+   ],
+   "optionIds": [
+    "2268953069005",
+    "2268953069006",
+    "2268953069007",
+    "2268953069008"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069006",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "questionId": "226895791391",
+   "page": 24,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "In the Indo-Persian sources of the Mughal period, the term 'pahi-kashta' refers to:",
+   "options": [
+    "Non-resident cultivators who belonged to some other village, but cultivated lands elsewhere on a contractual basis",
+    "Non-resident cultivators who produced artefacts on a contractual basis",
+    "Permanent resident cultivators who belonged to some other village and cultivated lands",
+    "Residents of the village in which they held their lands"
+   ],
+   "optionIds": [
+    "2268953069009",
+    "2268953069010",
+    "2268953069011",
+    "2268953069012"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069009",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "questionId": "226895791392",
+   "page": 25,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "______ documents and village surveys made in the early years of British rule have revealed the existence of artisans, sometimes as high as 25 per cent of total village households.",
+   "options": [
+    "Persian",
+    "Bengali",
+    "Marathi",
+    "Marwari"
+   ],
+   "optionIds": [
+    "2268953069013",
+    "2268953069014",
+    "2268953069015",
+    "2268953069016"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069015",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "questionId": "226895791393",
+   "page": 26,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Arrange the following historical events in chronological order:\nA. Nadir Shah invades India and sacks Delhi\nB. The 'diwani' of Bengal transferred to the East India Company\nC. Ahmad Shah Abdali defeats the Marathas in the third battle of Panipat\nD. Babur defeats Ibrahim Lodi, the Delhi Sultan, at Panipat\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "D, A, C, B",
+    "B, A, D, C",
+    "D, B, C, A"
+   ],
+   "optionIds": [
+    "2268953069017",
+    "2268953069018",
+    "2268953069019",
+    "2268953069020"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069018",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "questionId": "226895791394",
+   "page": 26,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Meanings) | LIST-II (Terms)\nA. Responsible for supervising the fiscal system of the empire | I. Daftar of the Diwan\nB. Responsible for collection of revenue | II. Amil-guzar\nC. The amount assessed as tax from a land | III. Jama\nD. The amount collected as tax from a land | IV. Hasil\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - I, B - II, C - IV, D - III",
+    "A - I, B - III, C - II, D - IV",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "optionIds": [
+    "2268953069021",
+    "2268953069022",
+    "2268953069023",
+    "2268953069024"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069021",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "questionId": "226895791395",
+   "page": 28,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "In late eighteenth-century revenue records, the hill folks living around Rajmahal hills were known as ______.",
+   "options": [
+    "Manjhis",
+    "Santhals",
+    "Paharias",
+    "Kaduyas"
+   ],
+   "optionIds": [
+    "2268953069025",
+    "2268953069026",
+    "2268953069027",
+    "2268953069028"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069027",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "questionId": "226895791396",
+   "page": 28,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Who wrote a petition to the Collector of Ahmednagar, Deccan Riots Commission, from the village of Mirajgaon?",
+   "options": [
+    "Sahukars",
+    "Zamindars",
+    "Taluqdars",
+    "Ryots"
+   ],
+   "optionIds": [
+    "2268953069029",
+    "2268953069030",
+    "2268953069031",
+    "2268953069032"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069032",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "questionId": "226895791397",
+   "page": 29,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Identify the meaning of the term 'Rentier'?",
+   "options": [
+    "People who took a property on rent",
+    "People who help others to take a property on rent",
+    "People who collect the rent of a property",
+    "People who live on rental income from property"
+   ],
+   "optionIds": [
+    "2268953069033",
+    "2268953069034",
+    "2268953069035",
+    "2268953069036"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069036",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "questionId": "226895791398",
+   "page": 30,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "On which occasion, the first public announcement was made regarding Gandhiji's own desire to make Indian nationalism more properly representative of the Indian people as a whole?",
+   "options": [
+    "During a public rally in South-Africa",
+    "During speech at the opening of Banaras Hindu University",
+    "During a public meeting of Non-Cooperation Movement",
+    "During speech at the Salt-March at Dandi"
+   ],
+   "optionIds": [
+    "2268953069037",
+    "2268953069038",
+    "2268953069039",
+    "2268953069040"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069038",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "questionId": "226895791399",
+   "page": 30,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "A series of ______ was established to promote nationalist creed in the princely states.",
+   "options": [
+    "Swadeshi-Mandals",
+    "Swaraj-Sabhas",
+    "Prati-Sarkars",
+    "Praja-Mandals"
+   ],
+   "optionIds": [
+    "2268953069041",
+    "2268953069042",
+    "2268953069043",
+    "2268953069044"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069044",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "questionId": "226895791400",
+   "page": 31,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "stem": "Identify the correct statements regarding the 'Salt-March':\nA. On 12 March 1930, Gandhiji began walking from his ashram at Sabarmati towards the ocean.\nB. Lord Irwin was the Viceroy of India during the famous 'Salt March' of 1930.\nC. The progress of 'Salt March' can be traced from an important source: the London newsmagazine, London News.\nD. The progress of Gandhiji's march can also be traced from the secret-reports filed by the police officials.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953069045",
+    "2268953069046",
+    "2268953069047",
+    "2268953069048"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069045",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image"
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "questionId": "226895791402",
+   "page": 35,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "stem": "Shah Mal belonged to which pargana in Uttar Pradesh?",
+   "options": [
+    "Barout",
+    "Chinhat",
+    "Bardoli",
+    "Awadh"
+   ],
+   "optionIds": [
+    "2268953069049",
+    "2268953069050",
+    "2268953069051",
+    "2268953069052"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069049",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P1-226895791401"
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "questionId": "226895791403",
+   "page": 33,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "stem": "Cultivators revolted against the British because:",
+   "options": [
+    "The lands in the region were not fertile",
+    "British land revenue system was considered just and based on correct revenue demands",
+    "Villagers were poor and drought-stricken",
+    "British land revenue system was considered oppressive due to high revenue demands"
+   ],
+   "optionIds": [
+    "2268953069053",
+    "2268953069054",
+    "2268953069055",
+    "2268953069056"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069056",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P1-226895791401"
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "questionId": "226895791404",
+   "page": 33,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "stem": "Arrange the following events in a chronological order:\nA. Shah Mal was killed in battle in July 1857\nB. Cultivators left their fields and plundered the houses of moneylenders and traders\nC. Shah Mal moved at night from village to village, urging people to rebel against the British\nD. Shah Mal’s men stopped all official communication between British headquarters and Meerut\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "A, C, D, B",
+    "B, A, D, C",
+    "C, B, D, A"
+   ],
+   "optionIds": [
+    "2268953069057",
+    "2268953069058",
+    "2268953069059",
+    "2268953069060"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069060",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P1-226895791401"
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "questionId": "226895791405",
+   "page": 34,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "stem": "For what purpose was the “hall of justice” used by Shah Mal?",
+   "options": [
+    "Used as an uprising headquarters",
+    "Used for storing arms and ammunitions",
+    "Used for conducting official meetings",
+    "Used for settling disputes and dispensing judgments"
+   ],
+   "optionIds": [
+    "2268953069061",
+    "2268953069062",
+    "2268953069063",
+    "2268953069064"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069064",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header), matched to key; English text transcribed from the page image",
+   "passage": "P1-226895791401"
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "questionId": "226895791406",
+   "page": 36,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Leaders) | LIST-II (Associations)\nA. Danka Shah | I. Successor to Peshwa Baji Rao II\nB. Nana Sahib | II. Local zamindar in Arrah\nC. Kunwar Singh | III. Battle of Chinhat\nD. Rani Lakshmi Bai | IV. Killed in the battle in June 1858\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - III, B - I, C - II, D - IV",
+    "A - IV, B - II, C - III, D - I",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "optionIds": [
+    "2268953069065",
+    "2268953069066",
+    "2268953069067",
+    "2268953069068"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069066",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P1-226895791401"
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "questionId": "226895791408",
+   "page": 37,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "stem": "Identify the speaker of this passage:",
+   "options": [
+    "Jawaharlal Nehru",
+    "Vallabhbhai Patel",
+    "Jaipal Singh",
+    "Govind Ballabh Pant"
+   ],
+   "optionIds": [
+    "2268953069069",
+    "2268953069070",
+    "2268953069071",
+    "2268953069072"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069071",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P2-226895791407"
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "questionId": "226895791409",
+   "page": 38,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "stem": "Which social group is the subject of concern to the speaker?",
+   "options": [
+    "Working Class",
+    "Religious Minorities",
+    "Tribal People",
+    "Farmers"
+   ],
+   "optionIds": [
+    "2268953069073",
+    "2268953069074",
+    "2268953069075",
+    "2268953069076"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069075",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P2-226895791407"
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "questionId": "226895791410",
+   "page": 38,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "stem": "According to the speaker, the whole history of his people is one of ______.",
+   "options": [
+    "Prosperity and development by the aboriginals of India",
+    "Continuous exploitation and dispossession by the non-aboriginals of India",
+    "Ignorance and isolation from the global network",
+    "Modern education and social advancement in all sectors"
+   ],
+   "optionIds": [
+    "2268953069077",
+    "2268953069078",
+    "2268953069079",
+    "2268953069080"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069078",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header), matched to key; English text transcribed from the page image",
+   "passage": "P2-226895791407"
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "questionId": "226895791411",
+   "page": 38,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "stem": "The need for protection of the 'forest dwellers' is necessitated by which reasons? Identify the correct statements:\nA. They had been dispossessed of the land they had settled\nB. Perceiving them as primitive and backward\nC. The rest of society had turned away from them\nD. Deprive of their forest and pastures\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953069081",
+    "2268953069082",
+    "2268953069083",
+    "2268953069084"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069083",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P2-226895791407"
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "questionId": "226895791412",
+   "page": 39,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "stem": "What measure was suggested by the speaker for breaking the emotional and physical distance that separated the tribals from the rest of society?",
+   "options": [
+    "Reservation of seats in the legislature for the tribals",
+    "Separate electorates for the tribals",
+    "Development of modern education",
+    "Establishment of special department for tribals"
+   ],
+   "optionIds": [
+    "2268953069085",
+    "2268953069086",
+    "2268953069087",
+    "2268953069088"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069085",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi), matched to key; English text transcribed from the page image",
+   "passage": "P2-226895791407"
+  }
+ ]
+}

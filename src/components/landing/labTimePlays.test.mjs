@@ -17,7 +17,9 @@ const LAB = read('MistakeLab.jsx');
 test('the first scene (Chapters since R11) waits for the lab to be in view, then plays; the other scenes play when they come on', () => {
   assert.equal(LAB_SCENES[0].key, 'chapters');
   assert.ok(LAB_SCENES.findIndex((s) => s.key === 'time') > 0, 'Time is not the first scene any more');
-  assert.match(CINEMA, /data-armed=\{i === 0 && !armed \? 'false' : 'true'\}/);
+  // LK366 (22 Nov 2026): the next look's first scene also waits until the stage is held (firstReady = armed, and held).
+  assert.match(CINEMA, /const firstReady = next \? armed && held : armed;/);
+  assert.match(CINEMA, /data-armed=\{i === 0 && !firstReady \? 'false' : 'true'\}/);
   assert.match(CINEMA, /intersectionRatio >= 0\.5\) setArmed\(true\)/);
   assert.match(CINEMA, /else if \(!entry\.isIntersecting\) setArmed\(false\)/);
   // Collapsed state is shared with the off state, and resets at once (no delayed reset on an undrawn section): the Chapters

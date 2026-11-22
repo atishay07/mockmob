@@ -14,6 +14,21 @@
   "explanation": "The simple multiplier is 1/CRR = 1/0.10 = 10 when currency held by public is ignored.",
   "from": "saved read-only snapshot econB/bank_economics.json"
  },
+ "0f03d599-563e-4491-9472-78f48dd5dc24": {
+  "subject": "history",
+  "chapter": "Through the Eyes of Travellers",
+  "stem": "Which Sultan, impressed by Ibn Battuta's scholarship, appointed him the qazi (judge) of Delhi?",
+  "passage": null,
+  "options": [
+   "Alauddin Khalji",
+   "Firuz Shah Tughlaq",
+   "Balban",
+   "Muhammad bin Tughlaq"
+  ],
+  "key": 3,
+  "explanation": "Ibn Battuta reached Sind in 1333. Sultan Muhammad bin Tughlaq was impressed by his learning and appointed him qazi of Delhi, a post he held for several years.",
+  "from": "saved read-only snapshot history/bank_history.json"
+ },
  "204e5691-057d-4b2a-b119-3cc545aec418": {
   "subject": "business_studies",
   "chapter": "Consumer Protection",
@@ -103,6 +118,21 @@
   "key": 0,
   "explanation": "Capital structure denotes the proportionate mix of long-term funds (debt and equity) used to finance a firm.",
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "c53a951d-2fd7-4ca8-9099-e78a8f067659": {
+  "subject": "history",
+  "chapter": "Peasants, Zamindars & the State",
+  "stem": "In Mughal India, peasants who cultivated land in a village other than the one in which they lived, on a contractual basis, were known as:",
+  "passage": null,
+  "options": [
+   "Khud-kashta",
+   "Pahi-kashta",
+   "Muzarian",
+   "Qanungo"
+  ],
+  "key": 1,
+  "explanation": "Pahi-kashta were non-resident cultivators who belonged to another village but cultivated land elsewhere on a contractual basis. Khud-kashta were resident cultivators of their own village. Muzarian is a general term for peasants, and the qanungo was a keeper of revenue records.",
+  "from": "saved read-only snapshot history/bank_history.json"
  },
  "cbf67f50-bc67-4520-97b8-7d981f4bb31a": {
   "subject": "psychology",

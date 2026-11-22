@@ -1,0 +1,1383 @@
+{
+ "paper": "cuet2026-history",
+ "subject": "history",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "314",
+  "date": "2026-05-24",
+  "shift": "Second",
+  "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper History, 42 PDF pages: a cover plus 41 numbered pages), https://docs.aglasem.com/view/71d24a10-c701-11f1-8cb1-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/71d24a10-c701-11f1-8cb1-0aa932765c8b/71d24a10-c701-11f1-8cb1-0aa932765c8b.pdf (9,870,409 bytes), downloaded 22 Nov 2026 under the owner's 22 Nov 2026 request for more subjects. English text transcribed from the page images (OCR used as a cross-check). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 314.",
+  "keySource": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 314 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question."
+ },
+ "snapshotDate": "2026-11-22",
+ "bankRead": "One read-only read on 22 Nov 2026 with the repo read script (SELECT only): 273 visible history rows, of which 259 pass readablePracticeQuestions (equals the 259 in the 21 Nov inventory snapshot; the 14 others are visible but not eligible and are not cited). Served copy: tmp/1122-coverage/snap/history/served_rows.json and served_history.json (eligibility output eligible.txt).",
+ "keyCardDeck": "data/keycards/decks/history.json (v3, 1587 cards; key_card_suspended was not re-read, the earlier subjects had none suspended)",
+ "syllabusSource": "Bank chapter names for history; every question sits on the 2026 syllabus (Themes in Indian History I to III).",
+ "checker": "A",
+ "method": "data/coverage/METHOD.md (STRICT rule; doubtful = not covered; Key cards count for theory; an answer readable off a printed passage is skill). Facts written first: tmp/1122-coverage/checkerA-hist/A_facts_before_search.txt. Search: tmp/1122-coverage/checkerA-hist/s.mjs over the served copy and the deck; builder build_A.mjs checks every cited id.",
+ "paperStructure": "One compulsory History paper of 50 questions: Sub-section 1 = 40 single questions (Q101-140), Sub-section 2 = a comprehension passage on Shah Mal (1857) with 5 questions (Q141-145), Sub-section 3 = a comprehension passage on the Constituent Assembly speech of an Adibasi member with 5 questions (Q146-150). The printed section header says 42 questions, which does not match the 50 ids printed; the key has 50 rows for this shift.",
+ "counts": {
+  "covered": 28,
+  "not_covered": 14,
+  "skill": 8,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 42
+ },
+ "countsBySection": {
+  "subSection1": {
+   "covered": 26,
+   "not_covered": 14
+  },
+  "passage1": {
+   "covered": 2,
+   "skill": 3
+  },
+  "passage2": {
+   "skill": 5
+  }
+ },
+ "byType": {
+  "theory": {
+   "covered": 28,
+   "not_covered": 14,
+   "skill": 8,
+   "countable": 42
+  },
+  "numerical": {
+   "covered": 0,
+   "not_covered": 0,
+   "skill": 0,
+   "countable": 0
+  }
+ },
+ "coveredWithABankMatch": 3,
+ "byChapter": {
+  "Bricks, Beads & Bones": {
+   "covered": 4,
+   "not_covered": 3
+  },
+  "Kings, Farmers & Towns": {
+   "covered": 2,
+   "not_covered": 2
+  },
+  "Kinship, Caste & Class": {
+   "covered": 0,
+   "not_covered": 2
+  },
+  "Thinkers, Beliefs & Buildings": {
+   "covered": 4,
+   "not_covered": 0
+  },
+  "Bhakti-Sufi Traditions": {
+   "covered": 3,
+   "not_covered": 2
+  },
+  "Through the Eyes of Travellers": {
+   "covered": 1,
+   "not_covered": 1
+  },
+  "An Imperial Capital — Vijayanagara": {
+   "covered": 3,
+   "not_covered": 2
+  },
+  "Peasants, Zamindars & the State": {
+   "covered": 5,
+   "not_covered": 0
+  },
+  "Colonialism & the Countryside": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Mahatma Gandhi & the Nationalist Movement": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Rebels & the Raj": {
+   "covered": 2,
+   "not_covered": 0
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "questionId": "226895791361",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Bricks, Beads & Bones",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The decadent (Late Harappan) phase of the civilisation is c. 1900 BCE to 1300 BCE"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.bricks-beads-and-bones.types-phases",
+     "teaches": "Early, Mature (2600-1900) and the decadent phase 1900-1300 BCE termed Late Harappan"
+    }
+   ],
+   "best": "kc.history.bricks-beads-and-bones.types-phases",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card calls 1900-1300 BCE the decadent phase, the same wording and answer."
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "questionId": "226895791362",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "Bricks, Beads & Bones",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Archaeo-botanists are specialists in ancient plant remains"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.bricks-beads-and-bones.def-archaeo-botanists",
+     "teaches": "archaeo-botanists are specialists in ancient plant remains"
+    }
+   ],
+   "best": "kc.history.bricks-beads-and-bones.def-archaeo-botanists",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "questionId": "226895791363",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Bricks, Beads & Bones",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Terracotta models of the plough have been found at Cholistan and Banawali"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.bricks-beads-and-bones.fact-oxen-ploughing",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The only plough cards say the bull on seals suggests oxen ploughing, and Cholistan appears only as abandoned Mature Harappan sites; no served row or card names Banawali or says plough models were found at Cholistan and Banawali."
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "questionId": "226895791364",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "Bricks, Beads & Bones",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "John Marshall was the first professional archaeologist to bring experience from Greece and Crete to India"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.bricks-beads-and-bones.fact-marshall-first-professional",
+     "teaches": "first professional archaeologist, brought his Greece and Crete experience"
+    }
+   ],
+   "best": "kc.history.bricks-beads-and-bones.fact-marshall-first-professional",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states exactly this about Marshall."
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "questionId": "226895791365",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Bricks, Beads & Bones",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Lower Town at Mohenjodaro provides examples of residential buildings (statement A, true)",
+    "no windows in ground-level walls (B, true)",
+    "an apparent concern for privacy, so \"no concern\" is false (C)",
+    "every house had its own brick-paved bathroom (D, true)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.bricks-beads-and-bones.kl-no-windows-privacy",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the no-windows and privacy point and the brick-paved bathroom in every house, but nothing served says the Lower Town provides examples of residential buildings; the item tests all four statements."
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "questionId": "226895791366",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Bricks, Beads & Bones",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Archaeogenetics = study of the DNA of ancient populations",
+    "Alexander Cunningham was the first Director-General of the ASI",
+    "the stone statue \"priest-king\" is from Mohenjodaro",
+    "shamans claim magical and healing powers"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.bricks-beads-and-bones.def-archaeogenetics",
+     "teaches": "study of DNA of ancient population"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.bricks-beads-and-bones.fact-cunningham-texts",
+     "teaches": "Cunningham, the first Director-General of the ASI"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.bricks-beads-and-bones.fact-priest-king",
+     "teaches": "stone statue from Mohenjodaro called the priest-king"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.bricks-beads-and-bones.def-shamans",
+     "teaches": "men and women who claim magical and healing powers"
+    }
+   ],
+   "best": "kc.history.bricks-beads-and-bones.def-archaeogenetics",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four cards give the four pairs of the match."
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "questionId": "226895791367",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Bricks, Beads & Bones",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Harappans seem to have believed in the afterlife: pottery and ornaments buried with the dead"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.bricks-beads-and-bones.fact-jewellery-in-burials",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards say the dead were laid in pits and that jewellery is found in burials of men and women; none says pottery and ornaments were buried in the belief of an afterlife."
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "questionId": "226895791368",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "Kings, Farmers & Towns",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Early states north to south: Gandhara, Matsya, Avanti, Ashmaka (Assaka)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.kings-farmers-and-towns.list-mahajanapadas-names",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards list the mahajanapada names (Gandhara, Avanti among them) but no served material places Matsya or Ashmaka or gives their north-to-south order."
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "questionId": "226895791369",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "Kings, Farmers & Towns",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Kushanas issued the largest hoards of gold coins in the first century CE"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.kings-farmers-and-towns.fact-kushana-kingship-evidence",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards say the Guptas issued spectacular gold coins and that Kushana kingship shows in coins and sculpture; none says the Kushanas issued the largest gold coin hoards."
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "questionId": "226895791370",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Kings, Farmers & Towns",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "James Prinsep deciphered Brahmi and Kharosthi"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.kings-farmers-and-towns.fact-prinsep-deciphered",
+     "teaches": "Prinsep deciphered Brahmi and Kharosthi, scripts of the earliest inscriptions and coins"
+    }
+   ],
+   "best": "kc.history.kings-farmers-and-towns.fact-prinsep-deciphered",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "questionId": "226895791371",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Kings, Farmers & Towns",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "From c. sixth century BCE the visible trend was the emergence of early states, empires and kingdoms"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.kings-farmers-and-towns.list-sixth-century-associated",
+     "teaches": "the sixth century BCE is associated with early states, cities, iron and coinage"
+    }
+   ],
+   "best": "kc.history.kings-farmers-and-towns.list-sixth-century-associated",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card ties early states to the sixth century BCE, which fixes the blank."
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "questionId": "226895791372",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "Kinship, Caste & Class",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Panini c. 500 BCE",
+    "early Buddhist texts (Tripitaka) date",
+    "Natyashastra c. 300 CE",
+    "Aryabhata and Varahamihira date"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.kinship-caste-and-class.fact-timeline-ashtadhyayi",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Timeline cards date Panini (c. 500 BCE) and the Natyashastra (c. 300 CE), but nothing served dates the early Buddhist texts or the astronomy works of Aryabhata and Varahamihira."
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "questionId": "226895791373",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Shahjehan Begum and Sultan Jehan Begum of Bhopal gave money to preserve Sanchi"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.thinkers-beliefs-and-buildings.fact-begums-bhopal-funds",
+     "teaches": "Shahjehan Begum and Sultan Jehan Begum provided money to preserve the ancient site at Sanchi"
+    }
+   ],
+   "best": "kc.history.thinkers-beliefs-and-buildings.fact-begums-bhopal-funds",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "questionId": "226895791374",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Kinship, Caste & Class",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The Manusmriti is the text that says paternal estate is divided equally among sons, with a special share for the eldest"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.kinship-caste-and-class.fact-paternal-property-division",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The card states the rule but attributes it to \"the smriti tradition\"; nothing served names the Manusmriti as the source, so a student cannot match the rule to the text. Doubtful, so not covered."
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "questionId": "226895791375",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Socrates was a Greek thinker (Zarathustra Iran, Kong Zi China, Mahavira India)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.thinkers-beliefs-and-buildings.list-thinkers-mid-first-millennium",
+     "teaches": "Zarathustra in Iran, Kong Zi in China, Socrates, Plato and Aristotle in Greece, Mahavira and Buddha in India"
+    }
+   ],
+   "best": "kc.history.thinkers-beliefs-and-buildings.list-thinkers-mid-first-millennium",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the thinkers by country, so the Socrates-Germany pairing is the wrong one."
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "questionId": "226895791376",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Bhakti-Sufi Traditions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Hagiography is a biography of a saint or religious leader"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.thinkers-beliefs-and-buildings.def-hagiography",
+     "teaches": "hagiography is a biography of a saint or religious leader"
+    }
+   ],
+   "best": "kc.history.thinkers-beliefs-and-buildings.def-hagiography",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same definition."
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "questionId": "226895791377",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The five Jaina vows: abstain from killing, stealing and lying; celibacy; abstain from possessing property (renouncing monastic life is not one)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.thinkers-beliefs-and-buildings.list-jaina-five-vows",
+     "teaches": "abstain from killing, stealing and lying; observe celibacy; abstain from possessing property"
+    }
+   ],
+   "best": "kc.history.thinkers-beliefs-and-buildings.list-jaina-five-vows",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the vows, which shows statement C is not a vow."
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "questionId": "226895791378",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "\"Be lamps unto yourselves\" are the Buddha's last words in the Buddhist tradition"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.thinkers-beliefs-and-buildings.fact-buddha-last-words",
+     "teaches": "Buddha's last words: be lamps unto yourselves"
+    }
+   ],
+   "best": "kc.history.thinkers-beliefs-and-buildings.fact-buddha-last-words",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card quotes the same line and its source."
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "questionId": "226895791379",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "Through the Eyes of Travellers",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Muhammad bin Tughlaq appointed Ibn Battuta qazi (judge) of Delhi"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "0f03d599-563e-4491-9472-78f48dd5dc24",
+     "teaches": "asks which Sultan appointed Ibn Battuta qazi of Delhi: Muhammad bin Tughlaq"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.through-the-eyes-of-travellers.fact-battuta-qazi-delhi",
+     "teaches": "Sultan impressed by his scholarship appointed him qazi of Delhi"
+    }
+   ],
+   "best": "0f03d599-563e-4491-9472-78f48dd5dc24",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served bank row asks this very question with the same answer; a card backs it."
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "questionId": "226895791380",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Through the Eyes of Travellers",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Marco Polo - Italy",
+    "Duarte Barbosa - Portugal",
+    "Peter Mundy - England",
+    "Afanasii Nikitin - Russia"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.through-the-eyes-of-travellers.fact-marco-polo-italy",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give Marco Polo (Italy), the Portuguese writers including Barbosa, and Nikitin (Russia), but nothing served mentions Peter Mundy or England as a traveller's country; a match item needs every pair."
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "questionId": "226895791381",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Bhakti-Sufi Traditions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The sculpture of the Buddhist goddess Marichi was found in Bihar"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.bhakti-sufi-traditions.fact-tantric-practices",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "No served card or bank row mentions Marichi or says where the sculpture was found; the only nearby card is on Tantric practices."
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "questionId": "226895791382",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Bhakti-Sufi Traditions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Saguna bhakti: worship of specific deities, often conceptualised in anthropomorphic forms"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.bhakti-sufi-traditions.fact-saguna-focus",
+     "teaches": "saguna bhakti focused on worship of specific deities, often conceptualised in anthropomorphic forms"
+    }
+   ],
+   "best": "kc.history.bhakti-sufi-traditions.fact-saguna-focus",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card carries the key's own wording."
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "questionId": "226895791383",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "Bhakti-Sufi Traditions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Andal, a woman Alvar, saw herself as the beloved of Vishnu"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.bhakti-sufi-traditions.fact-andal",
+     "teaches": "Andal saw herself as the beloved of Vishnu"
+    }
+   ],
+   "best": "kc.history.bhakti-sufi-traditions.fact-andal",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "questionId": "226895791384",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Bhakti-Sufi Traditions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Sambandar (Tamil Nadu) date",
+    "Basavanna in Karnataka (12th century)",
+    "Lal Shahbaz Qalandar in Sind date",
+    "Sri Chaitanya in Bengal date"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.bhakti-sufi-traditions.fact-basavanna",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Basavanna (1106-68) is dated on a card, but nothing served dates Sambandar, Lal Shahbaz Qalandar or Sri Chaitanya, so the four cannot be ordered."
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "questionId": "226895791385",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Contemporaries described the Vijayanagara empire as the Karnataka Samrajyamu"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.an-imperial-capital-vijayanagara.kl-karnataka-samrajyamu",
+     "teaches": "contemporaries described it as the karnataka samrajyamu"
+    }
+   ],
+   "best": "kc.history.an-imperial-capital-vijayanagara.kl-karnataka-samrajyamu",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same fact as a blank."
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "questionId": "226895791386",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Krishnadeva Raya took pride in the title \"establisher of the Yavana kingdom\""
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.an-imperial-capital-vijayanagara.fact-yavana-title",
+     "teaches": "Krishnadeva Raya took pride in the title establisher of the Yavana kingdom"
+    }
+   ],
+   "best": "kc.history.an-imperial-capital-vijayanagara.fact-yavana-title",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "questionId": "226895791387",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Mahanavami dibba = massive platform",
+    "Kamalapuram tank = made to store rainwater",
+    "Vitthala temple = chariot streets",
+    "Hazara Rama temple = used only by the king and family"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.an-imperial-capital-vijayanagara.fact-hazara-rama",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The platform and the Hazara Rama temple are served, but no served row says the Kamalapuram tank stored rainwater, and the chariot-streets card describes temple complexes in general, not the Vitthala temple; a match item needs every pair."
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "questionId": "226895791388",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Sangama dynasty controlled until 1485 (not 1488)",
+    "supplanted by the Saluvas, who stayed till 1503",
+    "Krishnadeva Raya belonged to the Tuluva dynasty"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.an-imperial-capital-vijayanagara.list-dynasties-first-three",
+     "teaches": "Sangama till 1485, Saluvas till 1503, then the Tuluvas"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.an-imperial-capital-vijayanagara.kl-krishnadeva-tuluva",
+     "teaches": "Krishnadeva Raya belonged to the Tuluva dynasty"
+    }
+   ],
+   "best": "kc.history.an-imperial-capital-vijayanagara.list-dynasties-first-three",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Two cards give the dates and the dynasty, so the 1488 statement is spotted as wrong."
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "questionId": "226895791389",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The Aravidu dynasty ruled from Penukonda"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.an-imperial-capital-vijayanagara.fact-aravidu-1542",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A card says the Aravidu controlled the centre from 1542, but no served card or row names Penukonda."
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "questionId": "226895791390",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "Peasants, Zamindars & the State",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Maize was introduced into India via Africa and Spain by the seventeenth century"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-maize",
+     "teaches": "maize introduced into India via Africa and Spain"
+    }
+   ],
+   "best": "kc.history.peasants-zamindars-and-the-state.fact-maize",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same fact."
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "questionId": "226895791391",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Peasants, Zamindars & the State",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Pahi-kashta = non-resident cultivators who belonged to another village and cultivated land on a contractual basis"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "c53a951d-2fd7-4ca8-9099-e78a8f067659",
+     "teaches": "pahi-kashta: non-resident cultivators of another village on contract"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-why-pahi-kashta",
+     "teaches": "why people became pahi-kashta"
+    }
+   ],
+   "best": "c53a951d-2fd7-4ca8-9099-e78a8f067659",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served bank row asks this same question with the same answer."
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "questionId": "226895791392",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Peasants, Zamindars & the State",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Marathi documents and early British village surveys show artisans up to 25 per cent of village households"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-artisans-25-percent",
+     "teaches": "Marathi documents and village surveys: artisans as high as 25 per cent"
+    }
+   ],
+   "best": "kc.history.peasants-zamindars-and-the-state.fact-artisans-25-percent",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same fact."
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "questionId": "226895791393",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "Peasants, Zamindars & the State",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Babur defeats Ibrahim Lodi at Panipat 1526",
+    "Nadir Shah sacks Delhi 1739",
+    "Third Panipat 1761",
+    "Diwani of Bengal to the Company 1765"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-tl-1526",
+     "teaches": "Babur defeats Ibrahim Lodi at Panipat, 1526"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-tl-1739",
+     "teaches": "Nadir Shah invades and sacks Delhi, 1739"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-tl-1761",
+     "teaches": "third battle of Panipat, 1761"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-tl-1765",
+     "teaches": "diwani of Bengal to the East India Company, 1765"
+    }
+   ],
+   "best": "kc.history.peasants-zamindars-and-the-state.fact-tl-1526",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four dated timeline cards cover every event, so the order can be built."
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "questionId": "226895791394",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Peasants, Zamindars & the State",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Daftar of the Diwan supervised the fiscal system",
+    "amil-guzar = revenue collector",
+    "jama = amount assessed",
+    "hasil = amount collected"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-diwan-daftar",
+     "teaches": "daftar of the diwan supervised the fiscal system"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.fact-amil-guzar-cash-kind",
+     "teaches": "amil-guzar or revenue collector"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.peasants-zamindars-and-the-state.diff-jama-vs-hasil",
+     "teaches": "jama assessed, hasil collected"
+    }
+   ],
+   "best": "kc.history.peasants-zamindars-and-the-state.fact-diwan-daftar",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Two cards and one more cover the four pairs of the match."
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "questionId": "226895791395",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 3,
+   "chapter": "Colonialism & the Countryside",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The hill folk around the Rajmahal hills were the Paharias"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.colonialism-and-the-countryside.def-paharias",
+     "teaches": "Paharias lived around the Rajmahal hills, shifting cultivators"
+    }
+   ],
+   "best": "kc.history.colonialism-and-the-countryside.def-paharias",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card says who lived around the Rajmahal hills."
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "questionId": "226895791396",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "Colonialism & the Countryside",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The petition to the Collector of Ahmednagar (Deccan Riots Commission, Mirajgaon) was written by ryots"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.colonialism-and-the-countryside.fact-deccan-commission-1878",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards on the Deccan Riots Commission cover its cause and findings, but no served row or card mentions the Mirajgaon petition or who wrote it."
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "questionId": "226895791397",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "Colonialism & the Countryside",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A rentier is a person who lives on rental income from property"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.colonialism-and-the-countryside.def-rentier",
+     "teaches": "rentier designates people who live on rental income from property"
+    }
+   ],
+   "best": "kc.history.colonialism-and-the-countryside.def-rentier",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same definition."
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "questionId": "226895791398",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 2,
+   "chapter": "Mahatma Gandhi & the Nationalist Movement",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Gandhi's February 1916 Banaras Hindu University speech was his first major public appearance and set out his case that nationalism was elite and that salvation lies with the farmer"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-bhu-1916",
+     "teaches": "first major public appearance at the opening of BHU in February 1916"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-bhu-elite",
+     "teaches": "the Banaras speech: nationalism was an elite phenomenon"
+    }
+   ],
+   "best": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-bhu-1916",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards place his first major public appearance at BHU 1916 and give the speech's message on broadening nationalism; no card uses the phrase \"first public announcement\", so this is a concept match only."
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "questionId": "226895791399",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 4,
+   "chapter": "Mahatma Gandhi & the Nationalist Movement",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Praja Mandals were established to promote the nationalist creed in the princely states"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.list-organisation",
+     "teaches": "a series of Praja Mandals were established to promote the nationalist creed in the princely states"
+    }
+   ],
+   "best": "kc.history.mahatma-gandhi-and-the-nationalist-movement.list-organisation",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card has the sentence the question is built on."
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "questionId": "226895791400",
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "ntaKey": 1,
+   "chapter": "Mahatma Gandhi & the Nationalist Movement",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Salt March began 12 March 1930 from Sabarmati",
+    "Lord Irwin was Viceroy",
+    "progress traced from police secret reports",
+    "progress also traced in the American newsmagazine Time (so \"London News\" is false)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-dandi-12-march",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give 12 March 1930 from Sabarmati and Irwin as Viceroy, but nothing served names Time magazine or the police secret reports as sources of the march, so statement C cannot be judged false."
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "questionId": "226895791402",
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "ntaKey": 1,
+   "chapter": "Rebels & the Raj",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Shah Mal mobilised the villagers of pargana Barout in Uttar Pradesh"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.rebels-and-the-raj.fact-shah-mal-gonoo",
+     "teaches": "Shah Mal mobilised the villagers of pargana Barout in Uttar Pradesh"
+    }
+   ],
+   "best": "kc.history.rebels-and-the-raj.fact-shah-mal-gonoo",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card names the pargana; the printed passage does not."
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "questionId": "226895791403",
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "ntaKey": 4,
+   "chapter": "Rebels & the Raj",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The passage says the British revenue demand was high, its collection inflexible, and the system oppressive"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is stated in the printed passage."
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "questionId": "226895791404",
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "ntaKey": 4,
+   "chapter": "Rebels & the Raj",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The order of events follows the passage: moved at night, cultivators plundered moneylenders, communication cut, killed in July 1857"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "The order can be read off the printed passage."
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "questionId": "226895791405",
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "ntaKey": 4,
+   "chapter": "Rebels & the Raj",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The passage says Shah Mal turned a bungalow into a hall of justice settling disputes and dispensing judgments"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is stated in the printed passage."
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "questionId": "226895791406",
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "ntaKey": 2,
+   "chapter": "Rebels & the Raj",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Danka Shah (Maulvi Ahmadullah Shah) fought the battle of Chinhat",
+    "Nana Sahib was successor to Peshwa Baji Rao II",
+    "Kunwar Singh was a local zamindar in Arrah",
+    "Rani Lakshmi Bai was killed in battle in June 1858"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.history.rebels-and-the-raj.fact-danka-shah-why",
+     "teaches": "Maulvi Ahmadullah Shah popularly called Danka Shah"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.rebels-and-the-raj.fact-ahmadullah-shah-chinhat",
+     "teaches": "he fought the battle of Chinhat"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.rebels-and-the-raj.list-leaders-forced-to-lead",
+     "teaches": "Nana Sahib successor to Peshwa Baji Rao II; Kunwar Singh a local zamindar in Arrah"
+    },
+    {
+     "kind": "card",
+     "id": "kc.history.rebels-and-the-raj.fact-timeline-june-1858",
+     "teaches": "Rani Jhansi killed in battle, June 1858"
+    },
+    {
+     "kind": "bank",
+     "id": "096985ad-9896-4183-b978-69ee2dcde28a",
+     "teaches": "Nana Sahib adopted son of Baji Rao II; Kunwar Singh local zamindar near Arrah"
+    }
+   ],
+   "best": "kc.history.rebels-and-the-raj.fact-danka-shah-why",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards cover all four pairs."
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "questionId": "226895791408",
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "ntaKey": 3,
+   "chapter": "Framing the Constitution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The passage names the speaker as Singh, an Adibasi pleading for tribes; of the options only Jaipal Singh fits"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is read off the passage (the name Singh, \"As an Adibasi\") against the options; Jaipal Singh is also on a served card."
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "questionId": "226895791409",
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "ntaKey": 3,
+   "chapter": "Framing the Constitution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The speaker is concerned with tribal people (Adibasi, tribes)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is stated in the printed passage."
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "questionId": "226895791410",
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "ntaKey": 2,
+   "chapter": "Framing the Constitution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The passage says the whole history of his people is one of continuous exploitation and dispossession by non-aboriginals"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is a sentence of the printed passage."
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "questionId": "226895791411",
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "ntaKey": 3,
+   "chapter": "Framing the Constitution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The passage lists dispossession of settled land, deprivation of forests and pastures, perception as primitive, and the rest of society turning away"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "All four reasons are in the printed passage."
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "questionId": "226895791412",
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "ntaKey": 1,
+   "chapter": "Framing the Constitution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The passage says Singh was not asking for separate electorates but felt reservation of seats in the legislature was essential"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is stated in the printed passage."
+  }
+ ]
+}

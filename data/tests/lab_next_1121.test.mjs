@@ -2,6 +2,9 @@
 // The Mistake Lab's "next" look (21 Nov 2026; owner: "the mistake lab approach was better ... You just had to redo the
 // screens", and LK363: the product's real screens worked live by a cursor). LabCinema look="next" keeps the held story, its
 // five scenes and their words, and draws each screen as the result page's own UI (LabNextScreens.jsx) inside a CursorDemo.
+// LK368 (22 Nov 2026 night, the owner: "incorporate the old and new into making better cards"): each card leads with ONE
+// finding (its figure bold, one pen mark), then ONE picture from the earlier screens, then the slot a tap fills; a beat line
+// above the device follows the taps.
 // These checks render the real LabCinema (swc, the page chrome stubbed) and hold:
 //   - the default look (the live home) draws none of the next look's markup, and still draws its own five panels;
 //   - the next look draws the cursor stage on every scene, with the result page's parts and labStory's figures;
@@ -72,7 +75,7 @@ const decode = (s) => s.replace(/&#x27;|&#39;/g, "'").replace(/&quot;/g, '"').re
 // Inline marks (a bold figure) join their sentence; every other tag is a break.
 const textOf = (html) => decode(html.replace(/<\/?(b|strong)(?=[\s>])[^>]*>/g, '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
 const scenesOf = (html) => html.split('<article').slice(1);
-const NEXT_ONLY = /data-look=|cd-stage|cd-cursor|class="lnx|td-long|td-changes|mr-start|sw-plan|class="ml"/;
+const NEXT_ONLY = /data-look=|cd-stage|cd-cursor|class="lnx|lc-beats|mr-start/;
 
 const { labStory, REPAIR } = await load('src/components/landing/labStory.mjs');
 const { LAB_SCENES } = await load('src/components/landing/homeCopy.mjs');
@@ -96,7 +99,13 @@ test('the next look draws the cursor stage on every scene, each the result page\
   assert.match(next, /data-look="next"/);
   const scenes = scenesOf(next);
   assert.equal(scenes.length, 5);
-  const parts = { chapters: /class="ml"/, time: /td-long__row/, changes: /td-changes__row/, repair: /mr-start|mr--done/, swot: /sw-plan__row/ };
+  // Each card: the finding first, then its picture from the earlier screens (the chapter bars cut into their lost questions,
+  // the pace rows, each change as two picks and an arrow, the two options that matter and the repair's own key, the plan).
+  const parts = {
+    chapters: /class="lnx-find"[\s\S]*class="lnx-ch__q"/, time: /class="lnx-find"[\s\S]*class="lnx-t__row"/,
+    changes: /class="lnx-net"[\s\S]*class="lnx-chg"/, repair: /class="lnx-rq"[\s\S]*class="lnx-opt"[\s\S]*class="mr-start"/,
+    swot: /class="lnx-plan lnx-in"[\s\S]*class="lnx-quad lnx-in"/,
+  };
   for (const [i, key] of ['chapters', 'time', 'changes', 'repair', 'swot'].entries()) {
     assert.match(scenes[i], /class="cd-stage lnx-stage"/, `${key}: the cursor stage`);
     assert.match(scenes[i], /class="cd-cursor"/, `${key}: the cursor`);
@@ -112,14 +121,14 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
   const top = S.chapters[0];
   assert.ok(text.includes(`${top.chapter} cost ${top.lost} of the ${S.lostMarks} marks you missed.`));
   for (const l of S.longest.slice(0, 4)) assert.ok(text.includes(`Q${l.n}`) && text.includes(l.time), `time row Q${l.n}`);
-  assert.ok(text.includes(`The paper gives ${S.pace} a question. Your median was ${S.median}.`));
+  assert.ok(text.includes(`All ${S.facts.wrong} wrong answers ran over the ${S.pace} pace.`), 'the Time finding, from labStory');
   for (const c of S.changes) assert.ok(text.includes(`Picked ${c.from} at ${c.at}. Changed to ${c.to} at ${c.toAt}, ${c.gap} later.`), `change Q${c.n}`);
   assert.ok(text.includes(`Repair Q${REPAIR.n}`));
   assert.ok(text.includes(S.swot.plan[0].label));
   for (const q of S.swot.quadrants) assert.ok(text.includes(q.title), q.id);
   // Chapters: the habit proof, labStory's earlierLine, in the folded head of "Across your mocks" (no opening needed).
   const chapters = scenesOf(next)[0];
-  assert.match(chapters, /class="am lnx-across"/);
+  assert.match(chapters, /class="lnx-across"/);
   assert.ok(textOf(chapters).includes(`Across your mocks ${S.earlierLine}`));
   // Changes: the ledger's re-mark line in data/mistake_lab.copy.json's own words, filled from labStory (wide device only, in CSS).
   const COPY = JSON.parse(read('data/mistake_lab.copy.json'));
@@ -130,24 +139,22 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
   // changes as the result page does (TIME_COPY.changesGained / changesCost) with the net; Repair prints the whole question; the
   // SWOT groups carry the result page's own heading.
   const scene = (i) => textOf(scenesOf(next)[i]);
-  assert.ok(scene(1).includes(`Pace ${S.pace}`) && scene(1).includes('Right Wrong'));
-  assert.equal(scenesOf(next)[1].match(/class="td-long__row"/g).length, 8, 'every answered question, slowest first');
-  assert.ok(scene(2).includes(`+${S.gainedMarks}1 change gained ${S.gainedMarks} marks`), 'the gain and its line');
+  assert.ok(scene(1).includes(`Pace ${S.pace}`) && scene(1).includes('Over pace, wrong Over pace, right Under pace'));
+  assert.equal(scenesOf(next)[1].match(/class="lnx-t__row"/g).length, 8, 'every answered question, slowest first');
+  assert.ok(scene(2).includes(`+${S.gainedMarks} 1 change gained ${S.gainedMarks} marks`), 'the gain and its line');
   assert.ok(scene(2).includes(`2 changes cost ${-S.lostToChanges} marks`) && scene(2).includes('Net effect on your marks'));
   assert.ok(scene(2).includes('= −6'));
   assert.ok(scene(3).includes(REPAIR.stem));
   assert.ok(scene(4).includes('Strengths, gaps and risks'));
   const sheet = read('src/components/landing/lab-next.css');
-  assert.doesNotMatch(sheet, /rx-row__stem[^}]*(display: none|text-overflow|nowrap)/, 'the question is never cut or hidden');
-  assert.match(sheet, /\.ml-chip \{ min-height: 44px;/);
-  assert.match(sheet, /\.ml-seg \{ height: 44px;/);
-  // 360 px phones: the content trims are for a short window only (360 x 740); a 360 x 800 phone keeps the part names, five time
-  // rows and two changes; a change's picks stack with the arrow turned down on any 380 px phone.
-  assert.match(sheet, /@media \(max-width: 380px\) and \(max-height: 760px\) \{[^@]*\.lnx-h \{ display: none; \}/);
-  assert.match(sheet, /@media \(max-width: 380px\) and \(min-height: 761px\) \{[^@]*li:nth-child\(n \+ 6\)/);
-  // The repair's row keeps "D yours / B answer" beside the written repair at every size (360 x 676 included): no rule hides them.
-  assert.doesNotMatch(sheet, /rx-row__facts[^{]*\{[^}]*display: none/);
-  assert.match(sheet, /\.lnx-picks__row \{ flex-direction: column;[^}]*\}[^@]*\.lnx-picks__arrow \{ transform: rotate\(90deg\)/);
+  assert.doesNotMatch(sheet, /lnx-rq[^}]*(display: none|text-overflow|nowrap|line-clamp)/, 'the question is never cut or hidden');
+  // A chapter's lost question is a 44 px tap (its piece drawn 30 px inside).
+  assert.match(sheet, /\.lnx-ch__q \{[^}]*height: 44px;/);
+  // Short phones (360 x 740 and under) are trimmed from the first frame, never shrunk: five time rows; at 360 x 640 the key,
+  // the totals and the record's columns step aside. The two options that matter show at every size: no rule hides them.
+  assert.match(sheet, /@media \(max-width: 380px\) and \(max-height: 760px\) \{[^@]*\.lnx-t__rows > li:nth-child\(n \+ 6\) \{ display: none; \}/);
+  assert.match(sheet, /@media \(max-width: 380px\) and \(max-height: 660px\) \{[^@]*:is\(\.lnx-key, \.lnx-tot, \.lnx-across__cols\) \{ display: none; \}/);
+  assert.doesNotMatch(sheet, /\.lnx-opts? \{[^}]*display: none/);
   const css = read('src/components/landing/lab-next.css');
   assert.match(css, /\.lnx-first \{ display: none; \}[\s\S]*@media \(min-width: 960px\) \{\s*\.lc__grid\[data-look='next'\] \.lnx-first \{\s*display: block;/, 'the re-mark line shows on the wide device only');
   // The Time scene's take names the slowest question, worked out from labStory.
@@ -177,7 +184,7 @@ test('the next look loads only with it, and its styles are scoped to it', () => 
   assert.doesNotMatch(css, /blur|backdrop-filter/);
   // :has(), if any, only on a screen's own small list, never on a large ancestor.
   const hasSubjects = [...css.matchAll(/([.\w-]+):has\(/g)].map((m) => m[1]);
-  for (const subject of hasSubjects) assert.ok(['.ml-rows', '.td-changes', '.lnx--repair', '.lnx-quads'].includes(subject), `:has() on ${subject}`);
+  assert.deepEqual(hasSubjects, [], 'no :has()');
   const screens = read('src/components/landing/LabNextScreens.jsx');
   assert.doesNotMatch(screens, /getBoundingClientRect|offsetWidth|offsetHeight|getComputedStyle/);
   // One bounded frame loop only: the Changes totals' count-up, 420 ms, once as the scene comes on.
@@ -226,16 +233,12 @@ test('the Lab keeps the pace the owner can read: every scene alike, every rest l
   assert.ok(minLastReadMs >= 2000 && lastReadMs >= minLastReadMs && lastReadMs <= 2400, `rest after the last answer ${lastReadMs} ms`);
   // The press is CursorDemo's own.
   assert.match(read('src/components/landing/demo/CursorDemo.jsx'), new RegExp(`const PRESS_MS = ${pressMs};`));
-  // Each reveal is what its sheet draws: the slot's rise, a change's final pick, the ledger's opened chapter, the repair's rule.
+  // Each reveal is what its sheet draws: the slot's rise (every tap but the repair's), and the repair's sheet and rule.
   const sheet = read('src/components/landing/lab-next.css');
   assert.match(sheet, /\.lnx-slot__item\[data-shown\] \{ visibility: visible; animation: lnx-rise 260ms/);
   assert.equal(REVEAL_MS.line, 260);
-  assert.match(sheet, /\.lnx-pick\[data-end='to'\] > i \{ animation: lnx-settle 320ms var\(--a-ease\) 140ms both; \}/);
-  assert.equal(REVEAL_MS.picks, 140 + 320);
-  assert.match(sheet, /\.ml-row__panel:not\(\[hidden\]\) > \* \{ animation: lnx-rise 240ms[^}]*\}\s*[^{]*\.ml-row__panel:not\(\[hidden\]\) > \.ml-chips \{ animation-delay: 60ms; \}/);
-  assert.equal(REVEAL_MS.row, 240 + 60);
-  assert.match(sheet, /\.lnx-answers > \.rx-row__opts\[data-shown\] \{ animation: lnx-rise 260ms/);
-  assert.equal(REVEAL_MS.answers, 260);
+  assert.deepEqual(Object.keys(REVEAL_MS).sort(), ['line', 'repair']);
+  assert.match(sheet, /\.lnx-sheet\[data-fresh\] \{ animation: lnx-sheet 320ms/);
   const repairCss = read('src/components/recovery/mistake-repair.css');
   assert.match(repairCss, /\.mr-rule\[data-stagger\] \{ animation: mr-rule-in 520ms/);
   assert.equal(REVEAL_MS.repair, 520 + 3 * 50, 'the rule is the fourth block, 50 ms apart');
@@ -298,8 +301,14 @@ test('an arriving card carries its start state and plays its reveal once it stan
   assert.match(screens, /if \(!on\) \{ write\(0\); return undefined; \}/);
   assert.match(screens, /export const LNX_IN_MS = 420;/);
   const css = read('src/components/landing/lab-next.css');
-  assert.match(css, /\.lc-scene \.lnx :is\(\.td-long__fill, \.ml-seg, \.ml-share i\) \{ animation-play-state: paused; \}/);
-  for (let s = 0; s < 5; s += 1) assert.ok(css.includes(`[data-step='${s}'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='${s}']${s === 0 ? "[data-armed='true']" : ''} .lnx :is(.td-long__fill, .ml-seg, .ml-share i)`), `step ${s} runs its reveal`);
+  assert.match(css, /\.lc-scene \.lnx-in \{ animation-play-state: paused; \}/);
+  for (let s = 0; s < 5; s += 1) assert.ok(css.includes(`[data-step='${s}'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='${s}']${s === 0 ? "[data-armed='true']" : ''} .lnx-in`), `step ${s} runs its reveal`);
+  // Every card's picture plays in once it stands: each of these screens has elements that wait (lnx-in).
+  const screensSrc = read('src/components/landing/LabNextScreens.jsx');
+  for (const name of ['ChaptersScreen', 'TimeScreen', 'ChangesScreen', 'SwotScreen']) {
+    const from = screensSrc.indexOf(`function ${name}`);
+    assert.match(screensSrc.slice(from, screensSrc.indexOf('\n}\n', from)), /lnx-in/, `${name}: its picture plays in`);
+  }
   assert.match(css, /--lnx-in: 420ms;/);
   // The rail's tab and the device's tab are written from the same attribute, in the same frame as the card.
   const cinema = read('src/components/landing/LabCinema.jsx');
@@ -338,9 +347,9 @@ test('a tap shows its answer in a slot that holds its room; each scene has two t
   assert.ok(textOf(scenes[0]).includes('Q4: wrong after 3:18. You changed B to D.'));
   const { LAB_TAPS } = await load('src/components/landing/LabNextScreens.jsx');
   for (const key of ['chapters', 'time', 'changes', 'repair', 'swot']) assert.equal(LAB_TAPS[key].length, 2, `${key}: two taps`);
-  // Repair's first tap opens the mistake row (a real button that says it is open), and its answers wait in the picks' room.
-  assert.match(scenes[3], /<button type="button" class="lnx-mistake" data-verdict="wrong" aria-expanded="false"/);
-  assert.match(scenes[3], /class="lnx-answers"><span class="rx-row__facts" data-shown="">[\s\S]*class="rx-row__opts" aria-hidden="true">/);
+  // Repair's first tap is the pick itself (a real button that says it is pressed): the record line waits in its slot.
+  assert.match(scenes[3], /<button type="button" class="lnx-opt" data-kind="mine" aria-pressed="false"/);
+  assert.ok(textOf(scenes[3]).includes('From your record You first chose B here, then changed to D.'));
   assert.ok(textOf(scenes[3]).includes(`Your answer ${REPAIR.options.find(([l]) => l === REPAIR.picked)[1]}`));
   assert.ok(textOf(scenes[3]).includes(`Correct answer ${REPAIR.options.find(([l]) => l === REPAIR.key)[1]}`));
   for (const scene of LAB_SCENES) {
@@ -350,7 +359,36 @@ test('a tap shows its answer in a slot that holds its room; each scene has two t
   const sheet = read('src/components/landing/lab-next.css');
   assert.match(sheet, /\.lnx-slot__item \{ grid-area: 1 \/ 1;[^}]*visibility: hidden; \}/);
   assert.match(sheet, /\.lc\[data-pinned='true'\] \.lc__grid\[data-look='next'\] \{ padding-inline: 11px;/, 'the device takes 94 % of a phone');
-  // Text in the screens is 13 px or more.
+  // Text in the screens is 14 px or more (LK368: on-screen text never under 14 px on a phone; the films measure it at the fit).
   const sizes = [...sheet.matchAll(/font(?:-size)?:[^;]*?(\d+(?:\.\d+)?)px/g)].map((m) => Number(m[1])).filter((n) => n < 40);
-  assert.ok(sizes.every((n) => n >= 13), `font sizes ${[...new Set(sizes)].sort().join(', ')}`);
+  assert.ok(sizes.every((n) => n >= 14), `font sizes ${[...new Set(sizes)].sort().join(', ')}`);
+});
+
+// LK368 (22 Nov 2026 night): one finding a card with one pen mark (the result page's own idiom), and a beat line that follows
+// the cursor's taps, one plain idea a beat, one line on a 360 px phone.
+test('each card leads with one finding and one pen mark; the beat line follows the taps', async () => {
+  const { next, def } = await lab();
+  const { LAB_BEATS } = await load('src/components/landing/LabBeats.mjs');
+  const scenes = scenesOf(next);
+  for (const [i, key] of ['chapters', 'time', 'changes', 'repair', 'swot'].entries()) {
+    const lines = LAB_BEATS[key];
+    assert.equal(lines.length, 3, `${key}: a line for the card and one for each tap`);
+    for (const line of lines) {
+      assert.ok(line.length <= 42, `${key}: "${line}" fits one line on a 360 px phone`);
+      assert.doesNotMatch(line, /!|\u2014/);
+    }
+    assert.ok(textOf(scenes[i]).includes(lines.join(' ')), `${key}: its three lines are drawn`);
+  }
+  assert.doesNotMatch(def, /lc-beats/, 'the default look keeps its own short line');
+  const screens = read('src/components/landing/LabNextScreens.jsx');
+  // One pen mark a card: Chapters, Time and Repair in the red pen, the plan in volt; Changes leads with its counted net.
+  assert.equal((screens.match(/<Doodle mark=/g) || []).length, 4);
+  // A tapped control writes its scene's beat (an attribute, no render); a fresh drawing starts on the first line.
+  assert.match(screens, /if \(scene\) scene\.dataset\.beat = String\(k\);/);
+  assert.match(screens, /removeAttribute\('data-beat'\)/);
+  const css = read('src/components/landing/lab-next.css');
+  assert.ok(css.includes(".lc-scene[data-beat='2'] .lc-beats > [data-k='2'] { opacity: 1; }"));
+  // On a phone the SWOT scene's one way in takes the line's own cell, so every scene's words are the title and one line.
+  assert.ok(css.includes(':is(.lc-beats, .lc-scene__cta) { grid-area: line; }'));
+  assert.match(read('src/components/landing/LabCinema.jsx'), /data-link=\{link \? '' : undefined\}/);
 });

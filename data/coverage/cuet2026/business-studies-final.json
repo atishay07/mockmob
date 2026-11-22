@@ -152,14 +152,12 @@
       "n": 14,
       "chapter": "Financial Management",
       "type": "theory",
-      "verdict": "covered",
-      "matchKind": "new-values",
-      "best": "660d06e2-8ff7-4cb4-9bc0-39b32e303538",
-      "bestKind": "bank",
-      "needs": [
-        "660d06e2-8ff7-4cb4-9bc0-39b32e303538"
-      ],
-      "reason": "Accepted bank candidate orders EBIT, EBT, EAT, EPS; its explanation states interest is deducted from EBIT to give EBT, then tax to give EAT, with a worked figure."
+      "verdict": "not_covered",
+      "matchKind": null,
+      "best": null,
+      "bestKind": null,
+      "needs": [],
+      "reason": "The authored question was held by the quality gate"
     },
     {
       "n": 15,
@@ -176,14 +174,12 @@
       "n": 16,
       "chapter": "Financial Markets",
       "type": "theory",
-      "verdict": "covered",
-      "matchKind": "concept",
-      "best": "fe9b41bc-53e6-4d36-8d3d-fc290750292c",
-      "bestKind": "bank",
-      "needs": [
-        "fe9b41bc-53e6-4d36-8d3d-fc290750292c"
-      ],
-      "reason": "Accepted bank candidate states T-bills come in a minimum of Rs 25,000 and multiples, are issued by RBI for the Central Government, and mature in under one year."
+      "verdict": "not_covered",
+      "matchKind": null,
+      "best": null,
+      "bestKind": null,
+      "needs": [],
+      "reason": "The authored question was held by the quality gate"
     },
     {
       "n": 17,
@@ -200,14 +196,12 @@
       "n": 18,
       "chapter": "Financial Markets",
       "type": "theory",
-      "verdict": "covered",
-      "matchKind": "same",
-      "best": "19400ad2-6e18-42ff-a1cc-d97fa9986bfa",
-      "bestKind": "bank",
-      "needs": [
-        "19400ad2-6e18-42ff-a1cc-d97fa9986bfa"
-      ],
-      "reason": "Accepted bank candidate asks which is NOT a stock exchange function (ending all speculation); its explanation lists liquidity, safety, economic growth, equity cult and healthy speculation."
+      "verdict": "not_covered",
+      "matchKind": null,
+      "best": null,
+      "bestKind": null,
+      "needs": [],
+      "reason": "The authored question was held by the quality gate"
     },
     {
       "n": 19,
@@ -246,14 +240,12 @@
       "n": 22,
       "chapter": "Financial Markets",
       "type": "theory",
-      "verdict": "covered",
-      "matchKind": "new-values",
-      "best": "fa2b3abd-6e78-4816-9112-1873ecc413eb",
-      "bestKind": "bank",
-      "needs": [
-        "fa2b3abd-6e78-4816-9112-1873ecc413eb"
-      ],
-      "reason": "Accepted bank candidate (repaired by the judge so it no longer mirrors the paper) orders the same four demat steps: pick a DP, open the account, hand in certificates, give details in public-issue applications."
+      "verdict": "not_covered",
+      "matchKind": null,
+      "best": null,
+      "bestKind": null,
+      "needs": [],
+      "reason": "The authored question was held by the quality gate"
     },
     {
       "n": 23,
@@ -404,14 +396,12 @@
       "n": 36,
       "chapter": "Financial Markets",
       "type": "theory",
-      "verdict": "covered",
-      "matchKind": "same",
-      "best": "4bb87b57-9f45-4c52-a2ee-48852a6f224e",
-      "bestKind": "bank",
-      "needs": [
-        "4bb87b57-9f45-4c52-a2ee-48852a6f224e"
-      ],
-      "reason": "Accepted bank candidate asks the settlement cycle before rolling settlement (T+2 from 2003): weekly or fortnightly."
+      "verdict": "not_covered",
+      "matchKind": null,
+      "best": null,
+      "bestKind": null,
+      "needs": [],
+      "reason": "The authored question was held by the quality gate"
     },
     {
       "n": 37,

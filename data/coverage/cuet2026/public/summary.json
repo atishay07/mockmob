@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-22T00:21:59.571Z",
+ "builtAt": "2026-11-22T00:54:05.072Z",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
  "snapshotDates": [
@@ -57,6 +57,26 @@
    "final": true
   },
   {
+   "id": "history",
+   "name": "History",
+   "stream": "humanities",
+   "examDate": "2026-05-24",
+   "examDay": "24 May 2026",
+   "shift": "second shift",
+   "total": 50,
+   "counted": 42,
+   "covered": 39,
+   "pct": 93,
+   "same": 12,
+   "newValues": 0,
+   "concept": 27,
+   "notYet": 3,
+   "skill": 8,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true
+  },
+  {
    "id": "political-science",
    "name": "Political Science",
    "stream": "humanities",
@@ -95,21 +115,41 @@
    "offSyllabus": 0,
    "dropped": 0,
    "final": true
+  },
+  {
+   "id": "sociology",
+   "name": "Sociology",
+   "stream": "humanities",
+   "examDate": "2026-05-15",
+   "examDay": "15 May 2026",
+   "shift": "first shift",
+   "total": 50,
+   "counted": 41,
+   "covered": 35,
+   "pct": 85,
+   "same": 5,
+   "newValues": 0,
+   "concept": 30,
+   "notYet": 6,
+   "skill": 9,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true
   }
  ],
  "total": {
-  "counted": 185,
-  "covered": 167,
-  "same": 32,
+  "counted": 268,
+  "covered": 241,
+  "same": 49,
   "newValues": 3,
-  "concept": 132,
-  "notYet": 18,
-  "skill": 15,
+  "concept": 189,
+  "notYet": 27,
+  "skill": 32,
   "pct": 90
  },
  "chapters": {
-  "asked": 51,
-  "withPractice": 50,
+  "asked": 73,
+  "withPractice": 72,
   "minServed": 10,
   "rule": "A chapter has practice in MockMob when at least one of its questions is in MockMob, or MockMob serves at least 10 questions from it (the stored daily count of served questions per chapter).",
   "list": [
@@ -346,6 +386,94 @@
     "practice": true
    },
    {
+    "subject": "history",
+    "chapter": "Bricks, Beads & Bones",
+    "asked": 7,
+    "covered": 7,
+    "served": 38,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "An Imperial Capital — Vijayanagara",
+    "asked": 5,
+    "covered": 4,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Peasants, Zamindars & the State",
+    "asked": 5,
+    "covered": 5,
+    "served": 19,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Thinkers, Beliefs & Buildings",
+    "asked": 5,
+    "covered": 5,
+    "served": 15,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Bhakti-Sufi Traditions",
+    "asked": 4,
+    "covered": 4,
+    "served": 26,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Kings, Farmers & Towns",
+    "asked": 4,
+    "covered": 3,
+    "served": 36,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Colonialism & the Countryside",
+    "asked": 3,
+    "covered": 3,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Mahatma Gandhi & the Nationalist Movement",
+    "asked": 3,
+    "covered": 3,
+    "served": 23,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Kinship, Caste & Class",
+    "asked": 2,
+    "covered": 1,
+    "served": 14,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Rebels & the Raj",
+    "asked": 2,
+    "covered": 2,
+    "served": 20,
+    "practice": true
+   },
+   {
+    "subject": "history",
+    "chapter": "Through the Eyes of Travellers",
+    "asked": 2,
+    "covered": 2,
+    "served": 16,
+    "practice": true
+   },
+   {
     "subject": "political-science",
     "chapter": "Era of One-Party Dominance",
     "asked": 4,
@@ -520,6 +648,94 @@
     "covered": 4,
     "served": 13,
     "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Challenges of Cultural Diversity",
+    "asked": 8,
+    "covered": 8,
+    "served": 21,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Demographic Structure",
+    "asked": 6,
+    "covered": 6,
+    "served": 18,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Patterns of Social Inequality",
+    "asked": 6,
+    "covered": 6,
+    "served": 18,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Social Institutions",
+    "asked": 5,
+    "covered": 5,
+    "served": 19,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Story of Indian Democracy",
+    "asked": 4,
+    "covered": 3,
+    "served": 20,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Market as a Social Institution",
+    "asked": 3,
+    "covered": 3,
+    "served": 12,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Social Movements",
+    "asked": 3,
+    "covered": 2,
+    "served": 19,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Structural Change",
+    "asked": 3,
+    "covered": 0,
+    "served": 20,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Change & Development in Industrial Society",
+    "asked": 1,
+    "covered": 1,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Cultural Change",
+    "asked": 1,
+    "covered": 1,
+    "served": 17,
+    "practice": true
+   },
+   {
+    "subject": "sociology",
+    "chapter": "Mass Media & Communications",
+    "asked": 1,
+    "covered": 0,
+    "served": 27,
+    "practice": true
    }
   ]
  },
@@ -531,13 +747,6 @@
    "counted": 55,
    "pct": 75,
    "why": "below 80%"
-  },
-  {
-   "id": "sociology",
-   "covered": 30,
-   "counted": 41,
-   "pct": 73,
-   "why": "no final check yet"
   }
  ],
  "showMinPct": 80

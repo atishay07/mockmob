@@ -1,0 +1,1109 @@
+{
+ "paper": "cuet2026-history",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 22 Nov 2026; ids read by OCR (RapidOCR, 200 and 300 dpi; page image where OCR missed a header) and matched to NTA's 2026 final key (subject 314)",
+ "shifts": {
+  "24-05-2026 (Second)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "questionId": "226895791361",
+   "page": 3,
+   "optionIds": {
+    "2268953068889": 1,
+    "2268953068890": 2,
+    "2268953068891": 3,
+    "2268953068892": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068889"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "questionId": "226895791362",
+   "page": 4,
+   "optionIds": {
+    "2268953068893": 1,
+    "2268953068894": 2,
+    "2268953068895": 3,
+    "2268953068896": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068894"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "questionId": "226895791363",
+   "page": 4,
+   "optionIds": {
+    "2268953068897": 1,
+    "2268953068898": 2,
+    "2268953068899": 3,
+    "2268953068900": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068899"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "questionId": "226895791364",
+   "page": 5,
+   "optionIds": {
+    "2268953068901": 1,
+    "2268953068902": 2,
+    "2268953068903": 3,
+    "2268953068904": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068902"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "questionId": "226895791365",
+   "page": 5,
+   "optionIds": {
+    "2268953068905": 1,
+    "2268953068906": 2,
+    "2268953068907": 3,
+    "2268953068908": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068905"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "questionId": "226895791366",
+   "page": 6,
+   "optionIds": {
+    "2268953068909": 1,
+    "2268953068910": 2,
+    "2268953068911": 3,
+    "2268953068912": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068911"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "questionId": "226895791367",
+   "page": 8,
+   "optionIds": {
+    "2268953068913": 1,
+    "2268953068914": 2,
+    "2268953068915": 3,
+    "2268953068916": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068915"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "questionId": "226895791368",
+   "page": 8,
+   "optionIds": {
+    "2268953068917": 1,
+    "2268953068918": 2,
+    "2268953068919": 3,
+    "2268953068920": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068920"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi)"
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "questionId": "226895791369",
+   "page": 9,
+   "optionIds": {
+    "2268953068921": 1,
+    "2268953068922": 2,
+    "2268953068923": 3,
+    "2268953068924": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068924"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi)"
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "questionId": "226895791370",
+   "page": 10,
+   "optionIds": {
+    "2268953068925": 1,
+    "2268953068926": 2,
+    "2268953068927": 3,
+    "2268953068928": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068927"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "questionId": "226895791371",
+   "page": 10,
+   "optionIds": {
+    "2268953068929": 1,
+    "2268953068930": 2,
+    "2268953068931": 3,
+    "2268953068932": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068929"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "questionId": "226895791372",
+   "page": 11,
+   "optionIds": {
+    "2268953068933": 1,
+    "2268953068934": 2,
+    "2268953068935": 3,
+    "2268953068936": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068936"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "questionId": "226895791373",
+   "page": 12,
+   "optionIds": {
+    "2268953068937": 1,
+    "2268953068938": 2,
+    "2268953068939": 3,
+    "2268953068940": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068937"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "questionId": "226895791374",
+   "page": 12,
+   "optionIds": {
+    "2268953068941": 1,
+    "2268953068942": 2,
+    "2268953068943": 3,
+    "2268953068944": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068941"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "questionId": "226895791375",
+   "page": 13,
+   "optionIds": {
+    "2268953068945": 1,
+    "2268953068946": 2,
+    "2268953068947": 3,
+    "2268953068948": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068947"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "questionId": "226895791376",
+   "page": 14,
+   "optionIds": {
+    "2268953068949": 1,
+    "2268953068950": 2,
+    "2268953068951": 3,
+    "2268953068952": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068949"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "questionId": "226895791377",
+   "page": 14,
+   "optionIds": {
+    "2268953068953": 1,
+    "2268953068954": 2,
+    "2268953068955": 3,
+    "2268953068956": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068954"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "questionId": "226895791378",
+   "page": 15,
+   "optionIds": {
+    "2268953068957": 1,
+    "2268953068958": 2,
+    "2268953068959": 3,
+    "2268953068960": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068957"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "questionId": "226895791379",
+   "page": 16,
+   "optionIds": {
+    "2268953068961": 1,
+    "2268953068962": 2,
+    "2268953068963": 3,
+    "2268953068964": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068964"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "questionId": "226895791380",
+   "page": 16,
+   "optionIds": {
+    "2268953068965": 1,
+    "2268953068966": 2,
+    "2268953068967": 3,
+    "2268953068968": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068965"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "questionId": "226895791381",
+   "page": 17,
+   "optionIds": {
+    "2268953068969": 1,
+    "2268953068970": 2,
+    "2268953068971": 3,
+    "2268953068972": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068969"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi)"
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "questionId": "226895791382",
+   "page": 18,
+   "optionIds": {
+    "2268953068973": 1,
+    "2268953068974": 2,
+    "2268953068975": 3,
+    "2268953068976": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068975"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "questionId": "226895791383",
+   "page": 18,
+   "optionIds": {
+    "2268953068977": 1,
+    "2268953068978": 2,
+    "2268953068979": 3,
+    "2268953068980": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068978"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "questionId": "226895791384",
+   "page": 19,
+   "optionIds": {
+    "2268953068981": 1,
+    "2268953068982": 2,
+    "2268953068983": 3,
+    "2268953068984": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068981"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header)"
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "questionId": "226895791385",
+   "page": 20,
+   "optionIds": {
+    "2268953068985": 1,
+    "2268953068986": 2,
+    "2268953068987": 3,
+    "2268953068988": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068986"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "questionId": "226895791386",
+   "page": 20,
+   "optionIds": {
+    "2268953068989": 1,
+    "2268953068990": 2,
+    "2268953068991": 3,
+    "2268953068992": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068991"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "questionId": "226895791387",
+   "page": 21,
+   "optionIds": {
+    "2268953068993": 1,
+    "2268953068994": 2,
+    "2268953068995": 3,
+    "2268953068996": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068993"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi)"
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "questionId": "226895791388",
+   "page": 22,
+   "optionIds": {
+    "2268953068997": 1,
+    "2268953068998": 2,
+    "2268953068999": 3,
+    "2268953069000": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068998"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header)"
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "questionId": "226895791389",
+   "page": 23,
+   "optionIds": {
+    "2268953069001": 1,
+    "2268953069002": 2,
+    "2268953069003": 3,
+    "2268953069004": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069004"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "questionId": "226895791390",
+   "page": 24,
+   "optionIds": {
+    "2268953069005": 1,
+    "2268953069006": 2,
+    "2268953069007": 3,
+    "2268953069008": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069006"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "questionId": "226895791391",
+   "page": 24,
+   "optionIds": {
+    "2268953069009": 1,
+    "2268953069010": 2,
+    "2268953069011": 3,
+    "2268953069012": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069009"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi)"
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "questionId": "226895791392",
+   "page": 25,
+   "optionIds": {
+    "2268953069013": 1,
+    "2268953069014": 2,
+    "2268953069015": 3,
+    "2268953069016": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069015"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "questionId": "226895791393",
+   "page": 26,
+   "optionIds": {
+    "2268953069017": 1,
+    "2268953069018": 2,
+    "2268953069019": 3,
+    "2268953069020": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069018"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi)"
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "questionId": "226895791394",
+   "page": 26,
+   "optionIds": {
+    "2268953069021": 1,
+    "2268953069022": 2,
+    "2268953069023": 3,
+    "2268953069024": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069021"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "questionId": "226895791395",
+   "page": 28,
+   "optionIds": {
+    "2268953069025": 1,
+    "2268953069026": 2,
+    "2268953069027": 3,
+    "2268953069028": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069027"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "questionId": "226895791396",
+   "page": 28,
+   "optionIds": {
+    "2268953069029": 1,
+    "2268953069030": 2,
+    "2268953069031": 3,
+    "2268953069032": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069032"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "questionId": "226895791397",
+   "page": 29,
+   "optionIds": {
+    "2268953069033": 1,
+    "2268953069034": 2,
+    "2268953069035": 3,
+    "2268953069036": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069036"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi)"
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "questionId": "226895791398",
+   "page": 30,
+   "optionIds": {
+    "2268953069037": 1,
+    "2268953069038": 2,
+    "2268953069039": 3,
+    "2268953069040": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069038"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "questionId": "226895791399",
+   "page": 30,
+   "optionIds": {
+    "2268953069041": 1,
+    "2268953069042": 2,
+    "2268953069043": 3,
+    "2268953069044": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069044"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (300 dpi)"
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "questionId": "226895791400",
+   "page": 31,
+   "optionIds": {
+    "2268953069045": 1,
+    "2268953069046": 2,
+    "2268953069047": 3,
+    "2268953069048": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069045"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "questionId": "226895791402",
+   "page": 35,
+   "optionIds": {
+    "2268953069049": 1,
+    "2268953069050": 2,
+    "2268953069051": 3,
+    "2268953069052": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069049"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "questionId": "226895791403",
+   "page": 33,
+   "optionIds": {
+    "2268953069053": 1,
+    "2268953069054": 2,
+    "2268953069055": 3,
+    "2268953069056": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069056"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "questionId": "226895791404",
+   "page": 33,
+   "optionIds": {
+    "2268953069057": 1,
+    "2268953069058": 2,
+    "2268953069059": 3,
+    "2268953069060": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069060"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "questionId": "226895791405",
+   "page": 34,
+   "optionIds": {
+    "2268953069061": 1,
+    "2268953069062": 2,
+    "2268953069063": 3,
+    "2268953069064": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069064"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header)"
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "questionId": "226895791406",
+   "page": 36,
+   "optionIds": {
+    "2268953069065": 1,
+    "2268953069066": 2,
+    "2268953069067": 3,
+    "2268953069068": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069066"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "questionId": "226895791408",
+   "page": 37,
+   "optionIds": {
+    "2268953069069": 1,
+    "2268953069070": 2,
+    "2268953069071": 3,
+    "2268953069072": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069071"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "questionId": "226895791409",
+   "page": 38,
+   "optionIds": {
+    "2268953069073": 1,
+    "2268953069074": 2,
+    "2268953069075": 3,
+    "2268953069076": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069075"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200 dpi)"
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "questionId": "226895791410",
+   "page": 38,
+   "optionIds": {
+    "2268953069077": 1,
+    "2268953069078": 2,
+    "2268953069079": 3,
+    "2268953069080": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069078"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "read from the page image (OCR missed the header)"
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "questionId": "226895791411",
+   "page": 38,
+   "optionIds": {
+    "2268953069081": 1,
+    "2268953069082": 2,
+    "2268953069083": 3,
+    "2268953069084": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069083"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "questionId": "226895791412",
+   "page": 39,
+   "optionIds": {
+    "2268953069085": 1,
+    "2268953069086": 2,
+    "2268953069087": 3,
+    "2268953069088": 4
+   },
+   "inKey": true,
+   "keySubject": "history",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069085"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR (200+300 dpi)"
+  }
+ ]
+}

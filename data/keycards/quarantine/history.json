@@ -1910,37 +1910,6 @@
       ]
     },
     {
-      "id": "kc.history.through-the-eyes-of-travellers.fact-mundy-england",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.through-the-eyes-of-travellers",
-      "chapter": "Through the Eyes of Travellers",
-      "unit": "Through the Eyes of Travellers",
-      "kind": "fact",
-      "front": "From which country did Peter Mundy come?",
-      "back": "Peter Mundy (from England)",
-      "quote": "Peter Mundy (from England)",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs201",
-        "chapterNo": 5,
-        "page": 137,
-        "section": "Timeline: Some Travellers who Left Accounts"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "timeline"
-      ],
-      "order": 1380,
-      "reasons": [
-        "review:not_important",
-        "review:Minor timeline name (only a timeline entry, not discussed in the text); low exam value."
-      ]
-    },
-    {
       "id": "kc.history.bhakti-sufi-traditions.fact-jahanara-munis-al-arwah",
       "v": 1,
       "subject": "history",

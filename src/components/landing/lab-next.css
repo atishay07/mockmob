@@ -195,344 +195,361 @@ body .ss.lc[data-pinned='true'][data-reduced='true'][data-step='4'] .lc__grid[da
 body .ss.lc[data-pinned='true'][data-reduced='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::after,
 body .ss.lc[data-pinned='true'][data-reduced='true'] .lc__grid[data-look='next'] .lc-scene .lc-scene__screen::before { display: none; }
 
-/* ---------- Every screen: its part's name, one headline line, then the rows ---------- */
+/* ---------- Every screen: its part's name, one finding, one picture, then the slot (LK368, 22 Nov 2026 night) ----------
+   The cards keep the result page's roles and type; each leads with ONE finding in the display face (its figure bold, one pen
+   mark on it, Doodle), then ONE picture from the earlier screens rebuilt at phone size, then the slot a tap fills. Fills,
+   not borders: no box is drawn round a group, nothing is dimmed. Text is 14 px or more on a phone. */
+body .lc__grid[data-look='next'] {
+  --lnx-coral: #ff8a7d; --lnx-coral-ink: #1a0703; --lnx-green: #a6dc4a; --lnx-green-ink: #0b1000;
+  --lnx-amber: #e8c35a; --lnx-amber-text: #f2d27a; --lnx-volt: #d2f000; --lnx-volt-ink: #0b1000;
+  --lnx-good-wash: rgba(166, 220, 74, 0.12); --lnx-bad-wash: rgba(255, 138, 125, 0.12); --lnx-grey: rgba(244, 240, 230, 0.22);
+}
+html[data-theme='light'] body .lc__grid[data-look='next'] {
+  --lnx-coral: #c8473a; --lnx-coral-ink: #fffdf8; --lnx-green: #5d8a12; --lnx-green-ink: #fffdf8;
+  --lnx-amber: #d29a16; --lnx-amber-text: #845400;
+  --lnx-good-wash: rgba(93, 138, 18, 0.1); --lnx-bad-wash: rgba(200, 71, 58, 0.09); --lnx-grey: rgba(23, 21, 15, 0.2);
+}
 .lc__grid[data-look='next'] .lnx { display: grid; gap: 12px; align-content: start; min-width: 0; color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.lc__grid[data-look='next'] .lnx :is(p, h3, h4) { margin: 0; }
-.lc__grid[data-look='next'] .lnx-h { font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3); letter-spacing: 0.01em; }
-.lc__grid[data-look='next'] .lnx button { font: inherit; }
-/* A control looks like one: a chevron where a tap shows more, the chosen one marked, a press that gives a little. */
-.lc__grid[data-look='next'] .lnx-chev { flex: none; color: var(--a-ink-3); transition: transform 200ms var(--a-ease), color 200ms ease; }
-.lc__grid[data-look='next'] :is([aria-pressed='true'], [data-open]) > .lnx-chev,
-.lc__grid[data-look='next'] [aria-pressed='true'] .lnx-chev { color: var(--a-ink); transform: translate3d(2px, 0, 0); }
+.lc__grid[data-look='next'] .lnx :is(p, h3, h4, ol, ul) { margin: 0; }
+.lc__grid[data-look='next'] .lnx :is(ol, ul) { padding: 0; list-style: none; }
+.lc__grid[data-look='next'] .lnx button { font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; }
+.lc__grid[data-look='next'] .lnx button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.lc__grid[data-look='next'] .lnx-h { font: 650 14px/1.3 var(--font-display, inherit); color: var(--a-ink-3); }
+/* The finding: the card's one sentence, the display face, its figures bold. */
+.lc__grid[data-look='next'] .lnx-find { font: 700 19px/1.32 var(--font-display, inherit); letter-spacing: -0.012em; color: var(--a-ink); text-wrap: pretty; }
+.lc__grid[data-look='next'] .lnx-find b { font-weight: 800; }
 @media (prefers-reduced-motion: no-preference) {
-  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row, .lnx-quad, .mr-start, .ml-row__btn, .ml-chip) { transition: transform 160ms var(--a-ease), background-color 160ms ease, border-color 160ms ease; }
-  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row, .lnx-quad, .mr-start, .ml-row__btn, .ml-chip):active { transform: scale(0.98); }
+  .lc__grid[data-look='next'] .lnx :is(.lnx-ch__q, .lnx-t__row, .lnx-chg, .lnx-opt, .lnx-quad, .mr-start):active { transform: scale(0.98); }
+  .lc__grid[data-look='next'] .lnx :is(.lnx-ch__q, .lnx-t__row, .lnx-chg, .lnx-opt, .lnx-quad, .mr-start) { transition: transform 160ms var(--a-ease), background-color 160ms ease; }
 }
 
 /* ---------- The slot: what a tap shows, one answer at a time, in a room held from the first frame ---------- */
 .lc__grid[data-look='next'] .lnx-slot { display: grid; min-width: 0; }
 .lc__grid[data-look='next'] .lnx-slot__item { grid-area: 1 / 1; min-width: 0; visibility: hidden; }
 .lc__grid[data-look='next'] .lnx-slot__item[data-shown] { visibility: visible; animation: lnx-rise 260ms var(--a-ease) both; }
-.lc__grid[data-look='next'] .lnx-detail { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-detail { padding: 8px 11px; border-radius: 10px; background: var(--a-sunken); font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
 .lc__grid[data-look='next'] .lnx-detail b { color: var(--a-ink); font-weight: 750; }
-.lc__grid[data-look='next'] .lnx-detail [data-verdict='correct'] { color: var(--a-good-text); font-weight: 650; }
-.lc__grid[data-look='next'] .lnx-detail [data-verdict='wrong'] { color: var(--a-bad-text); font-weight: 650; }
-.lc__grid[data-look='next'] .lnx-slot--line .lnx-detail { padding: 8px 10px; border-radius: 10px; background: var(--a-sunken); }
+.lc__grid[data-look='next'] .lnx-detail [data-verdict='correct'], .lc__grid[data-look='next'] .lnx-detail [data-tone='good'] { color: var(--a-good-text); font-weight: 650; }
+.lc__grid[data-look='next'] .lnx-detail [data-verdict='wrong'], .lc__grid[data-look='next'] .lnx-detail [data-tone='bad'] { color: var(--a-bad-text); font-weight: 650; }
+.lc__grid[data-look='next'] .lnx-detail[data-q='weakness'] b { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-detail[data-q='threat'] b { color: var(--a-warn-text); }
 
-/* ---------- 0. Chapters (MarksLedger): one fill a chapter ---------- */
-/* The home sheets have their own .ml (the old landing explainer, two columns from 960 px): the ledger keeps its one column. */
-.lc__grid[data-look='next'] .lnx--chapters .ml { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 10px; height: auto; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-headline { font: 650 17px/1.4 var(--font-display, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx--chapters .ml-headline .ml-num { font-weight: 800; }
-.lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-partnership'] { --c: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-cash-flow'] { --c: var(--ml-blank); }
-.lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-ratios'] { --c: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx--chapters .ml-bar { height: 12px; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-row__btn { min-height: 48px; padding-block: 8px; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-row__line { font-size: 13px; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel { padding-left: 38px; gap: 8px; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-do { font-size: 14px; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-chip { min-height: 44px; font-size: 14px; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel:not([hidden]) > * { animation: lnx-rise 240ms var(--a-ease) both; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel:not([hidden]) > .ml-chips { animation-delay: 60ms; }
-/* The costliest chapter's panel (the cursor opens that one) keeps its room while closed, as space under its row (the panel
-   itself is [hidden], which the base layer's !important keeps out of layout): its line and its 44 px chips, 86 px. */
-.lc__grid[data-look='next'] .lnx--chapters .ml-rows > .ml-row:first-child:not([data-open]) { margin-bottom: 86px; }
-/* Taps of 44 px on touch: the bar's segments keep their 12 px strip, drawn on a 44 px button. */
-@media (pointer: coarse) {
-  .lc__grid[data-look='next'] .lnx--chapters .ml-bar { height: 44px; padding: 0; margin-block: -10px; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg { height: 44px; background: none; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg::before {
-    content: ''; position: absolute; left: 0; right: 0; top: 16px; height: 12px; border-radius: inherit; pointer-events: none;
-    background-color: var(--c); background-image: var(--pat);
-  }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg::after, .lc__grid[data-look='next'] .lnx--chapters .ml-seg__ticks { top: 16px; bottom: 16px; }
-}
-/* "Across your mocks", folded, as the result page draws it (lab-loop.css .am-head, copied and scoped; that sheet is not loaded
-   beside the home's): its title and its first line, with no need to open it. */
-.lc__grid[data-look='next'] .lnx-across { display: grid; gap: 3px; padding: 10px 0 0; border-top: 1px solid var(--a-line); }
-.lc__grid[data-look='next'] .lnx-across .am-head__title { font: 700 15px/1.3 var(--font-display, inherit); letter-spacing: -.012em; color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-across .am-head__teaser { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.lc__grid[data-look='next'] .lnx-across .ml-num { font-weight: 700; color: var(--a-ink); }
+/* ---------- 0. Chapters: the chapters worst first, each bar cut into its lost questions ---------- */
+.lc__grid[data-look='next'] .lnx-chs { display: grid; gap: 8px; }
+.lc__grid[data-look='next'] .lnx-ch { display: grid; gap: 0; }
+.lc__grid[data-look='next'] .lnx-ch__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 8px; min-width: 0; }
+.lc__grid[data-look='next'] .lnx-ch__name { font: 700 15px/1.3 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-ch__right { font-size: 14px; color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-ch__flag { align-self: center; padding: 0 7px; border-radius: 6px; background: var(--a-volt-wash); box-shadow: inset 0 0 0 1px var(--a-volt-line); color: var(--a-accent-text); font: 750 14px/22px var(--font-body, inherit); font-style: normal; white-space: nowrap; }
+.lc__grid[data-look='next'] .lnx-ch__lost { margin-left: auto; font: 800 22px/1 var(--font-display, inherit); letter-spacing: -0.02em; color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-ch:not([data-worst]) .lnx-ch__lost { font-size: 18px; }
+.lc__grid[data-look='next'] .lnx-ch[data-clear] .lnx-ch__lost { color: var(--a-good-text); }
+/* The bar: as long as the chapter's share of every lost mark; a piece a lost question, 44 px tall to tap, 30 px drawn. */
+.lc__grid[data-look='next'] .lnx-ch__bar { display: flex; gap: 3px; width: max(calc(var(--share, 0) * 100%), 7rem); }
+.lc__grid[data-look='next'] .lnx-ch__q { position: relative; display: grid; place-items: center; flex: 1 1 0; min-width: 0; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.lc__grid[data-look='next'] .lnx-ch__fill { position: absolute; inset: 7px 0; border-radius: 7px; background: var(--lnx-coral); transform-origin: left center; }
+.lc__grid[data-look='next'] .lnx-ch__q[data-verdict='blank'] .lnx-ch__fill { background: repeating-linear-gradient(135deg, var(--lnx-bad-wash) 0 5px, transparent 5px 9px); box-shadow: inset 0 0 0 1.5px var(--lnx-coral); }
+.lc__grid[data-look='next'] .lnx-ch__qn { position: relative; font: 750 14px/1 var(--font-display, inherit); color: var(--lnx-coral-ink); }
+.lc__grid[data-look='next'] .lnx-ch__q[data-verdict='blank'] .lnx-ch__qn { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-ch__q[aria-pressed='true'] .lnx-ch__fill { box-shadow: 0 0 0 2px var(--s-bg), 0 0 0 4px var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-ch__q[data-verdict='blank'][aria-pressed='true'] .lnx-ch__fill { box-shadow: inset 0 0 0 1.5px var(--lnx-coral), 0 0 0 2px var(--s-bg), 0 0 0 4px var(--a-ink); }
+/* Across your mocks: the line, and the chapter's marks lost in each mock as three columns, this one in coral. */
+.lc__grid[data-look='next'] .lnx-across { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 14px; padding-top: 10px; border-top: 1px solid var(--a-line); }
+.lc__grid[data-look='next'] .lnx-across__title { font: 700 15px/1.3 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-across__line { font-size: 14px; line-height: 1.42; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-across__line b { color: var(--a-ink); font-weight: 750; }
+.lc__grid[data-look='next'] .lnx-across__cols { display: flex; gap: 6px; }
+.lc__grid[data-look='next'] .lnx-across__cols li { display: grid; justify-items: center; gap: 3px; }
+.lc__grid[data-look='next'] .lnx-across__col { display: flex; align-items: flex-end; width: 20px; height: 40px; border-radius: 5px; background: var(--a-sunken); overflow: hidden; }
+.lc__grid[data-look='next'] .lnx-across__col i { width: 100%; height: calc(var(--v, 0) * 100%); border-radius: 5px; background: var(--lnx-grey); transform-origin: center bottom; }
+.lc__grid[data-look='next'] .lnx-across__cols li[data-now] .lnx-across__col i { background: var(--lnx-coral); }
+.lc__grid[data-look='next'] .lnx-across__cols b { font: 750 14px/1 var(--font-display, inherit); color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-across__cols li[data-now] b { color: var(--a-bad-text); }
 
-/* ---------- The time and change rows: src/components/result/time-decisions.css, copied here and scoped. That sheet's root
-   class (.td) is also the home tour deck's (r18-tour-deck.css), so it is never loaded beside the home's sheets. ---------- */
-.lc__grid[data-look='next'] .lnx .td-lead { font-size: 15px; line-height: 1.45; font-weight: 600; color: var(--a-ink); max-width: 68ch; font-variant-numeric: tabular-nums; }
-.lc__grid[data-look='next'] .lnx :is(.td-long, .td-changes) { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
-.lc__grid[data-look='next'] .lnx .td-long__row {
-  width: 100%; display: grid; grid-template-columns: 40px minmax(0, 1fr) 52px 16px; grid-template-areas: 'q track time chev';
-  gap: 10px; align-items: center; min-height: 46px; padding: 6px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0;
-  background: transparent; color: inherit; text-align: left; cursor: pointer;
+/* ---------- 1. Time: the slowest questions against the pace line, the overrun hatched ---------- */
+.lc__grid[data-look='next'] .lnx-t { --cols: 30px 18px minmax(0, 1fr) 38px 46px; --row: 38px; display: grid; }
+.lc__grid[data-look='next'] .lnx-t__pace { display: grid; grid-template-columns: var(--cols); column-gap: 8px; padding: 0 4px; }
+.lc__grid[data-look='next'] .lnx-t__pace > span { grid-column: 3; position: relative; height: 20px; }
+.lc__grid[data-look='next'] .lnx-t__pace b { position: absolute; top: 0; left: calc(var(--pace) * 100%); transform: translateX(-50%); white-space: nowrap; font: 750 14px/20px var(--font-display, inherit); color: var(--a-accent-text); }
+.lc__grid[data-look='next'] .lnx-t__rows { display: grid; }
+.lc__grid[data-look='next'] .lnx-t__row {
+  display: grid; grid-template-columns: var(--cols); column-gap: 8px; align-items: center; width: 100%; min-height: var(--row);
+  padding: 0 4px; border: 0; border-radius: 9px; background: transparent; text-align: left; cursor: pointer;
 }
-.lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.lc__grid[data-look='next'] .lnx :is(.td-long, .td-changes) > li:first-child > :is(.td-long__row, .td-changes__row) { border-top: 0; }
-@media (hover: hover) and (pointer: fine) { .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):hover { background: color-mix(in srgb, var(--a-ink) 4%, transparent); } }
-.lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row)[aria-pressed='true'] { background: var(--a-chosen); }
-.lc__grid[data-look='next'] .lnx :is(.td-long__q, .td-changes__q) { grid-area: q; font: 700 14px/1.4 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx .td-changes__q { align-self: start; padding-top: 1px; }
-.lc__grid[data-look='next'] .lnx .td-long__track { grid-area: track; position: relative; height: 8px; border-radius: 999px; background: var(--a-line); }
-.lc__grid[data-look='next'] .lnx .td-long__fill { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: var(--a-ink-3); transform-origin: left; }
-.lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='correct'] { background: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='wrong'] { background: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='skipped'] { background: var(--a-line-strong); }
-.lc__grid[data-look='next'] .lnx .td-long__pace { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--a-accent-text); }
-.lc__grid[data-look='next'] .lnx .td-long__time { grid-area: time; text-align: right; font: 700 14px/1.2 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink); white-space: nowrap; }
-.lc__grid[data-look='next'] .lnx .td-long__row > .lnx-chev { grid-area: chev; }
-.lc__grid[data-look='next'] .lnx .td-changes__row {
-  width: 100%; display: grid; grid-template-columns: 38px minmax(0, 1fr) auto 16px; grid-template-areas: 'q text net chev'; gap: 10px; align-items: start;
-  min-height: 48px; padding: 9px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: transparent;
-  color: inherit; text-align: left; cursor: pointer;
-}
-.lc__grid[data-look='next'] .lnx .td-changes__text { grid-area: text; min-width: 0; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.lc__grid[data-look='next'] .lnx .td-changes__net { grid-area: net; font: 700 15px/1.4 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx .td-changes__net[data-tone='good'] { color: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx .td-changes__net[data-tone='bad'] { color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx .td-changes__row > .lnx-chev { grid-area: chev; align-self: center; }
-
-/* ---------- 1. Time: the pace mark's label, the rows, the slot and the one-line key ---------- */
-.lc__grid[data-look='next'] .lnx-pace { display: grid; grid-template-columns: 40px minmax(0, 1fr) 52px 16px; column-gap: 10px; padding: 0 4px; margin-bottom: -8px; }
-.lc__grid[data-look='next'] .lnx-pace__track { grid-column: 2; position: relative; height: 18px; }
-.lc__grid[data-look='next'] .lnx-pace__track b { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; font: 700 13px/18px var(--font-display, inherit); color: var(--a-accent-text); }
-.lc__grid[data-look='next'] .lnx-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-t__row[aria-pressed='true'] { background: var(--a-chosen); }
+.lc__grid[data-look='next'] .lnx-t__q { font: 700 14px/1 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-t__mark { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--lnx-green); color: var(--lnx-green-ink); }
+.lc__grid[data-look='next'] .lnx-t__mark[data-verdict='wrong'] { background: var(--lnx-coral); color: var(--lnx-coral-ink); }
+.lc__grid[data-look='next'] .lnx-t__track { position: relative; height: 10px; border-radius: 5px; background: var(--a-sunken); }
+.lc__grid[data-look='next'] .lnx-t__base, .lc__grid[data-look='next'] .lnx-t__over { position: absolute; top: 0; bottom: 0; transform-origin: left center; }
+.lc__grid[data-look='next'] .lnx-t__base { left: 0; width: calc(var(--w) * 100%); border-radius: 5px; background: var(--lnx-green); }
+.lc__grid[data-look='next'] .lnx-t__row[data-band='under'][data-verdict='wrong'] .lnx-t__base { background: var(--lnx-coral); }
+.lc__grid[data-look='next'] .lnx-t__row[data-band='over'] .lnx-t__base { border-radius: 5px 0 0 5px; background: var(--lnx-grey); }
+.lc__grid[data-look='next'] .lnx-t__over { left: calc(var(--a) * 100%); width: calc(var(--w) * 100%); border-radius: 0 5px 5px 0; --hot: var(--lnx-coral);
+  background: repeating-linear-gradient(135deg, var(--hot) 0 4px, color-mix(in srgb, var(--hot) 55%, transparent) 4px 7px); }
+.lc__grid[data-look='next'] .lnx-t__row[data-verdict='right'] .lnx-t__over { --hot: var(--lnx-amber); }
+/* The pace: a dashed volt line through every row (each row draws its piece, so the pieces meet). */
+.lc__grid[data-look='next'] .lnx-t__line { position: absolute; left: calc(var(--pace) * 100%); top: calc((var(--row) - 10px) / -2); bottom: calc((var(--row) - 10px) / -2); width: 0; margin-left: -1px; border-left: 2px dashed var(--a-accent-text); }
+.lc__grid[data-look='next'] .lnx-t__time { text-align: right; font: 750 14px/1 var(--font-display, inherit); color: var(--a-ink); white-space: nowrap; }
+.lc__grid[data-look='next'] .lnx-t__delta { font: 700 14px/1 var(--font-body, inherit); color: var(--a-good-text); white-space: nowrap; }
+.lc__grid[data-look='next'] .lnx-t__row[data-band='over'] .lnx-t__delta { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-t__row[data-band='over'][data-verdict='right'] .lnx-t__delta { color: var(--lnx-amber-text); }
+.lc__grid[data-look='next'] .lnx-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; line-height: 1.4; color: var(--a-ink-2); }
 .lc__grid[data-look='next'] .lnx-key span { display: inline-flex; align-items: center; gap: 6px; }
-.lc__grid[data-look='next'] .lnx-key i { width: 14px; height: 8px; border-radius: 999px; background: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-key i[data-verdict='correct'] { background: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx-key i[data-verdict='wrong'] { background: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-key i { width: 16px; height: 9px; border-radius: 3px; background: var(--lnx-green); }
+.lc__grid[data-look='next'] .lnx-key i[data-k='over-wrong'] { background: repeating-linear-gradient(135deg, var(--lnx-coral) 0 3px, color-mix(in srgb, var(--lnx-coral) 55%, transparent) 3px 5px); }
+.lc__grid[data-look='next'] .lnx-key i[data-k='over-right'] { background: repeating-linear-gradient(135deg, var(--lnx-amber) 0 3px, color-mix(in srgb, var(--lnx-amber) 55%, transparent) 3px 5px); }
 
-/* ---------- 2. Changes: the totals, the rows, the picks of the chosen one ---------- */
-.lc__grid[data-look='next'] .lnx-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-.lc__grid[data-look='next'] .lnx-sum p { display: grid; align-content: start; gap: 2px; padding: 8px 10px; border-radius: 12px; background: var(--a-sunken); font-size: 13px; line-height: 1.3; color: var(--a-ink-2); }
-.lc__grid[data-look='next'] .lnx-sum b { font: 750 19px/1.15 var(--font-display, inherit); font-variant-numeric: tabular-nums; }
-.lc__grid[data-look='next'] .lnx-sum p[data-tone='good'] b { color: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx-sum p[data-tone='bad'] b { color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-sum p[data-net] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-picks { display: grid; gap: 6px; padding: 10px 12px; border-radius: 12px; background: var(--a-sunken); }
-.lc__grid[data-look='next'] .lnx-picks__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.lc__grid[data-look='next'] .lnx-picks__q { font: 700 14px/1 var(--font-display, inherit); color: var(--a-ink); margin-right: 2px; }
-.lc__grid[data-look='next'] .lnx-picks__arrow { color: var(--a-ink-3); flex: none; }
-.lc__grid[data-look='next'] .lnx-pick { display: inline-flex; align-items: center; gap: 8px; }
-.lc__grid[data-look='next'] .lnx-pick > i {
-  position: relative; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
-  border: 1.5px solid currentColor; font: 700 13px/1 var(--font-display, inherit); font-style: normal;
+/* ---------- 2. Changes: the net, large; the totals; each change as two picks and an arrow ---------- */
+.lc__grid[data-look='next'] .lnx-net { display: flex; align-items: center; gap: 12px; }
+.lc__grid[data-look='next'] .lnx-net > b { font: 800 36px/1 var(--font-display, inherit); letter-spacing: -0.03em; color: var(--a-bad-text); white-space: nowrap; }
+.lc__grid[data-look='next'] .lnx-net[data-tone='good'] > b { color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-net > span { display: grid; gap: 1px; }
+.lc__grid[data-look='next'] .lnx-net__label { font: 700 16px/1.25 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-net__from { font-size: 14px; color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-tot { display: flex; flex-wrap: wrap; gap: 2px 14px; font-size: 14px; line-height: 1.4; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-tot b { font: 800 15px/1 var(--font-display, inherit); }
+.lc__grid[data-look='next'] .lnx-tot [data-tone='good'] b { color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-tot [data-tone='bad'] b { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-chgs { display: grid; gap: 2px; }
+.lc__grid[data-look='next'] .lnx-chg {
+  display: grid; grid-template-columns: 30px auto minmax(28px, 1fr) auto 36px; align-items: start; column-gap: 8px; width: 100%;
+  padding: 7px 6px; border: 0; border-radius: 12px; background: transparent; text-align: left; cursor: pointer;
 }
-.lc__grid[data-look='next'] .lnx-pick > i svg { position: absolute; right: -5px; top: -5px; width: 15px; height: 15px; padding: 2px; border-radius: 50%; background: currentColor; }
-.lc__grid[data-look='next'] .lnx-pick[data-verdict='right'] > i { color: var(--lnx-pick-good); }
-.lc__grid[data-look='next'] .lnx-pick[data-verdict='wrong'] > i { color: var(--lnx-pick-bad); }
-.lc__grid[data-look='next'] .lnx-pick > i svg path, .lc__grid[data-look='next'] .lnx-pick > i svg polyline { stroke: var(--s-bg); }
-.lc__grid[data-look='next'] .lnx-pick > span { display: grid; font: 650 13px/1.25 var(--font-display, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-pick > span small { font: 500 13px/1.3 var(--font-body, inherit); color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-picks__effect { font-size: 14px; line-height: 1.4; font-weight: 650; }
-.lc__grid[data-look='next'] .lnx-picks__effect[data-tone='bad'] { color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-picks__effect[data-tone='good'] { color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-chg[aria-pressed='true'] { background: var(--a-chosen); }
+.lc__grid[data-look='next'] .lnx-chg__q { font: 750 15px/34px var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-chip { display: grid; justify-items: center; gap: 3px; }
+.lc__grid[data-look='next'] .lnx-chip > i {
+  position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid currentColor; font: 750 15px/1 var(--font-display, inherit); font-style: normal; color: var(--a-good-text); background: var(--lnx-good-wash);
+}
+.lc__grid[data-look='next'] .lnx-chip[data-verdict='wrong'] > i { color: var(--a-bad-text); background: var(--lnx-bad-wash); }
+.lc__grid[data-look='next'] .lnx-chip > i > b, .lc__grid[data-look='next'] .lnx-opt__l > b {
+  position: absolute; top: -4px; right: -6px; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: currentColor;
+}
+.lc__grid[data-look='next'] :is(.lnx-chip, .lnx-opt) b svg { color: var(--s-bg); }
+.lc__grid[data-look='next'] .lnx-chip small { font-size: 14px; line-height: 1; color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-chg__to { display: grid; }
+.lc__grid[data-look='next'] .lnx-chg__arrow { position: relative; height: 34px; }
+.lc__grid[data-look='next'] .lnx-chg__line { position: absolute; left: 0; right: 3px; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--lnx-green); transform-origin: left center; }
+.lc__grid[data-look='next'] .lnx-chg__head { position: absolute; right: 2px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-top: 2px solid var(--lnx-green); border-right: 2px solid var(--lnx-green); transform: rotate(45deg); }
+.lc__grid[data-look='next'] .lnx-chg[data-tone='bad'] .lnx-chg__line { background: var(--lnx-coral); }
+.lc__grid[data-look='next'] .lnx-chg[data-tone='bad'] .lnx-chg__head { border-color: var(--lnx-coral); }
+.lc__grid[data-look='next'] .lnx-chg__cross { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--lnx-coral); color: var(--lnx-coral-ink); box-shadow: 0 0 0 3px var(--s-bg); }
+.lc__grid[data-look='next'] .lnx-chg[aria-pressed='true'] .lnx-chg__cross { box-shadow: none; }
+.lc__grid[data-look='next'] .lnx-chg__net { font: 800 16px/34px var(--font-display, inherit); text-align: right; color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-chg[data-tone='bad'] .lnx-chg__net { color: var(--a-bad-text); }
 /* The re-mark line (MarksLedger .ml-remark__scores), on the wide device only. */
 .lc__grid[data-look='next'] .lnx-first { display: none; }
 @media (min-width: 960px) {
   .lc__grid[data-look='next'] .lnx-first {
-    display: block; margin-top: 2px; padding: 12px 14px; border-radius: 14px; background: var(--a-sunken);
+    display: block; padding: 10px 12px; border-radius: 12px; background: var(--a-sunken);
     font-size: 14px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums;
   }
-  .lc__grid[data-look='next'] .lnx-first .ml-num { font-weight: 700; color: var(--a-ink); }
+  .lc__grid[data-look='next'] .lnx-first b { font-weight: 750; color: var(--a-ink); }
 }
 
-/* ---------- 3. Repair: the mistake's row (result-1017.css .rx-row, as the result draws it), then the repair ---------- */
-.lc__grid[data-look='next'] .lnx-mistake {
-  display: grid; grid-template-columns: 32px minmax(0, 1fr) auto 16px; gap: 4px 12px; align-items: start; width: 100%;
-  padding: 10px 2px; border: 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); border-radius: 0;
-  background: transparent; color: inherit; text-align: left; cursor: pointer;
-}
-.lc__grid[data-look='next'] .lnx-mistake:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.lc__grid[data-look='next'] .lnx-mistake > .lnx-chev { align-self: center; }
-.lc__grid[data-look='next'] .lnx-mistake[aria-expanded='true'] { background: var(--a-chosen); }
-.lc__grid[data-look='next'] .lnx-mistake[aria-expanded='true'] > .lnx-chev { color: var(--a-ink); transform: rotate(90deg); }
-/* The row's picks, then (opened) its two answers written out, in one cell: the cell holds the taller from the first frame, so
-   opening the row moves nothing. */
-.lc__grid[data-look='next'] .lnx-answers { display: grid; min-width: 0; }
-.lc__grid[data-look='next'] .lnx-answers > * { grid-area: 1 / 1; min-width: 0; visibility: hidden; }
-.lc__grid[data-look='next'] .lnx-answers > [data-shown] { visibility: visible; }
-.lc__grid[data-look='next'] .lnx-answers > .rx-row__opts[data-shown] { animation: lnx-rise 260ms var(--a-ease) both; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 2px; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-opt { display: flex; align-items: flex-start; gap: 7px; min-width: 0; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-opt > i {
-  flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; margin-top: 1px;
-  font: 700 13px/1 var(--font-display, inherit); font-style: normal;
-}
-.lc__grid[data-look='next'] .lnx-mistake .rx-opt[data-kind='mine'] > i { border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-opt[data-kind='key'] > i { border: 1.5px solid var(--a-good-text); color: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-opt > span { display: grid; min-width: 0; font: 650 14px/1.3 var(--font-display, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-opt small { font: 500 13px/1.3 var(--font-body, inherit); color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__n {
-  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
-  border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); font: 700 13px/1 var(--font-display, inherit);
-}
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__main { display: grid; gap: 4px; min-width: 0; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__ch { font: 650 15px/1.35 var(--font-display, inherit); color: var(--a-ink); }
-/* The whole question, wrapped (the result page cuts it to one line until the row opens; here the row is the open one). */
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__stem { font-size: 13.5px; line-height: 1.45; color: var(--a-ink); overflow-wrap: anywhere; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__facts { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 2px; font-size: 13px; color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick { display: inline-flex; align-items: center; gap: 5px; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font: 700 13px/1 var(--font-display, inherit); font-style: normal; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='mine'] i { border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='key'] i { border: 1.5px solid var(--a-good-text); color: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__cost { font: 700 15px/1.2 var(--font-display, inherit); color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx--repair .mr { margin-top: 0; }
-.lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 10px; padding: 12px 14px; }
-.lc__grid[data-look='next'] .lnx--repair .mr-title { font: 700 17px/1.25 var(--font-display, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { font-size: 14px; line-height: 1.5; }
-.lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 10px 14px; }
-.lc__grid[data-look='next'] .lnx--repair .mr-rule > p { font-size: 15px; line-height: 1.45; }
-.lc__grid[data-look='next'] .lnx--repair .mr-start { min-height: 0; }
+/* ---------- 3. Repair: the question, the two options that matter, the repair's key, the repair as a sheet ---------- */
+.lc__grid[data-look='next'] .lnx--repair { position: relative; min-height: var(--lnx-h-repair, 0px); gap: 10px; }
+.lc__grid[data-look='next'] .lnx-rq { font: 650 16px/1.4 var(--font-display, inherit); color: var(--a-ink); overflow-wrap: anywhere; }
+.lc__grid[data-look='next'] .lnx-rq b { margin-right: 4px; color: var(--a-ink-3); font-weight: 750; }
+.lc__grid[data-look='next'] .lnx-opts { display: grid; gap: 6px; }
+.lc__grid[data-look='next'] .lnx-opt { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: center; gap: 10px; width: 100%; padding: 7px 10px; border: 0; border-radius: 12px; background: var(--lnx-bad-wash); color: var(--a-bad-text); text-align: left; }
+.lc__grid[data-look='next'] button.lnx-opt { cursor: pointer; }
+.lc__grid[data-look='next'] .lnx-opt[data-kind='key'] { background: var(--lnx-good-wash); color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-opt[aria-pressed='true'] { box-shadow: inset 0 0 0 1.5px var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-opt__l { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid currentColor; font: 750 15px/1 var(--font-display, inherit); font-style: normal; }
+.lc__grid[data-look='next'] .lnx-opt > span { display: grid; min-width: 0; font: 650 15px/1.3 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-opt .dd { justify-self: start; }
+.lc__grid[data-look='next'] .lnx-opt small { font: 600 14px/1.3 var(--font-body, inherit); color: currentColor; }
+.lc__grid[data-look='next'] .lnx-opt[data-kind='mine'] small { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-opt[data-kind='key'] small { color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx--repair .mr-start { min-height: 0; margin: 0; }
 .lc__grid[data-look='next'] .lnx--repair .mr-start__icon { color: #10140e; }
-.lc__grid[data-look='next'] .lnx--repair .mr-start__text small { font-size: 13px; }
+.lc__grid[data-look='next'] .lnx--repair .mr-start__text small { font-size: 14px; line-height: 1.4; }
+/* The finished repair rises over the card as a sheet, in the room the card holds (no layout shift). */
+.lc__grid[data-look='next'] .lnx-sheet { position: absolute; inset: 0; z-index: 2; margin: 0; align-content: start; gap: 10px; padding: 12px 14px; border: 0; border-radius: 14px; background: var(--a-raised-2); box-shadow: 0 -10px 24px -14px rgba(0, 0, 0, 0.45); overflow: hidden; }
+.lc__grid[data-look='next'] .lnx-sheet[data-fresh] { animation: lnx-sheet 320ms var(--a-ease) both; }
+.lc__grid[data-look='next'] .lnx-sheet .mr-title { font: 700 17px/1.25 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-sheet :is(.mr-check, .mr-rule__head, .mr-rule__head span) { font-size: 14px; }
+.lc__grid[data-look='next'] .lnx--repair .mr-start__cost { font-size: 14px; }
+.lc__grid[data-look='next'] .lnx-sheet .mr-label { font-size: 14px; }
+.lc__grid[data-look='next'] .lnx-sheet .mr-block > p:not(.mr-label) { font-size: 14px; line-height: 1.45; }
+.lc__grid[data-look='next'] .lnx-sheet .mr-rule { padding: 10px 12px; }
+.lc__grid[data-look='next'] .lnx-sheet .mr-rule > p { font-size: 15px; line-height: 1.42; }
 
-/* ---------- 4. After this mock (swot.css): the plan's first set, then the four groups two by two, then the slot ---------- */
-.lc__grid[data-look='next'] .lnx--swot.sw { padding: 0; border: 0; background: transparent; box-shadow: none; gap: 10px; }
-.lc__grid[data-look='next'] .lnx--swot .sw-block { gap: 4px; }
-.lc__grid[data-look='next'] .lnx--swot .sw-h3 { font-size: 14px; color: var(--a-ink-2); }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__row { grid-template-columns: 20px minmax(0, 1fr); padding: 8px 0; }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__row[data-first] .sw-plan__n { color: var(--a-accent-text); font-weight: 750; }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__label { font: 700 16px/1.35 var(--font-display, inherit); }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { font-size: 13.5px; line-height: 1.45; }
-.lc__grid[data-look='next'] .lnx--swot .lnx-swot-h { margin-bottom: -2px; }
+/* ---------- 4. After this mock: the plan's first set large, then the four groups as filled tiles ---------- */
+.lc__grid[data-look='next'] .lnx--swot { gap: 10px; }
+.lc__grid[data-look='next'] .lnx-plan { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 12px; border-radius: 14px; background: var(--a-volt-wash); }
+.lc__grid[data-look='next'] .lnx-plan__n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--lnx-volt); color: var(--lnx-volt-ink); font: 800 14px/1 var(--font-display, inherit); }
+.lc__grid[data-look='next'] .lnx-plan__text { display: grid; gap: 3px; min-width: 0; }
+.lc__grid[data-look='next'] .lnx-plan__label { font: 750 17px/1.3 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-plan__why { font-size: 14px; line-height: 1.4; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-plan__go { padding: 8px 14px; border-radius: 999px; background: var(--lnx-volt); color: var(--lnx-volt-ink); font: 750 14px/1 var(--font-body, inherit); white-space: nowrap; }
 .lc__grid[data-look='next'] .lnx-quads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.lc__grid[data-look='next'] .lnx-quads .sw-q { display: grid; padding: 0; border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-sunken); }
-.lc__grid[data-look='next'] .lnx-quads .sw-q[data-open] { border-color: var(--a-line-strong); background: var(--a-chosen); }
-.lc__grid[data-look='next'] .lnx-quad {
-  display: grid; align-content: start; gap: 3px; width: 100%; min-height: 44px; padding: 9px 11px; border: 0; border-radius: 11px;
-  background: transparent; color: inherit; text-align: left; cursor: pointer;
-}
-.lc__grid[data-look='next'] .lnx-quad:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.lc__grid[data-look='next'] .lnx-quad .sw-q__h { display: flex; align-items: center; justify-content: space-between; gap: 6px; font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='weakness'] .sw-q__h { color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='threat'] .sw-q__h { color: var(--a-warn-text); }
-.lc__grid[data-look='next'] .lnx-quad .sw-item__title { font: 650 14px/1.35 var(--font-body, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-slot--swot .lnx-detail { padding: 8px 10px; border-radius: 10px; background: var(--a-sunken); font-size: 13.5px; }
-.lc__grid[data-look='next'] .lnx-slot--swot .lnx-detail[data-q='weakness'] b { color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-slot--swot .lnx-detail[data-q='threat'] b { color: var(--a-warn-text); }
+.lc__grid[data-look='next'] .lnx-quad { display: grid; align-content: start; gap: 4px; width: 100%; min-height: 44px; padding: 10px 12px; border: 0; border-radius: 12px; background: var(--a-sunken); text-align: left; cursor: pointer; }
+.lc__grid[data-look='next'] .lnx-quad[aria-pressed='true'] { box-shadow: inset 0 0 0 1.5px var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-quad__h { display: flex; align-items: center; gap: 7px; font: 700 14px/1.3 var(--font-display, inherit); color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-quad__h i { width: 9px; height: 9px; border-radius: 50%; background: var(--lnx-green); }
+.lc__grid[data-look='next'] .lnx-quad[data-q='weakness'] .lnx-quad__h i { background: var(--lnx-coral); }
+.lc__grid[data-look='next'] .lnx-quad[data-q='opportunity'] .lnx-quad__h i { background: var(--lnx-volt); box-shadow: inset 0 0 0 1px var(--a-volt-line); }
+.lc__grid[data-look='next'] .lnx-quad[data-q='threat'] .lnx-quad__h i { background: var(--lnx-amber); }
+.lc__grid[data-look='next'] .lnx-quad__title { font: 650 14px/1.35 var(--font-body, inherit); color: var(--a-ink); }
 
-/* ---------- Motion: what comes on stage, what a tap changes ---------- */
+/* ---------- The beat line above the device (LabBeats.mjs): three lines in one cell, the scene's data-beat shows one ---------- */
+/* body and the doubled class: one step above the home's own rule for the short line (body .mm.lp ... display: block). */
+body .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__body.lc-beats { display: grid; }
+.lc__grid[data-look='next'] .lc-beats > span { grid-area: 1 / 1; opacity: 0; transition: opacity 220ms ease; }
+.lc__grid[data-look='next'] .lc-scene:not([data-beat]) .lc-beats > [data-k='0'],
+.lc__grid[data-look='next'] .lc-scene[data-beat='0'] .lc-beats > [data-k='0'],
+.lc__grid[data-look='next'] .lc-scene[data-beat='1'] .lc-beats > [data-k='1'],
+.lc__grid[data-look='next'] .lc-scene[data-beat='2'] .lc-beats > [data-k='2'] { opacity: 1; }
+/* Wide: the beat line runs under the scene's words, in ink. */
+@media (min-width: 960px) {
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-beats { display: grid; margin-top: 0.9rem; font-weight: 650; color: var(--ink); }
+}
+
+/* ---------- Motion: a card's picture plays once it stands, then what a tap changes ---------- */
 @keyframes lnx-rise { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
-@keyframes lnx-fill { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes lnx-up { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
+@keyframes lnx-grow-x { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes lnx-grow-y { from { transform: scaleY(0); } to { transform: none; } }
 @keyframes lnx-settle { 0% { opacity: 0; transform: scale(0.82); } 70% { opacity: 1; transform: scale(1.04); } 100% { opacity: 1; transform: none; } }
+@keyframes lnx-sheet { from { opacity: 0; transform: translate3d(0, 40px, 0); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: no-preference) {
-  /* A screen comes on (it remounts each time its scene does): the bars fill, one after another. */
-  .lc__grid[data-look='next'] .lnx--time .td-long__fill { animation: lnx-fill 340ms var(--a-ease) both; animation-delay: calc(var(--lnx-in, 120ms) + var(--i, 0) * 40ms); }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg { transform-origin: left center; animation: lnx-fill 320ms var(--a-ease) both; animation-delay: calc(var(--lnx-in, 120ms) + var(--d, 0) * 60ms); }
-  /* In the held story a card waits in its start state (bars empty) and its reveal starts when its scene comes on, keyed to
-     the story's own data-step (written the moment a step is decided, so the slide carries the start state), once the card
-     stands (--lnx-in, the slide's 420 ms). The first scene also waits for the Lab to be half in view (data-armed). A card
-     that has played is drawn afresh after it leaves (LabNextScreens), so it waits again for its next turn. Critic round,
-     21 Nov 2026 evening: a card used to land finished, then wipe and replay 600 to 870 ms later. */
+  .lc__grid[data-look='next'] .lnx-in { animation: lnx-up 320ms var(--a-ease) both; animation-delay: calc(var(--lnx-in, 120ms) + var(--d, 0ms)); }
+  .lc__grid[data-look='next'] :is(.lnx-ch__fill, .lnx-t__base, .lnx-t__over, .lnx-chg__line).lnx-in { animation-name: lnx-grow-x; animation-duration: 400ms; }
+  .lc__grid[data-look='next'] .lnx-across__col i.lnx-in { animation-name: lnx-grow-y; animation-duration: 420ms; }
+  .lc__grid[data-look='next'] :is(.lnx-chg__to, .lnx-chg__cross).lnx-in { animation-name: lnx-settle; }
+  /* In the held story a card waits in its start state and plays once its scene is on and the card stands (--lnx-in, the
+     slide's 420 ms), keyed to the story's own data-step; the first scene also waits for the Lab to be half in view. A card
+     that has played is drawn afresh after it leaves (LabNextScreens), so it waits again for its next turn. */
   body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] { --lnx-in: 420ms; }
-  body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] .lc-scene .lnx :is(.td-long__fill, .ml-seg, .ml-share i) { animation-play-state: paused; }
-  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='0'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'][data-armed='true'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
-  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
-  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
-  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i),
-  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] .lnx :is(.td-long__fill, .ml-seg, .ml-share i) { animation-play-state: running; }
-  /* The chosen change: its final pick settles in after its first. */
-  .lc__grid[data-look='next'] .lnx-slot__item[data-shown] .lnx-pick[data-end='to'] > i { animation: lnx-settle 320ms var(--a-ease) 140ms both; }
+  body .ss.lc[data-pinned='true'][data-reduced='false'] .lc__grid[data-look='next'] .lc-scene .lnx-in { animation-play-state: paused; }
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='0'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='0'][data-armed='true'] .lnx-in,
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='1'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='1'] .lnx-in,
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='2'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='2'] .lnx-in,
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='3'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='3'] .lnx-in,
+  body .ss.lc[data-pinned='true'][data-reduced='false'][data-step='4'] .lc__grid[data-look='next'] .lc-scene[data-ss-step='4'] .lnx-in { animation-play-state: running; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-slot__item, .mr--done > *, .lnx-answers > *) { animation: none !important; }
+  .lc__grid[data-look='next'] :is(.lnx-in, .lnx-slot__item, .lnx-sheet, .mr--done > *) { animation: none !important; }
 }
-html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-slot__item, .mr--done > *, .lnx-answers > *, .td-long__fill, .ml-seg, .lnx-pick > i) { animation: none !important; }
+html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.lnx-in, .lnx-slot__item, .lnx-sheet, .mr--done > *) { animation: none !important; }
 
-/* ---------- Phones: the repair runs each block's label into its sentence, the question takes the row's full width ---------- */
+/* ---------- Phones ---------- */
 @media (max-width: 759px) and (orientation: portrait) {
   .lc__grid[data-look='next'] .lnx { gap: 10px; }
-  .lc__grid[data-look='next'] .lnx--chapters > .lnx-h { display: none; }
-  .lc__grid[data-look='next'] .lnx--changes .td-lead { display: none; }
-  .lc__grid[data-look='next'] .lnx-mistake { grid-template-columns: minmax(0, 1fr) auto 16px; padding: 2px 4px 8px; border-top: 0; border-radius: 10px; }
-  /* The opened row's two answers take 14 px more than its picks did (LK366): the repair sits a little closer to win it back,
-     so the finished repair keeps its full size in the device. */
+  .lc__grid[data-look='next'] .lnx-find { font-size: 18px; }
+  .lc__grid[data-look='next'] .lnx-t { --row: 34px; }
+  .lc__grid[data-look='next'] .lnx--swot { gap: 8px; }
+  .lc__grid[data-look='next'] .lnx-plan { padding: 10px 12px; }
+  .lc__grid[data-look='next'] .lnx-opt { padding-block: 5px; }
   .lc__grid[data-look='next'] .lnx--repair { gap: 8px; }
-  .lc__grid[data-look='next'] .lnx-mistake .rx-row__n { display: none; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block { display: block; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > .mr-label { display: inline; margin-right: 0.35em; color: var(--a-ink); font-size: 14px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { display: inline; color: var(--a-ink-2); line-height: 1.42; }
-  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 4px; padding: 8px 12px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-title { font-size: 16px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule { display: block; padding: 8px 12px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule__head { display: inline; margin-right: 0.35em; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule > p { display: inline; font-size: 14px; line-height: 1.42; }
-  /* As many time rows as fit at full size: six on a phone. */
-  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 7) { display: none; }
+  /* The seven slowest on a phone (five on a short one, below). */
+  .lc__grid[data-look='next'] .lnx-t__rows > li:nth-child(n + 8) { display: none; }
 }
 
 /* ---------- The wide device ---------- */
-/* A big screen: the result page's own sizes would sit small in it, so the screen is drawn larger (zoom scales the layout, so
-   the rows still wrap and fit; nothing animates it). */
+/* A big screen: the cards are drawn larger (zoom scales the layout, so the rows still wrap and fit; nothing animates it). */
 @media (min-width: 960px) and (min-height: 600px) { .lc__grid[data-look='next'] .lnx { zoom: 1.1; } }
 @media (min-width: 960px) and (min-height: 760px) { .lc__grid[data-look='next'] .lnx { zoom: 1.18; } }
-@media (min-width: 960px) and (min-height: 880px) { .lc__grid[data-look='next'] .lnx { zoom: 1.28; } }
-@media (min-width: 1600px) and (min-height: 1000px) { .lc__grid[data-look='next'] .lnx { zoom: 1.4; } }
-@media (min-width: 2200px) and (min-height: 1300px) { .lc__grid[data-look='next'] .lnx { zoom: 1.6; } }
-/* A short wide window shows seven time rows. */
-@media (min-width: 960px) and (max-height: 879px) { .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 8) { display: none; } }
+@media (min-width: 960px) and (min-height: 880px) { .lc__grid[data-look='next'] .lnx { zoom: 1.32; } }
+@media (min-width: 1600px) and (min-height: 1000px) { .lc__grid[data-look='next'] .lnx { zoom: 1.36; } }
+@media (min-width: 2200px) and (min-height: 1300px) { .lc__grid[data-look='next'] .lnx { zoom: 1.56; } }
+@media (min-width: 960px) { .lc__grid[data-look='next'] .lnx-t__rows > li:nth-child(n + 9) { display: none; } }
+@media (min-width: 760px) and (max-width: 959px) { .lc__grid[data-look='next'] .lnx-t__rows > li:nth-child(n + 8) { display: none; } }
 
-/* ---------- The written repair is the one screen that grows after its tap (the start key gives way to the repair): its
-   finished height is held from the first frame, so the device's one fit per resize already allows for it. ---------- */
-.lc__grid[data-look='next'] .lnx--repair { min-height: var(--lnx-h-repair, 0px); }
-
-/* ---------- Small phones (380 px wide and under): the narrow column is set tighter ---------- */
-/* The question takes the mistake row's full width (the chapter and cost step aside; the repair names the picks), and a change's
-   two picks stack, first over final, with the arrow turned down. */
+/* ---------- Small phones (380 px wide and under) ---------- */
 @media (max-width: 380px) {
-  .lc__grid[data-look='next'] .lnx-mistake :is(.rx-row__ch, .rx-row__cost) { display: none; }
-  .lc__grid[data-look='next'] .lnx-mistake { grid-template-columns: minmax(0, 1fr) 16px; }
-  .lc__grid[data-look='next'] .lnx-picks__row { flex-direction: column; align-items: flex-start; flex-wrap: nowrap; gap: 2px; }
-  .lc__grid[data-look='next'] .lnx-picks__q { display: none; }
-  .lc__grid[data-look='next'] .lnx-picks__arrow { transform: rotate(90deg); margin-left: 7px; }
-  .lc__grid[data-look='next'] .lnx-quads { gap: 6px; }
-  .lc__grid[data-look='next'] .lnx-quad { padding: 8px 10px; }
-  .lc__grid[data-look='next'] .lnx-quad .sw-item__title { font-size: 13.5px; }
+  .lc__grid[data-look='next'] .lnx-t { --cols: 28px 18px minmax(0, 1fr) 36px 44px; }
+  .lc__grid[data-look='next'] .lnx-t__row, .lc__grid[data-look='next'] .lnx-t__pace { column-gap: 7px; }
+  .lc__grid[data-look='next'] .lnx-chg { column-gap: 6px; grid-template-columns: 28px auto minmax(24px, 1fr) auto 32px; }
+  .lc__grid[data-look='next'] .lnx-quad { padding: 9px 10px; }
+  .lc__grid[data-look='next'] .lnx-plan { gap: 8px; }
+  .lc__grid[data-look='next'] .lnx-plan__label { font-size: 16px; }
+  .lc__grid[data-look='next'] .lnx-plan__go { padding: 7px 11px; }
 }
-
-/* ---------- Small and short phones (360 x 740 and 360 x 676): trimmed, never shrunk ---------- */
-/* The trims hold from the first frame (never only once something opens), so the cursor's tap moves nothing and every screen
-   keeps its full size: the part's name steps aside (the rail and the words above name it); Chapters shows the costliest
-   chapter and the across line; Time the five slowest; Changes the first two changes; the written repair leaves out its
-   answer-key line and is set at 13 px. */
+/* Short phones (360 x 740 and under): trimmed from the first frame, never shrunk; the taps move nothing. */
 @media (max-width: 380px) and (max-height: 760px) {
   .lc__grid[data-look='next'] .lnx { gap: 8px; }
-  .lc__grid[data-look='next'] .lnx-h { display: none; }
-  .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-rows > .ml-row:not(:first-child) { display: none; }
-  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 6) { display: none; }
-  .lc__grid[data-look='next'] .lnx--changes .td-changes > li:nth-child(n + 3) { display: none; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-check { display: none; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-title { font-size: 15px; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair :is(.mr-block > .mr-label, .mr-block > p, .mr-rule > p) { font-size: 13px; line-height: 1.38; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { gap: 4px; padding: 8px 10px; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-rule { padding: 6px 10px; }
-  .lc__grid[data-look='next'] .lnx-mistake { padding-bottom: 6px; }
+  .lc__grid[data-look='next'] .lnx-find { font-size: 17px; }
+  .lc__grid[data-look='next'] .lnx-t { --row: 32px; }
+  .lc__grid[data-look='next'] .lnx-t__rows > li:nth-child(n + 6) { display: none; }
+  .lc__grid[data-look='next'] .lnx-across__title { display: none; }
+  .lc__grid[data-look='next'] .lnx-find { line-height: 1.28; }
+  .lc__grid[data-look='next'] .lnx--chapters { gap: 6px; }
+  .lc__grid[data-look='next'] .lnx-chs { gap: 0; }
+  .lc__grid[data-look='next'] .lnx-ch__flag { line-height: 20px; }
+  .lc__grid[data-look='next'] .lnx-ch__q { height: 38px; }
+  .lc__grid[data-look='next'] .lnx-ch__fill { inset: 6px 0; }
+  .lc__grid[data-look='next'] .lnx-across { padding-top: 8px; }
+  .lc__grid[data-look='next'] .lnx-across__col { height: 24px; }
+  .lc__grid[data-look='next'] .lnx-net > b { font-size: 30px; }
+  .lc__grid[data-look='next'] .lnx-net__label { font-size: 15px; }
+  .lc__grid[data-look='next'] .lnx-chg { padding-block: 3px; }
+  .lc__grid[data-look='next'] .lnx-chip { gap: 2px; }
+  .lc__grid[data-look='next'] .lnx-chip > i { width: 30px; height: 30px; font-size: 14px; }
+  .lc__grid[data-look='next'] :is(.lnx-chg__arrow) { height: 30px; }
+  .lc__grid[data-look='next'] :is(.lnx-chg__q, .lnx-chg__net) { line-height: 30px; }
+  .lc__grid[data-look='next'] .lnx-rq { font-size: 15px; line-height: 1.36; }
+  .lc__grid[data-look='next'] .lnx-opt { grid-template-columns: 30px minmax(0, 1fr); padding-block: 4px; }
+  .lc__grid[data-look='next'] .lnx-opt__l { width: 30px; height: 30px; font-size: 14px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-start__text small { display: none; }
+  .lc__grid[data-look='next'] .lnx-sheet { gap: 6px; padding: 10px 12px; }
+  .lc__grid[data-look='next'] .lnx-sheet .mr-title { font-size: 16px; }
+  .lc__grid[data-look='next'] .lnx-sheet :is(.mr-block, .mr-rule) { display: block; }
+  .lc__grid[data-look='next'] .lnx-sheet :is(.mr-block > .mr-label, .mr-rule__head) { display: inline; margin-right: 0.35em; }
+  .lc__grid[data-look='next'] .lnx-sheet .mr-block > .mr-label { color: var(--a-ink); }
+  .lc__grid[data-look='next'] .lnx-sheet :is(.mr-block > p:not(.mr-label), .mr-rule > p) { display: inline; font-size: 14px; line-height: 1.42; }
+  .lc__grid[data-look='next'] .lnx-sheet .mr-rule { padding: 8px 10px; }
+  .lc__grid[data-look='next'] .lnx--swot > .lnx-h:nth-of-type(2) { display: none; }
+  .lc__grid[data-look='next'] .lnx-plan { padding: 8px 10px; }
+  .lc__grid[data-look='next'] .lnx-quad { padding-block: 8px; }
+}
+/* 360 x 676 and 360 x 640 (the owner's Galaxy M06 and smaller). */
+
+/* 360 x 640: the colour key and the totals step aside (the finding and the picture carry each scene); the record's
+   columns too. */
+@media (max-width: 380px) and (max-height: 660px) {
+  .lc__grid[data-look='next'] :is(.lnx-key, .lnx-tot, .lnx-across__cols) { display: none; }
   .lc__grid[data-look='next'] .lnx--repair { gap: 6px; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-row__btn { min-height: 44px; padding-block: 6px; }
-  .lc__grid[data-look='next'] .lnx-across .am-head__teaser { font-size: 13.5px; line-height: 1.4; }
-  .lc__grid[data-look='next'] .lnx-slot--line .lnx-detail { padding: 6px 10px; }
-  .lc__grid[data-look='next'] .lnx .td-long__row { min-height: 44px; padding-block: 4px; }
-  .lc__grid[data-look='next'] .lnx .td-lead { line-height: 1.35; }
-  .lc__grid[data-look='next'] .lnx-pace { margin-bottom: -10px; }
-  .lc__grid[data-look='next'] .lnx .td-changes__row { padding-block: 7px; }
-  .lc__grid[data-look='next'] .lnx-sum p { padding: 6px 9px; }
+  .lc__grid[data-look='next'] .lnx-rq { line-height: 1.3; }
+  .lc__grid[data-look='next'] :is(.lnx--repair, .lnx--swot) .lnx-detail > b { display: none; }
+  .lc__grid[data-look='next'] .lnx--swot > .lnx-h { display: none; }
+  .lc__grid[data-look='next'] .lnx-quads { gap: 6px; }
+  .lc__grid[data-look='next'] .lnx-quad { padding: 6px 9px; gap: 2px; }
 }
-/* 360 x 676 (the owner's Galaxy M06): Time the four slowest, the SWOT plan without its reason. */
-@media (max-width: 380px) and (max-height: 700px) {
-  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 5) { display: none; }
-  .lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { display: none; }
+/* The repair's held room: the finished sheet's height, measured (tmp/1122-lab/measure.mjs). */
+@media (max-width: 959px) { .lc__grid[data-look='next'] { --lnx-h-repair: 360px; } }
+@media (max-width: 380px) and (max-height: 760px) { .lc__grid[data-look='next'] { --lnx-h-repair: 300px; } }
+@media (max-width: 380px) and (max-height: 660px) { .lc__grid[data-look='next'] { --lnx-h-repair: 248px; } }
+@media (min-width: 960px) { .lc__grid[data-look='next'] { --lnx-h-repair: 380px; } }
+
+/* ---------- Phones: the words above the device take two lines in every scene ---------- */
+/* The scenes' words share one grid row, so the row is as tall as the tallest scene's words: the SWOT scene's one way in
+   ("Sign up free and open yours") cost every scene a line of the device's height. On a phone it takes the line's own cell
+   in that scene (the scene's plan is in its card and its title), so the row is the title and one line everywhere. */
+@media (max-width: 759px) and (orientation: portrait) {
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__copy { display: grid; grid-template-areas: 'title' 'line'; }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__title { grid-area: title; }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] :is(.lc-beats, .lc-scene__cta) { grid-area: line; }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__cta { margin: 0.15rem 0 -0.7rem; align-self: start; }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-link] .lc-beats { visibility: hidden; }
 }
-/* 360 x 800: the part names stay; Time the five slowest; Chapters' across line drops its title; the change rows sit closer. */
-@media (max-width: 380px) and (min-height: 761px) {
-  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 6) { display: none; }
-  .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
-  .lc__grid[data-look='next'] .lnx .td-changes__row { padding-block: 7px; }
+/* Short phones (360 x 740 and under): the card's header on one line and the stack's edges thinner, so the card keeps its
+   full size. */
+@media (max-width: 380px) and (max-height: 760px) and (orientation: portrait) {
+  body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] { --lnx-peek: 8px; --lnx-card-top: calc(var(--lnx-peek) * 2 + 6px); }
+  body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar { padding-bottom: 6px; margin-bottom: 8px; }
+  body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__subject > span { display: flex; align-items: baseline; gap: 0.45rem; }
+  body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__subject small { font-size: 0.875rem; }
+  body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__title b { font-size: 1.15rem; }
 }
-/* The written repair's held height, with the opened row's two answers (measured 22 Nov 2026, tmp/1122-lk366/lab-room.mjs): phones
-   414 px (390 x 844: 414 of the device's 421); small and short phones 318 px; the wide device 453 px (before its zoom). */
-@media (max-width: 959px) { .lc__grid[data-look='next'] { --lnx-h-repair: 414px; } }
-@media (max-width: 380px) and (max-height: 760px) { .lc__grid[data-look='next'] { --lnx-h-repair: 318px; } }
-@media (min-width: 960px) { .lc__grid[data-look='next'] { --lnx-h-repair: 453px; } }
-/* A tablet held upright (760 to 959 px wide): seven time rows. */
-@media (min-width: 760px) and (max-width: 959px) { .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 8) { display: none; } }
-/* The wide device: the eight time rows sit closer, so they fit at full size. */
-@media (min-width: 960px) { .lc__grid[data-look='next'] .lnx .td-long__row { min-height: 40px; padding-block: 3px; } }
+
+/* ---------- 14 px floor outside the cards too (LK368 critic pass): the card's header and the rail's names ---------- */
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__subject small,
+body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd-bar__title b small { font-size: 0.875rem; }
+@media (max-width: 959px) {
+  body .lc .lc__grid[data-look='next'] .lc__rail button { font-size: 0.875rem; padding-inline: 0; }
+}

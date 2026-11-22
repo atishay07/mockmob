@@ -64,14 +64,12 @@
       "n": 6,
       "chapter": "Production & Costs",
       "type": "theory",
-      "verdict": "covered",
-      "matchKind": "new-values",
-      "best": "b8f7678f-4fba-4e20-93ff-014790a22cf5",
-      "bestKind": "bank",
-      "needs": [
-        "b8f7678f-4fba-4e20-93ff-014790a22cf5"
-      ],
-      "reason": "accepted bank candidate asks the same ordering (one input varied, TP rising at an increasing rate, at a diminishing rate, then falling) with its own wording and letters; explanation states every stage"
+      "verdict": "not_covered",
+      "matchKind": null,
+      "best": null,
+      "bestKind": null,
+      "needs": [],
+      "reason": "The authored question was held by the quality gate"
     },
     {
       "n": 7,

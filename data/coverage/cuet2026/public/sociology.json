@@ -8,19 +8,19 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
- "final": false,
+ "final": true,
  "counts": {
   "total": 50,
-  "same": 0,
+  "same": 5,
   "newValues": 0,
   "concept": 30,
-  "notYet": 11,
+  "notYet": 6,
   "skill": 9,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 30,
+  "covered": 35,
   "counted": 41,
-  "pct": 73
+  "pct": 85
  },
  "chapters": [
   {
@@ -31,27 +31,27 @@
   {
    "name": "Demographic Structure",
    "asked": 6,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "Patterns of Social Inequality",
    "asked": 6,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "Social Institutions",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Story of Indian Democracy",
    "asked": 4,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Market as a Social Institution",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Social Movements",
@@ -97,8 +97,8 @@
    "key": [
     1
    ],
-   "status": "concept",
-   "reason": "Card def-social-demography states the keyed definition; the formal-demography card separates option 1.",
+   "status": "same",
+   "reason": "The card asks what social demography is and answers the keyed definition (wider causes and consequences of population structure and change); the formal-demography card separates option 1.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.demographic-structure.def-social-demography",
@@ -129,8 +129,8 @@
    "key": [
     2
    ],
-   "status": "concept",
-   "reason": "Card def-age-structure is the keyed sentence; the three distractors are the fertility rate, IMR and sex ratio, each on its own card.",
+   "status": "same",
+   "reason": "The card asks for the meaning of the age structure and answers the keyed definition word for word; the distractors are the fertility rate, IMR and sex ratio, each on its own card.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.demographic-structure.def-age-structure",
@@ -403,7 +403,7 @@
     1
    ],
    "status": "concept",
-   "reason": "Card ex-counter-sati is this example; kl-counter-movements gives the status-quo meaning.",
+   "reason": "The card asks which body the defenders of sati formed (Dharma Sabha) and kl-counter-movements says counter movements defend the status quo; the paper asks why it is a counter movement, so the facts are taught by a different question.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.social-movements.ex-counter-sati",
@@ -434,8 +434,8 @@
    "key": [
     2
    ],
-   "status": "concept",
-   "reason": "Card fact-language-not-religion names language, region and tribe and excludes religion: A, C, D.",
+   "status": "same",
+   "reason": "The card asks what, not religion, forms ethno-national identity in India and answers language with region and tribe: the paper asks the same and keys A, C, D.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.challenges-of-cultural-diversity.fact-language-not-religion",
@@ -467,7 +467,7 @@
     1
    ],
    "status": "concept",
-   "reason": "Card def-state-weber quotes the definition with its author.",
+   "reason": "The card gives Weber's definition of the state with his name; the paper quotes the definition and asks its author, the other way round.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.challenges-of-cultural-diversity.def-state-weber",
@@ -573,7 +573,7 @@
     1
    ],
    "status": "concept",
-   "reason": "Card fact-three-tier-twenty-lakhs states three tiers under the 73rd Amendment.",
+   "reason": "The card states the 73rd Amendment provided a three-tier Panchayati Raj but asks about the population threshold, not the number of tiers.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.story-of-indian-democracy.fact-three-tier-twenty-lakhs",
@@ -604,9 +604,20 @@
    "key": [
     1
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "concept",
+   "reason": "New list card (lesy203 p34) gives the delegated powers: economic development plans, social justice schemes, levying taxes, duties, tolls and fees, devolution of finances; law-making is not on it, so A, C, D.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.story-of-indian-democracy.list-panchayat-powers",
+    "chapter": "Story of Indian Democracy",
+    "front": "Name the four powers and responsibilities delegated to the Panchayats.",
+    "back": "to prepare plans and schemes for economic development\nto promote schemes that will enhance social justice\nto levy, collect and appropriate taxes, duties, tolls and fees\nhelp in the devolution of governmental responsibilities, especially that of finances to local authorities",
+    "source": "NCERT, Social Change and Development in India, chapter 3, page 34",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 19,
@@ -625,8 +636,8 @@
    "key": [
     1
    ],
-   "status": "concept",
-   "reason": "Card kl-outsourcing-permanent is the description with outsourcing as the blank.",
+   "status": "same",
+   "reason": "The card is the paper's description of companies cutting permanent staff and passing work to small firms or homes, with outsourcing as the blank.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.change-and-development-in-industrial-society.kl-outsourcing-permanent",
@@ -658,7 +669,7 @@
     2
    ],
    "status": "concept",
-   "reason": "Card fact-article-21-quality-of-life states it.",
+   "reason": "The card asks what Article 21 has been interpreted to include (a life of quality: livelihood, health, shelter, education, dignity); the paper asks how judicial interpretation brings social change.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.story-of-indian-democracy.fact-article-21-quality-of-life",
@@ -742,9 +753,20 @@
    "key": [
     1
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "concept",
+   "reason": "New card states famines were caused by continuing poverty and malnutrition (A, lesy102 p15); fact-india-transition-incomplete gives B, fact-epidemic-control-measures C, and fact-prosperity-lowers-birth-rate makes D false.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.demographic-structure.fact-famine-causes-poverty-rainfall",
+    "chapter": "Demographic Structure",
+    "front": "What were famines in India caused by, in an agroclimatic environment vulnerable to rainfall variation?",
+    "back": "Famines were also a major and recurring source of increased mortality. Famines were caused by high levels of continuing poverty and malnutrition in an agroclimatic environment that was very vulnerable to variations in rainfall.",
+    "source": "NCERT, Indian Society, chapter 2, page 15",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 24,
@@ -795,9 +817,20 @@
    "key": [
     3
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "concept",
+   "reason": "New card (lesy103 p40) states Gandhi and the nationalist leaders worked for lower-caste upliftment and against untouchability while reassuring the landowning upper castes their interests would be looked after: the keyed contradiction.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.social-institutions.fact-nationalists-reassure-upper-castes",
+    "chapter": "Social Institutions",
+    "front": "What did Gandhi and the nationalist leaders do on caste, and what did they promise the landowning upper castes?",
+    "back": "But the nationalist leaders, above all, Mahatma Gandhi, were able to simultaneously work for the upliftment of the lower castes, advocate the abolition of untouchability and other caste restrictions, and, at the same time, reassure the landowning upper castes that their interests, too, would be looked after. The post-Independence Indian state inherited and reflected these contradictions.",
+    "source": "NCERT, Indian Society, chapter 3, page 40",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 26,
@@ -817,7 +850,7 @@
     2
    ],
    "status": "concept",
-   "reason": "Card fact-anita-ghai-invisible names her; Ralph Ellison appears on it as the novelist, which removes the distractor.",
+   "reason": "The card asks which scholar compares the invisibility of the disabled to Ellison's Invisible Man and names Anita Ghai as a leading scholar of disability; the paper asks who is a disability scholar.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.patterns-of-social-inequality.fact-anita-ghai-invisible",
@@ -880,8 +913,8 @@
    "key": [
     3
    ],
-   "status": "concept",
-   "reason": "Card fact-jajmani-non-market states it.",
+   "status": "same",
+   "reason": "The card asks which non-market exchange system NCERT cites and answers the jajmani system, the paper's key.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.market-as-a-social-institution.fact-jajmani-non-market",
@@ -945,7 +978,7 @@
     0
    ],
    "status": "concept",
-   "reason": "Card def-hundi states it; Nakarattar is a banking system on its own card.",
+   "reason": "The card asks what a hundi is (an instrument of exchange and credit); the paper asks which is a credit instrument, the other way round.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.market-as-a-social-institution.def-hundi",
@@ -1008,9 +1041,20 @@
    "key": [
     2
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "concept",
+   "reason": "New card (lesy104 p61) states Marwari bankers helped the commercial expansion of the British, so option 3 is the false one; fact-marwaris-colonial and steps-marwari-steps give options 1, 2 and 4.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.market-as-a-social-institution.fact-marwari-bankers-british-expansion",
+    "chapter": "Market as a Social Institution",
+    "front": "How did Marwari moneylenders and bankers help the British in India?",
+    "back": "Many Marwari families accumulated enough wealth to become moneylenders, and by acting as bankers also helped the commercial expansion of the British in India (Hardgrove 2004).",
+    "source": "NCERT, Indian Society, chapter 4, page 61",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 33,
@@ -1093,9 +1137,20 @@
    "key": [
     2
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "concept",
+   "reason": "Five new apartheid cards (lesy105 p76-77): protestors jailed, tortured and killed (A), mixed marriages prohibited (B false), one-fourth earnings (C), Bantustans (D).",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-black-protestors-repression",
+    "chapter": "Patterns of Social Inequality",
+    "front": "What happened to Black protestors under the apartheid regime in South Africa?",
+    "back": "Black protestors were routinely jailed, tortured and killed.",
+    "source": "NCERT, Indian Society, chapter 5, page 77",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 36,
@@ -1147,7 +1202,7 @@
     1
    ],
    "status": "concept",
-   "reason": "Card fact-secularism-no-hostility is the sentence.",
+   "reason": "The card names secularism as the opposite of religious chauvinism and asks what it need not imply; the paper gives that description and asks for the term.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.challenges-of-cultural-diversity.fact-secularism-no-hostility",
@@ -1211,7 +1266,7 @@
     2
    ],
    "status": "concept",
-   "reason": "Card def-civil-society is the definition.",
+   "reason": "The card asks what civil society is and gives the paper's definition; the paper gives the definition and asks for the term.",
    "match": {
     "kind": "card",
     "id": "kc.sociology.challenges-of-cultural-diversity.def-civil-society",

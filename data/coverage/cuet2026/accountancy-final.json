@@ -263,14 +263,12 @@
    "n": 23,
    "chapter": "Goodwill Valuation",
    "type": "numerical",
-   "verdict": "covered",
-   "matchKind": "new-values",
-   "best": "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898",
-   "bestKind": "bank",
-   "needs": [
-    "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898"
-   ],
-   "reason": "accepted bank candidate deducts partners' salaries, finds super profit on a 3-year and a 2-year average with different years' purchase, and takes the lower: same steps, new figures"
+   "verdict": "not_covered",
+   "matchKind": null,
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "The authored question was held by the quality gate"
   },
   {
    "n": 24,

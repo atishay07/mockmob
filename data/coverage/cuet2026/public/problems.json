@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-22T00:21:59.571Z",
+ "builtAt": "2026-11-22T00:54:05.072Z",
  "problems": [
   {
    "subject": "accountancy",
@@ -47,13 +47,6 @@
    "subject": "accountancy",
    "n": 22,
    "id": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
-   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
-   "was": "new-values"
-  },
-  {
-   "subject": "accountancy",
-   "n": 23,
-   "id": "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898",
    "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
    "was": "new-values"
   },
@@ -108,45 +101,10 @@
   },
   {
    "subject": "business-studies",
-   "n": 14,
-   "id": "660d06e2-8ff7-4cb4-9bc0-39b32e303538",
-   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
-   "was": "new-values"
-  },
-  {
-   "subject": "business-studies",
-   "n": 16,
-   "id": "fe9b41bc-53e6-4d36-8d3d-fc290750292c",
-   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
-   "was": "concept"
-  },
-  {
-   "subject": "business-studies",
-   "n": 18,
-   "id": "19400ad2-6e18-42ff-a1cc-d97fa9986bfa",
-   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
-   "was": "same"
-  },
-  {
-   "subject": "business-studies",
-   "n": 22,
-   "id": "fa2b3abd-6e78-4816-9112-1873ecc413eb",
-   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
-   "was": "new-values"
-  },
-  {
-   "subject": "business-studies",
    "n": 30,
    "id": "3bca44a8-5095-4fdf-ace1-595621a862b2",
    "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
    "was": "new-values"
-  },
-  {
-   "subject": "business-studies",
-   "n": 36,
-   "id": "4bb87b57-9f45-4c52-a2ee-48852a6f224e",
-   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
-   "was": "same"
   },
   {
    "subject": "business-studies",
@@ -159,13 +117,6 @@
    "subject": "economics",
    "n": 3,
    "id": "124e00d2-25e6-41a3-8351-283f4426bd07",
-   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
-   "was": "new-values"
-  },
-  {
-   "subject": "economics",
-   "n": 6,
-   "id": "b8f7678f-4fba-4e20-93ff-014790a22cf5",
    "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
    "was": "new-values"
   },

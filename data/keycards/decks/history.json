@@ -1,6 +1,6 @@
 {
   "subject": "history",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -788,6 +788,34 @@
       "order": 290
     },
     {
+      "id": "kc.history.an-imperial-capital-vijayanagara.fact-aravidu-penukonda-chandragiri",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.an-imperial-capital-vijayanagara",
+      "chapter": "An Imperial Capital — Vijayanagara",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "After the sack of Vijayanagara in 1565 the focus shifted east. From which two places did the Aravidu dynasty rule?",
+      "back": "dynasty ruled from Penukonda and later from Chandragiri (near Tirupati)",
+      "quote": "dynasty ruled from Penukonda and later from Chandragiri (near Tirupati)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs203",
+        "chapterNo": 7,
+        "page": 174,
+        "section": "The apogee and decline of the empire"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "aravidu",
+        "penukonda"
+      ],
+      "order": 295
+    },
+    {
       "id": "kc.history.an-imperial-capital-vijayanagara.fact-rama-raya-policy",
       "v": 1,
       "subject": "history",
@@ -1280,6 +1308,34 @@
         "water"
       ],
       "order": 470
+    },
+    {
+      "id": "kc.history.an-imperial-capital-vijayanagara.fact-vijayanagara-rainwater-tank",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.an-imperial-capital-vijayanagara",
+      "chapter": "An Imperial Capital — Vijayanagara",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "At arid Vijayanagara, what was the most important tank built to store rainwater called?",
+      "back": "As this is one of the most arid zones of the peninsula, elaborate arrangements had to be made to store rainwater and conduct it to the city. The most important such tank was built in the early years of the fifteenth century and is now called Kamalapuram tank.",
+      "quote": "As this is one of the most arid zones of the peninsula, elaborate arrangements had to be made to store rainwater and conduct it to the city. The most important such tank was built in the early years of the fifteenth century and is now called Kamalapuram tank.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs203",
+        "chapterNo": 7,
+        "page": 177,
+        "section": "3.1 Water resources"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "water",
+        "tank"
+      ],
+      "order": 475
     },
     {
       "id": "kc.history.an-imperial-capital-vijayanagara.fact-hiriya-canal",
@@ -2974,6 +3030,34 @@
       "asked": 0,
       "tags": [],
       "order": 130
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-marichi-sculpture-bihar",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Fig. 6.3: the Buddhist goddess Marichi (c. tenth century). Which region is given, and what is it an example of?",
+      "back": "Sculpture of a Buddhist goddess, Marichi (c. tenth century, Bihar), an example of the process of integration of different religious beliefs and practices",
+      "quote": "Sculpture of a Buddhist goddess, Marichi (c. tenth century, Bihar), an example of the process of integration of different religious beliefs and practices",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 142,
+        "section": "Fig. 6.3 (Local goddesses and integration)"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "marichi",
+        "integration"
+      ],
+      "order": 135
     },
     {
       "id": "kc.history.bhakti-sufi-traditions.types-bhakti-saguna-nirguna",
@@ -7234,6 +7318,91 @@
       "order": 1690
     },
     {
+      "id": "kc.history.bhakti-sufi-traditions.fact-timeline-appar-sambandar",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Timeline, Some Major Religious Teachers in the Subcontinent: who are listed for c. 500-800 CE?",
+      "back": "Appar, Sambandar, Sundaramurti in Tamil Nadu",
+      "quote": "Appar, Sambandar, Sundaramurti in Tamil Nadu",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 167,
+        "section": "Timeline: Some Major Religious Teachers in the Subcontinent"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "timeline",
+        "tamil-bhakti"
+      ],
+      "order": 1701
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.list-timeline-teachers-1300-1400",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Timeline, Some Major Religious Teachers: name the teachers listed for c. 1300-1400.",
+      "back": "Lal Ded in Kashmir\nLal Shahbaz Qalandar in Sind\nNizamuddin Auliya in Delhi\nRamananda in Uttar Pradesh\nChokhamela in Maharashtra\nSharafuddin Yahya Maneri in Bihar",
+      "quote": "Lal Ded in Kashmir; Lal Shahbaz Qalandar in Sind; Nizamuddin Auliya in Delhi; Ramananda in Uttar Pradesh; Chokhamela in Maharashtra; Sharafuddin Yahya Maneri in Bihar",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 167,
+        "section": "Timeline: Some Major Religious Teachers in the Subcontinent"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "timeline",
+        "sufi",
+        "bhakti"
+      ],
+      "order": 1702
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-timeline-chaitanya-mirabai",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Timeline, Some Major Religious Teachers: which Bengal and Rajasthan teachers are listed for c. 1500-1600?",
+      "back": "Sri Chaitanya in Bengal; Mirabai in Rajasthan",
+      "quote": "Sri Chaitanya in Bengal; Mirabai in Rajasthan",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 167,
+        "section": "Timeline: Some Major Religious Teachers in the Subcontinent"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "timeline",
+        "bhakti"
+      ],
+      "order": 1703
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.fact-time-span",
       "v": 1,
       "subject": "history",
@@ -7614,6 +7783,34 @@
         "agriculture"
       ],
       "order": 180
+    },
+    {
+      "id": "kc.history.bricks-beads-and-bones.fact-terracotta-plough-models",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Where have terracotta models of the plough been found?",
+      "back": "Moreover, terracotta models of the plough have been found at sites in Cholistan and at Banawali (Haryana).",
+      "quote": "Moreover, terracotta models of the plough have been found at sites in Cholistan and at Banawali (Haryana).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 3,
+        "section": "2.1 Agricultural technologies"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "agriculture",
+        "plough"
+      ],
+      "order": 185
     },
     {
       "id": "kc.history.bricks-beads-and-bones.fact-kalibangan-furrows",
@@ -8025,6 +8222,34 @@
       "order": 350
     },
     {
+      "id": "kc.history.bricks-beads-and-bones.fact-lower-town-residential",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which part of Mohenjodaro provides examples of residential buildings?",
+      "back": "The Lower Town at Mohenjodaro provides examples of residential buildings.",
+      "quote": "The Lower Town at Mohenjodaro provides examples of residential buildings.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 7,
+        "section": "3.2 Domestic architecture"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "mohenjodaro",
+        "town-planning"
+      ],
+      "order": 365
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.kl-no-windows-privacy",
       "v": 1,
       "subject": "history",
@@ -8358,6 +8583,34 @@
         "burials"
       ],
       "order": 490
+    },
+    {
+      "id": "kc.history.bricks-beads-and-bones.fact-graves-pottery-ornaments-afterlife",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "What do the pottery and ornaments found in some Harappan graves perhaps indicate?",
+      "back": "Some graves contain pottery and ornaments, perhaps indicating a belief that these could be used in the afterlife.",
+      "quote": "Some graves contain pottery and ornaments, perhaps indicating a belief that these could be used in the afterlife.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "4.1 Burials"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "burials",
+        "afterlife"
+      ],
+      "order": 495
     },
     {
       "id": "kc.history.bricks-beads-and-bones.fact-jewellery-in-burials",
@@ -13365,6 +13618,34 @@
         "credit"
       ],
       "order": 1080
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-mirajgaon-petition-ryot",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Source 8: who wrote the petition from the village of Mirajgaon, Taluka Karjat, to the Collector, Ahmednagar (Deccan Riots Commission)?",
+      "back": "This is an example of a petition from a ryot of the village of Mirajgaon, Taluka Karjat, to the Collector, Ahmednagar, Deccan Riots Commission:",
+      "quote": "This is an example of a petition from a ryot of the village of Mirajgaon, Taluka Karjat, to the Collector, Ahmednagar, Deccan Riots Commission:",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 252,
+        "section": "Source 8: A ryot petitions"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "deccan-riots",
+        "sources"
+      ],
+      "order": 1085
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.fact-new-settlement-demand-rise",
@@ -21199,6 +21480,34 @@
       "order": 1270
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-kushanas-largest-gold-hoards",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which rulers issued the largest hoards of gold coins (c. first century CE)?",
+      "back": "The kushanas, however, issued the largest hoards of gold coins",
+      "quote": "The kushanas, however, issued the largest hoards of gold coins",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 44,
+        "section": "6.4 Coins and kings"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "coins",
+        "kushanas"
+      ],
+      "order": 1275
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.def-numismatics",
       "v": 1,
       "subject": "history",
@@ -25682,6 +25991,34 @@
       "order": 1400
     },
     {
+      "id": "kc.history.kinship-caste-and-class.fact-timeline-early-buddhist-texts",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kinship-caste-and-class",
+      "chapter": "Kinship, Caste & Class",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Timeline 1, Major Textual Traditions: what is dated c. 500-100 BCE?",
+      "back": "Early Buddhist texts including the Tripitaka (in Pali)",
+      "quote": "Early Buddhist texts including the Tripitaka (in Pali)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs103",
+        "chapterNo": 3,
+        "page": 79,
+        "section": "Timeline 1"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "timeline",
+        "buddhist-texts"
+      ],
+      "order": 1401
+    },
+    {
       "id": "kc.history.kinship-caste-and-class.fact-timeline-charaka-sushruta",
       "v": 1,
       "subject": "history",
@@ -25734,6 +26071,34 @@
         "timeline"
       ],
       "order": 1420
+    },
+    {
+      "id": "kc.history.kinship-caste-and-class.fact-timeline-aryabhata-varahamihira",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kinship-caste-and-class",
+      "chapter": "Kinship, Caste & Class",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Timeline 1, Major Textual Traditions: which works are dated c. 400-500 CE?",
+      "back": "Sanskrit plays including the works of Kalidasa; works on astronomy and mathematics by Aryabhata and Varahamihira (in Sanskrit); compilation of Jaina works (in Prakrit)",
+      "quote": "Sanskrit plays including the works of Kalidasa; works on astronomy and mathematics by Aryabhata and Varahamihira (in Sanskrit); compilation of Jaina works (in Prakrit)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs103",
+        "chapterNo": 3,
+        "page": 79,
+        "section": "Timeline 1"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "timeline",
+        "aryabhata"
+      ],
+      "order": 1425
     },
     {
       "id": "kc.history.kinship-caste-and-class.fact-timeline-critical-edition",
@@ -27393,6 +27758,34 @@
       "order": 650
     },
     {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-salt-march-police-secret-reports",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "From which official records can the progress of Gandhiji’s Salt March to the seashore be traced?",
+      "back": "The progress of Gandhiji’s march to the seashore can be traced from the secret reports filed by the police officials deputed to monitor his movements.",
+      "quote": "The progress of Gandhiji’s march to the seashore can be traced from the secret reports filed by the police officials deputed to monitor his movements.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 298,
+        "section": "3. The Salt Satyagraha"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "salt-march",
+        "sources"
+      ],
+      "order": 655
+    },
+    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.list-other-streams",
       "v": 1,
       "subject": "history",
@@ -27446,6 +27839,34 @@
         "untouchables"
       ],
       "order": 670
+    },
+    {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-salt-march-time-newsmagazine",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Which American newsmagazine is named as another source for the progress of the Salt March?",
+      "back": "The progress of the Salt March can also be traced from another source: the American newsmagazine, Time.",
+      "quote": "The progress of the Salt March can also be traced from another source: the American newsmagazine, Time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 299,
+        "section": "3. The Salt Satyagraha"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "salt-march",
+        "sources"
+      ],
+      "order": 675
     },
     {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.list-salt-three-reasons",
@@ -43964,6 +44385,33 @@
         "timeline"
       ],
       "order": 1340
+    },
+    {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-mundy-england",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "From which country did Peter Mundy come?",
+      "back": "Peter Mundy (from England)",
+      "quote": "Peter Mundy (from England)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 137,
+        "section": "Timeline: Some Travellers who Left Accounts"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "timeline"
+      ],
+      "order": 1380
     }
   ]
 }

@@ -2,34 +2,34 @@
 
 // The Mistake Lab's five screens in the "next" look (owner, 20 Nov 2026 night: "the mistake lab approach was better ...
 // You just had to redo the screens", and LK363: "they have a cursor which is updating the screen live ... using actual
-// screens and actual UI, because we are showing people how to use it"). LabCinema renders these only for look="next";
-// the live home keeps its own panels. Each screen is the result page's own UI, fed with labStory.mjs's one sample
-// Accountancy mock (never a typed figure), and a cursor (CursorDemo) works it, two taps a scene, when its scene comes on:
-//   Chapters  the real MarksLedger (src/components/result/MarksLedger.jsx): the cursor opens the costliest chapter, then taps
-//             one of its lost questions to show what it was. Under it, the folded head of "Across your mocks" says the chapter
-//             cost marks in the two mocks before this one too.
-//   Time      "Where your time went" (TimeDecisions' rows, time-decisions.css copied into lab-next.css): the cursor taps the
-//             slowest question, then the quickest one shown; each shows its verdict and its share of the paper's pace.
-//   Changes   "Every answer you changed" (TIME_COPY's own sentences), its totals counting up: the cursor taps the change that
-//             cost marks, then the last one shown; each shows its first pick and final pick and what the change did. The wide
-//             device adds the ledger's re-mark line ("First picks: 28 of 50. Final answers: 22 of 50.").
-//   Repair    a mistake row and the repair's own start key (MistakeRepair.jsx, mistake-repair.css): the cursor taps
-//             "Repair Q4" and the finished repair shows (why D looked right, why B is right, the rule to keep).
-//   SWOT      "After this mock" (SwotPanel's words and swot.css): the cursor taps "Costing you", then "Watch".
-// LK364 (21 Nov 2026, "animations and all could be improved a bit, and interactivity could be improved"): every control looks
-// like one (a chevron, a pressed state, the chosen one marked), and what a tap shows appears in a slot under the rows that
-// holds the room of its tallest answer from the first frame, so a tap moves nothing (no layout shift) and the answer rises in
-// (transform and opacity, 240 ms). Bars fill as a scene comes on; the Changes totals count up once. Reduced motion, or a story
-// that is not held: no cursor, the finished state, the controls still work by hand. No layout read but CursorDemo's, once a step.
+// screens and actual UI, because we are showing people how to use it"). LabCinema renders these only for look="next".
+// LK368 (22 Nov 2026 night: "incorporate the old and new into making better cards"): each screen is a card in the result
+// page's own roles, type and sentences, fed with labStory.mjs's one sample Accountancy mock (never a typed figure). It leads
+// with ONE finding (its figure bold, one pen mark, the result page's own idiom), then ONE picture from the earlier screens
+// rebuilt at phone size, then the slot a tap fills. A cursor (CursorDemo) works it, two taps a scene:
+//   Chapters  "Partnership cost 18 of the 28 marks you missed.", the chapters worst first with "Fix first" and the marks lost,
+//             each bar cut into its lost questions; the cursor taps a wrong one, then a blank; the record before this mock.
+//   Time      "All 3 wrong answers ran over the 1:12 pace.", the slowest questions against a dashed pace line, the overrun
+//             hatched (coral wrong, amber right); the cursor taps the slowest, then the slowest that was still right.
+//   Changes   the net, large, counting up; the totals; each change as two picks and an arrow; the cursor taps the change that
+//             threw a right answer away, then the one that found the key (TIME_COPY's sentences in the slot).
+//   Repair    the question, the pick struck through and the key ticked; the cursor taps the pick (the record line), then
+//             "Repair Q4" and the finished repair rises over the card as a sheet.
+//   SWOT      "Do these next" with the plan's first set and its Set up key, the four groups as filled tiles; the cursor taps
+//             "Costing you", then "Watch".
+// A tap writes its scene's beat (data-beat) so the line above the device says what it showed (LabBeats.mjs). What a tap shows
+// holds its room from the first frame (Slot), so a tap moves nothing (no layout shift); a card's picture plays in once the
+// card stands (lnx-in). Reduced motion, or a story that is not held: no cursor, the finished state, the controls still work
+// by hand. No layout read here but CursorDemo's, once a step.
 import { memo, startTransition, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Check, ChevronRight, KeyRound, Wrench, X } from 'lucide-react';
+import { Check, KeyRound, Wrench, X } from 'lucide-react';
 import CursorDemo from './demo/CursorDemo';
-import MarksLedger, { withNumbers } from '@/components/result/MarksLedger';
+import Doodle from '@/components/doodle/Doodle';
 import { SWOT_UI_COPY } from '@/components/result/SwotPanel';
 import { TIME_COPY, signedMarks } from '@/../data/time_decisions';
 import { REPAIR_COPY, checkChip } from '@/../data/repair_presentation.mjs';
 import { FIX_COPY } from '@/components/recovery/fixForGood.mjs';
-import { labStory, longestQuestions, GAP, REPAIR } from './labStory.mjs';
+import { labStory, longestQuestions, REPAIR, repairRecordLine } from './labStory.mjs';
 import '@/components/recovery/mistake-repair.css';
 import './lab-next.css';
 
@@ -61,32 +61,29 @@ function Slot({ options, chosen, className = '' }) {
   );
 }
 
-// ---------- 0. Chapters: the real ledger, one group a chapter ----------
-// The groups are the chapters that lost marks, worst first (labStory chapterLedger). The headline and each row's line are the
-// result page's own sentences: "Partnership cost 18 of the 28 marks you missed." (data/result_next_move.mjs costliestLine)
-// and "18 marks on 3 questions" (the ledger's group line); the opened row says the chapter's count the way the result's
-// finding does ("In Partnership: 3 wrong of its 4 questions.") and lists its lost questions as the ledger's Q chips. A chip
-// says what that question was: wrong after its time, and the change if there was one (labStory's rows and changes).
-const slug = (chapter) => `ch-${chapter.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-function chapterDetail(c) {
-  const wrong = c.misses.filter((m) => m.verdict === 'wrong').length;
-  const blank = c.misses.filter((m) => m.verdict === 'blank').length;
-  const parts = [wrong ? `${wrong} wrong` : null, blank ? `${blank} left blank` : null].filter(Boolean).join(' and ');
-  return `In ${c.chapter}: ${parts} of its ${plural(c.of, 'question')}.`;
-}
+// ---------- The cards (LK368, 22 Nov 2026 night: "incorporate the old and new into making better cards") ----------
+// Each card is the result page's own card (its roles, its type, its sentences) and keeps ONE idea: a finding first, in the
+// display face with its figure in bold and one pen mark on it (the result page's own idiom: it underlines the costliest
+// chapter in red), then ONE picture borrowed from the earlier screens (the chapter bars cut into their lost questions, the
+// pace line with the overrun hatched, each change as two picks and an arrow, the two options that matter, the plan with its
+// Set up key), then the slot where a tap's answer shows. Every element that plays as the card comes on carries `lnx-in`
+// (lab-next.css holds it in its start state until the card stands). The beat line above the device follows the taps
+// (LabBeats.mjs; a control's tap writes data-beat on its scene, no render).
+const PEN_DELAY = 900;
+const withFigures = (text) => String(text).split(/(\d+)/).map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
+/** The scene's beat line (LabCinema draws the lines; lab-next.css shows the one data-beat names). */
+const beat = (node, k) => { const scene = node?.closest?.('.lc-scene'); if (scene) scene.dataset.beat = String(k); };
+const delay = (ms) => ({ '--d': `${ms}ms` });
+
+// ---------- 0. Chapters: where the marks went, chapter by chapter ----------
+// The result page's finding ("Partnership cost 18 of the 28 marks you missed.", data/result_next_move.mjs costliestLine) with
+// the chapter underlined in pen, then the chapters worst first as the earlier screens drew them: the name, right of its
+// questions, "Fix first" on the costliest, the marks lost in the display face, and a bar as long as the chapter's share of
+// every lost mark, cut into its lost questions (a wrong answer's 6, a blank's 5, dashed). Each piece is a control: tapped,
+// the slot says what that question was (labStory's rows and changes). The foot is the record before this mock ("Across your
+// mocks", AcrossMocks.jsx's folded head) with its three columns.
 const LOST_CHAPTERS = S.chapters.filter((c) => c.lost > 0);
 const TOP = LOST_CHAPTERS[0];
-function chapterLab(openFirst) {
-  return {
-    state: 'ready',
-    barLabel: 'Where the marks went, by chapter',
-    headline: { group: slug(TOP.chapter), text: TOP.lost === S.lostMarks ? `${TOP.chapter} cost all ${S.lostMarks} marks you missed.` : `${TOP.chapter} cost ${TOP.lost} of the ${S.lostMarks} marks you missed.` },
-    groups: LOST_CHAPTERS.map((c, i) => ({
-      id: slug(c.chapter), label: c.chapter, marks: c.lost, count: c.misses.length, numbers: c.misses.map((m) => m.n),
-      line: `${c.lost} marks on ${plural(c.misses.length, 'question')}`, doLine: chapterDetail(c), open: openFirst && i === 0,
-    })),
-  };
-}
 const MISSED = LOST_CHAPTERS.flatMap((c) => c.misses.map((m) => m.n));
 function missLine(n) {
   const row = S.rows.find((r) => r.n === n);
@@ -94,20 +91,59 @@ function missLine(n) {
   if (row.band === 'blank') return `Q${n}: left blank after ${row.time}.`;
   return `Q${n}: wrong after ${row.time}.${change ? ` You changed ${change.from} to ${change.to}.` : ''}`;
 }
-const CHAPTER_Q = TOP.misses[Math.min(1, TOP.misses.length - 1)].n;
-// The proof that the chapter is a habit, not one bad paper: labStory's earlierLine, in the folded head of the result page's
-// "Across your mocks" (AcrossMocks.jsx: its title, and its first line as the teaser), so it shows without opening anything.
-function ChaptersScreen({ still }) {
-  const [q, setQ] = useState(still ? CHAPTER_Q : null);
+const chapterWords = (c, i) => `${c.chapter}: ${c.right} of ${c.of} right, ${c.lost ? `${c.lost} marks lost` : 'no marks lost'}${i === 0 && c.lost ? ', fix this first' : ''}.`;
+const HISTORY = S.earlierLine ? S.swot.partnershipLost : [];
+const HISTORY_MAX = Math.max(1, ...HISTORY);
+/** The two questions the cursor opens: the costliest chapter's second lost question, then the first blank. */
+export const CHAPTER_TAPS = Object.freeze([TOP.misses[Math.min(1, TOP.misses.length - 1)].n, (S.chapters.flatMap((c) => c.misses).find((m) => m.verdict === 'blank') ?? TOP.misses[0]).n]);
+function ChaptersScreen({ still, on }) {
+  const [q, setQ] = useState(still ? CHAPTER_TAPS[0] : null);
+  const pick = (event, m) => { setQ(m.n); beat(event.currentTarget, m.verdict === 'blank' ? 2 : 1); };
   return (
     <div className="lnx lnx--chapters">
-      <p className="lnx-h">Where your marks went</p>
-      <MarksLedger lab={chapterLab(still)} attemptId={null} onJump={setQ} />
+      <p className="lnx-find">
+        <Doodle mark="underline" tone="pen" when={on || still} delay={PEN_DELAY}>{TOP.chapter}</Doodle>
+        {` cost `}<b>{TOP.lost}</b>{` of the `}<b>{S.lostMarks}</b>{` marks you missed.`}
+      </p>
+      <ol className="lnx-chs">
+        {S.chapters.map((c, i) => (
+          <li key={c.chapter} className="lnx-ch" data-worst={i === 0 && c.lost ? '' : undefined} data-clear={c.lost ? undefined : ''}>
+            <span className="lnx-ch__head">
+              <b className="lnx-ch__name">{c.chapter}</b>
+              <small className="lnx-ch__right">{c.right} of {c.of} right</small>
+              {i === 0 && c.lost ? <em className="lnx-ch__flag lnx-in" style={delay(520)}>Fix first</em> : null}
+              <b className="lnx-ch__lost">{c.lost ? signedMarks(-c.lost) : '0'}</b>
+            </span>
+            {c.lost ? (
+              <span className="lnx-ch__bar" style={{ '--share': c.share }}>
+                {c.misses.map((m, k) => (
+                  <button key={m.n} type="button" className="lnx-ch__q" data-n={m.n} data-verdict={m.verdict} aria-pressed={q === m.n} style={{ flexGrow: m.marks }} onClick={(event) => pick(event, m)}>
+                    <i className="lnx-ch__fill lnx-in" style={delay(i * 160 + k * 70)} />
+                    <span className="lnx-ch__qn lnx-in" style={delay(i * 160 + k * 70 + 220)}>Q{m.n}</span>
+                    <span className="sr-only">{missLine(m.n)}</span>
+                  </button>
+                ))}
+              </span>
+            ) : null}
+            <span className="sr-only">{chapterWords(c, i)}</span>
+          </li>
+        ))}
+      </ol>
       <Slot className="lnx-slot--line" chosen={q} options={MISSED.map((n) => ({ id: n, node: <p className="lnx-detail">{missLine(n)}</p> }))} />
       {S.earlierLine ? (
-        <div className="am lnx-across" data-surface="inset">
-          <p className="am-head__title">Across your mocks</p>
-          <p className="am-head__teaser">{withNumbers(S.earlierLine)}</p>
+        <div className="lnx-across">
+          <div className="lnx-across__text">
+            <p className="lnx-across__title">Across your mocks</p>
+            <p className="lnx-across__line">{withFigures(S.earlierLine)}</p>
+          </div>
+          <ol className="lnx-across__cols" aria-hidden="true">
+            {HISTORY.map((lost, j) => (
+              <li key={j} data-now={j === HISTORY.length - 1 ? '' : undefined}>
+                <span className="lnx-across__col"><i className="lnx-in" style={{ ...delay(700 + j * 110), '--v': lost / HISTORY_MAX }} /></span>
+                <b>{lost}</b>
+              </li>
+            ))}
+          </ol>
         </div>
       ) : null}
     </div>
@@ -115,62 +151,73 @@ function ChaptersScreen({ still }) {
 }
 
 // ---------- 1. Time: the slowest questions against the paper's pace ----------
-// TimeDecisions' "Where your time went" rows: the bar in the verdict's colour (filling as the scene comes on), the paper's
-// pace as the mark on it, the time. Every answered question, slowest first (labStory longestQuestions); the device shows as
-// many as fit at full size (lab-next.css). A tapped row shows what the result page prints for it: the verdict and how many
-// times the paper's pace it took.
-const SLOWEST = longestQuestions(undefined, 8);
-const SLOW_MAX = S.rows.reduce((m, r) => Math.max(m, r.sec), 1);
-function TimeScreen({ still }) {
-  const [open, setOpen] = useState(still ? SLOWEST[0].n : null);
+// "Where your time went" (TimeDecisions): the finding first ("All 3 wrong answers ran over the 1:12 pace.", from labStory's
+// own count), then the slowest answered questions, slowest first, as the earlier screens drew time: a verdict mark, the bar
+// up to the pace in grey (or whole, in its verdict's colour, inside it), the time past the pace hatched (coral when it ended
+// wrong, amber when it was still right), the pace as a dashed volt line through every row, the time and how far over. A
+// tapped row shows what the result page prints for it: the verdict and how many times the paper's pace it took.
+const SLOWEST = longestQuestions(undefined, 8).map((l) => ({ ...l, row: S.rows.find((r) => r.n === l.n) }));
+/** The two rows the cursor taps: the slowest, then the slowest that was still right. */
+export const TIME_TAPS = Object.freeze([SLOWEST[0].n, (SLOWEST.find((l, i) => i > 0 && l.verdict === 'right') ?? SLOWEST[1]).n]);
+const timeWords = (l) => `Question ${l.n}: ${l.time}, ${l.row.band === 'over' ? `${l.row.delta} over the pace` : `${l.row.delta} under the pace`}, ${l.verdict === 'right' ? 'right' : 'wrong'}.`;
+function TimeScreen({ still, on }) {
+  const [open, setOpen] = useState(still ? TIME_TAPS[0] : null);
+  const t = S.time;
   return (
-    <div className="lnx lnx--time">
-      <p className="lnx-h">{TIME_COPY.longestTitle}</p>
-      <p className="td-lead">The paper gives {S.pace} a question. Your median was {S.median}.</p>
-      <div className="lnx-pace" aria-hidden="true"><span className="lnx-pace__track"><b style={{ left: `${S.paceShare * 100}%` }}>Pace {S.pace}</b></span></div>
-      <ol className="td-long">
-        {SLOWEST.map((l, i) => {
-          const sec = S.rows.find((r) => r.n === l.n).sec;
-          const verdict = TIME_VERDICT[l.verdict];
-          const on = open === l.n;
-          return (
-            <li key={l.n} style={{ '--i': i }}>
-              <button type="button" className="td-long__row" aria-pressed={on} data-open={on || undefined} onClick={() => setOpen(l.n)}>
-                <span className="td-long__q">Q{l.n}</span>
-                <span className="td-long__track" aria-hidden="true">
-                  <span className="td-long__fill" data-verdict={verdict} style={{ width: `${Math.max(2, (sec / SLOW_MAX) * 100)}%` }} />
-                  <span className="td-long__pace" style={{ left: `${S.paceShare * 100}%` }} />
-                </span>
-                <span className="td-long__time">{l.time}</span>
-                <ChevronRight className="lnx-chev" size={16} strokeWidth={2.4} aria-hidden="true" />
-              </button>
-            </li>
-          );
-        })}
-      </ol>
+    <div className="lnx lnx--time" style={{ '--pace': S.paceShare }}>
+      <p className="lnx-find">
+        {t.wrongAllOver
+          ? <>All <Doodle mark="underline" tone="pen" when={on || still} delay={PEN_DELAY + 300}>{S.facts.wrong} wrong answers</Doodle> ran over the {S.pace} pace.</>
+          : <><b>{t.overCount}</b> questions ran over the {S.pace} pace.</>}
+      </p>
+      <div className="lnx-t">
+        <p className="lnx-t__pace" aria-hidden="true"><span><b className="lnx-in" style={delay(0)}>Pace {S.pace}</b></span></p>
+        <ol className="lnx-t__rows">
+          {SLOWEST.map((l, i) => {
+            const r = l.row;
+            const verdict = TIME_VERDICT[l.verdict];
+            return (
+              <li key={l.n}>
+                <button type="button" className="lnx-t__row" data-n={l.n} data-band={r.band} data-verdict={l.verdict} aria-pressed={open === l.n}
+                  onClick={(event) => { setOpen(l.n); beat(event.currentTarget, l.verdict === 'right' ? 2 : 1); }}>
+                  <span className="lnx-t__q">Q{l.n}</span>
+                  <span className="lnx-t__mark" data-verdict={verdict} aria-hidden="true">{l.verdict === 'right' ? <Check size={12} strokeWidth={3.4} /> : <X size={12} strokeWidth={3.4} />}</span>
+                  <span className="lnx-t__track" aria-hidden="true">
+                    <i className="lnx-t__base lnx-in" style={{ ...delay(120 + i * 60), '--w': r.base }} />
+                    {r.band === 'over' ? <i className="lnx-t__over lnx-in" style={{ ...delay(420 + i * 60), '--a': r.base, '--w': r.over }} /> : null}
+                    <i className="lnx-t__line" />
+                  </span>
+                  <span className="lnx-t__time" aria-hidden="true">{l.time}</span>
+                  <span className="lnx-t__delta lnx-in" aria-hidden="true" style={delay(560 + i * 60)}>{r.band === 'over' ? `+${r.delta}` : ''}</span>
+                  <span className="sr-only">{timeWords(l)}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
       <Slot className="lnx-slot--line" chosen={open} options={SLOWEST.map((l) => {
         const verdict = TIME_VERDICT[l.verdict];
         return { id: l.n, node: <p className="lnx-detail"><b>Q{l.n}</b> <span data-verdict={verdict}>{TIME_COPY.verdict[verdict]}</span>, {l.time}: {TIME_COPY.longestRatio(l.pace)}.</p> };
       })} />
-      <p className="lnx-key"><span><i data-verdict="correct" />{TIME_COPY.verdict.correct}</span><span><i data-verdict="wrong" />{TIME_COPY.verdict.wrong}</span></p>
+      <p className="lnx-key" aria-hidden="true"><span><i data-k="over-wrong" />Over pace, wrong</span><span><i data-k="over-right" />Over pace, right</span><span><i data-k="under" />Under pace</span></p>
     </div>
   );
 }
 
-// ---------- 2. Changes: every answer changed, on the clock ----------
-// TIME_COPY's own sentences ("Picked B at 5:08. Changed to D at 6:00, 0:52 later.") and the marks each change won or cost,
-// under the totals as the result page sums them (TimeDecisions' parts: TIME_COPY.changesGained / changesCost) with the net,
-// counting up once as the scene comes on. A tapped change shows its two picks, first then final (the final one settling in),
-// with TIME_COPY's line on what the change did.
-const VERDICT_WORD = { right: 'Right', wrong: 'Wrong', blank: 'Blank' };
-// data/mistake_lab.copy.json remark.scores ("First picks: {first} of {max}. Final answers: {final} of {max}{held}."), filled
-// from labStory: the first answers' total and the final one. lab_next_1121.test.mjs holds it to the JSON's template.
+// ---------- 2. Changes: every answer changed, as two picks and an arrow ----------
+// The finding is the net, large, counting up once as the card stands ("Net effect on your marks", TimeDecisions' own words),
+// then the result page's two totals (TIME_COPY.changesGained / changesCost). Each change is drawn as the earlier screens drew
+// it: the first pick with its verdict and clock time, the arrow (coral and crossed when it threw a right answer away), the
+// final pick, the marks. A tapped change says it in TIME_COPY's own sentences.
 const FIRST_SCORES = `First picks: ${S.firstAnswers} of ${S.facts.outOf}. Final answers: ${S.facts.marks} of ${S.facts.outOf}.`;
-function PickChip({ letter, verdict, label, end }) {
+/** The two changes the cursor taps: the first that threw a right answer away, then the one that gained. */
+export const CHANGE_TAPS = Object.freeze([(S.changes.find((c) => c.net < 0) ?? S.changes[0]).n, (S.changes.find((c) => c.net > 0) ?? S.changes.at(-1)).n]);
+function Chip({ letter, verdict, at }) {
   return (
-    <span className="lnx-pick" data-verdict={verdict} data-end={end}>
-      <i>{letter}{verdict === 'right' ? <Check size={10} strokeWidth={3.2} aria-hidden="true" /> : <X size={10} strokeWidth={3.2} aria-hidden="true" />}</i>
-      <span><small>{label}</small>{VERDICT_WORD[verdict]}</span>
+    <span className="lnx-chip" data-verdict={verdict}>
+      <i>{letter}<b aria-hidden="true">{verdict === 'right' ? <Check size={11} strokeWidth={3.4} /> : <X size={11} strokeWidth={3.4} />}</b></i>
+      <small>{at}</small>
     </span>
   );
 }
@@ -198,87 +245,80 @@ function useCountUp(ref, still, on) {
   }, [ref, still, on]);
 }
 function ChangesScreen({ still, on }) {
-  const [open, setOpen] = useState(still ? S.changes[0].n : null);
+  const [open, setOpen] = useState(still ? CHANGE_TAPS[0] : null);
   const sumRef = useRef(null);
   useCountUp(sumRef, still, on);
   return (
-    <div className="lnx lnx--changes">
-      <p className="lnx-h">{TIME_COPY.changesTitle}</p>
-      <p className="td-lead">{TIME_COPY.changesLead(S.changes.length, S.changes.length, S.net)}</p>
-      <div className="lnx-sum" ref={sumRef}>
-        <p data-tone="good"><b data-count={S.gainedMarks}>{signedMarks(S.gainedMarks)}</b>{TIME_COPY.changesGained(S.gainedCount, S.gainedMarks)}</p>
-        <p data-tone="bad"><b data-count={S.lostToChanges}>{signedMarks(S.lostToChanges)}</b>{TIME_COPY.changesCost(S.lostQuestions.length, -S.lostToChanges)}</p>
-        <p data-tone={S.net < 0 ? 'bad' : 'good'} data-net=""><b data-count={S.net} data-prefix="= ">= {signedMarks(S.net)}</b>Net effect on your marks</p>
+    <div className="lnx lnx--changes" ref={sumRef}>
+      <div className="lnx-net" data-tone={S.net < 0 ? 'bad' : 'good'}>
+        <b data-count={S.net} data-prefix="= ">= {signedMarks(S.net)}</b>
+        <span><span className="lnx-net__label">Net effect on your marks</span><span className="lnx-net__from">{plural(S.changes.length, 'answer')} changed</span></span>
       </div>
-      <ol className="td-changes">
-        {S.changes.map((c, i) => {
-          const on = open === c.n;
-          return (
-            <li key={c.n} style={{ '--i': i }} data-open={on || undefined}>
-              <button type="button" className="td-changes__row" aria-pressed={on} onClick={() => setOpen(c.n)}>
-                <span className="td-changes__q">Q{c.n}</span>
-                <span className="td-changes__text">{TIME_COPY.first(c.from, c.at)} {TIME_COPY.changed(c.to, c.toAt, c.gap)}</span>
-                <b className="td-changes__net" data-tone={c.net > 0 ? 'good' : c.net < 0 ? 'bad' : 'neutral'}>{signedMarks(c.net)}</b>
-                <ChevronRight className="lnx-chev" size={16} strokeWidth={2.4} aria-hidden="true" />
-              </button>
-            </li>
-          );
-        })}
+      <p className="lnx-tot">
+        <span data-tone="good"><b data-count={S.gainedMarks}>{signedMarks(S.gainedMarks)}</b> {TIME_COPY.changesGained(S.gainedCount, S.gainedMarks)}</span>
+        <span data-tone="bad"><b data-count={S.lostToChanges}>{signedMarks(S.lostToChanges)}</b> {TIME_COPY.changesCost(S.lostQuestions.length, -S.lostToChanges)}</span>
+      </p>
+      <ol className="lnx-chgs">
+        {S.changes.map((c, i) => (
+          <li key={c.n} className="lnx-in" style={delay(140 + i * 180)}>
+            <button type="button" className="lnx-chg" data-n={c.n} data-tone={c.net < 0 ? 'bad' : 'good'} aria-pressed={open === c.n}
+              onClick={(event) => { setOpen(c.n); beat(event.currentTarget, c.net > 0 ? 2 : 1); }}>
+              <span className="lnx-chg__q">Q{c.n}</span>
+              <Chip letter={c.from} verdict={c.fromVerdict} at={c.at} />
+              <span className="lnx-chg__arrow" aria-hidden="true">
+                <i className="lnx-chg__line lnx-in" style={delay(340 + i * 180)} />
+                <i className="lnx-chg__head" />
+                {c.net < 0 ? <i className="lnx-chg__cross lnx-in" style={delay(520 + i * 180)}><X size={10} strokeWidth={3.4} /></i> : null}
+              </span>
+              <span className="lnx-chg__to lnx-in" style={delay(480 + i * 180)}><Chip letter={c.to} verdict={c.toVerdict} at={c.toAt} /></span>
+              <b className="lnx-chg__net">{signedMarks(c.net)}</b>
+              <span className="sr-only">{`Question ${c.n}. ${TIME_COPY.first(c.from, c.at)} ${TIME_COPY.changed(c.to, c.toAt, c.gap)} ${TIME_COPY.effectOne(c.net)}`}</span>
+            </button>
+          </li>
+        ))}
       </ol>
-      <Slot className="lnx-slot--picks" chosen={open} options={S.changes.map((c) => ({ id: c.n, node: (
-        <div className="lnx-picks">
-          <span className="lnx-picks__row">
-            <b className="lnx-picks__q">Q{c.n}</b>
-            <PickChip letter={c.from} verdict={c.fromVerdict} label={`First pick, ${c.at}`} end="from" />
-            <ArrowRight className="lnx-picks__arrow" size={16} strokeWidth={2.4} aria-hidden="true" />
-            <PickChip letter={c.to} verdict={c.toVerdict} label={`Final pick, ${c.toAt}`} end="to" />
-          </span>
-          <p className="lnx-picks__effect" data-tone={c.net < 0 ? 'bad' : 'good'}>{TIME_COPY.effectOne(c.net)}</p>
-        </div>
+      <Slot className="lnx-slot--line" chosen={open} options={S.changes.map((c) => ({ id: c.n, node: (
+        <p className="lnx-detail"><b>Q{c.n}</b> {TIME_COPY.changed(c.to, c.toAt, c.gap)} <span data-tone={c.net < 0 ? 'bad' : 'good'}>{TIME_COPY.effectOne(c.net)}</span></p>
       ) }))} />
       {/* Wide device only (lab-next.css): the ledger's re-mark line, in its own words (data/mistake_lab.copy.json remark.scores). */}
-      <p className="lnx-first">{withNumbers(FIRST_SCORES)}</p>
+      <p className="lnx-first">{withFigures(FIRST_SCORES)}</p>
     </div>
   );
 }
 
-// ---------- 3. Repair: the mistake's row, opened, then the repair ----------
-// Two taps, the way a student does it on the result page (owner LK366, 22 Nov 2026: one tap made this scene a third as long
-// as the others). The row is the result's mistake row (MistakeList.jsx Row: the chapter, the question, the picks as "yours"
-// and "answer", the marks it cost). Tapped, it opens and writes the two answers out in the row's own words ("Your answer",
-// "Correct answer", REPAIR.options), in the room its picks held, so the opening moves nothing. The key under it is
-// MistakeRepair's own start ("Repair Q4", FIX_COPY's line and price). The finished repair is Repair v3's layout in its own
-// words (REPAIR_COPY): the trap as its heading, "Explained from the answer key (B).", why D looked right, why B is right, and
-// the rule to keep.
+// ---------- 3. Repair: the question, the two options that matter, then the repair ----------
+// The question as the student met it, then the two options that matter as the earlier screens showed them: the pick
+// (struck through in pen) and the key (ticked), in the result row's words ("Your answer", "Correct answer"). Tapped, the
+// pick says what the record shows ("From your record": you first chose the key here). Under them MistakeRepair's own start
+// ("Repair Q4", FIX_COPY's line and price); tapped, the finished repair (Repair v3's layout in REPAIR_COPY's words) rises
+// over the card like a sheet, in the room the card already holds, so nothing moves.
 const REPAIR_BLOCK = Object.fromEntries(REPAIR.blocks.map((b) => [b.kind, b]));
 const OPTION_TEXT = Object.fromEntries(REPAIR.options);
-function RepairScreen({ still }) {
-  const [open, setOpen] = useState(still);
+const RECORD = repairRecordLine();
+function RepairScreen({ still, on }) {
+  const [told, setTold] = useState(still);
   const [done, setDone] = useState(still);
   return (
     <div className="lnx lnx--repair">
-      <p className="lnx-h">Your mistakes</p>
-      <button type="button" className="lnx-mistake" data-verdict="wrong" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        <span className="rx-row__n" aria-hidden="true">{REPAIR.n}</span>
-        <span className="rx-row__main">
-          <span className="rx-row__ch"><span className="sr-only">Question {REPAIR.n}, </span>{REPAIR.chapter}</span>
-          <span className="rx-row__stem">{REPAIR.stem}</span>
-          <span className="lnx-answers">
-            <span className="rx-row__facts" data-shown={open ? undefined : ''}>
-              <span className="rx-pick" data-kind="mine"><i>{REPAIR.picked}</i>yours</span>
-              <span className="rx-pick" data-kind="key"><i>{REPAIR.key}</i>answer</span>
-            </span>
-            <span className="rx-row__opts" data-shown={open ? '' : undefined} aria-hidden={open ? undefined : true}>
-              <span className="rx-opt" data-kind="mine"><i>{REPAIR.picked}</i><span><small>Your answer</small>{OPTION_TEXT[REPAIR.picked]}</span></span>
-              <span className="rx-opt" data-kind="key"><i>{REPAIR.key}</i><span><small>Correct answer</small>{OPTION_TEXT[REPAIR.key]}</span></span>
-            </span>
-          </span>
-        </span>
-        <span className="rx-row__cost">{signedMarks(-GAP.wrong)}</span>
-        <ChevronRight className="lnx-chev" size={16} strokeWidth={2.4} aria-hidden="true" />
+      <p className="lnx-rq"><b>Q{REPAIR.n}</b> {REPAIR.stem}</p>
+      <div className="lnx-opts">
+        <button type="button" className="lnx-opt" data-kind="mine" aria-pressed={told} onClick={(event) => { setTold(true); beat(event.currentTarget, 1); }}>
+          <i className="lnx-opt__l">{REPAIR.picked}<b aria-hidden="true"><X size={11} strokeWidth={3.4} /></b></i>
+          <span><small>Your answer</small><Doodle mark="strike" tone="pen" when={on || still} delay={PEN_DELAY}>{OPTION_TEXT[REPAIR.picked]}</Doodle></span>
+        </button>
+        <p className="lnx-opt" data-kind="key">
+          <i className="lnx-opt__l">{REPAIR.key}<b aria-hidden="true"><Check size={11} strokeWidth={3.4} /></b></i>
+          <span><small>Correct answer</small>{OPTION_TEXT[REPAIR.key]}</span>
+        </p>
+      </div>
+      {RECORD ? <Slot className="lnx-slot--line" chosen={told ? 'record' : null} options={[{ id: 'record', node: <p className="lnx-detail"><b>From your record</b> {RECORD}</p> }]} /> : null}
+      <button type="button" className="mr-start" onClick={(event) => { setDone(true); beat(event.currentTarget, 2); }}>
+        <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
+        <span className="mr-start__text"><b>{FIX_COPY.startTitle(REPAIR.n)}</b><small>{FIX_COPY.startLine(REPAIR.picked)}</small></span>
+        <span className="mr-start__cost">{FIX_COPY.price}</span>
       </button>
       {done ? (
-        <section className="mr mr--panel mr--done" data-fresh={still ? undefined : ''} aria-label="Mistake Repair">
+        <section className="mr mr--panel mr--done lnx-sheet" data-fresh={still ? undefined : ''} aria-label="Mistake Repair">
           <header className="mr-head" data-stagger style={{ '--mr-i': 0 }}>
             <div className="mr-head__text">
               <p className="mr-title">{REPAIR.trap}</p>
@@ -292,63 +332,49 @@ function RepairScreen({ still }) {
             <p>{REPAIR_BLOCK.rule.text}</p>
           </div>
         </section>
-      ) : (
-        <button type="button" className="mr-start" onClick={() => setDone(true)}>
-          <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
-          <span className="mr-start__text"><b>{FIX_COPY.startTitle(REPAIR.n)}</b><small>{FIX_COPY.startLine(REPAIR.picked)}</small></span>
-          <span className="mr-start__cost">{FIX_COPY.price}</span>
-        </button>
-      )}
+      ) : null}
     </div>
   );
 }
 
 // ---------- 4. SWOT: "After this mock" ----------
-// SwotPanel's words: "Do these next" with the plan's first set, then the four groups under the plain headings the result
-// page uses inside "After this mock" (SwotPanel PLAIN, in its order). A tapped group shows its line under the four.
+// SwotPanel's words: "Do these next" with the plan's first set large, underlined in volt, its reason and the Set up key the
+// result page puts beside it, then the four groups two by two under the plain headings the result page uses (SwotPanel PLAIN,
+// in its order), each a filled tile with its colour. A tapped group shows its line in the slot.
 const PLAIN = { weakness: 'Costing you', strength: 'Working', opportunity: 'Room to grow', threat: 'Watch' };
 const PLAIN_ORDER = ['weakness', 'strength', 'opportunity', 'threat'];
 const QUADS = [...S.swot.quadrants].sort((a, b) => PLAIN_ORDER.indexOf(a.id) - PLAIN_ORDER.indexOf(b.id));
 const FIRST = S.swot.plan[0];
-function SwotScreen({ still }) {
+function SwotScreen({ still, on }) {
   const [open, setOpen] = useState(still ? 'threat' : null);
   return (
-    <div className="lnx lnx--swot sw" data-in-fold="">
-      <p className="lnx-h">{SWOT_UI_COPY.title}</p>
-      <div className="sw-block">
-        <p className="sw-h3">{SWOT_UI_COPY.next}</p>
-        <ol className="sw-plan">
-          <li className="sw-plan__row" data-first="">
-            <span className="sw-plan__n" aria-hidden="true">1</span>
-            <div className="sw-plan__text">
-              <p className="sw-plan__label">{FIRST.label}</p>
-              <p className="sw-plan__reason">{FIRST.reason}</p>
-            </div>
-          </li>
-        </ol>
+    <div className="lnx lnx--swot">
+      <p className="lnx-h">{SWOT_UI_COPY.next}</p>
+      <div className="lnx-plan lnx-in" style={delay(0)}>
+        <span className="lnx-plan__n" aria-hidden="true">1</span>
+        <span className="lnx-plan__text">
+          <span className="lnx-plan__label"><Doodle mark="underline" tone="volt" when={on || still} delay={PEN_DELAY}>{FIRST.label}</Doodle></span>
+          <span className="lnx-plan__why">{FIRST.reason}</span>
+        </span>
+        <span className="lnx-plan__go" aria-hidden="true">{SWOT_UI_COPY.setUp}</span>
       </div>
-      <p className="sw-h3 lnx-swot-h">{SWOT_UI_COPY.swot}</p>
+      <p className="lnx-h">{SWOT_UI_COPY.swot}</p>
       <div className="lnx-quads">
-        {QUADS.map((q) => {
-          const on = open === q.id;
-          return (
-            <section key={q.id} className="sw-q" data-q={q.id} data-open={on || undefined}>
-              <button type="button" className="lnx-quad" aria-pressed={on} onClick={() => setOpen(q.id)}>
-                <span className="sw-q__h">{PLAIN[q.id]}<ChevronRight className="lnx-chev" size={14} strokeWidth={2.4} aria-hidden="true" /></span>
-                <span className="sw-item__title">{q.title}</span>
-              </button>
-            </section>
-          );
-        })}
+        {QUADS.map((q, i) => (
+          <button key={q.id} type="button" className="lnx-quad lnx-in" data-q={q.id} aria-pressed={open === q.id} style={delay(220 + i * 90)}
+            onClick={(event) => { setOpen(q.id); beat(event.currentTarget, q.id === 'threat' ? 2 : 1); }}>
+            <span className="lnx-quad__h"><i aria-hidden="true" />{PLAIN[q.id]}</span>
+            <span className="lnx-quad__title">{q.title}</span>
+          </button>
+        ))}
       </div>
-      <Slot className="lnx-slot--swot" chosen={open} options={QUADS.map((q) => ({ id: q.id, node: <p className="lnx-detail" data-q={q.id}><b>{PLAIN[q.id]}</b> {q.detail}</p> }))} />
+      <Slot className="lnx-slot--line" chosen={open} options={QUADS.map((q) => ({ id: q.id, node: <p className="lnx-detail" data-q={q.id}><b>{PLAIN[q.id]}</b> {q.detail}</p> }))} />
     </div>
   );
 }
 
 // ---------- The cursor's scripts (CursorDemo steps: each clicks the screen's real control) ----------
 // Two taps a scene, every scene. A selector that finds nothing is skipped, so a screen that changes never strands the cursor.
-// `lastShown` marks the last row the device shows (it shows fewer on a small phone), one layout read, once.
 // Hand-offs (owner LK365, 21 Nov 2026: the next scene comes "as soon as one animation ends"): the script's last rest ends,
 // then LabNextScreen's end step hands over at once. The next scene's cursor does not travel in from the stage's corner: it
 // waits, hidden, until the card stands (`arrive` shows it where the last scene's cursor stopped, the cards lie in the same
@@ -375,13 +401,11 @@ export const LAB_PACE = Object.freeze({ firstTapMs: 1500, readMs: 1850, lastRead
 const CURSOR_ENTRY_MS = 220;
 /**
  * How long each kind of answer takes to come in after its tap (the CSS that draws it; the test reads the sheets):
- *   row      a ledger chapter opens: its line and its chips rise (lab-next.css, 240 ms, the chips 60 ms behind);
- *   line     a slot's answer rises (lnx-rise, 260 ms);
- *   picks    a change's two picks: the final pick settles 140 ms in, over 320 ms (lnx-settle);
- *   answers  the mistake row opens: its two answers rise (lnx-rise, 260 ms);
- *   repair   the repair's blocks rise 50 ms apart, the rule last (mistake-repair.css mr-rule-in, 520 ms from 150 ms).
+ *   line     a slot's answer rises (lnx-rise, 260 ms): every first tap, and the second tap of four scenes;
+ *   repair   the repair sheet rises and its blocks follow 50 ms apart, the rule last (mistake-repair.css mr-rule-in, 520 ms
+ *            from 150 ms).
  */
-export const REVEAL_MS = Object.freeze({ row: 300, line: 260, picks: 460, answers: 260, repair: 670 });
+export const REVEAL_MS = Object.freeze({ line: 260, repair: 670 });
 // The cursor's last point, in the stage's own px (the cards share one size and place). No layout read: CursorDemo's own
 // inline transform says where it is, and where it put the cursor on entry (82 % and 90 % of the stage's size) gives the
 // stage's size.
@@ -426,35 +450,30 @@ const FIRST_REST = Object.freeze({
   exact: true,
   get wait() { return Math.max(0, Math.round(standAt + LAB_PACE.firstTapMs - LAB_PACE.moveMs - LAB_PACE.pressMs - performance.now())); },
 });
-const lastShown = (selector) => (stage) => {
-  for (const node of stage.querySelectorAll('[data-lnx-last]')) node.removeAttribute('data-lnx-last');
-  const shown = [...stage.querySelectorAll(selector)].filter((node) => node.getClientRects().length > 0);
-  shown.at(-1)?.setAttribute('data-lnx-last', '');
-};
 /**
  * Each scene's two taps: the control (a selector inside the stage), where on it, what it reveals (REVEAL_MS), and `before`, a
  * step run just before the tap's move.
  */
 export const LAB_TAPS = Object.freeze({
   chapters: Object.freeze([
-    { target: '.ml-row:first-child .ml-row__btn', at: [0.3, 0.5], reveal: REVEAL_MS.row },
-    { target: '.ml-row[data-open] .ml-chip:nth-child(2)', at: [0.5, 0.55], reveal: REVEAL_MS.line },
+    { target: `.lnx-ch__q[data-n="${CHAPTER_TAPS[0]}"]`, at: [0.5, 0.5], reveal: REVEAL_MS.line },
+    { target: `.lnx-ch__q[data-n="${CHAPTER_TAPS[1]}"]`, at: [0.5, 0.5], reveal: REVEAL_MS.line },
   ]),
   time: Object.freeze([
-    { target: '.td-long li:first-child .td-long__row', at: [0.62, 0.4], reveal: REVEAL_MS.line },
-    { before: lastShown('.td-long__row'), target: '[data-lnx-last]', at: [0.62, 0.45], reveal: REVEAL_MS.line },
+    { target: `.lnx-t__row[data-n="${TIME_TAPS[0]}"]`, at: [0.55, 0.5], reveal: REVEAL_MS.line },
+    { target: `.lnx-t__row[data-n="${TIME_TAPS[1]}"]`, at: [0.55, 0.5], reveal: REVEAL_MS.line },
   ]),
   changes: Object.freeze([
-    { target: '.td-changes li:first-child .td-changes__row', at: [0.55, 0.45], reveal: REVEAL_MS.picks },
-    { before: lastShown('.td-changes__row'), target: '[data-lnx-last]', at: [0.55, 0.45], reveal: REVEAL_MS.picks },
+    { target: `.lnx-chg[data-n="${CHANGE_TAPS[0]}"]`, at: [0.5, 0.45], reveal: REVEAL_MS.line },
+    { target: `.lnx-chg[data-n="${CHANGE_TAPS[1]}"]`, at: [0.5, 0.45], reveal: REVEAL_MS.line },
   ]),
   repair: Object.freeze([
-    { target: '.lnx-mistake', at: [0.55, 0.3], reveal: REVEAL_MS.answers },
+    { target: '.lnx-opt[data-kind="mine"]', at: [0.6, 0.5], reveal: REVEAL_MS.line },
     { target: '.mr-start', at: [0.2, 0.45], reveal: REVEAL_MS.repair },
   ]),
   swot: Object.freeze([
-    { target: '.sw-q[data-q="weakness"] .lnx-quad', at: [0.45, 0.45], reveal: REVEAL_MS.line },
-    { target: '.sw-q[data-q="threat"] .lnx-quad', at: [0.45, 0.45], reveal: REVEAL_MS.line },
+    { target: '.lnx-quad[data-q="weakness"]', at: [0.45, 0.45], reveal: REVEAL_MS.line },
+    { target: '.lnx-quad[data-q="threat"]', at: [0.45, 0.45], reveal: REVEAL_MS.line },
   ]),
 });
 /**
@@ -579,6 +598,8 @@ export default function LabNextScreen({ scene, index, ready, live = false, still
     const id = window.setTimeout(() => { drop = whenUntouched(fresh); }, RESET_MS);
     return () => { window.clearTimeout(id); drop(); };
   }, [playing, mount.used]);
+  // A fresh drawing starts on the scene's first beat line (LabBeats.mjs; the taps write the later ones).
+  useEffect(() => { probe.current?.closest('.lc-scene')?.removeAttribute('data-beat'); }, [mount.key]);
   const doneRef = useRef(onDone);
   useEffect(() => { doneRef.current = onDone; }, [onDone]);
   const steps = useMemo(() => (SCRIPTS[scene] ? [...SCRIPTS[scene], { run: (stage) => { keepPoint(stage); doneRef.current?.(); } }] : null), [scene]);
@@ -587,7 +608,7 @@ export default function LabNextScreen({ scene, index, ready, live = false, still
   return (
     <>
       <CursorDemo key={`${mount.key}${still ? '-still' : ''}`} steps={steps} playing={playing && !mount.stale} onDone={onDone} onTakeover={onTakeover} className="lnx-stage">
-        <Screen still={still} on={scene === 'changes' ? playing : undefined} />
+        <Screen still={still} on={playing} />
       </CursorDemo>
       <i ref={probe} hidden />
     </>

@@ -16,8 +16,6 @@
 import { lazy, useEffect, useRef, useState } from 'react';
 import { afterOpening, inIdle } from './idleQueue.mjs';
 import './demo/cursor-demo.css';
-import '@/components/result/marks-ledger.css';
-import '@/components/result/swot.css';
 import '@/components/recovery/mistake-repair.css';
 import './lab-next.css';
 

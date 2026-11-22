@@ -18,6 +18,7 @@ import dynamic from 'next/dynamic';
 import { ArrowLeftRight, BookOpen, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { LAB_SCENES } from './homeCopy.mjs';
+import { LAB_BEATS } from './LabBeats.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
 import { useLabAutoplay } from './useLabAutoplay';
@@ -513,12 +514,15 @@ function Stage({ step, pinned, reduced, live, goTo, look }) {
         const Panel = PANELS[key];
         const on = pinned ? step === i : true;
         return (
-          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-armed={i === 0 && !firstReady ? 'false' : 'true'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
+          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-armed={i === 0 && !firstReady ? 'false' : 'true'} data-past={pinned && i < step ? 'true' : undefined} data-link={link ? '' : undefined} aria-labelledby={`lc-scene-${key}`}>
             <div className="lc-scene__copy">
               <p className="lc-scene__step"><span>{String(i + 1).padStart(2, '0')}</span>{tab}</p>
               <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>
               <p className="lc-scene__body">{body}</p>
-              {short ? <p className="lc-scene__body lc-scene__body--short" aria-hidden="true">{short}</p> : null}
+              {/* The next look's short line follows the cursor's taps (LabBeats.mjs, one plain line a beat). */}
+              {next && LAB_BEATS[key] ? (
+                <p className="lc-scene__body lc-scene__body--short lc-beats" aria-hidden="true">{LAB_BEATS[key].map((line, k) => <span key={k} data-k={k}>{line}</span>)}</p>
+              ) : short ? <p className="lc-scene__body lc-scene__body--short" aria-hidden="true">{short}</p> : null}
               <p className="lc-scene__take">{take}</p>
               {/* The last scene's one quiet way in (round 11): only that scene carries it, and it takes taps only while
                   its scene is on stage (lab-cinema.css). */}

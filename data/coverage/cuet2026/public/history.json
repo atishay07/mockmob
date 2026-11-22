@@ -1,0 +1,1607 @@
+{
+ "id": "history",
+ "name": "History",
+ "stream": "humanities",
+ "code": "314",
+ "examDate": "2026-05-24",
+ "examDay": "24 May 2026",
+ "shift": "second shift",
+ "snapshotDate": "2026-11-22",
+ "snapshotDay": "22 November 2026",
+ "final": true,
+ "counts": {
+  "total": 50,
+  "same": 12,
+  "newValues": 0,
+  "concept": 27,
+  "notYet": 3,
+  "skill": 8,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 39,
+  "counted": 42,
+  "pct": 93
+ },
+ "chapters": [
+  {
+   "name": "Bricks, Beads & Bones",
+   "asked": 7,
+   "covered": 7
+  },
+  {
+   "name": "An Imperial Capital — Vijayanagara",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Peasants, Zamindars & the State",
+   "asked": 5,
+   "covered": 5
+  },
+  {
+   "name": "Thinkers, Beliefs & Buildings",
+   "asked": 5,
+   "covered": 5
+  },
+  {
+   "name": "Bhakti-Sufi Traditions",
+   "asked": 4,
+   "covered": 4
+  },
+  {
+   "name": "Kings, Farmers & Towns",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Colonialism & the Countryside",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Mahatma Gandhi & the Nationalist Movement",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Kinship, Caste & Class",
+   "asked": 2,
+   "covered": 1
+  },
+  {
+   "name": "Rebels & the Raj",
+   "asked": 2,
+   "covered": 2
+  },
+  {
+   "name": "Through the Eyes of Travellers",
+   "asked": 2,
+   "covered": 2
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bricks, Beads & Bones",
+   "type": "theory",
+   "stem": "Which of the following is the decadent phase of the Harappan Civilization?",
+   "passage": null,
+   "options": [
+    "1900 BCE - 1300 BCE",
+    "2600 BCE - 1900 BCE",
+    "3000 BCE - 1300 BCE",
+    "3500 BCE - 2600 BCE"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Card types-phases calls 1900-1300 BCE the decadent phase (Late Harappan).",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bricks-beads-and-bones.types-phases",
+    "chapter": "Bricks, Beads & Bones",
+    "front": "Phases of the Harappan civilisation, with their dates.",
+    "back": "Early Harappan (6000 BCE-2600 BCE) is a formative phase of the civilisation.\nMature Harappan (2600 BCE-1900 BCE) is the most prosperous phase.\nThis decadent phase (1900 BCE-1300 BCE) is termed as Late Harappan.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 1, page 1",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bricks, Beads & Bones",
+   "type": "theory",
+   "stem": "Archaeo-botanists are specialised in ______.",
+   "passage": null,
+   "options": [
+    "Ancient animal remains",
+    "Ancient plant remains",
+    "Ancient aquatic-animal remains",
+    "Ancient human remains"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "Card def-archaeo-botanists gives the keyed definition.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bricks-beads-and-bones.def-archaeo-botanists",
+    "chapter": "Bricks, Beads & Bones",
+    "front": "Who are archaeo-botanists, and what do they study?",
+    "back": "Archaeologists have been able to reconstruct dietary practices from finds of charred grains and seeds. These are studied by archaeo-botanists, who are specialists in ancient plant remains.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 1, page 2",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bricks, Beads & Bones",
+   "type": "theory",
+   "stem": "Terracotta-models of the 'plough' have been found at which sites?",
+   "passage": null,
+   "options": [
+    "Manda and Shortughai",
+    "Daimabad and Rangpur",
+    "Cholistan and Banawali",
+    "Lothal and Nageshwar"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "New card asks where terracotta plough models were found and answers Cholistan and Banawali (lehs101 p.3), the keyed option.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bricks-beads-and-bones.fact-terracotta-plough-models",
+    "chapter": "Bricks, Beads & Bones",
+    "front": "Where have terracotta models of the plough been found?",
+    "back": "Moreover, terracotta models of the plough have been found at sites in Cholistan and at Banawali (Haryana).",
+    "source": "NCERT, Themes in Indian History Part I, chapter 1, page 3",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bricks, Beads & Bones",
+   "type": "theory",
+   "stem": "Who was the first professional archaeologist to bring his experience of working in Greece and Crete to the field in India?",
+   "passage": null,
+   "options": [
+    "R.E.M. Wheeler",
+    "John Marshall",
+    "G.F. Dales",
+    "Alexander Cunningham"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card fact-marshall-first-professional states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bricks-beads-and-bones.fact-marshall-first-professional",
+    "chapter": "Bricks, Beads & Bones",
+    "front": "What was special about John Marshall as an archaeologist in India?",
+    "back": "He was the first professional archaeologist to work in India, and brought his experience of working in Greece and Crete to the field.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 1, page 20",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bricks, Beads & Bones",
+   "type": "theory",
+   "stem": "Identify the correct statements in terms of 'Mohenjodaro: as planned urban centre':\nA. The Lower Town at Mohenjodaro provides examples of residential buildings.\nB. There are no windows in the walls along the ground level.\nC. What is also interesting is an apparent no concern for privacy.\nD. Every house had its own bathroom paved with bricks.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "New card states A (Lower Town = residential buildings, lehs101 p.7); kl-no-windows-privacy gives B and makes C false (concern for privacy); fact-house-bathroom gives D.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bricks-beads-and-bones.fact-lower-town-residential",
+    "chapter": "Bricks, Beads & Bones",
+    "front": "Which part of Mohenjodaro provides examples of residential buildings?",
+    "back": "The Lower Town at Mohenjodaro provides examples of residential buildings.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 1, page 7",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bricks, Beads & Bones",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Associations) | LIST-II (Term/Name/Place)\nA. The study of DNA of ancient population | I. Mohenjodaro\nB. The first Director-General of the ASI | II. Shamans\nC. The stone statue of 'Priest-king' | III. Alexander Cunningham\nD. Men and women who claim magical and healing powers | IV. Archaeogenetics\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - I, B - III, C - II, D - IV",
+    "A - IV, B - III, C - I, D - II",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Four cards give the four pairs (the priest-king card's front names Mohenjodaro).",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bricks-beads-and-bones.def-archaeogenetics",
+    "chapter": "Bricks, Beads & Bones",
+    "front": "What is archaeogenetics?",
+    "back": "Archaeogenetics is the study of DNA of ancient population. It involves various methods of molecular genetics to understand population history.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 1, page 19",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bricks, Beads & Bones",
+   "type": "theory",
+   "stem": "Which of the following evidence shows that the Harappans believed in the afterlife?",
+   "passage": null,
+   "options": [
+    "Metal Figurines and Vessels",
+    "Great Bath and Docks",
+    "Pottery and Ornaments",
+    "Massive Pyramids"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "New card states that pottery and ornaments in some graves perhaps indicate a belief in the afterlife (lehs101 p.9); asked from the other side.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bricks-beads-and-bones.fact-graves-pottery-ornaments-afterlife",
+    "chapter": "Bricks, Beads & Bones",
+    "front": "What do the pottery and ornaments found in some Harappan graves perhaps indicate?",
+    "back": "Some graves contain pottery and ornaments, perhaps indicating a belief that these could be used in the afterlife.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 1, page 9",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Kings, Farmers & Towns",
+   "type": "theory",
+   "stem": "Arrange the following early-states from north to south:\nA. Ashmaka\nB. Matsya\nC. Gandhara\nD. Avanti\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, A, C, D",
+    "C, B, D, A"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Kings, Farmers & Towns",
+   "type": "theory",
+   "stem": "Which rulers issued the largest hoards of gold coins in the c.first-century CE?",
+   "passage": null,
+   "options": [
+    "Mauryas",
+    "Guptas",
+    "Shakas",
+    "Kushanas"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "New card asks which rulers issued the largest hoards of gold coins (c. first century CE) and answers the Kushanas (lehs102 p.44).",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.kings-farmers-and-towns.fact-kushanas-largest-gold-hoards",
+    "chapter": "Kings, Farmers & Towns",
+    "front": "Which rulers issued the largest hoards of gold coins (c. first century CE)?",
+    "back": "The kushanas, however, issued the largest hoards of gold coins",
+    "source": "NCERT, Themes in Indian History Part I, chapter 2, page 44",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Kings, Farmers & Towns",
+   "type": "theory",
+   "stem": "Identify the scripts which were deciphered by James Prinsep in 1830s?",
+   "passage": null,
+   "options": [
+    "Pali and Greek",
+    "Prakrit and Gurumukhi",
+    "Brahmi and Kharosthi",
+    "Roman and Sanskrit"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card fact-prinsep-deciphered states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.kings-farmers-and-towns.fact-prinsep-deciphered",
+    "chapter": "Kings, Farmers & Towns",
+    "front": "Who deciphered Brahmi and Kharosthi, the scripts of the earliest inscriptions and coins?",
+    "back": "James Prinsep, an officer in the mint of the East India Company, deciphered Brahmi and Kharosthi, two scripts used in the earliest inscriptions and coins.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 2, page 28",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Kings, Farmers & Towns",
+   "type": "theory",
+   "stem": "From c. ______, the most visible trend was the emergence of early states, empires and kingdoms.",
+   "passage": null,
+   "options": [
+    "Sixth-Century BCE",
+    "Seventh-Century CE",
+    "Fifth-Century BP",
+    "Fourth-Century BCE"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Card ties early states to the sixth century BCE.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.kings-farmers-and-towns.list-sixth-century-associated",
+    "chapter": "Kings, Farmers & Towns",
+    "front": "What is the sixth century BCE associated with?",
+    "back": "early states\ncities\nthe growing use of iron\nthe development of coinage",
+    "source": "NCERT, Themes in Indian History Part I, chapter 2, page 29",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Kinship, Caste & Class",
+   "type": "theory",
+   "stem": "Arrange the following textual traditions in chronological order:\nA. The works on astronomy and mathematics by Aryabhata and Varahamihira\nB. Early Buddhist texts including the Tripitaka\nC. Ashtadhyayi of Panini, a work on Sanskrit grammar\nD. Natyashastra of Bharata, a work on dramaturgy\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, D, C, A",
+    "C, B, D, A"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Timeline 1 cards date all four: Ashtadhyayi c.500 BCE, Tripitaka c.500-100 BCE (new), Natyashastra c.300 CE, Aryabhata and Varahamihira c.400-500 CE (new), giving C, B, D, A.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.kinship-caste-and-class.fact-timeline-early-buddhist-texts",
+    "chapter": "Kinship, Caste & Class",
+    "front": "Timeline 1, Major Textual Traditions: what is dated c. 500-100 BCE?",
+    "back": "Early Buddhist texts including the Tripitaka (in Pali)",
+    "source": "NCERT, Themes in Indian History Part I, chapter 3, page 79",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "type": "theory",
+   "stem": "Who provided money for the preservation of the ancient site of 'Sanchi'?",
+   "passage": null,
+   "options": [
+    "Sultan Jehan Begum",
+    "Sultana Jahanara Begum",
+    "Sultan Shahnur Begum",
+    "Sultan Rokeya Begum"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "Card fact-begums-bhopal-funds names Sultan Jehan Begum.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.thinkers-beliefs-and-buildings.fact-begums-bhopal-funds",
+    "chapter": "Thinkers, Beliefs & Buildings",
+    "front": "Who provided money for the preservation of the ancient site at Sanchi?",
+    "back": "The rulers of Bhopal, Shahjehan Begum and her successor Sultan Jehan Begum, provided money for the preservation of the ancient site.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 4, page 83",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Kinship, Caste & Class",
+   "type": "theory",
+   "stem": "According to the ______, the paternal estate was to be divided equally amongst sons after the death of the parents, with a special share for the eldest.",
+   "passage": null,
+   "options": [
+    "Manusmriti",
+    "Upanishads",
+    "Mahabharata",
+    "Puranas"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "type": "theory",
+   "stem": "Identify the incorrect match in terms of thinkers and their associative countries:",
+   "passage": null,
+   "options": [
+    "Zarathustra - Iran",
+    "Kong Zi - China",
+    "Socarates - Germany",
+    "Mahavira - India"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card lists the thinkers by country.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.thinkers-beliefs-and-buildings.list-thinkers-mid-first-millennium",
+    "chapter": "Thinkers, Beliefs & Buildings",
+    "front": "Thinkers who emerged in the mid-first millennium BCE, by country.",
+    "back": "Zarathustra in Iran\nKong Zi in China\nSocrates, Plato and Aristotle in Greece\nMahavira and Gautama Buddha, among many others, in India",
+    "source": "NCERT, Themes in Indian History Part I, chapter 4, page 84",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "type": "theory",
+   "stem": "'Hagiography' is a ______ of a saint or a religious leader.",
+   "passage": null,
+   "options": [
+    "Biography",
+    "Autobiography",
+    "Excerpt",
+    "Poem"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "Card def-hagiography gives the definition (chapter set to Thinkers, where NCERT defines it).",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.thinkers-beliefs-and-buildings.def-hagiography",
+    "chapter": "Thinkers, Beliefs & Buildings",
+    "front": "What is a hagiography?",
+    "back": "Hagiography is a biography of a saint or religious leader. Hagiographies often praise the saint's achievements, and may not always be literally accurate.",
+    "source": "NCERT, Themes in Indian History Part I, chapter 4, page 89",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "type": "theory",
+   "stem": "Jaina monks and nuns took five vows. Identify the correct statements from below:\nA. Abstain from killing\nB. Abstain from stealing and lying\nC. Renounce monastic existence and embrace the world\nD. Abstain from possessing property\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and C only",
+    "A, B and D only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card lists the five vows.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.thinkers-beliefs-and-buildings.list-jaina-five-vows",
+    "chapter": "Thinkers, Beliefs & Buildings",
+    "front": "The five vows taken by Jaina monks and nuns.",
+    "back": "to abstain from killing, stealing and lying\nto observe celibacy\nto abstain from possessing property",
+    "source": "NCERT, Themes in Indian History Part I, chapter 4, page 88",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Thinkers, Beliefs & Buildings",
+   "type": "theory",
+   "stem": "According to which tradition, “Be lamps unto yourselves as all of you must work out your own liberation”?",
+   "passage": null,
+   "options": [
+    "Buddhist",
+    "Jainism",
+    "Ajivikas",
+    "Lokayatas"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Card quotes the line and the tradition.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.thinkers-beliefs-and-buildings.fact-buddha-last-words",
+    "chapter": "Thinkers, Beliefs & Buildings",
+    "front": "What were the Buddha's last words to his followers, according to Buddhist tradition?",
+    "back": "According to Buddhist tradition, his last words to his followers were: \"Be lamps unto yourselves as all of you must work out your own liberation.\"",
+    "source": "NCERT, Themes in Indian History Part I, chapter 4, page 92",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Through the Eyes of Travellers",
+   "type": "theory",
+   "stem": "Who appointed Ibn Battuta the qazi or judge of Delhi?",
+   "passage": null,
+   "options": [
+    "Balban",
+    "Firoz Shah Tughlaq",
+    "Mahmud of Ghazni",
+    "Muhammad bin Tughlaq"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "Served bank row 0f03d599 asks this with the same key.",
+   "match": {
+    "kind": "question",
+    "id": "0f03d599-563e-4491-9472-78f48dd5dc24",
+    "chapter": "Through the Eyes of Travellers",
+    "stem": "Which Sultan, impressed by Ibn Battuta's scholarship, appointed him the qazi (judge) of Delhi?",
+    "passage": null,
+    "options": [
+     "Alauddin Khalji",
+     "Firuz Shah Tughlaq",
+     "Balban",
+     "Muhammad bin Tughlaq"
+    ],
+    "key": 3,
+    "explanation": "Ibn Battuta reached Sind in 1333. Sultan Muhammad bin Tughlaq was impressed by his learning and appointed him qazi of Delhi, a post he held for several years.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Through the Eyes of Travellers",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Traveller) | LIST-II (Origin-Country)\nA. Marco Polo | I. Portugal\nB. Duarte Barbosa | II. Italy\nC. Peter Mundy | III. Russia\nD. Afanasii Nikitich Nikitin | IV. England\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A - II, B - I, C - IV, D - III",
+    "A - I, B - II, C - III, D - IV",
+    "A - II, B - I, C - III, D - IV",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Restored card gives Peter Mundy from England (lehs201 p.137); fact-marco-polo-italy, fact-barbosa (Portuguese) and fact-nikitin (Russia) give the other pairs.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.through-the-eyes-of-travellers.fact-mundy-england",
+    "chapter": "Through the Eyes of Travellers",
+    "front": "From which country did Peter Mundy come?",
+    "back": "Peter Mundy (from England)",
+    "source": "NCERT, Themes in Indian History Part II, chapter 5, page 137",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bhakti-Sufi Traditions",
+   "type": "theory",
+   "stem": "Sculpture of a Buddhist goddess 'Marichi' was found in ______.",
+   "passage": null,
+   "options": [
+    "Bihar",
+    "United Provinces",
+    "Maharashtra",
+    "Bengal"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "New card asks the region of the Marichi sculpture (Fig. 6.3, lehs202 p.142) and answers Bihar.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bhakti-sufi-traditions.fact-marichi-sculpture-bihar",
+    "chapter": "Bhakti-Sufi Traditions",
+    "front": "Fig. 6.3: the Buddhist goddess Marichi (c. tenth century). Which region is given, and what is it an example of?",
+    "back": "Sculpture of a Buddhist goddess, Marichi (c. tenth century, Bihar), an example of the process of integration of different religious beliefs and practices",
+    "source": "NCERT, Themes in Indian History Part II, chapter 6, page 142",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bhakti-Sufi Traditions",
+   "type": "theory",
+   "stem": "According to the historians of religion, 'Saguna bhakti' included which type of traditions?",
+   "passage": null,
+   "options": [
+    "Worship of an abstract form of god",
+    "Worship of non-specific deities",
+    "Worship of gods often conceptualised in anthropomorphic forms",
+    "No worship of any form of god"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "Card fact-saguna-focus has the keyed wording.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bhakti-sufi-traditions.fact-saguna-focus",
+    "chapter": "Bhakti-Sufi Traditions",
+    "front": "What did saguna bhakti focus on?",
+    "back": "The former included traditions that focused on the worship of specific deities such as Shiva, Vishnu and his avatars (incarnations) and forms of the goddess or Devi, all often conceptualised in anthropomorphic forms.",
+    "source": "NCERT, Themes in Indian History Part II, chapter 6, page 143",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bhakti-Sufi Traditions",
+   "type": "theory",
+   "stem": "Which woman 'Alvar' saw herself as the beloved of Vishnu?",
+   "passage": null,
+   "options": [
+    "Appar",
+    "Andal",
+    "Karaikkal Ammaiyar",
+    "Nalayira Andala"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "Card fact-andal states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bhakti-sufi-traditions.fact-andal",
+    "chapter": "Bhakti-Sufi Traditions",
+    "front": "Which woman Alvar saw herself as the beloved of Vishnu?",
+    "back": "Andal saw herself as the beloved of Vishnu; her verses express her love for the deity.",
+    "source": "NCERT, Themes in Indian History Part II, chapter 6, page 144",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Bhakti-Sufi Traditions",
+   "type": "theory",
+   "stem": "Arrange the following major religious teachers in chronological order:\nA. Sambandar in Tamil Nadu\nB. Basavanna in Karnataka\nC. Lal Shahbaz Qalandar in Sind\nD. Sri Chaitanya in Bengal\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, A, D, C",
+    "C, B, D, A"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Timeline cards date Sambandar c.500-800 CE, Lal Shahbaz Qalandar c.1300-1400 and Sri Chaitanya c.1500-1600 (new, lehs202 p.167); fact-basavanna gives 1106-68: A, B, C, D.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.bhakti-sufi-traditions.list-timeline-teachers-1300-1400",
+    "chapter": "Bhakti-Sufi Traditions",
+    "front": "Timeline, Some Major Religious Teachers: name the teachers listed for c. 1300-1400.",
+    "back": "Lal Ded in Kashmir\nLal Shahbaz Qalandar in Sind\nNizamuddin Auliya in Delhi\nRamananda in Uttar Pradesh\nChokhamela in Maharashtra\nSharafuddin Yahya Maneri in Bihar",
+    "source": "NCERT, Themes in Indian History Part II, chapter 6, page 167",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "type": "theory",
+   "stem": "The Vijayanagara Empire, was described by the contemporaries as the ______.",
+   "passage": null,
+   "options": [
+    "Tamilkam Samrajyamu",
+    "Karnataka Samrajyamu",
+    "Vijayanagara Samrajyamu",
+    "Kerala Samrajyamu"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "Card kl-karnataka-samrajyamu states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.an-imperial-capital-vijayanagara.kl-karnataka-samrajyamu",
+    "chapter": "An Imperial Capital — Vijayanagara",
+    "front": "While historians use the term Vijayanagara Empire, contemporaries described it as the ____.",
+    "back": "While historians use the term Vijayanagara Empire, contemporaries described it as the karnataka samrajyamu.",
+    "source": "NCERT, Themes in Indian History Part II, chapter 7, page 171",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "type": "theory",
+   "stem": "Which Vijayanagara ruler took pride in the title, “establisher of the Yavana kingdom”?",
+   "passage": null,
+   "options": [
+    "Harihara Raya",
+    "Rama Raya",
+    "Krishnadeva Raya",
+    "Bukka Raya"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card fact-yavana-title states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.an-imperial-capital-vijayanagara.fact-yavana-title",
+    "chapter": "An Imperial Capital — Vijayanagara",
+    "front": "Which title did Krishnadeva Raya take pride in after supporting claimants in the Sultanates?",
+    "back": "Krishnadeva Raya, for example, supported some claimants to power in the Sultanates and took pride in the title \"establisher of the Yavana kingdom\".",
+    "source": "NCERT, Themes in Indian History Part II, chapter 7, page 174",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Structures) | LIST-II (Use/Purpose/ Characteristics)\nA. Mahanavami Dibba | I. Made to store rainwater\nB. Kamalapuram tank | II. Chariot streets\nC. Vitthala temple | III. Massive platform\nD. Hazara Rama temple | IV. Used only by the king and his family\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A - III, B - I, C - II, D - IV",
+    "A - I, B - II, C - III, D - IV",
+    "A - I, B - II, C - IV, D - III",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "type": "theory",
+   "stem": "Identify the correct statements in relation to 'Vijayanagara Empire':\nA. The first dynasty, Sangama dynasty exercised control till 1488.\nB. They were supplanted by the Saluvas.\nC. The Saluvas remained in power till 1503.\nD. Krishnadeva Raya belonged to the Tuluva dynasty.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "B, C and D only",
+    "A, B and C only",
+    "A, B, C and D"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Two cards give 1485, the Saluvas to 1503 and the Tuluva dynasty.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.an-imperial-capital-vijayanagara.list-dynasties-first-three",
+    "chapter": "An Imperial Capital — Vijayanagara",
+    "front": "Name the first three dynasties of Vijayanagara in order.",
+    "back": "The first dynasty, known as the Sangama dynasty, exercised control till 1485.\nThey were supplanted by the Saluvas, military commanders, who remained in power till 1503 when they were replaced by the Tuluvas.",
+    "source": "NCERT, Themes in Indian History Part II, chapter 7, page 173",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "type": "theory",
+   "stem": "Which dynasty ruled from 'Penukonda'?",
+   "passage": null,
+   "options": [
+    "Tuluvas",
+    "Gajapatis",
+    "Deccan Sultans",
+    "Aravidu"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "New card asks from where the Aravidu dynasty ruled and answers Penukonda, later Chandragiri (lehs203 p.174); asked from the other side.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.an-imperial-capital-vijayanagara.fact-aravidu-penukonda-chandragiri",
+    "chapter": "An Imperial Capital — Vijayanagara",
+    "front": "After the sack of Vijayanagara in 1565 the focus shifted east. From which two places did the Aravidu dynasty rule?",
+    "back": "dynasty ruled from Penukonda and later from Chandragiri (near Tirupati)",
+    "source": "NCERT, Themes in Indian History Part II, chapter 7, page 174",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Peasants, Zamindars & the State",
+   "type": "theory",
+   "stem": "Which crop was introduced into India via Africa and Spain by the seventeenth-century?",
+   "passage": null,
+   "options": [
+    "Tobacco",
+    "Maize",
+    "Cotton",
+    "Sugarcane"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card fact-maize states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.peasants-zamindars-and-the-state.fact-maize",
+    "chapter": "Peasants, Zamindars & the State",
+    "front": "How did maize reach India, and where was it a major crop by the seventeenth century?",
+    "back": "Maize (makka), for example, was introduced into India via Africa and Spain and by the seventeenth century it was being listed as one of the major crops of western India.",
+    "source": "NCERT, Themes in Indian History Part II, chapter 8, page 201",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Peasants, Zamindars & the State",
+   "type": "theory",
+   "stem": "In the Indo-Persian sources of the Mughal period, the term 'pahi-kashta' refers to:",
+   "passage": null,
+   "options": [
+    "Non-resident cultivators who belonged to some other village, but cultivated lands elsewhere on a contractual basis",
+    "Non-resident cultivators who produced artefacts on a contractual basis",
+    "Permanent resident cultivators who belonged to some other village and cultivated lands",
+    "Residents of the village in which they held their lands"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Served bank row c53a951d asks it with the same key.",
+   "match": {
+    "kind": "question",
+    "id": "c53a951d-2fd7-4ca8-9099-e78a8f067659",
+    "chapter": "Peasants, Zamindars & the State",
+    "stem": "In Mughal India, peasants who cultivated land in a village other than the one in which they lived, on a contractual basis, were known as:",
+    "passage": null,
+    "options": [
+     "Khud-kashta",
+     "Pahi-kashta",
+     "Muzarian",
+     "Qanungo"
+    ],
+    "key": 1,
+    "explanation": "Pahi-kashta were non-resident cultivators who belonged to another village but cultivated land elsewhere on a contractual basis. Khud-kashta were resident cultivators of their own village. Muzarian is a general term for peasants, and the qanungo was a keeper of revenue records.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Peasants, Zamindars & the State",
+   "type": "theory",
+   "stem": "______ documents and village surveys made in the early years of British rule have revealed the existence of artisans, sometimes as high as 25 per cent of total village households.",
+   "passage": null,
+   "options": [
+    "Persian",
+    "Bengali",
+    "Marathi",
+    "Marwari"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card fact-artisans-25-percent states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.peasants-zamindars-and-the-state.fact-artisans-25-percent",
+    "chapter": "Peasants, Zamindars & the State",
+    "front": "What share of village households were artisans, according to Marathi documents and early British surveys?",
+    "back": "Marathi documents and village surveys made in the early years of British rule have revealed the existence of substantial numbers of artisans, sometimes as high as 25 per cent of the total households in the villages.",
+    "source": "NCERT, Themes in Indian History Part II, chapter 8, page 204",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Peasants, Zamindars & the State",
+   "type": "theory",
+   "stem": "Arrange the following historical events in chronological order:\nA. Nadir Shah invades India and sacks Delhi\nB. The 'diwani' of Bengal transferred to the East India Company\nC. Ahmad Shah Abdali defeats the Marathas in the third battle of Panipat\nD. Babur defeats Ibrahim Lodi, the Delhi Sultan, at Panipat\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "D, A, C, B",
+    "B, A, D, C",
+    "D, B, C, A"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Four timeline cards date all four events.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.peasants-zamindars-and-the-state.fact-tl-1526",
+    "chapter": "Peasants, Zamindars & the State",
+    "front": "1526 (NCERT timeline): what happened?",
+    "back": "Babur defeats Ibrahim Lodi, the Delhi Sultan, at Panipat, becomes the first Mughal emperor",
+    "source": "NCERT, Themes in Indian History Part II, chapter 8, page 221",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Peasants, Zamindars & the State",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Meanings) | LIST-II (Terms)\nA. Responsible for supervising the fiscal system of the empire | I. Daftar of the Diwan\nB. Responsible for collection of revenue | II. Amil-guzar\nC. The amount assessed as tax from a land | III. Jama\nD. The amount collected as tax from a land | IV. Hasil\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - I, B - II, C - IV, D - III",
+    "A - I, B - III, C - II, D - IV",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Three cards give the four pairs.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.peasants-zamindars-and-the-state.fact-diwan-daftar",
+    "chapter": "Peasants, Zamindars & the State",
+    "front": "Which office was responsible for supervising the fiscal system of the empire?",
+    "back": "This apparatus included the office (daftar) of the diwan who was responsible for supervising the fiscal system of the empire.",
+    "source": "NCERT, Themes in Indian History Part II, chapter 8, page 213",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Colonialism & the Countryside",
+   "type": "theory",
+   "stem": "In late eighteenth-century revenue records, the hill folks living around Rajmahal hills were known as ______.",
+   "passage": null,
+   "options": [
+    "Manjhis",
+    "Santhals",
+    "Paharias",
+    "Kaduyas"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card def-paharias (and bank 9cdb4b48's explanation) place the Paharias around the Rajmahal hills.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.colonialism-and-the-countryside.def-paharias",
+    "chapter": "Colonialism & the Countryside",
+    "front": "Who were the Paharias?",
+    "back": "They lived around the Rajmahal hills, subsisting on forest produce and practising shifting cultivation.",
+    "source": "NCERT, Themes in Indian History Part III, chapter 9, page 236",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Colonialism & the Countryside",
+   "type": "theory",
+   "stem": "Who wrote a petition to the Collector of Ahmednagar, Deccan Riots Commission, from the village of Mirajgaon?",
+   "passage": null,
+   "options": [
+    "Sahukars",
+    "Zamindars",
+    "Taluqdars",
+    "Ryots"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "New card asks who wrote the Mirajgaon petition to the Collector, Ahmednagar (Source 8, lehs301 p.252) and answers a ryot.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.colonialism-and-the-countryside.fact-mirajgaon-petition-ryot",
+    "chapter": "Colonialism & the Countryside",
+    "front": "Source 8: who wrote the petition from the village of Mirajgaon, Taluka Karjat, to the Collector, Ahmednagar (Deccan Riots Commission)?",
+    "back": "This is an example of a petition from a ryot of the village of Mirajgaon, Taluka Karjat, to the Collector, Ahmednagar, Deccan Riots Commission:",
+    "source": "NCERT, Themes in Indian History Part III, chapter 9, page 252",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Colonialism & the Countryside",
+   "type": "theory",
+   "stem": "Identify the meaning of the term 'Rentier'?",
+   "passage": null,
+   "options": [
+    "People who took a property on rent",
+    "People who help others to take a property on rent",
+    "People who collect the rent of a property",
+    "People who live on rental income from property"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "Card def-rentier states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.colonialism-and-the-countryside.def-rentier",
+    "chapter": "Colonialism & the Countryside",
+    "front": "What is a rentier?",
+    "back": "Rentier is a term used to designate people who live on rental income from property.",
+    "source": "NCERT, Themes in Indian History Part III, chapter 9, page 247",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Mahatma Gandhi & the Nationalist Movement",
+   "type": "theory",
+   "stem": "On which occasion, the first public announcement was made regarding Gandhiji's own desire to make Indian nationalism more properly representative of the Indian people as a whole?",
+   "passage": null,
+   "options": [
+    "During a public rally in South-Africa",
+    "During speech at the opening of Banaras Hindu University",
+    "During a public meeting of Non-Cooperation Movement",
+    "During speech at the Salt-March at Dandi"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Cards give BHU 1916 as his first major public appearance and the speech's charge that nationalism was elite; the 'statement of intent' half-sentence (lehs303 p288) is not on a card, so concept only.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-bhu-1916",
+    "chapter": "Mahatma Gandhi & the Nationalist Movement",
+    "front": "Where and when was Gandhiji’s first major public appearance in India?",
+    "back": "His first major public appearance was at the opening of the Banaras Hindu University (BHU) in February 1916.",
+    "source": "NCERT, Themes in Indian History Part III, chapter 11, page 287",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Mahatma Gandhi & the Nationalist Movement",
+   "type": "theory",
+   "stem": "A series of ______ was established to promote nationalist creed in the princely states.",
+   "passage": null,
+   "options": [
+    "Swadeshi-Mandals",
+    "Swaraj-Sabhas",
+    "Prati-Sarkars",
+    "Praja-Mandals"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Card list-organisation has the sentence.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.list-organisation",
+    "chapter": "Mahatma Gandhi & the Nationalist Movement",
+    "front": "Name the organisational steps that took Gandhian nationalism to the farthest corners of the country.",
+    "back": "New branches of the Congress were set up in various parts of India.\nA series of “Praja Mandals” were established to promote the nationalist creed in the princely states.\nGandhiji encouraged the communication of the nationalist message in the mother tongue, rather than in the language of the rulers, English.\nthe provincial committees of the Congress were based on linguistic regions, rather than on the artificial boundaries of British India.",
+    "source": "NCERT, Themes in Indian History Part III, chapter 11, page 294",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "section": "History, sub-section 1 (stand-alone MCQs, Q101-140)",
+   "chapter": "Mahatma Gandhi & the Nationalist Movement",
+   "type": "theory",
+   "stem": "Identify the correct statements regarding the 'Salt-March':\nA. On 12 March 1930, Gandhiji began walking from his ashram at Sabarmati towards the ocean.\nB. Lord Irwin was the Viceroy of India during the famous 'Salt March' of 1930.\nC. The progress of 'Salt March' can be traced from an important source: the London newsmagazine, London News.\nD. The progress of Gandhiji's march can also be traced from the secret-reports filed by the police officials.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "New cards state D (police secret reports, lehs303 p.298) and that the newsmagazine was the American Time (p.299), so C is false; fact-dandi-12-march gives A, fact-irwin-notice gives B.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-salt-march-police-secret-reports",
+    "chapter": "Mahatma Gandhi & the Nationalist Movement",
+    "front": "From which official records can the progress of Gandhiji’s Salt March to the seashore be traced?",
+    "back": "The progress of Gandhiji’s march to the seashore can be traced from the secret reports filed by the police officials deputed to monitor his movements.",
+    "source": "NCERT, Themes in Indian History Part III, chapter 11, page 298",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "chapter": "Rebels & the Raj",
+   "type": "theory",
+   "stem": "Shah Mal belonged to which pargana in Uttar Pradesh?",
+   "passage": {
+    "title": "1857: Shah Mal",
+    "text": "Shah Mal lived in a large village in Uttar Pradesh. He belonged to a clan of Jat cultivators whose kinship ties extended over chaurasee des. The lands in the region were irrigated and fertile, with rich dark loam soil. Many of the villagers were prosperous and saw the British land revenue system as oppressive: the revenue demand was high and its collection inflexible. Consequently cultivators were losing land to outsiders, to traders and moneylenders who were coming into the area. Shah Mal mobilised the headmen and cultivators of chaurasee des, moving at night from village to village, urging people to rebel against the British. As in many other places, the revolt against the British turned into a general rebellion against all signs of oppression and injustice. Cultivators left their fields and plundered the houses of moneylenders and traders. Displaced proprietors took possession of the lands they had lost. Shah Mal’s men attacked government buildings, destroyed the bridge over the river, and dug up metalled roads – partly to prevent government forces from coming into the area, and partly because bridges and roads were seen as symbols of British rule. They sent supplies to the sepoys who had mutinied in Delhi and stopped all official communication between British headquarters and Meerut. Locally acknowledged as the Raja, Shah Mal took over the bungalow of an English officer, turned it into a “hall of justice”, settling disputes and dispensing judgments. He also set up an amazingly effective network of intelligence. For a period the people of the area felt that firangi raj was over, and their raj had come. Shah Mal was killed in battle in July 1857."
+   },
+   "options": [
+    "Barout",
+    "Chinhat",
+    "Bardoli",
+    "Awadh"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Card fact-shah-mal-gonoo names pargana Barout; the passage does not.",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.rebels-and-the-raj.fact-shah-mal-gonoo",
+    "chapter": "Rebels & the Raj",
+    "front": "Which local leaders rose in pargana Barout and in Singhbhum?",
+    "back": "Shah Mal mobilised the villagers of pargana Barout in Uttar Pradesh; Gonoo, a tribal cultivator of Singhbhum in Chotanagpur, became a rebel leader of the Kol tribals of the region.",
+    "source": "NCERT, Themes in Indian History Part III, chapter 10, page 262",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "chapter": "Rebels & the Raj",
+   "type": "theory",
+   "stem": "Cultivators revolted against the British because:",
+   "passage": {
+    "title": "1857: Shah Mal",
+    "text": "Shah Mal lived in a large village in Uttar Pradesh. He belonged to a clan of Jat cultivators whose kinship ties extended over chaurasee des. The lands in the region were irrigated and fertile, with rich dark loam soil. Many of the villagers were prosperous and saw the British land revenue system as oppressive: the revenue demand was high and its collection inflexible. Consequently cultivators were losing land to outsiders, to traders and moneylenders who were coming into the area. Shah Mal mobilised the headmen and cultivators of chaurasee des, moving at night from village to village, urging people to rebel against the British. As in many other places, the revolt against the British turned into a general rebellion against all signs of oppression and injustice. Cultivators left their fields and plundered the houses of moneylenders and traders. Displaced proprietors took possession of the lands they had lost. Shah Mal’s men attacked government buildings, destroyed the bridge over the river, and dug up metalled roads – partly to prevent government forces from coming into the area, and partly because bridges and roads were seen as symbols of British rule. They sent supplies to the sepoys who had mutinied in Delhi and stopped all official communication between British headquarters and Meerut. Locally acknowledged as the Raja, Shah Mal took over the bungalow of an English officer, turned it into a “hall of justice”, settling disputes and dispensing judgments. He also set up an amazingly effective network of intelligence. For a period the people of the area felt that firangi raj was over, and their raj had come. Shah Mal was killed in battle in July 1857."
+   },
+   "options": [
+    "The lands in the region were not fertile",
+    "British land revenue system was considered just and based on correct revenue demands",
+    "Villagers were poor and drought-stricken",
+    "British land revenue system was considered oppressive due to high revenue demands"
+   ],
+   "key": [
+    3
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "chapter": "Rebels & the Raj",
+   "type": "theory",
+   "stem": "Arrange the following events in a chronological order:\nA. Shah Mal was killed in battle in July 1857\nB. Cultivators left their fields and plundered the houses of moneylenders and traders\nC. Shah Mal moved at night from village to village, urging people to rebel against the British\nD. Shah Mal’s men stopped all official communication between British headquarters and Meerut\nChoose the correct answer from the options given below:",
+   "passage": {
+    "title": "1857: Shah Mal",
+    "text": "Shah Mal lived in a large village in Uttar Pradesh. He belonged to a clan of Jat cultivators whose kinship ties extended over chaurasee des. The lands in the region were irrigated and fertile, with rich dark loam soil. Many of the villagers were prosperous and saw the British land revenue system as oppressive: the revenue demand was high and its collection inflexible. Consequently cultivators were losing land to outsiders, to traders and moneylenders who were coming into the area. Shah Mal mobilised the headmen and cultivators of chaurasee des, moving at night from village to village, urging people to rebel against the British. As in many other places, the revolt against the British turned into a general rebellion against all signs of oppression and injustice. Cultivators left their fields and plundered the houses of moneylenders and traders. Displaced proprietors took possession of the lands they had lost. Shah Mal’s men attacked government buildings, destroyed the bridge over the river, and dug up metalled roads – partly to prevent government forces from coming into the area, and partly because bridges and roads were seen as symbols of British rule. They sent supplies to the sepoys who had mutinied in Delhi and stopped all official communication between British headquarters and Meerut. Locally acknowledged as the Raja, Shah Mal took over the bungalow of an English officer, turned it into a “hall of justice”, settling disputes and dispensing judgments. He also set up an amazingly effective network of intelligence. For a period the people of the area felt that firangi raj was over, and their raj had come. Shah Mal was killed in battle in July 1857."
+   },
+   "options": [
+    "A, B, C, D",
+    "A, C, D, B",
+    "B, A, D, C",
+    "C, B, D, A"
+   ],
+   "key": [
+    3
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "chapter": "Rebels & the Raj",
+   "type": "theory",
+   "stem": "For what purpose was the “hall of justice” used by Shah Mal?",
+   "passage": {
+    "title": "1857: Shah Mal",
+    "text": "Shah Mal lived in a large village in Uttar Pradesh. He belonged to a clan of Jat cultivators whose kinship ties extended over chaurasee des. The lands in the region were irrigated and fertile, with rich dark loam soil. Many of the villagers were prosperous and saw the British land revenue system as oppressive: the revenue demand was high and its collection inflexible. Consequently cultivators were losing land to outsiders, to traders and moneylenders who were coming into the area. Shah Mal mobilised the headmen and cultivators of chaurasee des, moving at night from village to village, urging people to rebel against the British. As in many other places, the revolt against the British turned into a general rebellion against all signs of oppression and injustice. Cultivators left their fields and plundered the houses of moneylenders and traders. Displaced proprietors took possession of the lands they had lost. Shah Mal’s men attacked government buildings, destroyed the bridge over the river, and dug up metalled roads – partly to prevent government forces from coming into the area, and partly because bridges and roads were seen as symbols of British rule. They sent supplies to the sepoys who had mutinied in Delhi and stopped all official communication between British headquarters and Meerut. Locally acknowledged as the Raja, Shah Mal took over the bungalow of an English officer, turned it into a “hall of justice”, settling disputes and dispensing judgments. He also set up an amazingly effective network of intelligence. For a period the people of the area felt that firangi raj was over, and their raj had come. Shah Mal was killed in battle in July 1857."
+   },
+   "options": [
+    "Used as an uprising headquarters",
+    "Used for storing arms and ammunitions",
+    "Used for conducting official meetings",
+    "Used for settling disputes and dispensing judgments"
+   ],
+   "key": [
+    3
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "section": "History, sub-section 2 (comprehension 226895791401, Q141-145)",
+   "chapter": "Rebels & the Raj",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II:\nLIST-I (Leaders) | LIST-II (Associations)\nA. Danka Shah | I. Successor to Peshwa Baji Rao II\nB. Nana Sahib | II. Local zamindar in Arrah\nC. Kunwar Singh | III. Battle of Chinhat\nD. Rani Lakshmi Bai | IV. Killed in the battle in June 1858\nChoose the correct answer from the options given below:",
+   "passage": {
+    "title": "1857: Shah Mal",
+    "text": "Shah Mal lived in a large village in Uttar Pradesh. He belonged to a clan of Jat cultivators whose kinship ties extended over chaurasee des. The lands in the region were irrigated and fertile, with rich dark loam soil. Many of the villagers were prosperous and saw the British land revenue system as oppressive: the revenue demand was high and its collection inflexible. Consequently cultivators were losing land to outsiders, to traders and moneylenders who were coming into the area. Shah Mal mobilised the headmen and cultivators of chaurasee des, moving at night from village to village, urging people to rebel against the British. As in many other places, the revolt against the British turned into a general rebellion against all signs of oppression and injustice. Cultivators left their fields and plundered the houses of moneylenders and traders. Displaced proprietors took possession of the lands they had lost. Shah Mal’s men attacked government buildings, destroyed the bridge over the river, and dug up metalled roads – partly to prevent government forces from coming into the area, and partly because bridges and roads were seen as symbols of British rule. They sent supplies to the sepoys who had mutinied in Delhi and stopped all official communication between British headquarters and Meerut. Locally acknowledged as the Raja, Shah Mal took over the bungalow of an English officer, turned it into a “hall of justice”, settling disputes and dispensing judgments. He also set up an amazingly effective network of intelligence. For a period the people of the area felt that firangi raj was over, and their raj had come. Shah Mal was killed in battle in July 1857."
+   },
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - III, B - I, C - II, D - IV",
+    "A - IV, B - II, C - III, D - I",
+    "A - III, B - IV, C - I, D - II"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Cards cover all four pairs (none is in the passage).",
+   "match": {
+    "kind": "card",
+    "id": "kc.history.rebels-and-the-raj.fact-danka-shah-why",
+    "chapter": "Rebels & the Raj",
+    "front": "Why was Maulvi Ahmadullah Shah popularly called Danka Shah?",
+    "back": "He moved in a palanquin, with drumbeaters in front and followers at the rear. He was therefore popularly called Danka Shah – the maulvi with the drum (danka).",
+    "source": "NCERT, Themes in Indian History Part III, chapter 10, page 263",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "chapter": "Framing the Constitution",
+   "type": "theory",
+   "stem": "Identify the speaker of this passage:",
+   "passage": {
+    "title": "Constitution: Welcoming the Objectives Resolution",
+    "text": "\"...As an Adibasi, I am not expected to understand the legal intricacies of the Resolution. But my common sense tells me that every one of us should march in that road to freedom and fight together. Sir, if there is any group of Indian people that has been shabbily treated it is my people. They have been disgracefully treated, neglected for the last 6,000 years. … The whole history of my people is one of continuous exploitation and dispossession by the non-aboriginals of India punctuated by rebellions and disorder, and yet I take Pandit Jawaharlal Nehru at his word. I take you all at your word that now we are going to start a new chapter, a new chapter of independent India where there is equality of opportunity, where no one would be neglected.\" Singh spoke eloquently on the need to protect the tribes, and ensure conditions that could help them come up to the level of the general population. Tribes were not a numerical minority, he argued, but they needed protection. They had been dispossessed of the land they had settled, deprived of their forests and pastures, and forced to move in search of new homes. Perceiving them as primitive and backward, the rest of society had turned away from them, spurned them. He made a moving plea for breaking the emotional and physical distance that separated the tribals from the rest of society: “Our point is that you have got to mix with us. We are willing to mix with you … ”. Singh was not asking for separate electorates, but he felt that reservation of seats in the legislature was essential to allow tribals to represent themselves. It would be a way, he said, of compelling others to hear the voice of tribals, and come near them."
+   },
+   "options": [
+    "Jawaharlal Nehru",
+    "Vallabhbhai Patel",
+    "Jaipal Singh",
+    "Govind Ballabh Pant"
+   ],
+   "key": [
+    2
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "chapter": "Framing the Constitution",
+   "type": "theory",
+   "stem": "Which social group is the subject of concern to the speaker?",
+   "passage": {
+    "title": "Constitution: Welcoming the Objectives Resolution",
+    "text": "\"...As an Adibasi, I am not expected to understand the legal intricacies of the Resolution. But my common sense tells me that every one of us should march in that road to freedom and fight together. Sir, if there is any group of Indian people that has been shabbily treated it is my people. They have been disgracefully treated, neglected for the last 6,000 years. … The whole history of my people is one of continuous exploitation and dispossession by the non-aboriginals of India punctuated by rebellions and disorder, and yet I take Pandit Jawaharlal Nehru at his word. I take you all at your word that now we are going to start a new chapter, a new chapter of independent India where there is equality of opportunity, where no one would be neglected.\" Singh spoke eloquently on the need to protect the tribes, and ensure conditions that could help them come up to the level of the general population. Tribes were not a numerical minority, he argued, but they needed protection. They had been dispossessed of the land they had settled, deprived of their forests and pastures, and forced to move in search of new homes. Perceiving them as primitive and backward, the rest of society had turned away from them, spurned them. He made a moving plea for breaking the emotional and physical distance that separated the tribals from the rest of society: “Our point is that you have got to mix with us. We are willing to mix with you … ”. Singh was not asking for separate electorates, but he felt that reservation of seats in the legislature was essential to allow tribals to represent themselves. It would be a way, he said, of compelling others to hear the voice of tribals, and come near them."
+   },
+   "options": [
+    "Working Class",
+    "Religious Minorities",
+    "Tribal People",
+    "Farmers"
+   ],
+   "key": [
+    2
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "chapter": "Framing the Constitution",
+   "type": "theory",
+   "stem": "According to the speaker, the whole history of his people is one of ______.",
+   "passage": {
+    "title": "Constitution: Welcoming the Objectives Resolution",
+    "text": "\"...As an Adibasi, I am not expected to understand the legal intricacies of the Resolution. But my common sense tells me that every one of us should march in that road to freedom and fight together. Sir, if there is any group of Indian people that has been shabbily treated it is my people. They have been disgracefully treated, neglected for the last 6,000 years. … The whole history of my people is one of continuous exploitation and dispossession by the non-aboriginals of India punctuated by rebellions and disorder, and yet I take Pandit Jawaharlal Nehru at his word. I take you all at your word that now we are going to start a new chapter, a new chapter of independent India where there is equality of opportunity, where no one would be neglected.\" Singh spoke eloquently on the need to protect the tribes, and ensure conditions that could help them come up to the level of the general population. Tribes were not a numerical minority, he argued, but they needed protection. They had been dispossessed of the land they had settled, deprived of their forests and pastures, and forced to move in search of new homes. Perceiving them as primitive and backward, the rest of society had turned away from them, spurned them. He made a moving plea for breaking the emotional and physical distance that separated the tribals from the rest of society: “Our point is that you have got to mix with us. We are willing to mix with you … ”. Singh was not asking for separate electorates, but he felt that reservation of seats in the legislature was essential to allow tribals to represent themselves. It would be a way, he said, of compelling others to hear the voice of tribals, and come near them."
+   },
+   "options": [
+    "Prosperity and development by the aboriginals of India",
+    "Continuous exploitation and dispossession by the non-aboriginals of India",
+    "Ignorance and isolation from the global network",
+    "Modern education and social advancement in all sectors"
+   ],
+   "key": [
+    1
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "chapter": "Framing the Constitution",
+   "type": "theory",
+   "stem": "The need for protection of the 'forest dwellers' is necessitated by which reasons? Identify the correct statements:\nA. They had been dispossessed of the land they had settled\nB. Perceiving them as primitive and backward\nC. The rest of society had turned away from them\nD. Deprive of their forest and pastures\nChoose the correct answer from the options given below:",
+   "passage": {
+    "title": "Constitution: Welcoming the Objectives Resolution",
+    "text": "\"...As an Adibasi, I am not expected to understand the legal intricacies of the Resolution. But my common sense tells me that every one of us should march in that road to freedom and fight together. Sir, if there is any group of Indian people that has been shabbily treated it is my people. They have been disgracefully treated, neglected for the last 6,000 years. … The whole history of my people is one of continuous exploitation and dispossession by the non-aboriginals of India punctuated by rebellions and disorder, and yet I take Pandit Jawaharlal Nehru at his word. I take you all at your word that now we are going to start a new chapter, a new chapter of independent India where there is equality of opportunity, where no one would be neglected.\" Singh spoke eloquently on the need to protect the tribes, and ensure conditions that could help them come up to the level of the general population. Tribes were not a numerical minority, he argued, but they needed protection. They had been dispossessed of the land they had settled, deprived of their forests and pastures, and forced to move in search of new homes. Perceiving them as primitive and backward, the rest of society had turned away from them, spurned them. He made a moving plea for breaking the emotional and physical distance that separated the tribals from the rest of society: “Our point is that you have got to mix with us. We are willing to mix with you … ”. Singh was not asking for separate electorates, but he felt that reservation of seats in the legislature was essential to allow tribals to represent themselves. It would be a way, he said, of compelling others to hear the voice of tribals, and come near them."
+   },
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "section": "History, sub-section 3 (comprehension 226895791407, Q146-150)",
+   "chapter": "Framing the Constitution",
+   "type": "theory",
+   "stem": "What measure was suggested by the speaker for breaking the emotional and physical distance that separated the tribals from the rest of society?",
+   "passage": {
+    "title": "Constitution: Welcoming the Objectives Resolution",
+    "text": "\"...As an Adibasi, I am not expected to understand the legal intricacies of the Resolution. But my common sense tells me that every one of us should march in that road to freedom and fight together. Sir, if there is any group of Indian people that has been shabbily treated it is my people. They have been disgracefully treated, neglected for the last 6,000 years. … The whole history of my people is one of continuous exploitation and dispossession by the non-aboriginals of India punctuated by rebellions and disorder, and yet I take Pandit Jawaharlal Nehru at his word. I take you all at your word that now we are going to start a new chapter, a new chapter of independent India where there is equality of opportunity, where no one would be neglected.\" Singh spoke eloquently on the need to protect the tribes, and ensure conditions that could help them come up to the level of the general population. Tribes were not a numerical minority, he argued, but they needed protection. They had been dispossessed of the land they had settled, deprived of their forests and pastures, and forced to move in search of new homes. Perceiving them as primitive and backward, the rest of society had turned away from them, spurned them. He made a moving plea for breaking the emotional and physical distance that separated the tribals from the rest of society: “Our point is that you have got to mix with us. We are willing to mix with you … ”. Singh was not asking for separate electorates, but he felt that reservation of seats in the legislature was essential to allow tribals to represent themselves. It would be a way, he said, of compelling others to hear the voice of tribals, and come near them."
+   },
+   "options": [
+    "Reservation of seats in the legislature for the tribals",
+    "Separate electorates for the tribals",
+    "Development of modern education",
+    "Establishment of special department for tribals"
+   ],
+   "key": [
+    0
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  }
+ ]
+}

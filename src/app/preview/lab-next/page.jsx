@@ -15,8 +15,10 @@ export const metadata = { robots: { index: false, follow: false } };
 // Development-only review page for the Mistake Lab's "next" look (LabCinema look="next"): the Lab in the home page's own
 // context (the nav, the home sheets, the section and its head as src/app/page.js draws them), with a plain block above and
 // below so the held story can be scrolled into and out of. Never available in production.
-export default function LabNextPreview() {
+// `?look=default` draws the earlier set of screens (LabCinema's default look), for side-by-side review (22 Nov 2026).
+export default async function LabNextPreview({ searchParams }) {
   if (process.env.NODE_ENV === 'production') notFound();
+  const look = (await searchParams)?.look === 'default' ? undefined : 'next';
   return (
     <div className="mm lp">
       <PageGrid />
@@ -34,7 +36,7 @@ export default function LabNextPreview() {
               <p className="lp-sub">{LAB_HEAD.sub}</p>
             </div>
           </div>
-          <LabCinema look="next" />
+          <LabCinema look={look} />
         </section>
         <div className="mm-wrap" style={{ minHeight: '90svh' }} />
       </main>
