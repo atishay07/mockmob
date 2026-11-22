@@ -196,10 +196,11 @@ test('the simpler Daily Five is the default: no college names unless the switch 
   assert.equal(PERSONAL_HEAD.h2, 'Five a day, built from your mistakes.');
   assert.ok(PERSONAL_HEAD.h2.endsWith(PERSONAL_HEAD.mark), 'the marked phrase is in the head');
   assert.equal(STRIP_HEAD.mark, 'your college.');
-  assert.match(PERSONAL_HEAD.sub, /^Signed in, /, 'a guest is not told the five are built from their mistakes');
+  // Owner LK367 (22 Nov 2026): the newcomer first. A guest is told what to do now, and that the personal five come after practice.
+  assert.match(PERSONAL_HEAD.sub, /^New here\? Play today’s five now, no sign-up\. After you practise, /, 'a guest is not told the five are already built from their mistakes');
   // 22 Nov 2026 (owner LK366: "the overall explanation is really weak about what exactly this is"): what the five are, in
   // MINE_PLAN's numbers, and the streak rule (a whole five is a streak day).
-  assert.equal(PERSONAL_HEAD.sub, 'Signed in, you get five questions a day: two you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.');
+  assert.equal(PERSONAL_HEAD.sub, 'New here? Play today’s five now, no sign-up. After you practise, your five are two questions you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.');
   const { MINE_PLAN } = await import('../../lib/dailyFiveMine.mjs');
   assert.deepEqual({ ...MINE_PLAN }, { missed: 2, weak: 2, subject: 1 }, 'the line says the plan');
   assert.doesNotMatch(PERSONAL_HEAD.sub, /same five|for everyone/);

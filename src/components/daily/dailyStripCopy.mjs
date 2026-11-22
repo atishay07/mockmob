@@ -29,7 +29,9 @@ export const PERSONAL_HEAD = Object.freeze({
   // with nothing to fill it passes to the next kind), and one says the streak rule (a whole five is a streak day:
   // src/lib/server/streakDays.js, chain.mjs DAY_GOAL 5). It still opens "Signed in": a guest plays the shared five (the
   // card's small print says so), so a guest is never told the five are their own mistakes.
-  sub: 'Signed in, you get five questions a day: two you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.',
+  // 22 Nov 2026, later (owner LK367: "good enough, but still a bit confusing for a newcomer"): the line now speaks to the
+  // newcomer first (what to do now, with no account), then says what the five become once there is a record to build from.
+  sub: 'New here? Play today’s five now, no sign-up. After you practise, your five are two questions you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.',
   mark: 'your mistakes.',
 });
 export const STRIP_HEAD = Object.freeze({
