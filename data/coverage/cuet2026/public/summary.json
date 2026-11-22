@@ -1,9 +1,8 @@
 {
- "builtAt": "2026-11-22T01:50:37.468Z",
+ "builtAt": "2026-11-22T06:51:30.874Z",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
  "snapshotDates": [
-  "2026-11-20",
   "2026-11-22"
  ],
  "statuses": [
@@ -16,6 +15,26 @@
   "dropped"
  ],
  "subjects": [
+  {
+   "id": "accountancy",
+   "name": "Accountancy",
+   "stream": "commerce",
+   "examDate": "2026-05-20",
+   "examDay": "20 May 2026",
+   "shift": "first shift",
+   "total": 55,
+   "counted": 55,
+   "covered": 54,
+   "pct": 98,
+   "same": 13,
+   "newValues": 10,
+   "concept": 31,
+   "notYet": 1,
+   "skill": 0,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true
+  },
   {
    "id": "biology",
    "name": "Biology",
@@ -45,12 +64,12 @@
    "shift": "first shift",
    "total": 50,
    "counted": 49,
-   "covered": 41,
-   "pct": 84,
+   "covered": 44,
+   "pct": 90,
    "same": 5,
-   "newValues": 1,
+   "newValues": 4,
    "concept": 35,
-   "notYet": 8,
+   "notYet": 5,
    "skill": 1,
    "offSyllabus": 0,
    "dropped": 0,
@@ -65,12 +84,12 @@
    "shift": "first shift",
    "total": 50,
    "counted": 45,
-   "covered": 39,
-   "pct": 87,
+   "covered": 43,
+   "pct": 96,
    "same": 4,
-   "newValues": 2,
+   "newValues": 6,
    "concept": 33,
-   "notYet": 6,
+   "notYet": 2,
    "skill": 5,
    "offSyllabus": 0,
    "dropped": 0,
@@ -178,21 +197,125 @@
   }
  ],
  "total": {
-  "counted": 361,
-  "covered": 321,
-  "same": 71,
-  "newValues": 4,
-  "concept": 246,
-  "notYet": 40,
+  "counted": 416,
+  "covered": 382,
+  "same": 84,
+  "newValues": 21,
+  "concept": 277,
+  "notYet": 34,
   "skill": 39,
-  "pct": 89
+  "pct": 92
  },
  "chapters": {
-  "asked": 101,
-  "withPractice": 100,
+  "asked": 114,
+  "withPractice": 114,
   "minServed": 10,
   "rule": "A chapter has practice in MockMob when at least one of its questions is in MockMob, or MockMob serves at least 10 questions from it (the stored daily count of served questions per chapter).",
   "list": [
+   {
+    "subject": "accountancy",
+    "chapter": "Retirement & Death of Partner",
+    "asked": 10,
+    "covered": 10,
+    "served": 21,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Share Capital",
+    "asked": 9,
+    "covered": 9,
+    "served": 158,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Debentures",
+    "asked": 6,
+    "covered": 6,
+    "served": 174,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Admission of Partner",
+    "asked": 5,
+    "covered": 5,
+    "served": 29,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Computerized Accounting System",
+    "asked": 5,
+    "covered": 5,
+    "served": 126,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Dissolution of Partnership Firm",
+    "asked": 5,
+    "covered": 5,
+    "served": 24,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Goodwill Valuation",
+    "asked": 5,
+    "covered": 4,
+    "served": 9,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "asked": 4,
+    "covered": 4,
+    "served": 141,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "asked": 2,
+    "covered": 2,
+    "served": 146,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Cash Flow Statement",
+    "asked": 1,
+    "covered": 1,
+    "served": 158,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Comparative & Common Size Statements",
+    "asked": 1,
+    "covered": 1,
+    "served": 34,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Financial Statements of Company",
+    "asked": 1,
+    "covered": 1,
+    "served": 1,
+    "practice": true
+   },
+   {
+    "subject": "accountancy",
+    "chapter": "Profit & Loss Appropriation Account",
+    "asked": 1,
+    "covered": 1,
+    "served": 25,
+    "practice": true
+   },
    {
     "subject": "biology",
     "chapter": "Molecular Basis of Inheritance",
@@ -309,7 +432,7 @@
     "subject": "business-studies",
     "chapter": "Directing",
     "asked": 6,
-    "covered": 5,
+    "covered": 6,
     "served": 29,
     "practice": true
    },
@@ -325,9 +448,9 @@
     "subject": "business-studies",
     "chapter": "Financial Markets",
     "asked": 5,
-    "covered": 0,
+    "covered": 1,
     "served": 4,
-    "practice": false
+    "practice": true
    },
    {
     "subject": "business-studies",
@@ -389,7 +512,7 @@
     "subject": "business-studies",
     "chapter": "Controlling",
     "asked": 2,
-    "covered": 1,
+    "covered": 2,
     "served": 27,
     "practice": true
    },
@@ -397,7 +520,7 @@
     "subject": "economics",
     "chapter": "Income Determination",
     "asked": 7,
-    "covered": 5,
+    "covered": 6,
     "served": 8,
     "practice": true
    },
@@ -405,7 +528,7 @@
     "subject": "economics",
     "chapter": "National Income & Related Aggregates",
     "asked": 5,
-    "covered": 3,
+    "covered": 5,
     "served": 8,
     "practice": true
    },
@@ -445,7 +568,7 @@
     "subject": "economics",
     "chapter": "Introduction & Theory of Consumer Behaviour",
     "asked": 3,
-    "covered": 2,
+    "covered": 3,
     "served": 19,
     "practice": true
    },
@@ -1004,14 +1127,6 @@
   ]
  },
  "skipped": [],
- "held": [
-  {
-   "id": "accountancy",
-   "covered": 41,
-   "counted": 55,
-   "pct": 75,
-   "why": "below 80%"
-  }
- ],
+ "held": [],
  "showMinPct": 80
 }

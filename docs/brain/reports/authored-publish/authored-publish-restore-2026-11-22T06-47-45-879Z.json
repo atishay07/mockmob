@@ -1,0 +1,208 @@
+{
+ "kind": "authored_publish_restore",
+ "version": "authored-publish-1",
+ "source": "claude-authored-2026-11-22-w5",
+ "reason": "CUET 2026 coverage wave 5: 32 scored commerce questions (accountancy 21, business studies 3, economics 8)",
+ "at": "2026-11-22T06:47:45.877Z",
+ "target": "isrxrxzjocewrdureyhp.supabase.co",
+ "planHash": "cfec50c8fbebc9ea8d4c6532ec1dfd4bdcee2531a9d8e7598234699e7548b931",
+ "planFile": "docs/brain/reports/authored-publish/authored-publish-plan-2026-11-22T00-56-38-375Z.json",
+ "questionIds": [
+  "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
+  "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
+  "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
+  "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+  "56ef0e80-ec6b-4b55-a775-0febcd35def7",
+  "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
+  "92ee6601-d67b-4cb6-a596-591a732287af",
+  "86cc4648-e6d2-4854-b767-32d33a9cc06f",
+  "462137b8-01fb-4977-91ec-65a0165ceb34",
+  "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
+  "509cb504-bf62-48b7-9699-e48439437ed9",
+  "43e60b95-10cb-4861-822a-678a501c2050",
+  "66622599-3956-47f8-acef-bb239aed9d33",
+  "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
+  "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+  "cc769147-35f1-490f-8f6c-960ec66f1e56",
+  "4635494f-c14e-42a9-839b-8745eab4ec6d",
+  "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+  "c3a7f8a4-e639-459d-8169-9a1ecd9bc421",
+  "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
+  "555cf4ac-9549-4c6b-91ba-08107b6989d9",
+  "8171062d-6e5e-418c-a453-08f9daedef4d",
+  "3bca44a8-5095-4fdf-ace1-595621a862b2",
+  "350e6b60-9039-406a-8e7f-c7d021e04ed4",
+  "124e00d2-25e6-41a3-8351-283f4426bd07",
+  "f071a682-dcf6-4eaf-8822-d47cb3f7342a",
+  "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
+  "7794c211-5b46-4abb-b5cd-3488933b6690",
+  "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
+  "da49d617-023e-4bdb-bd5f-e11a8f957742",
+  "09eea9aa-9687-498b-8f1c-2a95024de7cb",
+  "98867456-1444-492b-aaf5-ece8b7afb520"
+ ],
+ "groupIds": [],
+ "topUpGroupIds": [],
+ "rows": [
+  {
+   "id": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
+   "subject": "accountancy",
+   "contentHash": "717f06d05a582c805636ce12908099ec548cbfcbb3fc04e44a8aa051c7993614"
+  },
+  {
+   "id": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
+   "subject": "accountancy",
+   "contentHash": "66c904c75c8f613669c593c07b0a5356cff2bc233dbca306a3182289c35b5117"
+  },
+  {
+   "id": "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
+   "subject": "accountancy",
+   "contentHash": "e8f1a080c799147c35ce2a99c6bfc22ad3dd538d866c62b39da676215b62544d"
+  },
+  {
+   "id": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+   "subject": "accountancy",
+   "contentHash": "eb0fbeb9353dbf8413c82a295e6429f431f63b8320a5721f8e2a15c855428b4a"
+  },
+  {
+   "id": "56ef0e80-ec6b-4b55-a775-0febcd35def7",
+   "subject": "accountancy",
+   "contentHash": "e0bf0673d817b9045dc328ab007aa2725275f83a914703d6d7a0c49889ab6800"
+  },
+  {
+   "id": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
+   "subject": "accountancy",
+   "contentHash": "8352b6e546614cd875507a8c7471adfadca856f43961718b5b61f37ee76a81bf"
+  },
+  {
+   "id": "92ee6601-d67b-4cb6-a596-591a732287af",
+   "subject": "accountancy",
+   "contentHash": "e890d7e4d892ab2db77b8c03b26b80c74f256cd357c4ac9e0f090c90acd46e36"
+  },
+  {
+   "id": "86cc4648-e6d2-4854-b767-32d33a9cc06f",
+   "subject": "accountancy",
+   "contentHash": "65df48e8537c5e5ce97f233b8640dcff8236edf16aec9f4252317055c4e151d1"
+  },
+  {
+   "id": "462137b8-01fb-4977-91ec-65a0165ceb34",
+   "subject": "accountancy",
+   "contentHash": "397138c49e97be0f440143a7df52d37b20871d17931259670827f537fbe72b84"
+  },
+  {
+   "id": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
+   "subject": "accountancy",
+   "contentHash": "06cf560739ebd5d14ddee06f2aa612a5baa39a690519bb2e8a13cf3b983186c1"
+  },
+  {
+   "id": "509cb504-bf62-48b7-9699-e48439437ed9",
+   "subject": "accountancy",
+   "contentHash": "93d6e6b6f496fb4574eabc391b81004790b55bc4a6446a8f658d2aebcaf3b178"
+  },
+  {
+   "id": "43e60b95-10cb-4861-822a-678a501c2050",
+   "subject": "accountancy",
+   "contentHash": "40eaa080decf92dce49efddae7c90854055aa5a054441c039a5aa37032275909"
+  },
+  {
+   "id": "66622599-3956-47f8-acef-bb239aed9d33",
+   "subject": "accountancy",
+   "contentHash": "9a2d5bf4730caea97b5a4acacc5066ab8d8f5ce176dc354795b3c631b32c40e9"
+  },
+  {
+   "id": "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
+   "subject": "accountancy",
+   "contentHash": "63cb85da92d70bb15d74d0050b9fa744cc83ea3ef2a9faa7bbbcf2499ed7d63b"
+  },
+  {
+   "id": "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+   "subject": "accountancy",
+   "contentHash": "1be81834f68f30752c5b03bde8e3c5b4d3e373e5f74712ad9f2d70a76c1dda05"
+  },
+  {
+   "id": "cc769147-35f1-490f-8f6c-960ec66f1e56",
+   "subject": "accountancy",
+   "contentHash": "2cb878d7444dfc3d93f594f642334219342a9623f573e5fb4541115799f8a92f"
+  },
+  {
+   "id": "4635494f-c14e-42a9-839b-8745eab4ec6d",
+   "subject": "accountancy",
+   "contentHash": "164d5828dcd61ff730aa81609eed84d54be5322a62f6e3df61356ff9a97bcf65"
+  },
+  {
+   "id": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+   "subject": "accountancy",
+   "contentHash": "4555b969257b4efd1cb85f92945c6d816480fe9839f724722b6026fc436326c6"
+  },
+  {
+   "id": "c3a7f8a4-e639-459d-8169-9a1ecd9bc421",
+   "subject": "accountancy",
+   "contentHash": "faf8fa5df9858ca0fbc31103cc4eb74c90568366616495a173b5aa79df0245e3"
+  },
+  {
+   "id": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
+   "subject": "accountancy",
+   "contentHash": "7ac51b6585ab3cb50b80d0aeef63cc428d30b82208ef8f268703a5f2eedfc5fe"
+  },
+  {
+   "id": "555cf4ac-9549-4c6b-91ba-08107b6989d9",
+   "subject": "accountancy",
+   "contentHash": "921ddcf4ba2c0e2889d812307d4c5c947e1712ca13db0b2fc7cda1e7d9fde441"
+  },
+  {
+   "id": "8171062d-6e5e-418c-a453-08f9daedef4d",
+   "subject": "business_studies",
+   "contentHash": "5517645910c8e745f8c76aab7facf12b1ebd95898de2e3162fdf0be61b758d10"
+  },
+  {
+   "id": "3bca44a8-5095-4fdf-ace1-595621a862b2",
+   "subject": "business_studies",
+   "contentHash": "2f7156a831871cadd26b2a7deba2ab80778702c5c846dfa90a8ae5686c08011e"
+  },
+  {
+   "id": "350e6b60-9039-406a-8e7f-c7d021e04ed4",
+   "subject": "business_studies",
+   "contentHash": "99e7c56c1a53eecc3db3b217eeddcef604b4169883b4b96e69a5b2916e7530ff"
+  },
+  {
+   "id": "124e00d2-25e6-41a3-8351-283f4426bd07",
+   "subject": "economics",
+   "contentHash": "bed6a1b72ae5bc2ab491fee57fc8585c7c55d1a435b53ff3b75f3f356694d0b2"
+  },
+  {
+   "id": "f071a682-dcf6-4eaf-8822-d47cb3f7342a",
+   "subject": "economics",
+   "contentHash": "a74cd67dc1782c2051d3aa58a6009f14baf910ac7cef945118ded36f0d0690be"
+  },
+  {
+   "id": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
+   "subject": "economics",
+   "contentHash": "d42fca5ff5aec1440b9e9557acf6b8f8957b238efa8232cf8938f3d5d6dc7746"
+  },
+  {
+   "id": "7794c211-5b46-4abb-b5cd-3488933b6690",
+   "subject": "economics",
+   "contentHash": "192ab73527bccb90a882baa0b6223157a547d1c2cd5f8ad3557ec42c8f5ffa8b"
+  },
+  {
+   "id": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
+   "subject": "economics",
+   "contentHash": "9d253abf667ec8d56887b55fc1b23958d58301e778f5abb1b9fd49f66396d295"
+  },
+  {
+   "id": "da49d617-023e-4bdb-bd5f-e11a8f957742",
+   "subject": "economics",
+   "contentHash": "dc1cfdf36ab8e54fa50c8071fe133b7c92a449d8ea5bdda4fd6f3116e4297dfd"
+  },
+  {
+   "id": "09eea9aa-9687-498b-8f1c-2a95024de7cb",
+   "subject": "economics",
+   "contentHash": "dfe2ce38350efff831ddb2f51a8ebe63287bd391d6c7805bd95435fb2865b27a"
+  },
+  {
+   "id": "98867456-1444-492b-aaf5-ece8b7afb520",
+   "subject": "economics",
+   "contentHash": "4561ec1388c6055e869aaf8e4425b2240df2b18214d7f97199f873b9c765c9ed"
+  }
+ ]
+}

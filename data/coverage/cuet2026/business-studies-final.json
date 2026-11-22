@@ -143,9 +143,7 @@
       "matchKind": "new-values",
       "best": "8171062d-6e5e-418c-a453-08f9daedef4d",
       "bestKind": "bank",
-      "needs": [
-        "8171062d-6e5e-418c-a453-08f9daedef4d"
-      ],
+      "needs": [],
       "reason": "Accepted bank candidate: a company sells its equity issue to issuing houses who resell it to investors = offer for sale; explanation separates prospectus, private placement and rights issue."
     },
     {
@@ -332,9 +330,7 @@
       "matchKind": "new-values",
       "best": "3bca44a8-5095-4fdf-ace1-595621a862b2",
       "bestKind": "bank",
-      "needs": [
-        "3bca44a8-5095-4fdf-ace1-595621a862b2"
-      ],
+      "needs": [],
       "reason": "Accepted bank candidate orders Maslow needs from their descriptions; its explanation states self-actualisation is the drive to become what one is capable of becoming. Physiological, safety and esteem descriptions are on cards."
     },
     {
@@ -422,9 +418,7 @@
       "matchKind": "new-values",
       "best": "350e6b60-9039-406a-8e7f-c7d021e04ed4",
       "bestKind": "bank",
-      "needs": [
-        "350e6b60-9039-406a-8e7f-c7d021e04ed4"
-      ],
+      "needs": [],
       "reason": "Accepted bank candidate (List-II reordered by the judge) matches standards to production, marketing, HRM and finance; its explanation gives every standard in the NCERT table."
     },
     {

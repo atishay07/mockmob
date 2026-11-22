@@ -14,6 +14,36 @@
   "explanation": "The simple multiplier is 1/CRR = 1/0.10 = 10 when currency held by public is ignored.",
   "from": "saved read-only snapshot econB/bank_economics.json"
  },
+ "09eea9aa-9687-498b-8f1c-2a95024de7cb": {
+  "subject": "economics",
+  "chapter": "Income Determination",
+  "stem": "In a two-sector economy the consumption function is C = 60 + 0.75Y (in Rs crore). If investment rises from Rs 20 crore to Rs 40 crore, the new equilibrium level of income is:",
+  "passage": null,
+  "options": [
+   "Rs 320 crore",
+   "Rs 80 crore",
+   "Rs 400 crore",
+   "Rs 100 crore"
+  ],
+  "key": 2,
+  "explanation": "At equilibrium Y = C + I = (60 + 0.75Y) + I, so Y(1 - 0.75) = 60 + I and Y = (autonomous consumption + I) / (1 - MPC). With the new investment I = 40: Y = (60 + 40) / 0.25 = 100 / 0.25 = Rs 400 crore. Rs 320 crore is the old equilibrium income (80 / 0.25, with I = 20), and Rs 80 crore is only the change in income (20 x multiplier 4), not its level. Rs 100 crore forgets to divide by (1 - MPC).",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9": {
+  "subject": "accountancy",
+  "chapter": "Dissolution of Partnership Firm",
+  "stem": "A firm is being dissolved, and its stock has a book value of ₹ 60,000. One partner keeps a quarter of the stock, valued at 80% of its book value, and the other three quarters go to outside buyers at 10% above book value. How much cash does the firm receive for its stock?",
+  "passage": null,
+  "options": [
+   "₹ 61,500",
+   "₹ 66,000",
+   "₹ 45,000",
+   "₹ 49,500"
+  ],
+  "key": 3,
+  "explanation": "The stock taken over by the partner is settled through his capital account, so no cash comes in for it: 25% × 60,000 = 15,000 at book value, taken at 80% = 12,000. The remaining stock = 75% × 60,000 = 45,000 at book value. It was sold at a gain of 10%, so cash realised = 45,000 × 110% = 49,500. Adding the 12,000 taken over gives 61,500, applying the gain to the whole stock gives 66,000, and selling the remaining stock at book value gives 45,000.",
+  "from": "read-only fetch 2026-11-22"
+ },
  "0f03d599-563e-4491-9472-78f48dd5dc24": {
   "subject": "history",
   "chapter": "Through the Eyes of Travellers",
@@ -28,6 +58,21 @@
   "key": 3,
   "explanation": "Ibn Battuta reached Sind in 1333. Sultan Muhammad bin Tughlaq was impressed by his learning and appointed him qazi of Delhi, a post he held for several years.",
   "from": "saved read-only snapshot history/bank_history.json"
+ },
+ "124e00d2-25e6-41a3-8351-283f4426bd07": {
+  "subject": "economics",
+  "chapter": "Introduction & Theory of Consumer Behaviour",
+  "stem": "The price of a notebook rises from Rs 50 to Rs 60, and the number of notebooks bought in a week by the students of a school falls from 200 to 150. Ignoring the sign, the price elasticity of demand for the notebook is:",
+  "passage": null,
+  "options": [
+   "0.8",
+   "1.25",
+   "2.0",
+   "5.0"
+  ],
+  "key": 1,
+  "explanation": "Price elasticity of demand = (% change in quantity demanded) / (% change in price), with both changes measured on the starting value. % change in quantity = (150 - 200) / 200 x 100 = -25%. % change in price = (60 - 50) / 50 x 100 = +20%. So eD = -25 / 20 = -1.25, and its absolute value is 1.25: demand is elastic. Taking the final values as the base gives 2.0, dividing the price change by the quantity change gives 0.8, and dividing the unit changes (50 / 10) gives 5.0.",
+  "from": "read-only fetch 2026-11-22"
  },
  "204e5691-057d-4b2a-b119-3cc545aec418": {
   "subject": "business_studies",
@@ -44,6 +89,36 @@
   "explanation": null,
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
  },
+ "34e245ae-b9e4-4a51-aed4-23448fb29a87": {
+  "subject": "accountancy",
+  "chapter": "Debentures",
+  "stem": "Zed Ltd issued 8,000 9% debentures of ₹ 100 each at a premium of 10%, payable ₹ 30 on application, ₹ 50 on allotment (including the premium) and the balance on first and final call. The issue was fully subscribed. The journal entry for the amount due on allotment is:",
+  "passage": null,
+  "options": [
+   "Debenture Allotment A/c Dr ₹ 4,00,000; To 9% Debentures A/c ₹ 3,20,000; To Securities Premium A/c ₹ 80,000",
+   "Debenture Allotment A/c Dr ₹ 4,00,000; To 9% Debentures A/c ₹ 4,00,000",
+   "Debenture Allotment A/c Dr ₹ 3,20,000; To 9% Debentures A/c ₹ 3,20,000",
+   "Debenture Allotment A/c Dr ₹ 4,00,000; To 9% Debentures A/c ₹ 80,000; To Securities Premium A/c ₹ 3,20,000"
+  ],
+  "key": 0,
+  "explanation": "Issue price = 100 + 10 = ₹ 110, paid as ₹ 30 + ₹ 50 + ₹ 30. Amount due on allotment = 8,000 × 50 = 4,00,000. The ₹ 50 includes the premium of ₹ 10, so the part that belongs to the debentures = 8,000 × (50 − 10) = 3,20,000 and the premium = 8,000 × 10 = 80,000. Debenture Allotment A/c is debited with 4,00,000, Debentures A/c is credited with 3,20,000 and Securities Premium A/c with 80,000. Crediting the whole 4,00,000 to debentures ignores the premium, debiting only 3,20,000 leaves the premium out of the amount due, and reversing the two credits puts the premium at the wrong figure.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "350e6b60-9039-406a-8e7f-c7d021e04ed4": {
+  "subject": "business_studies",
+  "chapter": "Controlling",
+  "stem": "Match List-I with List-II. List-I (standards used to gauge performance): (A) Rate of labour turnover and absenteeism (B) Sales volume and advertising expenditure (C) Quantity, quality and cost of output (D) Capital expenditure, inventories and liquidity. List-II (functional areas): (I) Finance and Accounting (II) Human Resource Management (III) Production (IV) Marketing. Choose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+   "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+   "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+   "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+  ],
+  "key": 2,
+  "explanation": "Performance standards are set for each functional area. Production uses quantity, quality, cost and individual job performance; marketing uses sales volume, sales expenses, advertising expenditure and the performance of individual sales persons; human resource management uses labour relations, labour turnover and labour absenteeism; and finance and accounting use capital expenditure, inventories, the flow of capital and liquidity. Labour turnover therefore belongs to human resource management, not to production.",
+  "from": "read-only fetch 2026-11-22"
+ },
  "3aa865f9-ec19-4667-9080-520e967b5b4c": {
   "subject": "sociology",
   "chapter": "Social Institutions",
@@ -58,6 +133,96 @@
   "key": 2,
   "explanation": "Tribes are classified on permanent traits (region, language, physical-racial features) and acquired traits (livelihood and extent of assimilation into Hindu society). Mode of livelihood is therefore an acquired trait.",
   "from": "saved read-only snapshot sociology/bank_sociology.json"
+ },
+ "3b2c3c2a-e203-4a75-ac60-525a13070d8c": {
+  "subject": "accountancy",
+  "chapter": "Profit & Loss Appropriation Account",
+  "stem": "Kavya and Lata are partners sharing profits in the ratio 3:2. Their capitals are ₹ 2,00,000 and ₹ 3,00,000. The partnership deed provides for interest on capital at 10% per annum. There is no other appropriation, and the profit for the year before charging interest on capital is ₹ 20,000. Interest on capital credited to Kavya is:",
+  "passage": null,
+  "options": [
+   "₹ 12,000",
+   "₹ 20,000",
+   "₹ 8,000",
+   "₹ 10,000"
+  ],
+  "key": 2,
+  "explanation": "Interest due: Kavya 2,00,000 × 10% = 20,000 and Lata 3,00,000 × 10% = 30,000, a total of 50,000. The profit of 20,000 is less than this, so interest cannot be paid in full. When profit is not enough, it is divided in the ratio of the interest due (that is, the ratio of capitals), which is 20,000 : 30,000 = 2:3. Kavya gets 2/5 × 20,000 = 8,000. Using the profit sharing ratio 3:2 gives 12,000, paying her the full interest gives 20,000, and an equal division gives 10,000.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "3bca44a8-5095-4fdf-ace1-595621a862b2": {
+  "subject": "business_studies",
+  "chapter": "Directing",
+  "stem": "Arrange the following needs in Maslow's need hierarchy, from the lowest level to the highest.\n(A) The need to achieve one's full potential through growth and self-fulfilment\n(B) The need for self-respect, status and recognition\n(C) The need for food, water, sleep and shelter\n(D) The need for friendship and acceptance by colleagues",
+  "passage": null,
+  "options": [
+   "(C), (B), (D), (A)",
+   "(D), (C), (B), (A)",
+   "(C), (D), (A), (B)",
+   "(C), (D), (B), (A)"
+  ],
+  "key": 3,
+  "explanation": "Maslow's hierarchy rises from physiological needs (food, water, sleep, shelter), to safety needs (job security, a stable income, pension plans), social needs (affection, friendship, acceptance), esteem needs (self-respect, autonomy, status, recognition) and finally self-actualisation needs. Self-actualisation is the drive to become what one is capable of becoming, and it includes growth, self-fulfilment and the achievement of goals. It sits at the top, and a person turns to esteem only after the social needs below it are met.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "43e60b95-10cb-4861-822a-678a501c2050": {
+  "subject": "accountancy",
+  "chapter": "Share Capital",
+  "stem": "Tara Ltd purchased equipment from Ravi Ltd for ₹ 2,60,000. It paid ₹ 20,000 in cash and issued equity shares of ₹ 10 each at a premium of 25% for the balance. The number of shares issued to Ravi Ltd is:",
+  "passage": null,
+  "options": [
+   "24,000",
+   "20,800",
+   "19,200",
+   "26,000"
+  ],
+  "key": 2,
+  "explanation": "The amount payable in shares = purchase price − cash paid = 2,60,000 − 20,000 = 2,40,000. Issue price per share = face value + premium = 10 + 25% of 10 = 10 + 2.50 = ₹ 12.50. Number of shares = amount payable in shares ÷ issue price = 2,40,000 ÷ 12.50 = 19,200. Dividing by the face value of 10 gives 24,000, dividing the whole price by the issue price gives 20,800, and dividing the whole price by the face value gives 26,000.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "4635494f-c14e-42a9-839b-8745eab4ec6d": {
+  "subject": "accountancy",
+  "chapter": "Share Capital",
+  "stem": "Shine Ltd issued shares of ₹ 10 each at a premium of ₹ 2, payable ₹ 4 on application, ₹ 5 on allotment (including the premium) and ₹ 3 on first and final call. A shareholder holding 500 shares did not pay the allotment money, and the first and final call had not been made. The shares were forfeited and then reissued at ₹ 8 per share as fully paid. The amount transferred to Capital Reserve is:",
+  "passage": null,
+  "options": [
+   "₹ 2,000",
+   "₹ 3,000",
+   "Nil",
+   "₹ 1,000"
+  ],
+  "key": 3,
+  "explanation": "The shareholder paid only the application money of ₹ 4 per share. The allotment money, which includes the premium of ₹ 2, was never received, so the premium is not part of the forfeited amount. Amount forfeited = 500 × 4 = 2,000. On reissue as fully paid at ₹ 8, the discount allowed = 500 × (10 − 8) = 1,000. This discount is within the forfeited amount of ₹ 4 per share, so it is permitted. Capital Reserve = amount forfeited − discount on reissue = 2,000 − 1,000 = 1,000. Stopping at the forfeited amount gives 2,000, counting the unpaid premium as forfeited gives 500 × 6 = 3,000, and the reserve is not nil because the discount is smaller than the forfeited amount.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "55e6c5a0-db6b-47d6-8901-71a9a8c983f5": {
+  "subject": "accountancy",
+  "chapter": "Accounting Ratios",
+  "stem": "A company has a net profit after tax of ₹ 1,50,000. It has 10% long-term debt of ₹ 10,00,000, and the rate of tax is 25%. The interest coverage ratio is:",
+  "passage": null,
+  "options": [
+   "2 times",
+   "1.5 times",
+   "3 times",
+   "2.5 times"
+  ],
+  "key": 2,
+  "explanation": "Profit before tax = profit after tax × 100 ÷ (100 − tax rate) = 1,50,000 × 100 ÷ 75 = 2,00,000. Interest on long-term debt = 10% × 10,00,000 = 1,00,000. Profit before interest and tax = 2,00,000 + 1,00,000 = 3,00,000. Interest coverage ratio = profit before interest and tax ÷ interest = 3,00,000 ÷ 1,00,000 = 3 times. Dividing the profit before tax by interest gives 2 times, dividing the profit after tax by interest gives 1.5 times, and adding the interest to the profit after tax gives 2.5 times.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "59862358-7c7e-4c2b-a3e9-e2fd73c581e7": {
+  "subject": "accountancy",
+  "chapter": "Retirement & Death of Partner",
+  "stem": "A partner retires from a firm, and the amount due to him is to be settled. Which statement about the treatment of his current account is correct?",
+  "passage": null,
+  "options": [
+   "It is carried to the balance sheet of the reconstituted firm as a separate liability, and only the capital account balance is settled with the retiring partner",
+   "Its credit balance is added to his capital account (a debit balance is deducted) before the amount due to him is settled",
+   "It is first transferred to the Revaluation Account, so that it is cleared together with the profit or loss on revaluation of assets and liabilities",
+   "It is paid to him in cash only after the balance sheet of the reconstituted firm has been prepared, without any entry in his capital account"
+  ],
+  "key": 1,
+  "explanation": "The amount due to a retiring partner is made up of the credit balance of his capital account, the credit balance of his current account, his share of goodwill, reserves and the gain on revaluation, less any debit balance of his current account. So the current account balance is brought into his capital account first, and the capital account is settled afterwards. The full order is: (1) the Revaluation Account is prepared first, and its profit or loss is transferred to the capital accounts of all the partners; (2) the current account balances are closed into the capital accounts; (3) the retiring partner's capital account is settled, by payment or by transfer to his loan account; (4) the balance sheet of the reconstituted firm is prepared last. The current account is not left as a separate liability, and it does not go to the Revaluation Account, which deals only with changes in the values of assets and liabilities.",
+  "from": "read-only fetch 2026-11-22"
  },
  "5a9aecd3-212f-4efb-a84a-db6bed3a2177": {
   "subject": "geography",
@@ -104,6 +269,51 @@
   "explanation": "Kandla in Gujarat lies at about 23 degrees north, Mumbai at about 19 degrees north, Mangaluru at about 13 degrees north and Kochi at about 10 degrees north. The north-to-south order is therefore (B), (D), (A), (C).",
   "from": "saved read-only snapshot geography/bank_geography.json"
  },
+ "70291c3b-d5ad-4b37-989e-2f7f88c6cba6": {
+  "subject": "accountancy",
+  "chapter": "Profit & Loss Appropriation Account",
+  "stem": "Meera and Naveen are partners. On 1 April 2025 their capitals were ₹ 3,00,000 and ₹ 2,00,000. On 1 August 2025 Meera brought in ₹ 60,000 as additional capital, and on 1 January 2026 she withdrew ₹ 24,000 from her capital. The partnership deed allows interest on capital at 6% per annum. Interest on capital payable to Meera for the year ended 31 March 2026 is:",
+  "passage": null,
+  "options": [
+   "₹ 20,160",
+   "₹ 20,400",
+   "₹ 20,760",
+   "₹ 20,040"
+  ],
+  "key": 3,
+  "explanation": "Interest on capital is worked for the period each amount stayed in the firm, up to 31 March. Interest on the opening capital for 12 months = 3,00,000 × 6% = 18,000. Interest on the addition for 8 months (1 August to 31 March) = 60,000 × 6% × 8/12 = 2,400, which is added. Interest on the withdrawal for 3 months (1 January to 31 March) = 24,000 × 6% × 3/12 = 360, which is deducted because that capital was not in the firm for those months. Interest = 18,000 + 2,400 − 360 = 20,040. Charging interest for a full year on the net capital of 3,36,000 gives 20,160, ignoring the withdrawal gives 20,400, and adding the withdrawal instead of deducting it gives 20,760.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "7926bef3-599f-4cdb-9107-fbf0edba1d9a": {
+  "subject": "accountancy",
+  "chapter": "Goodwill Valuation",
+  "stem": "A valuer put a firm's goodwill at ₹ 90,000 by taking 3 years' purchase of its super profit. The business makes ₹ 1,50,000 a year on average and uses ₹ 6,00,000 of capital. What normal rate of return did the valuer assume?",
+  "passage": null,
+  "options": [
+   "20%",
+   "5%",
+   "15%",
+   "25%"
+  ],
+  "key": 0,
+  "explanation": "Work backwards from goodwill. Super profit = goodwill ÷ number of years' purchase = 90,000 ÷ 3 = 30,000. Normal profit = average profit − super profit = 1,50,000 − 30,000 = 1,20,000. Normal rate of return = normal profit ÷ capital employed × 100 = 1,20,000 ÷ 6,00,000 × 100 = 20%. Dividing the super profit by capital gives 5%, dividing goodwill by capital gives 15%, and treating the whole average profit as normal profit gives 25%.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "8171062d-6e5e-418c-a453-08f9daedef4d": {
+  "subject": "business_studies",
+  "chapter": "Financial Markets",
+  "stem": "Priya Textiles Ltd. needs Rs 8 crore for a new unit and wants to raise it through equity shares. Instead of approaching the public itself, the company sells the whole issue at an agreed price to a group of issuing houses, which then resell the shares to investors. Which method of floating new issues has the company used?",
+  "passage": null,
+  "options": [
+   "Initial public offer through a prospectus",
+   "Offer for sale",
+   "Private placement",
+   "Rights issue"
+  ],
+  "key": 1,
+  "explanation": "In an offer for sale, securities are not issued directly to the public. The company sells them in bulk at an agreed price to intermediaries such as issuing houses or stock brokers, who then resell them to investors. In a public issue through a prospectus the company invites the public itself, in private placement the shares are allotted to institutional investors and a few selected individuals, and in a rights issue they are offered first to the existing shareholders.",
+  "from": "read-only fetch 2026-11-22"
+ },
  "85d3bf13-325a-4f61-a44a-d5089498af88": {
   "subject": "psychology",
   "chapter": "Attitude & Social Cognition",
@@ -118,6 +328,21 @@
   "key": 0,
   "explanation": "The belief is the cognitive component, the liking is the affective component and the regular jogging is the behavioural component of the attitude. This is the ABC (affective-behavioural-cognitive) model of attitudes.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
+ },
+ "86cc4648-e6d2-4854-b767-32d33a9cc06f": {
+  "subject": "accountancy",
+  "chapter": "Retirement & Death of Partner",
+  "stem": "Before the amount due to a retiring partner is settled, the assets of a firm are revalued. Land and Building, shown at ₹ 4,00,000, is revalued at ₹ 4,60,000. Machinery, shown at ₹ 2,50,000, is revalued at ₹ 2,20,000. Stock, shown at ₹ 90,000, is revalued at ₹ 78,000. Furniture, shown at ₹ 40,000, is revalued at ₹ 48,000. The result of the revaluation is:",
+  "passage": null,
+  "options": [
+   "Loss of ₹ 26,000",
+   "Profit of ₹ 26,000",
+   "Profit of ₹ 68,000",
+   "Loss of ₹ 42,000"
+  ],
+  "key": 1,
+  "explanation": "For each asset, find new value − book value: Land and Building + 60,000, Machinery − 30,000, Stock − 12,000, Furniture + 8,000. Total increases = 60,000 + 8,000 = 68,000 and total decreases = 30,000 + 12,000 = 42,000. Net result = 68,000 − 42,000 = 26,000, a profit, which is credited to the Revaluation Account and shared among all the partners in the old ratio. Taking only the increases gives 68,000, taking only the decreases gives a loss of 42,000, and reversing the sign gives a loss of 26,000.",
+  "from": "read-only fetch 2026-11-22"
  },
  "9072f8c9-4f32-4419-bbb5-a01a27ad71ae": {
   "subject": "economics",
@@ -164,6 +389,36 @@
   "explanation": "Capital structure denotes the proportionate mix of long-term funds (debt and equity) used to finance a firm.",
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
  },
+ "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be": {
+  "subject": "accountancy",
+  "chapter": "Retirement & Death of Partner",
+  "stem": "X, Y and Z are partners sharing profits in the ratio 3:2:1. Y died on 31 August 2025, and the last balance sheet of the firm was prepared on 31 March 2025. The profits of the firm were ₹ 1,05,000 for 2023-24 and ₹ 1,20,000 for 2024-25. Sales were ₹ 8,00,000 in 2024-25, and sales from 1 April 2025 to 31 August 2025 were ₹ 2,50,000. The deed says that profit up to the date of death is to be found on the basis of the last year's sales. The profit of the firm from 1 April 2025 to the date of death is:",
+  "passage": null,
+  "options": [
+   "₹ 50,000",
+   "₹ 12,500",
+   "₹ 37,500",
+   "₹ 1,20,000"
+  ],
+  "key": 2,
+  "explanation": "On the sales basis, the profit ratio of the last year is applied to the sales up to the date of death. Profit ratio on sales = profit ÷ sales = 1,20,000 ÷ 8,00,000 = 15%. Profit up to the date of death = 15% × 2,50,000 = 37,500. The profit of 2023-24 is not needed. The time basis would give 5/12 × 1,20,000 = 50,000, Y's own share (2/6) of the profit is 12,500, and 1,20,000 is the whole of last year's profit.",
+  "from": "read-only fetch 2026-11-22"
+ },
+ "ad7c29aa-6d1b-4e11-9598-4108289c6e04": {
+  "subject": "accountancy",
+  "chapter": "Debentures",
+  "stem": "Rohan Ltd purchased furniture worth ₹ 1,98,000 from Sona Ltd and paid by issuing 9% debentures of ₹ 100 each at a discount of 12%. The journal entry for the issue of debentures to Sona Ltd is:",
+  "passage": null,
+  "options": [
+   "Sona Ltd A/c Dr ₹ 1,98,000; To 9% Debentures A/c ₹ 1,98,000",
+   "Sona Ltd A/c Dr ₹ 2,25,000; To 9% Debentures A/c ₹ 2,25,000",
+   "Sona Ltd A/c Dr ₹ 1,98,000; To 9% Debentures A/c ₹ 1,71,000; To Securities Premium Reserve A/c ₹ 27,000",
+   "Sona Ltd A/c Dr ₹ 1,98,000; Discount on Issue of Debentures A/c Dr ₹ 27,000; To 9% Debentures A/c ₹ 2,25,000"
+  ],
+  "key": 3,
+  "explanation": "Issue price of a debenture = 100 − 12% of 100 = ₹ 88. Number of debentures = amount due ÷ issue price = 1,98,000 ÷ 88 = 2,250. Debentures A/c is credited at face value = 2,250 × 100 = 2,25,000. Discount on issue = 2,25,000 − 1,98,000 = 27,000, which is debited to Discount on Issue of Debentures A/c, while the vendor's account is debited with the 1,98,000 due to it. Crediting only 1,98,000 ignores the discount, debiting the vendor with the face value overstates what is due, and showing the 27,000 as Securities Premium treats a discount as a premium.",
+  "from": "read-only fetch 2026-11-22"
+ },
  "c53a951d-2fd7-4ca8-9099-e78a8f067659": {
   "subject": "history",
   "chapter": "Peasants, Zamindars & the State",
@@ -194,6 +449,21 @@
   "explanation": "Gardner identified eight independent intelligences: linguistic, logical-mathematical, spatial, musical, bodily-kinaesthetic, interpersonal, intrapersonal and naturalistic. Componential intelligence belongs to Sternberg's triarchic theory.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
  },
+ "db2ce0f4-b7cd-43e1-829b-2bdcf680132d": {
+  "subject": "economics",
+  "chapter": "National Income & Related Aggregates",
+  "stem": "In the base year an economy produced 400 units of a good at Rs 15 per unit. In the current year it produced 500 units at Rs 24 per unit. The GDP deflator of the current year, in percentage terms, is:",
+  "passage": null,
+  "options": [
+   "62.5 per cent",
+   "1.6 per cent",
+   "200 per cent",
+   "160 per cent"
+  ],
+  "key": 3,
+  "explanation": "GDP deflator = nominal GDP / real GDP, and in percentage terms it is multiplied by 100. Nominal GDP of the current year = 500 x 24 = Rs 12,000. Real GDP of the current year at base-year prices = 500 x 15 = Rs 7,500. Deflator = 12,000 / 7,500 = 1.6, which is 160 per cent: prices are 1.6 times the base year (15 to 24). 1.6 forgets to multiply by 100, 62.5 turns the ratio upside down, and 200 divides by the base-year GDP (400 x 15 = 6,000), which wrongly counts the 25 per cent rise in output (400 to 500 units) as a rise in prices.",
+  "from": "read-only fetch 2026-11-22"
+ },
  "dc2ba09e-2d61-4697-9de3-b4dc1e11a813": {
   "subject": "business_studies",
   "chapter": "Planning",
@@ -208,6 +478,21 @@
   "key": 1,
   "explanation": null,
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595": {
+  "subject": "economics",
+  "chapter": "National Income & Related Aggregates",
+  "stem": "An economy produces only rice. In 2018 it produced 500 quintals at Rs 40 per quintal, and in 2019 it produced 600 quintals at Rs 55 per quintal. Taking 2018 as the base year, the real GDP of 2019 is:",
+  "passage": null,
+  "options": [
+   "Rs 24,000",
+   "Rs 33,000",
+   "Rs 20,000",
+   "Rs 27,500"
+  ],
+  "key": 0,
+  "explanation": "Real GDP is the output of the current year valued at the prices of the base year: real GDP of 2019 = quantity of 2019 x price of 2018 = 600 x 40 = Rs 24,000. Rs 33,000 (600 x 55) is the nominal GDP of 2019, because it uses current prices. Rs 20,000 (500 x 40) is the GDP of the base year itself, and Rs 27,500 (500 x 55) mixes the old quantity with the new price.",
+  "from": "read-only fetch 2026-11-22"
  },
  "e9cac0e5-90eb-4240-bdd4-a3f901a2e7e0": {
   "subject": "psychology",
@@ -253,5 +538,20 @@
   "key": 1,
   "explanation": "The Product Concept focuses on superior product quality and features.",
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d": {
+  "subject": "accountancy",
+  "chapter": "Admission of Partner",
+  "stem": "A and B share profits in the ratio 3:2. They admit C for a 1/4 share in the profits, and A and B agree to share the remaining profit equally between themselves. The sacrificing ratio of A and B is:",
+  "passage": null,
+  "options": [
+   "3:2",
+   "1:1",
+   "9:1",
+   "1:9"
+  ],
+  "key": 2,
+  "explanation": "C takes 1/4, so 3/4 is left for A and B. Shared equally, each gets 3/4 × 1/2 = 3/8. Sacrifice = old share − new share. A: 3/5 − 3/8 = 24/40 − 15/40 = 9/40. B: 2/5 − 3/8 = 16/40 − 15/40 = 1/40. Sacrificing ratio = 9/40 : 1/40 = 9:1. The old ratio 3:2 would be the sacrificing ratio only if A and B kept sharing in the old ratio, and 1:1 is the new ratio between them, not what each gave up.",
+  "from": "read-only fetch 2026-11-22"
  }
 }

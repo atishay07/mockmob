@@ -6,32 +6,32 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-20",
- "snapshotDay": "20 November 2026",
+ "snapshotDate": "2026-11-22",
+ "snapshotDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
   "same": 4,
-  "newValues": 2,
+  "newValues": 6,
   "concept": 33,
-  "notYet": 6,
+  "notYet": 2,
   "skill": 5,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 39,
+  "covered": 43,
   "counted": 45,
-  "pct": 87
+  "pct": 96
  },
  "chapters": [
   {
    "name": "Income Determination",
    "asked": 7,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "National Income & Related Aggregates",
    "asked": 5,
-   "covered": 3
+   "covered": 5
   },
   {
    "name": "Balance of Payments",
@@ -56,7 +56,7 @@
   {
    "name": "Introduction & Theory of Consumer Behaviour",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Production & Costs",
@@ -191,9 +191,27 @@
    "key": [
     0
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "new-values",
+   "reason": "accepted bank candidate computes price elasticity from two prices and two quantities with the starting values as base and takes the absolute value: same formula and steps, new figures",
+   "match": {
+    "kind": "question",
+    "id": "124e00d2-25e6-41a3-8351-283f4426bd07",
+    "chapter": "Introduction & Theory of Consumer Behaviour",
+    "stem": "The price of a notebook rises from Rs 50 to Rs 60, and the number of notebooks bought in a week by the students of a school falls from 200 to 150. Ignoring the sign, the price elasticity of demand for the notebook is:",
+    "passage": null,
+    "options": [
+     "0.8",
+     "1.25",
+     "2.0",
+     "5.0"
+    ],
+    "key": 1,
+    "explanation": "Price elasticity of demand = (% change in quantity demanded) / (% change in price), with both changes measured on the starting value. % change in quantity = (150 - 200) / 200 x 100 = -25%. % change in price = (60 - 50) / 50 x 100 = +20%. So eD = -25 / 20 = -1.25, and its absolute value is 1.25: demand is elastic. Taking the final values as the base gives 2.0, dividing the price change by the quantity change gives 0.8, and dividing the unit changes (50 / 10) gives 5.0.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 4,
@@ -677,9 +695,27 @@
    "key": [
     0
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "new-values",
+   "reason": "accepted bank candidate solves the new equilibrium income level Y = (autonomous C + I)/(1 - MPC) after investment rises: same formula and steps, new figures",
+   "match": {
+    "kind": "question",
+    "id": "09eea9aa-9687-498b-8f1c-2a95024de7cb",
+    "chapter": "Income Determination",
+    "stem": "In a two-sector economy the consumption function is C = 60 + 0.75Y (in Rs crore). If investment rises from Rs 20 crore to Rs 40 crore, the new equilibrium level of income is:",
+    "passage": null,
+    "options": [
+     "Rs 320 crore",
+     "Rs 80 crore",
+     "Rs 400 crore",
+     "Rs 100 crore"
+    ],
+    "key": 2,
+    "explanation": "At equilibrium Y = C + I = (60 + 0.75Y) + I, so Y(1 - 0.75) = 60 + I and Y = (autonomous consumption + I) / (1 - MPC). With the new investment I = 40: Y = (60 + 40) / 0.25 = 100 / 0.25 = Rs 400 crore. Rs 320 crore is the old equilibrium income (80 / 0.25, with I = 20), and Rs 80 crore is only the change in income (20 x multiplier 4), not its level. Rs 100 crore forgets to divide by (1 - MPC).",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 20,
@@ -1422,9 +1458,27 @@
    "key": [
     1
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "new-values",
+   "reason": "accepted bank candidate computes real GDP of the current year as current quantity x base-year price for a one-good economy: same steps, new figures",
+   "match": {
+    "kind": "question",
+    "id": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
+    "chapter": "National Income & Related Aggregates",
+    "stem": "An economy produces only rice. In 2018 it produced 500 quintals at Rs 40 per quintal, and in 2019 it produced 600 quintals at Rs 55 per quintal. Taking 2018 as the base year, the real GDP of 2019 is:",
+    "passage": null,
+    "options": [
+     "Rs 24,000",
+     "Rs 33,000",
+     "Rs 20,000",
+     "Rs 27,500"
+    ],
+    "key": 0,
+    "explanation": "Real GDP is the output of the current year valued at the prices of the base year: real GDP of 2019 = quantity of 2019 x price of 2018 = 600 x 40 = Rs 24,000. Rs 33,000 (600 x 55) is the nominal GDP of 2019, because it uses current prices. Rs 20,000 (500 x 40) is the GDP of the base year itself, and Rs 27,500 (500 x 55) mixes the old quantity with the new price.",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 43,
@@ -1446,9 +1500,27 @@
    "key": [
     0
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "new-values",
+   "reason": "accepted bank candidate computes the GDP deflator as nominal / real GDP x 100 from base-year and current-year price and quantity: same steps, new figures",
+   "match": {
+    "kind": "question",
+    "id": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
+    "chapter": "National Income & Related Aggregates",
+    "stem": "In the base year an economy produced 400 units of a good at Rs 15 per unit. In the current year it produced 500 units at Rs 24 per unit. The GDP deflator of the current year, in percentage terms, is:",
+    "passage": null,
+    "options": [
+     "62.5 per cent",
+     "1.6 per cent",
+     "200 per cent",
+     "160 per cent"
+    ],
+    "key": 3,
+    "explanation": "GDP deflator = nominal GDP / real GDP, and in percentage terms it is multiplied by 100. Nominal GDP of the current year = 500 x 24 = Rs 12,000. Real GDP of the current year at base-year prices = 500 x 15 = Rs 7,500. Deflator = 12,000 / 7,500 = 1.6, which is 160 per cent: prices are 1.6 times the base year (15 to 24). 1.6 forgets to multiply by 100, 62.5 turns the ratio upside down, and 200 divides by the base-year GDP (400 x 15 = 6,000), which wrongly counts the 25 per cent rise in output (400 to 500 units) as a rise in prices.",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 44,

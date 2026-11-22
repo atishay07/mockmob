@@ -1,6 +1,6 @@
 {
   "subject": "economics",
-  "snapshotDate": "2026-11-20",
+  "snapshotDate": "2026-11-22",
   "checkedOn": "2026-11-22",
   "questions": [
     {
@@ -33,9 +33,7 @@
       "matchKind": "new-values",
       "best": "124e00d2-25e6-41a3-8351-283f4426bd07",
       "bestKind": "bank",
-      "needs": [
-        "124e00d2-25e6-41a3-8351-283f4426bd07"
-      ],
+      "needs": [],
       "reason": "accepted bank candidate computes price elasticity from two prices and two quantities with the starting values as base and takes the absolute value: same formula and steps, new figures"
     },
     {
@@ -211,9 +209,7 @@
       "matchKind": "new-values",
       "best": "09eea9aa-9687-498b-8f1c-2a95024de7cb",
       "bestKind": "bank",
-      "needs": [
-        "09eea9aa-9687-498b-8f1c-2a95024de7cb"
-      ],
+      "needs": [],
       "reason": "accepted bank candidate solves the new equilibrium income level Y = (autonomous C + I)/(1 - MPC) after investment rises: same formula and steps, new figures"
     },
     {
@@ -466,9 +462,7 @@
       "matchKind": "new-values",
       "best": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
       "bestKind": "bank",
-      "needs": [
-        "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595"
-      ],
+      "needs": [],
       "reason": "accepted bank candidate computes real GDP of the current year as current quantity x base-year price for a one-good economy: same steps, new figures"
     },
     {
@@ -479,9 +473,7 @@
       "matchKind": "new-values",
       "best": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
       "bestKind": "bank",
-      "needs": [
-        "db2ce0f4-b7cd-43e1-829b-2bdcf680132d"
-      ],
+      "needs": [],
       "reason": "accepted bank candidate computes the GDP deflator as nominal / real GDP x 100 from base-year and current-year price and quantity: same steps, new figures"
     },
     {

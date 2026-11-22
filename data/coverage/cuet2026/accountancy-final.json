@@ -1,6 +1,6 @@
 {
  "subject": "accountancy",
- "snapshotDate": "2026-11-20",
+ "snapshotDate": "2026-11-22",
  "checkedOn": "2026-11-22",
  "questions": [
   {
@@ -33,9 +33,7 @@
    "matchKind": "new-values",
    "best": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
    "bestKind": "bank",
-   "needs": [
-    "70291c3b-d5ad-4b37-989e-2f7f88c6cba6"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate works interest on capital for opening capital, an addition and a withdrawal by the months each stayed in the firm: same formula and steps, new figures"
   },
   {
@@ -46,9 +44,7 @@
    "matchKind": "new-values",
    "best": "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
    "bestKind": "bank",
-   "needs": [
-    "3b2c3c2a-e203-4a75-ac60-525a13070d8c"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate has profit below total interest on capital and divides the profit in the ratio of interest due: same steps, new figures"
   },
   {
@@ -147,9 +143,7 @@
    "matchKind": "concept",
    "best": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
    "bestKind": "bank",
-   "needs": [
-    "59862358-7c7e-4c2b-a3e9-e2fd73c581e7"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate keys that current account balances go into capital accounts before settlement, and its explanation states the whole order: Revaluation, current accounts, capital account settled, balance sheet last"
   },
   {
@@ -182,9 +176,7 @@
    "matchKind": "new-values",
    "best": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
    "bestKind": "bank",
-   "needs": [
-    "7926bef3-599f-4cdb-9107-fbf0edba1d9a"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate works back from goodwill and years' purchase to super profit, normal profit and the normal rate of return: same steps, new figures"
   },
   {
@@ -195,9 +187,7 @@
    "matchKind": "new-values",
    "best": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
    "bestKind": "bank",
-   "needs": [
-    "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate finds the firm's profit to the date of death on last year's sales (profit/sales ratio times sales to death), older years as distractors: same steps, new figures"
   },
   {
@@ -208,9 +198,7 @@
    "matchKind": "new-values",
    "best": "86cc4648-e6d2-4854-b767-32d33a9cc06f",
    "bestKind": "bank",
-   "needs": [
-    "86cc4648-e6d2-4854-b767-32d33a9cc06f"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate nets several asset increases and decreases into one revaluation result: same steps, new figures (its result is a profit, not nil)"
   },
   {
@@ -254,9 +242,7 @@
    "matchKind": "new-values",
    "best": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
    "bestKind": "bank",
-   "needs": [
-    "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate finds the sacrificing ratio when the old partners agree a new ratio between themselves on admission (old share minus new share): same steps, new figures"
   },
   {
@@ -399,9 +385,7 @@
    "matchKind": "new-values",
    "best": "43e60b95-10cb-4861-822a-678a501c2050",
    "bestKind": "bank",
-   "needs": [
-    "43e60b95-10cb-4861-822a-678a501c2050"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate finds the number of shares issued to a vendor at a premium (price less cash, over issue price): same steps, new figures"
   },
   {
@@ -412,9 +396,7 @@
    "matchKind": "new-values",
    "best": "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
    "bestKind": "bank",
-   "needs": [
-    "ad7c29aa-6d1b-4e11-9598-4108289c6e04"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate finds the number of debentures issued to a vendor at a discount and picks the entry with the vendor debited at the price and the discount debited: same steps, new figures"
   },
   {
@@ -425,10 +407,7 @@
    "matchKind": "concept",
    "best": "34e245ae-b9e4-4a51-aed4-23448fb29a87",
    "bestKind": "bank",
-   "needs": [
-    "34e245ae-b9e4-4a51-aed4-23448fb29a87",
-    "cc769147-35f1-490f-8f6c-960ec66f1e56"
-   ],
+   "needs": [],
    "reason": "accepted bank candidates split the allotment instalment into debentures and premium (34e245ae) and work the call amount from the instalments (cc769147); the paper asks which of four entries are correct"
   },
   {
@@ -461,9 +440,7 @@
    "matchKind": "concept",
    "best": "4635494f-c14e-42a9-839b-8745eab4ec6d",
    "bestKind": "bank",
-   "needs": [
-    "4635494f-c14e-42a9-839b-8745eab4ec6d"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate forfeits shares with the premium unpaid on allotment, reissues at a discount and finds the capital reserve; the paper also makes the student back out the application money from the instalments"
   },
   {
@@ -518,9 +495,7 @@
    "matchKind": "new-values",
    "best": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
    "bestKind": "bank",
-   "needs": [
-    "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate has a partner take part of the stock (no cash) and the rest sold at a gain, asking the cash realised: same steps, new figures"
   },
   {
@@ -564,9 +539,7 @@
    "matchKind": "new-values",
    "best": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
    "bestKind": "bank",
-   "needs": [
-    "55e6c5a0-db6b-47d6-8901-71a9a8c983f5"
-   ],
+   "needs": [],
    "reason": "accepted bank candidate grosses profit after tax up by the tax rate, adds debt interest and divides by interest: same formula and steps, new figures"
   },
   {

@@ -12,15 +12,15 @@
  "counts": {
   "total": 50,
   "same": 5,
-  "newValues": 1,
+  "newValues": 4,
   "concept": 35,
-  "notYet": 8,
+  "notYet": 5,
   "skill": 1,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 41,
+  "covered": 44,
   "counted": 49,
-  "pct": 84
+  "pct": 90
  },
  "chapters": [
   {
@@ -31,7 +31,7 @@
   {
    "name": "Directing",
    "asked": 6,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "Financial Management",
@@ -41,7 +41,7 @@
   {
    "name": "Financial Markets",
    "asked": 5,
-   "covered": 0
+   "covered": 1
   },
   {
    "name": "Organising",
@@ -81,7 +81,7 @@
   {
    "name": "Controlling",
    "asked": 2,
-   "covered": 1
+   "covered": 2
   }
  ],
  "questions": [
@@ -493,9 +493,27 @@
    "key": [
     0
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "new-values",
+   "reason": "Accepted bank candidate: a company sells its equity issue to issuing houses who resell it to investors = offer for sale; explanation separates prospectus, private placement and rights issue.",
+   "match": {
+    "kind": "question",
+    "id": "8171062d-6e5e-418c-a453-08f9daedef4d",
+    "chapter": "Financial Markets",
+    "stem": "Priya Textiles Ltd. needs Rs 8 crore for a new unit and wants to raise it through equity shares. Instead of approaching the public itself, the company sells the whole issue at an agreed price to a group of issuing houses, which then resell the shares to investors. Which method of floating new issues has the company used?",
+    "passage": null,
+    "options": [
+     "Initial public offer through a prospectus",
+     "Offer for sale",
+     "Private placement",
+     "Rights issue"
+    ],
+    "key": 1,
+    "explanation": "In an offer for sale, securities are not issued directly to the public. The company sells them in bulk at an agreed price to intermediaries such as issuing houses or stock brokers, who then resell them to investors. In a public issue through a prospectus the company invites the public itself, in private placement the shares are allotted to institutional investors and a few selected individuals, and in a rights issue they are offered first to the existing shareholders.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 14,
@@ -990,9 +1008,27 @@
    "key": [
     2
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "new-values",
+   "reason": "Accepted bank candidate orders Maslow needs from their descriptions; its explanation states self-actualisation is the drive to become what one is capable of becoming. Physiological, safety and esteem descriptions are on cards.",
+   "match": {
+    "kind": "question",
+    "id": "3bca44a8-5095-4fdf-ace1-595621a862b2",
+    "chapter": "Directing",
+    "stem": "Arrange the following needs in Maslow's need hierarchy, from the lowest level to the highest.\n(A) The need to achieve one's full potential through growth and self-fulfilment\n(B) The need for self-respect, status and recognition\n(C) The need for food, water, sleep and shelter\n(D) The need for friendship and acceptance by colleagues",
+    "passage": null,
+    "options": [
+     "(C), (B), (D), (A)",
+     "(D), (C), (B), (A)",
+     "(C), (D), (A), (B)",
+     "(C), (D), (B), (A)"
+    ],
+    "key": 3,
+    "explanation": "Maslow's hierarchy rises from physiological needs (food, water, sleep, shelter), to safety needs (job security, a stable income, pension plans), social needs (affection, friendship, acceptance), esteem needs (self-respect, autonomy, status, recognition) and finally self-actualisation needs. Self-actualisation is the drive to become what one is capable of becoming, and it includes growth, self-fulfilment and the achievement of goals. It sits at the top, and a person turns to esteem only after the social needs below it are met.",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 31,
@@ -1231,9 +1267,27 @@
    "key": [
     2
    ],
-   "status": "not-yet",
-   "reason": null,
-   "match": null
+   "status": "new-values",
+   "reason": "Accepted bank candidate (List-II reordered by the judge) matches standards to production, marketing, HRM and finance; its explanation gives every standard in the NCERT table.",
+   "match": {
+    "kind": "question",
+    "id": "350e6b60-9039-406a-8e7f-c7d021e04ed4",
+    "chapter": "Controlling",
+    "stem": "Match List-I with List-II. List-I (standards used to gauge performance): (A) Rate of labour turnover and absenteeism (B) Sales volume and advertising expenditure (C) Quantity, quality and cost of output (D) Capital expenditure, inventories and liquidity. List-II (functional areas): (I) Finance and Accounting (II) Human Resource Management (III) Production (IV) Marketing. Choose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+     "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+     "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+     "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+    ],
+    "key": 2,
+    "explanation": "Performance standards are set for each functional area. Production uses quantity, quality, cost and individual job performance; marketing uses sales volume, sales expenses, advertising expenditure and the performance of individual sales persons; human resource management uses labour relations, labour turnover and labour absenteeism; and finance and accounting use capital expenditure, inventories, the flow of capital and liquidity. Labour turnover therefore belongs to human resource management, not to production.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 39,
