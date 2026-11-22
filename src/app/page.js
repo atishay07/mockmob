@@ -287,9 +287,6 @@ export default function LandingPage() {
           </div>
         </section></Later>
 
-        {/* The real CUET 2026 paper, checked against MockMob (owner, 22 Nov 2026): the share already taught, by subject. */}
-        <Later><CoverageProof /></Later>
-
         {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
         <Later><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></Later>
 
@@ -352,6 +349,9 @@ export default function LandingPage() {
             </div>
           </section></Later>
         ) : null}
+
+        {/* The real CUET 2026 papers, checked against MockMob (owner, 22 Nov 2026; LK368): a teaser to /cuet-2026-coverage. */}
+        <Later><CoverageProof /></Later>
 
         {/* ------------------------------ PRICING --------------------------- */}
         {/* R3-D8 (owner LK109-LK111), R4-H7 (LK130-LK132): the /pricing page's one plan as a glass card under "Pro" and, round 5

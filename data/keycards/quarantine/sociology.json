@@ -3483,36 +3483,6 @@
       ]
     },
     {
-      "id": "kc.sociology.story-of-indian-democracy.list-panchayat-powers",
-      "v": 1,
-      "subject": "sociology",
-      "chapterKey": "sociology.story-of-indian-democracy",
-      "chapter": "Story of Indian Democracy",
-      "unit": "Story of Indian Democracy",
-      "kind": "list",
-      "front": "Name the four powers and responsibilities delegated to the Panchayats.",
-      "back": "to prepare plans and schemes for economic development\nto promote schemes that will enhance social justice\nto levy, collect and appropriate taxes, duties, tolls and fees\nhelp in the devolution of governmental responsibilities, especially that of finances to local authorities",
-      "quote": "The following powers and responsibility were delegated to the Panchayats: to prepare plans and schemes for economic development to promote schemes that will enhance social justice to levy, collect and appropriate taxes, duties, tolls and fees help in the devolution of governmental responsibilities, especially that of finances to local authorities",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Social Change and Development in India",
-        "code": "lesy203",
-        "chapterNo": 3,
-        "page": 34,
-        "section": "Powers and Responsibilities of Panchayats"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "panchayat powers"
-      ],
-      "order": 340,
-      "reasons": [
-        "quote:not_in_pdf"
-      ]
-    },
-    {
       "id": "kc.sociology.story-of-indian-democracy.ex-kalavati-case",
       "v": 1,
       "subject": "sociology",

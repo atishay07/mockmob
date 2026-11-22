@@ -1,0 +1,544 @@
+{
+ "builtAt": "2026-11-22T00:21:59.571Z",
+ "snapshotDate": "2026-11-22",
+ "snapshotDay": "22 November 2026",
+ "snapshotDates": [
+  "2026-11-20",
+  "2026-11-22"
+ ],
+ "statuses": [
+  "same",
+  "new-values",
+  "concept",
+  "not-yet",
+  "skill",
+  "off-syllabus",
+  "dropped"
+ ],
+ "subjects": [
+  {
+   "id": "business-studies",
+   "name": "Business Studies",
+   "stream": "commerce",
+   "examDate": "2026-05-20",
+   "examDay": "20 May 2026",
+   "shift": "first shift",
+   "total": 50,
+   "counted": 49,
+   "covered": 41,
+   "pct": 84,
+   "same": 5,
+   "newValues": 1,
+   "concept": 35,
+   "notYet": 8,
+   "skill": 1,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true
+  },
+  {
+   "id": "economics",
+   "name": "Economics",
+   "stream": "commerce",
+   "examDate": "2026-05-24",
+   "examDay": "24 May 2026",
+   "shift": "first shift",
+   "total": 50,
+   "counted": 45,
+   "covered": 39,
+   "pct": 87,
+   "same": 4,
+   "newValues": 2,
+   "concept": 33,
+   "notYet": 6,
+   "skill": 5,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true
+  },
+  {
+   "id": "political-science",
+   "name": "Political Science",
+   "stream": "humanities",
+   "examDate": "2026-05-24",
+   "examDay": "24 May 2026",
+   "shift": "first shift",
+   "total": 50,
+   "counted": 41,
+   "covered": 39,
+   "pct": 95,
+   "same": 12,
+   "newValues": 0,
+   "concept": 27,
+   "notYet": 2,
+   "skill": 9,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true
+  },
+  {
+   "id": "psychology",
+   "name": "Psychology",
+   "stream": "humanities",
+   "examDate": "2026-05-15",
+   "examDay": "15 May 2026",
+   "shift": "first shift",
+   "total": 50,
+   "counted": 50,
+   "covered": 48,
+   "pct": 96,
+   "same": 11,
+   "newValues": 0,
+   "concept": 37,
+   "notYet": 2,
+   "skill": 0,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true
+  }
+ ],
+ "total": {
+  "counted": 185,
+  "covered": 167,
+  "same": 32,
+  "newValues": 3,
+  "concept": 132,
+  "notYet": 18,
+  "skill": 15,
+  "pct": 90
+ },
+ "chapters": {
+  "asked": 51,
+  "withPractice": 50,
+  "minServed": 10,
+  "rule": "A chapter has practice in MockMob when at least one of its questions is in MockMob, or MockMob serves at least 10 questions from it (the stored daily count of served questions per chapter).",
+  "list": [
+   {
+    "subject": "business-studies",
+    "chapter": "Marketing Management",
+    "asked": 7,
+    "covered": 7,
+    "served": 9,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Directing",
+    "asked": 6,
+    "covered": 5,
+    "served": 29,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Financial Management",
+    "asked": 5,
+    "covered": 4,
+    "served": 13,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Financial Markets",
+    "asked": 5,
+    "covered": 0,
+    "served": 4,
+    "practice": false
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Organising",
+    "asked": 5,
+    "covered": 5,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Staffing",
+    "asked": 5,
+    "covered": 5,
+    "served": 18,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Consumer Protection",
+    "asked": 3,
+    "covered": 3,
+    "served": 20,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Nature & Significance of Management",
+    "asked": 3,
+    "covered": 3,
+    "served": 27,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Planning",
+    "asked": 3,
+    "covered": 3,
+    "served": 14,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Principles of Management",
+    "asked": 3,
+    "covered": 3,
+    "served": 30,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Business Environment",
+    "asked": 2,
+    "covered": 2,
+    "served": 2,
+    "practice": true
+   },
+   {
+    "subject": "business-studies",
+    "chapter": "Controlling",
+    "asked": 2,
+    "covered": 1,
+    "served": 27,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Income Determination",
+    "asked": 7,
+    "covered": 5,
+    "served": 8,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "National Income & Related Aggregates",
+    "asked": 5,
+    "covered": 3,
+    "served": 8,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "asked": 4,
+    "covered": 4,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Money & Banking",
+    "asked": 4,
+    "covered": 4,
+    "served": 22,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Development Experiences of India",
+    "asked": 3,
+    "covered": 3,
+    "served": 7,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Government Budget & the Economy",
+    "asked": 3,
+    "covered": 3,
+    "served": 23,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Introduction & Theory of Consumer Behaviour",
+    "asked": 3,
+    "covered": 2,
+    "served": 19,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "asked": 3,
+    "covered": 2,
+    "served": 30,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Economic Reforms Since 1991",
+    "asked": 2,
+    "covered": 2,
+    "served": 10,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Market Equilibrium & Simple Applications",
+    "asked": 2,
+    "covered": 2,
+    "served": 13,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Rural Development",
+    "asked": 2,
+    "covered": 2,
+    "served": 9,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "asked": 2,
+    "covered": 2,
+    "served": 15,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Employment",
+    "asked": 1,
+    "covered": 1,
+    "served": 12,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Environment & Sustainable Development",
+    "asked": 1,
+    "covered": 1,
+    "served": 4,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Human Capital Formation",
+    "asked": 1,
+    "covered": 1,
+    "served": 9,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Indian Economic Development 1950–1990",
+    "asked": 1,
+    "covered": 1,
+    "served": 11,
+    "practice": true
+   },
+   {
+    "subject": "economics",
+    "chapter": "Indian Economy on the Eve of Independence",
+    "asked": 1,
+    "covered": 1,
+    "served": 22,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Era of One-Party Dominance",
+    "asked": 4,
+    "covered": 4,
+    "served": 13,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "International Organisations",
+    "asked": 4,
+    "covered": 3,
+    "served": 19,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Regional Aspirations",
+    "asked": 4,
+    "covered": 4,
+    "served": 15,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Alternative Centres of Power",
+    "asked": 3,
+    "covered": 3,
+    "served": 12,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Challenges of Nation Building",
+    "asked": 3,
+    "covered": 3,
+    "served": 11,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "End of Bipolarity",
+    "asked": 3,
+    "covered": 3,
+    "served": 19,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Globalisation",
+    "asked": 3,
+    "covered": 3,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "India's External Relations",
+    "asked": 3,
+    "covered": 3,
+    "served": 23,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Politics of Planned Development",
+    "asked": 3,
+    "covered": 3,
+    "served": 17,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Challenges to & Restoration of the Congress System",
+    "asked": 2,
+    "covered": 2,
+    "served": 14,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Contemporary South Asia",
+    "asked": 2,
+    "covered": 2,
+    "served": 17,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Crisis of the Democratic Order",
+    "asked": 2,
+    "covered": 2,
+    "served": 15,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Democratic Upsurge and Coalition Politics",
+    "asked": 2,
+    "covered": 1,
+    "served": 9,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Security in the Contemporary World",
+    "asked": 2,
+    "covered": 2,
+    "served": 10,
+    "practice": true
+   },
+   {
+    "subject": "political-science",
+    "chapter": "Recent Issues and Challenges",
+    "asked": 1,
+    "covered": 1,
+    "served": 4,
+    "practice": true
+   },
+   {
+    "subject": "psychology",
+    "chapter": "Self & Personality",
+    "asked": 10,
+    "covered": 9,
+    "served": 32,
+    "practice": true
+   },
+   {
+    "subject": "psychology",
+    "chapter": "Variations in Psychological Attributes",
+    "asked": 10,
+    "covered": 10,
+    "served": 21,
+    "practice": true
+   },
+   {
+    "subject": "psychology",
+    "chapter": "Psychological Disorders",
+    "asked": 8,
+    "covered": 8,
+    "served": 18,
+    "practice": true
+   },
+   {
+    "subject": "psychology",
+    "chapter": "Therapeutic Approaches",
+    "asked": 7,
+    "covered": 7,
+    "served": 21,
+    "practice": true
+   },
+   {
+    "subject": "psychology",
+    "chapter": "Meeting Life Challenges",
+    "asked": 6,
+    "covered": 5,
+    "served": 22,
+    "practice": true
+   },
+   {
+    "subject": "psychology",
+    "chapter": "Attitude & Social Cognition",
+    "asked": 5,
+    "covered": 5,
+    "served": 18,
+    "practice": true
+   },
+   {
+    "subject": "psychology",
+    "chapter": "Social Influence & Group Processes",
+    "asked": 4,
+    "covered": 4,
+    "served": 13,
+    "practice": true
+   }
+  ]
+ },
+ "skipped": [],
+ "held": [
+  {
+   "id": "accountancy",
+   "covered": 41,
+   "counted": 55,
+   "pct": 75,
+   "why": "below 80%"
+  },
+  {
+   "id": "sociology",
+   "covered": 30,
+   "counted": 41,
+   "pct": 73,
+   "why": "no final check yet"
+  }
+ ],
+ "showMinPct": 80
+}

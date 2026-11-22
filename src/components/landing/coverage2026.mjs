@@ -1,39 +1,48 @@
-// The CUET 2026 paper, checked against MockMob (owner, 22 Nov 2026: "we had to make that a percentage coverage of each
-// subject ... from the CUET 2026 question paper ... I want that also built into this pass").
+// The CUET 2026 paper, checked against MockMob: the home page's teaser (owner, 22 Nov 2026; LK368 made the full pages at
+// /cuet-2026-coverage and this a compact teaser that leads there).
 //
-// Where the numbers come from: data/coverage/cuet2026/ (README.md is the summary; METHOD.md the rule). NTA's 2026 master
-// papers, one shift a subject (Accountancy 20 May, Business Studies 20 May, Economics 24 May 2026), every question
-// authenticated against NTA's final key. Each question was checked twice, independently, against MockMob's served question
-// bank and Key cards as they stood on 20 Nov 2026, under the strict rule; a question counts only when BOTH checks found it
-// covered. Reading-skill items are left out of the count (5 in Economics, 1 in Business Studies), so the totals are 55, 45
-// and 49. coverage2026.test.mjs holds these figures to the README's own line.
+// Where the numbers come from: data/coverage/cuet2026/public/summary.json, written by scripts/coverage/build-public.mjs from
+// NTA's 2026 master papers (one shift a subject, every question authenticated against NTA's final key) and the two independent
+// checks of each question against MockMob's served questions and Key cards (data/coverage/METHOD.md). A question counts only
+// when BOTH checks found it covered; reading-skill items are shown on the full pages and left out of the count. Nothing here is
+// typed by hand: coverage2026.test.mjs holds these figures to the summary and the summary to the README's own line.
 //
 // The check was made after the exam, on the bank as it is now: the words never say MockMob predicted the paper.
-export const COVERAGE_2026 = Object.freeze({
-  subjects: Object.freeze([
-    Object.freeze({ id: 'accountancy', name: 'Accountancy', covered: 38, of: 55, sat: '20 May 2026' }),
-    Object.freeze({ id: 'economics', name: 'Economics', covered: 32, of: 45, sat: '24 May 2026' }),
-    Object.freeze({ id: 'business-studies', name: 'Business Studies', covered: 30, of: 49, sat: '20 May 2026' }),
-  ]),
-});
+import SUMMARY from '../../../data/coverage/cuet2026/public/summary.json' with { type: 'json' };
+
+// The full pages' address and stream order, the same as src/components/coverage/coverageCopy.mjs (a test holds them equal).
+// Not imported from there: the home page's file set stays free of the full pages' method words.
+export const COVERAGE_PATH = '/cuet-2026-coverage';
+const subjectPath = (id) => `${COVERAGE_PATH}/${id}`;
+export const STREAM_ORDER = Object.freeze(['commerce', 'science', 'humanities', 'general', 'other']);
+export const COVERAGE_SUMMARY = SUMMARY;
+/** How many subject bars the teaser draws at most. */
+export const TEASER_ROWS = 6;
 
 /** A whole percent, rounded half up. */
 export const coveragePct = (covered, of) => (of > 0 ? Math.round((covered / of) * 100) : 0);
 
-/** Every subject together: { covered, of, pct }. */
-export function coverageTotal(list = COVERAGE_2026.subjects) {
-  const covered = list.reduce((n, s) => n + s.covered, 0);
-  const of = list.reduce((n, s) => n + s.of, 0);
-  return { covered, of, pct: coveragePct(covered, of) };
+const streamRank = (id) => {
+  const at = STREAM_ORDER.indexOf(id || 'other');
+  return at < 0 ? STREAM_ORDER.length : at;
+};
+
+/** The teaser's model: the total and up to TEASER_ROWS subjects (stream order, then name), each with its own link. */
+export function coverageTeaser(summary = SUMMARY, max = TEASER_ROWS) {
+  const subjects = [...(summary.subjects || [])]
+    .sort((a, b) => streamRank(a.stream) - streamRank(b.stream) || a.name.localeCompare(b.name))
+    .slice(0, max)
+    .map((s) => ({ id: s.id, name: s.name, covered: s.covered, of: s.counted, pct: s.pct, href: subjectPath(s.id) }));
+  const total = summary.total || { covered: 0, counted: 0, pct: 0 };
+  return { total: { covered: total.covered, of: total.counted, pct: total.pct }, subjects };
 }
 
-const TOTAL = coverageTotal();
 export const COVERAGE_COPY = Object.freeze({
   kicker: 'Checked against the real paper',
-  h2: 'The CUET 2026 paper, question by question.',
+  h2: 'CUET 2026, checked question by question.',
   mark: 'question by question.',
-  sub: `We took NTA’s real 2026 papers and checked every question against MockMob. ${TOTAL.covered} of ${TOTAL.of} are already taught in our questions and Key cards.`,
-  totalLabel: 'of the 2026 questions we checked',
+  totalLabel: (of) => `of the ${of} questions we checked are taught in MockMob`,
   row: (covered, of) => `${covered} of ${of} questions`,
-  note: 'One 2026 shift for each subject. A question counts only when two separate checks both found it in MockMob. Reading passages are left out.',
+  key: 'See every question',
+  note: 'One 2026 shift for each subject. A question counts only when two separate checks both found it in MockMob.',
 });

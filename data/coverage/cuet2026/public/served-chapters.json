@@ -1,0 +1,276 @@
+{
+ "rule": "A chapter has practice in MockMob when at least one of its questions is in MockMob, or MockMob serves at least 10 questions from it (the stored daily count of served questions per chapter).",
+ "subjects": {
+  "gat": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Current Affairs": 39,
+    "General Knowledge": 71,
+    "Numerical Ability": 33,
+    "General Mental Ability": 36,
+    "Quantitative Reasoning": 35,
+    "Statistical Data Analysis": 17,
+    "Basic Mathematical Concepts": 24,
+    "Logical & Analytical Reasoning": 53,
+    "General Science and Environment Literacy": 14
+   }
+  },
+  "biology": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Ecosystem": 16,
+    "Evolution": 19,
+    "Human Reproduction": 19,
+    "Reproductive Health": 30,
+    "Human Health & Disease": 23,
+    "Organisms & Populations": 20,
+    "Microbes in Human Welfare": 18,
+    "Biodiversity & Conservation": 17,
+    "Molecular Basis of Inheritance": 23,
+    "Biotechnology & its Applications": 19,
+    "Biotechnology Principles & Processes": 24,
+    "Principles of Inheritance & Variation": 24,
+    "Sexual Reproduction in Flowering Plants": 76
+   }
+  },
+  "english": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Vocabulary": 27,
+    "Para Jumbles": 23,
+    "Factual Passage": 55,
+    "Literary Passage": 32,
+    "Narrative Passage": 28,
+    "Correct Word Usage": 20,
+    "Match the Following": 24
+   }
+  },
+  "history": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Rebels & the Raj": 20,
+    "Bricks, Beads & Bones": 38,
+    "Bhakti-Sufi Traditions": 26,
+    "Kings, Farmers & Towns": 36,
+    "Kinship, Caste & Class": 14,
+    "Framing the Constitution": 20,
+    "Colonialism & the Countryside": 16,
+    "Thinkers, Beliefs & Buildings": 15,
+    "Through the Eyes of Travellers": 16,
+    "Peasants, Zamindars & the State": 19,
+    "An Imperial Capital — Vijayanagara": 16,
+    "Mahatma Gandhi & the Nationalist Movement": 23
+   }
+  },
+  "physics": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Atoms": 12,
+    "Nuclei": 20,
+    "Wave Optics": 24,
+    "Magnetism & Matter": 22,
+    "Alternating Current": 23,
+    "Current Electricity": 27,
+    "Electromagnetic Waves": 21,
+    "Electric Charges & Fields": 74,
+    "Electromagnetic Induction": 28,
+    "Semiconductor Electronics": 14,
+    "Moving Charges & Magnetism": 27,
+    "Ray Optics & Optical Instruments": 28,
+    "Dual Nature of Radiation & Matter": 17,
+    "Electrostatic Potential & Capacitance": 36
+   }
+  },
+  "chemistry": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Amines": 41,
+    "Solutions": 89,
+    "Biomolecules": 29,
+    "Electrochemistry": 29,
+    "Chemical Kinetics": 39,
+    "Coordination Compounds": 34,
+    "d- and f-Block Elements": 33,
+    "Haloalkanes & Haloarenes": 28,
+    "Alcohols, Phenols & Ethers": 35,
+    "Aldehydes, Ketones & Carboxylic Acids": 38
+   }
+  },
+  "economics": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Employment": 12,
+    "Money & Banking": 22,
+    "Rural Development": 9,
+    "Production & Costs": 30,
+    "Balance of Payments": 16,
+    "Income Determination": 8,
+    "Human Capital Formation": 9,
+    "Economic Reforms Since 1991": 10,
+    "Government Budget & the Economy": 23,
+    "Development Experiences of India": 7,
+    "National Income & Related Aggregates": 8,
+    "Environment & Sustainable Development": 4,
+    "Indian Economic Development 1950–1990": 11,
+    "Market Equilibrium & Simple Applications": 13,
+    "Indian Economy on the Eve of Independence": 22,
+    "Theory of Firms under Perfect Competition": 15,
+    "Introduction & Theory of Consumer Behaviour": 19
+   }
+  },
+  "geography": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Human Development": 16,
+    "Human Settlements": 22,
+    "Primary Activities": 22,
+    "International Trade": 16,
+    "Secondary Activities": 26,
+    "Resources & Development": 2,
+    "Transport & Communication": 23,
+    "India — People & Economy": 13,
+    "Land Resources and Agriculture": 1,
+    "Tertiary & Quaternary Activities": 20,
+    "Human Geography — Nature & Scope": 15,
+    "Planning & Sustainable Development": 16,
+    "Population — Distribution, Density, Growth": 13,
+    "Geographical Perspective on Selected Issues and Problems": 9
+   }
+  },
+  "sociology": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Cultural Change": 17,
+    "Social Movements": 19,
+    "Structural Change": 20,
+    "Social Institutions": 19,
+    "Demographic Structure": 18,
+    "Story of Indian Democracy": 20,
+    "Introducing Indian Society": 32,
+    "Mass Media & Communications": 27,
+    "Globalisation & Social Change": 18,
+    "Patterns of Social Inequality": 18,
+    "Market as a Social Institution": 12,
+    "Challenges of Cultural Diversity": 21,
+    "Change & Development in Rural Society": 23,
+    "Change & Development in Industrial Society": 16
+   }
+  },
+  "psychology": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Self & Personality": 32,
+    "Therapeutic Approaches": 21,
+    "Meeting Life Challenges": 22,
+    "Psychological Disorders": 18,
+    "Attitude & Social Cognition": 18,
+    "Social Influence & Group Processes": 13,
+    "Variations in Psychological Attributes": 21
+   }
+  },
+  "accountancy": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Debentures": 174,
+    "Share Capital": 158,
+    "Accounting Ratios": 146,
+    "Goodwill Valuation": 9,
+    "Cash Flow Statement": 158,
+    "Admission of Partner": 29,
+    "Partnership Fundamentals": 141,
+    "Retirement & Death of Partner": 21,
+    "Change in Profit Sharing Ratio": 128,
+    "Computerized Accounting System": 126,
+    "Dissolution of Partnership Firm": 24,
+    "Financial Statements of Company": 1,
+    "Analysis of Financial Statements": 5,
+    "Profit & Loss Appropriation Account": 25,
+    "Comparative & Common Size Statements": 34
+   }
+  },
+  "mathematics": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Matrices": 24,
+    "Integrals": 29,
+    "Probability": 20,
+    "Determinants": 20,
+    "Vector Algebra": 11,
+    "Time Based Data": 15,
+    "Linear Programming": 27,
+    "Financial Mathematics": 16,
+    "Relations & Functions": 76,
+    "Differential Equations": 23,
+    "Inferential Statistics": 14,
+    "Application of Integrals": 17,
+    "Probability Distributions": 17,
+    "Application of Derivatives": 23,
+    "Three Dimensional Geometry": 18,
+    "Continuity & Differentiability": 21,
+    "Inverse Trigonometric Functions": 6,
+    "Numbers, Quantification and Numerical Applications": 18
+   }
+  },
+  "business_studies": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Planning": 14,
+    "Staffing": 18,
+    "Directing": 29,
+    "Organising": 16,
+    "Controlling": 27,
+    "Financial Markets": 4,
+    "Consumer Protection": 20,
+    "Business Environment": 2,
+    "Financial Management": 13,
+    "Marketing Management": 9,
+    "Principles of Management": 30,
+    "Nature & Significance of Management": 27
+   }
+  },
+  "computer_science": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Queue": 28,
+    "Stack": 10,
+    "Sorting": 20,
+    "Searching": 16,
+    "File Handling": 15,
+    "Data Structures": 16,
+    "Security Aspects": 15,
+    "Societal Impacts": 14,
+    "Computer Networks": 26,
+    "Database Concepts": 25,
+    "Data Communication": 28,
+    "Understanding Data": 16,
+    "Project Based Learning": 9,
+    "Structured Query Language": 39,
+    "Communication Technologies": 15,
+    "Data Handling using Pandas": 24,
+    "Plotting Data using Matplotlib": 7,
+    "Exception and File Handling in Python": 24
+   }
+  },
+  "political_science": {
+   "countedAt": "2026-11-19T21:57:11.275Z",
+   "chapters": {
+    "Globalisation": 16,
+    "End of Bipolarity": 19,
+    "Regional Aspirations": 15,
+    "Contemporary South Asia": 17,
+    "Era of One-Party Dominance": 13,
+    "India's External Relations": 23,
+    "International Organisations": 19,
+    "Alternative Centres of Power": 12,
+    "Recent Issues and Challenges": 4,
+    "Challenges of Nation Building": 11,
+    "Crisis of the Democratic Order": 15,
+    "Environment & Natural Resources": 10,
+    "Politics of Planned Development": 17,
+    "Security in the Contemporary World": 10,
+    "Democratic Upsurge and Coalition Politics": 9,
+    "Challenges to & Restoration of the Congress System": 14
+   }
+  }
+ }
+}

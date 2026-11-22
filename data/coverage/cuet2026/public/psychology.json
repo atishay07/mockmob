@@ -1,0 +1,1693 @@
+{
+ "id": "psychology",
+ "name": "Psychology",
+ "stream": "humanities",
+ "code": "324",
+ "examDate": "2026-05-15",
+ "examDay": "15 May 2026",
+ "shift": "first shift",
+ "snapshotDate": "2026-11-22",
+ "snapshotDay": "22 November 2026",
+ "final": true,
+ "counts": {
+  "total": 50,
+  "same": 11,
+  "newValues": 0,
+  "concept": 37,
+  "notYet": 2,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 48,
+  "counted": 50,
+  "pct": 96
+ },
+ "chapters": [
+  {
+   "name": "Self & Personality",
+   "asked": 10,
+   "covered": 9
+  },
+  {
+   "name": "Variations in Psychological Attributes",
+   "asked": 10,
+   "covered": 10
+  },
+  {
+   "name": "Psychological Disorders",
+   "asked": 8,
+   "covered": 8
+  },
+  {
+   "name": "Therapeutic Approaches",
+   "asked": 7,
+   "covered": 7
+  },
+  {
+   "name": "Meeting Life Challenges",
+   "asked": 6,
+   "covered": 5
+  },
+  {
+   "name": "Attitude & Social Cognition",
+   "asked": 5,
+   "covered": 5
+  },
+  {
+   "name": "Social Influence & Group Processes",
+   "asked": 4,
+   "covered": 4
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 451,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "_______ is the global capacity to understand the world, think rationally, and use available resources effectively when faced with the challenges.",
+   "passage": null,
+   "options": [
+    "Attitude",
+    "Personality",
+    "Intelligence",
+    "Self-actualisation"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card gives the paper's definition word for word but asks it the other way round (define intelligence), so it teaches the fact, not the same question",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.def-intelligence-attribute",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Define intelligence as a psychological attribute.",
+    "back": "Intelligence is the global capacity to understand the world, think rationally, and use available resources effectively when faced with challenges.",
+    "source": "NCERT, Psychology, chapter 1, page 3",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 452,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "Who was one of the first psychologists to work on intelligence?",
+   "passage": null,
+   "options": [
+    "Alfred Binet",
+    "David Weschler",
+    "Francis Galton",
+    "William Stern"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card asks for Binet's definition and states he was one of the first psychologists to work on intelligence; the paper asks who that was",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.def-intelligence-binet",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Define intelligence (Alfred Binet).",
+    "back": "Alfred Binet was one of the first psychologists who worked on intelligence. He defined intelligence as the ability to judge well, understand well, and reason well.",
+    "source": "NCERT, Psychology, chapter 1, page 5",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 3,
+   "paperNumber": 453,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "The structure-of-intellect model classifies intellectual traits among three dimensions. How many factors have been classified under 'operations' dimension?",
+   "passage": null,
+   "options": [
+    "5",
+    "6",
+    "7",
+    "8"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card lists the six operations of the structure-of-intellect model; the paper asks how many there are",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.list-guilford-operations",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Name the operations in Guilford's structure-of-intellect model.",
+    "back": "cognition\nmemory recording\nmemory retention\ndivergent production\nconvergent production\nevaluation",
+    "source": "NCERT, Psychology, chapter 1, page 6",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 4,
+   "paperNumber": 454,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "Which of the following types of intelligences are included in Howard Gardner's Multiple Intelligences Theory?\nA. Musical\nB. Spatial\nC. Componential\nD. Logical-Mathematical\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B, C and D",
+    "A, C and D only",
+    "A, B and C only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the bank item asks which is NOT Gardner's (componential, Sternberg's) and its explanation lists all eight; the paper is a four-statement item, a different question type",
+   "match": {
+    "kind": "question",
+    "id": "cbf67f50-bc67-4520-97b8-7d981f4bb31a",
+    "chapter": "Variations in Psychological Attributes",
+    "stem": "Which of the following is NOT one of the types of intelligence proposed by Howard Gardner in his theory of multiple intelligences?",
+    "passage": null,
+    "options": [
+     "Naturalistic",
+     "Interpersonal",
+     "Componential",
+     "Bodily-kinaesthetic"
+    ],
+    "key": 2,
+    "explanation": "Gardner identified eight independent intelligences: linguistic, logical-mathematical, spatial, musical, bodily-kinaesthetic, interpersonal, intrapersonal and naturalistic. Componential intelligence belongs to Sternberg's triarchic theory.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 5,
+   "paperNumber": 455,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "According to Robert Sternberg, Creative intelligence is also known as:",
+   "passage": null,
+   "options": [
+    "Analytical intelligence",
+    "Experiential intelligence",
+    "Contextual intelligence",
+    "Componential intelligence"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card asks what experiential (creative) intelligence is; the paper asks the other name of creative intelligence",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.def-experiential",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "What is experiential (creative) intelligence?",
+    "back": "Experiential or creative intelligence is involved in using past experiences creatively to solve novel problems. It is reflected in creative performance.",
+    "source": "NCERT, Psychology, chapter 1, page 8",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 456,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "Twins separated early in childhood also show considerable similarity in their intellectual, personality and behavioural characteristics. The intelligence of identical twins reared in different environments correlate to about:",
+   "passage": null,
+   "options": [
+    "0.72",
+    "0.60",
+    "0.50",
+    "0.25"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "new Key card (lepy101 p10) states identical twins reared in different environments correlate 0.72, with the 0.60, 0.50 and 0.25 distractors on the same card; asked as a list, not the paper's question",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.list-twin-sibling-iq-correlations",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Name the intelligence correlation NCERT reports for each kind of pair in the twin and sibling studies.",
+    "back": "identical twins reared together correlate almost 0.90\nidentical twins reared in different environments correlate 0.72\nfraternal twins reared together correlate almost 0.60\nbrothers and sisters reared together correlate about 0.50\nsiblings reared apart correlate about 0.25",
+    "source": "NCERT, Psychology, chapter 1, page 10",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 457,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Levels of Intellectual Disability) | LIST-II (IQ Range)\nA. Mild | I. (IQs 35-40 to approximately 50-55)\nB. Moderate | II. (IQs 55 to approximately 70)\nC. Severe | III. (IQs 20-25 to approximately 35-40)\nD. Profound | IV. (IQs below 20-25)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-II, B-I, C-III, D-IV",
+    "A-I, B-II, C-III, D-IV",
+    "A-II, B-I, C-IV, D-III",
+    "A-III, B-II, C-I, D-IV"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card lists the four levels with their IQ ranges; the paper is a four-pair match",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.types-levels-intellectual-disability",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Levels of intellectual disability, with IQ ranges.",
+    "back": "mild (IQs 55 to approximately 70)\nmoderate (IQs 35–40 to approximately 50–55)\nsevere (IQs 20–25 to approximately 35–40)\nprofound (IQs below 20–25)",
+    "source": "NCERT, Psychology, chapter 1, page 12",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 458,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "Which of the following characteristic is NOT possessed by gifted children?",
+   "passage": null,
+   "options": [
+    "Advanced logical thinking, questioning, and problem-solving behaviour",
+    "A preference for solitary academic activities over extended periods",
+    "Superior generalization and discrimination abilities",
+    "Low level of intrinsic motivation and self-esteem"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card lists the characteristics of gifted children, including a high level of intrinsic motivation and self-esteem; the paper asks which is NOT one",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.list-gifted-characteristics",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Name the important characteristics of gifted children.",
+    "back": "Advanced logical thinking, questioning and problem solving behaviour.\nHigh speed in processing information.\nSuperior generalisation and discrimination ability.\nAdvanced level of original and creative thinking.\nHigh level of intrinsic motivation and self-esteem.\nIndependent and non-conformist thinking.\nPreference for solitary academic activities for long periods.",
+    "source": "NCERT, Psychology, chapter 1, page 13",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 459,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "Identify the Verbal Intelligence Tests developed in India:\nA. The Bihar Test of Intelligence by S. M. Mohsin\nB. Group Test of General Mental Ability by S. Jalota\nC. Test of General Mental Ability by M. C. Joshi\nD. Draw-a-Man Test by Parmila Pathak\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "A, C and D only",
+    "A, B, C and D"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "new Key cards (lepy101 p15, Table 1.2) list the Bihar Test (Mohsin), Group Test of GMA (Jalota) and Test of GMA Hindi (Joshi) as verbal and the Draw-a-Man Test (Pathak) as performance; the paper is a four-statement item",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.list-table12-verbal-tests-india",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Name the verbal intelligence tests developed in India, with their authors, as NCERT tabulates them.",
+    "back": "CIE Verbal Group Test of Intelligence by Uday Shankar\nGroup Test of General Mental Ability by S. Jalota\nGroup Test of Intelligence by Prayag Mehta\nThe Bihar Test of Intelligence by S.M. Mohsin\nGroup Test of Intelligence by Bureau of Psychology, Allahabad\nIndian Adaptation of Stanford-Binet Test (Third Edition) by S.K. Kulshrestha\nTest of General Mental Ability (Hindi) by M.C. Joshi.",
+    "source": "NCERT, Psychology, chapter 1, page 15",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 460,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "The way we perceive ourselves and the ideas we hold about our competencies and attributes is called ________.",
+   "passage": null,
+   "options": [
+    "Self-esteem",
+    "Self-concept",
+    "Self-efficacy",
+    "Self-reinforcement"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card defines self-concept in the paper's words but asks it the other way round (what is self-concept)",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.def-self-concept",
+    "chapter": "Self & Personality",
+    "front": "What is self-concept?",
+    "back": "The way we perceive ourselves and the ideas we hold about our competencies and attributes is also called self-concept.",
+    "source": "NCERT, Psychology, chapter 2, page 26",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 461,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "A person who believes that he or she has the ability or behaviors required by a particular situation demonstrates high ______.",
+   "passage": null,
+   "options": [
+    "Self-efficacy",
+    "Self-esteem",
+    "Self-regulation",
+    "Self-observation"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card states the paper's sentence but asks who demonstrates high self-efficacy; the paper gives the person and asks the term",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.def-self-efficacy",
+    "chapter": "Self & Personality",
+    "front": "Who demonstrates high self-efficacy?",
+    "back": "A person who believes that s/he has the ability or behaviours required by a particular situation demonstrates high self-efficacy.",
+    "source": "NCERT, Psychology, chapter 2, page 27",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 462,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "Personality is characterized by which of the following features?\nA. It has both physical and psychological components.\nB. It changes easily with time.\nC. It is dynamic in the sense that some of its features may change due to situational demands.\nD. Its expression in terms of behavior is fairly unique in a given individual.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, C and D only",
+    "C and D only",
+    "A, B, C and D"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card lists the four features (main features do not easily change); the paper asks which of four statements hold",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.list-personality-features",
+    "chapter": "Self & Personality",
+    "front": "Name the four features that characterise personality.",
+    "back": "It has both physical and psychological components.\nIts expression in terms of behaviour is fairly unique in a given individual.\nIts main features do not easily change with time.\nIt is dynamic in the sense that some of its features may change due to internal or external situational demands.",
+    "source": "NCERT, Psychology, chapter 2, page 29",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 463,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "The Greek physician Hippocrates classified people into four types based on fluids or humors. Which one of the following is NOT a type proposed by him?",
+   "passage": null,
+   "options": [
+    "Sanguine",
+    "Phlegmatic",
+    "Endomorphic",
+    "Choleric"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card names Hippocrates' four types; the paper asks which option is not one",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.types-hippocrates-types",
+    "chapter": "Self & Personality",
+    "front": "Name the four types in Hippocrates' typology of personality (based on fluid or humour).",
+    "back": "sanguine\nphlegmatic\nmelancholic\ncholeric",
+    "source": "NCERT, Psychology, chapter 2, page 30",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 464,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "Which personality type is characterized by proneness to depression?",
+   "passage": null,
+   "options": [
+    "Type-A personality",
+    "Type-B personality",
+    "Type-C personality",
+    "Type-D personality"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card asks what Type-D is (proneness to depression); the paper gives the trait and asks the type",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.def-type-d",
+    "chapter": "Self & Personality",
+    "front": "What is the Type-D personality?",
+    "back": "More recently, a Type-D personality has been suggested, which is characterised by proneness to depression.",
+    "source": "NCERT, Psychology, chapter 2, page 31",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 465,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "Which one of the following methods was NOT used by Sigmund Freud to understand the internal functioning of the mind:",
+   "passage": null,
+   "options": [
+    "Fictional finalism",
+    "Hypnosis",
+    "Free-association",
+    "Dream analysis"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "new Key card (lepy102 p33-34) states Freud used hypnosis; free association and dream analysis were already on fact-freud-methods, so the method he did not use follows from served material",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.fact-freud-hypnosis",
+    "chapter": "Self & Personality",
+    "front": "Early in his career, what did Freud use to treat people with physical and emotional problems?",
+    "back": "Early in his career he used hypnosis to treat people with physical and emotional problems.",
+    "source": "NCERT, Psychology, chapter 2, page 34",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 16,
+   "paperNumber": 466,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "A person with strong sexual urges channels his or her energy into religious fervor. This is a classic example of:",
+   "passage": null,
+   "options": [
+    "Reaction formation",
+    "Repression",
+    "Projection",
+    "Displacement"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "new Key card (lepy102 p35) states NCERT's classical example, urges channelled into religious fervour, as reaction formation; the card gives the example and asks it the other way round",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.ex-reaction-formation-religious-fervour",
+    "chapter": "Self & Personality",
+    "front": "What is NCERT’s classical example of reaction formation?",
+    "back": "A person with strong sexual urges, who channels her/his energy into religious fervour, presents a classical example of reaction formation.",
+    "source": "NCERT, Psychology, chapter 2, page 35",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 17,
+   "paperNumber": 467,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "Jodhpur Multiphasic Personality Inventory (JMPI) was developed by:",
+   "passage": null,
+   "options": [
+    "Chaudhury and Joshi",
+    "Mallick and Joshi",
+    "Uma Chaudhury",
+    "Mohsin and Mehta"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "the card asks who developed the JMPI and answers Mallick and Joshi, as the paper does",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.fact-jmpi",
+    "chapter": "Self & Personality",
+    "front": "Who developed the Jodhpur Multiphasic Personality Inventory (JMPI)?",
+    "back": "In India, Mallick and Joshi have developed the Jodhpur Multiphasic Personality Inventory (JMPI) along the lines of MMPI.",
+    "source": "NCERT, Psychology, chapter 2, page 42",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 18,
+   "paperNumber": 468,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "Match LIST-I with LIST-II\nLIST-I | LIST-II\nA. Inkblot Test | I. Cattell\nB. Picture-Frustration Study | II. Morgan and Murray\nC. Thematic Apperception Test | III. Rorschach\nD. 16 PF | IV. Rosenzweig\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-IV, C-I, D-II",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-II, D-I"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the cited card gives Rorschach only; the four-pair match is taught by several cards (verdict kept from A and B)",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.self-and-personality.fact-rorschach",
+    "chapter": "Self & Personality",
+    "front": "Who developed the Rorschach Inkblot Test, and how many inkblots does it have?",
+    "back": "This test was developed by Hermann Rorschach. The test consists of 10 inkblots. Five of them are in black and white, two with some red ink, and the remaining three in some pastel colours.",
+    "source": "NCERT, Psychology, chapter 2, page 44",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 19,
+   "paperNumber": 469,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Self & Personality",
+   "type": "theory",
+   "stem": "Which of the following tests can be grouped under self-report measures?\nA. Rosenzweig's Picture-Frustration Study\nB. Minnesota Multiphasic Personality Inventory\nC. Sentence Completion Test\nD. Eysenck Personality Questionnaire\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "B, C and D only",
+    "B and D only",
+    "A, B and C only",
+    "A, B, C and D"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 20,
+   "paperNumber": 470,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Meeting Life Challenges",
+   "type": "theory",
+   "stem": "What level of stress is suitable for optimal performance?",
+   "passage": null,
+   "options": [
+    "High level of stress",
+    "Low level of stress",
+    "Moderate level of stress",
+    "No stress"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "new Key card (lepy103 p51) states high stress makes performance deteriorate and too little stress leaves one listless and slow, ruling out high, low and no stress; with term-eustress the moderate level follows; NCERT never prints the word moderate",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.meeting-life-challenges.fact-high-and-low-stress-performance",
+    "chapter": "Meeting Life Challenges",
+    "front": "How do too much stress and too little stress each affect performance?",
+    "back": "High stress too can produce unpleasant effects and cause our performance to deteriorate. Conversely, too little stress may cause one to feel somewhat listless and low on motivation which may lead us to perform slowly and less efficiently.",
+    "source": "NCERT, Psychology, chapter 3, page 51",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 471,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Meeting Life Challenges",
+   "type": "theory",
+   "stem": "During stressful situations, the adrenal gland releases large amounts of ________ into the blood stream.",
+   "passage": null,
+   "options": [
+    "Catecholamines",
+    "Monoamines",
+    "GABA",
+    "Dopamine"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card describes the two stress pathways and says the adrenal gland releases catecholamines; the paper asks only what it releases",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.meeting-life-challenges.list-stress-two-pathways",
+    "chapter": "Meeting Life Challenges",
+    "front": "Physiological stress response: the two pathways started by the hypothalamus.",
+    "back": "The first pathway involves the autonomic nervous system. The adrenal gland releases large amount of catecholamines (epinephrine and norepinephrine) into the blood stream. This leads to physiological changes seen in fight-or-flight response.\nThe second pathway involves the pituitary gland, which secretes the corticosteroid (cortisol) which provides energy.",
+    "source": "NCERT, Psychology, chapter 3, page 54",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 472,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Meeting Life Challenges",
+   "type": "theory",
+   "stem": "Which of the following is NOT considered as a dimension of stress?",
+   "passage": null,
+   "options": [
+    "Controllability",
+    "Complexity",
+    "Predictability",
+    "Duration"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card lists the four dimensions of stress; the paper asks which option is not one",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.meeting-life-challenges.types-stress-dimensions",
+    "chapter": "Meeting Life Challenges",
+    "front": "Dimensions on which the stresses people experience vary (Fig. 3.2).",
+    "back": "intensity (low intensity vs. high intensity)\nduration (short-term vs. long-term)\ncomplexity (less complex vs. more complex)\npredictability (unexpected vs. predictable)",
+    "source": "NCERT, Psychology, chapter 3, page 54",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 23,
+   "paperNumber": 473,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Meeting Life Challenges",
+   "type": "theory",
+   "stem": "In which stage of Selye's General Adaptation Syndrome, the presence of noxious stimulus or stressor leads to the activation of the adrenal-pituitary-cortex system?",
+   "passage": null,
+   "options": [
+    "Resistance stage",
+    "Exhaustion stage",
+    "Alarm reaction stage",
+    "Burnout stage"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card asks what happens in the alarm reaction stage; the paper gives that description and asks the stage",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.meeting-life-challenges.fact-gas-alarm-reaction",
+    "chapter": "Meeting Life Challenges",
+    "front": "GAS stage 1: what happens in the alarm reaction stage?",
+    "back": "The presence of a noxious stimulus or stressor leads to activation of the adrenal-pituitary-cortex system. This triggers the release of hormones producing the stress response. Now the individual is ready for fight or flight.",
+    "source": "NCERT, Psychology, chapter 3, page 59",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 24,
+   "paperNumber": 474,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Meeting Life Challenges",
+   "type": "theory",
+   "stem": "Identify the correct statement related to stress and its impact on immune system:\nA. Stress can cause illness by impairing the function of the immune system.\nB. Stress can affect natural killer cell cytotoxicity.\nC. Stress hormones weaken the immune system and thereby affect mental and physical health.\nD. Optimal Stress always enhances the functioning of immune system.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "A, B, C and D"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 25,
+   "paperNumber": 475,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Meeting Life Challenges",
+   "type": "theory",
+   "stem": "The \"Hardiness\" trait of personality was given by:",
+   "passage": null,
+   "options": [
+    "Rosenman",
+    "Friedman",
+    "Kobasa",
+    "Hans Eysenck"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card states Kobasa's finding on hardiness but asks who shares the traits; the paper asks who gave the trait",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.meeting-life-challenges.fact-hardiness-kobasa",
+    "chapter": "Meeting Life Challenges",
+    "front": "Kobasa: which people share the personality traits of hardiness?",
+    "back": "Recent studies by Kobasa have shown that people with high levels of stress but low levels of illness share three characteristics, which are referred to as the personality traits of hardiness.",
+    "source": "NCERT, Psychology, chapter 3, page 63",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 26,
+   "paperNumber": 476,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "The 'four Ds' of abnormality are:",
+   "passage": null,
+   "options": [
+    "Deviance, Dysfunction, Distress, Danger",
+    "Deviance, Disruption, Dysfunction, Danger",
+    "Deviance, Disruption, Danger, Distress",
+    "Deviance, Dysfunction, Distress, Disturbance"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "the card asks for the four Ds and answers deviance, distress, dysfunction and danger, as the paper's key does",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.kl-four-ds-names",
+    "chapter": "Psychological Disorders",
+    "front": "Still, most definitions have certain common features, often called the ‘four Ds’: ____, ____, ____ and ____.",
+    "back": "Still, most definitions have certain common features, often called the ‘four Ds’: deviance, distress, dysfunction and danger.",
+    "source": "NCERT, Psychology, chapter 4, page 70",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 27,
+   "paperNumber": 477,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "International Classification of Diseases (ICD-10) was prepared by:",
+   "passage": null,
+   "options": [
+    "Amercian Psychological Association",
+    "American Psychiatric Association",
+    "UNICEF",
+    "World Health Organisation"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "the card asks which body prepared ICD-10 and answers the WHO, as the paper does",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.fact-icd10",
+    "chapter": "Psychological Disorders",
+    "front": "Which classification scheme is officially used in India, and which body prepared it?",
+    "back": "The classification scheme officially used in India and elsewhere is the tenth revision of the International Classification of Diseases (ICD-10), which is known as the ICD-10 Classification of Behavioural and Mental Disorders. It was prepared by the World Health Organisation (WHO).",
+    "source": "NCERT, Psychology, chapter 4, page 73",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 28,
+   "paperNumber": 478,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "Low activity of gamma aminobutyric acid (GABA) neurotransmitter has been linked to:",
+   "passage": null,
+   "options": [
+    "Paralysis",
+    "Depression",
+    "Anxiety disorders",
+    "Physical impairment"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card asks which neurotransmitters go with three disorders; the paper gives GABA and asks the disorder",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.fact-neurotransmitters-anxiety-schizophrenia-depression",
+    "chapter": "Psychological Disorders",
+    "front": "Which neurotransmitters are linked to anxiety disorders, schizophrenia and depression, in that order?",
+    "back": "GABA, dopamine and serotonin\nAnxiety disorders have been linked to low activity of the neurotransmitter gamma aminobutyric acid (GABA), schizophrenia to excess activity of dopamine, and depression to low activity of serotonin.",
+    "source": "NCERT, Psychology, chapter 4, page 74",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 479,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Therapeutic Approaches",
+   "type": "theory",
+   "stem": "The A-B-C analysis in Rational Emotive Therapy stands for:",
+   "passage": null,
+   "options": [
+    "Application-behavior-consequence",
+    "Analysis-behavior-consequence",
+    "Antecedent-belief-consequence",
+    "Affect-behavior-cognition"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card asks the first step in RET and answers the antecedent-belief-consequence analysis; the paper asks what ABC stands for",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.therapeutic-approaches.fact-ret-first-step",
+    "chapter": "Therapeutic Approaches",
+    "front": "What is the first step in RET?",
+    "back": "The first step in RET is the antecedent-belief-consequence (ABC) analysis.",
+    "source": "NCERT, Psychology, chapter 5, page 97",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 480,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Therapeutic Approaches",
+   "type": "theory",
+   "stem": "Identify the ethical standards that need to practiced by professional psychotherapists:\nA. Confidentiality of the client should be maintained.\nB. Informed consent needs to be taken.\nC. Respect for human rights and dignity\nD. Alleviating personal distress and suffering should be the goal of all therapists.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "A, B and D only",
+    "A, B, C and D"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card lists the six ethical standards; the paper asks which of four statements are standards",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.therapeutic-approaches.list-ethics",
+    "chapter": "Therapeutic Approaches",
+    "front": "Name the 6 ethical standards for professional psychotherapists.",
+    "back": "Informed consent needs to be taken.\nConfidentiality of the client should be maintained.\nAlleviating personal distress and suffering should be the goal of all attempts of the therapist.\nIntegrity of the practitioner-client relationship is important.\nRespect for human rights and dignity.\nProfessional competence and skills are essential.",
+    "source": "NCERT, Psychology, chapter 5, page 100",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 481,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Attitude & Social Cognition",
+   "type": "theory",
+   "stem": "Which of the following is NOT a significant feature of attitudes?",
+   "passage": null,
+   "options": [
+    "Motivation",
+    "Valence",
+    "Extremeness",
+    "Multiplexity"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card names the four features of attitudes; the paper asks which option is not one",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.attitude-and-social-cognition.list-attitude-four-features",
+    "chapter": "Attitude & Social Cognition",
+    "front": "Name the four significant features (properties) of attitudes.",
+    "back": "Valence (positivity or negativity)\nExtremeness\nSimplicity or Complexity (multiplexity)\nCentrality",
+    "source": "NCERT, Psychology, chapter 6, page 106",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 482,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Attitude & Social Cognition",
+   "type": "theory",
+   "stem": "Choose the correct statements based on P-O-X triangle (Fritz Heider) in describing the process of attitude change:\nA. Imbalance is found when all three sides of P-O-X triangle are negative.\nB. Balance is found when all three sides of P-O-X triangle are positive.\nC. Imbalance is found when two sides are positive and one side is negative.\nD. Balance is found when two sides are negative and one side is positive.",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "B, C and D only",
+    "A, B, C and D"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card states when balance is found; the paper is a four-statement item that also asks the imbalance cases",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.attitude-and-social-cognition.fact-balance-found",
+    "chapter": "Attitude & Social Cognition",
+    "front": "When is balance found in the P-O-X triangle?",
+    "back": "Balance is found when (i) all three sides are positive, or (ii) two sides are negative, and one side is positive.",
+    "source": "NCERT, Psychology, chapter 6, page 110",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 33,
+   "paperNumber": 483,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Attitude & Social Cognition",
+   "type": "theory",
+   "stem": "Who proposed the concept of cognitive dissonance?",
+   "passage": null,
+   "options": [
+    "Leon Festinger",
+    "Richard LaPiere",
+    "Fritz Heider",
+    "Tajfel and Turner"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "the card asks who proposed cognitive dissonance and answers Leon Festinger, as the paper does",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.attitude-and-social-cognition.fact-dissonance-festinger",
+    "chapter": "Attitude & Social Cognition",
+    "front": "Who proposed the concept of cognitive dissonance, and which component does it emphasise?",
+    "back": "The concept of cognitive dissonance was proposed by Leon Festinger. It emphasises the cognitive component.",
+    "source": "NCERT, Psychology, chapter 6, page 110",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 484,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Attitude & Social Cognition",
+   "type": "theory",
+   "stem": "Arrange the following statements in the order of cognitive, behavioural and affective components of attitude:\nA. Your view towards a 'green environment' movement is positive.\nB. You feel sad and angry when you see trees being cut down.\nC. You actively participate in the tree plantation campaign.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-C-B",
+    "B-C-A",
+    "C-B-A",
+    "B-A-C"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the bank item names the three components of attitude from a belief, a feeling and an act in a new context; the paper asks to order three statements by component (A said new-values, B cited a card: the weaker kind)",
+   "match": {
+    "kind": "question",
+    "id": "85d3bf13-325a-4f61-a44a-d5089498af88",
+    "chapter": "Attitude & Social Cognition",
+    "stem": "Rohan believes that regular exercise keeps a person healthy, enjoys exercising, and jogs every morning. These three aspects of his attitude towards exercise are, respectively, its:",
+    "passage": null,
+    "options": [
+     "cognitive, affective and behavioural components",
+     "affective, cognitive and behavioural components",
+     "behavioural, cognitive and affective components",
+     "cognitive, behavioural and affective components"
+    ],
+    "key": 0,
+    "explanation": "The belief is the cognitive component, the liking is the affective component and the regular jogging is the behavioural component of the attitude. This is the ABC (affective-behavioural-cognitive) model of attitudes.",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 485,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Attitude & Social Cognition",
+   "type": "theory",
+   "stem": "Who proposed the two-step concept of attitude change?",
+   "passage": null,
+   "options": [
+    "Fritz Heider",
+    "Leon Festinger",
+    "S. M. Mohsin",
+    "Richard Lapiere"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "the card asks who proposed the two-step concept and answers S.M. Mohsin, as the paper does",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.attitude-and-social-cognition.fact-two-step-mohsin",
+    "chapter": "Attitude & Social Cognition",
+    "front": "Who proposed the two-step concept of attitude change, and what does it say?",
+    "back": "The two-step concept was proposed by S.M. Mohsin, an Indian psychologist. According to him, attitude change takes place in the form of two steps.",
+    "source": "NCERT, Psychology, chapter 6, page 110",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 36,
+   "paperNumber": 486,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Social Influence & Group Processes",
+   "type": "theory",
+   "stem": "Arrange the following stages of group formation in correct sequence:\nA. Storming\nB. Norming\nC. Performing\nD. Forming\nE. Adjourning\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "D-C-B-A-E",
+    "A-B-D-C-E",
+    "D-A-B-C-E",
+    "D-C-E-A-B"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "the card asks Tuckman's stages in order (forming, storming, norming, performing, adjourning), the paper's key",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.social-influence-and-group-processes.steps-tuckman-stages",
+    "chapter": "Social Influence & Group Processes",
+    "front": "Tuckman's stages of group formation, in order.",
+    "back": "forming\nstorming\nnorming\nperforming\nadjourning",
+    "source": "NCERT, Psychology, chapter 7, page 124",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 487,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Variations in Psychological Attributes",
+   "type": "theory",
+   "stem": "Match LIST-I with LIST-II\nLIST-I (Intelligence test) | LIST-II (Psychologist)\nA. Draw-a-Man Test | I. M. C. Joshi\nB. The Bihar Test of Intelligence | II. Pramila Pathak\nC. Test of General Mental Ability (Hindi) | III. Prayag Mehta\nD. Group Test of Intelligence | IV. S. M. Mohsin\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-II, B-I, C-IV, D-III",
+    "A-I, B-II, C-III, D-IV",
+    "A-III, B-IV, C-I, D-II",
+    "A-II, B-IV, C-I, D-III"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "new Key cards (lepy101 p15) pair all four tests with their authors: Draw-a-Man with Pramila Pathak, the Bihar Test with S.M. Mohsin, Test of GMA (Hindi) with M.C. Joshi, Group Test of Intelligence with Prayag Mehta; the paper is a match",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.variations-in-psychological-attributes.list-table12-verbal-tests-india",
+    "chapter": "Variations in Psychological Attributes",
+    "front": "Name the verbal intelligence tests developed in India, with their authors, as NCERT tabulates them.",
+    "back": "CIE Verbal Group Test of Intelligence by Uday Shankar\nGroup Test of General Mental Ability by S. Jalota\nGroup Test of Intelligence by Prayag Mehta\nThe Bihar Test of Intelligence by S.M. Mohsin\nGroup Test of Intelligence by Bureau of Psychology, Allahabad\nIndian Adaptation of Stanford-Binet Test (Third Edition) by S.K. Kulshrestha\nTest of General Mental Ability (Hindi) by M.C. Joshi.",
+    "source": "NCERT, Psychology, chapter 1, page 15",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 488,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Social Influence & Group Processes",
+   "type": "theory",
+   "stem": "When you find others also favoring capital punishment, you feel that your favorable view on capital punishment is validated by the public. This is an example of:",
+   "passage": null,
+   "options": [
+    "Social facilitation",
+    "Bandwagon effect",
+    "Hasty generalization",
+    "Conformity"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "the cloze card is the paper's capital punishment example with the same answer, the bandwagon effect",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.social-influence-and-group-processes.kl-polarisation-bandwagon",
+    "chapter": "Social Influence & Group Processes",
+    "front": "When you find others also favouring capital punishment, you feel that this view is validated by the public. This is a sort of ____ effect.",
+    "back": "When you find others also favouring capital punishment, you feel that this view is validated by the public. This is a sort of bandwagon effect.",
+    "source": "NCERT, Psychology, chapter 7, page 129",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 489,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Social Influence & Group Processes",
+   "type": "theory",
+   "stem": "Identify a correct explanation for the occurrence of social loafing:",
+   "passage": null,
+   "options": [
+    "Group members feel less responsible for the overall task being performed and therefore exert less effort.",
+    "Motivation of the members increases because they realise that their contribution will be evaluated on individual basis.",
+    "There is proper coordination among group members.",
+    "Belonging to the same group is important for the members."
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card lists the explanations of social loafing, the keyed option word for word among them; the paper asks to pick the one correct explanation",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.social-influence-and-group-processes.list-loafing-causes",
+    "chapter": "Social Influence & Group Processes",
+    "front": "Name the explanations offered for why social loafing occurs.",
+    "back": "Group members feel less responsible for the overall task being performed and therefore exert less effort.\nMotivation of members decreases because they realise that their contributions will not be evaluated on individual basis.\nThe performance of the group is not to be compared with other groups.\nThere is an improper coordination (or no coordination) among members.\nBelonging to the same group is not important for members.",
+    "source": "NCERT, Psychology, chapter 7, page 128",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 490,
+   "section": "Sub-section 1 (Q451-490)",
+   "chapter": "Social Influence & Group Processes",
+   "type": "theory",
+   "stem": "Which of the following is NOT an important condition for group formation?",
+   "passage": null,
+   "options": [
+    "Proximity",
+    "Similarity",
+    "Common motives",
+    "Individual goals"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card names the conditions of group formation (proximity, similarity, common motives and goals); the paper asks which option is not one",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.social-influence-and-group-processes.list-conditions-group-formation",
+    "chapter": "Social Influence & Group Processes",
+    "front": "Name the conditions that facilitate group formation.",
+    "back": "Proximity\nsimilarity\ncommon motives and goals",
+    "source": "NCERT, Psychology, chapter 7, page 130",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 491,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "Identify the psychological disorder Seema suffers from based on given diagnosis:",
+   "passage": {
+    "title": "Seema and repetitive acts",
+    "text": "Reeva noticed that Seema washes her hands very frequently. In addition to this, she used to walk only within the patterns drawn on the floor or road. Further, it was noticed that she was unable to control her preoccupation with specific ideas and failed to prevent herself from repeatedly carrying out a particular act or a series of acts. Therefore, Seema experiences anxiety and disturbances in her life. These pattern of thoughts and behaviour have affected her ability to carry out normal activities."
+   },
+   "options": [
+    "Post-traumatic stress disorder",
+    "Obsessive-compulsive disorder",
+    "Bipolar disorder",
+    "Conversion disorder"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card defines obsessive-compulsive disorder; the paper asks to diagnose a case",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.def-ocd",
+    "chapter": "Psychological Disorders",
+    "front": "What is obsessive-compulsive disorder?",
+    "back": "People affected by obsessive-compulsive disorder are unable to control their preoccupation with specific ideas or are unable to prevent themselves from repeatedly carrying out a particular act or series of acts that affect their ability to carry out normal activities.",
+    "source": "NCERT, Psychology, chapter 4, page 77",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 492,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "The inability to stop thinking about a particular idea or topic is known as:",
+   "passage": {
+    "title": "Seema and repetitive acts",
+    "text": "Reeva noticed that Seema washes her hands very frequently. In addition to this, she used to walk only within the patterns drawn on the floor or road. Further, it was noticed that she was unable to control her preoccupation with specific ideas and failed to prevent herself from repeatedly carrying out a particular act or a series of acts. Therefore, Seema experiences anxiety and disturbances in her life. These pattern of thoughts and behaviour have affected her ability to carry out normal activities."
+   },
+   "options": [
+    "Compulsive behaviour",
+    "Unpleasant behaviour",
+    "Obsessive behaviour",
+    "Intrusive behaviour"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card asks what obsessive behaviour is; the paper gives the definition and asks the term",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.diff-obsession-compulsion",
+    "chapter": "Psychological Disorders",
+    "front": "Obsessive behaviour vs compulsive behaviour: what is each?",
+    "back": "Obsessive behaviour is the inability to stop thinking about a particular idea or topic.\nCompulsive behaviour is the need to perform certain behaviours over and over again.",
+    "source": "NCERT, Psychology, chapter 4, page 77",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 43,
+   "paperNumber": 493,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "Seema's behavior to avoid the anxiety stemming out from intrusive and/or unpleasant thoughts is called:",
+   "passage": {
+    "title": "Seema and repetitive acts",
+    "text": "Reeva noticed that Seema washes her hands very frequently. In addition to this, she used to walk only within the patterns drawn on the floor or road. Further, it was noticed that she was unable to control her preoccupation with specific ideas and failed to prevent herself from repeatedly carrying out a particular act or a series of acts. Therefore, Seema experiences anxiety and disturbances in her life. These pattern of thoughts and behaviour have affected her ability to carry out normal activities."
+   },
+   "options": [
+    "Compulsive behaviour",
+    "Obsessive behaviour",
+    "Social behaviour",
+    "Productive behaviour"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card defines compulsive behaviour; the paper asks to name the behaviour in the case",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.diff-obsession-compulsion",
+    "chapter": "Psychological Disorders",
+    "front": "Obsessive behaviour vs compulsive behaviour: what is each?",
+    "back": "Obsessive behaviour is the inability to stop thinking about a particular idea or topic.\nCompulsive behaviour is the need to perform certain behaviours over and over again.",
+    "source": "NCERT, Psychology, chapter 4, page 77",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 44,
+   "paperNumber": 494,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "Which of the following is NOT included under Obsessive-compulsive and related disorders?",
+   "passage": {
+    "title": "Seema and repetitive acts",
+    "text": "Reeva noticed that Seema washes her hands very frequently. In addition to this, she used to walk only within the patterns drawn on the floor or road. Further, it was noticed that she was unable to control her preoccupation with specific ideas and failed to prevent herself from repeatedly carrying out a particular act or a series of acts. Therefore, Seema experiences anxiety and disturbances in her life. These pattern of thoughts and behaviour have affected her ability to carry out normal activities."
+   },
+   "options": [
+    "Hoarding disorder",
+    "Conversion disorder",
+    "Trichotillomania",
+    "Excoriation disorder"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "new Key cards (lepy104 p77-78) place hoarding, trichotillomania and excoriation in the obsessive-compulsive category; conversion was already taught as a somatic symptom disorder (list-somatic-types)",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.list-oc-related-body-focused",
+    "chapter": "Psychological Disorders",
+    "front": "Besides hoarding disorder, which disorders does NCERT place in the obsessive-compulsive category?",
+    "back": "trichotillomania (hair-pulling disorder)\nexcoriation (skin-picking) disorder",
+    "source": "NCERT, Psychology, chapter 4, page 78",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 45,
+   "paperNumber": 495,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "chapter": "Psychological Disorders",
+   "type": "theory",
+   "stem": "Trichotillomania is related to:",
+   "passage": {
+    "title": "Seema and repetitive acts",
+    "text": "Reeva noticed that Seema washes her hands very frequently. In addition to this, she used to walk only within the patterns drawn on the floor or road. Further, it was noticed that she was unable to control her preoccupation with specific ideas and failed to prevent herself from repeatedly carrying out a particular act or a series of acts. Therefore, Seema experiences anxiety and disturbances in her life. These pattern of thoughts and behaviour have affected her ability to carry out normal activities."
+   },
+   "options": [
+    "Skin-picking disorder",
+    "Skin-pulling disorder",
+    "Face-scanning disorder",
+    "Hair-pulling disorder"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "new Key card (lepy104 p78) asks what trichotillomania is and answers hair-pulling disorder, the paper's key",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.psychological-disorders.def-trichotillomania",
+    "chapter": "Psychological Disorders",
+    "front": "What is trichotillomania?",
+    "back": "trichotillomania (hair-pulling disorder)",
+    "source": "NCERT, Psychology, chapter 4, page 78",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 46,
+   "paperNumber": 496,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "chapter": "Therapeutic Approaches",
+   "type": "theory",
+   "stem": "Which of the following is not a technique used in behaviour therapy?",
+   "passage": {
+    "title": "Abby and behavioural therapy",
+    "text": "Abby is very annoying by nature. He does not follow what his parents say and refuses to obey them. He constantly bothers his parents and classmates with his improper behavior and does not regularly complete the homework given by his teachers. After seeing Abby's behavior, his parents take him to a psychotherapist in order to understand why he behaves the way he does. The psychotherapist planned to administer behavioural therapy for modifying his behaviour."
+   },
+   "options": [
+    "Token economy",
+    "Cognitive restructuring",
+    "Modelling",
+    "Systematic desensitisation"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card places cognitive restructuring in Beck's cognitive therapy; the paper asks which option is not a behaviour therapy technique",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.therapeutic-approaches.fact-beck-cognitive-restructuring",
+    "chapter": "Therapeutic Approaches",
+    "front": "Aaron Beck's cognitive therapy: the aim is to achieve what, which in turn reduces anxiety and depression?",
+    "back": "The questions make the client think in a direction opposite to that of the negative automatic thoughts whereby s/he gains insight into the nature of her/his dysfunctional schemas, and is able to alter her/his cognitive structures. The aim of the therapy is to achieve this cognitive restructuring which, in turn, reduces anxiety and depression.",
+    "source": "NCERT, Psychology, chapter 5, page 97",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 47,
+   "paperNumber": 497,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "chapter": "Therapeutic Approaches",
+   "type": "theory",
+   "stem": "The 'systematic desensitisation' techinque was developed by:",
+   "passage": {
+    "title": "Abby and behavioural therapy",
+    "text": "Abby is very annoying by nature. He does not follow what his parents say and refuses to obey them. He constantly bothers his parents and classmates with his improper behavior and does not regularly complete the homework given by his teachers. After seeing Abby's behavior, his parents take him to a psychotherapist in order to understand why he behaves the way he does. The psychotherapist planned to administer behavioural therapy for modifying his behaviour."
+   },
+   "options": [
+    "Wolpe",
+    "Bandura",
+    "Beck",
+    "Ellis"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "the bank item asks who developed systematic desensitisation and answers Wolpe, as the paper does",
+   "match": {
+    "kind": "question",
+    "id": "e9cac0e5-90eb-4240-bdd4-a3f901a2e7e0",
+    "chapter": "Therapeutic Approaches",
+    "stem": "Systematic desensitisation, a technique used in the treatment of phobias, was developed by:",
+    "passage": null,
+    "options": [
+     "Carl Rogers",
+     "B. F. Skinner",
+     "Aaron Beck",
+     "Joseph Wolpe"
+    ],
+    "key": 3,
+    "explanation": "Systematic desensitisation was developed by Joseph Wolpe and is based on classical conditioning and counterconditioning of anxiety with relaxation. Rogers founded client-centred therapy, Skinner operant conditioning and Beck cognitive therapy.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 48,
+   "paperNumber": 498,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "chapter": "Therapeutic Approaches",
+   "type": "theory",
+   "stem": "Identify the technique in which Abby's unwanted behavior can be reduced, and wanted behavior can be increased simultaneously.",
+   "passage": {
+    "title": "Abby and behavioural therapy",
+    "text": "Abby is very annoying by nature. He does not follow what his parents say and refuses to obey them. He constantly bothers his parents and classmates with his improper behavior and does not regularly complete the homework given by his teachers. After seeing Abby's behavior, his parents take him to a psychotherapist in order to understand why he behaves the way he does. The psychotherapist planned to administer behavioural therapy for modifying his behaviour."
+   },
+   "options": [
+    "Token economy",
+    "Modelling",
+    "Reciprocal inhibition",
+    "Differential reinforcement"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "the cloze card is the paper's sentence with the same answer, differential reinforcement",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.therapeutic-approaches.term-differential-reinforcement",
+    "chapter": "Therapeutic Approaches",
+    "front": "Unwanted behaviour can be reduced and wanted behaviour can be increased simultaneously through ____.",
+    "back": "Unwanted behaviour can be reduced and wanted behaviour can be increased simultaneously through differential reinforcement.",
+    "source": "NCERT, Psychology, chapter 5, page 96",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 49,
+   "paperNumber": 499,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "chapter": "Therapeutic Approaches",
+   "type": "theory",
+   "stem": "________ is learning by observing others in which the client gradually learns to acquire the behaviour of the model through a process of rewarding small changes in the behaviour.",
+   "passage": {
+    "title": "Abby and behavioural therapy",
+    "text": "Abby is very annoying by nature. He does not follow what his parents say and refuses to obey them. He constantly bothers his parents and classmates with his improper behavior and does not regularly complete the homework given by his teachers. After seeing Abby's behavior, his parents take him to a psychotherapist in order to understand why he behaves the way he does. The psychotherapist planned to administer behavioural therapy for modifying his behaviour."
+   },
+   "options": [
+    "Vicarious learning",
+    "Token economy",
+    "Differential learning",
+    "Flooding"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "the cloze card is the paper's sentence with the same answer, vicarious learning",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.therapeutic-approaches.term-vicarious-learning",
+    "chapter": "Therapeutic Approaches",
+    "front": "____, i.e. learning by observing others, is used and through a process of rewarding small changes in the behaviour",
+    "back": "Vicarious learning, i.e. learning by observing others, is used and through a process of rewarding small changes in the behaviour",
+    "source": "NCERT, Psychology, chapter 5, page 96",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 50,
+   "paperNumber": 500,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "chapter": "Therapeutic Approaches",
+   "type": "theory",
+   "stem": "In which of the following disorders, aversive conditioning is most suitable technique for treatment?",
+   "passage": {
+    "title": "Abby and behavioural therapy",
+    "text": "Abby is very annoying by nature. He does not follow what his parents say and refuses to obey them. He constantly bothers his parents and classmates with his improper behavior and does not regularly complete the homework given by his teachers. After seeing Abby's behavior, his parents take him to a psychotherapist in order to understand why he behaves the way he does. The psychotherapist planned to administer behavioural therapy for modifying his behaviour."
+   },
+   "options": [
+    "Obsessive-compulsive disorder",
+    "Paraphillias disorder",
+    "Alcohol Addiction",
+    "Mood disorder"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card gives the alcoholic example of aversive conditioning; the paper asks which disorder suits the technique",
+   "match": {
+    "kind": "card",
+    "id": "kc.psychology.therapeutic-approaches.ex-aversive-alcoholic",
+    "chapter": "Therapeutic Approaches",
+    "front": "An alcoholic is given a mild electric shock and asked to smell the alcohol. Which technique is this?",
+    "back": "Aversive conditioning\nFor example, an alcoholic is given a mild electric shock and asked to smell the alcohol. With repeated pairings the smell of alcohol is aversive as the pain of the shock is associated with it and the person will give up alcohol.",
+    "source": "NCERT, Psychology, chapter 5, page 95",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 {
   "subject": "sociology",
-  "version": 3,
+  "version": 7,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -12259,6 +12259,34 @@
       "order": 590
     },
     {
+      "id": "kc.sociology.demographic-structure.fact-famine-causes-poverty-rainfall",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.demographic-structure",
+      "chapter": "Demographic Structure",
+      "unit": "Structure of Indian Society",
+      "kind": "fact",
+      "front": "What were famines in India caused by, in an agroclimatic environment vulnerable to rainfall variation?",
+      "back": "Famines were also a major and recurring source of increased mortality. Famines were caused by high levels of continuing poverty and malnutrition in an agroclimatic environment that was very vulnerable to variations in rainfall.",
+      "quote": "Famines were also a major and recurring source of increased mortality. Famines were caused by high levels of continuing poverty and malnutrition in an agroclimatic environment that was very vulnerable to variations in rainfall.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy102",
+        "chapterNo": 2,
+        "page": 15,
+        "section": "2.2 Size and Growth of India's Population"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "famines",
+        "mortality"
+      ],
+      "order": 595
+    },
+    {
       "id": "kc.sociology.demographic-structure.fact-famine-entitlements-sen",
       "v": 1,
       "subject": "sociology",
@@ -17599,6 +17627,34 @@
       "order": 390
     },
     {
+      "id": "kc.sociology.market-as-a-social-institution.fact-marwari-bankers-british-expansion",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.market-as-a-social-institution",
+      "chapter": "Market as a Social Institution",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "How did Marwari moneylenders and bankers help the British in India?",
+      "back": "Many Marwari families accumulated enough wealth to become moneylenders, and by acting as bankers also helped the commercial expansion of the British in India (Hardgrove 2004).",
+      "quote": "Many Marwari families accumulated enough wealth to become moneylenders, and by acting as bankers also helped the commercial expansion of the British in India (Hardgrove 2004).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy104",
+        "chapterNo": 4,
+        "page": 61,
+        "section": "Colonialism and the Emergence of New Markets"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "marwaris",
+        "colonialism"
+      ],
+      "order": 395
+    },
+    {
       "id": "kc.sociology.market-as-a-social-institution.steps-marwari-steps",
       "v": 1,
       "subject": "sociology",
@@ -21756,6 +21812,146 @@
       "order": 530
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-law-1948",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "What did apartheid, which became law in South Africa in 1948, deny the Black majority?",
+      "back": "An informal practice for many years, apartheid became law in 1948 and was used to deny the Black majority South African citizenship, ownership of land, and a formal voice in government.",
+      "quote": "An informal practice for many years, apartheid became law in 1948 and was used to deny the Black majority South African citizenship, ownership of land, and a formal voice in government.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 76,
+        "section": "Box 5.1b Race and Caste: A Cross-Cultural Comparison"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "apartheid",
+        "race"
+      ],
+      "order": 531
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-mixed-marriages-prohibited",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "What did apartheid South Africa do about race classification and mixed marriages?",
+      "back": "Every individual was classified by race and mixed marriages were prohibited.",
+      "quote": "Every individual was classified by race and mixed marriages were prohibited.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 76,
+        "section": "Box 5.1b Race and Caste: A Cross-Cultural Comparison"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "apartheid",
+        "race"
+      ],
+      "order": 532
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-black-earnings-one-fourth",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "How much did Blacks earn compared with whites in apartheid South Africa?",
+      "back": "As a racial caste, Blacks held low-paying jobs; on average, they earned only one-fourth of what whites did.",
+      "quote": "As a racial caste, Blacks held low-paying jobs; on average, they earned only one-fourth of what whites did.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 76,
+        "section": "Box 5.1b Race and Caste: A Cross-Cultural Comparison"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "apartheid",
+        "race"
+      ],
+      "order": 533
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-bantustans",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "What were the ‘Bantustans’ or ‘homelands’ of apartheid South Africa?",
+      "back": "In the latter half of the twentieth century, millions of Blacks were forcibly relocated to ‘Bantustans’ or ‘homelands’ – dirt-poor districts with no infrastructure or industry or jobs.",
+      "quote": "In the latter half of the twentieth century, millions of Blacks were forcibly relocated to ‘Bantustans’ or ‘homelands’ – dirt-poor districts with no infrastructure or industry or jobs.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 76,
+        "section": "Box 5.1b Race and Caste: A Cross-Cultural Comparison"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "apartheid",
+        "race"
+      ],
+      "order": 534
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-black-protestors-repression",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "What happened to Black protestors under the apartheid regime in South Africa?",
+      "back": "Black protestors were routinely jailed, tortured and killed.",
+      "quote": "Black protestors were routinely jailed, tortured and killed.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 77,
+        "section": "Box 5.1b Race and Caste: A Cross-Cultural Comparison"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "apartheid",
+        "race"
+      ],
+      "order": 535
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.kl-distance-pollution",
       "v": 1,
       "subject": "sociology",
@@ -25539,6 +25735,34 @@
       "order": 320
     },
     {
+      "id": "kc.sociology.social-institutions.fact-nationalists-reassure-upper-castes",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-institutions",
+      "chapter": "Social Institutions",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "What did Gandhi and the nationalist leaders do on caste, and what did they promise the landowning upper castes?",
+      "back": "But the nationalist leaders, above all, Mahatma Gandhi, were able to simultaneously work for the upliftment of the lower castes, advocate the abolition of untouchability and other caste restrictions, and, at the same time, reassure the landowning upper castes that their interests, too, would be looked after. The post-Independence Indian state inherited and reflected these contradictions.",
+      "quote": "But the nationalist leaders, above all, Mahatma Gandhi, were able to simultaneously work for the upliftment of the lower castes, advocate the abolition of untouchability and other caste restrictions, and, at the same time, reassure the landowning upper castes that their interests, too, would be looked after. The post-Independence Indian state inherited and reflected these contradictions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy103",
+        "chapterNo": 3,
+        "page": 40,
+        "section": "Caste in the Present"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "nationalist-movement"
+      ],
+      "order": 325
+    },
+    {
       "id": "kc.sociology.social-institutions.fact-reformers-both-ends",
       "v": 1,
       "subject": "sociology",
@@ -26921,6 +27145,118 @@
         "matriliny"
       ],
       "order": 960
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-chartism-meaning",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What was Chartism in England?",
+      "back": "Chartism was a social movement for parliamentary representation in England.",
+      "quote": "Chartism was a social movement for parliamentary representation in England.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 110,
+        "section": "Box 8.1 The Right to Vote"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chartism",
+        "right-to-vote"
+      ],
+      "order": 2
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-peoples-charter-1839",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What did the People’s Charter of 1839 ask for?",
+      "back": "In 1839, more than 1.25 million people signed the People’s Charter asking for universal male suffrage, voting by ballot, and the right to stand for elections without owning property.",
+      "quote": "In 1839, more than 1.25 million people signed the People’s Charter asking for universal male suffrage, voting by ballot, and the right to stand for elections without owning property.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 110,
+        "section": "Box 8.1 The Right to Vote"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chartism",
+        "right-to-vote"
+      ],
+      "order": 4
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-britain-vote-1918",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "Who got the right to vote in Britain in 1918, after World War I?",
+      "back": "Yet, it was only after World War I, in 1918 that all men over 21, married women, women owning houses, and women university graduates over the age of 30, got the right to vote.",
+      "quote": "Yet, it was only after World War I, in 1918 that all men over 21, married women, women owning houses, and women university graduates over the age of 30, got the right to vote.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 110,
+        "section": "Box 8.1 The Right to Vote"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "right-to-vote",
+        "suffrage"
+      ],
+      "order": 6
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-suffragettes-opposed",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "How was the suffragettes’ campaign for all adult women’s right to vote treated in Britain?",
+      "back": "When the suffragettes (women activists) took up the cause of all adult women’s right to vote, they were bitterly opposed and their movement violently crushed.",
+      "quote": "When the suffragettes (women activists) took up the cause of all adult women’s right to vote, they were bitterly opposed and their movement violently crushed.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 110,
+        "section": "Box 8.1 The Right to Vote"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "suffragettes",
+        "right-to-vote"
+      ],
+      "order": 8
     },
     {
       "id": "kc.sociology.social-movements.def-social-movement",
@@ -30688,6 +31024,34 @@
         "73rd amendment"
       ],
       "order": 330
+    },
+    {
+      "id": "kc.sociology.story-of-indian-democracy.list-panchayat-powers",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.story-of-indian-democracy",
+      "chapter": "Story of Indian Democracy",
+      "unit": "Social Change and the Polity",
+      "kind": "list",
+      "front": "Name the four powers and responsibilities delegated to the Panchayats.",
+      "back": "to prepare plans and schemes for economic development\nto promote schemes that will enhance social justice\nto levy, collect and appropriate taxes, duties, tolls and fees\nhelp in the devolution of governmental responsibilities, especially that of finances to local authorities",
+      "quote": "The following powers and responsibility were delegated to the Panchayats: ¾¾ to prepare plans and schemes for economic development ¾¾ to promote schemes that will enhance social justice ¾¾ to levy, collect and appropriate taxes, duties, tolls and fees ¾¾ help in the devolution of governmental responsibilities, especially that of finances to local authorities",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy203",
+        "chapterNo": 3,
+        "page": 34,
+        "section": "Powers and Responsibilities of Panchayats"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "panchayat powers"
+      ],
+      "order": 340,
+      "note": "Making laws for the villagers is not on this list of delegated powers."
     },
     {
       "id": "kc.sociology.story-of-indian-democracy.list-panchayat-social-welfare",

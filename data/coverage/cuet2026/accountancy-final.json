@@ -1,0 +1,641 @@
+{
+ "subject": "accountancy",
+ "snapshotDate": "2026-11-20",
+ "checkedOn": "2026-11-22",
+ "questions": [
+  {
+   "n": 1,
+   "chapter": "Partnership Fundamentals",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.partnership-fundamentals.list-summary-act-rules",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card answers 'deed silent: no interest on capital is allowed' inside a list of Act rules; the paper asks the rate with no deed"
+  },
+  {
+   "n": 2,
+   "chapter": "Partnership Fundamentals",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card contrasts fixed and fluctuating capital: salary goes to the current account under fixed capital; the paper asks only the salary posting"
+  },
+  {
+   "n": 3,
+   "chapter": "Partnership Fundamentals",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
+   "bestKind": "bank",
+   "needs": [
+    "70291c3b-d5ad-4b37-989e-2f7f88c6cba6"
+   ],
+   "reason": "accepted bank candidate works interest on capital for opening capital, an addition and a withdrawal by the months each stayed in the firm: same formula and steps, new figures"
+  },
+  {
+   "n": 4,
+   "chapter": "Profit & Loss Appropriation Account",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
+   "bestKind": "bank",
+   "needs": [
+    "3b2c3c2a-e203-4a75-ac60-525a13070d8c"
+   ],
+   "reason": "accepted bank candidate has profit below total interest on capital and divides the profit in the ratio of interest due: same steps, new figures"
+  },
+  {
+   "n": 5,
+   "chapter": "Partnership Fundamentals",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.partnership-fundamentals.list-features-six",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "list-features-six plus cards fact-co-ownership-not-partnership and kl-mutual-agency-principal-agent state every statement; the paper asks a select-the-features item"
+  },
+  {
+   "n": 6,
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks the same question (nothing specified: in what ratio does the new partner get his share) with the same answer, old profit sharing ratio"
+  },
+  {
+   "n": 7,
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.admission-of-partner.kl-consent-act-1932",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card is the same sentence with the same blank: consent of all the existing partners"
+  },
+  {
+   "n": 8,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.retirement-and-death-of-partner.fact-assumed-old-ratio",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks the same question for a retiring partner's share with no information: old profit sharing ratio"
+  },
+  {
+   "n": 9,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card defines the gaining ratio; the paper gives the definition and asks the term"
+  },
+  {
+   "n": 10,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-belong-all",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks whose the accumulated profits or losses are at retirement: all the partners, the keyed answer"
+  },
+  {
+   "n": 11,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card list-accounting-aspects with fact-revaluation-purpose and fact-executor-account teaches the order; the paper is a sequence item"
+  },
+  {
+   "n": 12,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card lists the deductions from a retiring partner's share, all four of the paper's statements; the paper is a select-all item"
+  },
+  {
+   "n": 13,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
+   "bestKind": "bank",
+   "needs": [
+    "59862358-7c7e-4c2b-a3e9-e2fd73c581e7"
+   ],
+   "reason": "accepted bank candidate keys that current account balances go into capital accounts before settlement, and its explanation states the whole order: Revaluation, current accounts, capital account settled, balance sheet last"
+  },
+  {
+   "n": 14,
+   "chapter": "Goodwill Valuation",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.goodwill-valuation.formula-cap-super-goodwill-formula",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "four formula cards (gaining share, sacrifice, goodwill by capitalising super profit, capitalised value of average profits) give every pair of the match"
+  },
+  {
+   "n": 15,
+   "chapter": "Goodwill Valuation",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.goodwill-valuation.def-as26-intangible-assets-standard",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "new Key card def-as26-intangible-assets-standard (leac102 p. 72) states AS 26 and its definition of an intangible asset, the paper's wording; asked the other way round"
+  },
+  {
+   "n": 16,
+   "chapter": "Goodwill Valuation",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+   "bestKind": "bank",
+   "needs": [
+    "7926bef3-599f-4cdb-9107-fbf0edba1d9a"
+   ],
+   "reason": "accepted bank candidate works back from goodwill and years' purchase to super profit, normal profit and the normal rate of return: same steps, new figures"
+  },
+  {
+   "n": 17,
+   "chapter": "Retirement & Death of Partner",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
+   "bestKind": "bank",
+   "needs": [
+    "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be"
+   ],
+   "reason": "accepted bank candidate finds the firm's profit to the date of death on last year's sales (profit/sales ratio times sales to death), older years as distractors: same steps, new figures"
+  },
+  {
+   "n": 18,
+   "chapter": "Retirement & Death of Partner",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "86cc4648-e6d2-4854-b767-32d33a9cc06f",
+   "bestKind": "bank",
+   "needs": [
+    "86cc4648-e6d2-4854-b767-32d33a9cc06f"
+   ],
+   "reason": "accepted bank candidate nets several asset increases and decreases into one revaluation result: same steps, new figures (its result is a profit, not nil)"
+  },
+  {
+   "n": 19,
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.admission-of-partner.entry-e-goodwill-not-brought",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card gives the entry Incoming Partner's Current A/c Dr To Sacrificing Partners' Capital A/c without figures; the paper adds figures split in the old ratio"
+  },
+  {
+   "n": 20,
+   "chapter": "Goodwill Valuation",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.goodwill-valuation.fact-internal-goodwill-not-recognised",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card says internally generated goodwill is not recognised as an asset; the paper asks which item is not shown as an asset"
+  },
+  {
+   "n": 21,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.goodwill-valuation.fact-as26-intangible-write-off-limit",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "new Key cards def-as26-intangible-assets-standard and fact-as26-intangible-write-off-limit (10 years) with the existing fact-section-37 and def-partnership-section-4 state all four pairs"
+  },
+  {
+   "n": 22,
+   "chapter": "Admission of Partner",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
+   "bestKind": "bank",
+   "needs": [
+    "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d"
+   ],
+   "reason": "accepted bank candidate finds the sacrificing ratio when the old partners agree a new ratio between themselves on admission (old share minus new share): same steps, new figures"
+  },
+  {
+   "n": 23,
+   "chapter": "Goodwill Valuation",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898",
+   "bestKind": "bank",
+   "needs": [
+    "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898"
+   ],
+   "reason": "accepted bank candidate deducts partners' salaries, finds super profit on a 3-year and a 2-year average with different years' purchase, and takes the lower: same steps, new figures"
+  },
+  {
+   "n": 24,
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.retirement-and-death-of-partner.entry-death-close-suspense",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks the entry closing P&L Suspense on death: Gaining Partners' Capital A/c Dr To P&L Suspense A/c, the keyed option"
+  },
+  {
+   "n": 25,
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.admission-of-partner.entry-e-pl-debit-balance",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card gives the entry for a debit balance of P&L on admission: old partners' capital accounts Dr To P&L A/c, the keyed option"
+  },
+  {
+   "n": 26,
+   "chapter": "Share Capital",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.share-capital.term-perpetual-succession",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card defines perpetual succession; the paper quotes a saying and asks the feature"
+  },
+  {
+   "n": 27,
+   "chapter": "Share Capital",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.share-capital.fact-opc-limits",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks the One Person Company limits and answers average annual turnover of three years not above Rs 2 crore, the keyed figure"
+  },
+  {
+   "n": 28,
+   "chapter": "Share Capital",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.share-capital.key-equity-profits",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card is a cloze on the same sentence but blanks 'distributable profits'; the paper asks who (equity shareholders)"
+  },
+  {
+   "n": 29,
+   "chapter": "Share Capital",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "ed41d458-614b-4e23-8c9c-931b0cf5c2a6",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "bank question asks the minimum subscription percentage of the issued amount under SEBI guidelines: 90%, the keyed answer"
+  },
+  {
+   "n": 30,
+   "chapter": "Debentures",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.debentures.def-debenture",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks what a debenture is and gives the definition; the paper gives the definition and asks the instrument"
+  },
+  {
+   "n": 31,
+   "chapter": "Debentures",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.debentures.kl-bearer-interest-coupon",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card is the same sentence with the same blank: interest coupon"
+  },
+  {
+   "n": 32,
+   "chapter": "Debentures",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.debentures.def-debentures-as-collateral",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "cards on other-than-cash, collateral security, offer to the public and discount state every pair; the paper is a match item"
+  },
+  {
+   "n": 33,
+   "chapter": "Share Capital",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.share-capital.list-premium-uses",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card lists the five permitted uses of securities premium; the paper is a select-the-uses item"
+  },
+  {
+   "n": 34,
+   "chapter": "Share Capital",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.share-capital.fact-forfeit-when",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "cards on forfeiture, reissue and transfer to capital reserve, and bank 40151d2f, give the order; the paper is a sequence item"
+  },
+  {
+   "n": 35,
+   "chapter": "Share Capital",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "43e60b95-10cb-4861-822a-678a501c2050",
+   "bestKind": "bank",
+   "needs": [
+    "43e60b95-10cb-4861-822a-678a501c2050"
+   ],
+   "reason": "accepted bank candidate finds the number of shares issued to a vendor at a premium (price less cash, over issue price): same steps, new figures"
+  },
+  {
+   "n": 36,
+   "chapter": "Debentures",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
+   "bestKind": "bank",
+   "needs": [
+    "ad7c29aa-6d1b-4e11-9598-4108289c6e04"
+   ],
+   "reason": "accepted bank candidate finds the number of debentures issued to a vendor at a discount and picks the entry with the vendor debited at the price and the discount debited: same steps, new figures"
+  },
+  {
+   "n": 37,
+   "chapter": "Debentures",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+   "bestKind": "bank",
+   "needs": [
+    "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+    "cc769147-35f1-490f-8f6c-960ec66f1e56"
+   ],
+   "reason": "accepted bank candidates split the allotment instalment into debentures and premium (34e245ae) and work the call amount from the instalments (cc769147); the paper asks which of four entries are correct"
+  },
+  {
+   "n": 38,
+   "chapter": "Debentures",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.debentures.entry-collateral-cancel",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks the entry cancelling collateral debentures on repayment: Debentures A/c Dr To Debenture Suspense A/c, the keyed option"
+  },
+  {
+   "n": 39,
+   "chapter": "Share Capital",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.share-capital.def-authorised",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card defines authorised capital and says it is also called nominal capital; the paper asks what nominal capital is"
+  },
+  {
+   "n": 40,
+   "chapter": "Share Capital",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "4635494f-c14e-42a9-839b-8745eab4ec6d",
+   "bestKind": "bank",
+   "needs": [
+    "4635494f-c14e-42a9-839b-8745eab4ec6d"
+   ],
+   "reason": "accepted bank candidate forfeits shares with the premium unpaid on allotment, reissues at a discount and finds the capital reserve; the paper also makes the student back out the application money from the instalments"
+  },
+  {
+   "n": 41,
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.dissolution-of-partnership-firm.list-contingencies",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card lists the contingencies including completion of a venture; the paper applies it to a case"
+  },
+  {
+   "n": 42,
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.dissolution-of-partnership-firm.list-by-court-grounds",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card lists the court grounds; list-contingencies shows death is not one; the paper is a select item"
+  },
+  {
+   "n": 43,
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.dissolution-of-partnership-firm.steps-application-of-assets",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card gives the order of applying assets on dissolution; the paper is a sequence item with figures"
+  },
+  {
+   "n": 44,
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-paid-by-firm",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "four entry cards give each realisation-expense case; the paper is a match item"
+  },
+  {
+   "n": 45,
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+   "bestKind": "bank",
+   "needs": [
+    "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9"
+   ],
+   "reason": "accepted bank candidate has a partner take part of the stock (no cash) and the rest sold at a gain, asking the cash realised: same steps, new figures"
+  },
+  {
+   "n": 46,
+   "chapter": "Cash Flow Statement",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.cash-flow-statement.fact-interest-dividend-nonfinancial",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "cards on operating inflows, interest and dividends received as investing, share issue as financing and short-term investments as cash equivalents give every pair"
+  },
+  {
+   "n": 47,
+   "chapter": "Financial Statements of Company",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.financial-statements-of-company.formula-pl-profit-before-tax",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "cards on total revenue, the expense list and profit before tax give the order of the Statement of Profit and Loss items"
+  },
+  {
+   "n": 48,
+   "chapter": "Accounting Ratios",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.accounting-ratios.ex-current-ratio-is-2-1-effect-of-purchasing-go",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks the same thing: current ratio 2:1, goods bought on credit, effect on the ratio: it falls"
+  },
+  {
+   "n": 49,
+   "chapter": "Accounting Ratios",
+   "type": "numerical",
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
+   "bestKind": "bank",
+   "needs": [
+    "55e6c5a0-db6b-47d6-8901-71a9a8c983f5"
+   ],
+   "reason": "accepted bank candidate grosses profit after tax up by the tax rate, adds debt interest and divides by interest: same formula and steps, new figures"
+  },
+  {
+   "n": 50,
+   "chapter": "Comparative & Common Size Statements",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks what comparative statement analysis is also called (horizontal analysis); the paper asks the other way round"
+  },
+  {
+   "n": 51,
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.computerized-accounting-system.list-ch1-advantages",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card lists the five advantages of CAS; the paper's keyed option is the distorted one"
+  },
+  {
+   "n": 52,
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.computerized-accounting-system.def-ch2-mixed-reference",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "cards on ranges, mixed, absolute and relative (default) references give every pair of the match"
+  },
+  {
+   "n": 53,
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.computerized-accounting-system.steps-ch2-freeze-formula-paste-special",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "new Key card steps-ch2-freeze-formula-paste-special (leca102 p. 27) gives the four steps in order: select, Copy, Paste Special, Values and OK, the keyed sequence"
+  },
+  {
+   "n": 54,
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "kc.accountancy.computerized-accounting-system.list-ch3-pmt-parameters",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card lists the PMT parameters with Nper = total number of payments; the paper asks which argument that is"
+  },
+  {
+   "n": 55,
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "kc.accountancy.computerized-accounting-system.fact-ch4-graph-axes",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "card asks the same question: a graph has at least two axes"
+  }
+ ]
+}

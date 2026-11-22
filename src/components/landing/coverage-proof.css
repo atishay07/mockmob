@@ -1,5 +1,6 @@
-/* The CUET 2026 coverage section (CoverageProof.jsx; owner, 22 Nov 2026). One card: the share of the real paper MockMob
-   already teaches as one big figure, then a bar for each subject with its own count. Still: nothing here moves. */
+/* The CUET 2026 coverage teaser (CoverageProof.jsx; owner, 22 Nov 2026, LK368). One card: the share of the real papers MockMob
+   already teaches as one big figure with the key to the full pages, then a bar for each subject, each a link to its own page.
+   Still: nothing here moves. */
 .lp-cov__inner { display: grid; gap: clamp(1.25rem, 4vw, 2rem); }
 .lp-cov__head { display: grid; gap: 0.625rem; max-width: 44rem; }
 .lp-cov__kicker { margin: 0; font: 650 0.9375rem/1.3 var(--font-body); color: var(--brand-word, var(--ink)); }
@@ -7,17 +8,23 @@
   display: grid; gap: 1.25rem; padding: clamp(1.25rem, 5vw, 2rem);
   border: 1px solid var(--line); border-radius: 24px; background: var(--paper-raised); box-shadow: var(--sh-2);
 }
+.lp-cov__lead { display: grid; gap: 1.25rem; align-content: start; }
 .lp-cov__total { display: grid; gap: 0.125rem; margin: 0; color: var(--ink-2); font: 500 1rem/1.35 var(--font-body); }
 .lp-cov__total b { color: var(--ink); font: 800 clamp(3.5rem, 18vw, 5.5rem)/0.95 var(--font-display); letter-spacing: -0.045em; font-variant-numeric: tabular-nums; }
 .lp-cov__total b span { font-size: 0.5em; letter-spacing: -0.02em; margin-left: 0.04em; }
-.lp-cov__rows { list-style: none; display: grid; gap: 1.125rem; margin: 0; padding: 1.125rem 0 0; border-top: 1px solid var(--line); }
+.lp-cov__total > span { max-width: 24ch; }
+.lp-cov__go { margin: 0; }
+.lp-cov__rows { list-style: none; display: grid; gap: 0.5rem; margin: 0; padding: 0.75rem 0 0; border-top: 1px solid var(--line); }
+.lp-cov__link { display: grid; padding: 0.5rem 0; color: inherit; text-decoration: none; border-radius: 12px; -webkit-tap-highlight-color: transparent; }
+.lp-cov__link:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 4px; }
+@media (hover: hover) { .lp-cov__link:hover .lp-cov__name { text-decoration: underline; text-underline-offset: 3px; } }
 .lp-cov__row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
 .lp-cov__name { color: var(--ink); font: 700 1.0625rem/1.25 var(--font-display); letter-spacing: -0.015em; }
 .lp-cov__pct { color: var(--ink); font: 800 1.375rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.lp-cov__bar { height: 12px; margin-top: 0.5rem; border-radius: 999px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
+.lp-cov__bar { display: block; height: 12px; margin-top: 0.5rem; border-radius: 999px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
 .lp-cov__bar i { display: block; height: 100%; border-radius: inherit; background: var(--volt); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 22%, transparent); }
 .lp-cov__count { margin: 0.375rem 0 0; color: var(--ink-2); font: 500 0.9375rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
-.lp-cov__note { margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--ink-2); font: 400 0.875rem/1.5 var(--font-body); text-wrap: pretty; }
+.lp-cov__note { margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--ink-2); font: 400 0.9375rem/1.5 var(--font-body); text-wrap: pretty; }
 @media (min-width: 900px) {
   .lp-cov__card { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); column-gap: clamp(2rem, 5vw, 4rem); align-items: start; }
   .lp-cov__rows { padding-top: 0; border-top: 0; }

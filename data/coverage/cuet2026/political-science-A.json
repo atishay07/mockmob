@@ -1,0 +1,1478 @@
+{
+ "paper": "cuet2026-political-science",
+ "subject": "political-science",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "323",
+  "date": "2026-05-24",
+  "shift": "First",
+  "source": "NTA master question paper for Political Science (paper question numbers 236-285), AglaSem Docs copy at https://docs.aglasem.com/view/7f606cd4-c701-11f1-a888-0aa932765c8b (PDF https://cdn.aglasem.com/aglasem-doc/7f606cd4-c701-11f1-a888-0aa932765c8b/7f606cd4-c701-11f1-a888-0aa932765c8b.pdf), downloaded 22 Nov 2026 (9,554,997 bytes, 39 pages: cover + 38 print pages, English then Hindi for every question). English text transcribed from the page images (tmp/1122-coverage/pol-work/pages/pNN.png at 110 dpi); the OCR was used only to read question and option ids. Answers from NTA's CUET (UG) 2026 final answer key (option ids).",
+  "keySource": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (First) final key for subject 323 (Political Science) and the key option id is one of its four printed option ids (printed in consecutive order, so the key option id fixes the answer position)."
+ },
+ "snapshotDate": "2026-11-22",
+ "bankRead": "One read-only read on 22 Nov 2026 with the repo read script (SELECT only): 253 visible political_science rows, of which 224 pass readablePracticeQuestions (equals the 224 in the 21 Nov inventory snapshot). Served copy: tmp/1122-coverage/snap/political-science/served_rows.json and served_political_science.json.",
+ "keyCardDeck": "data/keycards/decks/political_science.json (v6, 1098 cards; key_card_suspended was not re-read, the earlier subjects had none suspended)",
+ "syllabusSource": "Bank chapter names for political_science (19 chapters); every question sits on the 2026 syllabus",
+ "checker": "A",
+ "method": "data/coverage/METHOD.md (STRICT rule; doubtful = not covered; Key cards count for theory; an answer readable off a printed passage is skill). Facts written first: tmp/1122-coverage/checkerA-pol/A_facts_before_search.txt. Search: tmp/1122-coverage/checkerA-pol/s.mjs over the served copy and the deck.",
+ "paperStructure": "One compulsory Political Science paper of 50 questions: Sub-section 1 = 40 single questions (Q236-275), Sub-section 2 = a comprehension passage on India and the Kyoto Protocol with 5 questions (Q276-280), Sub-section 3 = a comprehension passage on coalition politics in the 1990s with 5 questions (Q281-285). The printed section header says 42 questions, which does not match the 50 ids printed; the key has 50 rows for this shift.",
+ "counts": {
+  "covered": 27,
+  "not_covered": 14,
+  "skill": 9,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 41
+ },
+ "countsBySection": {
+  "subSection1": {
+   "not_covered": 13,
+   "covered": 27
+  },
+  "passage1": {
+   "skill": 5
+  },
+  "passage2": {
+   "skill": 4,
+   "not_covered": 1
+  }
+ },
+ "byType": {
+  "theory": {
+   "covered": 27,
+   "not_covered": 14,
+   "skill": 9,
+   "countable": 41
+  },
+  "numerical": {
+   "covered": 0,
+   "not_covered": 0,
+   "skill": 0,
+   "countable": 0
+  }
+ },
+ "coveredWithABankMatch": 3,
+ "byChapter": {
+  "End of Bipolarity": {
+   "covered": 1,
+   "not_covered": 2
+  },
+  "Alternative Centres of Power": {
+   "covered": 3,
+   "not_covered": 0
+  },
+  "Era of One-Party Dominance": {
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Globalisation": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Politics of Planned Development": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Security in the Contemporary World": {
+   "covered": 2,
+   "not_covered": 0
+  },
+  "Challenges of Nation Building": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Recent Issues and Challenges": {
+   "covered": 1,
+   "not_covered": 0
+  },
+  "Democratic Upsurge and Coalition Politics": {
+   "covered": 1,
+   "not_covered": 1
+  },
+  "India's External Relations": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Contemporary South Asia": {
+   "covered": 0,
+   "not_covered": 2
+  },
+  "International Organisations": {
+   "covered": 2,
+   "not_covered": 2
+  },
+  "Challenges to & Restoration of the Congress System": {
+   "covered": 2,
+   "not_covered": 0
+  },
+  "Crisis of the Democratic Order": {
+   "covered": 1,
+   "not_covered": 1
+  },
+  "Regional Aspirations": {
+   "covered": 3,
+   "not_covered": 1
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 236,
+   "questionId": "226895789600",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "End of Bipolarity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "India benefits from its Russia relationship in access to Central Asia"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served card or bank row says India gains access to Central Asia through Russia; the deck only has the arms market, oil crises, energy imports from Kazakhstan and Turkmenistan, nuclear and space help."
+  },
+  {
+   "n": 2,
+   "paperNumber": 237,
+   "questionId": "226895789601",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "End of Bipolarity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Soviet aid and technical assistance went to the Bhilai, Bokaro and Visakhapatnam steel plants (so Bankura is the odd one out)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.end-of-bipolarity.fact-steel-plants",
+     "teaches": "USSR gave aid for steel plants like Bhilai, Bokaro, Visakhapatnam"
+    }
+   ],
+   "best": "kc.political_science.end-of-bipolarity.fact-steel-plants",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card names the three steel plants Russia helped; a student who knows it can reject Bankura."
+  },
+  {
+   "n": 3,
+   "paperNumber": 238,
+   "questionId": "226895789602",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "End of Bipolarity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Shock therapy: savings lost to inflation",
+    "valuable industries sold at throwaway prices",
+    "subsidy withdrawal pushed people into poverty",
+    "privatisation widened (not reduced) regional and rich-poor gaps"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.end-of-bipolarity.fact-cst-garage-sale",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Only the garage-sale card (industries sold cheap) and a bank row on the ruble and inflation are served; nothing on the withdrawal of subsidies, poverty, or that disparities grew."
+  },
+  {
+   "n": 4,
+   "paperNumber": 239,
+   "questionId": "226895789603",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "Alternative Centres of Power",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "ASEAN founded 1967 by five countries by signing the Bangkok Declaration"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.alternative-centres-of-power.fact-asean-founding",
+     "teaches": "ASEAN established 1967 by five countries, Bangkok Declaration"
+    }
+   ],
+   "best": "kc.political_science.alternative-centres-of-power.fact-asean-founding",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states both the year and the Bangkok Declaration."
+  },
+  {
+   "n": 5,
+   "paperNumber": 240,
+   "questionId": "226895789604",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 1,
+   "chapter": "Alternative Centres of Power",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Series of India-China talks on the border issue started in 1981",
+    "Rajiv Gandhi visited China in December 1988 (not 1987)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.alternative-centres-of-power.fact-ic-talks-1981",
+     "teaches": "talks to resolve the border issue initiated in 1981"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.alternative-centres-of-power.fact-ic-rajiv-1988",
+     "teaches": "Rajiv Gandhi visited China in Dec 1988"
+    }
+   ],
+   "best": "kc.political_science.alternative-centres-of-power.fact-ic-talks-1981",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards give the 1981 talks (the key) and the 1988 visit that disposes of the 1987 option."
+  },
+  {
+   "n": 6,
+   "paperNumber": 241,
+   "questionId": "226895789605",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "Alternative Centres of Power",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Schengen 1985",
+    "Euro 2002",
+    "Lisbon Treaty 2009",
+    "EU Nobel Peace Prize 2012"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.alternative-centres-of-power.fact-tl-1985-schengen",
+     "teaches": "Schengen Agreement June 1985"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.alternative-centres-of-power.fact-tl-2002-euro",
+     "teaches": "Euro introduced January 2002"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.alternative-centres-of-power.fact-tl-2009-lisbon",
+     "teaches": "Lisbon Treaty December 2009"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.alternative-centres-of-power.fact-tl-2012-nobel",
+     "teaches": "Nobel Peace Prize 2012"
+    }
+   ],
+   "best": "kc.political_science.alternative-centres-of-power.fact-tl-1985-schengen",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "All four dated timeline cards are in the deck, so the order can be built."
+  },
+  {
+   "n": 7,
+   "paperNumber": 242,
+   "questionId": "226895789606",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Era of One-Party Dominance",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Congress government at the Centre dismissed the Communist government in Kerala in 1959 under Article 356"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.era-of-one-party-dominance.kl-article-356-1959",
+     "teaches": "dismissed the Communist government in Kerala under Article 356"
+    },
+    {
+     "kind": "bank",
+     "id": "5379abba-9485-488d-95fb-a4f4472a36ce",
+     "teaches": "Kerala 1957 government dismissed in 1959 using Article 356"
+    }
+   ],
+   "best": "kc.political_science.era-of-one-party-dominance.kl-article-356-1959",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card and a served bank row state the same fact."
+  },
+  {
+   "n": 8,
+   "paperNumber": 243,
+   "questionId": "226895789607",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Era of One-Party Dominance",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Congress success in 1952 rested on its all-inclusive nature (a social coalition from the freedom movement)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.era-of-one-party-dominance.fact-all-inclusive",
+     "teaches": "Congress was all-inclusive because it was a national movement"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.era-of-one-party-dominance.fact-rainbow-coalition",
+     "teaches": "rainbow-like social coalition"
+    }
+   ],
+   "best": "kc.political_science.era-of-one-party-dominance.fact-all-inclusive",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card says most importantly the Congress was all-inclusive in nature."
+  },
+  {
+   "n": 9,
+   "paperNumber": 244,
+   "questionId": "226895789608",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Era of One-Party Dominance",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Jana Sangh leaders: Deen Dayal Upadhyaya, Balraj Madhok, Shyama Prasad Mukherjee",
+    "Ajay Ghosh belonged to the CPI, not the Jana Sangh"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.era-of-one-party-dominance.kl-bjs-founded-1951",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Only Shyama Prasad Mukherjee as founder-President is served (card kl-bjs-founded-1951); Upadhyaya, Madhok, and Ajay Ghosh as a CPI leader appear nowhere."
+  },
+  {
+   "n": 10,
+   "paperNumber": 245,
+   "questionId": "226895789609",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Era of One-Party Dominance",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Socialist Party formed 1948",
+    "Bharatiya Jana Sangh formed 1951",
+    "Third general election 1962",
+    "CPI split 1964"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.era-of-one-party-dominance.fact-sp-formed-1948",
+     "teaches": "separate Socialist Party in 1948"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.era-of-one-party-dominance.kl-bjs-founded-1951",
+     "teaches": "Jana Sangh formed in 1951"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.era-of-one-party-dominance.fact-second-third-elections",
+     "teaches": "third general election in 1962"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.era-of-one-party-dominance.fact-cpi-split-1964",
+     "teaches": "Communist Party split in 1964"
+    }
+   ],
+   "best": "kc.political_science.era-of-one-party-dominance.fact-sp-formed-1948",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four dated cards cover every event in the sequence."
+  },
+  {
+   "n": 11,
+   "paperNumber": 246,
+   "questionId": "226895789610",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 1,
+   "chapter": "Globalisation",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Anti-globalisation movements join global networks",
+    "Seattle 1999 WTO protests",
+    "WSF is a platform against neo-liberal globalisation",
+    "the February 2024 WSF was not in Porto Alegre (false statement D)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.globalisation.fact-wsf-meetings",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Statements A, B and C are on cards (fact-global-networks, fact-seattle, def-wsf), but nothing served says where the 2024 WSF met; the cards only give Porto Alegre 2001 and Mumbai 2004, so D cannot be rejected."
+  },
+  {
+   "n": 12,
+   "paperNumber": 247,
+   "questionId": "226895789611",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Globalisation",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Contemporary globalisation is seen as distinct because of the scale and speed of the flows"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.globalisation.fact-contemporary-distinct",
+     "teaches": "scale and speed of these flows account for the uniqueness"
+    }
+   ],
+   "best": "kc.political_science.globalisation.fact-contemporary-distinct",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 13,
+   "paperNumber": 248,
+   "questionId": "226895789612",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 1,
+   "chapter": "Globalisation",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The welfare state is giving way to a minimalist state (so the reverse in option 1 is the incorrect statement)",
+    "market becomes the prime determinant of priorities"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.globalisation.key-minimalist-state",
+     "teaches": "welfare state giving way to a more minimalist state"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.globalisation.key-market-priorities",
+     "teaches": "market becomes the prime determinant"
+    }
+   ],
+   "best": "kc.political_science.globalisation.key-minimalist-state",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards state the direction of the shift, so the reversed statement is spotted."
+  },
+  {
+   "n": 14,
+   "paperNumber": 249,
+   "questionId": "226895789613",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "Politics of Planned Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "First Plan: Bhakra Nangal allocation",
+    "First Plan: pattern of land distribution identified as the obstacle",
+    "First Plan: sought to push savings up",
+    "tariffs on imports belong to the Second Plan"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.politics-of-planned-development.fact-first-plan-land",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards cover Bhakra Nangal, land distribution, and tariffs (Second Plan), but no served material says the First Plan sought to push savings up; the only savings card is about the 1960s to 70s drop."
+  },
+  {
+   "n": 15,
+   "paperNumber": 250,
+   "questionId": "226895789614",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Politics of Planned Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Third Plan was criticised for an unmistakable urban bias"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.politics-of-planned-development.fact-third-plan-urban-bias",
+     "teaches": "critics pointed to an unmistakable urban bias in the Third Plan"
+    }
+   ],
+   "best": "kc.political_science.politics-of-planned-development.fact-third-plan-urban-bias",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states the same criticism."
+  },
+  {
+   "n": 16,
+   "paperNumber": 251,
+   "questionId": "226895789615",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Security in the Contemporary World",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Cooperative security uses force only as a last resort",
+    "cooperation can be bilateral, regional, continental, global",
+    "it involves NGOs, businesses and other players"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.security-in-the-contemporary-world.fact-force-last-resort",
+     "teaches": "cooperative security may involve force as a last resort"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.security-in-the-contemporary-world.fact-cooperation-levels",
+     "teaches": "bilateral, regional, continental or global"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.security-in-the-contemporary-world.list-players",
+     "teaches": "players cooperative security may involve"
+    }
+   ],
+   "best": "kc.political_science.security-in-the-contemporary-world.fact-force-last-resort",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards cover the three true statements and say force is a last resort, which exposes option 3."
+  },
+  {
+   "n": 17,
+   "paperNumber": 252,
+   "questionId": "226895789616",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Security in the Contemporary World",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "NPT 1968",
+    "ABM Treaty 1972",
+    "India first nuclear explosion 1974",
+    "Chemical Weapons Convention 1997"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.india-s-external-relations.list-nuclear-five",
+     "teaches": "NPT of 1968"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.security-in-the-contemporary-world.fact-abm",
+     "teaches": "1972 ABM Treaty"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.india-s-external-relations.fact-nuclear-1974",
+     "teaches": "first nuclear explosion May 1974"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.security-in-the-contemporary-world.fact-bwc-cwc",
+     "teaches": "1997 Chemical Weapons Convention"
+    },
+    {
+     "kind": "bank",
+     "id": "63d95174-0611-4bb9-bc19-8f706fedde27",
+     "teaches": "NPT 1968 and SALT I 1972 in order"
+    }
+   ],
+   "best": "kc.political_science.india-s-external-relations.list-nuclear-five",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Dated cards cover all four events."
+  },
+  {
+   "n": 18,
+   "paperNumber": 253,
+   "questionId": "226895789617",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 1,
+   "chapter": "Challenges of Nation Building",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "First challenge: a nation united yet accommodating diversity",
+    "second: democratic practices under the Constitution",
+    "third: development and wellbeing of the whole society",
+    "partition division of assets is not one of the three"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.fact-first-challenge",
+     "teaches": "shape a nation united yet accommodative of diversity"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.fact-second-challenge",
+     "teaches": "establish democracy"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.fact-constitution-not-sufficient",
+     "teaches": "develop democratic practices in accordance with the Constitution"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.fact-third-challenge",
+     "teaches": "development and wellbeing of the entire society"
+    }
+   ],
+   "best": "kc.political_science.challenges-of-nation-building.fact-first-challenge",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Three cards state the three challenges, so the partition-assets statement is the one left out."
+  },
+  {
+   "n": 19,
+   "paperNumber": 254,
+   "questionId": "226895789618",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Challenges of Nation Building",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Manipur Maharaja signed the Instrument of Accession on assurance of internal autonomy",
+    "Junagadh (not Hyderabad) was settled by plebiscite",
+    "Hyderabad acceded after army action; Razakars were the Nizam force"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.fact-manipur-accession",
+     "teaches": "Manipur Instrument of Accession with assurance of internal autonomy"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.fact-junagadh",
+     "teaches": "Junagarh resolved after a plebiscite"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.fact-hyderabad-accession",
+     "teaches": "Hyderabad acceded after army action"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-of-nation-building.term-razakars",
+     "teaches": "Razakars unleashed by the Nizam"
+    }
+   ],
+   "best": "kc.political_science.challenges-of-nation-building.fact-manipur-accession",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the true statement and refute the Hyderabad, Razakar and Gandhi options."
+  },
+  {
+   "n": 20,
+   "paperNumber": 255,
+   "questionId": "226895789619",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 1,
+   "chapter": "Challenges of Nation Building",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Cities divided into communal zones after partition: Lahore, Amritsar, Kolkata"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served card or bank row names the cities that became divided into communal zones."
+  },
+  {
+   "n": 21,
+   "paperNumber": 256,
+   "questionId": "226895789620",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "Recent Issues and Challenges",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Dalit Shoshit Samaj Sangharsh Samiti emerged under Kanshi Ram"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.recent-issues-and-challenges.fact-bsp-origin-kanshi-ram",
+     "teaches": "DS-4 and the BSP emerged under the leadership of Kanshi Ram"
+    }
+   ],
+   "best": "kc.political_science.recent-issues-and-challenges.fact-bsp-origin-kanshi-ram",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card names the DS-4 and Kanshi Ram."
+  },
+  {
+   "n": 22,
+   "paperNumber": 257,
+   "questionId": "226895789621",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "Democratic Upsurge and Coalition Politics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "2014: BJP became the first party to win a single-party majority after 30 years (282 seats)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.democratic-upsurge-and-coalition-politics.fact-bjp-282-2014",
+     "teaches": "BJP 282 seats, first single-party majority after 30 years"
+    }
+   ],
+   "best": "kc.political_science.democratic-upsurge-and-coalition-politics.fact-bjp-282-2014",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states the exact fact."
+  },
+  {
+   "n": 23,
+   "paperNumber": 258,
+   "questionId": "226895789622",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "India's External Relations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "India protested Britain over Suez 1956 but did not join the public condemnation of the USSR over Hungary",
+    "India stayed out of NATO and the Warsaw Pact"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.india-s-external-relations.fact-suez-hungary",
+     "teaches": "India led protest over Suez but did not join condemnation of USSR over Hungary"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.india-s-external-relations.term-nato-warsaw",
+     "teaches": "US-led NATO and Soviet-led Warsaw Pact"
+    }
+   ],
+   "best": "kc.political_science.india-s-external-relations.fact-suez-hungary",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives the Hungary point that makes option 2 the one India did not do."
+  },
+  {
+   "n": 24,
+   "paperNumber": 259,
+   "questionId": "226895789623",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Contemporary South Asia",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "India-Sri Lanka Accord 1987",
+    "India-Pakistan agreement on nuclear installations 1988",
+    "Farakka Treaty 1996",
+    "India-Sri Lanka FTA 1998"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.contemporary-south-asia.fact-tl-farakka",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The 1987 Accord and the 1996 Farakka card are served, but the India-Pakistan nuclear installations agreement is nowhere and the Sri Lanka FTA card carries no year."
+  },
+  {
+   "n": 25,
+   "paperNumber": 260,
+   "questionId": "226895789624",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Contemporary South Asia",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Nepal: Seven Party Alliance",
+    "Sri Lanka: IPKF",
+    "Maldives: troops against the 1988 mercenary attack",
+    "Bangladesh: exchange of enclaves"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.contemporary-south-asia.fact-nb-maldives-1988",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Nepal SPA, Sri Lanka IPKF and Maldives 1988 are on cards, but the India-Bangladesh enclave exchange is not stated anywhere; a match item needs every pair."
+  },
+  {
+   "n": 26,
+   "paperNumber": 261,
+   "questionId": "226895789625",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "International Organisations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "IMF oversees the financial institutions and regulations acting at the international level"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.international-organisations.def-imf",
+     "teaches": "IMF oversees those financial institutions and regulations that act at the international level"
+    }
+   ],
+   "best": "kc.political_science.international-organisations.def-imf",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the exact definition the key uses."
+  },
+  {
+   "n": 27,
+   "paperNumber": 262,
+   "questionId": "226895789626",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "International Organisations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The International Court of Justice sits at The Hague"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "The bank only says the ICJ settles legal disputes; no served row or card names its seat."
+  },
+  {
+   "n": 28,
+   "paperNumber": 263,
+   "questionId": "226895789627",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "International Organisations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "1992 UNGA resolution: Council lacks equitable representation, reflects only Western values and interests, no longer represents contemporary realities (veto point is not one of the three)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.international-organisations.list-complaints-1992",
+     "teaches": "three main complaints in the 1992 UNGA resolution"
+    }
+   ],
+   "best": "kc.political_science.international-organisations.list-complaints-1992",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the three complaints, so the veto option is the odd one."
+  },
+  {
+   "n": 29,
+   "paperNumber": 264,
+   "questionId": "226895789628",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 1,
+   "chapter": "International Organisations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Boutros-Ghali: An Agenda for Peace",
+    "Ban Ki-moon: UN Women",
+    "Hammarskjold: Suez Canal dispute",
+    "Annan: Human Rights Council"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.international-organisations.fact-sg-bankimoon",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Boutros-Ghali, Hammarskjold and Annan are on cards, but the Ban Ki-moon card says only that he highlighted climate change; nothing served links him to UN Women."
+  },
+  {
+   "n": 30,
+   "paperNumber": 265,
+   "questionId": "226895789629",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "India's External Relations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Department of Defence Production 1962",
+    "Department of Defence Supplies 1965",
+    "Tashkent Agreement 1966",
+    "NPT 1968"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.india-s-external-relations.fact-tashkent",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Tashkent 1966 and NPT 1968 are served, but nothing gives the years of the Departments of Defence Production and Defence Supplies."
+  },
+  {
+   "n": 31,
+   "paperNumber": 266,
+   "questionId": "226895789630",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "India's External Relations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Bandung Conference 1955 marked the zenith of India engagement with newly independent Asia and Africa"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.india-s-external-relations.fact-bandung",
+     "teaches": "Bandung Conference marked the zenith of India engagement"
+    },
+    {
+     "kind": "bank",
+     "id": "193d1231-7453-4de8-8063-44b41a3516a3",
+     "teaches": "Afro-Asian Conference of 1955 at Bandung"
+    }
+   ],
+   "best": "kc.political_science.india-s-external-relations.fact-bandung",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card has the same question and answer."
+  },
+  {
+   "n": 32,
+   "paperNumber": 267,
+   "questionId": "226895789631",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Challenges to & Restoration of the Congress System",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Syndicate = informal name for Congress leaders who controlled the organisation",
+    "members S. K. Patil, Sanjeeva Reddy, Atulya Ghosh; led by K. Kamaraj",
+    "after the 1969 split the Syndicate group became Congress (O)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.def-syndicate",
+     "teaches": "informal name for leaders in control of the party organisation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.list-syndicate-members",
+     "teaches": "led by K. Kamraj; includes Patil, Nijalingappa, Reddy, Atulya Ghosh"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.fact-two-congresses",
+     "teaches": "group led by the syndicate became Congress (Organisation)"
+    }
+   ],
+   "best": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.def-syndicate",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Three cards support statements B, C, D and show it was led by Kamraj, so statement A fails."
+  },
+  {
+   "n": 33,
+   "paperNumber": 268,
+   "questionId": "226895789632",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Challenges to & Restoration of the Congress System",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Indira Gandhi projected the 1969 split as an ideological divide between socialists and conservatives"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.fact-split-ideological",
+     "teaches": "projected the split as an ideological divide between socialists and conservatives"
+    }
+   ],
+   "best": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.fact-split-ideological",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the exact fact."
+  },
+  {
+   "n": 34,
+   "paperNumber": 269,
+   "questionId": "226895789633",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Crisis of the Democratic Order",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "JP: founder general secretary of the Congress Socialist Party",
+    "Morarji Desai: Gujarat students protest",
+    "Charan Singh: founded Bharatiya Kranti Dal",
+    "Fernandes: railway strike"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.crisis-of-the-democratic-order.fact-railway-strike",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Fernandes and the railway strike and Morarji Desai in Gujarat are on cards, but nothing says JP was founder general secretary of the CSP or that Charan Singh founded the Bharatiya Kranti Dal."
+  },
+  {
+   "n": 35,
+   "paperNumber": 270,
+   "questionId": "226895789634",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Crisis of the Democratic Order",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "After the Allahabad High Court ruling the amendment declared elections of PM, President and Vice-President cannot be challenged in court"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.crisis-of-the-democratic-order.fact-amend-elections",
+     "teaches": "amendment: elections of PM, President, VP could not be challenged in the Court"
+    }
+   ],
+   "best": "kc.political_science.crisis-of-the-democratic-order.fact-amend-elections",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states this amendment."
+  },
+  {
+   "n": 36,
+   "paperNumber": 271,
+   "questionId": "226895789635",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Regional Aspirations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Anandpur Sahib Resolution 1973",
+    "Sikkim asks for full integration April 1975",
+    "Assam Accord 1985",
+    "Rajiv Gandhi-Laldenga peace agreement 1986"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.regional-aspirations.fact-anandpur-1973",
+     "teaches": "Anandpur Sahib resolution 1973"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.regional-aspirations.fact-sikkim-1975",
+     "teaches": "April 1975 resolution for full integration"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.regional-aspirations.fact-assam-accord-terms",
+     "teaches": "1985 Assam accord"
+    },
+    {
+     "kind": "card",
+     "id": "kc.political_science.regional-aspirations.fact-mizo-accord",
+     "teaches": "peace agreement of 1986 between Rajiv Gandhi and Laldenga"
+    }
+   ],
+   "best": "kc.political_science.regional-aspirations.fact-anandpur-1973",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four dated cards put the events in order."
+  },
+  {
+   "n": 37,
+   "paperNumber": 272,
+   "questionId": "226895789636",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 2,
+   "chapter": "Regional Aspirations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Three issues dominate North-East politics: autonomy demands, secession movements, opposition to outsiders"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.regional-aspirations.list-ne-three-issues",
+     "teaches": "demands for autonomy, movements for secession, opposition to outsiders"
+    }
+   ],
+   "best": "kc.political_science.regional-aspirations.list-ne-three-issues",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the three issues, so asymmetrical relationship is the one left out."
+  },
+  {
+   "n": 38,
+   "paperNumber": 273,
+   "questionId": "226895789637",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 3,
+   "chapter": "Regional Aspirations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Meghalaya 1972",
+    "Punjab 1966",
+    "Goa 1987",
+    "Nagaland 1963"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.challenges-of-nation-building.fact-northeast-1987",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Meghalaya 1972, Punjab 1966 and Nagaland 1963 are on cards, but no served material gives the year Goa became a state."
+  },
+  {
+   "n": 39,
+   "paperNumber": 274,
+   "questionId": "226895789638",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 1,
+   "chapter": "Regional Aspirations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Maharaja Hari Singh wanted an independent status for J&K"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.regional-aspirations.fact-hari-singh",
+     "teaches": "did not want to merge but to have an independent status"
+    }
+   ],
+   "best": "kc.political_science.regional-aspirations.fact-hari-singh",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states it."
+  },
+  {
+   "n": 40,
+   "paperNumber": 275,
+   "questionId": "226895789639",
+   "section": "Sub-section 1 (Q236-275)",
+   "ntaKey": 4,
+   "chapter": "Politics of Planned Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Consensus: development could not be left to private actors; government must draw up a design for development"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.political_science.politics-of-planned-development.fact-consensus",
+     "teaches": "development could not be left to private actors; government to develop a design"
+    }
+   ],
+   "best": "kc.political_science.politics-of-planned-development.fact-consensus",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states the consensus."
+  },
+  {
+   "n": 41,
+   "paperNumber": 276,
+   "questionId": "226895789641",
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "ntaKey": 3,
+   "chapter": "Environment & Natural Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the Kyoto Protocol passage (P1)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 42,
+   "paperNumber": 277,
+   "questionId": "226895789642",
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "ntaKey": 1,
+   "chapter": "Environment & Natural Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the Kyoto Protocol passage (P1)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 43,
+   "paperNumber": 278,
+   "questionId": "226895789643",
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "ntaKey": 2,
+   "chapter": "Environment & Natural Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the Kyoto Protocol passage (P1)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 44,
+   "paperNumber": 279,
+   "questionId": "226895789644",
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "ntaKey": 4,
+   "chapter": "Environment & Natural Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the Kyoto Protocol passage (P1)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 45,
+   "paperNumber": 280,
+   "questionId": "226895789645",
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "ntaKey": 1,
+   "chapter": "Environment & Natural Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the Kyoto Protocol passage (P1)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 46,
+   "paperNumber": 281,
+   "questionId": "226895789647",
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "ntaKey": 3,
+   "chapter": "Democratic Upsurge and Coalition Politics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the coalition-politics passage (P2)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 47,
+   "paperNumber": 282,
+   "questionId": "226895789648",
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "ntaKey": 3,
+   "chapter": "Democratic Upsurge and Coalition Politics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the coalition-politics passage (P2)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 48,
+   "paperNumber": 283,
+   "questionId": "226895789649",
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "ntaKey": 3,
+   "chapter": "Democratic Upsurge and Coalition Politics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the coalition-politics passage (P2)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 49,
+   "paperNumber": 284,
+   "questionId": "226895789650",
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "ntaKey": 1,
+   "chapter": "Democratic Upsurge and Coalition Politics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Answer printed in the coalition-politics passage (P2)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer can be read off the passage printed in the paper, so it tests reading; shown, not counted."
+  },
+  {
+   "n": 50,
+   "paperNumber": 285,
+   "questionId": "226895789651",
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "ntaKey": 1,
+   "chapter": "Democratic Upsurge and Coalition Politics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "I. K. Gujral was Prime Minister of the United Front government April 1997 - March 1998"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.political_science.democratic-upsurge-and-coalition-politics.fact-kesri-withdrew-support",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The passage does not name him; served material has Deve Gowda heading the 1996 United Front and Kesri withdrawing support, but nothing names Gujral."
+  }
+ ]
+}

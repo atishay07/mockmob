@@ -1,6 +1,6 @@
 {
   "subject": "economics",
-  "version": 7,
+  "version": 8,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -882,6 +882,34 @@
         "capital account"
       ],
       "order": 330
+    },
+    {
+      "id": "kc.economics.balance-of-payments.fact-ca-deficit-spends-more",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "fact",
+      "front": "What does a deficit in a country’s current account mean, and how must it be financed?",
+      "back": "a country that has a deficit in its current account (spending more than it receives from sales to the rest of the world) must finance it by selling assets or by borrowing abroad.",
+      "quote": "a country that has a deficit in its current account (spending more than it receives from sales to the rest of the world) must finance it by selling assets or by borrowing abroad.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 88,
+        "section": "6.1.3 Balance of Payments Surplus and Deficit"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "current account",
+        "deficit"
+      ],
+      "order": 335
     },
     {
       "id": "kc.economics.balance-of-payments.key-ca-deficit-ka-surplus",
@@ -4956,6 +4984,62 @@
       "order": 170
     },
     {
+      "id": "kc.economics.economic-reforms-since-1991.fact-small-scale-dereserved",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms since 1991",
+      "kind": "fact",
+      "front": "What has happened to many goods produced by small-scale industries after the 1991 reforms?",
+      "back": "Many goods produced by small-scale industries have now been dereserved.",
+      "quote": "Many goods produced by small-scale industries have now been dereserved.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 41,
+        "section": "3.3 Liberalisation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "small-scale industries",
+        "dereservation"
+      ],
+      "order": 175
+    },
+    {
+      "id": "kc.economics.economic-reforms-since-1991.fact-market-sets-prices",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms since 1991",
+      "kind": "fact",
+      "front": "In most industries, what now determines prices after the 1991 reforms?",
+      "back": "In most industries, the market has been allowed to determine the prices.",
+      "quote": "In most industries, the market has been allowed to determine the prices.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 41,
+        "section": "3.3 Liberalisation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "deregulation",
+        "prices"
+      ],
+      "order": 176
+    },
+    {
       "id": "kc.economics.economic-reforms-since-1991.def-financial-sector",
       "v": 1,
       "subject": "economics",
@@ -8008,6 +8092,34 @@
         "informal sector"
       ],
       "order": 520
+    },
+    {
+      "id": "kc.economics.employment.fact-box61-labour-ministry-data",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.employment",
+      "chapter": "Employment",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "Who collects the information relating to employment in the formal sector, and through what?",
+      "back": "The information relating to employment in the formal sector is collected by the Union Ministry of Labour through employment exchanges located in different parts of the country.",
+      "quote": "The information relating to employment in the formal sector is collected by the Union Ministry of Labour through employment exchanges located in different parts of the country.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec106",
+        "chapterNo": 6,
+        "page": 103,
+        "section": "Box 6.1: Formal Sector Employment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "formal sector",
+        "Ministry of Labour"
+      ],
+      "order": 525
     },
     {
       "id": "kc.economics.employment.fact-box61-public-employer",
@@ -12784,6 +12896,33 @@
       "order": 390
     },
     {
+      "id": "kc.economics.human-capital-formation.fact-nep-2020-knowledge-landscape",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "What does the National Education Policy 2020 state about the knowledge landscape?",
+      "back": "The National Education Policy 2020 states that the world is undergoing rapid changes in the knowledge landscape.",
+      "quote": "The National Education Policy 2020 states that the world is undergoing rapid changes in the knowledge landscape.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 65,
+        "section": "4.3 Human Capital and Economic Growth"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "National Education Policy 2020"
+      ],
+      "order": 395
+    },
+    {
       "id": "kc.economics.human-capital-formation.diff-hc-vs-hd-view",
       "v": 1,
       "subject": "economics",
@@ -13202,6 +13341,63 @@
       "order": 600
     },
     {
+      "id": "kc.economics.human-capital-formation.fact-education-commission-six-percent",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "What did the Education Commission (1964–66) recommend about the share of GDP spent on education?",
+      "back": "The Education Commission (1964–66) had recommended that at least 6 per cent of GDP be spent on education so as to make a noticeable rate of growth in educational achievements.",
+      "quote": "The Education Commission (1964–66) had recommended that at least 6 per cent of GDP be spent on education so as to make a noticeable rate of growth in educational achievements.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 69,
+        "section": "4.6 Education Sector in India"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "Education Commission",
+        "education expenditure"
+      ],
+      "order": 625,
+      "note": "The Education Commission (1964–66) is also known as the Kothari Commission."
+    },
+    {
+      "id": "kc.economics.human-capital-formation.fact-tapas-majumdar-committee-1999",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "When was the Tapas Majumdar Committee appointed by the Government of India, and what did it estimate?",
+      "back": "The Tapas Majumdar Committee, appointed by the Government of India in 1999, estimated an expenditure of around Rs 1.37 lakh crore over 10 years (1998-99 to 2006-07) to bring all Indian children in the age group of 6-14 years under the purview of school education.",
+      "quote": "The Tapas Majumdar Committee, appointed by the Government of India in 1999, estimated an expenditure of around Rs 1.37 lakh crore over 10 years (1998-99 to 2006-07) to bring all Indian children in the age group of 6-14 years under the purview of school education.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 69,
+        "section": "4.6 Education Sector in India"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "Tapas Majumdar Committee",
+        "education expenditure"
+      ],
+      "order": 626
+    },
+    {
       "id": "kc.economics.human-capital-formation.kl-six-percent-gap",
       "v": 1,
       "subject": "economics",
@@ -13230,6 +13426,34 @@
         "education expenditure"
       ],
       "order": 630
+    },
+    {
+      "id": "kc.economics.human-capital-formation.fact-rte-act-2009",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "When was the Right of Children to Free and Compulsory Education Act enacted, and for which children?",
+      "back": "In 2009, the Government of India enacted the Right of Children to Free and Compulsory Education Act to make free education a fundamental right of all children in the age group of 6-14 years.",
+      "quote": "In 2009, the Government of India enacted the Right of Children to Free and Compulsory Education Act to make free education a fundamental right of all children in the age group of 6-14 years.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 69,
+        "section": "4.6 Education Sector in India"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "RTE Act",
+        "free education"
+      ],
+      "order": 631
     },
     {
       "id": "kc.economics.human-capital-formation.list-edu-achievement-indicators",
@@ -25383,6 +25607,120 @@
       "order": 810
     },
     {
+      "id": "kc.economics.national-income-and-related-aggregates.fact-general-theory-1936",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "Introduction and National Income Accounting",
+      "kind": "fact",
+      "front": "In which year did Keynes publish The General Theory of Employment, Interest and Money?",
+      "back": "Macroeconomics, as a separate branch of economics, emerged after the British economist John Maynard Keynes published his celebrated book The General Theory of Employment, Interest and Money in 1936.",
+      "quote": "Macroeconomics, as a separate branch of economics, emerged after the British economist John Maynard Keynes published his celebrated book The General Theory of Employment, Interest and Money in 1936.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "1.1 Emergence of Macroeconomics"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "Keynes",
+        "General Theory",
+        "macroeconomics"
+      ],
+      "order": 1
+    },
+    {
+      "id": "kc.economics.national-income-and-related-aggregates.fact-general-theory-influential",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "Introduction and National Income Accounting",
+      "kind": "fact",
+      "front": "Which book by Keynes is regarded as one of the most influential economics books of the twentieth century?",
+      "back": "His book General Theory of Employment, Interest and Money (1936) is regarded as one of the most influential economics books of the twentieth century.",
+      "quote": "His book General Theory of Employment, Interest and Money (1936) is regarded as one of the most influential economics books of the twentieth century.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "1.1 Emergence of Macroeconomics"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "Keynes",
+        "General Theory"
+      ],
+      "order": 2
+    },
+    {
+      "id": "kc.economics.national-income-and-related-aggregates.fact-external-sector-trade",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "Introduction and National Income Accounting",
+      "kind": "fact",
+      "front": "What is the external sector in macroeconomics, and what two kinds of trade does it involve?",
+      "back": "The external sector is the fourth important sector in our study. Trade with the external sector can be of two kinds 1. The domestic country may sell goods to the rest of the world. These are called exports. 2. The economy may also buy goods from the rest of the world. These are called imports.",
+      "quote": "The external sector is the fourth important sector in our study. Trade with the external sector can be of two kinds 1. The domestic country may sell goods to the rest of the world. These are called exports. 2. The economy may also buy goods from the rest of the world. These are called imports.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "1.2 Sectors of an economy: the external sector"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "external sector",
+        "exports",
+        "imports"
+      ],
+      "order": 3
+    },
+    {
+      "id": "kc.economics.national-income-and-related-aggregates.fact-four-sectors",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "Introduction and National Income Accounting",
+      "kind": "fact",
+      "front": "Into which four sectors does macroeconomics divide an economy?",
+      "back": "Macroeconomics sees an economy as a combination of four sectors, namely households, firms, government and external sector.",
+      "quote": "Macroeconomics sees an economy as a combination of four sectors, namely households, firms, government and external sector.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "four sectors",
+        "macroeconomics"
+      ],
+      "order": 4
+    },
+    {
       "id": "kc.economics.national-income-and-related-aggregates.def-final-good",
       "v": 1,
       "subject": "economics",
@@ -28376,6 +28714,116 @@
       "order": 140
     },
     {
+      "id": "kc.economics.production-and-costs.def-isoquant",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "definition",
+      "front": "Define an isoquant.",
+      "back": "An isoquant is the set of all possible combinations of the two inputs that yield the same maximum possible level of output.",
+      "quote": "An isoquant is the set of all possible combinations of the two inputs that yield the same maximum possible level of output.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 38,
+        "section": "Isoquant"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "isoquant"
+      ],
+      "order": 142
+    },
+    {
+      "id": "kc.economics.production-and-costs.fact-isoquant-alternative-pf",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "fact",
+      "front": "What is an isoquant just an alternative way of representing?",
+      "back": "It is just an alternative way of representing the production function.",
+      "quote": "It is just an alternative way of representing the production function.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 38,
+        "section": "Isoquant"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "isoquant",
+        "production function"
+      ],
+      "order": 143
+    },
+    {
+      "id": "kc.economics.production-and-costs.fact-isoquant-output-label",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "fact",
+      "front": "What does each isoquant represent, and how is it labelled?",
+      "back": "Each isoquant represents a particular level of output and is labelled with that amount of output.",
+      "quote": "Each isoquant represents a particular level of output and is labelled with that amount of output.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 38,
+        "section": "Isoquant"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "isoquant"
+      ],
+      "order": 144
+    },
+    {
+      "id": "kc.economics.production-and-costs.fact-isoquant-negative-slope",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "fact",
+      "front": "Why are isoquants negatively sloped?",
+      "back": "When marginal products are positive, with greater amount of one input, the same level of output can be produced only using lesser amount of the other. Therefore, isoquants are negatively sloped.",
+      "quote": "When marginal products are positive, with greater amount of one input, the same level of output can be produced only using lesser amount of the other. Therefore, isoquants are negatively sloped.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 38,
+        "section": "Isoquant"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "isoquant",
+        "slope"
+      ],
+      "order": 146
+    },
+    {
       "id": "kc.economics.production-and-costs.def-long-run",
       "v": 1,
       "subject": "economics",
@@ -31012,6 +31460,34 @@
         "animal husbandry"
       ],
       "order": 380
+    },
+    {
+      "id": "kc.economics.rural-development.fact-tanwa-project-purpose",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "What was the Tamil Nadu Women in Agriculture (TANWA) project meant to do?",
+      "back": "Tamil Nadu Women in Agriculture (TANWA) was a project initiated in the late 1980s in Tamil Nadu to train women in latest agricultural techniques and in organic farming.",
+      "quote": "Tamil Nadu Women in Agriculture (TANWA) was a project initiated in the late 1980s in Tamil Nadu to train women in latest agricultural techniques and in organic farming.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 83,
+        "section": "Box 5.2: Tamil Nadu Women in Agriculture (TANWA)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "TANWA",
+        "women"
+      ],
+      "order": 382
     },
     {
       "id": "kc.economics.rural-development.fact-milk-production-twelve-times",

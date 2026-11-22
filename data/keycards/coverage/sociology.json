@@ -85,11 +85,11 @@
       "belowMinimum": false
     },
     "sociology.demographic-structure": {
-      "published": 119,
+      "published": 120,
       "quarantined": 6,
       "byKind": {
         "definition": 22,
-        "fact": 85,
+        "fact": 86,
         "list": 5,
         "difference": 2,
         "key_line": 3,
@@ -98,7 +98,7 @@
       },
       "byImportance": {
         "must": 31,
-        "good": 88
+        "good": 89
       },
       "coverage_note": null,
       "mustShare": 0.26,
@@ -145,12 +145,12 @@
       "belowMinimum": true
     },
     "sociology.market-as-a-social-institution": {
-      "published": 50,
+      "published": 51,
       "quarantined": 6,
       "byKind": {
         "key_line": 5,
         "types": 3,
-        "fact": 30,
+        "fact": 31,
         "term": 1,
         "definition": 5,
         "example": 5,
@@ -158,7 +158,7 @@
       },
       "byImportance": {
         "must": 12,
-        "good": 38
+        "good": 39
       },
       "coverage_note": null,
       "mustShare": 0.24,
@@ -184,10 +184,10 @@
       "belowMinimum": false
     },
     "sociology.patterns-of-social-inequality": {
-      "published": 149,
+      "published": 154,
       "quarantined": 13,
       "byKind": {
-        "fact": 79,
+        "fact": 84,
         "list": 16,
         "types": 1,
         "example": 2,
@@ -198,17 +198,17 @@
       },
       "byImportance": {
         "must": 37,
-        "good": 112
+        "good": 117
       },
       "coverage_note": null,
-      "mustShare": 0.25,
+      "mustShare": 0.24,
       "belowMinimum": false
     },
     "sociology.social-institutions": {
-      "published": 79,
+      "published": 80,
       "quarantined": 9,
       "byKind": {
-        "fact": 38,
+        "fact": 39,
         "definition": 7,
         "difference": 6,
         "list": 5,
@@ -220,45 +220,45 @@
       },
       "byImportance": {
         "must": 20,
-        "good": 59
+        "good": 60
       },
       "coverage_note": null,
       "mustShare": 0.25,
       "belowMinimum": false
     },
     "sociology.social-movements": {
-      "published": 103,
+      "published": 107,
       "quarantined": 16,
       "byKind": {
+        "fact": 59,
         "definition": 8,
         "list": 10,
-        "fact": 55,
         "key_line": 23,
         "example": 6,
         "types": 1
       },
       "byImportance": {
         "must": 27,
-        "good": 76
+        "good": 80
       },
       "coverage_note": null,
-      "mustShare": 0.26,
+      "mustShare": 0.25,
       "belowMinimum": false
     },
     "sociology.story-of-indian-democracy": {
-      "published": 58,
-      "quarantined": 10,
+      "published": 59,
+      "quarantined": 9,
       "byKind": {
         "key_line": 7,
         "fact": 37,
         "definition": 6,
-        "list": 6,
+        "list": 7,
         "term": 1,
         "types": 1
       },
       "byImportance": {
         "must": 13,
-        "good": 45
+        "good": 46
       },
       "coverage_note": null,
       "mustShare": 0.22,

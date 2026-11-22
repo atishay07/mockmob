@@ -1,0 +1,1059 @@
+{
+ "paper": "cuet2026-political-science",
+ "source": "AglaSem Docs copy of the NTA master question paper (https://docs.aglasem.com/view/7f606cd4-c701-11f1-a888-0aa932765c8b), downloaded 22 Nov 2026 (9,554,997 bytes); ids read by OCR (RapidOCR) and matched to NTA's 2026 final key (subject 323, 24-05-2026 First, 50 of 50 authenticated)",
+ "shifts": {
+  "24-05-2026 (First)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 236,
+   "questionId": "226895789600",
+   "page": 3,
+   "optionIds": {
+    "2268953062029": 1,
+    "2268953062030": 2,
+    "2268953062031": 3,
+    "2268953062032": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062030"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 237,
+   "questionId": "226895789601",
+   "page": 3,
+   "optionIds": {
+    "2268953062033": 1,
+    "2268953062034": 2,
+    "2268953062035": 3,
+    "2268953062036": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062036"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 238,
+   "questionId": "226895789602",
+   "page": 4,
+   "optionIds": {
+    "2268953062037": 1,
+    "2268953062038": 2,
+    "2268953062039": 3,
+    "2268953062040": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062038"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 239,
+   "questionId": "226895789603",
+   "page": 5,
+   "optionIds": {
+    "2268953062041": 1,
+    "2268953062042": 2,
+    "2268953062043": 3,
+    "2268953062044": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062042"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 240,
+   "questionId": "226895789604",
+   "page": 6,
+   "optionIds": {
+    "2268953062045": 1,
+    "2268953062046": 2,
+    "2268953062047": 3,
+    "2268953062048": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062045"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 241,
+   "questionId": "226895789605",
+   "page": 6,
+   "optionIds": {
+    "2268953062049": 1,
+    "2268953062050": 2,
+    "2268953062051": 3,
+    "2268953062052": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062050"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 242,
+   "questionId": "226895789606",
+   "page": 7,
+   "optionIds": {
+    "2268953062053": 1,
+    "2268953062054": 2,
+    "2268953062055": 3,
+    "2268953062056": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062056"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 243,
+   "questionId": "226895789607",
+   "page": 7,
+   "optionIds": {
+    "2268953062057": 1,
+    "2268953062058": 2,
+    "2268953062059": 3,
+    "2268953062060": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062059"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 244,
+   "questionId": "226895789608",
+   "page": 8,
+   "optionIds": {
+    "2268953062061": 1,
+    "2268953062062": 2,
+    "2268953062063": 3,
+    "2268953062064": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062063"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 245,
+   "questionId": "226895789609",
+   "page": 9,
+   "optionIds": {
+    "2268953062065": 1,
+    "2268953062066": 2,
+    "2268953062067": 3,
+    "2268953062068": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062068"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 246,
+   "questionId": "226895789610",
+   "page": 9,
+   "optionIds": {
+    "2268953062069": 1,
+    "2268953062070": 2,
+    "2268953062071": 3,
+    "2268953062072": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062069"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 247,
+   "questionId": "226895789611",
+   "page": 10,
+   "optionIds": {
+    "2268953062073": 1,
+    "2268953062074": 2,
+    "2268953062075": 3,
+    "2268953062076": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062076"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 248,
+   "questionId": "226895789612",
+   "page": 11,
+   "optionIds": {
+    "2268953062077": 1,
+    "2268953062078": 2,
+    "2268953062079": 3,
+    "2268953062080": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062077"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 249,
+   "questionId": "226895789613",
+   "page": 12,
+   "optionIds": {
+    "2268953062081": 1,
+    "2268953062082": 2,
+    "2268953062083": 3,
+    "2268953062084": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062082"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 250,
+   "questionId": "226895789614",
+   "page": 12,
+   "optionIds": {
+    "2268953062085": 1,
+    "2268953062086": 2,
+    "2268953062087": 3,
+    "2268953062088": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062087"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 251,
+   "questionId": "226895789615",
+   "page": 13,
+   "optionIds": {
+    "2268953062089": 1,
+    "2268953062090": 2,
+    "2268953062091": 3,
+    "2268953062092": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062091"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 252,
+   "questionId": "226895789616",
+   "page": 14,
+   "optionIds": {
+    "2268953062093": 1,
+    "2268953062094": 2,
+    "2268953062095": 3,
+    "2268953062096": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062096"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 253,
+   "questionId": "226895789617",
+   "page": 14,
+   "optionIds": {
+    "2268953062097": 1,
+    "2268953062098": 2,
+    "2268953062099": 3,
+    "2268953062100": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062097"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 254,
+   "questionId": "226895789618",
+   "page": 15,
+   "optionIds": {
+    "2268953062101": 1,
+    "2268953062102": 2,
+    "2268953062103": 3,
+    "2268953062104": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062103"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 255,
+   "questionId": "226895789619",
+   "page": 16,
+   "optionIds": {
+    "2268953062105": 1,
+    "2268953062106": 2,
+    "2268953062107": 3,
+    "2268953062108": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062105"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 256,
+   "questionId": "226895789620",
+   "page": 17,
+   "optionIds": {
+    "2268953062109": 1,
+    "2268953062110": 2,
+    "2268953062111": 3,
+    "2268953062112": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062110"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 257,
+   "questionId": "226895789621",
+   "page": 17,
+   "optionIds": {
+    "2268953062113": 1,
+    "2268953062114": 2,
+    "2268953062115": 3,
+    "2268953062116": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062114"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 258,
+   "questionId": "226895789622",
+   "page": 18,
+   "optionIds": {
+    "2268953062117": 1,
+    "2268953062118": 2,
+    "2268953062119": 3,
+    "2268953062120": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062118"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 259,
+   "questionId": "226895789623",
+   "page": 18,
+   "optionIds": {
+    "2268953062121": 1,
+    "2268953062122": 2,
+    "2268953062123": 3,
+    "2268953062124": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062123"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 260,
+   "questionId": "226895789624",
+   "page": 19,
+   "optionIds": {
+    "2268953062125": 1,
+    "2268953062126": 2,
+    "2268953062127": 3,
+    "2268953062128": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062128"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 261,
+   "questionId": "226895789625",
+   "page": 20,
+   "optionIds": {
+    "2268953062129": 1,
+    "2268953062130": 2,
+    "2268953062131": 3,
+    "2268953062132": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062132"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 262,
+   "questionId": "226895789626",
+   "page": 21,
+   "optionIds": {
+    "2268953062133": 1,
+    "2268953062134": 2,
+    "2268953062135": 3,
+    "2268953062136": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062136"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 263,
+   "questionId": "226895789627",
+   "page": 22,
+   "optionIds": {
+    "2268953062137": 1,
+    "2268953062138": 2,
+    "2268953062139": 3,
+    "2268953062140": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062138"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 264,
+   "questionId": "226895789628",
+   "page": 22,
+   "optionIds": {
+    "2268953062141": 1,
+    "2268953062142": 2,
+    "2268953062143": 3,
+    "2268953062144": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062141"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 265,
+   "questionId": "226895789629",
+   "page": 23,
+   "optionIds": {
+    "2268953062145": 1,
+    "2268953062146": 2,
+    "2268953062147": 3,
+    "2268953062148": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062147"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 266,
+   "questionId": "226895789630",
+   "page": 24,
+   "optionIds": {
+    "2268953062149": 1,
+    "2268953062150": 2,
+    "2268953062151": 3,
+    "2268953062152": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062151"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 267,
+   "questionId": "226895789631",
+   "page": 25,
+   "optionIds": {
+    "2268953062153": 1,
+    "2268953062154": 2,
+    "2268953062155": 3,
+    "2268953062156": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062155"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 268,
+   "questionId": "226895789632",
+   "page": 26,
+   "optionIds": {
+    "2268953062157": 1,
+    "2268953062158": 2,
+    "2268953062159": 3,
+    "2268953062160": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062160"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 269,
+   "questionId": "226895789633",
+   "page": 26,
+   "optionIds": {
+    "2268953062161": 1,
+    "2268953062162": 2,
+    "2268953062163": 3,
+    "2268953062164": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062164"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 270,
+   "questionId": "226895789634",
+   "page": 27,
+   "optionIds": {
+    "2268953062165": 1,
+    "2268953062166": 2,
+    "2268953062167": 3,
+    "2268953062168": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062167"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 271,
+   "questionId": "226895789635",
+   "page": 28,
+   "optionIds": {
+    "2268953062169": 1,
+    "2268953062170": 2,
+    "2268953062171": 3,
+    "2268953062172": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062172"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 272,
+   "questionId": "226895789636",
+   "page": 29,
+   "optionIds": {
+    "2268953062173": 1,
+    "2268953062174": 2,
+    "2268953062175": 3,
+    "2268953062176": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062174"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 273,
+   "questionId": "226895789637",
+   "page": 29,
+   "optionIds": {
+    "2268953062177": 1,
+    "2268953062178": 2,
+    "2268953062179": 3,
+    "2268953062180": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062179"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 274,
+   "questionId": "226895789638",
+   "page": 30,
+   "optionIds": {
+    "2268953062181": 1,
+    "2268953062182": 2,
+    "2268953062183": 3,
+    "2268953062184": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062181"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 275,
+   "questionId": "226895789639",
+   "page": 31,
+   "optionIds": {
+    "2268953062185": 1,
+    "2268953062186": 2,
+    "2268953062187": 3,
+    "2268953062188": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062188"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 276,
+   "questionId": "226895789641",
+   "page": 32,
+   "optionIds": {
+    "2268953062189": 1,
+    "2268953062190": 2,
+    "2268953062191": 3,
+    "2268953062192": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062191"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 277,
+   "questionId": "226895789642",
+   "page": 32,
+   "optionIds": {
+    "2268953062193": 1,
+    "2268953062194": 2,
+    "2268953062195": 3,
+    "2268953062196": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062193"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 278,
+   "questionId": "226895789643",
+   "page": 33,
+   "optionIds": {
+    "2268953062197": 1,
+    "2268953062198": 2,
+    "2268953062199": 3,
+    "2268953062200": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062198"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 279,
+   "questionId": "226895789644",
+   "page": 33,
+   "optionIds": {
+    "2268953062201": 1,
+    "2268953062202": 2,
+    "2268953062203": 3,
+    "2268953062204": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062204"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 280,
+   "questionId": "226895789645",
+   "page": 33,
+   "optionIds": {
+    "2268953062205": 1,
+    "2268953062206": 2,
+    "2268953062207": 3,
+    "2268953062208": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062205"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 281,
+   "questionId": "226895789647",
+   "page": 36,
+   "optionIds": {
+    "2268953062209": 1,
+    "2268953062210": 2,
+    "2268953062211": 3,
+    "2268953062212": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062211"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 282,
+   "questionId": "226895789648",
+   "page": 36,
+   "optionIds": {
+    "2268953062213": 1,
+    "2268953062214": 2,
+    "2268953062215": 3,
+    "2268953062216": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062215"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 283,
+   "questionId": "226895789649",
+   "page": 36,
+   "optionIds": {
+    "2268953062217": 1,
+    "2268953062218": 2,
+    "2268953062219": 3,
+    "2268953062220": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062219"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 284,
+   "questionId": "226895789650",
+   "page": 37,
+   "optionIds": {
+    "2268953062221": 1,
+    "2268953062222": 2,
+    "2268953062223": 3,
+    "2268953062224": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062221"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 285,
+   "questionId": "226895789651",
+   "page": 39,
+   "optionIds": {
+    "2268953062225": 1,
+    "2268953062226": 2,
+    "2268953062227": 3,
+    "2268953062228": 4
+   },
+   "inKey": true,
+   "keySubject": "political_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062225"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  }
+ ]
+}

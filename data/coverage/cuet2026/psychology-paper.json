@@ -1,0 +1,1271 @@
+{
+ "paper": "cuet2026-psychology",
+ "subject": "psychology",
+ "subjectName": "Psychology",
+ "subjectCode": "324",
+ "examDate": "2026-05-15",
+ "shift": "First",
+ "source": "NTA master question paper (Group 10, Psychology, paper question numbers 451-500), AglaSem Docs copy downloaded 22 Nov 2026 (the owner's request of 22 Nov 2026 for more subjects is the approval); English text transcribed by eye from the page images (pages/NN.png at 110 dpi, in tmp/1122-coverage/work-psychology/pages); machine OCR was used only to read the 12-digit question ids and 13-digit option ids; key from NTA's 2026 final key rows (subject 324, 15-05-2026 First).",
+ "provenance": {
+  "url": "https://docs.aglasem.com/view/81bd948e-c701-11f1-aa04-0aa932765c8b",
+  "pdfUrl": "https://cdn.aglasem.com/aglasem-doc/81bd948e-c701-11f1-aa04-0aa932765c8b/81bd948e-c701-11f1-aa04-0aa932765c8b.pdf",
+  "downloadedOn": "2026-11-22",
+  "fileSizeBytes": 9414871,
+  "sha256": "48c905ee4c8a07adc8c3878d946b112794fc18e49546e667edff1dcf80a4d1a8",
+  "localFile": "tmp/1122-coverage/papers/psychology/cuet2026-psychology.pdf",
+  "pdfPages": 46,
+  "listing": "https://docs.aglasem.com/org/nta/cuet/question-paper?year=2026 (one shift per subject)",
+  "shiftIdentified": "15-05-2026 (First), read from NTA's final key (all 50 question ids fall in that one shift)",
+  "finalKey": "NTA CUET (UG) 2026 Final Answer Keys, subject 324 Psychology (6 shifts, 50 rows each); rows in tmp/1122-coverage/work-psychology/keyentries-psychology.json",
+  "questionsAuthenticated": 50,
+  "questionsInPaper": 50
+ },
+ "transcribedBy": "Paper-stage subagent, 22 Nov 2026",
+ "notes": [
+  "Text is kept as printed, including the paper's own typos (Q477 \"Amercian\", Q497 \"techinque\", Q500 \"Paraphillias\"; the cover page title says \"Pschology\").",
+  "Page numbers are the image file numbers (pNN.png) of the page where the question header (Question Number / Question Id) is printed; the printed footer is one lower. The stem image sometimes sits at the top of the next page.",
+  "The PDF repeats every question in Hindi after the English; only the English text is kept.",
+  "Two comprehension passages: Q491-495 (Seema) and Q496-500 (Abby); the passage text is under passages and each sub-question names its passage.",
+  "The paper's group says 42 questions to attempt in the header text but prints 50 numbered questions (451-500); all 50 are authenticated.",
+  "Match items are written as 'LIST-I item | LIST-II item' rows.",
+  "Key caution for the checkers: n 16 (strong sexual urges into religious fervor) is keyed to 'Reaction formation' by NTA's final key; a textbook would say sublimation, which is not offered. The key is kept exactly as NTA published it; whether it can be 'covered' is for the strict rule to judge (never bend a verdict). n 22 (NOT a dimension of stress) is keyed to 'Controllability'; check NCERT before relying on it.",
+  "Authenticated = the question id is in the key and the key option id is one of the four printed option ids.",
+  "OCR slips fixed: none needed in the text (it was read from the images, not from the OCR); the OCR of the ids matched the key for 50 of 50 questions."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "problems": 0,
+  "ocrSlipsFixedInText": 0
+ },
+ "problems": [],
+ "passages": {
+  "P1-226895781416": {
+   "questionId": "226895781416",
+   "questionNumbers": "491 to 495",
+   "title": "Seema and repetitive acts",
+   "page": 38,
+   "text": "Reeva noticed that Seema washes her hands very frequently. In addition to this, she used to walk only within the patterns drawn on the floor or road. Further, it was noticed that she was unable to control her preoccupation with specific ideas and failed to prevent herself from repeatedly carrying out a particular act or a series of acts. Therefore, Seema experiences anxiety and disturbances in her life. These pattern of thoughts and behaviour have affected her ability to carry out normal activities."
+  },
+  "P2-226895781422": {
+   "questionId": "226895781422",
+   "questionNumbers": "496 to 500",
+   "title": "Abby and behavioural therapy",
+   "page": 41,
+   "text": "Abby is very annoying by nature. He does not follow what his parents say and refuses to obey them. He constantly bothers his parents and classmates with his improper behavior and does not regularly complete the homework given by his teachers. After seeing Abby's behavior, his parents take him to a psychotherapist in order to understand why he behaves the way he does. The psychotherapist planned to administer behavioural therapy for modifying his behaviour."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 451,
+   "questionId": "226895781376",
+   "page": 3,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "_______ is the global capacity to understand the world, think rationally, and use available resources effectively when faced with the challenges.",
+   "options": [
+    "Attitude",
+    "Personality",
+    "Intelligence",
+    "Self-actualisation"
+   ],
+   "optionIds": [
+    "2268953029909",
+    "2268953029910",
+    "2268953029911",
+    "2268953029912"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953029911",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 452,
+   "questionId": "226895781377",
+   "page": 4,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Who was one of the first psychologists to work on intelligence?",
+   "options": [
+    "Alfred Binet",
+    "David Weschler",
+    "Francis Galton",
+    "William Stern"
+   ],
+   "optionIds": [
+    "2268953029913",
+    "2268953029914",
+    "2268953029915",
+    "2268953029916"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029913",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 453,
+   "questionId": "226895781378",
+   "page": 4,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "The structure-of-intellect model classifies intellectual traits among three dimensions. How many factors have been classified under 'operations' dimension?",
+   "options": [
+    "5",
+    "6",
+    "7",
+    "8"
+   ],
+   "optionIds": [
+    "2268953029917",
+    "2268953029918",
+    "2268953029919",
+    "2268953029920"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953029918",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 454,
+   "questionId": "226895781379",
+   "page": 5,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which of the following types of intelligences are included in Howard Gardner's Multiple Intelligences Theory?\nA. Musical\nB. Spatial\nC. Componential\nD. Logical-Mathematical\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B, C and D",
+    "A, C and D only",
+    "A, B and C only"
+   ],
+   "optionIds": [
+    "2268953029921",
+    "2268953029922",
+    "2268953029923",
+    "2268953029924"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029921",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 455,
+   "questionId": "226895781380",
+   "page": 6,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "According to Robert Sternberg, Creative intelligence is also known as:",
+   "options": [
+    "Analytical intelligence",
+    "Experiential intelligence",
+    "Contextual intelligence",
+    "Componential intelligence"
+   ],
+   "optionIds": [
+    "2268953029925",
+    "2268953029926",
+    "2268953029927",
+    "2268953029928"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953029926",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 456,
+   "questionId": "226895781381",
+   "page": 7,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Twins separated early in childhood also show considerable similarity in their intellectual, personality and behavioural characteristics. The intelligence of identical twins reared in different environments correlate to about:",
+   "options": [
+    "0.72",
+    "0.60",
+    "0.50",
+    "0.25"
+   ],
+   "optionIds": [
+    "2268953029929",
+    "2268953029930",
+    "2268953029931",
+    "2268953029932"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029929",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 457,
+   "questionId": "226895781382",
+   "page": 8,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Levels of Intellectual Disability) | LIST-II (IQ Range)\nA. Mild | I. (IQs 35-40 to approximately 50-55)\nB. Moderate | II. (IQs 55 to approximately 70)\nC. Severe | III. (IQs 20-25 to approximately 35-40)\nD. Profound | IV. (IQs below 20-25)\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-II, B-I, C-III, D-IV",
+    "A-I, B-II, C-III, D-IV",
+    "A-II, B-I, C-IV, D-III",
+    "A-III, B-II, C-I, D-IV"
+   ],
+   "optionIds": [
+    "2268953029933",
+    "2268953029934",
+    "2268953029935",
+    "2268953029936"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029933",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 458,
+   "questionId": "226895781383",
+   "page": 9,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which of the following characteristic is NOT possessed by gifted children?",
+   "options": [
+    "Advanced logical thinking, questioning, and problem-solving behaviour",
+    "A preference for solitary academic activities over extended periods",
+    "Superior generalization and discrimination abilities",
+    "Low level of intrinsic motivation and self-esteem"
+   ],
+   "optionIds": [
+    "2268953029937",
+    "2268953029938",
+    "2268953029939",
+    "2268953029940"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953029940",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 459,
+   "questionId": "226895781384",
+   "page": 9,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Identify the Verbal Intelligence Tests developed in India:\nA. The Bihar Test of Intelligence by S. M. Mohsin\nB. Group Test of General Mental Ability by S. Jalota\nC. Test of General Mental Ability by M. C. Joshi\nD. Draw-a-Man Test by Parmila Pathak\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "A, C and D only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953029941",
+    "2268953029942",
+    "2268953029943",
+    "2268953029944"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029941",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 460,
+   "questionId": "226895781385",
+   "page": 10,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "The way we perceive ourselves and the ideas we hold about our competencies and attributes is called ________.",
+   "options": [
+    "Self-esteem",
+    "Self-concept",
+    "Self-efficacy",
+    "Self-reinforcement"
+   ],
+   "optionIds": [
+    "2268953029945",
+    "2268953029946",
+    "2268953029947",
+    "2268953029948"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953029946",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 461,
+   "questionId": "226895781386",
+   "page": 11,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "A person who believes that he or she has the ability or behaviors required by a particular situation demonstrates high ______.",
+   "options": [
+    "Self-efficacy",
+    "Self-esteem",
+    "Self-regulation",
+    "Self-observation"
+   ],
+   "optionIds": [
+    "2268953029949",
+    "2268953029950",
+    "2268953029951",
+    "2268953029952"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029949",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 462,
+   "questionId": "226895781387",
+   "page": 12,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Personality is characterized by which of the following features?\nA. It has both physical and psychological components.\nB. It changes easily with time.\nC. It is dynamic in the sense that some of its features may change due to situational demands.\nD. Its expression in terms of behavior is fairly unique in a given individual.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, C and D only",
+    "C and D only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953029953",
+    "2268953029954",
+    "2268953029955",
+    "2268953029956"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953029954",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 463,
+   "questionId": "226895781388",
+   "page": 13,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "The Greek physician Hippocrates classified people into four types based on fluids or humors. Which one of the following is NOT a type proposed by him?",
+   "options": [
+    "Sanguine",
+    "Phlegmatic",
+    "Endomorphic",
+    "Choleric"
+   ],
+   "optionIds": [
+    "2268953029957",
+    "2268953029958",
+    "2268953029959",
+    "2268953029960"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953029959",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 464,
+   "questionId": "226895781389",
+   "page": 14,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which personality type is characterized by proneness to depression?",
+   "options": [
+    "Type-A personality",
+    "Type-B personality",
+    "Type-C personality",
+    "Type-D personality"
+   ],
+   "optionIds": [
+    "2268953029961",
+    "2268953029962",
+    "2268953029963",
+    "2268953029964"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953029964",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 465,
+   "questionId": "226895781390",
+   "page": 15,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which one of the following methods was NOT used by Sigmund Freud to understand the internal functioning of the mind:",
+   "options": [
+    "Fictional finalism",
+    "Hypnosis",
+    "Free-association",
+    "Dream analysis"
+   ],
+   "optionIds": [
+    "2268953029965",
+    "2268953029966",
+    "2268953029967",
+    "2268953029968"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029965",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 466,
+   "questionId": "226895781391",
+   "page": 15,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "A person with strong sexual urges channels his or her energy into religious fervor. This is a classic example of:",
+   "options": [
+    "Reaction formation",
+    "Repression",
+    "Projection",
+    "Displacement"
+   ],
+   "optionIds": [
+    "2268953029969",
+    "2268953029970",
+    "2268953029971",
+    "2268953029972"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029969",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 467,
+   "questionId": "226895781392",
+   "page": 16,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Jodhpur Multiphasic Personality Inventory (JMPI) was developed by:",
+   "options": [
+    "Chaudhury and Joshi",
+    "Mallick and Joshi",
+    "Uma Chaudhury",
+    "Mohsin and Mehta"
+   ],
+   "optionIds": [
+    "2268953029973",
+    "2268953029974",
+    "2268953029975",
+    "2268953029976"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953029974",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 468,
+   "questionId": "226895781393",
+   "page": 17,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Match LIST-I with LIST-II\nLIST-I | LIST-II\nA. Inkblot Test | I. Cattell\nB. Picture-Frustration Study | II. Morgan and Murray\nC. Thematic Apperception Test | III. Rorschach\nD. 16 PF | IV. Rosenzweig\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-IV, C-I, D-II",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-II, D-I"
+   ],
+   "optionIds": [
+    "2268953029977",
+    "2268953029978",
+    "2268953029979",
+    "2268953029980"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953029980",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 469,
+   "questionId": "226895781394",
+   "page": 18,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which of the following tests can be grouped under self-report measures?\nA. Rosenzweig's Picture-Frustration Study\nB. Minnesota Multiphasic Personality Inventory\nC. Sentence Completion Test\nD. Eysenck Personality Questionnaire\nChoose the correct answer from the options given below:",
+   "options": [
+    "B, C and D only",
+    "B and D only",
+    "A, B and C only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953029981",
+    "2268953029982",
+    "2268953029983",
+    "2268953029984"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953029982",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 470,
+   "questionId": "226895781395",
+   "page": 19,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "What level of stress is suitable for optimal performance?",
+   "options": [
+    "High level of stress",
+    "Low level of stress",
+    "Moderate level of stress",
+    "No stress"
+   ],
+   "optionIds": [
+    "2268953029985",
+    "2268953029986",
+    "2268953029987",
+    "2268953029988"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953029987",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 471,
+   "questionId": "226895781396",
+   "page": 20,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "During stressful situations, the adrenal gland releases large amounts of ________ into the blood stream.",
+   "options": [
+    "Catecholamines",
+    "Monoamines",
+    "GABA",
+    "Dopamine"
+   ],
+   "optionIds": [
+    "2268953029989",
+    "2268953029990",
+    "2268953029991",
+    "2268953029992"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029989",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 472,
+   "questionId": "226895781397",
+   "page": 21,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which of the following is NOT considered as a dimension of stress?",
+   "options": [
+    "Controllability",
+    "Complexity",
+    "Predictability",
+    "Duration"
+   ],
+   "optionIds": [
+    "2268953029993",
+    "2268953029994",
+    "2268953029995",
+    "2268953029996"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953029993",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 473,
+   "questionId": "226895781398",
+   "page": 21,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "In which stage of Selye's General Adaptation Syndrome, the presence of noxious stimulus or stressor leads to the activation of the adrenal-pituitary-cortex system?",
+   "options": [
+    "Resistance stage",
+    "Exhaustion stage",
+    "Alarm reaction stage",
+    "Burnout stage"
+   ],
+   "optionIds": [
+    "2268953029997",
+    "2268953029998",
+    "2268953029999",
+    "2268953030000"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953029999",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 474,
+   "questionId": "226895781399",
+   "page": 22,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Identify the correct statement related to stress and its impact on immune system:\nA. Stress can cause illness by impairing the function of the immune system.\nB. Stress can affect natural killer cell cytotoxicity.\nC. Stress hormones weaken the immune system and thereby affect mental and physical health.\nD. Optimal Stress always enhances the functioning of immune system.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953030001",
+    "2268953030002",
+    "2268953030003",
+    "2268953030004"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030002",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 475,
+   "questionId": "226895781400",
+   "page": 23,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "The \"Hardiness\" trait of personality was given by:",
+   "options": [
+    "Rosenman",
+    "Friedman",
+    "Kobasa",
+    "Hans Eysenck"
+   ],
+   "optionIds": [
+    "2268953030005",
+    "2268953030006",
+    "2268953030007",
+    "2268953030008"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030007",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 476,
+   "questionId": "226895781401",
+   "page": 24,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "The 'four Ds' of abnormality are:",
+   "options": [
+    "Deviance, Dysfunction, Distress, Danger",
+    "Deviance, Disruption, Dysfunction, Danger",
+    "Deviance, Disruption, Danger, Distress",
+    "Deviance, Dysfunction, Distress, Disturbance"
+   ],
+   "optionIds": [
+    "2268953030009",
+    "2268953030010",
+    "2268953030011",
+    "2268953030012"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030009",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 477,
+   "questionId": "226895781402",
+   "page": 25,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "International Classification of Diseases (ICD-10) was prepared by:",
+   "options": [
+    "Amercian Psychological Association",
+    "American Psychiatric Association",
+    "UNICEF",
+    "World Health Organisation"
+   ],
+   "optionIds": [
+    "2268953030013",
+    "2268953030014",
+    "2268953030015",
+    "2268953030016"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030016",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 478,
+   "questionId": "226895781403",
+   "page": 26,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Low activity of gamma aminobutyric acid (GABA) neurotransmitter has been linked to:",
+   "options": [
+    "Paralysis",
+    "Depression",
+    "Anxiety disorders",
+    "Physical impairment"
+   ],
+   "optionIds": [
+    "2268953030017",
+    "2268953030018",
+    "2268953030019",
+    "2268953030020"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030019",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 479,
+   "questionId": "226895781404",
+   "page": 26,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "The A-B-C analysis in Rational Emotive Therapy stands for:",
+   "options": [
+    "Application-behavior-consequence",
+    "Analysis-behavior-consequence",
+    "Antecedent-belief-consequence",
+    "Affect-behavior-cognition"
+   ],
+   "optionIds": [
+    "2268953030021",
+    "2268953030022",
+    "2268953030023",
+    "2268953030024"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030023",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 480,
+   "questionId": "226895781405",
+   "page": 27,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Identify the ethical standards that need to practiced by professional psychotherapists:\nA. Confidentiality of the client should be maintained.\nB. Informed consent needs to be taken.\nC. Respect for human rights and dignity\nD. Alleviating personal distress and suffering should be the goal of all therapists.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "A, B and D only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953030025",
+    "2268953030026",
+    "2268953030027",
+    "2268953030028"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030028",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 481,
+   "questionId": "226895781406",
+   "page": 28,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which of the following is NOT a significant feature of attitudes?",
+   "options": [
+    "Motivation",
+    "Valence",
+    "Extremeness",
+    "Multiplexity"
+   ],
+   "optionIds": [
+    "2268953030029",
+    "2268953030030",
+    "2268953030031",
+    "2268953030032"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030029",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 482,
+   "questionId": "226895781407",
+   "page": 29,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Choose the correct statements based on P-O-X triangle (Fritz Heider) in describing the process of attitude change:\nA. Imbalance is found when all three sides of P-O-X triangle are negative.\nB. Balance is found when all three sides of P-O-X triangle are positive.\nC. Imbalance is found when two sides are positive and one side is negative.\nD. Balance is found when two sides are negative and one side is positive.",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "B, C and D only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953030033",
+    "2268953030034",
+    "2268953030035",
+    "2268953030036"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030036",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 483,
+   "questionId": "226895781408",
+   "page": 30,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Who proposed the concept of cognitive dissonance?",
+   "options": [
+    "Leon Festinger",
+    "Richard LaPiere",
+    "Fritz Heider",
+    "Tajfel and Turner"
+   ],
+   "optionIds": [
+    "2268953030037",
+    "2268953030038",
+    "2268953030039",
+    "2268953030040"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030037",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 484,
+   "questionId": "226895781409",
+   "page": 31,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Arrange the following statements in the order of cognitive, behavioural and affective components of attitude:\nA. Your view towards a 'green environment' movement is positive.\nB. You feel sad and angry when you see trees being cut down.\nC. You actively participate in the tree plantation campaign.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-C-B",
+    "B-C-A",
+    "C-B-A",
+    "B-A-C"
+   ],
+   "optionIds": [
+    "2268953030041",
+    "2268953030042",
+    "2268953030043",
+    "2268953030044"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030041",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 485,
+   "questionId": "226895781410",
+   "page": 32,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Who proposed the two-step concept of attitude change?",
+   "options": [
+    "Fritz Heider",
+    "Leon Festinger",
+    "S. M. Mohsin",
+    "Richard Lapiere"
+   ],
+   "optionIds": [
+    "2268953030045",
+    "2268953030046",
+    "2268953030047",
+    "2268953030048"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030047",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 486,
+   "questionId": "226895781411",
+   "page": 33,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Arrange the following stages of group formation in correct sequence:\nA. Storming\nB. Norming\nC. Performing\nD. Forming\nE. Adjourning\nChoose the correct answer from the options given below:",
+   "options": [
+    "D-C-B-A-E",
+    "A-B-D-C-E",
+    "D-A-B-C-E",
+    "D-C-E-A-B"
+   ],
+   "optionIds": [
+    "2268953030049",
+    "2268953030050",
+    "2268953030051",
+    "2268953030052"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030051",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 487,
+   "questionId": "226895781412",
+   "page": 34,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Match LIST-I with LIST-II\nLIST-I (Intelligence test) | LIST-II (Psychologist)\nA. Draw-a-Man Test | I. M. C. Joshi\nB. The Bihar Test of Intelligence | II. Pramila Pathak\nC. Test of General Mental Ability (Hindi) | III. Prayag Mehta\nD. Group Test of Intelligence | IV. S. M. Mohsin\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-II, B-I, C-IV, D-III",
+    "A-I, B-II, C-III, D-IV",
+    "A-III, B-IV, C-I, D-II",
+    "A-II, B-IV, C-I, D-III"
+   ],
+   "optionIds": [
+    "2268953030053",
+    "2268953030054",
+    "2268953030055",
+    "2268953030056"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030056",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 488,
+   "questionId": "226895781413",
+   "page": 35,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "When you find others also favoring capital punishment, you feel that your favorable view on capital punishment is validated by the public. This is an example of:",
+   "options": [
+    "Social facilitation",
+    "Bandwagon effect",
+    "Hasty generalization",
+    "Conformity"
+   ],
+   "optionIds": [
+    "2268953030057",
+    "2268953030058",
+    "2268953030059",
+    "2268953030060"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030058",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 489,
+   "questionId": "226895781414",
+   "page": 36,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Identify a correct explanation for the occurrence of social loafing:",
+   "options": [
+    "Group members feel less responsible for the overall task being performed and therefore exert less effort.",
+    "Motivation of the members increases because they realise that their contribution will be evaluated on individual basis.",
+    "There is proper coordination among group members.",
+    "Belonging to the same group is important for the members."
+   ],
+   "optionIds": [
+    "2268953030061",
+    "2268953030062",
+    "2268953030063",
+    "2268953030064"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030061",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 490,
+   "questionId": "226895781415",
+   "page": 37,
+   "section": "Sub-section 1 (Q451-490)",
+   "stem": "Which of the following is NOT an important condition for group formation?",
+   "options": [
+    "Proximity",
+    "Similarity",
+    "Common motives",
+    "Individual goals"
+   ],
+   "optionIds": [
+    "2268953030065",
+    "2268953030066",
+    "2268953030067",
+    "2268953030068"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030068",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 491,
+   "questionId": "226895781417",
+   "page": 38,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "stem": "Identify the psychological disorder Seema suffers from based on given diagnosis:",
+   "options": [
+    "Post-traumatic stress disorder",
+    "Obsessive-compulsive disorder",
+    "Bipolar disorder",
+    "Conversion disorder"
+   ],
+   "optionIds": [
+    "2268953030069",
+    "2268953030070",
+    "2268953030071",
+    "2268953030072"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030070",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895781416"
+  },
+  {
+   "n": 42,
+   "paperNumber": 492,
+   "questionId": "226895781418",
+   "page": 38,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "stem": "The inability to stop thinking about a particular idea or topic is known as:",
+   "options": [
+    "Compulsive behaviour",
+    "Unpleasant behaviour",
+    "Obsessive behaviour",
+    "Intrusive behaviour"
+   ],
+   "optionIds": [
+    "2268953030073",
+    "2268953030074",
+    "2268953030075",
+    "2268953030076"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030075",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895781416"
+  },
+  {
+   "n": 43,
+   "paperNumber": 493,
+   "questionId": "226895781419",
+   "page": 38,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "stem": "Seema's behavior to avoid the anxiety stemming out from intrusive and/or unpleasant thoughts is called:",
+   "options": [
+    "Compulsive behaviour",
+    "Obsessive behaviour",
+    "Social behaviour",
+    "Productive behaviour"
+   ],
+   "optionIds": [
+    "2268953030077",
+    "2268953030078",
+    "2268953030079",
+    "2268953030080"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030077",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895781416"
+  },
+  {
+   "n": 44,
+   "paperNumber": 494,
+   "questionId": "226895781420",
+   "page": 39,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "stem": "Which of the following is NOT included under Obsessive-compulsive and related disorders?",
+   "options": [
+    "Hoarding disorder",
+    "Conversion disorder",
+    "Trichotillomania",
+    "Excoriation disorder"
+   ],
+   "optionIds": [
+    "2268953030081",
+    "2268953030082",
+    "2268953030083",
+    "2268953030084"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030082",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895781416"
+  },
+  {
+   "n": 45,
+   "paperNumber": 495,
+   "questionId": "226895781421",
+   "page": 39,
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "stem": "Trichotillomania is related to:",
+   "options": [
+    "Skin-picking disorder",
+    "Skin-pulling disorder",
+    "Face-scanning disorder",
+    "Hair-pulling disorder"
+   ],
+   "optionIds": [
+    "2268953030085",
+    "2268953030086",
+    "2268953030087",
+    "2268953030088"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030088",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895781416"
+  },
+  {
+   "n": 46,
+   "paperNumber": 496,
+   "questionId": "226895781423",
+   "page": 42,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "stem": "Which of the following is not a technique used in behaviour therapy?",
+   "options": [
+    "Token economy",
+    "Cognitive restructuring",
+    "Modelling",
+    "Systematic desensitisation"
+   ],
+   "optionIds": [
+    "2268953030089",
+    "2268953030090",
+    "2268953030091",
+    "2268953030092"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030090",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895781422"
+  },
+  {
+   "n": 47,
+   "paperNumber": 497,
+   "questionId": "226895781424",
+   "page": 42,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "stem": "The 'systematic desensitisation' techinque was developed by:",
+   "options": [
+    "Wolpe",
+    "Bandura",
+    "Beck",
+    "Ellis"
+   ],
+   "optionIds": [
+    "2268953030093",
+    "2268953030094",
+    "2268953030095",
+    "2268953030096"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030093",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895781422"
+  },
+  {
+   "n": 48,
+   "paperNumber": 498,
+   "questionId": "226895781425",
+   "page": 43,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "stem": "Identify the technique in which Abby's unwanted behavior can be reduced, and wanted behavior can be increased simultaneously.",
+   "options": [
+    "Token economy",
+    "Modelling",
+    "Reciprocal inhibition",
+    "Differential reinforcement"
+   ],
+   "optionIds": [
+    "2268953030097",
+    "2268953030098",
+    "2268953030099",
+    "2268953030100"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030100",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895781422"
+  },
+  {
+   "n": 49,
+   "paperNumber": 499,
+   "questionId": "226895781426",
+   "page": 43,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "stem": "________ is learning by observing others in which the client gradually learns to acquire the behaviour of the model through a process of rewarding small changes in the behaviour.",
+   "options": [
+    "Vicarious learning",
+    "Token economy",
+    "Differential learning",
+    "Flooding"
+   ],
+   "optionIds": [
+    "2268953030101",
+    "2268953030102",
+    "2268953030103",
+    "2268953030104"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030101",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895781422"
+  },
+  {
+   "n": 50,
+   "paperNumber": 500,
+   "questionId": "226895781427",
+   "page": 43,
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "stem": "In which of the following disorders, aversive conditioning is most suitable technique for treatment?",
+   "options": [
+    "Obsessive-compulsive disorder",
+    "Paraphillias disorder",
+    "Alcohol Addiction",
+    "Mood disorder"
+   ],
+   "optionIds": [
+    "2268953030105",
+    "2268953030106",
+    "2268953030107",
+    "2268953030108"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030107",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895781422"
+  }
+ ]
+}

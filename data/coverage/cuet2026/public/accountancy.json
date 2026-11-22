@@ -1,0 +1,1707 @@
+{
+ "id": "accountancy",
+ "name": "Accountancy",
+ "stream": "commerce",
+ "code": "301",
+ "examDate": "2026-05-20",
+ "examDay": "20 May 2026",
+ "shift": "first shift",
+ "snapshotDate": "2026-11-20",
+ "snapshotDay": "20 November 2026",
+ "final": true,
+ "counts": {
+  "total": 55,
+  "same": 13,
+  "newValues": 0,
+  "concept": 28,
+  "notYet": 14,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 41,
+  "counted": 55,
+  "pct": 75
+ },
+ "chapters": [
+  {
+   "name": "Retirement & Death of Partner",
+   "asked": 10,
+   "covered": 7
+  },
+  {
+   "name": "Share Capital",
+   "asked": 9,
+   "covered": 7
+  },
+  {
+   "name": "Debentures",
+   "asked": 6,
+   "covered": 4
+  },
+  {
+   "name": "Admission of Partner",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Computerized Accounting System",
+   "asked": 5,
+   "covered": 5
+  },
+  {
+   "name": "Dissolution of Partnership Firm",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Goodwill Valuation",
+   "asked": 5,
+   "covered": 3
+  },
+  {
+   "name": "Partnership Fundamentals",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Accounting Ratios",
+   "asked": 2,
+   "covered": 1
+  },
+  {
+   "name": "Cash Flow Statement",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Comparative & Common Size Statements",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Financial Statements of Company",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Profit & Loss Appropriation Account",
+   "asked": 1,
+   "covered": 0
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 236,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Partnership Fundamentals",
+   "type": "theory",
+   "stem": "In case there is no partnership deed between the partners, then at what rate interest on capital will be provided?",
+   "passage": null,
+   "options": [
+    "8% p.a",
+    "6% p.a",
+    "12% p.a",
+    "No interest on capital will be provided."
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "card answers 'deed silent: no interest on capital is allowed' inside a list of Act rules; the paper asks the rate with no deed",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.partnership-fundamentals.list-summary-act-rules",
+    "chapter": "Partnership Fundamentals",
+    "front": "According to the Partnership Act, what is the position when the deed is silent?",
+    "back": "the partners share profits equally\nno partner is entitled to remuneration\nno interest on capital is allowed\nno interest on drawings is charged\nhe is entitled to interest on such amount @ 6% per annum",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 1, page 35",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 237,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Partnership Fundamentals",
+   "type": "theory",
+   "stem": "If the capital of partners is fixed, then the salary provided to the partner is posted in which of the following account?",
+   "passage": null,
+   "options": [
+    "Capital Account",
+    "Current Account",
+    "Profit and Loss Account",
+    "Executor's Account"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "card contrasts fixed and fluctuating capital: salary goes to the current account under fixed capital; the paper asks only the salary posting",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items",
+    "chapter": "Partnership Fundamentals",
+    "front": "Fixed vs Fluctuating capital: the difference on items related to the deed (drawings, salary, interest on capital).",
+    "back": "Fixed Capital\nDrawings, salary, interest on capital, etc. are posted (transfered) in the current accounts and not in the capital accounts.\nFluctuating Capital\nAll adjustments for drawings, salary, interest on capital, etc., are posted (transfered) in the capital accounts.",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 1, page 7",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 3,
+   "paperNumber": 238,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Partnership Fundamentals",
+   "type": "numerical",
+   "stem": "Radha and Rani are partners in a firm. Their capital accounts as on April 01, 2024 showed a balance of Rs. 2,00,000 and Rs. 3,00,000 respectively. On July 01, 2024, Radha introduced additional capital of Rs. 50,000. On October 01, Radha withdrew Rs. 30,000, from her capital. Interest is allowed @ 8% p.a. Calculate the interest payable to Radha on her capital during the financial year 2024-2025.",
+   "passage": null,
+   "options": [
+    "Rs 16,000",
+    "Rs 24,000",
+    "Rs 17,800",
+    "Rs 25,800"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 4,
+   "paperNumber": 239,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Profit & Loss Appropriation Account",
+   "type": "numerical",
+   "stem": "Ansh and Abhi are partners sharing profits and losses in the ratio of 3:2. Their capital accounts showed balances of Rs. 3,00,000 and Rs. 4,00,000 respectively on April 01, 2024. Calculate interest on Ansh's Capital for the year ending March 31, 2025, if the partnership deed provides for interest on capital @ 8% p.a. and the firm earned a profit of Rs. 14000 during the year.",
+   "passage": null,
+   "options": [
+    "Rs. 24,000",
+    "Rs. 16,000",
+    "Rs. 6,000",
+    "Rs. 3,000"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 5,
+   "paperNumber": 240,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Partnership Fundamentals",
+   "type": "theory",
+   "stem": "Select the essential features of partnership from the following:\n(A) Partnership is the result of an agreement between partners.\n(B) Co-ownership of a property between people amounts to partnership.\n(C) Sharing of profits and losses of a business.\n(D) Each partner carrying on the business is the principal as well as the agent for all the other partners.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "list-features-six plus cards fact-co-ownership-not-partnership and kl-mutual-agency-principal-agent state every statement; the paper asks a select-the-features item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.partnership-fundamentals.list-features-six",
+    "chapter": "Partnership Fundamentals",
+    "front": "Name the 6 essential features of partnership.",
+    "back": "Two or More Persons\nAgreement\nBusiness\nMutual Agency\nSharing of Profit\nLiability of Partners",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 1, page 2",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 241,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "stem": "If nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them:",
+   "passage": null,
+   "options": [
+    "In their profit sharing ratio",
+    "In their gaining ratio",
+    "In their capital contribution ratio",
+    "In equal ratio"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "card asks the same question (nothing specified: in what ratio does the new partner get his share) with the same answer, old profit sharing ratio",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+    "chapter": "Admission of Partner",
+    "front": "If nothing is specified, how is the new partner assumed to acquire his share from the old partners?",
+    "back": "However, if nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them in their profit sharing ratio.",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 50",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 242,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "stem": "According to the Partnership Act 1932, a new partner can be admitted into the firm only with the consent of ................, unless otherwise agreed upon.",
+   "passage": null,
+   "options": [
+    "Majority of the existing partners",
+    "All existing partners",
+    "The existing partner contributed maximum capital",
+    "The existing partner with the largest share"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "card is the same sentence with the same blank: consent of all the existing partners",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.admission-of-partner.kl-consent-act-1932",
+    "chapter": "Admission of Partner",
+    "front": "According to the Partnership Act 1932, a new partner can be admitted into the firm only with the ____ unless otherwise agreed upon.",
+    "back": "According to the Partnership Act 1932, a new partner can be admitted into the firm only with the consent of all the existing partners unless otherwise agreed upon.",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 49",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 243,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "In the absence of any information regarding the acquisition of share in profit of the retiring partner by the remaining partners, it is assumed that they will acquire his/her share in ....................",
+   "passage": null,
+   "options": [
+    "Old Profit Sharing Ratio",
+    "New Profit Sharing Ratio",
+    "Equal Ratio",
+    "Any Ratio which is profitable to them"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "card asks the same question for a retiring partner's share with no information: old profit sharing ratio",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.retirement-and-death-of-partner.fact-assumed-old-ratio",
+    "chapter": "Retirement & Death of Partner",
+    "front": "No information on how continuing partners acquire the outgoing partner's share: in what ratio is it assumed?",
+    "back": "it is assumed that they will acquire it in the old profit sharing ratio and so share the future profits in their old ratio.",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 3, page 108",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 244,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "The ratio in which the continuing partners have acquired the share from the deceased partner is known as .......",
+   "passage": null,
+   "options": [
+    "New Ratio",
+    "Old Ratio",
+    "Sacrificing Ratio",
+    "Gaining Ratio"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "card defines the gaining ratio; the paper gives the definition and asks the term",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+    "chapter": "Change in Profit Sharing Ratio",
+    "front": "What is the gaining ratio?",
+    "back": "The ratio in which the continuing partners have acquired the share from the retiring/deceased partner is called the gaining ratio.",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 3, page 109",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 245,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "At the time of retirement of a partner, accumulated Profits or Losses are available. To whom these accumulated profits or losses belong to ?",
+   "passage": null,
+   "options": [
+    "The retiring partner",
+    "The remaining partners",
+    "All the partners",
+    "The partner who may be admitted in future"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "card asks whose the accumulated profits or losses are at retirement: all the partners, the keyed answer",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-belong-all",
+    "chapter": "Retirement & Death of Partner",
+    "front": "Accumulated profits or losses on a partner's retirement or death: whose are they and how are they transferred?",
+    "back": "These accumulated profits or losses belong to all the partners and should be transferred to the capital accounts of all partners in their old profit sharing ratio.",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 3, page 122",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 246,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "Select the correct sequence of accounts prepared in case of death of a partner.\n(A) Prepare the deceased partner's executor's account.\n(B) Determine the gaining ratio and new profit sharing ratio among the remaining partners.\n(C) Prepare the deceased partner's capital account.\n(D) Prepare the Revaluation account, if required.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (C), (D), (A)",
+    "(B), (D), (C), (A)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "card list-accounting-aspects with fact-revaluation-purpose and fact-executor-account teaches the order; the paper is a sequence item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects",
+    "chapter": "Retirement & Death of Partner",
+    "front": "Name the 8 accounting aspects involved on retirement or death of a partner.",
+    "back": "1. Ascertainment of new profit sharing ratio and gaining ratio;\n2. Treatment of goodwill;\n3. Revaluation of assets and liabilities;\n4. Adjustment in respect of unrecorded assets and liabilities;\n5. Distribution of accumulated profits and losses;\n6. Ascertainment of share of profit or loss up to the date of retirement/death;\n7. Adjustment of capital, if required;\n8. Settlement of the amounts due to retired/deceased partner;",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 3, page 108",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 247,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "From the following options, select the deductions to be made from the share of a partner at the time of his/her retirement.\n(A) Debit balance of his current account\n(B) Share of goodwill to be written off\n(C) Share of accumulated losses\n(D) Share of loss on revaluation of assets and liabilities\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "card lists the deductions from a retiring partner's share, all four of the paper's statements; the paper is a select-all item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+    "chapter": "Retirement & Death of Partner",
+    "front": "Name the deductions that may have to be made from the retiring/deceased partner's share.",
+    "back": "(i) debit balance of his current account (if any);\n(ii) his share of goodwill to be written off, if necessary;\n(iii) his share of accumulated losses;\n(iv) his share of loss on revaluation of assets and liabilities;\n(v) his share of loss up to the date of retirement/death;\n(vi) his drawings up to the date of retirement/death;\n(vii) interest on drawings, if involved, up to the date of retirement/death.",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 3, page 108",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 248,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "At the time of retirement of a partner, arrange the following accounts in the correct sequence.\n(A) Partners' Current A/c\n(B) Revaluation A/c\n(C) Balance Sheet\n(D) Partners' Capital A/c\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (A), (D)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 14,
+   "paperNumber": 249,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Goodwill Valuation",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Gaining Ratio | (I) Average Profit X 100/Normal rate of return\n(B) Value of Goodwill | (II) Old Ratio - New Ratio\n(C) Sacrificing Ratio | (III) Super Profit X 100/Normal rate of return\n(D) Capitalised Value of average profit | (IV) New Ratio - Old Ratio\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (III), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "four formula cards (gaining share, sacrifice, goodwill by capitalising super profit, capitalised value of average profits) give every pair of the match",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.goodwill-valuation.formula-cap-super-goodwill-formula",
+    "chapter": "Goodwill Valuation",
+    "front": "Formula: Goodwill by capitalisation of super profits.",
+    "back": "Goodwill = Super Profits × 100 / Normal Rate of Return",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 63",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 250,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Goodwill Valuation",
+   "type": "theory",
+   "stem": "Which Accounting Standard (AS) defines an intangible asset, as an identifiable, non-monetary, without physical existence and held for use in the production or supply of goods or services for rental to others or for administrative purposes?",
+   "passage": null,
+   "options": [
+    "AS 26",
+    "AS 27",
+    "AS 28",
+    "AS 29"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "new Key card def-as26-intangible-assets-standard (leac102 p. 72) states AS 26 and its definition of an intangible asset, the paper's wording; asked the other way round",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.goodwill-valuation.def-as26-intangible-assets-standard",
+    "chapter": "Goodwill Valuation",
+    "front": "Which Accounting Standard deals with intangible assets, and what is an intangible asset under it?",
+    "back": "Intangible Asset under AS 26 is defined as an identifiable, non monetary, without physical existence and held for use in the production or supply of goods or services for rental to others or for administrative purposes.",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 72",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 16,
+   "paperNumber": 251,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Goodwill Valuation",
+   "type": "numerical",
+   "stem": "The Goodwill of a firm is Rs 30,000, when it is valued at three years purchase of the super profits of the business. Find the normal rate of return, if the firm's capital employed is Rs 5,00,000 and average profits of last five years were Rs 60,000.",
+   "passage": null,
+   "options": [
+    "5%",
+    "10%",
+    "15%",
+    "20%"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 17,
+   "paperNumber": 252,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "numerical",
+   "stem": "A, B and C were partners in a firm sharing profits and losses in the ratio of 5:4:1. B died on June 30, 2025. The profit for the previous three years were Rs 68,000 (For 2022-23), Rs 77,000 (For 2023-24), Rs 50,000 (2024-25) while the sales during the year 2024-25 were Rs. 4,00,000 and the sales from April 1, 2025 to June 30, 2025 were Rs. 75,000. Find the profits that the firm must have earned from the date of closing of last year's balance sheet till the date of death of B.",
+   "passage": null,
+   "options": [
+    "Rs 65,000",
+    "Rs 18,750",
+    "Rs 9,375",
+    "Rs 3,750"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 18,
+   "paperNumber": 253,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "numerical",
+   "stem": "Balance Sheet of A, B & C as on 31st March, 2025\nLiabilities | Amount | Assets | Amount\nCreditors | 11,000 | Buildings | 20,000\nReserve Fund | 6,000 | Machinery | 30,000\nA Capital 30,000; B Capital 25,000; C Capital 15,000 | 70,000 | Stock | 10,000\n | | Patents | 11,000\n | | Debtors | 8,000\n | | Cash | 8,000\nTotal | 87,000 | Total | 87,000\nC retires and following revaluations took place.\nPatents be valued at Rs.8,000; Machinery at Rs.28,000; and Buildings at Rs.25,000.\nFind Revaluation Profit/Loss",
+   "passage": null,
+   "options": [
+    "Revaluation profit Rs 10,000",
+    "Revaluation Loss Rs 10,000",
+    "Revaluation profit Rs 4,000",
+    "No Profit, No Loss on Revaluation"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 19,
+   "paperNumber": 254,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "stem": "Harish and Munish are partners in a firm sharing profits and losses in the ratio of 3:2. Rakesh is admitted into partnership for 1/3 share in profits. He brings in Rs. 50,000 as capital, but not in a position to bring any amount for his share of goodwill which has been valued at Rs. 15,000. Give necessary journal entry for recording goodwill, when there is no goodwill appearing in the books of the firm.",
+   "passage": null,
+   "options": [
+    "Rakesh's Capital A/c Dr. 15,000 / To Harish's Capital A/c 9,000 / To Munish's Capital A/c 6,000",
+    "Rakesh's Current A/c Dr. 15,000 / To Harish's Capital A/c 9,000 / To Munish's Capital A/c 6,000",
+    "Bank A/c Dr. 65,000 / To Rakesh's Capital A/c 50,000 / To Premium for Goodwill A/c 15,000",
+    "Bank A/c Dr. 50,000 / Rakesh's Current A/c Dr. 15,000 / To Rakesh's Capital A/c 65,000"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "card gives the entry Incoming Partner's Current A/c Dr To Sacrificing Partners' Capital A/c without figures; the paper adds figures split in the old ratio",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-not-brought",
+    "chapter": "Admission of Partner",
+    "front": "Journal entry: new partner does not bring his share of goodwill (no goodwill in the books).",
+    "back": "Incoming (New) Partners Current A/c Dr.\nTo Sacrificing Partners Capital A/c (individually)\n(Account of goodwill not brought in by new partner)",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 69",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 20,
+   "paperNumber": 255,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Goodwill Valuation",
+   "type": "theory",
+   "stem": "Which of the following is not accounted for in the books and shown as an asset?",
+   "passage": null,
+   "options": [
+    "Purchased Goodwill",
+    "Self generated Goodwill",
+    "Purchased Assets",
+    "Borrowed Assets"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "card says internally generated goodwill is not recognised as an asset; the paper asks which item is not shown as an asset",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.goodwill-valuation.fact-internal-goodwill-not-recognised",
+    "chapter": "Goodwill Valuation",
+    "front": "Under AS 26, how is internally generated goodwill treated?",
+    "back": "Internally generated goodwill should not be recognised as an asset.",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 72",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 256,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Intangible assets should be written off as early as possible but not exceeding its estimated life in ......... years | (I) 4\n(B) AS .....deals with intangible assets | (II) 10\n(C) In the absence of any agreement, Section ...... of the Indian Partnership Act, 1932 is applicable, which states that the retiring partner has an option to receive either interest @ 6% p.a. till the date of payment or such share of profits which has been earned with his/her money (i.e., based on capital ratio). | (III) 26\n(D) Section ...... of the Indian Partnership Act 1932 defines partnership. | (IV) 37\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "new Key cards def-as26-intangible-assets-standard and fact-as26-intangible-write-off-limit (10 years) with the existing fact-section-37 and def-partnership-section-4 state all four pairs",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.goodwill-valuation.fact-as26-intangible-write-off-limit",
+    "chapter": "Goodwill Valuation",
+    "front": "Under AS 26 (Intangible Assets), over what normal maximum period is an intangible asset written off?",
+    "back": "Intangible assets should be written off as early as possible but not exceeding its estimated life, which normally should not be beyond 10 years.",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 72",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 257,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Admission of Partner",
+   "type": "numerical",
+   "stem": "X and Y are partners in a firm sharing profits in the ratio of 3:2. They admitted Z as a new partner for 1/4 share. The new profit sharing ratio between X and Y will be 2:1. Calculate their sacrificing ratio.",
+   "passage": null,
+   "options": [
+    "2: 3",
+    "3: 2",
+    "1: 2",
+    "2: 1"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 23,
+   "paperNumber": 258,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Goodwill Valuation",
+   "type": "numerical",
+   "stem": "The capital of the firm of M and N is Rs. 1,00,000 and the market rate of interest is 15%. The annual salary to partners is Rs. 6,000 each. The profits for the last 3 years were Rs. 30,000 (for 2022); Rs. 36,000 (for 2023) and Rs. 42,000 (for 2024). Goodwill is to be valued at 2 years' purchase of the last 3 years' average super profits or 3 years' purchase of the last 2 years' average super profits, whichever is less. Calculate the goodwill of the firm.",
+   "passage": null,
+   "options": [
+    "Rs. 36,000",
+    "Rs. 30,000",
+    "Rs. 24,000",
+    "Rs. 18,000"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 24,
+   "paperNumber": 259,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Retirement & Death of Partner",
+   "type": "theory",
+   "stem": "In case of death of a partner, for deceased partner's share of profits for the intervening period (from the closing of last year account till the date of death) in the books of accounts, the following journal entry is recorded:\nProfit and Loss Supense A/c Dr.\n    To Deceased Partner's Capital A/c\nWhich of the following entry is to be made later to close the Profit and Loss Suspense Account?",
+   "passage": null,
+   "options": [
+    "Profit and Loss Suspense A/c Dr. / To Gaining Partners Capital A/c",
+    "Gaining Partners Capital A/c Dr. / To Profit and Loss Suspense A/c",
+    "Deceased Partner's Capital A/c Dr. / To Profit and Loss Supense A/c",
+    "Profit and Loss Supense A/c Dr. / To Deceased Partner's Capital A/c"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "card asks the entry closing P&L Suspense on death: Gaining Partners' Capital A/c Dr To P&L Suspense A/c, the keyed option",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.retirement-and-death-of-partner.entry-death-close-suspense",
+    "chapter": "Retirement & Death of Partner",
+    "front": "Journal entry: closing the Profit & Loss Suspense Account to the gaining partners on death.",
+    "back": "Gaining Partners Capital A/c [In gaining ratio]\nTo Profit and Loss Suspense A/c\n(P&L Suspense account transferred).",
+    "source": "NCERT, Accountancy – Partnership Accounts, chapter 3, page 142",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 25,
+   "paperNumber": 260,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Admission of Partner",
+   "type": "theory",
+   "stem": "At the time of admission of a new partner, if Profit and Loss Account debit balance exist in the books, then which of the following entry will be done in order to distribute it?",
+   "passage": null,
+   "options": [
+    "Profits and Loss A/c Dr. / To Old Partners' Capital A/c",
+    "Profit and Loss A/c Dr. / To All Partners' Capital A/c (including new)",
+    "Old Partners' Capital A/c Dr. / To Profit and Loss A/c",
+    "All Partners' Capital A/c (including new) Dr. / To Profit and Loss A/c"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "card gives the entry for a debit balance of P&L on admission: old partners' capital accounts Dr To P&L A/c, the keyed option",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.admission-of-partner.entry-e-pl-debit-balance",
+    "chapter": "Admission of Partner",
+    "front": "Entry (Illustration 22): debit balance of Profit and Loss A/c transferred to old partners' capital accounts.",
+    "back": "Rajinder's Capital A/c Dr.\nSurender's Capital A/c Dr.\nTo Profit and Loss A/c\n(Debit balance of Profit and Loss A/c transferred to old partners' capital accounts)",
+    "source": "NCERT, Accountancy : Partnership Accounts, chapter 2, page 77",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 26,
+   "paperNumber": 261,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "theory",
+   "stem": "\"Members may come and go, but the company continues. Even an atom bomb can't end a company\".\nWhich feature of a company is highlighted in the above statement?",
+   "passage": null,
+   "options": [
+    "Body Corporate",
+    "Separate Legal Entity",
+    "Transferability of Shares",
+    "Perpetual Succession"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "card defines perpetual succession; the paper quotes a saying and asks the feature",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.share-capital.term-perpetual-succession",
+    "chapter": "Share Capital",
+    "front": "____: The company being an artificial person created by law continues to exist irrespective of the changes in its membership.",
+    "back": "Perpetual Succession: The company being an artificial person created by law continues to exist irrespective of the changes in its membership.",
+    "source": "NCERT, Accountancy Part 2: Company Accounts and Analysis of Financial Statements, chapter 1, page 2",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 27,
+   "paperNumber": 262,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "theory",
+   "stem": "For one person company, Rule 3 of the Companies (Incorporation) Rules, 2014 provides that its average annual turnover of three years does not exceed ...........",
+   "passage": null,
+   "options": [
+    "Rs. 2 Crores",
+    "Rs. 3 Crores",
+    "Rs. 4 Crores",
+    "Rs. 5 Crores"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "card asks the One Person Company limits and answers average annual turnover of three years not above Rs 2 crore, the keyed figure",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.share-capital.fact-opc-limits",
+    "chapter": "Share Capital",
+    "front": "One Person Company: limit on paid up share capital and on average annual turnover?",
+    "back": "Its paid up share capital is not more than Rs. 50 Lakhs (d) Its average annual turnover of three years does not exceed Rs. 2 Crores.",
+    "source": "NCERT, Accountancy Part 2: Company Accounts and Analysis of Financial Statements, chapter 1, page 3",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 28,
+   "paperNumber": 263,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "theory",
+   "stem": "Who are entitled to share the distributable profits of the company after satisfying the dividend rights of the preference shareholders?",
+   "passage": null,
+   "options": [
+    "Debenture holders",
+    "Bond holders",
+    "Equity shareholders",
+    "Any policy holders"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "card is a cloze on the same sentence but blanks 'distributable profits'; the paper asks who (equity shareholders)",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.share-capital.key-equity-profits",
+    "chapter": "Share Capital",
+    "front": "The equity shareholders are entitled to share the ____ of the company after satisfying the dividend rights of the preference share holders.",
+    "back": "The equity shareholders are entitled to share the distributable profits of the company after satisfying the dividend rights of the preference share holders.",
+    "source": "NCERT, Accountancy Part 2: Company Accounts and Analysis of Financial Statements, chapter 1, page 6",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 264,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "theory",
+   "stem": "Minimum subscription of capital cannot be less than ........ amount according to SEBI (Disclosure and Investor Protection) Guidelines, 2000.",
+   "passage": null,
+   "options": [
+    "60% of the issued",
+    "70% of the issued",
+    "80% of the issued",
+    "90% of the issued"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "bank question asks the minimum subscription percentage of the issued amount under SEBI guidelines: 90%, the keyed answer",
+   "match": {
+    "kind": "question",
+    "id": "ed41d458-614b-4e23-8c9c-931b0cf5c2a6",
+    "chapter": "Share Capital",
+    "stem": "What is the minimum percentage of the issued amount that must be subscribed by the public for a company to proceed with the allotment of shares, as per SEBI guidelines?",
+    "passage": null,
+    "options": [
+     "75%",
+     "90%",
+     "50%",
+     "100%"
+    ],
+    "key": 1,
+    "explanation": "As per SEBI guidelines, a company must receive a minimum subscription of 90% of the issue size for public issues.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 265,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Debentures",
+   "type": "theory",
+   "stem": "Which of the following is a written instrument acknowledging a debt under the common seal of the company?",
+   "passage": null,
+   "options": [
+    "Debenture",
+    "Equity Share",
+    "Preference share",
+    "Bank Draft"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "card asks what a debenture is and gives the definition; the paper gives the definition and asks the instrument",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.debentures.def-debenture",
+    "chapter": "Debentures",
+    "front": "What is a debenture?",
+    "back": "Debenture is a written instrument acknowledging a debt under the common seal of the company.",
+    "source": "NCERT, Accountancy : Company Accounts and Analysis of Financial Statements, chapter 2, page 75",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 266,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Debentures",
+   "type": "theory",
+   "stem": "On Bearer debentures, Interest is paid to a person who produces the ........ attached to such debentures?",
+   "passage": null,
+   "options": [
+    "Registered Deed",
+    "Ownership Papers",
+    "Interest Coupon",
+    "Interest Certificate"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "card is the same sentence with the same blank: interest coupon",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.debentures.kl-bearer-interest-coupon",
+    "chapter": "Debentures",
+    "front": "Interest on debentures is paid to a person who produces the ____ attached to such debentures.",
+    "back": "Interest on debentures is paid to a person who produces the interest coupon attached to such debentures.",
+    "source": "NCERT, Accountancy : Company Accounts and Analysis of Financial Statements, chapter 2, page 78",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 267,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Debentures",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Debentures issued for consideration other than cash | (I) A company issues debentures at a price lower than their face value.\n(B) Debentures issued as Collateral Security | (II) A company purchases assets from vendors and make payment by debentures\n(C) Debentures issued for cash | (III) The company may issue its own debentures to the lenders in addition to some other assets already pledged\n(D) Debentures issued at discount | (IV) A company invite the public to apply for debentures by issue of prospectus\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "cards on other-than-cash, collateral security, offer to the public and discount state every pair; the paper is a match item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.debentures.def-debentures-as-collateral",
+    "chapter": "Debentures",
+    "front": "What is meant by ‘Debentures issued as Collateral Security’?",
+    "back": "In such situation, the company may issue its own debentures to the lenders in addition to some other assets already pledged. Such an issue of debentures is known as ‘Debentures issued as Collateral Security’.",
+    "source": "NCERT, Accountancy : Company Accounts and Analysis of Financial Statements, chapter 2, page 94",
+    "more": {
+     "cards": 5,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 33,
+   "paperNumber": 268,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "theory",
+   "stem": "In addition to the purchase of own shares by a company and to issue fully paid bonus shares, for which of the following purposes security premium account balance could be used?\n(A) To write-off preliminary expenses of the company.\n(B) To pay premium on the redemption of preference shares or debentures of the company.\n(C) To write-off the expenses of, or commission paid, or discount allowed on any securities of the company\n(D) To pay the issue price of debentures.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "card lists the five permitted uses of securities premium; the paper is a select-the-uses item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.share-capital.list-premium-uses",
+    "chapter": "Share Capital",
+    "front": "Securities Premium can be used only for which 5 purposes?",
+    "back": "(a) to issue fully paid bonus shares to the extent not exceeding unissued share capital of the company;\n(b) to write-off preliminary expenses of the company;\n(c) to write-off the expenses of, or commission paid, or discount allowed on any securities of the company;\n(d) to pay premium on the redemption of preference shares or debentures of the company.\n(e) Purchase of its own shares (i.e., buy back of shares).",
+    "source": "NCERT, Accountancy Part 2: Company Accounts and Analysis of Financial Statements, chapter 1, page 31",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 269,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "theory",
+   "stem": "Arrange the following in a sequence related to the issue and redemption of shares\n(A) Forfeiture of shares\n(B) Reissue of shares\n(C) Calls in arrears\n(D) Transfer of share forfeited account balance to capital reserve A/c\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(C), (A), (B), (D)",
+    "(D), (B), (C), (A)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "cards on forfeiture, reissue and transfer to capital reserve, and bank 40151d2f, give the order; the paper is a sequence item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.share-capital.fact-forfeit-when",
+    "chapter": "Share Capital",
+    "front": "When can a company forfeit shares, and what happens to the amount already received?",
+    "back": "It may happen that some shareholders fail to pay one or more instalments, viz. allotment money and/or call money. In such circumstances, the company can forfeit their shares, i.e. cancel their allotment and treat the amount already received thereon as forfeited to the company",
+    "source": "NCERT, Accountancy Part 2: Company Accounts and Analysis of Financial Statements, chapter 1, page 37",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 270,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "numerical",
+   "stem": "Raj Ltd. purchased a machine from Anuj Tech Ltd. for Rs.1,90,000. As per purchase agreement, Rs. 10,000 were paid in cash and balance by issue of shares of Rs.100 each. Find the number of shares issued to Anuj Tech Ltd., if the shares issued at 20% premium.",
+   "passage": null,
+   "options": [
+    "3,000",
+    "2,000",
+    "1,500",
+    "1,000"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 36,
+   "paperNumber": 271,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Debentures",
+   "type": "numerical",
+   "stem": "H Ltd. purchased machinery worth Rs. 99,000 from P Ltd. The payment was made by issue of 12% debentures of Rs. 100 each. Pass the necessary journal entries for the issue of debentures when debentures are issued at 10% discount in the books of H Ltd.",
+   "passage": null,
+   "options": [
+    "P Ltd. Dr. 1,10,000 / To 12% Debentures A/c 1,10,000",
+    "P Ltd. Dr. 99,000 / Discount on Issue of Debentures A/c Dr. 11,000 / To 12% Debentures A/c 1,10,000",
+    "12% Debentures A/c Dr. 1,10,000 / To P Ltd. 99,000 / To Discount on Issue of Debentures A/c 11,000",
+    "12% Debentures A/c Dr. 1,10,000 / To P Ltd. 1,10,000"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 37,
+   "paperNumber": 272,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Debentures",
+   "type": "numerical",
+   "stem": "A Limited issued 5000, 10% debentures of Rs. 100 each, at a premium of Rs. 10 per debenture payable as follows:\nOn application Rs. 25, On allotment Rs. 45 (including premium), On first and final call Rs. 40.\nThe debentures were fully subscribed and all money was duly received.\nSelect the correct journal entries related to the above case from the following.\n(A) 10% Debenture Allotment A/c Dr. 2,25,000 / To 10% Debentures A/c 1,75,000 / To Securities Premium Reserve A/c 50,000\n(B) Bank A/c Dr. 1,25,000 / To 10% Debenture Application A/c 1,25,000\n(C) Bank A/c Dr. 2,00,000 / To 10% Debenture First & Final Call A/c 2,00,000\n(D) Bank A/c Dr. 2,20,000 / To 10% Debenture Allotment A/c 2,20,000\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 38,
+   "paperNumber": 273,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Debentures",
+   "type": "theory",
+   "stem": "In case debentures were issued as collateral security for taking loan from ABC Bank. Choose the correct journal entry for cancellation of debentures as collateral security on repayment of bank loan.",
+   "passage": null,
+   "options": [
+    "% Debentures A/c Dr. / To Bank A/c",
+    "Debenture Suspense A/c Dr. / To % Debentures A/c",
+    "% Debentures A/c Dr. / To Debenture Suspense A/c",
+    "Bank A/c Dr. / To % Debentures A/c"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "card asks the entry cancelling collateral debentures on repayment: Debentures A/c Dr To Debenture Suspense A/c, the keyed option",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.debentures.entry-collateral-cancel",
+    "chapter": "Debentures",
+    "front": "Journal entry: cancellation of debentures issued as collateral security on repayment of the loan.",
+    "back": "When loan is repaid the above entry will be cancelled by a reverse entry :\n9% Debentures A/c\nDr. 10,00,000\nTo Debenture Suspense A/c\n10,00,000",
+    "source": "NCERT, Accountancy : Company Accounts and Analysis of Financial Statements, chapter 2, page 95",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 274,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "theory",
+   "stem": "Nominal share capital is ?",
+   "passage": null,
+   "options": [
+    "That part of the authorised capital which is actually issued to the public by the company.",
+    "The amount of capital which is actually applied for by the prospective shareholders.",
+    "The maximum amount of share capital which a company is authorised to issue.",
+    "The amount actually paid by the shareholders."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "card defines authorised capital and says it is also called nominal capital; the paper asks what nominal capital is",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.share-capital.def-authorised",
+    "chapter": "Share Capital",
+    "front": "Define authorised capital.",
+    "back": "Authorised capital is the amount of share capital which a company is authorised to issue by its Memorandum of Association. The company cannot raise more than the amount of capital as specified in the Memorandum of Association. It is also called Nominal or Registered capital.",
+    "source": "NCERT, Accountancy Part 2: Company Accounts and Analysis of Financial Statements, chapter 1, page 4",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 275,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Share Capital",
+   "type": "numerical",
+   "stem": "200 shares of Rs.100 each issued at a premium of Rs.10 were forfeited for the non-payment of allotment money of Rs.60 per share including premium. The first and final call of Rs.20 per share on these shares were not made. The forfeited shares were reissued at Rs.70 per share as fully paid-up. Find the amount of capital reserve.",
+   "passage": null,
+   "options": [
+    "Rs 4000",
+    "Rs 6000",
+    "Rs 14000",
+    "Nil"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 41,
+   "paperNumber": 276,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "stem": "A, B and C constituted a partnership to carry out a venture to build offices for Zakash Office Sites Ltd. On the completion of venture under which way the dissolution of a firm will takes place?",
+   "passage": null,
+   "options": [
+    "On the happening of certain contingencies",
+    "Dissolution by Court",
+    "Dissolution by Notice",
+    "Compulsory Dissolution"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "card lists the contingencies including completion of a venture; the paper applies it to a case",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.dissolution-of-partnership-firm.list-contingencies",
+    "chapter": "Dissolution of Partnership Firm",
+    "front": "Name the 4 contingencies on which a firm is dissolved (subject to contract).",
+    "back": "(a) if constituted for a fixed term, by the expiry of that term\n(b) if constituted to carry out one or more ventures, by the completion thereof\n(c) by the death of a partner\n(d) by the adjudication of a partner as an insolvent",
+    "source": "NCERT, Accountancy Part 1 (Partnership Accounts), chapter 4, page 157",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 277,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "stem": "Under which of the following cases, the Court can order the dissolution of a partnership firm?\n(A) When a partner persistently commits breach of partnership agreement.\n(B) When a partner has transferred the whole of his interest in the firm to a third party.\n(C) By the death of a partner.\n(D) When the business of the firm cannot be carried on except at a loss.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "card lists the court grounds; list-contingencies shows death is not one; the paper is a select item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.dissolution-of-partnership-firm.list-by-court-grounds",
+    "chapter": "Dissolution of Partnership Firm",
+    "front": "Name the 7 grounds on which the court may order dissolution of a firm at the suit of a partner.",
+    "back": "(a) when a partner becomes insane\n(b) when a partner becomes permanently incapable of performing his duties as a partner\n(c) when a partner is guilty of misconduct which is likely to adversely affect the business of the firm\n(d) when a partner persistently commits breach of partnership agreement\n(e) when a partner has transferred the whole of his interest in the firm to a third party\n(f) when the business of the firm cannot be carried on except at a loss\n(g) when, on any ground, the court regards dissolution to be just and equitable",
+    "source": "NCERT, Accountancy Part 1 (Partnership Accounts), chapter 4, page 157",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 43,
+   "paperNumber": 278,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "stem": "At the time of the dissolution of a partnership firm in which X, Y and Z were partners sharing profit in 2:2:1 ratio, the following information was made available. Arrange them in the sequence in which they will be paid.\n(A) A's Loan to the firm Rs 50,000\n(B) Creditors Rs 2,00,000\n(C) A's Capital Rs 2,50,000, B's Capital Rs 2,00,000 and C's Capital Rs 1,00,000\n(D) Balance available after settlement of all the stakeholders\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (C), (D)",
+    "(B), (C), (A), (D)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "card gives the order of applying assets on dissolution; the paper is a sequence item with figures",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.dissolution-of-partnership-firm.steps-application-of-assets",
+    "chapter": "Dissolution of Partnership Firm",
+    "front": "Steps: the order in which the firm’s assets are applied on dissolution.",
+    "back": "(i) In paying the debts of the firm to the third parties\n(ii) In paying each partner proportionately what is due to him/her from the firm for advances as distinguished from capital (i.e. partner’ loan)\n(iii) In paying to each partner proportionately what is due to him on account of capital\n(iv) the residue, if any, shall be divided among the partners in their profit sharing ratio",
+    "source": "NCERT, Accountancy Part 1 (Partnership Accounts), chapter 4, page 159",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 44,
+   "paperNumber": 279,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Cases for payment of realization expenses) | List-II (Journal entry)\n(A) When realisation expenses are incurred and paid by the firm | (I) Realisation A/c Dr. To Partner's Capital A/c\n(B) When realisation expenses are paid by a partner on behalf of the firm: | (II) No entry is required\n(C) When a partner has agreed to bear the realisation expenses and the realisation expenses are paid by the firm | (III) Realisation A/c Dr. To Bank A/c\n(D) When a partner has agreed to bear the realisation expenses and the partner himself pays the realisation expenses. | (IV) Partner's Capital A/C Dr. To Bank A/c\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "four entry cards give each realisation-expense case; the paper is a match item",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-paid-by-firm",
+    "chapter": "Dissolution of Partnership Firm",
+    "front": "Journal entry: realisation expenses incurred and paid by the firm.",
+    "back": "Realisation A/c Dr. To Bank A/c",
+    "source": "NCERT, Accountancy Part 1 (Partnership Accounts), chapter 4, page 165",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 45,
+   "paperNumber": 280,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "numerical",
+   "stem": "At the time of dissolution of a partnership firm, the stock appeared in the books was Rs 35,000. One of the partner took over 50% of the stock at 10% less than its book value, and the remaining stock was sold at a gain of 15%. Find the total amount realized from the stock in cash.",
+   "passage": null,
+   "options": [
+    "Rs 15,750",
+    "Rs 17,500",
+    "Rs 20,125",
+    "Rs 35,875"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 46,
+   "paperNumber": 281,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "chapter": "Cash Flow Statement",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Receipt from royalties, fees, commission and other revenue | (I) Investing Activity\n(B) Receipt from Interest and dividends | (II) Operating Activity\n(C) Proceeds from issue of preference or equity shares | (III) Cash and Cash equivalent\n(D) Current Investment | (IV) Financing Activity\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "cards on operating inflows, interest and dividends received as investing, share issue as financing and short-term investments as cash equivalents give every pair",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.cash-flow-statement.fact-interest-dividend-nonfinancial",
+    "chapter": "Cash Flow Statement",
+    "front": "Non-financial enterprise (AS-3): how are payment and receipt of interest and dividends classified?",
+    "back": "In case of a non-financial enterprise, as per AS-3, it is considered more appropriate that payment of interest and dividends are classified as financing activities whereas receipt of interest and dividends are classified as investing activities.",
+    "source": "NCERT, Accountancy : Company Accounts and Analysis of Financial Statements, chapter 6, page 247",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 47,
+   "paperNumber": 282,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "chapter": "Financial Statements of Company",
+   "type": "theory",
+   "stem": "Arrange the following items related to the Statement of Profit and Loss in a sequence:\n(A) Profit before extraordinary items and tax\n(B) Profit before tax\n(C) Cost of materials consumed\n(D) Revenue from operations\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(C), (D), (A), (B)",
+    "(D), (C), (A), (B)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "cards on total revenue, the expense list and profit before tax give the order of the Statement of Profit and Loss items",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.financial-statements-of-company.formula-pl-profit-before-tax",
+    "chapter": "Financial Statements of Company",
+    "front": "Formula: Profit before tax (item IX) in the Statement of Profit and Loss, from items VII and VIII.",
+    "back": "VII Profit before extraordinary items and tax (V-VI)\nVIII Extraordinary items\nIX Profit before tax (VII-VIII)",
+    "source": "NCERT, Accountancy : Company Accounts and Analysis of Financial Statements, chapter 3, page 161",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 48,
+   "paperNumber": 283,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "chapter": "Accounting Ratios",
+   "type": "theory",
+   "stem": "The current ratio of a firm is 2 : 1. If the firm purchased goods on credit, then how will it affect its current ratio?",
+   "passage": null,
+   "options": [
+    "Improve",
+    "Reduce",
+    "No change",
+    "The ratio will increase for some time and reach its highest point."
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "card asks the same thing: current ratio 2:1, goods bought on credit, effect on the ratio: it falls",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.accounting-ratios.ex-current-ratio-is-2-1-effect-of-purchasing-go",
+    "chapter": "Accounting Ratios",
+    "front": "Current ratio is 2:1. Effect of purchasing goods on credit on the ratio?",
+    "back": "Assume that goods of Rs. 10,000 are purchased on credit. This will increase the current assets to Rs. 60,000 and current liabilities to Rs. 35,000. The new ratio will be 1.7:1 (Rs. 60,000/Rs. 35,000). Hence, it has reduced.",
+    "source": "NCERT, Accountancy: Company Accounts and Analysis of Financial Statements, chapter 5, page 204",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 49,
+   "paperNumber": 284,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "chapter": "Accounting Ratios",
+   "type": "numerical",
+   "stem": "From the following details, calculate interest coverage ratio: Net Profit after tax Rs. 1,20,000; 15% Long-term debt 20,00,000; and Tax rate 40%.",
+   "passage": null,
+   "options": [
+    "1.67 times",
+    "1.75 times",
+    "1.89 times",
+    "1.95 times"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 50,
+   "paperNumber": 285,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "chapter": "Comparative & Common Size Statements",
+   "type": "theory",
+   "stem": "Which financial analysis is also known as 'horizontal analysis'?",
+   "passage": null,
+   "options": [
+    "Cash Flow Analysis",
+    "Ratio Analysis",
+    "Comparative Statements",
+    "Common Size Statements"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "card asks what comparative statement analysis is also called (horizontal analysis); the paper asks the other way round",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+    "chapter": "Comparative & Common Size Statements",
+    "front": "Comparative statements analysis is also known as which analysis?",
+    "back": "Comparative figures indicate the trend and direction of financial position and operating results. This analysis is also known as ‘horizontal analysis’.",
+    "source": "NCERT, Accountancy : Company Accounts and Analysis of Financial Statements, chapter 4, page 174",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 51,
+   "paperNumber": 286,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "stem": "Which of the following is not the advantage of Computerised Accounting System (CAS)?",
+   "passage": null,
+   "options": [
+    "Timely generation of reports and information in desired format.",
+    "Efficient record keeping.",
+    "Ensures effective control over the system.",
+    "Economy in the processing of accounting data is minimised."
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "card lists the five advantages of CAS; the paper's keyed option is the distorted one",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.computerized-accounting-system.list-ch1-advantages",
+    "chapter": "Computerized Accounting System",
+    "front": "Name the five advantages of CAS.",
+    "back": "1. Timely generation of reports and information in desired format.\n2. Efficient record keeping.\n3. Ensures effective control over the system.\n4. Economy in the processing of accounting data.\n5. Confidentiality of data is maintained.",
+    "source": "NCERT, Computerised Accounting System, chapter 1, page 10",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 52,
+   "paperNumber": 287,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Ranges | (I) Holds either row or column constant when the formula or function is copied to another location\n(B) Mixed reference | (II) Used when we want a cell reference to stay fixed on specific cell\n(C) Absolute reference | (III) As a formula or function is copied and pasted to other cells, the cell references in the formula or function change to reflect the new location\n(D) Default reference | (IV) Identified by cell references of the cells from the upper left to lower right\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "cards on ranges, mixed, absolute and relative (default) references give every pair of the match",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.computerized-accounting-system.def-ch2-mixed-reference",
+    "chapter": "Computerized Accounting System",
+    "front": "What is a mixed cell reference?",
+    "back": "A mixed reference is also a cell reference that holds either row or column constant when the formula or function is copied to another location e.g., $C4 or C$4.",
+    "source": "NCERT, Computerised Accounting System, chapter 2, page 19",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 53,
+   "paperNumber": 288,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "stem": "Arrange the following steps related to freezing the formula using paste special command in logical sequence\n(A) Click on Home Tab and select Copy symbol\n(B) In the Paste Special box, under paste select the radio button next to Values and click OK\n(C) Select the cell(s) that contains the formula\n(D) Click on Paste tab and select Paste Special\nChoose the correct sequence from the options given below:",
+   "passage": null,
+   "options": [
+    "(C), (A), (D), (B)",
+    "(B), (A), (C), (D)",
+    "(A), (D), (C), (B)",
+    "(D), (B), (C), (A)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "new Key card steps-ch2-freeze-formula-paste-special (leca102 p. 27) gives the four steps in order: select, Copy, Paste Special, Values and OK, the keyed sequence",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.computerized-accounting-system.steps-ch2-freeze-formula-paste-special",
+    "chapter": "Computerized Accounting System",
+    "front": "Steps to freeze a formula (keep its value) with the Paste Special command, in order",
+    "back": "Select the cell (s) that contains the formula e.g. B6:C6, B7\nClick on Home Tab and select Copy symbol\nClick on Paste tab and select Paste Special.\nunder paste select the radio button next to Values and click OK. This will permanently remove the formula from the workbook.",
+    "source": "NCERT, Computerised Accounting System, chapter 2, page 27",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 54,
+   "paperNumber": 289,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "stem": "Which of the following arguments in a financial function represents the total number of payments?",
+   "passage": null,
+   "options": [
+    "FV",
+    "PV",
+    "Nper",
+    "Rate"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "card lists the PMT parameters with Nper = total number of payments; the paper asks which argument that is",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.computerized-accounting-system.list-ch3-pmt-parameters",
+    "chapter": "Computerized Accounting System",
+    "front": "Name the 5 parameters of Excel's PMT function.",
+    "back": "Rate: Interest rate per period for the loan\nNper: Total number of payments for the loan.\nPv: Present value, i.e. the loan amount\nFv: Future value, which is taken as 0, is the balance at the end of the loan period\nType: Whether payment is made at the beginning (value=1) or at the end (value=0) of the period",
+    "source": "NCERT, Computerised Accounting System, chapter 3, page 99",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 55,
+   "paperNumber": 290,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "chapter": "Computerized Accounting System",
+   "type": "theory",
+   "stem": "A graph has at least how many axes",
+   "passage": null,
+   "options": [
+    "Two axes",
+    "Three axes",
+    "One axes",
+    "Four axes"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "card asks the same question: a graph has at least two axes",
+   "match": {
+    "kind": "card",
+    "id": "kc.accountancy.computerized-accounting-system.fact-ch4-graph-axes",
+    "chapter": "Computerized Accounting System",
+    "front": "A graph has at least how many axes, and which one is usually horizontal and which vertical?",
+    "back": "A graph has at least two axes, X and Y. X-axis is usually horizontal while Y-axis is vertical.",
+    "source": "NCERT, Computerised Accounting System, chapter 4, page 105",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  }
+ ]
+}

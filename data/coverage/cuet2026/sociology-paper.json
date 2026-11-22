@@ -1,0 +1,1304 @@
+{
+ "paper": "cuet2026-sociology",
+ "subject": "sociology",
+ "subjectName": "Sociology",
+ "subjectCode": "326",
+ "examDate": "2026-05-15",
+ "shift": "First",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Sociology, 50 PDF pages: a cover plus 49 numbered pages), https://docs.aglasem.com/view/83fdb044-c701-11f1-be0c-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/83fdb044-c701-11f1-be0c-0aa932765c8b/83fdb044-c701-11f1-be0c-0aa932765c8b.pdf (9,957,486 bytes, ETag 2c29bf3d074cfbababab40c8b380a3e1, Last-Modified 13 Oct 2026), downloaded 22 Nov 2026 under the owner's 22 Nov 2026 request for more subjects. English text transcribed from the page images (OCR used as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 326.",
+ "structure": "One mandatory section of 50 numbered questions (501 to 550) printed in English then Hindi: sub-section 1 has 40 stand-alone MCQs, sub-sections 2 and 3 have one comprehension passage each with 5 questions (541-545 and 546-550). The paper's own header says 'Number of Questions: 42' and 'Section Marks: 250'; fifty questions are printed.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 15-05-2026 (First) final key for subject 326 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question.",
+ "transcribedBy": "Subagent paper stage, 22 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed. Spelling and wording kept as printed (e.g. Q34 option 4 'linakges', Q36 'involvment', Q38 'Accomodating', Q40 'Telengana', Q22 \"it's first\", Q17 'how many tier system').",
+  "Page = the page image (pNN.png of the 50-page PDF; the printed footer is one lower) where the question's English option ids are printed; the stem can sit at the foot of the page before.",
+  "Match tables are written as rows 'List-I item | List-II item' in the order the paper prints them (A with I, B with II, C with III, D with IV).",
+  "Q21 (226895781448): NTA's final key gives option 1 (D, A, B, C). Van Panchayats (B) are older than the other three, so the key looks historically odd; it is kept as NTA's published key and flagged for the coverage stage.",
+  "The shift's key has 50 rows, all single-answer, none dropped. NTA's final key for subject 326 holds 4 shifts (11-05 Second, 15-05 First, 19-05 First, 29-05 Second); this paper is the 15-05-2026 First shift, and all 50 question ids fall in that one shift."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "keyRows": 50
+ },
+ "problems": [],
+ "passages": {
+  "P1-226895781468": {
+   "questionId": "226895781468",
+   "questionNumbers": "541 to 545",
+   "title": "The Economic Policy of Liberalisation",
+   "page": 41,
+   "text": "Globalisation involves a stretching of social and economic relationships throughout the world. This stretching is pushed by certain economic policies. Very broadly, this process in India is termed as liberalisation. The term liberalisation refers to a range of policy decisions that the Indian state took since 1991 to open up the Indian economy to the world market. This marked a break with an earlier stated policy of the government to have a greater control over the economy. The state after independence had put in place a large number of laws that ensured that the Indian market and Indian indigenous business were protected from competition of the wider world. The underlying assumption of such a policy was that an erstwhile colonial country would be at a disadvantage in a free market situation.\n\nLiberalisation of the economy meant the steady removal of the rules that regulated Indian trade and finance regulations. These measures are also described as economic reforms. What are these reforms? Since July 1991, the Indian economy has witnessed a series of reforms in all major sectors of the economy (agriculture, industry, trade, foreign investment and technology, public sector, financial institutions, etc). The basic assumption was that greater integration into the global market would be beneficial to the Indian economy."
+  },
+  "P2-226895781474": {
+   "questionId": "226895781474",
+   "questionNumbers": "546 to 550",
+   "title": "Mass Media And Communication",
+   "page": 46,
+   "text": "It is obvious that there has been a phenomenal expansion of mass communication of all kinds in recent years. As students of sociology, there are many aspects to this growth which is of great interest to us. First, while we recognise the specificity of the current communication revolution, it is important to go back a little and sketch out the growth of modern mass media in the world and in India. This helps us realise that like any other social institution the structure and content of mass media is shaped by changes in the economic, political and socio-cultural contexts. For instance, we see how central the state and its vision of development influenced the media in the first decades after independence. And how in the post 1990 period of globalisation, the market has a key role to play. Second, this help us better appreciate how the relationship between mass media and communication with society is dialectical. Both influence each other. The nature and role of mass media is influenced by the society in which it is located. At the same time the far reaching influence of mass media on society cannot be over-emphasised. We shall see this dialectical relationship —(a) the role of media in colonial India, (b) in the first decades after independence and (c) and finally in the context of globalisation. Third, mass communication is different from other means of communication as it requires a formal structural organisation to meet large-scale capital, production and management demands. You will find, therefore, that the state and/or the market have a major role in the structure and functioning of mass media. Mass media functions through very large organisations with major investments and large body of employees. Fourth, there are sharp differences between how easily different sections of people can use mass media."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 501,
+   "questionId": "226895781428",
+   "page": 3,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What is Social Demography?",
+   "options": [
+    "It is concerned with measurement and analysis of the components of population change.",
+    "It is concerned with the wider causes and consequences of population structure and change.",
+    "It is concerned with the changes in the population due to genetic influence.",
+    "It studies the changes in the population due to climatic conditions."
+   ],
+   "optionIds": [
+    "2268953030109",
+    "2268953030110",
+    "2268953030111",
+    "2268953030112"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030110",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 2,
+   "paperNumber": 502,
+   "questionId": "226895781429",
+   "page": 4,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "The age structure of population refers to:",
+   "options": [
+    "the number of live births per 1000 women in the child-bearing age group",
+    "the number of deaths of babies before the age of one year per 1000 live births.",
+    "the proportion of persons in the different age groups relative to the total population.",
+    "the number of females per 1000 males in a given area at a specified time period."
+   ],
+   "optionIds": [
+    "2268953030113",
+    "2268953030114",
+    "2268953030115",
+    "2268953030116"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030115",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 3,
+   "paperNumber": 503,
+   "questionId": "226895781430",
+   "page": 5,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What factors contribute to the physical transplantation of urban life into a rural setup?",
+   "options": [
+    "Mass Media and Communication",
+    "Migration",
+    "Industrialization",
+    "Secularization"
+   ],
+   "optionIds": [
+    "2268953030117",
+    "2268953030118",
+    "2268953030119",
+    "2268953030120"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030119",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 4,
+   "paperNumber": 504,
+   "questionId": "226895781431",
+   "page": 5,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following is an outcome of a social movement in Britain?",
+   "options": [
+    "Protection of the monarchial prestige",
+    "Reservation in government jobs",
+    "Positive affirmation for coloured people",
+    "Universal Adult Suffrage"
+   ],
+   "optionIds": [
+    "2268953030121",
+    "2268953030122",
+    "2268953030123",
+    "2268953030124"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030124",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 5,
+   "paperNumber": 505,
+   "questionId": "226895781432",
+   "page": 6,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "The most common features of the caste system are:\nA. It is an ascribed identity.\nB. It is an endogamous group.\nC. It is linked to particular occupational groups.\nD. It is based on abilities and can change over time.\nChoose the correct statements from the options given below:",
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "A, C and D only",
+    "A, B and D only"
+   ],
+   "optionIds": [
+    "2268953030125",
+    "2268953030126",
+    "2268953030127",
+    "2268953030128"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030125",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 6,
+   "paperNumber": 506,
+   "questionId": "226895781433",
+   "page": 8,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Concept) | LIST-II (Definition)\nA. Fertility Rate | I. refers to the number of deaths of babies before the age of one year per 1000 live births.\nB. Infant Mortality Rate | II. refers to the number of females per 1000 males in a given area at a specified time.\nC. Sex ratio | III. refers to the number of live births per 1000 women in the child-bearing age group\nD. Dependency ratio | IV. measure comparing the portion of a population which is composed of dependents with the portion that is in the working age group\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-III, B-I, C-II, D-IV",
+    "A-I, B-II, C-III, D-IV",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953030129",
+    "2268953030130",
+    "2268953030131",
+    "2268953030132"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030129",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 7,
+   "paperNumber": 507,
+   "questionId": "226895781434",
+   "page": 9,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following can be understood as an effect of 'Sanskritisation'?",
+   "options": [
+    "Adoption of western education by the Brahmins.",
+    "The practice of dowry among Dalit communities.",
+    "The tribes taking up new occupation.",
+    "Middle-caste women choosing to work outside the home."
+   ],
+   "optionIds": [
+    "2268953030133",
+    "2268953030134",
+    "2268953030135",
+    "2268953030136"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030134",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 8,
+   "paperNumber": 508,
+   "questionId": "226895781435",
+   "page": 10,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following can be understood as \"acquired\" trait for a person belonging to the Gond tribe?",
+   "options": [
+    "The person decides to assert his tribal identity.",
+    "The person decides to stay in his/her place of origin.",
+    "The person decides to adopt the \"purity and pollution\" principle of caste to maintain their identity.",
+    "The person decides to continue to use his/her own language."
+   ],
+   "optionIds": [
+    "2268953030137",
+    "2268953030138",
+    "2268953030139",
+    "2268953030140"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030139",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 9,
+   "paperNumber": 509,
+   "questionId": "226895781436",
+   "page": 11,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following functions of the family is determined by lineage structure?",
+   "options": [
+    "Rules of authority",
+    "Rules of residence",
+    "Rules of inheritance",
+    "Rules of marriage"
+   ],
+   "optionIds": [
+    "2268953030141",
+    "2268953030142",
+    "2268953030143",
+    "2268953030144"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030143",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 10,
+   "paperNumber": 510,
+   "questionId": "226895781437",
+   "page": 12,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following is correct for the OBC population in India?\nA. It is a diverse group with regional variations.\nB. They are mostly from untouchable castes.\nC. Till 1990, two different commissions were set up for OBC welfare.\nD. Southern states in India started mobilization of OBC long before the northern states.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, C and D only",
+    "B, C and D only",
+    "A, B and C only"
+   ],
+   "optionIds": [
+    "2268953030145",
+    "2268953030146",
+    "2268953030147",
+    "2268953030148"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030146",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 11,
+   "paperNumber": 511,
+   "questionId": "226895781438",
+   "page": 13,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Why is Dharma Sabha an example of countermovement?",
+   "options": [
+    "It defended the right of older women to practice Sati.",
+    "It defended the practice of Sati and refused to bring in any change.",
+    "It attacked Sati but not the problem of polygamy.",
+    "It was against mass mobilization but wanted new rules to abolish Sati."
+   ],
+   "optionIds": [
+    "2268953030149",
+    "2268953030150",
+    "2268953030151",
+    "2268953030152"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030150",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 12,
+   "paperNumber": 512,
+   "questionId": "226895781439",
+   "page": 14,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following contributes towards the formation of ethno-national identities in India?\nA. Language\nB. Religion\nC. Region\nD. Tribe",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953030153",
+    "2268953030154",
+    "2268953030155",
+    "2268953030156"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030155",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 13,
+   "paperNumber": 513,
+   "questionId": "226895781440",
+   "page": 15,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "\"The State is a body that successfully claims the monopoly of legitimate force in a particular territory\"—this definition of State was given by",
+   "options": [
+    "Karl Marx",
+    "Max Weber",
+    "Emile Durkheim",
+    "B. R. Ambedkar"
+   ],
+   "optionIds": [
+    "2268953030157",
+    "2268953030158",
+    "2268953030159",
+    "2268953030160"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030158",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 14,
+   "paperNumber": 514,
+   "questionId": "226895781441",
+   "page": 15,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What is the primary vision of the Constitution of India ?",
+   "options": [
+    "To develop an assimilationist culture by identifying a cultural code.",
+    "To build an integrationist nation-State by establishing a singular idea.",
+    "To maintain a national unity by formally recognising differences among the people.",
+    "To have a written mandate which all Indians can comprehend."
+   ],
+   "optionIds": [
+    "2268953030161",
+    "2268953030162",
+    "2268953030163",
+    "2268953030164"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030163",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 15,
+   "paperNumber": 515,
+   "questionId": "226895781442",
+   "page": 16,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following cities was outside the economic system of the colonial empire?",
+   "options": [
+    "Bombay",
+    "Kolkata",
+    "Madras",
+    "Bhopal"
+   ],
+   "optionIds": [
+    "2268953030165",
+    "2268953030166",
+    "2268953030167",
+    "2268953030168"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030168",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 16,
+   "paperNumber": 516,
+   "questionId": "226895781443",
+   "page": 17,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (CONCEPT) | LIST-II (IMPACT)\nA. Urbanisation | I. reordering of the relationship between the native and the migrant\nB. Westernisation | II. adopting new technology in the production process.\nC. Modernisation | III. reordering of the market economy.\nD. Industrialization | IV. reordering of the social value systems\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-IV, C-II, D-III",
+    "A-I, B-II, C-III, D-IV",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953030169",
+    "2268953030170",
+    "2268953030171",
+    "2268953030172"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030169",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 17,
+   "paperNumber": 517,
+   "questionId": "226895781444",
+   "page": 18,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "According to the 73rd Constitutional Amendment, the Panchayati Raj Institution is divided into how many tier system?",
+   "options": [
+    "Two",
+    "Three",
+    "Four",
+    "Five"
+   ],
+   "optionIds": [
+    "2268953030173",
+    "2268953030174",
+    "2268953030175",
+    "2268953030176"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030174",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 18,
+   "paperNumber": 518,
+   "questionId": "226895781445",
+   "page": 19,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following powers and responsibilities are delegated to the Panchayats?\nA. To prepare plans and schemes for economic development.\nB. To make laws for the villagers.\nC. To promote schemes that will enhance social justice\nD. To levy, collect, and appropriate taxes, duties, tolls and fees.\nChoose the correct answer from the options given below:",
+   "options": [
+    "B, C and D only",
+    "A, C and D only",
+    "A, B and C only",
+    "A, B and D only"
+   ],
+   "optionIds": [
+    "2268953030177",
+    "2268953030178",
+    "2268953030179",
+    "2268953030180"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030178",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 19,
+   "paperNumber": 519,
+   "questionId": "226895781446",
+   "page": 20,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What is the business practice called, where companies reduce their permanent workforce and assign work to smaller firms or individual workers at home?",
+   "options": [
+    "Liberalisation",
+    "Outsourcing",
+    "Disinvestment",
+    "Mechanisation"
+   ],
+   "optionIds": [
+    "2268953030181",
+    "2268953030182",
+    "2268953030183",
+    "2268953030184"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030182",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 20,
+   "paperNumber": 520,
+   "questionId": "226895781447",
+   "page": 21,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "How can judicial interpretation of the Constitution contribute to social transformation?",
+   "options": [
+    "By restricting rights to literal constitutional meaning.",
+    "By preserving the intentions of original constitutional makers.",
+    "By expanding fundamental concepts like 'Right to Life' to encompass quality dimensions.",
+    "By maintaining strict separation between constitutional articles."
+   ],
+   "optionIds": [
+    "2268953030185",
+    "2268953030186",
+    "2268953030187",
+    "2268953030188"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030187",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 21,
+   "paperNumber": 521,
+   "questionId": "226895781448",
+   "page": 22,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What is the correct chronological sequence of democratic developments in India?\nA. Constitutional status granted to Panchayati Raj Institutions.\nB. Development of Van Panchayats\nC. Right to Information Act\nD. Right to Livelihood as constitutional right.\nChoose the correct answer from the options given below:",
+   "options": [
+    "D, A, B, C",
+    "B, D, A, C",
+    "B, A, D, C",
+    "D, C, B, A"
+   ],
+   "optionIds": [
+    "2268953030189",
+    "2268953030190",
+    "2268953030191",
+    "2268953030192"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030189",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 22,
+   "paperNumber": 522,
+   "questionId": "226895781449",
+   "page": 23,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Arrange the following Census events in the correct chronological order of their occurrence.\nA. The sex ratio had fallen to an all-time low of 927 females per thousand males.\nB. The total population of India was recorded to be 121 crores.\nC. India announced it's first population policy.\nD. The year when India experienced better demographic dividend compared to China.\nChoose the correct answer from the options given below:",
+   "options": [
+    "D, C, A, B",
+    "D, C, B, A",
+    "C, A, B, D",
+    "C, D, B, A"
+   ],
+   "optionIds": [
+    "2268953030193",
+    "2268953030194",
+    "2268953030195",
+    "2268953030196"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030195",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 23,
+   "paperNumber": 523,
+   "questionId": "226895781450",
+   "page": 24,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following statements is true for India's demography and population?\nA. Famines were caused by high levels of continuing poverty and malnutrition.\nB. Unlike the death rate, the birth rate has not registered a sharp fall.\nC. Programmes for mass vaccination, and efforts to improve sanitation helped to control epidemics.\nD. Prosperity does not influence family size.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "B, C and D only",
+    "A, C and D only"
+   ],
+   "optionIds": [
+    "2268953030197",
+    "2268953030198",
+    "2268953030199",
+    "2268953030200"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030198",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 24,
+   "paperNumber": 524,
+   "questionId": "226895781451",
+   "page": 25,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Why is India often called a \"state-nation\"?",
+   "options": [
+    "Since the political identity developed before a national identity.",
+    "Since it is committed to the idea of pluralistic identities co-existing peacefully within a single state polity.",
+    "Since it is developed in the model of assimilation to manage pluralism.",
+    "Since it is committed to the idea of one nation-one state."
+   ],
+   "optionIds": [
+    "2268953030201",
+    "2268953030202",
+    "2268953030203",
+    "2268953030204"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030202",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 25,
+   "paperNumber": 525,
+   "questionId": "226895781452",
+   "page": 26,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What was the dominant contradiction within the Indian national movement concerning the caste system?",
+   "options": [
+    "Nationalist leaders considered the abolition of untouchability undesirable while opposing social reforms.",
+    "Nationalist leaders worked for upliftment of lower castes while denying education to upper castes.",
+    "Nationalist leaders did not consider colonialism a social evil but regarded caste system a menace.",
+    "Nationalist leaders worked against discrimination of lower castes while also prioritizing the interests of upper castes."
+   ],
+   "optionIds": [
+    "2268953030205",
+    "2268953030206",
+    "2268953030207",
+    "2268953030208"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030208",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 26,
+   "paperNumber": 526,
+   "questionId": "226895781453",
+   "page": 27,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Who, among the following, is a scholar on disability issues?",
+   "options": [
+    "Jotiba Phule",
+    "Ralph Ellison",
+    "Anita Ghai",
+    "Sharmila Rege"
+   ],
+   "optionIds": [
+    "2268953030209",
+    "2268953030210",
+    "2268953030211",
+    "2268953030212"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030211",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 27,
+   "paperNumber": 527,
+   "questionId": "226895781454",
+   "page": 28,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "A person is forced to leave his job because of his colleagues' persisting comments about his religious and ethnic identity as inferior. What is he a victim of?",
+   "options": [
+    "Casteism",
+    "Communalism",
+    "Regionalism",
+    "Secularism"
+   ],
+   "optionIds": [
+    "2268953030213",
+    "2268953030214",
+    "2268953030215",
+    "2268953030216"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030214",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 28,
+   "paperNumber": 528,
+   "questionId": "226895781455",
+   "page": 29,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following is an example of non-market exchange system?",
+   "options": [
+    "Hundi system",
+    "Weekly haats",
+    "Nakarattars system",
+    "Jajmani system"
+   ],
+   "optionIds": [
+    "2268953030217",
+    "2268953030218",
+    "2268953030219",
+    "2268953030220"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030220",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 29,
+   "paperNumber": 529,
+   "questionId": "226895781456",
+   "page": 29,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Identify the nature of the family structure consisting of more than two brothers, each with their own families, living together.",
+   "options": [
+    "Nuclear",
+    "Extended",
+    "Matrilocal",
+    "Patrilocal"
+   ],
+   "optionIds": [
+    "2268953030221",
+    "2268953030222",
+    "2268953030223",
+    "2268953030224"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030222",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 30,
+   "paperNumber": 530,
+   "questionId": "226895781457",
+   "page": 30,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following is a credit instrument in market systems?",
+   "options": [
+    "Hundi",
+    "Nakarattar",
+    "Jajmani",
+    "Haat"
+   ],
+   "optionIds": [
+    "2268953030225",
+    "2268953030226",
+    "2268953030227",
+    "2268953030228"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030225",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 31,
+   "paperNumber": 531,
+   "questionId": "226895781458",
+   "page": 31,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following refers to the situation where a large cohort of women of reproductive age will fuel population growth over the next generation, even if each woman has fewer children than previous generations did?",
+   "options": [
+    "Demographic Transition",
+    "Population Momentum",
+    "Crude Death Rate",
+    "Crude Birth Rate"
+   ],
+   "optionIds": [
+    "2268953030229",
+    "2268953030230",
+    "2268953030231",
+    "2268953030232"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030230",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 32,
+   "paperNumber": 532,
+   "questionId": "226895781459",
+   "page": 32,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following is NOT true in the context of the Marwaris (business community) of India?",
+   "options": [
+    "They became successful business community during colonial period.",
+    "They took advantage while settling in colonial cities such as Calcutta.",
+    "Their accumulated wealth had a negative impact on the commercial expansion of the British in India.",
+    "They transformed themselves into modern industrialists."
+   ],
+   "optionIds": [
+    "2268953030233",
+    "2268953030234",
+    "2268953030235",
+    "2268953030236"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030235",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 33,
+   "paperNumber": 533,
+   "questionId": "226895781460",
+   "page": 32,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What was the purpose of Government of India Act of 1935?",
+   "options": [
+    "To classify \"Other Backward Classes\" as a constitutional category.",
+    "To promote research on the social hierarchy of castes.",
+    "To ensure caste identities become more fluid.",
+    "To give legal recognition to the schedule of 'castes' and 'tribes'."
+   ],
+   "optionIds": [
+    "2268953030237",
+    "2268953030238",
+    "2268953030239",
+    "2268953030240"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030240",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 34,
+   "paperNumber": 534,
+   "questionId": "226895781461",
+   "page": 33,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following statements indicate that disability is a social category?",
+   "options": [
+    "There are linkages between poverty and disability.",
+    "There are linkages between past life and disability.",
+    "There are linkages between disability and climate change.",
+    "There are linakges between individual ability and disability."
+   ],
+   "optionIds": [
+    "2268953030241",
+    "2268953030242",
+    "2268953030243",
+    "2268953030244"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030241",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 35,
+   "paperNumber": 535,
+   "questionId": "226895781462",
+   "page": 34,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which of the following is true about apartheid in British South Africa?\nA. Black protesters were routinely jailed, murdered and tortured.\nB. While landownership was denied to the blacks, mixed marriages were allowed.\nC. Blacks earned only one-fourth of what the whites did.\nD. Black people were relocated to poor districts called 'Bantustans' or homelands.\nChoose the correct answer from the options below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953030245",
+    "2268953030246",
+    "2268953030247",
+    "2268953030248"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030247",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 36,
+   "paperNumber": 536,
+   "questionId": "226895781463",
+   "page": 36,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Concept) | LIST-II (Explanation)\nA. Prejudice | I. Individuals are cut off from full involvment in a wider society.\nB. Stratification | II. Disqualifying members of one group from the opportunities that are open to others.\nC. Exclusion | III. Pre-conceived opinions or attitudes held by members of one group towards another\nD. Discrimination | IV. A hierarchical arrangements of groups and communities in a society\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-IV, C-III, D-II",
+    "A-III, B-I, C-IV, D-II",
+    "A-IV, B-II, C-I, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953030249",
+    "2268953030250",
+    "2268953030251",
+    "2268953030252"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030252",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 37,
+   "paperNumber": 537,
+   "questionId": "226895781464",
+   "page": 37,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "What is the opposite of religious chauvinism and do not imply hostility to the religion?",
+   "options": [
+    "Communalism",
+    "Secularism",
+    "Regionalism",
+    "Nationalism"
+   ],
+   "optionIds": [
+    "2268953030253",
+    "2268953030254",
+    "2268953030255",
+    "2268953030256"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030254",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 38,
+   "paperNumber": 538,
+   "questionId": "226895781465",
+   "page": 38,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "The assimilation and integration policies tend to focus on",
+   "options": [
+    "Accomodating heterogeneous and hybrid identity of populations.",
+    "Adopting the symbols and heroes of minority groups.",
+    "Forcing all citizens to adopt a uniform set of cultural values and norms.",
+    "Decentralising powers and autonomy so that it spreads to minority groups too."
+   ],
+   "optionIds": [
+    "2268953030257",
+    "2268953030258",
+    "2268953030259",
+    "2268953030260"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030259",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 39,
+   "paperNumber": 539,
+   "questionId": "226895781466",
+   "page": 39,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Which is the non-state and non-market part of public domain in which individuals get together voluntarily to create institutions and organizations?",
+   "options": [
+    "Society",
+    "Social Organization",
+    "Civil Society",
+    "Social Institution"
+   ],
+   "optionIds": [
+    "2268953030261",
+    "2268953030262",
+    "2268953030263",
+    "2268953030264"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030263",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 40,
+   "paperNumber": 540,
+   "questionId": "226895781467",
+   "page": 40,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Social Movement) | LIST-II (Key feature)\nA. Chipko Movement | I. Linkage between women and agrarian concerns\nB. Old Social Movement | II. Right to self-determination\nC. Telengana Movement | III. Linkage between women and environmental concerns.\nD. Dalit Movement | IV. Re-organisation of power relations.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-II, B-I, C-III, D-IV",
+    "A-IV, B-II, C-III, D-I",
+    "A-III, B-II, C-IV, D-I",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953030265",
+    "2268953030266",
+    "2268953030267",
+    "2268953030268"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030268",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines"
+  },
+  {
+   "n": 41,
+   "paperNumber": 541,
+   "questionId": "226895781469",
+   "page": 42,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "stem": "The term liberalisation in the Indian context refers to policies introduced after which year?",
+   "options": [
+    "1991",
+    "1995",
+    "1981",
+    "1985"
+   ],
+   "optionIds": [
+    "2268953030269",
+    "2268953030270",
+    "2268953030271",
+    "2268953030272"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030269",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P1-226895781468"
+  },
+  {
+   "n": 42,
+   "paperNumber": 542,
+   "questionId": "226895781470",
+   "page": 42,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "stem": "Which of the following best describes liberalisation of the economy?",
+   "options": [
+    "Creation of new government-owned industries.",
+    "Expansion of rural employment guarantees.",
+    "Removal of restrictions on trade and financial flow.",
+    "Increasing taxation on foreign companies."
+   ],
+   "optionIds": [
+    "2268953030273",
+    "2268953030274",
+    "2268953030275",
+    "2268953030276"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953030275",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P1-226895781468"
+  },
+  {
+   "n": 43,
+   "paperNumber": 543,
+   "questionId": "226895781471",
+   "page": 42,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "stem": "What was one major shift caused by the economic reforms of 1991?",
+   "options": [
+    "Greater state ownership of farms.",
+    "Increased control of the government over private trade",
+    "Restrictions on foreign investment.",
+    "Opening Indian markets to international competition"
+   ],
+   "optionIds": [
+    "2268953030277",
+    "2268953030278",
+    "2268953030279",
+    "2268953030280"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030280",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P1-226895781468"
+  },
+  {
+   "n": 44,
+   "paperNumber": 544,
+   "questionId": "226895781472",
+   "page": 43,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "stem": "Liberalisation measures, are also called economic reforms because",
+   "options": [
+    "They were only related to taxation.",
+    "They restructured all major sectors of the economy.",
+    "They changed only the public sector.",
+    "They benefited only multinational companies."
+   ],
+   "optionIds": [
+    "2268953030281",
+    "2268953030282",
+    "2268953030283",
+    "2268953030284"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030282",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P1-226895781468"
+  },
+  {
+   "n": 45,
+   "paperNumber": 545,
+   "questionId": "226895781473",
+   "page": 43,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "stem": "If India had continued its pre-1991 protectionist policies, which scenario would most likely occur?",
+   "options": [
+    "Faster inflow of foreign investment.",
+    "Easy competition with global companies.",
+    "Increased openness to the global market.",
+    "Domestic industries shielded from international competition."
+   ],
+   "optionIds": [
+    "2268953030285",
+    "2268953030286",
+    "2268953030287",
+    "2268953030288"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953030288",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P1-226895781468"
+  },
+  {
+   "n": 46,
+   "paperNumber": 546,
+   "questionId": "226895781475",
+   "page": 46,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "stem": "After 1990, the mass media was shaped by which phenomenon?",
+   "options": [
+    "Globalization",
+    "Liberalization",
+    "Modernization",
+    "Secularization"
+   ],
+   "optionIds": [
+    "2268953030289",
+    "2268953030290",
+    "2268953030291",
+    "2268953030292"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030289",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P2-226895781474"
+  },
+  {
+   "n": 47,
+   "paperNumber": 547,
+   "questionId": "226895781476",
+   "page": 47,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "stem": "How is mass communication different from other means of communication?",
+   "options": [
+    "It requires a larger target audience.",
+    "It requires formal structural organization.",
+    "It requires specific skills.",
+    "It requires special training"
+   ],
+   "optionIds": [
+    "2268953030293",
+    "2268953030294",
+    "2268953030295",
+    "2268953030296"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953030294",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P2-226895781474"
+  },
+  {
+   "n": 48,
+   "paperNumber": 548,
+   "questionId": "226895781477",
+   "page": 47,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "stem": "What is the relationship between mass media and communication?",
+   "options": [
+    "Dialectical",
+    "Paradoxical",
+    "Relational",
+    "Differential"
+   ],
+   "optionIds": [
+    "2268953030297",
+    "2268953030298",
+    "2268953030299",
+    "2268953030300"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030297",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P2-226895781474"
+  },
+  {
+   "n": 49,
+   "paperNumber": 549,
+   "questionId": "226895781478",
+   "page": 47,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "stem": "The Digital Divide can be understood as",
+   "options": [
+    "The feasibility of different groups' use of technology.",
+    "The connection between local and global technology.",
+    "The ability to divide the use of different technology.",
+    "The ability to use different languages in technology."
+   ],
+   "optionIds": [
+    "2268953030301",
+    "2268953030302",
+    "2268953030303",
+    "2268953030304"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030301",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P2-226895781474"
+  },
+  {
+   "n": 50,
+   "paperNumber": 550,
+   "questionId": "226895781479",
+   "page": 48,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "stem": "Who are the target audience of most soap operas?",
+   "options": [
+    "women",
+    "children",
+    "teenagers",
+    "masses"
+   ],
+   "optionIds": [
+    "2268953030305",
+    "2268953030306",
+    "2268953030307",
+    "2268953030308"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953030305",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "OCR, matched to key; text checked against the page image where OCR dropped lines",
+   "passage": "P2-226895781474"
+  }
+ ]
+}

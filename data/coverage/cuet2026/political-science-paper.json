@@ -1,0 +1,1246 @@
+{
+ "paper": "cuet2026-political-science",
+ "subject": "political-science",
+ "subjectName": "Political Science",
+ "subjectCode": "323",
+ "examDate": "2026-05-24",
+ "shift": "First",
+ "source": "NTA master question paper for Political Science (paper question numbers 236-285), AglaSem Docs copy at https://docs.aglasem.com/view/7f606cd4-c701-11f1-a888-0aa932765c8b (PDF https://cdn.aglasem.com/aglasem-doc/7f606cd4-c701-11f1-a888-0aa932765c8b/7f606cd4-c701-11f1-a888-0aa932765c8b.pdf), downloaded 22 Nov 2026 (9,554,997 bytes, 39 pages: cover + 38 print pages, English then Hindi for every question). English text transcribed from the page images (tmp/1122-coverage/pol-work/pages/pNN.png at 110 dpi); the OCR was used only to read question and option ids. Answers from NTA's CUET (UG) 2026 final answer key (option ids).",
+ "transcribedBy": "Coverage paper-stage subagent, 22 Nov 2026",
+ "structure": "One compulsory Political Science paper of 50 questions: Sub-section 1 = 40 single questions (Q236-275), Sub-section 2 = a comprehension passage on India and the Kyoto Protocol with 5 questions (Q276-280), Sub-section 3 = a comprehension passage on coalition politics in the 1990s with 5 questions (Q281-285). The printed section header says 42 questions, which does not match the 50 ids printed; the key has 50 rows for this shift.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (First) final key for subject 323 (Political Science) and the key option id is one of its four printed option ids (printed in consecutive order, so the key option id fixes the answer position).",
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "keyRows": 50,
+  "ocrSlipsFixed": 0
+ },
+ "notes": [
+  "Text is kept as printed, including the paper's own typos (Q254 \"intergation\", Q263 \"followin\", Q271 \"realted\", Q258 \"Publically\", Q257 \"Which one of the following statement\").",
+  "Page numbers are the image file numbers (pNN.png); the printed footer is one lower.",
+  "Every English text was read from the page image by eye, not taken from the OCR; the OCR text layer of these pages is too broken to use (words run together, lines dropped), so no OCR slips were carried into the text. 0 OCR slips fixed.",
+  "Match questions are written as a header row then one row per pair, list I and list II separated by ' | ', as in the first three subjects.",
+  "The comprehension passages are in 'passages', keyed by passage id; the passage question ids (226895789640, 226895789646) are not themselves in the key, only the 5 sub questions of each.",
+  "The Hindi copy of each question was seen on the page and is identical in meaning; it is not transcribed."
+ ],
+ "passages": {
+  "P1-226895789640": {
+   "questionId": "226895789640",
+   "questionNumbers": "276 to 280",
+   "title": "India and the Kyoto Protocol",
+   "page": 32,
+   "text": "India signed and ratified the 1997 Kyoto Protocol in August 2002. India, China and other developing countries were exempt from the requirements of the Kyoto Protocol because their contribution to the emission of greenhouse gases during the industrialisation period (that is believed to be causing today's global warming and climate change) was not significant. However, the critics of the Kyoto Protocol point out that sooner or later, both India and China, along with other developing countries, will be among the leading contributors to greenhouse gas emissions. At the G-8 meeting in June 2005, India pointed out that the per capita emission rates of the developing countries are a tiny fraction of those in the developed world. Following the principle of common but differentiated responsibilities, India is of the view that the major responsibility of curbing emission rests with the developed countries, which have accumulated emissions over a long period of time.\n\nIndia's international negotiating position relies heavily on principles of historical responsibility, as enshrined in UNFCCC. This acknowledges that developed countries are responsible for most historical and current greenhouse gas emissions, and emphasizes that 'economic and social development are the first and overriding priorities of the developing country parties'. So India is wary of recent discussions within UNFCCC about introducing binding commitments on rapidly industrialising countries (such as Brazil, China and India) to reduce their greenhouse gas emissions. India feels this contravenes the very spirit of UNFCCC.\n\nThe Indian government is already participating in global efforts through a number of programmes. For example, India's National Auto-fuel Policy mandates cleaner fuels for vehicles. The Energy Conservation Act, passed in 2001, outlines initiatives to improve energy efficiency. Similarly, the Electricity Act of 2003 encourages the use of renewable energy. Recent trends in importing natural gas and encouraging the adoption of clean coal technologies show that India has been making real efforts. The government is also keen to launch a National Mission on Biodiesel, using about 11 million hectares of land to produce biodiesel by 2011–2012. India ratified the Paris Climate Agreement on 2 October 2016."
+  },
+  "P2-226895789646": {
+   "questionId": "226895789646",
+   "questionNumbers": "281 to 285",
+   "title": "Coalition politics in the 1990s",
+   "page": 36,
+   "text": "The nineties also saw the emergence of powerful parties and movements that represented the Dalit and backward castes (Other Backward Classes or OBCs). Many of these parties represented powerful regional assertion as well. These parties played an important role in the United Front government that came to power in 1996. The United Front was similar to the National Front of 1989 for it included Janata Dal and several regional parties. This time the BJP did not support the government. The United Front government was supported by the Congress. This shows how unstable the political equations were. In 1989, both the Left and the BJP supported the National Front Government because they wanted to keep the Congress out of power.\n\nIn 1996, the Left continued to support the non-Congress government but this time the Congress, supported it, as both the Congress and the Left wanted to keep the BJP out of power. They did not succeed for long, as the BJP continued to consolidate its position in the elections of 1991 and 1996. It emerged as the largest party in the 1996 election and was invited to form the government. But most other parties were opposed to its policies and therefore, the BJP government could not secure a majority in the Lok Sabha. It finally came to power by leading a coalition government from May 1998 to June 1999 and was re-elected in October 1999. Atal Behari Vajpayee was the Prime Minister during both these NDA governments and his government formed in 1999 completed its full term.\n\nSince then, there have been eleven governments at the Centre, all of which have either been coalition governments or minority governments supported by other parties, which did not join the government. In this new phase, any government could be formed only with the participation or support of many regional parties. This applied to the National Front in 1989, the United Front in 1996 and 1997, the BJP-led coalition in 1998, the NDA in 1999, the UPA in 2004 and 2009. However, this trend changed in 2014."
+  }
+ },
+ "problems": [],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 236,
+   "questionId": "226895789600",
+   "page": 3,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "On which issue does India stand to benefit from its relationship with Russia?",
+   "options": [
+    "Cold War alliance to power blocs.",
+    "Access to Central Asia.",
+    "As part of SAARC as founding members.",
+    "In establishing a stable democracy in Pakistan and Bangladesh."
+   ],
+   "optionIds": [
+    "2268953062029",
+    "2268953062030",
+    "2268953062031",
+    "2268953062032"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062030",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 237,
+   "questionId": "226895789601",
+   "page": 3,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "In which one of the following steel plants did Russia not give aid and assistance to India?",
+   "options": [
+    "Bhilai",
+    "Bokaro",
+    "Visakhapatnam",
+    "Bankura"
+   ],
+   "optionIds": [
+    "2268953062033",
+    "2268953062034",
+    "2268953062035",
+    "2268953062036"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062036",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 238,
+   "questionId": "226895789602",
+   "page": 4,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which of the following were the consequences of shock therapy administered in post-communist regimes?\n(A) People lost their savings due to high rate of inflation.\n(B) Valuable industries were undervalued and sold at throw away prices.\n(C) Privatisation led to reduction of disparities between rich and poor regions.\n(D) The withdrawal of government subsidies pushed large sections of the people into poverty.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062037",
+    "2268953062038",
+    "2268953062039",
+    "2268953062040"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062038",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 239,
+   "questionId": "226895789603",
+   "page": 5,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "The Association of South East Asian Nations (ASEAN) was established in ________ by five countries of this by signing the ________ Declaration.",
+   "options": [
+    "1967, Bali",
+    "1967, Bangkok",
+    "1968, Bangkok",
+    "1968, Bali"
+   ],
+   "optionIds": [
+    "2268953062041",
+    "2268953062042",
+    "2268953062043",
+    "2268953062044"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062042",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 240,
+   "questionId": "226895789604",
+   "page": 6,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which one of the following statements is correct regarding India-China relations?",
+   "options": [
+    "A series of talks to resolve the border issue were initiated in 1981.",
+    "Rajiv Gandhi visited China in 1987.",
+    "Prime Minister Narendra Modi visited China in 2017.",
+    "Chinese President Xi Jinping paid a visit to India in 2018."
+   ],
+   "optionIds": [
+    "2268953062045",
+    "2268953062046",
+    "2268953062047",
+    "2268953062048"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062045",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 241,
+   "questionId": "226895789605",
+   "page": 6,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Arrange the following landmark events of European integration in the correct chronological order:\n(A) The Lisbon Treaty came into force\n(B) The Schengen Agreement abolishes border controls\n(C) Euro, the new currency, was introduced in the 12 members countries\n(D) The EU is awarded the Nobel Peace Prize\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (D), (C), (B)",
+    "(B), (C), (A), (D)",
+    "(C), (B), (D), (A)",
+    "(D), (A), (B), (C)"
+   ],
+   "optionIds": [
+    "2268953062049",
+    "2268953062050",
+    "2268953062051",
+    "2268953062052"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062050",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 242,
+   "questionId": "226895789606",
+   "page": 7,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "In 1959, the Congress government at the Centre dismissed the Communist government in Kerala under which Article of the Constitution of India?",
+   "options": [
+    "Article 358",
+    "Article 360",
+    "Article 357",
+    "Article 356"
+   ],
+   "optionIds": [
+    "2268953062053",
+    "2268953062054",
+    "2268953062055",
+    "2268953062056"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062056",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 243,
+   "questionId": "226895789607",
+   "page": 7,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "What was the reason for the extraordinary success of the Congress in the first general election of independent India?",
+   "options": [
+    "It was a multi-party contest amidst communal riots",
+    "Support for the Congress came mainly from the urban areas in the Hindi speaking states.",
+    "The all-inclusive nature of the Congress.",
+    "The Congress led the agitation to replace English with Hindi as the official language of India."
+   ],
+   "optionIds": [
+    "2268953062057",
+    "2268953062058",
+    "2268953062059",
+    "2268953062060"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062059",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 244,
+   "questionId": "226895789608",
+   "page": 8,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Who among the following was not a leader of the Bharatiya Jana Sangh?",
+   "options": [
+    "Deen Dayal Upadhyaya",
+    "Balraj Madhok",
+    "Ajay Ghosh",
+    "Shyama Prasad Mukherjee"
+   ],
+   "optionIds": [
+    "2268953062061",
+    "2268953062062",
+    "2268953062063",
+    "2268953062064"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062063",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 245,
+   "questionId": "226895789609",
+   "page": 9,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Arrange the following events related to Indian politics in the correct chronological order.\n(A) Third General Elections\n(B) The Bharatiya Jana Sangh was formed\n(C) Split in the Communist Party of India\n(D) Formation of the Socialist Party\nChoose the correct answer from the options given below:",
+   "options": [
+    "(B), (D), (C), (A)",
+    "(B), (C), (D), (A)",
+    "(D), (A), (B), (C)",
+    "(D), (B), (A), (C)"
+   ],
+   "optionIds": [
+    "2268953062065",
+    "2268953062066",
+    "2268953062067",
+    "2268953062068"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062068",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 246,
+   "questionId": "226895789610",
+   "page": 9,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which of the following statements are correct about resistance to globalisation?\n(A) Anti-globalisation movements participate in global networks.\n(B) The 1999 World Trade Organisation (WTO) Ministerial Meeting in Seattle witnessed widespread protests.\n(C) The World Social Forum (WSF) is a global platform opposed to neo-liberal globalisation.\n(D) In February 2024, the WSF meeting was held in Porto Alegre, Brazil.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062069",
+    "2268953062070",
+    "2268953062071",
+    "2268953062072"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062069",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 247,
+   "questionId": "226895789611",
+   "page": 10,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Those who argue that there is something distinct about contemporary globalisation, point out to which one of the following?",
+   "options": [
+    "Globalisation has taken place through much of human history.",
+    "It is a mistake to assume globalisation as a purely cultural phenomenon.",
+    "The vastly uneven impact of globalisation on the Global North.",
+    "Scale and speed of flows account for the uniqueness of globalisation."
+   ],
+   "optionIds": [
+    "2268953062073",
+    "2268953062074",
+    "2268953062075",
+    "2268953062076"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062076",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 248,
+   "questionId": "226895789612",
+   "page": 11,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which one of the following is not correct regarding the political consequence of globalisation?",
+   "options": [
+    "'Minimalist state' is giving way to a more 'welfare state'.",
+    "The state continues to discharge essential functions of law and order and national security.",
+    "Market becomes the prime determinant of economic and social priorities.",
+    "Increased role of multinational companies lead to reduction in decision-making capacity of government."
+   ],
+   "optionIds": [
+    "2268953062077",
+    "2268953062078",
+    "2268953062079",
+    "2268953062080"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062077",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 249,
+   "questionId": "226895789613",
+   "page": 12,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which of the following statements are related to the First Five Year Plan (1951-1956)?\n(A) Huge allocations were made for the Bhakhra Nangal Dam.\n(B) It identified the pattern of land distribution in the country.\n(C) It imposed substantial tariffs on imports.\n(D) It sought to push savings up.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062081",
+    "2268953062082",
+    "2268953062083",
+    "2268953062084"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062082",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 250,
+   "questionId": "226895789614",
+   "page": 12,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "India's Third Five Year Plan (1961-1966) was criticised for which of the following?",
+   "options": [
+    "Increasing the possibility of food shortage.",
+    "Spending foreign exchange to buy technology from the global market.",
+    "Displaying an unmistakable urban bias.",
+    "Attracting more investment for green revolution."
+   ],
+   "optionIds": [
+    "2268953062085",
+    "2268953062086",
+    "2268953062087",
+    "2268953062088"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062087",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 251,
+   "questionId": "226895789615",
+   "page": 13,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which one of the following statements does not capture the essence of 'cooperative security'?",
+   "options": [
+    "Cooperation may be bilateral, regional, continental, or global.",
+    "It involves non-governmental organisations, businesses and corporations, and great personalities.",
+    "It may involve the use of force as the first choice.",
+    "It depends on the nature of the threat and the willingness and ability of countries to respond."
+   ],
+   "optionIds": [
+    "2268953062089",
+    "2268953062090",
+    "2268953062091",
+    "2268953062092"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062091",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 252,
+   "questionId": "226895789616",
+   "page": 14,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Arrange the following landmark events in the correct chronological order.\n(A) India's first nuclear explosion\n(B) Chemical Weapons Convention\n(C) Nuclear Non-Proliferation Treaty\n(D) Anti-ballistic Missile Treaty\nChoose the correct answer from the options given below:",
+   "options": [
+    "(C), (B), (A), (D)",
+    "(C), (A), (B), (D)",
+    "(C), (A), (D), (B)",
+    "(C), (D), (A), (B)"
+   ],
+   "optionIds": [
+    "2268953062093",
+    "2268953062094",
+    "2268953062095",
+    "2268953062096"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062096",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 253,
+   "questionId": "226895789617",
+   "page": 14,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "What were the challenges faced by independent India?\n(A) Shape a nation that was united, yet accommodative of the diversity of Indian society.\n(B) Develop democratic practices in accordance with the Constitution.\n(C) Divide the administrative apparatus and financial assets and liabilities after partition.\n(D) Ensure the development and well-being of the entire society.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062097",
+    "2268953062098",
+    "2268953062099",
+    "2268953062100"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062097",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 254,
+   "questionId": "226895789618",
+   "page": 15,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "The intergation of Princely States in India after independence involved which one of the following?",
+   "options": [
+    "The issue of Hyderabad was resolved after a plebiscite confirmed people's desire to join India.",
+    "Razakars, a para-military force, was unleashed on the people of Junagarh.",
+    "Maharaja of Manipur signed the Instrument of Accession with the Indian government on assurance of internal autonomy.",
+    "Mahatma Gandhi played a historic role in negotiating with the rulers of princely states."
+   ],
+   "optionIds": [
+    "2268953062101",
+    "2268953062102",
+    "2268953062103",
+    "2268953062104"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062103",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 255,
+   "questionId": "226895789619",
+   "page": 16,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which cities became divided into 'communal zones' as a consequence of partition?",
+   "options": [
+    "Lahore, Amritsar and Kolkata",
+    "Lucknow, Srinagar and Delhi",
+    "Lahore, Lucknow and Delhi",
+    "Aligarh, Lahore and Kolkata"
+   ],
+   "optionIds": [
+    "2268953062105",
+    "2268953062106",
+    "2268953062107",
+    "2268953062108"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062105",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 256,
+   "questionId": "226895789620",
+   "page": 17,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Dalit Shoshit Samaj Sangharsh Samiti emerged under the leadership of-",
+   "options": [
+    "B.P. Mandal",
+    "Kanshi Ram",
+    "Shyama Prasad Mukherjee",
+    "Deen Dayal Upadhyay"
+   ],
+   "optionIds": [
+    "2268953062109",
+    "2268953062110",
+    "2268953062111",
+    "2268953062112"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062110",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 257,
+   "questionId": "226895789621",
+   "page": 17,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which one of the following statement is correct about 2014 elections?",
+   "options": [
+    "BJP won 300 seats on its own.",
+    "BJP became the first party to gain single party majority after 30 years.",
+    "BJP chose to form NDA government without any coalition partner.",
+    "For 2014 elections, BJP declared its Prime Ministerial candidate in 2012."
+   ],
+   "optionIds": [
+    "2268953062113",
+    "2268953062114",
+    "2268953062115",
+    "2268953062116"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062114",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 258,
+   "questionId": "226895789622",
+   "page": 18,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "India's foreign policy from 1946 to 1964 did not involve-",
+   "options": [
+    "Protesting against Britain's attack on Egypt over the Suez Canal issue in 1956.",
+    "Publically condemning USSR's invasion of Hungary in 1956.",
+    "Keeping away from the US-led North Atlantic Treaty Organisation (NATO).",
+    "Keeping away from the Soviet-led Warsaw Pact."
+   ],
+   "optionIds": [
+    "2268953062117",
+    "2268953062118",
+    "2268953062119",
+    "2268953062120"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062118",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 259,
+   "questionId": "226895789623",
+   "page": 18,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Arrange the following events in the context of South Asia in the correct chronological order.\n(A) India-Pakistan agreement to not attack nuclear installations of each other.\n(B) India and Bangladesh sign the Farakka Treaty\n(C) India-Sri Lanka free Trade Agreement\n(D) India-Sri Lanka Accord\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (D), (C), (B)",
+    "(A), (C), (D), (B)",
+    "(D), (A), (B), (C)",
+    "(D), (B), (A), (C)"
+   ],
+   "optionIds": [
+    "2268953062121",
+    "2268953062122",
+    "2268953062123",
+    "2268953062124"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062123",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 260,
+   "questionId": "226895789624",
+   "page": 19,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Match List-I with List-II\nList-I (Neighbouring countries) | List-II (Landmark events)\n(A) Nepal | (I) India sends troops to foil a coup attempt by mercenaries\n(B) Sri Lanka | (II) India exchanged enclaves\n(C) Maldives | (III) Seven Party Alliance (SPA)\n(D) Bangladesh | (IV) Sent Indian Peace Keeping Force (IPKF)\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (I), (B) - (IV), (C) - (II), (D) - (III)",
+    "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953062125",
+    "2268953062126",
+    "2268953062127",
+    "2268953062128"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062128",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 261,
+   "questionId": "226895789625",
+   "page": 20,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "The International Monetary Fund (IMF) is an international organisation that -",
+   "options": [
+    "Was created in 1955 as the successor to the GATT",
+    "Provides loans and grants to the multinational corporations and human rights organisations.",
+    "Promotes the peaceful use of nuclear energy.",
+    "Oversees financial institutions and regulations that act at the international level."
+   ],
+   "optionIds": [
+    "2268953062129",
+    "2268953062130",
+    "2268953062131",
+    "2268953062132"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062132",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 262,
+   "questionId": "226895789626",
+   "page": 21,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Where is the International Court of Justice based ?",
+   "options": [
+    "Geneva",
+    "New York",
+    "Washington, DC",
+    "The Hague"
+   ],
+   "optionIds": [
+    "2268953062133",
+    "2268953062134",
+    "2268953062135",
+    "2268953062136"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062136",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 263,
+   "questionId": "226895789627",
+   "page": 22,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "In 1992, the United Nations General Assembly adopted a resolution, reflecting three main complaints. Which one of the followin is not one of them?",
+   "options": [
+    "The Security Council lacks equitable representation.",
+    "The veto is in conflict with the concept of democracy and sovereign equality.",
+    "The decisions of the Security Council reflect only Western values and interests.",
+    "The Security Council no longer represents contemporary political realities."
+   ],
+   "optionIds": [
+    "2268953062137",
+    "2268953062138",
+    "2268953062139",
+    "2268953062140"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062138",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 264,
+   "questionId": "226895789628",
+   "page": 22,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Match List-I with List-II\nList-I (United Nations Secretaries-General) | List-II (Contributions)\n(A) Boutros Boutros-Ghali | (I) Established the Human Rights Council\n(B) Ban Ki-moon | (II) Issued a report, An Agenda for Peace\n(C) Dag Hammarskjöld | (III) Resolved the Suez Canal dispute\n(D) Kofi A. Annan | (IV) Worked for the creation of UN Women\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (IV), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+    "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953062141",
+    "2268953062142",
+    "2268953062143",
+    "2268953062144"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062141",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 265,
+   "questionId": "226895789629",
+   "page": 23,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Match List-I with List-II\nList-I (Events) | List-II (Year)\n(A) Establishment of the Department of Defence Supplies | (I) 1962\n(B) Nuclear Non-Proliferation Treaty | (II) 1965\n(C) Establishment of the Department of Defence Production | (III) 1966\n(D) Tashkent Agreement | (IV) 1968\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (I), (B) - (IV), (C) - (II), (D) - (III)",
+    "(A) - (II), (B) - (IV), (C) - (I), (D) - (III)",
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)"
+   ],
+   "optionIds": [
+    "2268953062145",
+    "2268953062146",
+    "2268953062147",
+    "2268953062148"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062147",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 266,
+   "questionId": "226895789630",
+   "page": 24,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "What marked the zenith of India's engagement with the newly independent Asian and African nations?",
+   "options": [
+    "Asian Relations Conference, 1947",
+    "International Conference for freedom of Indonesia, 1949",
+    "Bandung Conference, 1955",
+    "Belgrade Summit, 1961"
+   ],
+   "optionIds": [
+    "2268953062149",
+    "2268953062150",
+    "2268953062151",
+    "2268953062152"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062151",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 267,
+   "questionId": "226895789631",
+   "page": 25,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which of the following statements are correct about the Congress 'Syndicate'?\n(A) It was led by S. Nijalingappa, the then president of the Congress party.\n(B) It is the informal name given to a group of Congress leaders who were in control of the party's organisation.\n(C) After the Congress split, the leaders of the syndicate stayed with the Congress (O).\n(D) It included powerful State leaders like S. K. Patil, N. Sanjeeva Reddy and Atulya Ghosh.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A), (B), (C) and (D)"
+   ],
+   "optionIds": [
+    "2268953062153",
+    "2268953062154",
+    "2268953062155",
+    "2268953062156"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062155",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 268,
+   "questionId": "226895789632",
+   "page": 26,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "The split in the Congress in 1969 was projected by Indira Gandhi as-",
+   "options": [
+    "The failure of the Whip to enforce the candidature of Sanjeeva Reddy",
+    "As a tactical strategy for General elections held in 1967.",
+    "Ensuring that the smaller factions within the Congress do away with the differences.",
+    "An ideological divide between socialists and conservatives."
+   ],
+   "optionIds": [
+    "2268953062157",
+    "2268953062158",
+    "2268953062159",
+    "2268953062160"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062160",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 269,
+   "questionId": "226895789633",
+   "page": 26,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Match List-I with List-II\nList-I (Leaders) | List-II (Contribution)\n(A) Jayaprakash Narayan | (I) Railway employees strike\n(B) Morarji Desai | (II) Students' protest in Gujarat\n(C) Chaudhary Charan Singh | (III) Founder general secretary of the Congress Socialist Party\n(D) George Fernandes | (IV) Founded the Bharatiya Kranti Dal\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953062161",
+    "2268953062162",
+    "2268953062163",
+    "2268953062164"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062164",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 270,
+   "questionId": "226895789634",
+   "page": 27,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which amendment was made in the background of the ruling of the Allahabad High Court in the Indira Gandhi case?",
+   "options": [
+    "Reservation of OBCs in the Parliament and state legislatures.",
+    "The Prime Minister's power to declare Emergency without approval of the Speaker of the Lok Sabha",
+    "Elections of Prime Minister, President and Vice President cannot be challenged in the Court.",
+    "Duration of the legislatures in the country can be extended by one month at a time during Emergency."
+   ],
+   "optionIds": [
+    "2268953062165",
+    "2268953062166",
+    "2268953062167",
+    "2268953062168"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062167",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 271,
+   "questionId": "226895789635",
+   "page": 28,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Arrange the following events realted to regional aspirations in the correct chronological order.\n(A) The Assam Accord\n(B) Sikkim asking for full integration with India\n(C) Peace Agreement between Rajiv Gandhi and Laldenga\n(D) The Anandpur Sahib Resolution\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (D), (C), (B)",
+    "(A), (C), (D), (B)",
+    "(D), (A), (B), (C)",
+    "(D), (B), (A), (C)"
+   ],
+   "optionIds": [
+    "2268953062169",
+    "2268953062170",
+    "2268953062171",
+    "2268953062172"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062172",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 272,
+   "questionId": "226895789636",
+   "page": 29,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Which of the following was not one of the issues that dominated the politics of the North-East till 1980s?",
+   "options": [
+    "Opposition to outsiders.",
+    "Asymmetrical relationship with the Centre",
+    "Movements for secession.",
+    "Demands for autonomy."
+   ],
+   "optionIds": [
+    "2268953062173",
+    "2268953062174",
+    "2268953062175",
+    "2268953062176"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062174",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 273,
+   "questionId": "226895789637",
+   "page": 29,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "Match List-I with List-II\nList-I (States) | List-II (Year they were created)\n(A) Meghalaya | (I) 1963\n(B) Punjab | (II) 1966\n(C) Goa | (III) 1972\n(D) Nagaland | (IV) 1987\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)",
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953062177",
+    "2268953062178",
+    "2268953062179",
+    "2268953062180"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062179",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 274,
+   "questionId": "226895789638",
+   "page": 30,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "The regional aspiration of Jammu and Kashmir after independence is related to-",
+   "options": [
+    "Maharaja Hari Singh wanted to have an independent status for the state.",
+    "Sheikh Abdullah of the National Conference wanted to merge with Pakistan.",
+    "The people of Kashmir region thought that they belonged to Pakistan and were 'Pakistani' above all.",
+    "The issue of regional aspiration of the state of Jammu and Kashmir is known as Hurriyat."
+   ],
+   "optionIds": [
+    "2268953062181",
+    "2268953062182",
+    "2268953062183",
+    "2268953062184"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062181",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 275,
+   "questionId": "226895789639",
+   "page": 31,
+   "section": "Sub-section 1 (Q236-275)",
+   "stem": "What was the consensus built on the question of development in the first decade of independence?",
+   "options": [
+    "Development could be done by private actors.",
+    "The market forces should give direction to development.",
+    "The colonial path of development would bring economic growth",
+    "Government to develop a design or plan for development."
+   ],
+   "optionIds": [
+    "2268953062185",
+    "2268953062186",
+    "2268953062187",
+    "2268953062188"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062188",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 276,
+   "questionId": "226895789641",
+   "page": 32,
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "stem": "Why were India, China and other developing countries exempted from the requirements of the Kyoto Protocol?",
+   "options": [
+    "They are already participating in global efforts through a number of programmes.",
+    "They have signed and ratified the Paris Climate Agreement.",
+    "Their contribution to emission of greenhouse gases during the industrialisation period was not significant.",
+    "They command significant technological and financial resources to pursue sustainable development."
+   ],
+   "optionIds": [
+    "2268953062189",
+    "2268953062190",
+    "2268953062191",
+    "2268953062192"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062191",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 277,
+   "questionId": "226895789642",
+   "page": 32,
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "stem": "The Electricity Act 2003 encourages the use of-",
+   "options": [
+    "Renewable energy",
+    "Non-renewable energy",
+    "Concessions to consumers.",
+    "Consumer rights"
+   ],
+   "optionIds": [
+    "2268953062193",
+    "2268953062194",
+    "2268953062195",
+    "2268953062196"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062193",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 278,
+   "questionId": "226895789643",
+   "page": 33,
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "stem": "What according to India contravenes the very spirit of UNFCCC?",
+   "options": [
+    "Introducing binding commitments to enforce Global Solar Energy Convention.",
+    "Introducing binding commitments on rapidly industrialising countries to reduce their greenhouse gas emissions.",
+    "Introducing binding commitments on developed countries to adopt clean coal technologies.",
+    "Introducing binding commitments to non-use of nuclear technology for developing countries."
+   ],
+   "optionIds": [
+    "2268953062197",
+    "2268953062198",
+    "2268953062199",
+    "2268953062200"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062198",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 279,
+   "questionId": "226895789644",
+   "page": 33,
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "stem": "Which one of the following statements is not correct regarding India's participation in global environmental efforts?",
+   "options": [
+    "The Energy Conservation Act outlines initiatives to improve energy efficiency.",
+    "The Electricity Act encourages the use of renewable energy.",
+    "National Auto-fuel Policy mandates cleaner fuels for vehicles.",
+    "The National Mission on Biodiesel pushes to increase imports of biodiesel by 2030."
+   ],
+   "optionIds": [
+    "2268953062201",
+    "2268953062202",
+    "2268953062203",
+    "2268953062204"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062204",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 280,
+   "questionId": "226895789645",
+   "page": 33,
+   "section": "Sub-section 2, comprehension (Q276-280)",
+   "stem": "When did India ratify the Paris Climate Agreement ?",
+   "options": [
+    "2016",
+    "2017",
+    "2018",
+    "2019"
+   ],
+   "optionIds": [
+    "2268953062205",
+    "2268953062206",
+    "2268953062207",
+    "2268953062208"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062205",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 281,
+   "questionId": "226895789647",
+   "page": 36,
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "stem": "What is correct about the United Front that came to power in 1996?",
+   "options": [
+    "It was not similar to the National Front of 1989",
+    "It was supported by the BJP.",
+    "The left and the Congress supported each other to keep the BJP out of power",
+    "The United Front did not include the regional parties."
+   ],
+   "optionIds": [
+    "2268953062209",
+    "2268953062210",
+    "2268953062211",
+    "2268953062212"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062211",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 282,
+   "questionId": "226895789648",
+   "page": 36,
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "stem": "The United Front was similar to the National Front of 1989 in which way?",
+   "options": [
+    "There was no criminalisation of politics.",
+    "It reflected the dominance of the Congress system.",
+    "It included Janata Dal and several regional parties.",
+    "There was no alliance with regional parties"
+   ],
+   "optionIds": [
+    "2268953062213",
+    "2268953062214",
+    "2268953062215",
+    "2268953062216"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062215",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 283,
+   "questionId": "226895789649",
+   "page": 36,
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "stem": "Which one of the following statements is not correct about the 1996 elections?",
+   "options": [
+    "The BJP emerged as the largest party.",
+    "The BJP government could not secure a majority in the Lok Sabha.",
+    "Most other parties were supporting the BJP policies.",
+    "Atal Behari Vajpayee's government formed in 1999 completed its full term."
+   ],
+   "optionIds": [
+    "2268953062217",
+    "2268953062218",
+    "2268953062219",
+    "2268953062220"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062219",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 284,
+   "questionId": "226895789650",
+   "page": 37,
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "stem": "The BJP continued to consolidate its position in which elections?",
+   "options": [
+    "1991 and 1996",
+    "1984 and 1989",
+    "1989 and 1990",
+    "1989 and 1994"
+   ],
+   "optionIds": [
+    "2268953062221",
+    "2268953062222",
+    "2268953062223",
+    "2268953062224"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062221",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 285,
+   "questionId": "226895789651",
+   "page": 39,
+   "section": "Sub-section 3, comprehension (Q281-285)",
+   "stem": "Who was the Prime Minister during the United Front Government from April 1997-March 1998?",
+   "options": [
+    "I. K. Gujral",
+    "H.D. Deve Gowda",
+    "V. P. Singh",
+    "Chandra Shekhar"
+   ],
+   "optionIds": [
+    "2268953062225",
+    "2268953062226",
+    "2268953062227",
+    "2268953062228"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062225",
+   "keyStatus": "single",
+   "authenticated": true
+  }
+ ]
+}

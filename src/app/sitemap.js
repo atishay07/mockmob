@@ -6,6 +6,8 @@ import { KEY_CARDS_PATH } from '@/lib/keycardsPublic.mjs';
 import { publicKeyCards } from '@/lib/server/keycardsPublic';
 import { loadCorrections } from '@/../data/corrections.mjs';
 import { CORRECTIONS_LISTED } from '@/../data/corrections_listed.mjs';
+import COVERAGE_SUMMARY from '@/../data/coverage/cuet2026/public/summary.json';
+import { COVERAGE_PATH, subjectPath } from '@/components/coverage/coverageCopy.mjs';
 
 export default async function sitemap() {
   const now = new Date();
@@ -67,5 +69,11 @@ export default async function sitemap() {
   const latestCorrection = loadCorrections().latest;
   const corrections = { url: absoluteUrl('/corrections'), lastModified: latestCorrection ? new Date(`${latestCorrection}T00:00:00+05:30`) : now, changeFrequency: 'monthly', priority: 0.5 };
 
-  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, ...(CORRECTIONS_LISTED ? [corrections] : []), ...duRoutes, ...keyCardRoutes];
+  // The CUET 2026 coverage pages (src/app/cuet-2026-coverage): the index and each subject the built summary lists.
+  const coverageDate = COVERAGE_SUMMARY.builtAt ? new Date(COVERAGE_SUMMARY.builtAt) : now;
+  const coverageRoutes = COVERAGE_SUMMARY.subjects.length
+    ? [COVERAGE_PATH, ...COVERAGE_SUMMARY.subjects.map((s) => subjectPath(s.id))].map((path, i) => ({ url: absoluteUrl(path), lastModified: coverageDate, changeFrequency: 'monthly', priority: i ? 0.75 : 0.8 }))
+    : [];
+
+  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, ...(CORRECTIONS_LISTED ? [corrections] : []), ...coverageRoutes, ...duRoutes, ...keyCardRoutes];
 }

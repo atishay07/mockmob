@@ -1,0 +1,1059 @@
+{
+ "paper": "cuet2026-psychology",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 22 Nov 2026 (owner's request of 22 Nov 2026); ids read by OCR (RapidOCR) and matched to NTA's 2026 final key (subject 324)",
+ "shifts": {
+  "15-05-2026 (First)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 451,
+   "questionId": "226895781376",
+   "page": 3,
+   "optionIds": {
+    "2268953029909": 1,
+    "2268953029910": 2,
+    "2268953029911": 3,
+    "2268953029912": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029911"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 452,
+   "questionId": "226895781377",
+   "page": 4,
+   "optionIds": {
+    "2268953029913": 1,
+    "2268953029914": 2,
+    "2268953029915": 3,
+    "2268953029916": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029913"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 453,
+   "questionId": "226895781378",
+   "page": 4,
+   "optionIds": {
+    "2268953029917": 1,
+    "2268953029918": 2,
+    "2268953029919": 3,
+    "2268953029920": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029918"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 454,
+   "questionId": "226895781379",
+   "page": 5,
+   "optionIds": {
+    "2268953029921": 1,
+    "2268953029922": 2,
+    "2268953029923": 3,
+    "2268953029924": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029921"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 455,
+   "questionId": "226895781380",
+   "page": 6,
+   "optionIds": {
+    "2268953029925": 1,
+    "2268953029926": 2,
+    "2268953029927": 3,
+    "2268953029928": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029926"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 456,
+   "questionId": "226895781381",
+   "page": 7,
+   "optionIds": {
+    "2268953029929": 1,
+    "2268953029930": 2,
+    "2268953029931": 3,
+    "2268953029932": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029929"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 457,
+   "questionId": "226895781382",
+   "page": 8,
+   "optionIds": {
+    "2268953029933": 1,
+    "2268953029934": 2,
+    "2268953029935": 3,
+    "2268953029936": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029933"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 458,
+   "questionId": "226895781383",
+   "page": 9,
+   "optionIds": {
+    "2268953029937": 1,
+    "2268953029938": 2,
+    "2268953029939": 3,
+    "2268953029940": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029940"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 459,
+   "questionId": "226895781384",
+   "page": 9,
+   "optionIds": {
+    "2268953029941": 1,
+    "2268953029942": 2,
+    "2268953029943": 3,
+    "2268953029944": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029941"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 460,
+   "questionId": "226895781385",
+   "page": 10,
+   "optionIds": {
+    "2268953029945": 1,
+    "2268953029946": 2,
+    "2268953029947": 3,
+    "2268953029948": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029946"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 461,
+   "questionId": "226895781386",
+   "page": 11,
+   "optionIds": {
+    "2268953029949": 1,
+    "2268953029950": 2,
+    "2268953029951": 3,
+    "2268953029952": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029949"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 462,
+   "questionId": "226895781387",
+   "page": 12,
+   "optionIds": {
+    "2268953029953": 1,
+    "2268953029954": 2,
+    "2268953029955": 3,
+    "2268953029956": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029954"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 463,
+   "questionId": "226895781388",
+   "page": 13,
+   "optionIds": {
+    "2268953029957": 1,
+    "2268953029958": 2,
+    "2268953029959": 3,
+    "2268953029960": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029959"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 464,
+   "questionId": "226895781389",
+   "page": 14,
+   "optionIds": {
+    "2268953029961": 1,
+    "2268953029962": 2,
+    "2268953029963": 3,
+    "2268953029964": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029964"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 465,
+   "questionId": "226895781390",
+   "page": 15,
+   "optionIds": {
+    "2268953029965": 1,
+    "2268953029966": 2,
+    "2268953029967": 3,
+    "2268953029968": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029965"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 466,
+   "questionId": "226895781391",
+   "page": 15,
+   "optionIds": {
+    "2268953029969": 1,
+    "2268953029970": 2,
+    "2268953029971": 3,
+    "2268953029972": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029969"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 467,
+   "questionId": "226895781392",
+   "page": 16,
+   "optionIds": {
+    "2268953029973": 1,
+    "2268953029974": 2,
+    "2268953029975": 3,
+    "2268953029976": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029974"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 468,
+   "questionId": "226895781393",
+   "page": 17,
+   "optionIds": {
+    "2268953029977": 1,
+    "2268953029978": 2,
+    "2268953029979": 3,
+    "2268953029980": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029980"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 469,
+   "questionId": "226895781394",
+   "page": 18,
+   "optionIds": {
+    "2268953029981": 1,
+    "2268953029982": 2,
+    "2268953029983": 3,
+    "2268953029984": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029982"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 470,
+   "questionId": "226895781395",
+   "page": 19,
+   "optionIds": {
+    "2268953029985": 1,
+    "2268953029986": 2,
+    "2268953029987": 3,
+    "2268953029988": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029987"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 471,
+   "questionId": "226895781396",
+   "page": 20,
+   "optionIds": {
+    "2268953029989": 1,
+    "2268953029990": 2,
+    "2268953029991": 3,
+    "2268953029992": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029989"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 472,
+   "questionId": "226895781397",
+   "page": 21,
+   "optionIds": {
+    "2268953029993": 1,
+    "2268953029994": 2,
+    "2268953029995": 3,
+    "2268953029996": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029993"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 473,
+   "questionId": "226895781398",
+   "page": 21,
+   "optionIds": {
+    "2268953029997": 1,
+    "2268953029998": 2,
+    "2268953029999": 3,
+    "2268953030000": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953029999"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 474,
+   "questionId": "226895781399",
+   "page": 22,
+   "optionIds": {
+    "2268953030001": 1,
+    "2268953030002": 2,
+    "2268953030003": 3,
+    "2268953030004": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030002"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 475,
+   "questionId": "226895781400",
+   "page": 23,
+   "optionIds": {
+    "2268953030005": 1,
+    "2268953030006": 2,
+    "2268953030007": 3,
+    "2268953030008": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030007"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 476,
+   "questionId": "226895781401",
+   "page": 24,
+   "optionIds": {
+    "2268953030009": 1,
+    "2268953030010": 2,
+    "2268953030011": 3,
+    "2268953030012": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030009"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 477,
+   "questionId": "226895781402",
+   "page": 25,
+   "optionIds": {
+    "2268953030013": 1,
+    "2268953030014": 2,
+    "2268953030015": 3,
+    "2268953030016": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030016"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 478,
+   "questionId": "226895781403",
+   "page": 26,
+   "optionIds": {
+    "2268953030017": 1,
+    "2268953030018": 2,
+    "2268953030019": 3,
+    "2268953030020": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030019"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 479,
+   "questionId": "226895781404",
+   "page": 26,
+   "optionIds": {
+    "2268953030021": 1,
+    "2268953030022": 2,
+    "2268953030023": 3,
+    "2268953030024": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030023"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 480,
+   "questionId": "226895781405",
+   "page": 27,
+   "optionIds": {
+    "2268953030025": 1,
+    "2268953030026": 2,
+    "2268953030027": 3,
+    "2268953030028": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030028"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 481,
+   "questionId": "226895781406",
+   "page": 28,
+   "optionIds": {
+    "2268953030029": 1,
+    "2268953030030": 2,
+    "2268953030031": 3,
+    "2268953030032": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030029"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 482,
+   "questionId": "226895781407",
+   "page": 29,
+   "optionIds": {
+    "2268953030033": 1,
+    "2268953030034": 2,
+    "2268953030035": 3,
+    "2268953030036": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030036"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 483,
+   "questionId": "226895781408",
+   "page": 30,
+   "optionIds": {
+    "2268953030037": 1,
+    "2268953030038": 2,
+    "2268953030039": 3,
+    "2268953030040": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030037"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 484,
+   "questionId": "226895781409",
+   "page": 31,
+   "optionIds": {
+    "2268953030041": 1,
+    "2268953030042": 2,
+    "2268953030043": 3,
+    "2268953030044": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030041"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 485,
+   "questionId": "226895781410",
+   "page": 32,
+   "optionIds": {
+    "2268953030045": 1,
+    "2268953030046": 2,
+    "2268953030047": 3,
+    "2268953030048": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030047"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 486,
+   "questionId": "226895781411",
+   "page": 33,
+   "optionIds": {
+    "2268953030049": 1,
+    "2268953030050": 2,
+    "2268953030051": 3,
+    "2268953030052": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030051"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 487,
+   "questionId": "226895781412",
+   "page": 34,
+   "optionIds": {
+    "2268953030053": 1,
+    "2268953030054": 2,
+    "2268953030055": 3,
+    "2268953030056": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030056"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 488,
+   "questionId": "226895781413",
+   "page": 35,
+   "optionIds": {
+    "2268953030057": 1,
+    "2268953030058": 2,
+    "2268953030059": 3,
+    "2268953030060": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030058"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 489,
+   "questionId": "226895781414",
+   "page": 36,
+   "optionIds": {
+    "2268953030061": 1,
+    "2268953030062": 2,
+    "2268953030063": 3,
+    "2268953030064": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030061"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 490,
+   "questionId": "226895781415",
+   "page": 37,
+   "optionIds": {
+    "2268953030065": 1,
+    "2268953030066": 2,
+    "2268953030067": 3,
+    "2268953030068": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030068"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 491,
+   "questionId": "226895781417",
+   "page": 38,
+   "optionIds": {
+    "2268953030069": 1,
+    "2268953030070": 2,
+    "2268953030071": 3,
+    "2268953030072": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030070"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 492,
+   "questionId": "226895781418",
+   "page": 38,
+   "optionIds": {
+    "2268953030073": 1,
+    "2268953030074": 2,
+    "2268953030075": 3,
+    "2268953030076": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030075"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 493,
+   "questionId": "226895781419",
+   "page": 38,
+   "optionIds": {
+    "2268953030077": 1,
+    "2268953030078": 2,
+    "2268953030079": 3,
+    "2268953030080": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030077"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 494,
+   "questionId": "226895781420",
+   "page": 39,
+   "optionIds": {
+    "2268953030081": 1,
+    "2268953030082": 2,
+    "2268953030083": 3,
+    "2268953030084": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030082"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 495,
+   "questionId": "226895781421",
+   "page": 39,
+   "optionIds": {
+    "2268953030085": 1,
+    "2268953030086": 2,
+    "2268953030087": 3,
+    "2268953030088": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030088"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 496,
+   "questionId": "226895781423",
+   "page": 42,
+   "optionIds": {
+    "2268953030089": 1,
+    "2268953030090": 2,
+    "2268953030091": 3,
+    "2268953030092": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030090"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 497,
+   "questionId": "226895781424",
+   "page": 42,
+   "optionIds": {
+    "2268953030093": 1,
+    "2268953030094": 2,
+    "2268953030095": 3,
+    "2268953030096": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030093"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 498,
+   "questionId": "226895781425",
+   "page": 43,
+   "optionIds": {
+    "2268953030097": 1,
+    "2268953030098": 2,
+    "2268953030099": 3,
+    "2268953030100": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030100"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 499,
+   "questionId": "226895781426",
+   "page": 43,
+   "optionIds": {
+    "2268953030101": 1,
+    "2268953030102": 2,
+    "2268953030103": 3,
+    "2268953030104": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030101"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 500,
+   "questionId": "226895781427",
+   "page": 43,
+   "optionIds": {
+    "2268953030105": 1,
+    "2268953030106": 2,
+    "2268953030107": 3,
+    "2268953030108": 4
+   },
+   "inKey": true,
+   "keySubject": "psychology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030107"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  }
+ ]
+}

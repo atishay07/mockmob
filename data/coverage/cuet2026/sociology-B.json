@@ -1,0 +1,1732 @@
+{
+ "paper": "cuet2026-sociology",
+ "subject": "sociology",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "326",
+  "date": "2026-05-15",
+  "shift": "First",
+  "source": "AglaSem Docs copy of the NTA master question paper (text in data/coverage/cuet2026/sociology-paper.json)",
+  "keySource": "NTA CUET (UG) 2026 final answer key, option ids; all 50 questions authenticated by question id and option id"
+ },
+ "snapshotDate": "2026-11-22",
+ "bankRead": "No new production read by B. Worked from A's saved snapshot of 22 Nov 2026 (tmp/1122-coverage/snap/sociology/: served_rows.json 280 rows, served_sociology.json 280 ids, eligible.txt all ELIGIBLE). B's one attempted SELECT on key_card_suspended was refused by the permission system and not retried, so card suspension is unverified (same as A).",
+ "keyCardDeck": "data/keycards/decks/sociology.json (1,190 cards). The card suspension table was not read (no second production read); no card is known to be suspended.",
+ "syllabusSource": "data/canonical_syllabus.js (14 sociology chapters); every question sits on the 2026 syllabus",
+ "checker": "B",
+ "method": "data/coverage/METHOD.md strict rule. B wrote its own fact list from the paper before opening A (tmp/1122-coverage/checkerB-soc/B_facts_before_A.txt); verified every id A cited with checkerB-soc/verifyA.mjs (served list + full text; deck + front/back/quote); searched every A not-covered item itself in the served rows, the deck, the quarantine file and the NCERT text (pdftotext of ncert-books/pdf/lesy1xx, lesy2xx; checkerB-soc/nt.mjs); built by checkerB-soc/buildB.mjs.",
+ "paperStructure": "One section of 50 questions (501 to 550): 40 stand-alone MCQs, then two passages with 5 questions each (541-545 liberalisation, 546-550 mass media); all 50 are printed and counted as asked.",
+ "counts": {
+  "covered": 30,
+  "not_covered": 11,
+  "skill": 9,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 41
+ },
+ "byType": {
+  "theory": {
+   "covered": 30,
+   "not_covered": 11,
+   "skill": 9,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 41
+  },
+  "numerical": {
+   "covered": 0,
+   "not_covered": 0,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 0
+  }
+ },
+ "coveredByMatchKind": {
+  "concept": 20,
+  "same": 10
+ },
+ "byChapter": {
+  "Demographic Structure": {
+   "covered": 5,
+   "not_covered": 1
+  },
+  "Structural Change": {
+   "covered": 0,
+   "not_covered": 3
+  },
+  "Social Movements": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Social Institutions": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "Cultural Change": {
+   "covered": 1,
+   "not_covered": 0
+  },
+  "Patterns of Social Inequality": {
+   "covered": 5,
+   "not_covered": 1
+  },
+  "Challenges of Cultural Diversity": {
+   "covered": 8,
+   "not_covered": 0
+  },
+  "Story of Indian Democracy": {
+   "covered": 2,
+   "not_covered": 2
+  },
+  "Change & Development in Industrial Society": {
+   "covered": 1,
+   "not_covered": 0
+  },
+  "Market as a Social Institution": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Mass Media & Communications": {
+   "covered": 0,
+   "not_covered": 1
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 501,
+   "questionId": "226895781428",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Demographic Structure",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Social demography studies the wider causes and consequences of population structure and change (formal demography = measurement of components)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.def-social-demography",
+     "teaches": "Social demography enquires into the wider causes and consequences of population structures and change"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.diff-formal-vs-social-demography",
+     "teaches": "Formal demography is quantitative; social demography looks at social, economic, political aspects"
+    }
+   ],
+   "best": "kc.sociology.demographic-structure.def-social-demography",
+   "reason": "Card def-social-demography states the keyed definition; the formal-demography card separates option 1.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 2,
+   "paperNumber": 502,
+   "questionId": "226895781429",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Demographic Structure",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Age structure = proportion of persons in different age groups relative to the total population"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.def-age-structure",
+     "teaches": "Age structure is the proportion of persons in the different age groups relative to the total population"
+    },
+    {
+     "kind": "bank",
+     "id": "e5d6847c-1394-4f18-84af-0af311bf526a",
+     "teaches": "Bank explanation states age structure is the share of population in age groups"
+    }
+   ],
+   "best": "kc.sociology.demographic-structure.def-age-structure",
+   "reason": "Card def-age-structure is the keyed sentence; the three distractors are the fertility rate, IMR and sex ratio, each on its own card.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 3,
+   "paperNumber": 503,
+   "questionId": "226895781430",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Structural Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Industrialisation (an industrial town set up among villages) physically brings urban life into a rural setup, unlike mass media, which carry images of urban life"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Agree with A. Served material has the Rao three-impacts card (industrial town) but never says industrialisation transplants urban life physically; the served card fact-mass-media-rural-aspirations (media bring urban life styles to villages) even pulls a student towards the distractor Mass Media.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 4,
+   "paperNumber": 504,
+   "questionId": "226895781431",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 4,
+   "chapter": "Social Movements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A social movement in Britain (Chartism, then the suffragettes) won the vote beyond property-owning men: universal adult suffrage"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Agree with A. NCERT Box 8.1 (lesy208 p110) tells the Chartist and suffragette story, but no served row or card carries it; franchise cards are about India only.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 5,
+   "paperNumber": 505,
+   "questionId": "226895781432",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 1,
+   "chapter": "Social Institutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Caste is ascribed (by birth)",
+    "Caste groups are endogamous",
+    "Castes are traditionally linked to occupations",
+    "Caste is not based on ability and cannot be changed (D false)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.list-six-features",
+     "teaches": "Caste is determined by birth, endogamous, linked to hereditary occupations"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.term-endogamous",
+     "teaches": "Caste groups are endogamous"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.kl-birth-dictates-occupation",
+     "teaches": "Within caste, birth dictates occupational opportunities"
+    }
+   ],
+   "best": "kc.sociology.social-institutions.list-six-features",
+   "reason": "Card list-six-features (quote: born into, never a matter of choice, can never change it; endogamy; linked to occupations) settles all four statements.",
+   "agreesWithA": true,
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 6,
+   "paperNumber": 506,
+   "questionId": "226895781433",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 1,
+   "chapter": "Demographic Structure",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Fertility rate = live births per 1000 women of child-bearing age",
+    "IMR = deaths before age one per 1000 live births",
+    "Sex ratio = females per 1000 males",
+    "Dependency ratio = dependents compared with the working-age group"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.def-fertility-rate",
+     "teaches": "Fertility rate definition"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.def-infant-mortality-rate",
+     "teaches": "Infant mortality rate definition"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.def-sex-ratio",
+     "teaches": "Sex ratio definition"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.def-dependency-ratio",
+     "teaches": "Dependency ratio definition"
+    }
+   ],
+   "best": "kc.sociology.demographic-structure.def-fertility-rate",
+   "reason": "Four definition cards, each the keyed pairing word for word.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 7,
+   "paperNumber": 507,
+   "questionId": "226895781434",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Cultural Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Sanskritisation spreads upper-caste practices to lower groups, such as dowry instead of bride-price"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.cultural-change.fact-crit-4-gender-practices",
+     "teaches": "Sanskritisation leads to dowry practices instead of bride-price"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.cultural-change.def-sanskritisation",
+     "teaches": "Sanskritisation: a lower group takes over upper-caste customs and style of life"
+    }
+   ],
+   "best": "kc.sociology.cultural-change.fact-crit-4-gender-practices",
+   "reason": "Card fact-crit-4-gender-practices names dowry replacing bride-price as a result of sanskritisation.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 8,
+   "paperNumber": 508,
+   "questionId": "226895781435",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Social Institutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Tribal traits: permanent (territory, language, physical features) vs acquired (livelihood, extent of assimilation into Hindu society)",
+    "Purity and pollution is the Hindu caste principle, so adopting it is assimilation into Hindu society"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "3aa865f9-ec19-4667-9080-520e967b5b4c",
+     "teaches": "Permanent traits: region, language, physical features; acquired: livelihood and extent of assimilation into Hindu society"
+    },
+    {
+     "kind": "bank",
+     "id": "264d1fdc-e09f-4479-97f4-106fed8a46a8",
+     "teaches": "Acquired traits: livelihood, stratification, integration; language is permanent"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.diff-tribe-caste-distinction",
+     "teaches": "Purity and pollution belongs to Hindu caste society"
+    }
+   ],
+   "best": "3aa865f9-ec19-4667-9080-520e967b5b4c",
+   "reason": "Two served bank explanations give the permanent/acquired split (language and region permanent, assimilation into Hindu society acquired) and the tribe-caste card puts purity-pollution in caste society. One step of application; weakest covered call, accepted.",
+   "agreesWithA": true,
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 9,
+   "paperNumber": 509,
+   "questionId": "226895781436",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Social Institutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Lineage (matrilineal/patrilineal) governs the rules of inheritance; residence and authority are separate rules"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.diff-matrilineal-vs-patrilineal",
+     "teaches": "Rules of inheritance differ with matrilineal and patrilineal descent"
+    },
+    {
+     "kind": "bank",
+     "id": "508a1a14-0528-4bcb-bade-09a09710278f",
+     "teaches": "Matriliny is descent and inheritance through the female line"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.diff-matrilocal-vs-patrilocal",
+     "teaches": "Residence is a separate rule"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.diff-patriarchy-vs-matriarchy",
+     "teaches": "Authority is a separate rule"
+    }
+   ],
+   "best": "kc.sociology.social-institutions.diff-matrilineal-vs-patrilineal",
+   "reason": "Card diff-matrilineal-vs-patrilineal ties inheritance to lineage; residence and authority have separate cards.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 10,
+   "paperNumber": 510,
+   "questionId": "226895781437",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Patterns of Social Inequality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "OBCs are diverse with regional variation",
+    "They are not untouchable castes (service and artisanal castes short of untouchability)",
+    "Two backward classes commissions before 1990 (Kalelkar 1953, Mandal late 1970s)",
+    "Southern states had backward-caste agitation from the early 20th century, before the north"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.kl-obc-diverse",
+     "teaches": "OBCs are a much more diverse group"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.kl-obc-regional-affair",
+     "teaches": "OBC issue became a regional affair at state level"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.fact-kalelkar-commission-1953",
+     "teaches": "First commission 1953"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.fact-mandal-commission",
+     "teaches": "Second commission, Mandal"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.kl-southern-states-agitation",
+     "teaches": "Southern states agitated from early twentieth century"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.fact-obc-service-artisanal",
+     "teaches": "OBCs were service and artisanal castes short of untouchability"
+    }
+   ],
+   "best": "kc.sociology.patterns-of-social-inequality.kl-obc-diverse",
+   "reason": "Six cards state every part; B is false by fact-obc-service-artisanal.",
+   "agreesWithA": true,
+   "aCitationsChecked": 6,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 11,
+   "paperNumber": 511,
+   "questionId": "226895781438",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Social Movements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Dharma Sabha: defenders of sati who petitioned the British not to legislate, a counter movement defending the status quo"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-movements.ex-counter-sati",
+     "teaches": "Defenders of sati formed Dharma Sabha and petitioned the British not to legislate against sati"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-movements.kl-counter-movements",
+     "teaches": "Counter movements arise in defence of the status quo"
+    }
+   ],
+   "best": "kc.sociology.social-movements.ex-counter-sati",
+   "reason": "Card ex-counter-sati is this example; kl-counter-movements gives the status-quo meaning.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 12,
+   "paperNumber": 512,
+   "questionId": "226895781439",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Language with region and tribe, not religion, forms ethno-national identity in India"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.fact-language-not-religion",
+     "teaches": "Language with regional and tribal identity, not religion, forms ethno-national identity"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.fact-language-not-religion",
+   "reason": "Card fact-language-not-religion names language, region and tribe and excludes religion: A, C, D.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 13,
+   "paperNumber": 513,
+   "questionId": "226895781440",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Weber: the state claims a monopoly of legitimate force in a territory"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.def-state-weber",
+     "teaches": "Weber's definition of the state"
+    },
+    {
+     "kind": "bank",
+     "id": "79f15f1a-9355-45a4-92d6-3bcf630ba5be",
+     "teaches": "Bank explanation: state has a monopoly of legitimate force"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.def-state-weber",
+   "reason": "Card def-state-weber quotes the definition with its author.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 14,
+   "paperNumber": 514,
+   "questionId": "226895781441",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "National unity in India rests on recognising differences; the Constitution built in inclusive nationalism and ruled out assimilation"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.fact-forcible-imposition",
+     "teaches": "National unity is based upon a recognition of differences"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.key-inclusive-built-in-constitution",
+     "teaches": "Inclusive nationalism built into the Constitution"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.key-india-not-assimilationist",
+     "teaches": "India ruled out an assimilationist model"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.fact-singular-identity-policies",
+     "teaches": "Assimilation and integration assume a singular national identity"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.key-inclusive-built-in-constitution",
+   "reason": "fact-forcible-imposition (national unity based upon a recognition of differences) plus the constitution and anti-assimilation cards give the keyed vision and rule out options 1 and 2.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 15,
+   "paperNumber": 515,
+   "questionId": "226895781442",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 4,
+   "chapter": "Structural Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Bombay, Calcutta and Madras were colonial port cities linking India to the British core",
+    "Bhopal (a princely-state capital) was not part of that colonial port-city system"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Agree with A. Three options are taught as colonial cities (fact-bombay-calcutta-madras-exports, kl-colonial-cities-core-periphery), so the key is reachable only by elimination; nothing served (and nothing in the NCERT text on disk) says anything about Bhopal. Doubtful = not covered.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 16,
+   "paperNumber": 516,
+   "questionId": "226895781443",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 1,
+   "chapter": "Structural Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Urbanisation: reordering native-migrant relations",
+    "Westernisation: reordering social value systems",
+    "Modernisation: adopting new technology in production",
+    "Industrialisation: reordering the market economy"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.structural-change.types-rao-three-urban-impacts",
+     "teaches": "Only the native-immigrant relations part (Bhilai)"
+    }
+   ],
+   "best": null,
+   "reason": "Agree with A. Only the urbanisation pair is taught (Rao card). Served cards define industrialisation as machine production (def-industrialisation) and modernisation as improvement in technology and production processes (fact-modernisation-early-years), so our own material fits BOTH C and D to II; the keyed D-III and B-IV pairs are not stated.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 17,
+   "paperNumber": 517,
+   "questionId": "226895781444",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Story of Indian Democracy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The 73rd Amendment provides a three-tier Panchayati Raj"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.story-of-indian-democracy.fact-three-tier-twenty-lakhs",
+     "teaches": "The 73rd Amendment provided a three-tier system of Panchayati Raj"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.story-of-indian-democracy.fact-73rd-amendment-1992",
+     "teaches": "73rd Amendment 1992 gave PRIs constitutional status"
+    }
+   ],
+   "best": "kc.sociology.story-of-indian-democracy.fact-three-tier-twenty-lakhs",
+   "reason": "Card fact-three-tier-twenty-lakhs states three tiers under the 73rd Amendment.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 18,
+   "paperNumber": 518,
+   "questionId": "226895781445",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Story of Indian Democracy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Powers delegated to Panchayats: plans for economic development, schemes for social justice, levy/collect taxes, duties, tolls and fees",
+    "Making laws is not among them (B false)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.story-of-indian-democracy.list-panchayat-income",
+     "teaches": "Only the taxes part (sources of income)"
+    }
+   ],
+   "best": null,
+   "reason": "Agree with A. The NCERT list (lesy203 p34) is not served: the card list-panchayat-powers sits in quarantine (quote:not_in_pdf, the bullet glyphs); the income card covers only taxes.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 19,
+   "paperNumber": 519,
+   "questionId": "226895781446",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Change & Development in Industrial Society",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Outsourcing: companies cut permanent staff and give work to smaller firms or homes"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.change-and-development-in-industrial-society.kl-outsourcing-permanent",
+     "teaches": "Companies reduce permanent employees and outsource work to smaller companies or homes"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.change-and-development-in-industrial-society.fact-small-firms-low-wages",
+     "teaches": "Small firms compete for orders from big companies"
+    }
+   ],
+   "best": "kc.sociology.change-and-development-in-industrial-society.kl-outsourcing-permanent",
+   "reason": "Card kl-outsourcing-permanent is the description with outsourcing as the blank.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 20,
+   "paperNumber": 520,
+   "questionId": "226895781447",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Story of Indian Democracy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Courts read Article 21 (right to life) to include a life of quality: livelihood, health, shelter, education, dignity"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.story-of-indian-democracy.fact-article-21-quality-of-life",
+     "teaches": "Article 21 interpreted as including all that goes into a life of quality"
+    }
+   ],
+   "best": "kc.sociology.story-of-indian-democracy.fact-article-21-quality-of-life",
+   "reason": "Card fact-article-21-quality-of-life states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 21,
+   "paperNumber": 521,
+   "questionId": "226895781448",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 1,
+   "chapter": "Story of Indian Democracy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Order: right to livelihood within Article 21 (1985), 73rd Amendment (1992), Van Panchayats (keyed third), RTI Act (2005)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.story-of-indian-democracy.fact-73rd-amendment-1992",
+     "teaches": "Only the 1992 date"
+    }
+   ],
+   "best": null,
+   "reason": "Agree with A. Only the 1992 date is served; NCERT prints no date for the livelihood ruling, the Van Panchayats or the RTI Act, and the key places Van Panchayats after 1992 although they began in the 1930s. Not closable honestly.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 22,
+   "paperNumber": 522,
+   "questionId": "226895781449",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Demographic Structure",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "First population policy 1952",
+    "Sex ratio low of 927 in 1991",
+    "Population 121 crore in 2011",
+    "India younger than China around 2020 (demographic dividend)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.fact-population-policy-1952",
+     "teaches": "Official population policy announced in 1952"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.fact-sex-ratio-low-1991",
+     "teaches": "Sex ratio all-time low of 927 in 1991"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.fact-india-population-2011",
+     "teaches": "Population 121 crores in the 2011 census"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.fact-average-age-2020",
+     "teaches": "In 2020 average Indian 29 against China 37"
+    }
+   ],
+   "best": "kc.sociology.demographic-structure.fact-population-policy-1952",
+   "reason": "Dated cards for 1952, 1991, 2011 and the 2020 average-age card fix the order C, A, B, D (C before A alone already picks option 3).",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 23,
+   "paperNumber": 523,
+   "questionId": "226895781450",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Demographic Structure",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Famines were caused by continuing poverty and malnutrition (A)",
+    "Birth rate has not fallen as sharply as the death rate (B)",
+    "Mass vaccination and sanitation helped control epidemics (C)",
+    "Prosperity pulls family size down (D false)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.fact-india-transition-incomplete",
+     "teaches": "Mortality reduced, birth rate not brought down to the same extent"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.fact-prosperity-lowers-birth-rate",
+     "teaches": "Prosperity pulls the birth rate down"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.fact-epidemic-control-measures",
+     "teaches": "mass vaccination and sanitation helped control epidemics (statement C)"
+    }
+   ],
+   "best": null,
+   "reason": "Agree with A on the verdict, not on the reason: statement C IS taught (card fact-epidemic-control-measures, which A missed), and B and D are taught. Only statement A (famines caused by continuing poverty and malnutrition) is not served; the Sen entitlement card is a different claim. A multi-statement item needs every part, so not covered; one card closes it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [
+    "kc.sociology.demographic-structure.fact-epidemic-control-measures"
+   ]
+  },
+  {
+   "n": 24,
+   "paperNumber": 524,
+   "questionId": "226895781451",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A state-nation lets plural identities co-exist peacefully in one state polity; India is an example"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.def-state-nation",
+     "teaches": "State nation: various nations co-exist peacefully in a single state polity"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.key-india-state-nation",
+     "teaches": "India is a good example of a state-nation"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.def-state-nation",
+   "reason": "Card def-state-nation is the keyed sentence; key-india-state-nation names India.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 25,
+   "paperNumber": 525,
+   "questionId": "226895781452",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 4,
+   "chapter": "Social Institutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Nationalist leaders (Gandhi above all) worked for lower-caste uplift and against untouchability while reassuring landowning upper castes their interests would be looked after"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.kl-caste-social-evil-ploy",
+     "teaches": "Dominant nationalist view: caste a social evil and a colonial ploy"
+    }
+   ],
+   "best": null,
+   "reason": "Agree with A. The only served card gives the dominant view (caste a social evil and a colonial ploy); the sentence on reassuring the upper castes (lesy103 p40) is not served.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 26,
+   "paperNumber": 526,
+   "questionId": "226895781453",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Patterns of Social Inequality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Anita Ghai is a scholar and activist on disability"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.fact-anita-ghai-invisible",
+     "teaches": "Anita Ghai is a leading activist and scholar of disability in India"
+    }
+   ],
+   "best": "kc.sociology.patterns-of-social-inequality.fact-anita-ghai-invisible",
+   "reason": "Card fact-anita-ghai-invisible names her; Ralph Ellison appears on it as the novelist, which removes the distractor.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 27,
+   "paperNumber": 527,
+   "questionId": "226895781454",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Communalism = aggressive chauvinism based on religious identity"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.def-communalism",
+     "teaches": "Communalism is aggressive chauvinism based on religious identity"
+    },
+    {
+     "kind": "bank",
+     "id": "4d49ab64-bf38-4fd6-b543-b0ea3db6f63c",
+     "teaches": "Bank item states the same meaning"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.def-communalism",
+   "reason": "Card def-communalism and bank 4d49ab64 give the meaning; the scenario applies it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 28,
+   "paperNumber": 528,
+   "questionId": "226895781455",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 4,
+   "chapter": "Market as a Social Institution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Jajmani is a non-market exchange system"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.market-as-a-social-institution.fact-jajmani-non-market",
+     "teaches": "Jajmani is a non-market exchange system"
+    }
+   ],
+   "best": "kc.sociology.market-as-a-social-institution.fact-jajmani-non-market",
+   "reason": "Card fact-jajmani-non-market states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 29,
+   "paperNumber": 529,
+   "questionId": "226895781456",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Social Institutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Extended (joint) family: more than one couple living together"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-institutions.def-def-extended-family",
+     "teaches": "Extended family: more than one couple living together"
+    }
+   ],
+   "best": "kc.sociology.social-institutions.def-def-extended-family",
+   "reason": "Card def-def-extended-family states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 30,
+   "paperNumber": 530,
+   "questionId": "226895781457",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 1,
+   "chapter": "Market as a Social Institution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Hundi = instrument of exchange and credit"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.market-as-a-social-institution.def-hundi",
+     "teaches": "Hundi: instrument of exchange and credit"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.market-as-a-social-institution.fact-nakarattar-banking",
+     "teaches": "Nakarattar is a banking system, not an instrument"
+    }
+   ],
+   "best": "kc.sociology.market-as-a-social-institution.def-hundi",
+   "reason": "Card def-hundi states it; Nakarattar is a banking system on its own card.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 31,
+   "paperNumber": 531,
+   "questionId": "226895781458",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Demographic Structure",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Population momentum definition"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.demographic-structure.def-population-momentum",
+     "teaches": "Definition of population momentum"
+    },
+    {
+     "kind": "bank",
+     "id": "db7fd9e2-3e51-4bfd-8e9d-36d9feaa9bbb",
+     "teaches": "Bank item asks the term meaning, states continued growth from many people of reproductive age"
+    }
+   ],
+   "best": "kc.sociology.demographic-structure.def-population-momentum",
+   "reason": "Card def-population-momentum is the stem sentence with the term as the answer.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 32,
+   "paperNumber": 532,
+   "questionId": "226895781459",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Market as a Social Institution",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Marwaris succeeded in the colonial period in cities such as Calcutta",
+    "Some became modern industrialists",
+    "As bankers they HELPED British commercial expansion (so option 3 is the false one)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.market-as-a-social-institution.fact-marwaris-colonial",
+     "teaches": "Marwaris succeeded in colonial period in cities such as Calcutta"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.market-as-a-social-institution.steps-marwari-steps",
+     "teaches": "Small migrant traders to merchant bankers to industrialists"
+    }
+   ],
+   "best": null,
+   "reason": "Agree with A. The true statements are served, but the fact that settles option 3 (their banking helped British commercial expansion, lesy104 p61) is not; the key is reachable by elimination only. Doubtful = not covered.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 33,
+   "paperNumber": 533,
+   "questionId": "226895781460",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 4,
+   "chapter": "Patterns of Social Inequality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The 1935 schedules (Government of India Act 1935) gave legal recognition to lists of castes and tribes"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.fact-schedules-1935",
+     "teaches": "Schedules of castes and tribes drawn up in 1935 by the British Indian government"
+    }
+   ],
+   "best": "kc.sociology.patterns-of-social-inequality.fact-schedules-1935",
+   "reason": "Card fact-schedules-1935 states the 1935 schedules of castes and tribes drawn up by the British Indian government.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 34,
+   "paperNumber": 534,
+   "questionId": "226895781461",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 1,
+   "chapter": "Patterns of Social Inequality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Disability is social: it is closely linked with poverty"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.kl-disability-poverty-link",
+     "teaches": "Close relationship between disability and poverty"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.fact-disability-exacerbates-poverty",
+     "teaches": "Disability creates and exacerbates poverty"
+    },
+    {
+     "kind": "bank",
+     "id": "64b92c21-03eb-49a6-8f15-ad92acb9e502",
+     "teaches": "Disability treated as socially constructed"
+    }
+   ],
+   "best": "kc.sociology.patterns-of-social-inequality.kl-disability-poverty-link",
+   "reason": "Card kl-disability-poverty-link states the link; bank 64b92c21 teaches disability as socially constructed.",
+   "agreesWithA": true,
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 35,
+   "paperNumber": 535,
+   "questionId": "226895781462",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Patterns of Social Inequality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Apartheid: Black protestors jailed, tortured, killed (A)",
+    "Mixed marriages were prohibited (B false)",
+    "Blacks earned one-fourth of what whites did (C)",
+    "Blacks relocated to Bantustans (D)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Agree with A. Box 5.1b (lesy105 p76-77) has every part but no served row or card mentions apartheid.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 36,
+   "paperNumber": 536,
+   "questionId": "226895781463",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 4,
+   "chapter": "Patterns of Social Inequality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Prejudice = pre-conceived opinions",
+    "Stratification = hierarchical ranking",
+    "Exclusion = cut off from full involvement",
+    "Discrimination = disqualifying from opportunities"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.def-prejudice",
+     "teaches": "Prejudice definition"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.def-social-stratification",
+     "teaches": "Stratification: categories ranked in a hierarchy"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.def-social-exclusion",
+     "teaches": "Exclusion: cut off from full involvement"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.patterns-of-social-inequality.ex-job-refused-gender-religion",
+     "teaches": "Discrimination: practices that disqualify members of one group from opportunities open to others"
+    }
+   ],
+   "best": "kc.sociology.patterns-of-social-inequality.def-prejudice",
+   "reason": "Four cards, one per pair.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 37,
+   "paperNumber": 537,
+   "questionId": "226895781464",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 2,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Secularism as the opposite of religious chauvinism need not imply hostility to religion"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.fact-secularism-no-hostility",
+     "teaches": "Secularism is the opposite of religious chauvinism and need not imply hostility to religion"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.fact-secularism-no-hostility",
+   "reason": "Card fact-secularism-no-hostility is the sentence.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 38,
+   "paperNumber": 538,
+   "questionId": "226895781465",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Assimilation/integration policies push all citizens to adopt a uniform set of cultural values and norms"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.def-assimilation-text",
+     "teaches": "Assimilation aims at getting all citizens to adopt a uniform set of cultural values and norms"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.def-integration-text",
+     "teaches": "Integration insists on a common national public culture"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.def-assimilation-text",
+   "reason": "Card def-assimilation-text states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 39,
+   "paperNumber": 539,
+   "questionId": "226895781466",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 3,
+   "chapter": "Challenges of Cultural Diversity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Civil society = non-state, non-market part of the public domain with voluntary institutions"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.challenges-of-cultural-diversity.def-civil-society",
+     "teaches": "Civil society is the non-state, non-market part of the public domain with voluntary institutions"
+    }
+   ],
+   "best": "kc.sociology.challenges-of-cultural-diversity.def-civil-society",
+   "reason": "Card def-civil-society is the definition.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 40,
+   "paperNumber": 540,
+   "questionId": "226895781467",
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "ntaKey": 4,
+   "chapter": "Social Movements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Chipko = women and environment",
+    "Old social movements = reorganisation of power relations",
+    "Telangana = women and agrarian struggle",
+    "Dalit movement = space for self-determination"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-movements.fact-chipko-concerns",
+     "teaches": "Chipko concerns: economy, ecology, political representation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-movements.fact-chipko-hug-trees",
+     "teaches": "Large numbers of women hugged trees in Chipko"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-movements.kl-old-power-relations",
+     "teaches": "Old social movements saw reorganisation of power relations as central goal"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-movements.list-women-agrarian-revolts",
+     "teaches": "Women took part in the Telangana arms struggle"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.social-movements.list-dalit-struggle",
+     "teaches": "Dalit movement: a space for self-determination"
+    }
+   ],
+   "best": "kc.sociology.social-movements.kl-old-power-relations",
+   "reason": "Each pair has a card: Chipko (women hug trees; ecology concerns), kl-old-power-relations, list-women-agrarian-revolts (Telangana arms struggle), list-dalit-struggle (self-determination).",
+   "agreesWithA": true,
+   "aCitationsChecked": 5,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 41,
+   "paperNumber": 541,
+   "questionId": "226895781469",
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "ntaKey": 1,
+   "chapter": "Globalisation & Social Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Liberalisation since 1991 (printed in the passage)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints \"since 1991\".",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 42,
+   "paperNumber": 542,
+   "questionId": "226895781470",
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "ntaKey": 3,
+   "chapter": "Globalisation & Social Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Liberalisation = removal of rules regulating trade and finance (printed)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints the definition.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 43,
+   "paperNumber": 543,
+   "questionId": "226895781471",
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "ntaKey": 4,
+   "chapter": "Globalisation & Social Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Reforms opened the economy to the world market (printed)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 44,
+   "paperNumber": 544,
+   "questionId": "226895781472",
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "ntaKey": 2,
+   "chapter": "Globalisation & Social Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Reforms in all major sectors (printed)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 45,
+   "paperNumber": 545,
+   "questionId": "226895781473",
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "ntaKey": 4,
+   "chapter": "Globalisation & Social Change",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Pre-1991 laws protected Indian business from world competition (printed)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints the protection rule; the option follows from it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 46,
+   "paperNumber": 546,
+   "questionId": "226895781475",
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "ntaKey": 1,
+   "chapter": "Mass Media & Communications",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Post-1990 period of globalisation (printed)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints \"post 1990 period of globalisation\".",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 47,
+   "paperNumber": 547,
+   "questionId": "226895781476",
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "ntaKey": 2,
+   "chapter": "Mass Media & Communications",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Mass communication needs a formal structural organisation (printed)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints the keyed phrase.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 48,
+   "paperNumber": 548,
+   "questionId": "226895781477",
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "ntaKey": 1,
+   "chapter": "Mass Media & Communications",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Media-society relationship is dialectical (printed)"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Passage prints \"dialectical\".",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 49,
+   "paperNumber": 549,
+   "questionId": "226895781478",
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "ntaKey": 1,
+   "chapter": "Mass Media & Communications",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Digital divide = differences in how easily groups can use technology"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.sociology.mass-media-and-communications.fact-sharp-differences-in-use",
+     "teaches": "Sharp differences in how easily sections can use mass media are the digital divide"
+    },
+    {
+     "kind": "card",
+     "id": "kc.sociology.globalisation-and-social-change.fact-digital-divide",
+     "teaches": "Gap between those with and without telecom and internet links"
+    }
+   ],
+   "best": null,
+   "reason": "B first listed it as counted (the passage never names the term); settled to skill with A: the passage last sentence prints the idea and \"divide\" plus \"different groups\" reads off it. Either way it is not a gap: two cards teach the term.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 50,
+   "paperNumber": 550,
+   "questionId": "226895781479",
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "ntaKey": 1,
+   "chapter": "Mass Media & Communications",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Most soap operas target women"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "reason": "Agree with A. Soap cards (definition, Hum Log, revenue) never name the audience; the NCERT chapter on disk does not state it either.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  }
+ ],
+ "auditOfA": {
+  "citationsChecked": 82,
+  "citationsFailingServedOrDeck": 0,
+  "citationsRemovedForContent": 0,
+  "note": "Every bank id A cited is in served_sociology.json and was read in full (stem, options, key, explanation); every card id is in data/keycards/decks/sociology.json and its front, back and NCERT quote were read. Each states what A attached to it; partial citations on not-covered items (Q16, Q18, Q21, Q23, Q25, Q32) teach only the part A claimed. Card suspension not read (see bankRead). One error in A's reasoning, not in a citation: A's Q23 reason says vaccination and sanitation are not taught; card fact-epidemic-control-measures states it (B added it). Q23 stays not covered on statement A alone."
+ },
+ "ownSearchBeforeA": {
+  "note": "B wrote facts before opening A but did not record verdicts before reading A; after reading A, B re-derived every verdict from the material. B's first fact list counted Q49 (term not printed in the passage); settled to skill with A (the passage prints the idea; not a gap either way)."
+ },
+ "final": {
+  "covered": 30,
+  "counted": 41,
+  "skill": 9,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "percent": 73.2,
+  "rule": "Covered only if both A and B say covered; B's skill, off-syllabus and dropped labels win.",
+  "disagreementsWithA": []
+ },
+ "openCallsSettled": {
+  "Q8 (n8)": "Covered, the weakest: bank explanations put assimilation into Hindu society among acquired traits; adopting caste purity-pollution is that assimilation; language and place of origin are permanent.",
+  "Q14 (n14)": "Covered: fact-forcible-imposition says national unity is based upon a recognition of differences, the keyed option in other words; two cards rule out the assimilationist and singular-identity options.",
+  "Q22 (n22)": "Covered: 1952, 1991, 2011 are dated by cards; knowing C (1952) precedes A (1991) alone selects option 3; the 2020 average-age card places D last.",
+  "Q40 (n40)": "Covered: every pair rests on a card; Chipko pair on two cards (women hugged trees; ecological concerns).",
+  "Q15 and Q32": "Both are reachable by elimination from served material, but the deciding fact is not stated; kept not covered (doubtful = not covered), matching A.",
+  "Q23 (n23)": "Not covered on statement A only (famines caused by continuing poverty and malnutrition). Note the option set lets B, C true and D false force option 2, but METHOD requires every statement."
+ },
+ "gapsToAuthor": {
+  "theoryFactsMissing": [
+   {
+    "n": 3,
+    "chapter": "Structural Change",
+    "fact": "An industrial town set up among villages brings urban life physically into the village (influx of workers, houses, a market), unlike mass media, which carry images of urban life",
+    "close": "bank question (the NCERT sentence on disk is the Bhilai sentence, lesy201 p11; \"physical transplantation\" is not printed)"
+   },
+   {
+    "n": 4,
+    "chapter": "Social Movements",
+    "fact": "In Britain the vote was won for all adults through social movements (Chartism 1839-42; 1918 extension; suffragettes)",
+    "close": "Key card from Box 8.1, lesy208 p110"
+   },
+   {
+    "n": 15,
+    "chapter": "Structural Change",
+    "fact": "Bombay, Calcutta, Madras were the colonial port cities of the colonial economy; a princely-state capital such as Bhopal was not one of them",
+    "close": "bank question only, with careful wording (Bhopal is not in NCERT)"
+   },
+   {
+    "n": 18,
+    "chapter": "Story of Indian Democracy",
+    "fact": "Powers delegated to Panchayats: plans and schemes for economic development, schemes for social justice, levy/collect taxes, duties, tolls and fees (not law-making)",
+    "close": "Key card from lesy203 p34: fix the quarantined list-panchayat-powers quote"
+   },
+   {
+    "n": 23,
+    "chapter": "Demographic Structure",
+    "fact": "Famines were caused by high levels of continuing poverty and malnutrition",
+    "close": "Key card from lesy102 p15"
+   },
+   {
+    "n": 25,
+    "chapter": "Social Institutions",
+    "fact": "Nationalist leaders worked for lower-caste uplift and against untouchability while reassuring landowning upper castes their interests would be looked after",
+    "close": "Key card from lesy103 p40"
+   },
+   {
+    "n": 32,
+    "chapter": "Market as a Social Institution",
+    "fact": "Marwari bankers helped the commercial expansion of the British in India",
+    "close": "Key card from lesy104 p61"
+   },
+   {
+    "n": 35,
+    "chapter": "Patterns of Social Inequality",
+    "fact": "Apartheid: mixed marriages prohibited; Blacks earned one-fourth of whites; relocation to Bantustans; protestors jailed, tortured and killed",
+    "close": "Key cards from Box 5.1b, lesy105 p76-77"
+   },
+   {
+    "n": 50,
+    "chapter": "Mass Media & Communications",
+    "fact": "Most soap operas are aimed at women",
+    "close": "bank question only (NCERT text on disk does not state it)"
+   }
+  ],
+  "doNotAuthor": [
+   {
+    "n": 16,
+    "chapter": "Structural Change",
+    "why": "NCERT (and our served cards) define industrialisation as machine production and early modernisation as improvement in technology and production processes, so the textbook fits both to the keyed \"new technology\" item; the keyed industrialisation = market economy and westernisation = value systems pairs have no NCERT sentence. Authoring them would teach NTA's pairing against the textbook."
+   },
+   {
+    "n": 21,
+    "chapter": "Story of Indian Democracy",
+    "why": "NCERT prints no date for the right-to-livelihood reading, the Van Panchayats or the RTI Act, and the NTA key puts Van Panchayats after the 1992 amendment although they date from the 1930s. No honest content teaches the keyed order."
+   }
+  ],
+  "numericalTemplatesMissing": []
+ }
+}

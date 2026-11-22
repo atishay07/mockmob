@@ -122,7 +122,7 @@
       "belowMinimum": false
     },
     "accountancy.computerized-accounting-system": {
-      "published": 207,
+      "published": 208,
       "quarantined": 37,
       "byKind": {
         "list": 22,
@@ -132,12 +132,12 @@
         "types": 6,
         "example": 1,
         "key_line": 4,
-        "steps": 1,
+        "steps": 2,
         "term": 2,
         "difference": 3
       },
       "byImportance": {
-        "must": 133,
+        "must": 134,
         "good": 74
       },
       "coverage_note": null,
@@ -208,13 +208,13 @@
       "belowMinimum": false
     },
     "accountancy.goodwill-valuation": {
-      "published": 48,
+      "published": 50,
       "quarantined": 2,
       "byKind": {
         "list": 4,
-        "definition": 6,
+        "definition": 7,
         "key_line": 8,
-        "fact": 11,
+        "fact": 12,
         "types": 2,
         "example": 5,
         "formula": 8,
@@ -222,11 +222,11 @@
         "steps": 3
       },
       "byImportance": {
-        "must": 33,
+        "must": 35,
         "good": 15
       },
       "coverage_note": null,
-      "mustShare": 0.69,
+      "mustShare": 0.7,
       "belowMinimum": false
     },
     "accountancy.partnership-fundamentals": {

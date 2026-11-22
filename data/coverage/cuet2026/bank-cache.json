@@ -1,0 +1,182 @@
+{
+ "02ffc58b-7ac4-41f7-8664-045d11c943fd": {
+  "subject": "economics",
+  "chapter": "Money & Banking",
+  "stem": "If banks are required to keep 10% of deposits as reserves (CRR = 10%) and there is no currency drain, what is the simple money multiplier?",
+  "passage": null,
+  "options": [
+   "10",
+   "9",
+   "0.10",
+   "1.1"
+  ],
+  "key": 0,
+  "explanation": "The simple multiplier is 1/CRR = 1/0.10 = 10 when currency held by public is ignored.",
+  "from": "saved read-only snapshot econB/bank_economics.json"
+ },
+ "204e5691-057d-4b2a-b119-3cc545aec418": {
+  "subject": "business_studies",
+  "chapter": "Consumer Protection",
+  "stem": "Riya bought a packaged food item that did not list the expiry date. She later fell ill. Which consumer right is violated, and why?",
+  "passage": null,
+  "options": [
+   "Right to safety, because any illness due to a product often means safety right was violated.",
+   "Right to be informed, because the package lacked essential information about safe usage.",
+   "Right to choose, because missing date reduces options for similar products.",
+   "Right to seek redressal, because she fell ill and needs compensation."
+  ],
+  "key": 1,
+  "explanation": null,
+  "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "3aa865f9-ec19-4667-9080-520e967b5b4c": {
+  "subject": "sociology",
+  "chapter": "Social Institutions",
+  "stem": "In the classification of tribes, which of the following is treated as an 'acquired' trait rather than a 'permanent' trait?",
+  "passage": null,
+  "options": [
+   "Region of residence",
+   "Language spoken",
+   "Mode of livelihood",
+   "Physical and racial features"
+  ],
+  "key": 2,
+  "explanation": "Tribes are classified on permanent traits (region, language, physical-racial features) and acquired traits (livelihood and extent of assimilation into Hindu society). Mode of livelihood is therefore an acquired trait.",
+  "from": "saved read-only snapshot sociology/bank_sociology.json"
+ },
+ "85d3bf13-325a-4f61-a44a-d5089498af88": {
+  "subject": "psychology",
+  "chapter": "Attitude & Social Cognition",
+  "stem": "Rohan believes that regular exercise keeps a person healthy, enjoys exercising, and jogs every morning. These three aspects of his attitude towards exercise are, respectively, its:",
+  "passage": null,
+  "options": [
+   "cognitive, affective and behavioural components",
+   "affective, cognitive and behavioural components",
+   "behavioural, cognitive and affective components",
+   "cognitive, behavioural and affective components"
+  ],
+  "key": 0,
+  "explanation": "The belief is the cognitive component, the liking is the affective component and the regular jogging is the behavioural component of the attitude. This is the ABC (affective-behavioural-cognitive) model of attitudes.",
+  "from": "saved read-only snapshot psychology/bank_psychology.json"
+ },
+ "9072f8c9-4f32-4419-bbb5-a01a27ad71ae": {
+  "subject": "economics",
+  "chapter": "Income Determination",
+  "stem": "In a simple closed economy with no taxes, if marginal propensity to consume (MPC) is 0.6 and government spending rises by 100, the change in equilibrium income (using the simple multiplier) is approximately:",
+  "passage": null,
+  "options": [
+   "250",
+   "150",
+   "100",
+   "2500"
+  ],
+  "key": 0,
+  "explanation": "Multiplier = 1/(1 - MPC) = 1/0.4 = 2.5, so ΔY = 2.5 * 100 = 250.",
+  "from": "saved read-only snapshot econB/bank_economics.json"
+ },
+ "a5ed637f-209e-4a06-aa1c-f081ec422384": {
+  "subject": "business_studies",
+  "chapter": "Directing",
+  "stem": "A sales manager introduces a commission scheme to encourage better performance. Which element of directing does this primarily represent?",
+  "passage": null,
+  "options": [
+   "Motivation",
+   "Delegation",
+   "Planning",
+   "Controlling"
+  ],
+  "key": 0,
+  "explanation": "Introducing incentives to encourage performance is an act of motivation, a core part of directing.",
+  "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "a6a8ecdb-6da5-4a05-8b2b-a4777e716ae5": {
+  "subject": "business_studies",
+  "chapter": "Financial Management",
+  "stem": "What does 'capital structure' of an enterprise refer to?",
+  "passage": null,
+  "options": [
+   "The mix of different long-term sources of funds such as debt and equity",
+   "The mix of current assets like cash and inventory",
+   "Only the amount of borrowed funds used in daily operations",
+   "The managerial hierarchy in a firm"
+  ],
+  "key": 0,
+  "explanation": "Capital structure denotes the proportionate mix of long-term funds (debt and equity) used to finance a firm.",
+  "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "cbf67f50-bc67-4520-97b8-7d981f4bb31a": {
+  "subject": "psychology",
+  "chapter": "Variations in Psychological Attributes",
+  "stem": "Which of the following is NOT one of the types of intelligence proposed by Howard Gardner in his theory of multiple intelligences?",
+  "passage": null,
+  "options": [
+   "Naturalistic",
+   "Interpersonal",
+   "Componential",
+   "Bodily-kinaesthetic"
+  ],
+  "key": 2,
+  "explanation": "Gardner identified eight independent intelligences: linguistic, logical-mathematical, spatial, musical, bodily-kinaesthetic, interpersonal, intrapersonal and naturalistic. Componential intelligence belongs to Sternberg's triarchic theory.",
+  "from": "saved read-only snapshot psychology/bank_psychology.json"
+ },
+ "dc2ba09e-2d61-4697-9de3-b4dc1e11a813": {
+  "subject": "business_studies",
+  "chapter": "Planning",
+  "stem": "Statement I: Planning reduces the risk of uncertainty by anticipating future events. Statement II: Planning often leads to rigidity because managers may stick to a plan even when conditions change. Which of the following options correctly reflects the NCERT position?",
+  "passage": null,
+  "options": [
+   "Both statements are true, but Statement II is not a limitation; it is a feature of planning.",
+   "Both statements are true, and Statement II explains a limitation of planning.",
+   "Statement I is true, but Statement II is false because planning is often flexible.",
+   "Statement I is false, because planning cannot reduce uncertainty, and Statement II is true."
+  ],
+  "key": 1,
+  "explanation": null,
+  "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "e9cac0e5-90eb-4240-bdd4-a3f901a2e7e0": {
+  "subject": "psychology",
+  "chapter": "Therapeutic Approaches",
+  "stem": "Systematic desensitisation, a technique used in the treatment of phobias, was developed by:",
+  "passage": null,
+  "options": [
+   "Carl Rogers",
+   "B. F. Skinner",
+   "Aaron Beck",
+   "Joseph Wolpe"
+  ],
+  "key": 3,
+  "explanation": "Systematic desensitisation was developed by Joseph Wolpe and is based on classical conditioning and counterconditioning of anxiety with relaxation. Rogers founded client-centred therapy, Skinner operant conditioning and Beck cognitive therapy.",
+  "from": "saved read-only snapshot psychology/bank_psychology.json"
+ },
+ "ed41d458-614b-4e23-8c9c-931b0cf5c2a6": {
+  "subject": "accountancy",
+  "chapter": "Share Capital",
+  "stem": "What is the minimum percentage of the issued amount that must be subscribed by the public for a company to proceed with the allotment of shares, as per SEBI guidelines?",
+  "passage": null,
+  "options": [
+   "75%",
+   "90%",
+   "50%",
+   "100%"
+  ],
+  "key": 1,
+  "explanation": "As per SEBI guidelines, a company must receive a minimum subscription of 90% of the issue size for public issues.",
+  "from": "saved read-only snapshot accB/bank_accountancy.json"
+ },
+ "f290d5be-ab46-414b-a19b-2068243c7a67": {
+  "subject": "business_studies",
+  "chapter": "Marketing Management",
+  "stem": "A company that believes consumers will favor products that offer the most quality, performance, and innovative features is following which marketing philosophy?",
+  "passage": null,
+  "options": [
+   "Production Concept",
+   "Product Concept",
+   "Selling Concept",
+   "Societal Marketing Concept"
+  ],
+  "key": 1,
+  "explanation": "The Product Concept focuses on superior product quality and features.",
+  "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ }
+}

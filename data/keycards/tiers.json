@@ -1,7 +1,7 @@
 {
  "version": 1,
  "rule": "Per chapter, the top 25% of cards (at least 6, at most 40) by score = 3 x min(linked questions, 3) + kind weight + 1 for a Summary or Recap section; ties in book order",
- "built": "2026-11-05T06:17:28.426Z",
+ "built": "2026-11-22T00:20:50.789Z",
  "must": {
   "accountancy.accounting-ratios": [
    "kc.accountancy.accounting-ratios.def-a-ratio",
@@ -222,6 +222,7 @@
   "accountancy.goodwill-valuation": [
    "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
    "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+   "kc.accountancy.goodwill-valuation.def-goodwill-simple-words",
    "kc.accountancy.goodwill-valuation.kl-goodwill-intangible-difficult",
    "kc.accountancy.goodwill-valuation.types-three-methods",
    "kc.accountancy.goodwill-valuation.def-average-profits-method",
@@ -748,6 +749,7 @@
    "kc.business_studies.directing.def-communication-koontz",
    "kc.business_studies.directing.def-communication",
    "kc.business_studies.directing.def-formal-communication",
+   "kc.business_studies.directing.def-vertical-communication",
    "kc.business_studies.directing.def-directing-summary",
    "kc.business_studies.directing.ex-max-contribution-motivation-plan"
   ],
@@ -815,6 +817,8 @@
    "kc.business_studies.marketing-management.def-non-durable",
    "kc.business_studies.marketing-management.def-durable",
    "kc.business_studies.marketing-management.def-services",
+   "kc.business_studies.marketing-management.def-industrial-products",
+   "kc.business_studies.marketing-management.def-materials-and-parts",
    "kc.business_studies.marketing-management.fact-warehouse-number",
    "kc.business_studies.marketing-management.list-marketing-functions",
    "kc.business_studies.marketing-management.def-marketing-mix",
@@ -838,7 +842,8 @@
    "kc.business_studies.nature-and-significance-of-management.kl-art-science-complement",
    "kc.business_studies.nature-and-significance-of-management.types-levels-focus",
    "kc.business_studies.nature-and-significance-of-management.def-top-management",
-   "kc.business_studies.nature-and-significance-of-management.def-middle-management"
+   "kc.business_studies.nature-and-significance-of-management.def-middle-management",
+   "kc.business_studies.nature-and-significance-of-management.def-directing"
   ],
   "business_studies.organising": [
    "kc.business_studies.organising.def-organising-ncert",
@@ -850,6 +855,7 @@
    "kc.business_studies.organising.list-functional-advantages",
    "kc.business_studies.organising.list-functional-disadvantages",
    "kc.business_studies.organising.list-divisional-disadvantages",
+   "kc.business_studies.organising.diff-fd-cost",
    "kc.business_studies.organising.list-formal-advantages",
    "kc.business_studies.organising.def-informal-organisation",
    "kc.business_studies.organising.list-informal-advantages",
@@ -879,6 +885,7 @@
    "kc.business_studies.principles-of-management.def-managerial-principle",
    "kc.business_studies.principles-of-management.def-techniques-of-management",
    "kc.business_studies.principles-of-management.def-values",
+   "kc.business_studies.principles-of-management.def-principles-general-propositions",
    "kc.business_studies.principles-of-management.list-nature-of-principles",
    "kc.business_studies.principles-of-management.list-significance-of-principles",
    "kc.business_studies.principles-of-management.list-taylor-principles",
@@ -907,6 +914,7 @@
    "kc.business_studies.staffing.fact-new-enterprise-follows",
    "kc.business_studies.staffing.key-existing-enterprise-continuous",
    "kc.business_studies.staffing.list-importance-benefits",
+   "kc.business_studies.staffing.key-human-resources-asset",
    "kc.business_studies.staffing.list-manager-responsibilities",
    "kc.business_studies.staffing.list-hrm-duties",
    "kc.business_studies.staffing.def-staffing-part-of-hrm",
@@ -1830,7 +1838,8 @@
    "kc.economics.human-capital-formation.kl-causality-income",
    "kc.economics.human-capital-formation.fact-private-social-benefits",
    "kc.economics.human-capital-formation.kl-govt-intervention-long-term",
-   "kc.economics.human-capital-formation.list-womens-education-why"
+   "kc.economics.human-capital-formation.list-womens-education-why",
+   "kc.economics.human-capital-formation.kl-spread-growth-equity"
   ],
   "economics.income-determination": [
    "kc.economics.income-determination.def-ceteris-paribus",
@@ -1968,6 +1977,7 @@
    "kc.economics.national-income-and-related-aggregates.fact-circular-flow-through-market",
    "kc.economics.national-income-and-related-aggregates.fact-simple-economy-assumptions",
    "kc.economics.national-income-and-related-aggregates.def-income-method",
+   "kc.economics.national-income-and-related-aggregates.key-aggregate-spending-equals-income",
    "kc.economics.national-income-and-related-aggregates.formula-value-added-sales-minus-intermediate",
    "kc.economics.national-income-and-related-aggregates.def-basic-prices",
    "kc.economics.national-income-and-related-aggregates.formula-gva-factor-cost-to-basic-prices",
@@ -1999,7 +2009,8 @@
    "kc.economics.production-and-costs.key-tfc-independent",
    "kc.economics.production-and-costs.key-afc-decreases",
    "kc.economics.production-and-costs.key-avc-smc-relation",
-   "kc.economics.production-and-costs.frm-tvc-avc-q"
+   "kc.economics.production-and-costs.frm-tvc-avc-q",
+   "kc.economics.production-and-costs.key-sac-smc-relation"
   ],
   "economics.rural-development": [
    "kc.economics.rural-development.def-rural-development",
@@ -2012,6 +2023,7 @@
    "kc.economics.rural-development.list-major-milk-states",
    "kc.economics.rural-development.key-fish-inland-75",
    "kc.economics.rural-development.list-conventional-agriculture-harms",
+   "kc.economics.rural-development.def-organic-agriculture",
    "kc.economics.rural-development.list-benefits-organic-farming",
    "kc.economics.rural-development.list-organic-limitations"
   ],
@@ -3561,6 +3573,7 @@
    "kc.political_science.challenges-of-nation-building.list-two-goals-agreed",
    "kc.political_science.challenges-of-nation-building.quote-gandhi-14-aug",
    "kc.political_science.challenges-of-nation-building.fact-first-challenge",
+   "kc.political_science.challenges-of-nation-building.fact-second-challenge",
    "kc.political_science.challenges-of-nation-building.def-partition",
    "kc.political_science.challenges-of-nation-building.def-two-nation-theory",
    "kc.political_science.challenges-of-nation-building.fact-frontier-gandhi",
@@ -3603,6 +3616,7 @@
    "kc.political_science.contemporary-south-asia.fact-sl-india-democracy",
    "kc.political_science.contemporary-south-asia.fact-pakistan-1999",
    "kc.political_science.contemporary-south-asia.kl-nepal-republic-2008",
+   "kc.political_science.contemporary-south-asia.fact-maldives-1968",
    "kc.political_science.contemporary-south-asia.fact-tl-farakka",
    "kc.political_science.contemporary-south-asia.list-dominant-groups",
    "kc.political_science.contemporary-south-asia.fact-bd-1970-elections",
@@ -3648,6 +3662,7 @@
    "kc.political_science.end-of-bipolarity.fact-berlin-wall",
    "kc.political_science.end-of-bipolarity.term-berlin-symbol",
    "kc.political_science.end-of-bipolarity.fact-ussr-origin",
+   "kc.political_science.end-of-bipolarity.fact-lenin",
    "kc.political_science.end-of-bipolarity.def-second-world",
    "kc.political_science.end-of-bipolarity.fact-dec-1991",
    "kc.political_science.end-of-bipolarity.fact-russia-successor",
@@ -3695,8 +3710,6 @@
    "kc.political_science.era-of-one-party-dominance.def-delimitation",
    "kc.political_science.era-of-one-party-dominance.def-electoral-rolls",
    "kc.political_science.era-of-one-party-dominance.fact-first-election-seats",
-   "kc.political_science.era-of-one-party-dominance.fact-first-election-method",
-   "kc.political_science.era-of-one-party-dominance.fact-ballot-method-changed",
    "kc.political_science.era-of-one-party-dominance.list-congress-expected-win",
    "kc.political_science.era-of-one-party-dominance.fact-kerala-1957-exception",
    "kc.political_science.era-of-one-party-dominance.kl-votes-seats-1952",
@@ -3708,7 +3721,9 @@
    "kc.political_science.era-of-one-party-dominance.fact-congress-dominance-democratic",
    "kc.political_science.era-of-one-party-dominance.def-factions",
    "kc.political_science.era-of-one-party-dominance.kl-bjs-founded-1951",
-   "kc.political_science.era-of-one-party-dominance.def-congress-system"
+   "kc.political_science.era-of-one-party-dominance.def-congress-system",
+   "kc.political_science.era-of-one-party-dominance.list-bjs-leaders",
+   "kc.political_science.era-of-one-party-dominance.list-cpi-leaders"
   ],
   "political_science.globalisation": [
    "kc.political_science.globalisation.def-globalisation",
@@ -3779,6 +3794,7 @@
    "kc.political_science.politics-of-planned-development.definition-bombay-plan",
    "kc.political_science.politics-of-planned-development.fact-bombay-plan-wanted",
    "kc.political_science.politics-of-planned-development.definition-five-year-plan",
+   "kc.political_science.politics-of-planned-development.fact-first-plan-agrarian",
    "kc.political_science.politics-of-planned-development.fact-second-plan-mahalanobis"
   ],
   "political_science.recent-issues-and-challenges": [
@@ -3932,6 +3948,7 @@
    "kc.psychology.psychological-disorders.def-agoraphobia",
    "kc.psychology.psychological-disorders.def-separation-anxiety",
    "kc.psychology.psychological-disorders.def-ocd",
+   "kc.psychology.psychological-disorders.def-trichotillomania",
    "kc.psychology.psychological-disorders.def-somatic-disorders",
    "kc.psychology.psychological-disorders.def-somatic-symptom-disorder",
    "kc.psychology.psychological-disorders.def-illness-anxiety",
@@ -3980,6 +3997,7 @@
    "kc.psychology.self-and-personality.def-denial",
    "kc.psychology.self-and-personality.def-reaction-formation",
    "kc.psychology.self-and-personality.def-rationalisation",
+   "kc.psychology.self-and-personality.def-oral-stage",
    "kc.psychology.self-and-personality.def-personality-summary"
   ],
   "psychology.social-influence-and-group-processes": [
@@ -4064,6 +4082,8 @@
    "kc.psychology.variations-in-psychological-attributes.def-planning",
    "kc.psychology.variations-in-psychological-attributes.def-mental-age",
    "kc.psychology.variations-in-psychological-attributes.def-chronological-age",
+   "kc.psychology.variations-in-psychological-attributes.def-iq-stern",
+   "kc.psychology.variations-in-psychological-attributes.def-normal-curve",
    "kc.psychology.variations-in-psychological-attributes.def-creativity"
   ],
   "sociology.challenges-of-cultural-diversity": [
@@ -4289,6 +4309,7 @@
    "kc.sociology.patterns-of-social-inequality.kl-birth-dictates-occupation",
    "kc.sociology.patterns-of-social-inequality.kl-endogamy-reinforces",
    "kc.sociology.patterns-of-social-inequality.kl-belief-fair-inevitable",
+   "kc.sociology.patterns-of-social-inequality.kl-purity-pollution",
    "kc.sociology.patterns-of-social-inequality.list-grounds-of-discrimination",
    "kc.sociology.patterns-of-social-inequality.def-prejudice",
    "kc.sociology.patterns-of-social-inequality.def-stereotypes",
@@ -4338,15 +4359,16 @@
    "kc.sociology.social-institutions.diff-matriliny-vs-matriarchy"
   ],
   "sociology.social-movements": [
+   "kc.sociology.social-movements.fact-chartism-meaning",
+   "kc.sociology.social-movements.fact-peoples-charter-1839",
+   "kc.sociology.social-movements.fact-britain-vote-1918",
+   "kc.sociology.social-movements.fact-suffragettes-opposed",
    "kc.sociology.social-movements.def-social-movement",
    "kc.sociology.social-movements.list-features",
    "kc.sociology.social-movements.fact-movement-organisation-leadership",
    "kc.sociology.social-movements.kl-counter-movements",
    "kc.sociology.social-movements.kl-opposition-resistance",
    "kc.sociology.social-movements.kl-protest-visible",
-   "kc.sociology.social-movements.kl-gandhi-novel-ways",
-   "kc.sociology.social-movements.fact-dandi-march-salt",
-   "kc.sociology.social-movements.kl-cloth-salt-symbols",
    "kc.sociology.social-movements.types-types",
    "kc.sociology.social-movements.def-redemptive",
    "kc.sociology.social-movements.def-reformist",
@@ -4367,12 +4389,12 @@
   ],
   "sociology.story-of-indian-democracy": [
    "kc.sociology.story-of-indian-democracy.kl-constitution-basic-norms",
-   "kc.sociology.story-of-indian-democracy.fact-santhanam-village-panchayats",
    "kc.sociology.story-of-indian-democracy.def-constitution-basis-of-rules",
    "kc.sociology.story-of-indian-democracy.list-article-21-uses",
    "kc.sociology.story-of-indian-democracy.def-panchayati-raj-meaning",
    "kc.sociology.story-of-indian-democracy.def-gram-sabha",
    "kc.sociology.story-of-indian-democracy.list-73rd-amendment-provisions",
+   "kc.sociology.story-of-indian-democracy.list-panchayat-powers",
    "kc.sociology.story-of-indian-democracy.list-panchayat-social-welfare",
    "kc.sociology.story-of-indian-democracy.list-panchayat-development-activities",
    "kc.sociology.story-of-indian-democracy.list-panchayat-income",

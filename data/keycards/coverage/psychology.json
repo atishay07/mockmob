@@ -22,13 +22,13 @@
       "belowMinimum": false
     },
     "psychology.meeting-life-challenges": {
-      "published": 122,
+      "published": 123,
       "quarantined": 8,
       "byKind": {
+        "fact": 40,
         "term": 2,
         "key_line": 11,
         "definition": 40,
-        "fact": 39,
         "list": 10,
         "types": 14,
         "steps": 3,
@@ -37,51 +37,51 @@
       },
       "byImportance": {
         "must": 29,
-        "good": 93
+        "good": 94
       },
       "coverage_note": null,
       "mustShare": 0.24,
       "belowMinimum": false
     },
     "psychology.psychological-disorders": {
-      "published": 130,
+      "published": 133,
       "quarantined": 7,
       "byKind": {
-        "definition": 54,
-        "list": 18,
+        "definition": 55,
+        "list": 19,
         "key_line": 9,
-        "fact": 28,
+        "fact": 29,
         "term": 1,
         "types": 16,
         "difference": 4
       },
       "byImportance": {
         "must": 35,
-        "good": 95
+        "good": 98
       },
       "coverage_note": null,
-      "mustShare": 0.27,
+      "mustShare": 0.26,
       "belowMinimum": false
     },
     "psychology.self-and-personality": {
-      "published": 156,
+      "published": 160,
       "quarantined": 4,
       "byKind": {
         "definition": 65,
         "difference": 11,
         "types": 12,
-        "fact": 48,
+        "fact": 49,
         "key_line": 3,
-        "list": 14,
-        "example": 1,
+        "list": 16,
+        "example": 2,
         "steps": 2
       },
       "byImportance": {
         "must": 32,
-        "good": 124
+        "good": 128
       },
       "coverage_note": null,
-      "mustShare": 0.21,
+      "mustShare": 0.2,
       "belowMinimum": false
     },
     "psychology.social-influence-and-group-processes": {
@@ -129,23 +129,23 @@
       "belowMinimum": false
     },
     "psychology.variations-in-psychological-attributes": {
-      "published": 128,
+      "published": 135,
       "quarantined": 6,
       "byKind": {
         "definition": 48,
         "difference": 7,
         "types": 5,
-        "fact": 29,
+        "fact": 33,
         "key_line": 11,
-        "list": 18,
+        "list": 21,
         "example": 10
       },
       "byImportance": {
         "must": 34,
-        "good": 94
+        "good": 101
       },
       "coverage_note": null,
-      "mustShare": 0.27,
+      "mustShare": 0.25,
       "belowMinimum": false
     }
   }

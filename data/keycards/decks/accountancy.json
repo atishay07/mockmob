@@ -1,6 +1,6 @@
 {
   "subject": "accountancy",
-  "version": 12,
+  "version": 13,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -12356,6 +12356,35 @@
       "order": 2210
     },
     {
+      "id": "kc.accountancy.computerized-accounting-system.steps-ch2-freeze-formula-paste-special",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "steps",
+      "front": "Steps to freeze a formula (keep its value) with the Paste Special command, in order",
+      "back": "Select the cell (s) that contains the formula e.g. B6:C6, B7\nClick on Home Tab and select Copy symbol\nClick on Paste tab and select Paste Special.\nunder paste select the radio button next to Values and click OK. This will permanently remove the formula from the workbook.",
+      "quote": "The following steps are required: 1. Select the cell (s) that contains the formula e.g. B6:C6, B7 (Figure 2.11(b) 2. Click on Home Tab and select Copy symbol (Figure 2.11(c)) to click, this will copy the values and formulas of the cells (Figure 2.11(d)). 3. Click on Paste tab and select Paste Special. 4. In the Paste Special box (Figure 2.11 (d)), under paste select the radio button next to Values and click OK. This will permanently remove the formula from the workbook.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 27,
+        "section": "Naming Ranges – IF Functions – Nested IF Functions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "paste special",
+        "formula"
+      ],
+      "order": 2215,
+      "addedIn": "cov-1122"
+    },
+    {
       "id": "kc.accountancy.computerized-accounting-system.def-ch2-if-logical-operator",
       "v": 1,
       "subject": "accountancy",
@@ -23431,6 +23460,64 @@
       ],
       "order": 746,
       "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.def-as26-intangible-assets-standard",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "definition",
+      "front": "Which Accounting Standard deals with intangible assets, and what is an intangible asset under it?",
+      "back": "Intangible Asset under AS 26 is defined as an identifiable, non monetary, without physical existence and held for use in the production or supply of goods or services for rental to others or for administrative purposes.",
+      "quote": "Intangible Asset under AS 26 is defined as an identifiable, non monetary, without physical existence and held for use in the production or supply of goods or services for rental to others or for administrative purposes.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 72,
+        "section": "Applicability of Accounting Standard 26: Intangible Assets"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "AS 26",
+        "intangible asset"
+      ],
+      "order": 748,
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-as26-intangible-write-off-limit",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Under AS 26 (Intangible Assets), over what normal maximum period is an intangible asset written off?",
+      "back": "Intangible assets should be written off as early as possible but not exceeding its estimated life, which normally should not be beyond 10 years.",
+      "quote": "6. Intangible assets should be written off as early as possible but not exceeding its estimated life, which normally should not be beyond 10 years.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 72,
+        "section": "Applicability of Accounting Standard 26: Intangible Assets"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "AS 26",
+        "intangible asset"
+      ],
+      "order": 749,
+      "addedIn": "cov-1122"
     },
     {
       "id": "kc.accountancy.goodwill-valuation.def-hidden-goodwill",

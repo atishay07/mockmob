@@ -1,6 +1,6 @@
 {
   "subject": "political_science",
-  "version": 6,
+  "version": 7,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -4060,6 +4060,33 @@
       "order": 820
     },
     {
+      "id": "kc.political_science.challenges-of-nation-building.fact-communal-zone-cities",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.challenges-of-nation-building",
+      "chapter": "Challenges of Nation Building",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "After Partition, Lahore and which two other cities became divided into ‘communal zones’?",
+      "back": "Amritsar and Kolkata (with Lahore)\nAmritsar and Kolkata became divided into ‘communal zones’.",
+      "quote": "Amritsar and Kolkata became divided into ‘communal zones’.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps201",
+        "chapterNo": 1,
+        "page": 10,
+        "section": "Partition: displacement and rehabilitation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "partition"
+      ],
+      "order": 830
+    },
+    {
       "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.fact-nehru-death",
       "v": 1,
       "subject": "political_science",
@@ -7925,6 +7952,87 @@
       "order": 730
     },
     {
+      "id": "kc.political_science.contemporary-south-asia.fact-tl-1988-nuclear-agreement",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.contemporary-south-asia",
+      "chapter": "Contemporary South Asia",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What agreement did India and Pakistan sign in 1988?",
+      "back": "1988: India-Pakistan agreement not to attack nuclear installations\nIndia and Pakistan sign the agreement not to attack nuclear installations and facilities of each other",
+      "quote": "1988: India sends troops to the Maldives to foil a coup attempt by mercenaries India and Pakistan sign the agreement not to attack nuclear installations and facilities of each other",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps103",
+        "chapterNo": 3,
+        "page": 32,
+        "section": "Timeline of South Asia since 1947"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "south-asia"
+      ],
+      "order": 740
+    },
+    {
+      "id": "kc.political_science.contemporary-south-asia.fact-tl-1998-fta",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.contemporary-south-asia",
+      "chapter": "Contemporary South Asia",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "When did India and Sri Lanka sign the Free Trade Agreement (FTA)?",
+      "back": "1998 December: India and Sri Lanka sign the FTA\n1998 May: India and Pakistan conduct nuclear tests December: India and Sri Lanka sign the Free Trade Agreement (FTA)",
+      "quote": "1998 May: India and Pakistan conduct nuclear tests December: India and Sri Lanka sign the Free Trade Agreement (FTA)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps103",
+        "chapterNo": 3,
+        "page": 32,
+        "section": "Timeline of South Asia since 1947"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "south-asia"
+      ],
+      "order": 741
+    },
+    {
+      "id": "kc.political_science.contemporary-south-asia.fact-bangladesh-enclaves-2015",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.contemporary-south-asia",
+      "chapter": "Contemporary South Asia",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What did India and Bangladesh exchange in 2015?",
+      "back": "Certain enclaves (India and Bangladesh, 2015)\nIn 2015, they exchanged certain enclaves.",
+      "quote": "In 2015, they exchanged certain enclaves.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps103",
+        "chapterNo": 3,
+        "page": 39,
+        "section": "India and its Other Neighbours"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "south-asia"
+      ],
+      "order": 742
+    },
+    {
       "id": "kc.political_science.crisis-of-the-democratic-order.term-naxalites",
       "v": 2,
       "subject": "political_science",
@@ -9370,6 +9478,60 @@
         "constitutional"
       ],
       "order": 640
+    },
+    {
+      "id": "kc.political_science.crisis-of-the-democratic-order.fact-jp-founder-congress-socialist",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.crisis-of-the-democratic-order",
+      "chapter": "Crisis of the Democratic Order",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Jayaprakash Narayan (JP) was founder general secretary of which parties?",
+      "back": "founder general secretary of the Congress Socialist Party and the Socialist Party;",
+      "quote": "founder general secretary of the Congress Socialist Party and the Socialist Party;",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps206",
+        "chapterNo": 6,
+        "page": 95,
+        "section": "Gujarat and Bihar movements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "leaders"
+      ],
+      "order": 650
+    },
+    {
+      "id": "kc.political_science.crisis-of-the-democratic-order.fact-charan-singh-founded-bkd",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.crisis-of-the-democratic-order",
+      "chapter": "Crisis of the Democratic Order",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Which party did Chaudhary Charan Singh found in 1967 after leaving the Congress?",
+      "back": "left Congress party and founded Bharatiya Kranti Dal in 1967;",
+      "quote": "left Congress party and founded Bharatiya Kranti Dal in 1967;",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps206",
+        "chapterNo": 6,
+        "page": 107,
+        "section": "Janata Government"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "leaders"
+      ],
+      "order": 651
     },
     {
       "id": "kc.political_science.democratic-upsurge-and-coalition-politics.term-congress-system-1989",
@@ -12690,6 +12852,141 @@
         "bipolarity"
       ],
       "order": 900
+    },
+    {
+      "id": "kc.political_science.end-of-bipolarity.fact-russia-central-asia",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.end-of-bipolarity",
+      "chapter": "End of Bipolarity",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "Which region does India gain access to through its relationship with Russia?",
+      "back": "Central Asia\naccess to Central Asia, and balancing its relations with China.",
+      "quote": "access to Central Asia, and balancing its relations with China.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps101",
+        "chapterNo": 1,
+        "page": 13,
+        "section": "India and Post-communist Countries"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bipolarity"
+      ],
+      "order": 910
+    },
+    {
+      "id": "kc.political_science.end-of-bipolarity.fact-russia-kashmir-energy",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.end-of-bipolarity",
+      "chapter": "End of Bipolarity",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "India stands to benefit from its relationship with Russia on which issues, apart from access to Central Asia and balancing China?",
+      "back": "Kashmir, energy supplies, sharing information on international terrorism\nIndia stands to benefit from its relationship with Russia on issues like Kashmir, energy supplies, sharing information on international terrorism,",
+      "quote": "India stands to benefit from its relationship with Russia on issues like Kashmir, energy supplies, sharing information on international terrorism,",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps101",
+        "chapterNo": 1,
+        "page": 12,
+        "section": "India and Post-communist Countries"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "bipolarity"
+      ],
+      "order": 911
+    },
+    {
+      "id": "kc.political_science.end-of-bipolarity.fact-cst-inflation-savings",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.end-of-bipolarity",
+      "chapter": "End of Bipolarity",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "Why did many people in post-communist states lose all their savings under shock therapy?",
+      "back": "Because the rate of inflation was very high\nThe rate of inflation was so high that people lost all their savings.",
+      "quote": "The rate of inflation was so high that people lost all their savings.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps101",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "Consequences of Shock Therapy"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bipolarity"
+      ],
+      "order": 912
+    },
+    {
+      "id": "kc.political_science.end-of-bipolarity.fact-cst-subsidies-poverty",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.end-of-bipolarity",
+      "chapter": "End of Bipolarity",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What pushed large sections of the people into poverty during shock therapy in post-communist states?",
+      "back": "The withdrawal of government subsidies pushed large sections of the people into poverty.",
+      "quote": "The withdrawal of government subsidies pushed large sections of the people into poverty.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps101",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "Consequences of Shock Therapy"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bipolarity"
+      ],
+      "order": 913
+    },
+    {
+      "id": "kc.political_science.end-of-bipolarity.fact-cst-new-disparities",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.end-of-bipolarity",
+      "chapter": "End of Bipolarity",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What did privatisation lead to in post-communist states under shock therapy?",
+      "back": "New disparities (not a reduction of disparities)\nPrivatisation led to new disparities.",
+      "quote": "Privatisation led to new disparities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps101",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "Consequences of Shock Therapy"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bipolarity"
+      ],
+      "order": 914
     },
     {
       "id": "kc.political_science.environment-and-natural-resources.fact-ozone-decline-danger",
@@ -16291,6 +16588,60 @@
       "order": 860
     },
     {
+      "id": "kc.political_science.era-of-one-party-dominance.list-bjs-leaders",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.era-of-one-party-dominance",
+      "chapter": "Era of One-Party Dominance",
+      "unit": "Politics in India Since Independence",
+      "kind": "list",
+      "front": "Which three leaders of the Bharatiya Jana Sangh (BJS) does NCERT name?",
+      "back": "Shyama Prasad Mukherjee\nDeen Dayal Upadhyaya\nBalraj Madhok",
+      "quote": "The party’s leaders included Shyama Prasad Mukherjee, Deen Dayal Upadhyaya and Balraj Madhok.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps202",
+        "chapterNo": 2,
+        "page": 39,
+        "section": "Bharatiya Jana Sangh (BJS)"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "parties"
+      ],
+      "order": 870
+    },
+    {
+      "id": "kc.political_science.era-of-one-party-dominance.list-cpi-leaders",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.era-of-one-party-dominance",
+      "chapter": "Era of One-Party Dominance",
+      "unit": "Politics in India Since Independence",
+      "kind": "list",
+      "front": "Name six notable leaders of the Communist Party of India (CPI) listed by NCERT.",
+      "back": "A. K. Gopalan\nS.A. Dange\nE.M.S. Namboodiripad\nP.C. Joshi\nAjay Ghosh\nP. Sundarraya",
+      "quote": "A. K. Gopalan, S.A. Dange, E.M.S. Namboodiripad, P.C. Joshi, Ajay Ghosh and P. Sundarraya were among the notable leaders of the CPI.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps202",
+        "chapterNo": 2,
+        "page": 37,
+        "section": "The Communist Party of India (CPI)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "parties"
+      ],
+      "order": 871
+    },
+    {
       "id": "kc.political_science.globalisation.def-globalisation",
       "v": 1,
       "subject": "political_science",
@@ -17909,6 +18260,33 @@
         "globalisation"
       ],
       "order": 620
+    },
+    {
+      "id": "kc.political_science.globalisation.fact-wsf-2024-nepal",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.globalisation",
+      "chapter": "Globalisation",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "Where was the World Social Forum (WSF) meeting held in February 2024?",
+      "back": "In Nepal\nThe latest WSF meeting was held in Nepal in February 2024.",
+      "quote": "The latest WSF meeting was held in Nepal in February 2024.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps107",
+        "chapterNo": 7,
+        "page": 111,
+        "section": "Resistance to Globalisation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "globalisation"
+      ],
+      "order": 630
     },
     {
       "id": "kc.political_science.india-s-external-relations.list-art51",
@@ -19813,6 +20191,33 @@
         "external-relations"
       ],
       "order": 740
+    },
+    {
+      "id": "kc.political_science.india-s-external-relations.fact-defence-departments-founded",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.india-s-external-relations",
+      "chapter": "India's External Relations",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "When were the Department of Defence Production and the Department of Defence Supplies established?",
+      "back": "The Department of Defence Production was established in November 1962 and the Department of Defence Supplies in November 1965.",
+      "quote": "The Department of Defence Production was established in November 1962 and the Department of Defence Supplies in November 1965.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps204",
+        "chapterNo": 4,
+        "page": 68,
+        "section": "Wars and development"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "external-relations"
+      ],
+      "order": 750
     },
     {
       "id": "kc.political_science.international-organisations.quote-hammarskjold",
@@ -22012,6 +22417,33 @@
       "order": 830
     },
     {
+      "id": "kc.political_science.international-organisations.fact-sg-bankimoon-un-women",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.international-organisations",
+      "chapter": "International Organisations",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What new United Nations body did Secretary-General Ban Ki-moon work for the creation of?",
+      "back": "UN Women (Ban Ki-moon worked for its creation)\nfocused on the Millennium Development Goals and Sustainable Development Goals; worked for the creation of UN Women; emphasised conflict resolution and nuclear disarmament.",
+      "quote": "focused on the Millennium Development Goals and Sustainable Development Goals; worked for the creation of UN Women; emphasised conflict resolution and nuclear disarmament.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps104",
+        "chapterNo": 4,
+        "page": 51,
+        "section": "UN Secretaries-General"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "international-organisations"
+      ],
+      "order": 840
+    },
+    {
       "id": "kc.political_science.politics-of-planned-development.definition-left",
       "v": 1,
       "subject": "political_science",
@@ -22986,6 +23418,33 @@
         "planning"
       ],
       "order": 360
+    },
+    {
+      "id": "kc.political_science.politics-of-planned-development.fact-first-plan-savings",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.politics-of-planned-development",
+      "chapter": "Politics of Planned Development",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "In the First Five Year Plan, what did the planners seek to do about the savings of the people?",
+      "back": "They sought to push savings up\nSo the planners sought to push savings up.",
+      "quote": "So the planners sought to push savings up.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps203",
+        "chapterNo": 3,
+        "page": 51,
+        "section": "The First Five Year Plan"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planning"
+      ],
+      "order": 370
     },
     {
       "id": "kc.political_science.recent-issues-and-challenges.fact-mandal-decision-1990",
@@ -26985,6 +27444,60 @@
         "regional-aspirations"
       ],
       "order": 1120
+    },
+    {
+      "id": "kc.political_science.regional-aspirations.fact-goa-state-1987",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.regional-aspirations",
+      "chapter": "Regional Aspirations",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "In which year did Goa become a State of the Indian Union?",
+      "back": "Finally, in 1987, Goa became a State of the Indian Union.",
+      "quote": "Finally, in 1987, Goa became a State of the Indian Union.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps207",
+        "chapterNo": 7,
+        "page": 133,
+        "section": "Goa’s liberation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "regional-aspirations"
+      ],
+      "order": 1130
+    },
+    {
+      "id": "kc.political_science.regional-aspirations.fact-goa-liberation-1961",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.regional-aspirations",
+      "chapter": "Regional Aspirations",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "In December 1961, which territories did the Government of India's army liberate from Portuguese rule?",
+      "back": "Goa, Diu and Daman\nFinally, in December 1961, the Government of India sent the army which liberated these territories after barely two days of action.",
+      "quote": "Finally, in December 1961, the Government of India sent the army which liberated these territories after barely two days of action.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps207",
+        "chapterNo": 7,
+        "page": 133,
+        "section": "Goa’s liberation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "regional-aspirations"
+      ],
+      "order": 1131
     },
     {
       "id": "kc.political_science.security-in-the-contemporary-world.def-security-basic",

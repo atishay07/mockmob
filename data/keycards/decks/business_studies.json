@@ -1,6 +1,6 @@
 {
   "subject": "business_studies",
-  "version": 7,
+  "version": 8,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -7315,6 +7315,90 @@
       ],
       "order": 1335,
       "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.business_studies.directing.fact-career-advancement-meaning",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.directing",
+      "chapter": "Directing",
+      "unit": "Directing",
+      "kind": "fact",
+      "front": "What should managers provide under the non-financial incentive of career advancement opportunity?",
+      "back": "Opportunity to improve skills and be promoted to higher level jobs\nEvery individual wants to grow to the higher level in the organisation. Managers should provide opportunity to employees to improve their skills and be promoted to the higher level jobs.",
+      "quote": "Every individual wants to grow to the higher level in the organisation. Managers should provide opportunity to employees to improve their skills and be promoted to the higher level jobs.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs107",
+        "chapterNo": 7,
+        "page": 183,
+        "section": "Non-Financial Incentives"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "motivation",
+        "incentives"
+      ],
+      "order": 1345
+    },
+    {
+      "id": "kc.business_studies.directing.list-org-climate-characteristics",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.directing",
+      "chapter": "Directing",
+      "unit": "Directing",
+      "kind": "list",
+      "front": "NCERT lists characteristics that describe an organisational climate. Name the first three.",
+      "back": "individual autonomy\nreward orientation\nconsideration to employees",
+      "quote": "Some of these characteristics are–individual autonomy, reward orientation, consideration to employees",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs107",
+        "chapterNo": 7,
+        "page": 182,
+        "section": "Non-Financial Incentives"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "motivation",
+        "incentives"
+      ],
+      "order": 1355
+    },
+    {
+      "id": "kc.business_studies.directing.list-job-enrichment-features",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.directing",
+      "chapter": "Directing",
+      "unit": "Directing",
+      "kind": "list",
+      "front": "List the four features of jobs designed under job enrichment.",
+      "back": "greater variety of work content\nhigher level of knowledge and skill\nmore autonomy and responsibility\nthe opportunity for personal growth and a meaningful work experience",
+      "quote": "Job enrichment is concerned with designing jobs that include greater variety of work content, require higher level of knowledge and skill; give workers more autonomy and responsibility; and provide the opportunity for personal growth and a meaningful work experience.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs107",
+        "chapterNo": 7,
+        "page": 183,
+        "section": "Non-Financial Incentives"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "motivation",
+        "incentives"
+      ],
+      "order": 1365
     },
     {
       "id": "kc.business_studies.financial-management.def-business-finance",
@@ -14760,6 +14844,226 @@
       "addedIn": "gap-1031"
     },
     {
+      "id": "kc.business_studies.marketing-management.fact-pricing-short-run-maximum-price",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "What price would a firm tend to charge if it decides to maximise profits in the short run?",
+      "back": "Maximum price\nIf the firm decides to maximise profits in the short run, it would tend to charge maximum price for its products.",
+      "quote": "If the firm decides to maximise profits in the short run, it would tend to charge maximum price for its products.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 268,
+        "section": "Pricing Objectives"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pricing"
+      ],
+      "order": 1468
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-pricing-long-run-lower-price",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "What per unit price would a firm opt for if it wants to maximise its total profit in the long run?",
+      "back": "A lower per unit price\nBut if it is to maximise its total profit in the long run, it would opt for a lower per unit price so that it can capture larger share of the market and earn greater profits through increased sales.",
+      "quote": "But if it is to maximise its total profit in the long run, it would opt for a lower per unit price so that it can capture larger share of the market and earn greater profits through increased sales.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 268,
+        "section": "Pricing Objectives"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pricing"
+      ],
+      "order": 1478
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-pricing-market-share-lower-prices",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "What price level does a firm keep if its pricing objective is obtaining market share leadership?",
+      "back": "Lower levels\nIf a firms objective is to obtain larger share of the market; it will keep the price of its products at lower levels so that greater number of people are attracted to purchase the products;",
+      "quote": "If a firms objective is to obtain larger share of the market; it will keep the price of its products at lower levels so that greater number of people are attracted to purchase the products;",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 268,
+        "section": "Pricing Objectives"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pricing"
+      ],
+      "order": 1488
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-pricing-quality-leadership-higher-prices",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "What price level is normally charged when the pricing objective is attaining product quality leadership?",
+      "back": "Higher prices\nnormally higher prices are charged to cover high quality and high cost of research and Development.",
+      "quote": "normally higher prices are charged to cover high quality and high cost of research and Development.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 268,
+        "section": "Pricing Objectives"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pricing"
+      ],
+      "order": 1498
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-marketed-services-examples",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "Insurance, health care, computer education and online trading are examples of which type of offering that can be marketed?",
+      "back": "Services\nInsurance, Health Care, Business Process Outsourcing, Security, Financial Services (Investment),Computer Education, Online Trading.",
+      "quote": "Insurance, Health Care, Business Process Outsourcing, Security, Financial Services (Investment),Computer Education, Online Trading.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 246,
+        "section": "What can be Marketed?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "product",
+        "marketing"
+      ],
+      "order": 1508
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-marketed-ideas-examples",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "Polio vaccination, helpage, family planning and donation of blood are examples of which type of offering that can be marketed?",
+      "back": "Ideas\nPolio Vaccination, Helpage, Family Planning, Donation of Blood (Red cross), Donation of money on Flag Day (National Foundation for Communal Harmony).",
+      "quote": "Polio Vaccination, Helpage, Family Planning, Donation of Blood (Red cross), Donation of money on Flag Day (National Foundation for Communal Harmony).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 246,
+        "section": "What can be Marketed?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "product",
+        "marketing"
+      ],
+      "order": 1518
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-marketed-places-examples",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "Visit Agra and Udaipur, the City of Lakes, are examples of which type of offering that can be marketed?",
+      "back": "Place\nVisit Agra – ‘City of Love’, ‘Udaipur – ‘The City of Lakes’, ‘Mysore – The City of Gardens’",
+      "quote": "Visit Agra – ‘City of Love’, ‘Udaipur – ‘The City of Lakes’, ‘Mysore – The City of Gardens’",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 246,
+        "section": "What can be Marketed?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "product",
+        "marketing"
+      ],
+      "order": 1528
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-marketed-events-examples",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing",
+      "kind": "fact",
+      "front": "Sports events, diwali mela, fashion shows and music concerts are examples of which type of offering that can be marketed?",
+      "back": "Events\nSports events (say Olympics, Cricket series), diwali mela, fashion show, music concert, film festival, elephant race (Kerala Tourism).",
+      "quote": "Sports events (say Olympics, Cricket series), diwali mela, fashion show, music concert, film festival, elephant race (Kerala Tourism).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 246,
+        "section": "What can be Marketed?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "product",
+        "marketing"
+      ],
+      "order": 1538
+    },
+    {
       "id": "kc.business_studies.nature-and-significance-of-management.def-management-koontz",
       "v": 1,
       "subject": "business_studies",
@@ -16603,6 +16907,143 @@
         "coordination"
       ],
       "order": 730
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-growth-in-size",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Why does growth in size make coordination important?",
+      "back": "It becomes difficult to integrate the efforts of more people\nAs organisations grow in size, the number of people employed by the organisation also increases. At times, it may become difficult to integrate their efforts and activities.",
+      "quote": "As organisations grow in size, the number of people employed by the organisation also increases. At times, it may become difficult to integrate their efforts and activities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 24,
+        "section": "Importance of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 740
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-functional-differentiation",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Why does functional differentiation make coordination important?",
+      "back": "Departments have their own objectives, policies and style of working\nIn an organisation there may be separate departments of finance, production, marketing or human resources. All these departments may have their own objectives, policies and their own style of working.",
+      "quote": "In an organisation there may be separate departments of finance, production, marketing or human resources. All these departments may have their own objectives, policies and their own style of working.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 25,
+        "section": "Importance of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 750
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-departments-in-isolation",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "What causes conflict between the departments of an organisation, as in the marketing and finance example?",
+      "back": "Each unit or department works in isolation from the others\nThese kinds of conflict arise in organisations because each unit/ department is performing activities in isolation from others and barriers between departments are becoming more rigid.",
+      "quote": "These kinds of conflict arise in organisations because each unit/ department is performing activities in isolation from others and barriers between departments are becoming more rigid.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 25,
+        "section": "Importance of Coordination"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 760
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.term-coordination-links-departments",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "term",
+      "front": "The process of linking the activities of various departments is accomplished by ____.",
+      "back": "The process of linking the activities of various departments is accomplished by coordination.",
+      "quote": "The process of linking the activities of various departments is accomplished by coordination.",
+      "blanks": [
+        "coordination"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 25,
+        "section": "Importance of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 770
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-specialisation",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "What does specialisation arise out of, making coordination important?",
+      "back": "Complex modern technology and diverse tasks\nSpecialisation arises out of the complexities of modern technology and the diversity of tasks to be performed.",
+      "quote": "Modern organisations are characterised by a high degree of specialisation. Specialisation arises out of the complexities of modern technology and the diversity of tasks to be performed.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 25,
+        "section": "Importance of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 780
     },
     {
       "id": "kc.business_studies.organising.def-organising-ncert",
@@ -18550,6 +18991,148 @@
       ],
       "order": 875,
       "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.business_studies.organising.fact-delegation-basis-of-hierarchy",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "Which benefit of delegation establishes superior-subordinate relationships?",
+      "back": "Basis of management hierarchy\nDelegation of authority establishes superior-subordinate relationships, which are the basis of hierarchy of management.",
+      "quote": "Delegation of authority establishes superior-subordinate relationships, which are the basis of hierarchy of management.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 129,
+        "section": "Importance of delegation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "delegation"
+      ],
+      "order": 885
+    },
+    {
+      "id": "kc.business_studies.organising.fact-delegation-effective-management",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "How does delegation make management more effective?",
+      "back": "Managers get more time for important matters\nBy empowering the employees, the managers are able to function more efficiently as they get more time to concentrate on important matters.",
+      "quote": "By empowering the employees, the managers are able to function more efficiently as they get more time to concentrate on important matters.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 129,
+        "section": "Importance of delegation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "delegation"
+      ],
+      "order": 895
+    },
+    {
+      "id": "kc.business_studies.organising.fact-delegation-facilitates-growth",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "How does delegation help the expansion of an organisation?",
+      "back": "It provides a ready workforce for new ventures\nDelegation helps in the expansion of an organisation by providing a ready workforce to take up leading positions in new ventures.",
+      "quote": "Delegation helps in the expansion of an organisation by providing a ready workforce to take up leading positions in new ventures.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 129,
+        "section": "Importance of delegation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "delegation"
+      ],
+      "order": 905
+    },
+    {
+      "id": "kc.business_studies.organising.fact-decentralisation-caution",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "Why should decentralisation be applied with caution?",
+      "back": "It can lead to organisational disintegration\ndecentralisation should be applied with caution as it can lead to organisational disintegration if the departments start to operate on their own guidelines which may be contrary to the interest of the organisation.",
+      "quote": "decentralisation should be applied with caution as it can lead to organisational disintegration if the departments start to operate on their own guidelines which may be contrary to the interest of the organisation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 133,
+        "section": "Importance of decentralisation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "decentralisation"
+      ],
+      "order": 915
+    },
+    {
+      "id": "kc.business_studies.organising.term-decentralisation-balance",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "term",
+      "front": "Decentralisation must always be balanced with ____ in areas of major policy decisions.",
+      "back": "Decentralisation must always be balanced with centralisation in areas of major policy decisions.",
+      "quote": "Decentralisation must always be balanced with centralisation in areas of major policy decisions.",
+      "blanks": [
+        "centralisation"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 133,
+        "section": "Importance of decentralisation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "decentralisation"
+      ],
+      "order": 925
     },
     {
       "id": "kc.business_studies.planning.def-planning",
@@ -22728,6 +23311,90 @@
       "addedIn": "gap-1031"
     },
     {
+      "id": "kc.business_studies.principles-of-management.fact-harmony-not-discord-meaning",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.principles-of-management",
+      "chapter": "Principles of Management",
+      "unit": "Principles of Management",
+      "kind": "fact",
+      "front": "Taylor saw that class conflict helped none. What did he emphasise between management and workers?",
+      "back": "Complete harmony\nTaylor recognised that this conflict helped none, the workers, the managers or the factory owners. He emphasised that there should be complete harmony between the management and workers.",
+      "quote": "Taylor recognised that this conflict helped none, the workers, the managers or the factory owners. He emphasised that there should be complete harmony between the management and workers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs102",
+        "chapterNo": 2,
+        "page": 45,
+        "section": "Harmony, not discord"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "scientific-management",
+        "harmony"
+      ],
+      "order": 1135
+    },
+    {
+      "id": "kc.business_studies.principles-of-management.fact-harmony-japanese-example",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.principles-of-management",
+      "chapter": "Principles of Management",
+      "unit": "Principles of Management",
+      "kind": "fact",
+      "front": "Which principle of Taylor do Japanese companies illustrate through their paternalistic style of management?",
+      "back": "Harmony, not discord\nIn Japanese companies, paternalistic style of management is in practice. There is complete openness between the management and workers. If at all workers go to strike they wear a black badge but work more than normal working hours to gain the sympathy of the management.",
+      "quote": "In Japanese companies, paternalistic style of management is in practice. There is complete openness between the management and workers. If at all workers go to strike they wear a black badge but work more than normal working hours to gain the sympathy of the management.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs102",
+        "chapterNo": 2,
+        "page": 46,
+        "section": "Harmony, not discord"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "scientific-management",
+        "harmony"
+      ],
+      "order": 1145
+    },
+    {
+      "id": "kc.business_studies.principles-of-management.fact-method-study-cost-quality-aim",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.principles-of-management",
+      "chapter": "Principles of Management",
+      "unit": "Principles of Management",
+      "kind": "fact",
+      "front": "In method study, what is the objective of the whole exercise?",
+      "back": "Minimise cost, maximise quality and customer satisfaction\nThe objective of the whole exercise is to minimise the cost of production and maximise the quality and satisfaction of the customer.",
+      "quote": "The objective of the whole exercise is to minimise the cost of production and maximise the quality and satisfaction of the customer.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs102",
+        "chapterNo": 2,
+        "page": 49,
+        "section": "Method Study"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "scientific-management",
+        "method-study"
+      ],
+      "order": 1155
+    },
+    {
       "id": "kc.business_studies.staffing.def-staffing-putting-people",
       "v": 1,
       "subject": "business_studies",
@@ -25510,6 +26177,87 @@
         "off the job"
       ],
       "order": 1120
+    },
+    {
+      "id": "kc.business_studies.staffing.fact-reference-checks-purpose",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "fact",
+      "front": "For what purpose do employers request references during selection?",
+      "back": "Verifying information and gaining additional information on the applicant\nMany employers request names, addresses, and telephone numbers of references for the purpose of verifying information and, gaining additional information on an applicant.",
+      "quote": "Many employers request names, addresses, and telephone numbers of references for the purpose of verifying information and, gaining additional information on an applicant.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 157,
+        "section": "Process of Selection"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "selection"
+      ],
+      "order": 1130
+    },
+    {
+      "id": "kc.business_studies.staffing.fact-job-offer-report-date",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "fact",
+      "front": "What date does a letter of appointment generally contain in the job offer step of selection?",
+      "back": "The date by which the appointee must report on duty\nSuch a letter generally contains a date by which the appointee must report on duty.",
+      "quote": "Such a letter generally contains a date by which the appointee must report on duty.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 157,
+        "section": "Process of Selection"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "selection"
+      ],
+      "order": 1140
+    },
+    {
+      "id": "kc.business_studies.staffing.list-contract-employment-headings",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "list",
+      "front": "List the typical headings of a written contract of employment.",
+      "back": "Job Title\nDuties\nResponsibilities\nDate when continuous employment starts and the basis for calculating service\nrates of pay\nallowances\nhours of work\nleave rules\nsickness\ngrievance procedure\ndisciplinary procedure\nwork rules\ntermination of employment",
+      "quote": "the following checklists sets out the typical headings: Job Title, Duties, Responsibilities, Date when continuous employment starts and the basis for calculating service, rates of pay, allowances, hours of work, leave rules, sickness, grievance procedure, disciplinary procedure, work rules, termination of employment.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 159,
+        "section": "Process of Selection"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "selection"
+      ],
+      "order": 1150
     }
   ]
 }

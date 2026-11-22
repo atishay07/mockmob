@@ -1,0 +1,1059 @@
+{
+ "paper": "cuet2026-sociology",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 22 Nov 2026; ids read by OCR (RapidOCR) and matched to NTA's 2026 final key (subject 326)",
+ "shifts": {
+  "15-05-2026 (First)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 501,
+   "questionId": "226895781428",
+   "page": 2,
+   "optionIds": {
+    "2268953030109": 1,
+    "2268953030110": 2,
+    "2268953030111": 3,
+    "2268953030112": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030110"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 502,
+   "questionId": "226895781429",
+   "page": 3,
+   "optionIds": {
+    "2268953030113": 1,
+    "2268953030114": 2,
+    "2268953030115": 3,
+    "2268953030116": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030115"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 503,
+   "questionId": "226895781430",
+   "page": 4,
+   "optionIds": {
+    "2268953030117": 1,
+    "2268953030118": 2,
+    "2268953030119": 3,
+    "2268953030120": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030119"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 504,
+   "questionId": "226895781431",
+   "page": 5,
+   "optionIds": {
+    "2268953030121": 1,
+    "2268953030122": 2,
+    "2268953030123": 3,
+    "2268953030124": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030124"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 505,
+   "questionId": "226895781432",
+   "page": 6,
+   "optionIds": {
+    "2268953030125": 1,
+    "2268953030126": 2,
+    "2268953030127": 3,
+    "2268953030128": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030125"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 506,
+   "questionId": "226895781433",
+   "page": 7,
+   "optionIds": {
+    "2268953030129": 1,
+    "2268953030130": 2,
+    "2268953030131": 3,
+    "2268953030132": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030129"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 507,
+   "questionId": "226895781434",
+   "page": 9,
+   "optionIds": {
+    "2268953030133": 1,
+    "2268953030134": 2,
+    "2268953030135": 3,
+    "2268953030136": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030134"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 508,
+   "questionId": "226895781435",
+   "page": 10,
+   "optionIds": {
+    "2268953030137": 1,
+    "2268953030138": 2,
+    "2268953030139": 3,
+    "2268953030140": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030139"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 509,
+   "questionId": "226895781436",
+   "page": 11,
+   "optionIds": {
+    "2268953030141": 1,
+    "2268953030142": 2,
+    "2268953030143": 3,
+    "2268953030144": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030143"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 510,
+   "questionId": "226895781437",
+   "page": 11,
+   "optionIds": {
+    "2268953030145": 1,
+    "2268953030146": 2,
+    "2268953030147": 3,
+    "2268953030148": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030146"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 511,
+   "questionId": "226895781438",
+   "page": 13,
+   "optionIds": {
+    "2268953030149": 1,
+    "2268953030150": 2,
+    "2268953030151": 3,
+    "2268953030152": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030150"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 512,
+   "questionId": "226895781439",
+   "page": 13,
+   "optionIds": {
+    "2268953030153": 1,
+    "2268953030154": 2,
+    "2268953030155": 3,
+    "2268953030156": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030155"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 513,
+   "questionId": "226895781440",
+   "page": 14,
+   "optionIds": {
+    "2268953030157": 1,
+    "2268953030158": 2,
+    "2268953030159": 3,
+    "2268953030160": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030158"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 514,
+   "questionId": "226895781441",
+   "page": 15,
+   "optionIds": {
+    "2268953030161": 1,
+    "2268953030162": 2,
+    "2268953030163": 3,
+    "2268953030164": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030163"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 515,
+   "questionId": "226895781442",
+   "page": 16,
+   "optionIds": {
+    "2268953030165": 1,
+    "2268953030166": 2,
+    "2268953030167": 3,
+    "2268953030168": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030168"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 516,
+   "questionId": "226895781443",
+   "page": 17,
+   "optionIds": {
+    "2268953030169": 1,
+    "2268953030170": 2,
+    "2268953030171": 3,
+    "2268953030172": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030169"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 517,
+   "questionId": "226895781444",
+   "page": 18,
+   "optionIds": {
+    "2268953030173": 1,
+    "2268953030174": 2,
+    "2268953030175": 3,
+    "2268953030176": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030174"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 518,
+   "questionId": "226895781445",
+   "page": 19,
+   "optionIds": {
+    "2268953030177": 1,
+    "2268953030178": 2,
+    "2268953030179": 3,
+    "2268953030180": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030178"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 519,
+   "questionId": "226895781446",
+   "page": 20,
+   "optionIds": {
+    "2268953030181": 1,
+    "2268953030182": 2,
+    "2268953030183": 3,
+    "2268953030184": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030182"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 520,
+   "questionId": "226895781447",
+   "page": 21,
+   "optionIds": {
+    "2268953030185": 1,
+    "2268953030186": 2,
+    "2268953030187": 3,
+    "2268953030188": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030187"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 521,
+   "questionId": "226895781448",
+   "page": 22,
+   "optionIds": {
+    "2268953030189": 1,
+    "2268953030190": 2,
+    "2268953030191": 3,
+    "2268953030192": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030189"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 522,
+   "questionId": "226895781449",
+   "page": 23,
+   "optionIds": {
+    "2268953030193": 1,
+    "2268953030194": 2,
+    "2268953030195": 3,
+    "2268953030196": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030195"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 523,
+   "questionId": "226895781450",
+   "page": 25,
+   "optionIds": {
+    "2268953030197": 1,
+    "2268953030198": 2,
+    "2268953030199": 3,
+    "2268953030200": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030198"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 524,
+   "questionId": "226895781451",
+   "page": 25,
+   "optionIds": {
+    "2268953030201": 1,
+    "2268953030202": 2,
+    "2268953030203": 3,
+    "2268953030204": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030202"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 525,
+   "questionId": "226895781452",
+   "page": 26,
+   "optionIds": {
+    "2268953030205": 1,
+    "2268953030206": 2,
+    "2268953030207": 3,
+    "2268953030208": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030208"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 526,
+   "questionId": "226895781453",
+   "page": 27,
+   "optionIds": {
+    "2268953030209": 1,
+    "2268953030210": 2,
+    "2268953030211": 3,
+    "2268953030212": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030211"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 527,
+   "questionId": "226895781454",
+   "page": 28,
+   "optionIds": {
+    "2268953030213": 1,
+    "2268953030214": 2,
+    "2268953030215": 3,
+    "2268953030216": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030214"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 528,
+   "questionId": "226895781455",
+   "page": 28,
+   "optionIds": {
+    "2268953030217": 1,
+    "2268953030218": 2,
+    "2268953030219": 3,
+    "2268953030220": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030220"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 529,
+   "questionId": "226895781456",
+   "page": 29,
+   "optionIds": {
+    "2268953030221": 1,
+    "2268953030222": 2,
+    "2268953030223": 3,
+    "2268953030224": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030222"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 530,
+   "questionId": "226895781457",
+   "page": 30,
+   "optionIds": {
+    "2268953030225": 1,
+    "2268953030226": 2,
+    "2268953030227": 3,
+    "2268953030228": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030225"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 531,
+   "questionId": "226895781458",
+   "page": 31,
+   "optionIds": {
+    "2268953030229": 1,
+    "2268953030230": 2,
+    "2268953030231": 3,
+    "2268953030232": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030230"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 532,
+   "questionId": "226895781459",
+   "page": 31,
+   "optionIds": {
+    "2268953030233": 1,
+    "2268953030234": 2,
+    "2268953030235": 3,
+    "2268953030236": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030235"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 533,
+   "questionId": "226895781460",
+   "page": 33,
+   "optionIds": {
+    "2268953030237": 1,
+    "2268953030238": 2,
+    "2268953030239": 3,
+    "2268953030240": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030240"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 534,
+   "questionId": "226895781461",
+   "page": 33,
+   "optionIds": {
+    "2268953030241": 1,
+    "2268953030242": 2,
+    "2268953030243": 3,
+    "2268953030244": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030241"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 535,
+   "questionId": "226895781462",
+   "page": 34,
+   "optionIds": {
+    "2268953030245": 1,
+    "2268953030246": 2,
+    "2268953030247": 3,
+    "2268953030248": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030247"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 536,
+   "questionId": "226895781463",
+   "page": 35,
+   "optionIds": {
+    "2268953030249": 1,
+    "2268953030250": 2,
+    "2268953030251": 3,
+    "2268953030252": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030252"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 537,
+   "questionId": "226895781464",
+   "page": 37,
+   "optionIds": {
+    "2268953030253": 1,
+    "2268953030254": 2,
+    "2268953030255": 3,
+    "2268953030256": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030254"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 538,
+   "questionId": "226895781465",
+   "page": 38,
+   "optionIds": {
+    "2268953030257": 1,
+    "2268953030258": 2,
+    "2268953030259": 3,
+    "2268953030260": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030259"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 539,
+   "questionId": "226895781466",
+   "page": 39,
+   "optionIds": {
+    "2268953030261": 1,
+    "2268953030262": 2,
+    "2268953030263": 3,
+    "2268953030264": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030263"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 540,
+   "questionId": "226895781467",
+   "page": 39,
+   "optionIds": {
+    "2268953030265": 1,
+    "2268953030266": 2,
+    "2268953030267": 3,
+    "2268953030268": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030268"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 541,
+   "questionId": "226895781469",
+   "page": 41,
+   "optionIds": {
+    "2268953030269": 1,
+    "2268953030270": 2,
+    "2268953030271": 3,
+    "2268953030272": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030269"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 542,
+   "questionId": "226895781470",
+   "page": 42,
+   "optionIds": {
+    "2268953030273": 1,
+    "2268953030274": 2,
+    "2268953030275": 3,
+    "2268953030276": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030275"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 543,
+   "questionId": "226895781471",
+   "page": 42,
+   "optionIds": {
+    "2268953030277": 1,
+    "2268953030278": 2,
+    "2268953030279": 3,
+    "2268953030280": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030280"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 544,
+   "questionId": "226895781472",
+   "page": 42,
+   "optionIds": {
+    "2268953030281": 1,
+    "2268953030282": 2,
+    "2268953030283": 3,
+    "2268953030284": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030282"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 545,
+   "questionId": "226895781473",
+   "page": 43,
+   "optionIds": {
+    "2268953030285": 1,
+    "2268953030286": 2,
+    "2268953030287": 3,
+    "2268953030288": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030288"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 546,
+   "questionId": "226895781475",
+   "page": 46,
+   "optionIds": {
+    "2268953030289": 1,
+    "2268953030290": 2,
+    "2268953030291": 3,
+    "2268953030292": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030289"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 547,
+   "questionId": "226895781476",
+   "page": 46,
+   "optionIds": {
+    "2268953030293": 1,
+    "2268953030294": 2,
+    "2268953030295": 3,
+    "2268953030296": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030294"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 548,
+   "questionId": "226895781477",
+   "page": 47,
+   "optionIds": {
+    "2268953030297": 1,
+    "2268953030298": 2,
+    "2268953030299": 3,
+    "2268953030300": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030297"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 549,
+   "questionId": "226895781478",
+   "page": 47,
+   "optionIds": {
+    "2268953030301": 1,
+    "2268953030302": 2,
+    "2268953030303": 3,
+    "2268953030304": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030301"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 550,
+   "questionId": "226895781479",
+   "page": 47,
+   "optionIds": {
+    "2268953030305": 1,
+    "2268953030306": 2,
+    "2268953030307": 3,
+    "2268953030308": 4
+   },
+   "inKey": true,
+   "keySubject": "sociology",
+   "shift": "15-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953030305"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  }
+ ]
+}

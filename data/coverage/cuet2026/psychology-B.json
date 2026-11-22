@@ -1,0 +1,1942 @@
+{
+ "paper": "cuet2026-psychology",
+ "subject": "psychology",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "324",
+  "date": "2026-05-15",
+  "shift": "First",
+  "source": "https://docs.aglasem.com/view/81bd948e-c701-11f1-aa04-0aa932765c8b (AglaSem Docs copy of the NTA master question paper, downloaded 22 Nov 2026 with the owner's approval); text in data/coverage/cuet2026/psychology-paper.json",
+  "keySource": "NTA CUET (UG) 2026 final answer key, option ids; all 50 questions authenticated by question id and option id (data/coverage/cuet2026/psychology-ids.json)"
+ },
+ "snapshotDate": "2026-11-22",
+ "bankRead": "No database or network read by Checker B. Worked from Checker A's saved read-only snapshot of 22 Nov 2026: tmp/1122-coverage/snap/psychology/served_psychology.json (145 served ids) and served_rows.json (the 145 rows). Searches: a copy of snap/psychology/s.mjs in the session scratchpad (psyB/s.mjs), served rows + published cards only.",
+ "keyCardDeck": "data/keycards/decks/psychology.json (v3, 826 cards). The suspension table was not read (one-read rule; A did not read it either), so \"in the deck\" means published in the deck file.",
+ "syllabusSource": "data/cuet_syllabus.js psychology (7 chapters); every question is on the 2026 syllabus",
+ "checker": "B",
+ "method": "data/coverage/METHOD.md, strict rule. B's fact list was written from the paper before opening psychology-A.json (scratchpad psyB/facts_B.txt); B searched every question itself, then audited A. NCERT text checked with pdftotext on ncert-books/pdf/lepy101-104 and with the deck pipeline's own quoteCheck (scripts/keycards/lib.mjs, imported read-only) for every quote proposed in tmp/1122-coverage/gaps/psychology.md.",
+ "auditOfA": {
+  "citationsChecked": 79,
+  "citationsFailingServedOrDeck": 0,
+  "citationsRemovedForContent": 1,
+  "note": "Every bank id A cited is in served_psychology.json and every card id is in the published deck. Each was read in full against the fact A attached. One citation removed for content (n46, 3a8fbc1b: names the techniques but never says behaviour therapy); the verdict does not change. B added citations A had missed: n39 list-loafing-causes (prints the keyed option word for word), n3 kl-guilford-180-cells (6x5x6), n34 ex-box61-cognitive/behavioural (the paper's own example)."
+ },
+ "ownSearchBeforeA": {
+  "covered": 43,
+  "not_covered": 7,
+  "differedFromAOn": [
+   20,
+   24,
+   44
+  ],
+  "note": "Before opening A, B leaned covered on n20 (c4fae9a1: moderate anxiety = eustress that enhances performance), n24 (D judged a non-syllabus absolute) and n44 (conversion is taught as somatic, so it can be eliminated). On re-check all three settled to not covered: none of them states the fact the item tests, and a doubtful match is not covered."
+ },
+ "disagreementsWithAOnReasons": {
+  "16": "A wrote \"Not closable by adding material\" because a textbook would call this sublimation. The 2026-27 NCERT reprint (lepy102, printed page 35) prints this very example as reaction formation, so the NTA key agrees with NCERT and a Key card quoting that sentence closes the gap. Verdict (not covered) is the same."
+ },
+ "counts": {
+  "covered": 40,
+  "not_covered": 10,
+  "skill": 0,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 50
+ },
+ "countsBySection": {
+  "Sub-section 1 (Q451-490)": {
+   "covered": 32,
+   "not_covered": 8,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 40
+  },
+  "Sub-section 2, comprehension (Q491-495)": {
+   "covered": 3,
+   "not_covered": 2,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 5
+  },
+  "Sub-section 3, comprehension (Q496-500)": {
+   "covered": 5,
+   "not_covered": 0,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 5
+  }
+ },
+ "final": {
+  "covered": 40,
+  "counted": 50,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "percent": 80,
+  "rule": "Covered only if both A and B say covered; no skill, off-syllabus or dropped items (each passage item needs a stored term the passage does not print).",
+  "byChapter": {
+   "Variations in Psychological Attributes": {
+    "covered": 7,
+    "not_covered": 3
+   },
+   "Self & Personality": {
+    "covered": 7,
+    "not_covered": 3
+   },
+   "Meeting Life Challenges": {
+    "covered": 4,
+    "not_covered": 2
+   },
+   "Psychological Disorders": {
+    "covered": 6,
+    "not_covered": 2
+   },
+   "Therapeutic Approaches": {
+    "covered": 7,
+    "not_covered": 0
+   },
+   "Attitude & Social Cognition": {
+    "covered": 5,
+    "not_covered": 0
+   },
+   "Social Influence & Group Processes": {
+    "covered": 4,
+    "not_covered": 0
+   }
+  },
+  "disagreementsWithA": [],
+  "notCovered": [
+   6,
+   9,
+   15,
+   16,
+   19,
+   20,
+   24,
+   37,
+   44,
+   45
+  ]
+ },
+ "gapsToAuthor": {
+  "note": "Full dossier with NCERT sentences, pages and routes: tmp/1122-coverage/gaps/psychology.md. All theory; no numericals in this paper.",
+  "theoryFactsMissing": [
+   {
+    "n": 6,
+    "chapter": "Variations in Psychological Attributes",
+    "fact": "Identical twins reared apart correlate 0.72 in intelligence (together 0.90; fraternal together 0.60; siblings together 0.50; siblings apart 0.25)",
+    "ncert": "lepy101 p10",
+    "route": "card"
+   },
+   {
+    "n": 9,
+    "chapter": "Variations in Psychological Attributes",
+    "fact": "Table 1.2: Indian verbal tests (Jalota, Prayag Mehta, Mohsin's Bihar Test, M.C. Joshi) vs performance tests (Draw-a-Man by Pramila Pathak, Bhatia's Battery)",
+    "ncert": "lepy101 p15",
+    "route": "card"
+   },
+   {
+    "n": 37,
+    "chapter": "Variations in Psychological Attributes",
+    "fact": "Author of each Indian test: Draw-a-Man Pramila Pathak; Bihar Test S.M. Mohsin; Test of GMA (Hindi) M.C. Joshi; Group Test of Intelligence Prayag Mehta",
+    "ncert": "lepy101 p15",
+    "route": "card"
+   },
+   {
+    "n": 15,
+    "chapter": "Self & Personality",
+    "fact": "Early in his career Freud used hypnosis to treat people with physical and emotional problems",
+    "ncert": "lepy102 p33-34 (sentence crosses the page)",
+    "route": "card (page-34 part) or bank"
+   },
+   {
+    "n": 16,
+    "chapter": "Self & Personality",
+    "fact": "Strong sexual urges channelled into religious fervour = classical example of reaction formation",
+    "ncert": "lepy102 p35",
+    "route": "card"
+   },
+   {
+    "n": 19,
+    "chapter": "Self & Personality",
+    "fact": "MMPI and EPQ are self-report measures; P-F Study and Sentence Completion Test are projective techniques",
+    "ncert": "lepy102 p42-45 (grouped by section headings)",
+    "route": "bank (best) or cards"
+   },
+   {
+    "n": 20,
+    "chapter": "Meeting Life Challenges",
+    "fact": "High stress makes performance deteriorate and too little stress leaves one listless, so a moderate level is optimal",
+    "ncert": "lepy103 p51",
+    "route": "card + bank"
+   },
+   {
+    "n": 24,
+    "chapter": "Meeting Life Challenges",
+    "fact": "No level of stress is taught to always strengthen immunity (statement D false); A, B, C are already served",
+    "ncert": "no sentence states D; lepy103 p59-60 for A and B",
+    "route": "bank only"
+   },
+   {
+    "n": 44,
+    "chapter": "Psychological Disorders",
+    "fact": "Obsessive-compulsive and related disorders include hoarding, trichotillomania and excoriation; conversion is a somatic symptom disorder",
+    "ncert": "lepy104 p77-78 (sentence crosses the page)",
+    "route": "bank (best) or two cards"
+   },
+   {
+    "n": 45,
+    "chapter": "Psychological Disorders",
+    "fact": "Trichotillomania = hair-pulling disorder (excoriation = skin-picking)",
+    "ncert": "lepy104 p78",
+    "route": "card"
+   }
+  ]
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 451,
+   "questionId": "226895781376",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Intelligence = global capacity to understand the world, think rationally, use resources effectively when faced with challenges"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.def-intelligence-attribute",
+     "teaches": "the definition word for word"
+    }
+   ],
+   "best": "kc.psychology.variations-in-psychological-attributes.def-intelligence-attribute",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints the definition the stem quotes.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 2,
+   "paperNumber": 452,
+   "questionId": "226895781377",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Alfred Binet was one of the first psychologists to work on intelligence"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.def-intelligence-binet",
+     "teaches": "Binet was one of the first psychologists who worked on intelligence"
+    },
+    {
+     "kind": "bank",
+     "id": "78cf518a-ef0b-440c-9d7e-1c3f706239f5",
+     "teaches": "Binet developed the first intelligence test"
+    }
+   ],
+   "best": "kc.psychology.variations-in-psychological-attributes.def-intelligence-binet",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states it in the same words.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 3,
+   "paperNumber": 453,
+   "questionId": "226895781378",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Guilford structure-of-intellect: the operations dimension has six categories"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.list-guilford-operations",
+     "teaches": "six operations listed: cognition, memory recording, memory retention, divergent production, convergent production, evaluation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.kl-guilford-180-cells",
+     "teaches": "6x5x6 categories (operations x contents x products)"
+    },
+    {
+     "kind": "bank",
+     "id": "8a3084ec-8e04-416f-82a4-a2f3ff207600",
+     "teaches": "the three dimensions are operations, contents and products"
+    }
+   ],
+   "best": "kc.psychology.variations-in-psychological-attributes.list-guilford-operations",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The operations card lists six items and the 180-cells card prints 6x5x6, so the count of six is taught (A relied on the list alone; the 6x5x6 card makes it firmer).",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 4,
+   "paperNumber": 454,
+   "questionId": "226895781379",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Gardner: musical, spatial, logical-mathematical are among the eight",
+    "Componential is Sternberg, not Gardner"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "cbf67f50-bc67-4520-97b8-7d981f4bb31a",
+     "teaches": "which is NOT Gardner's: componential; explanation lists all eight and places componential with Sternberg"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.list-gardner-eight-types",
+     "teaches": "the eight intelligences incl. musical, spatial, logical-mathematical"
+    }
+   ],
+   "best": "cbf67f50-bc67-4520-97b8-7d981f4bb31a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank item tests the same exclusion of componential; the card lists the eight.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 5,
+   "paperNumber": 455,
+   "questionId": "226895781380",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Sternberg: experiential intelligence = creative intelligence"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.def-experiential",
+     "teaches": "experiential or creative intelligence"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.types-triarchic-three-types",
+     "teaches": "componential, experiential, contextual"
+    },
+    {
+     "kind": "bank",
+     "id": "b956b2d0-3469-48c4-9946-dea9d5d1bf48",
+     "teaches": "experiential intelligence is creative and insightful"
+    }
+   ],
+   "best": "kc.psychology.variations-in-psychological-attributes.def-experiential",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card names experiential and creative intelligence as one.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 6,
+   "paperNumber": 456,
+   "questionId": "226895781381",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Identical twins reared in different environments: intelligence correlation 0.72 (reared together 0.90; fraternal 0.60; siblings 0.50; siblings apart 0.25)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served bank row or card has any twin-study correlation; the deck has the adopted-children line only (fact-adopted-children). NCERT lepy101 p10 prints the figures.",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 7,
+   "paperNumber": 457,
+   "questionId": "226895781382",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Mild 55-70; moderate 35-40 to 50-55; severe 20-25 to 35-40; profound below 20-25"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.types-levels-intellectual-disability",
+     "teaches": "all four levels with IQ ranges"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.fact-table42-moderate-iq",
+     "teaches": "moderate 35-40 to 50-55"
+    }
+   ],
+   "best": "kc.psychology.variations-in-psychological-attributes.types-levels-intellectual-disability",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives every pair of the match.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 8,
+   "paperNumber": 458,
+   "questionId": "226895781383",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Gifted children show high (not low) intrinsic motivation and self-esteem; the other three options are listed characteristics"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.list-gifted-characteristics",
+     "teaches": "advanced logical thinking; superior generalisation and discrimination; high intrinsic motivation and self-esteem; preference for solitary academic activities"
+    }
+   ],
+   "best": "kc.psychology.variations-in-psychological-attributes.list-gifted-characteristics",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists all three true options and the opposite of the keyed one.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 9,
+   "paperNumber": 459,
+   "questionId": "226895781384",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Table 1.2: verbal tests developed in India include the Bihar Test (Mohsin), Group Test of GMA (Jalota), Test of GMA Hindi (Joshi)",
+    "Draw-a-Man Test (Pramila Pathak) is a performance test"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.def-verbal-test",
+     "teaches": "what a verbal test is (partial)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.variations-in-psychological-attributes.def-performance-test",
+     "teaches": "what a performance test is (partial)"
+    }
+   ],
+   "best": "kc.psychology.variations-in-psychological-attributes.def-verbal-test",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards define verbal and performance tests, but nothing served names any Indian test or classes Draw-a-Man; Table 1.2 (lepy101 p15) is not in the deck or bank.",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 10,
+   "paperNumber": 460,
+   "questionId": "226895781385",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Self-concept = the way we perceive ourselves and the ideas we hold about our competencies and attributes"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.def-self-concept",
+     "teaches": "the definition word for word"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.def-self-concept",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints the stem's definition.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 11,
+   "paperNumber": 461,
+   "questionId": "226895781386",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "High self-efficacy = belief that one has the ability/behaviours a situation requires"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.def-self-efficacy",
+     "teaches": "the sentence word for word"
+    },
+    {
+     "kind": "bank",
+     "id": "d576dce8-381d-4211-a6a5-e412efa8af6d",
+     "teaches": "self-efficacy vs self-esteem and self-regulation"
+    },
+    {
+     "kind": "bank",
+     "id": "4fb9b06a-cf75-4072-8b40-4f01edb9f424",
+     "teaches": "belief in own ability to perform actions = self-efficacy"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.def-self-efficacy",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints the stem's sentence; two bank items separate it from the distractors.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 12,
+   "paperNumber": 462,
+   "questionId": "226895781387",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Personality: physical and psychological components; main features do not easily change with time; dynamic under situational demands; expression fairly unique"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.list-personality-features",
+     "teaches": "the four features, incl. \"main features do not easily change with time\""
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.list-personality-features",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives A, C, D and contradicts B.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 13,
+   "paperNumber": 463,
+   "questionId": "226895781388",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Hippocrates: sanguine, phlegmatic, choleric, melancholic",
+    "Endomorphic is a Sheldon body type"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.types-hippocrates-types",
+     "teaches": "the four humoral types"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.types-sheldon-types",
+     "teaches": "endomorphic is Sheldon's"
+    },
+    {
+     "kind": "bank",
+     "id": "bcfd50e2-7baa-4bc2-bf56-6ce4b9893955",
+     "teaches": "endomorphic/mesomorphic/ectomorphic = Sheldon"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.types-hippocrates-types",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the four types; endomorphic is placed with Sheldon by a card and a bank item.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 14,
+   "paperNumber": 464,
+   "questionId": "226895781389",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Type-D personality = proneness to depression"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.def-type-d",
+     "teaches": "the sentence word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.def-type-c",
+     "teaches": "Type-C is cancer-prone (distractor)"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.def-type-d",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 15,
+   "paperNumber": 465,
+   "questionId": "226895781390",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Freud used hypnosis (early career), free association, dream analysis (and analysis of errors)",
+    "Fictional finalism is not Freud's (Adler; not in NCERT)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-freud-methods",
+     "teaches": "free association, dream analysis, analysis of errors (partial: no hypnosis)"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.fact-freud-methods",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Free association and dream analysis are taught, but nothing served says Freud used hypnosis and nothing names fictional finalism, so options 1 and 2 cannot be told apart. NCERT lepy102 p33-34 says Freud used hypnosis.",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 16,
+   "paperNumber": 466,
+   "questionId": "226895781391",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "NCERT example: a person with strong sexual urges who channels energy into religious fervour is a classical example of reaction formation (the NTA key)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.def-reaction-formation",
+     "teaches": "definition only: behaviours opposite to true feelings (partial)"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.def-reaction-formation",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Only the definition is served; with displacement among the options, the definition alone does not settle the case. NCERT lepy102 p35 prints this exact example as reaction formation, so a card closes it (A wrote \"not closable\"; B disagrees on that point only).",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 17,
+   "paperNumber": 467,
+   "questionId": "226895781392",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "JMPI developed by Mallick and Joshi"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-jmpi",
+     "teaches": "Mallick and Joshi developed the JMPI"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.fact-jmpi",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 18,
+   "paperNumber": 468,
+   "questionId": "226895781393",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Inkblot-Rorschach; P-F Study-Rosenzweig; TAT-Morgan and Murray; 16PF-Cattell"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-rorschach",
+     "teaches": "Rorschach developed the inkblot test"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-pf-study",
+     "teaches": "Rosenzweig developed the P-F Study"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-tat",
+     "teaches": "Morgan and Murray developed the TAT"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-cattell-16pf",
+     "teaches": "Cattell developed the 16PF"
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.fact-rorschach",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "One Key card per pair.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 19,
+   "paperNumber": 469,
+   "questionId": "226895781394",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Self & Personality",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "MMPI and EPQ are self-report measures",
+    "Rosenzweig P-F Study and Sentence Completion Test are projective techniques"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.def-self-report-measures",
+     "teaches": "what self-report measures are (partial)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-mmpi-developers",
+     "teaches": "MMPI described, not labelled self-report"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-epq-dimensions",
+     "teaches": "EPQ described, not labelled self-report"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.fact-pf-study",
+     "teaches": "P-F Study described, not labelled projective"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.self-and-personality.def-sentence-completion",
+     "teaches": "SCT described, not labelled projective"
+    },
+    {
+     "kind": "bank",
+     "id": "552bd136-9932-4415-ae1a-e4e54742c503",
+     "teaches": "matches each projective test to its task, never says \"projective\""
+    }
+   ],
+   "best": "kc.psychology.self-and-personality.def-self-report-measures",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "No answer side classes the four tests; only invisible card tags (self-report, projective) do. NCERT lepy102 p42-45 groups them by section.",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 20,
+   "paperNumber": 470,
+   "questionId": "226895781395",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Meeting Life Challenges",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A moderate level of stress gives optimal performance: high stress makes performance deteriorate, too little leaves one listless"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.term-eustress",
+     "teaches": "eustress = the level of stress that is good for you (partial)"
+    },
+    {
+     "kind": "bank",
+     "id": "c4fae9a1-0529-4901-80fc-68ab92486be4",
+     "teaches": "moderate exam anxiety channelled into study = eustress, which enhances performance (partial)"
+    }
+   ],
+   "best": "kc.psychology.meeting-life-challenges.term-eustress",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "B first read c4fae9a1 as enough; on re-check nothing served says low or no stress harms performance, so \"low level\" is not ruled out. NCERT lepy103 p51 states both ends.",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 21,
+   "paperNumber": 471,
+   "questionId": "226895781396",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Meeting Life Challenges",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Under stress the adrenal gland releases large amounts of catecholamines into the bloodstream"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.list-stress-two-pathways",
+     "teaches": "the adrenal gland releases large amount of catecholamines into the blood stream"
+    }
+   ],
+   "best": "kc.psychology.meeting-life-challenges.list-stress-two-pathways",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints the sentence the item completes.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 22,
+   "paperNumber": 472,
+   "questionId": "226895781397",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Meeting Life Challenges",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Stress dimensions: intensity, duration, complexity, predictability (controllability is not one)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.types-stress-dimensions",
+     "teaches": "the four dimensions"
+    }
+   ],
+   "best": "kc.psychology.meeting-life-challenges.types-stress-dimensions",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the four; controllability is not among them.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 23,
+   "paperNumber": 473,
+   "questionId": "226895781398",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Meeting Life Challenges",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "GAS alarm reaction: noxious stimulus activates the adrenal-pituitary-cortex system"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.fact-gas-alarm-reaction",
+     "teaches": "the sentence for the alarm reaction stage"
+    }
+   ],
+   "best": "kc.psychology.meeting-life-challenges.fact-gas-alarm-reaction",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 24,
+   "paperNumber": 474,
+   "questionId": "226895781399",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Meeting Life Challenges",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Stress can cause illness by impairing the immune system (A)",
+    "Stress affects natural killer cell cytotoxicity (B)",
+    "Stress hormones weaken the immune system (C)",
+    "Optimal stress does NOT always enhance immune functioning (D false)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.fact-immune-nk-cytotoxicity",
+     "teaches": "B"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.def-psychoneuroimmunology",
+     "teaches": "stress affects the immune system (A, partial)"
+    },
+    {
+     "kind": "bank",
+     "id": "590d0f2f-32b3-45aa-82da-13ac06c640d2",
+     "teaches": "chronic stress weakens immunity; stress hormones suppress immune responses (A, C)"
+    }
+   ],
+   "best": "kc.psychology.meeting-life-challenges.fact-immune-nk-cytotoxicity",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A, B and C are served; nothing states D is false, so options 2 and 4 are not settled. B first judged D a non-syllabus absolute and leaned covered; settled to not covered (doubtful = not covered).",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 25,
+   "paperNumber": 475,
+   "questionId": "226895781400",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Meeting Life Challenges",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Hardiness: Kobasa"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.fact-hardiness-kobasa",
+     "teaches": "Kobasa's studies: personality traits of hardiness"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.meeting-life-challenges.types-hardiness-three-cs",
+     "teaches": "commitment, control, challenge"
+    }
+   ],
+   "best": "kc.psychology.meeting-life-challenges.fact-hardiness-kobasa",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card ties hardiness to Kobasa.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 26,
+   "paperNumber": 476,
+   "questionId": "226895781401",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Four Ds: deviance, distress, dysfunction, danger"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.kl-four-ds-names",
+     "teaches": "the four Ds named"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.list-four-ds",
+     "teaches": "each D explained"
+    },
+    {
+     "kind": "bank",
+     "id": "787cb178-409e-4120-bdec-116d7d4c9a09",
+     "teaches": "four Ds = deviance, distress, dysfunction, danger"
+    }
+   ],
+   "best": "kc.psychology.psychological-disorders.kl-four-ds-names",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card and bank item both name the four.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 27,
+   "paperNumber": 477,
+   "questionId": "226895781402",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "ICD-10 prepared by the WHO"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.fact-icd10",
+     "teaches": "ICD-10 was prepared by the WHO"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.fact-dsm5",
+     "teaches": "DSM is the APA's (distractor)"
+    }
+   ],
+   "best": "kc.psychology.psychological-disorders.fact-icd10",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 28,
+   "paperNumber": 478,
+   "questionId": "226895781403",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Low GABA activity is linked to anxiety disorders"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.fact-neurotransmitters-anxiety-schizophrenia-depression",
+     "teaches": "anxiety disorders linked to low GABA"
+    }
+   ],
+   "best": "kc.psychology.psychological-disorders.fact-neurotransmitters-anxiety-schizophrenia-depression",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 29,
+   "paperNumber": 479,
+   "questionId": "226895781404",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Therapeutic Approaches",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "RET ABC = antecedent-belief-consequence"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.fact-ret-first-step",
+     "teaches": "antecedent-belief-consequence (ABC) analysis"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.fact-ellis-ret",
+     "teaches": "Ellis, RET"
+    }
+   ],
+   "best": "kc.psychology.therapeutic-approaches.fact-ret-first-step",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card spells out ABC.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 30,
+   "paperNumber": 480,
+   "questionId": "226895781405",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Therapeutic Approaches",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ethics: informed consent, confidentiality, alleviating distress, respect for human rights and dignity (all four)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.list-ethics",
+     "teaches": "the six standards incl. all four statements"
+    }
+   ],
+   "best": "kc.psychology.therapeutic-approaches.list-ethics",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card contains all four statements.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 31,
+   "paperNumber": 481,
+   "questionId": "226895781406",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Attitude & Social Cognition",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Attitude features: valence, extremeness, simplicity/complexity (multiplexity), centrality; motivation is not one"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.list-attitude-four-features",
+     "teaches": "the four features"
+    }
+   ],
+   "best": "kc.psychology.attitude-and-social-cognition.list-attitude-four-features",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the four; motivation is absent.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 32,
+   "paperNumber": 482,
+   "questionId": "226895781407",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Attitude & Social Cognition",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Balance: all positive, or two negative + one positive; imbalance: all negative, or two positive + one negative"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.fact-balance-found",
+     "teaches": "balance rule"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.fact-imbalance-found",
+     "teaches": "imbalance rule"
+    },
+    {
+     "kind": "bank",
+     "id": "596483d2-d834-437d-b197-93cdd37db9d5",
+     "teaches": "balance when all positive or one positive and two negative"
+    }
+   ],
+   "best": "kc.psychology.attitude-and-social-cognition.fact-balance-found",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Two Key cards state both halves word for word.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 33,
+   "paperNumber": 483,
+   "questionId": "226895781408",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Attitude & Social Cognition",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Cognitive dissonance: Leon Festinger"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.fact-dissonance-festinger",
+     "teaches": "proposed by Leon Festinger"
+    }
+   ],
+   "best": "kc.psychology.attitude-and-social-cognition.fact-dissonance-festinger",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 34,
+   "paperNumber": 484,
+   "questionId": "226895781409",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Attitude & Social Cognition",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Green-environment example: view = cognitive, plantation campaign = behavioural, sad/angry = affective"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.ex-box61-cognitive",
+     "teaches": "positive view of green environment = cognitive"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.ex-box61-behavioural",
+     "teaches": "tree plantation campaign = behavioural"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.ex-box61-affective",
+     "teaches": "sad and angry when trees are cut = affective"
+    },
+    {
+     "kind": "bank",
+     "id": "85d3bf13-325a-4f61-a44a-d5089498af88",
+     "teaches": "belief/feeling/action sorted into components"
+    }
+   ],
+   "best": "kc.psychology.attitude-and-social-cognition.ex-box61-cognitive",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Three Key cards are NCERT Box 6.1's green-environment example, the paper's own example.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 35,
+   "paperNumber": 485,
+   "questionId": "226895781410",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Attitude & Social Cognition",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Two-step concept: S. M. Mohsin"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.attitude-and-social-cognition.fact-two-step-mohsin",
+     "teaches": "proposed by S.M. Mohsin"
+    }
+   ],
+   "best": "kc.psychology.attitude-and-social-cognition.fact-two-step-mohsin",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 36,
+   "paperNumber": 486,
+   "questionId": "226895781411",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 3,
+   "chapter": "Social Influence & Group Processes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Tuckman: forming, storming, norming, performing, adjourning"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.social-influence-and-group-processes.steps-tuckman-stages",
+     "teaches": "the five stages in order"
+    },
+    {
+     "kind": "bank",
+     "id": "84a459e5-e785-4e78-b356-36f83d35e272",
+     "teaches": "the same ordering task (four stages)"
+    }
+   ],
+   "best": "kc.psychology.social-influence-and-group-processes.steps-tuckman-stages",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives the five stages in order.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 37,
+   "paperNumber": 487,
+   "questionId": "226895781412",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Variations in Psychological Attributes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Draw-a-Man: Pramila Pathak; Bihar Test: S.M. Mohsin; Test of GMA (Hindi): M.C. Joshi; Group Test of Intelligence: Prayag Mehta"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served item names any Indian intelligence test or its author (searched Mohsin, Jalota, Pathak, Prayag, Joshi, Draw-a-Man). NCERT lepy101 p15 Table 1.2.",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 38,
+   "paperNumber": 488,
+   "questionId": "226895781413",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 2,
+   "chapter": "Social Influence & Group Processes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Others favouring capital punishment validate your view: bandwagon effect"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.social-influence-and-group-processes.kl-polarisation-bandwagon",
+     "teaches": "the same capital-punishment example named bandwagon effect"
+    }
+   ],
+   "best": "kc.psychology.social-influence-and-group-processes.kl-polarisation-bandwagon",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the paper's example word for word.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 39,
+   "paperNumber": 489,
+   "questionId": "226895781414",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 1,
+   "chapter": "Social Influence & Group Processes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Social loafing: members feel less responsible for the overall task and exert less effort"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.social-influence-and-group-processes.list-loafing-causes",
+     "teaches": "Group members feel less responsible for the overall task being performed and therefore exert less effort (word for word), with the reversed forms of options 2 and 3"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.social-influence-and-group-processes.def-social-loafing",
+     "teaches": "definition"
+    },
+    {
+     "kind": "bank",
+     "id": "0a61680b-2326-4277-8440-af13afe860f8",
+     "teaches": "individual evaluation reduces loafing"
+    }
+   ],
+   "best": "kc.psychology.social-influence-and-group-processes.list-loafing-causes",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "B found list-loafing-causes, which prints the keyed option verbatim and the true versions of two distractors (A judged this the thinnest call and had not cited it).",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 40,
+   "paperNumber": 490,
+   "questionId": "226895781415",
+   "section": "Sub-section 1 (Q451-490)",
+   "ntaKey": 4,
+   "chapter": "Social Influence & Group Processes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Conditions of group formation: proximity, similarity, common motives and goals"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.social-influence-and-group-processes.list-conditions-group-formation",
+     "teaches": "proximity, similarity, common motives and goals"
+    }
+   ],
+   "best": "kc.psychology.social-influence-and-group-processes.list-conditions-group-formation",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card lists the conditions; individual goals is not one.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 41,
+   "paperNumber": 491,
+   "questionId": "226895781417",
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "ntaKey": 2,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Washing, stepping within floor patterns, uncontrollable preoccupation, repeated acts = OCD"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.def-ocd",
+     "teaches": "OCD defined in the passage's own terms"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.list-compulsions",
+     "teaches": "washing is a common compulsion"
+    },
+    {
+     "kind": "bank",
+     "id": "71a10f93-69a0-41ae-b678-1c786354c1a4",
+     "teaches": "obsessive thoughts with compulsive hand-washing = OCD"
+    }
+   ],
+   "best": "kc.psychology.psychological-disorders.def-ocd",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The passage does not name the disorder; the card and bank item teach it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 42,
+   "paperNumber": 492,
+   "questionId": "226895781418",
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "ntaKey": 3,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Obsessive behaviour = inability to stop thinking about a particular idea or topic"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.diff-obsession-compulsion",
+     "teaches": "the sentence word for word"
+    }
+   ],
+   "best": "kc.psychology.psychological-disorders.diff-obsession-compulsion",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 43,
+   "paperNumber": 493,
+   "questionId": "226895781419",
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "ntaKey": 1,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Compulsive behaviour = need to perform certain behaviours over and over"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.diff-obsession-compulsion",
+     "teaches": "compulsive behaviour = repeated behaviour"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.list-compulsions",
+     "teaches": "washing etc."
+    }
+   ],
+   "best": "kc.psychology.psychological-disorders.diff-obsession-compulsion",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card separates obsessive thinking from compulsive repeated acts.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 44,
+   "paperNumber": 494,
+   "questionId": "226895781420",
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "ntaKey": 2,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "OC and related disorders include hoarding disorder, trichotillomania, excoriation disorder",
+    "Conversion disorder is a somatic symptom disorder"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.list-somatic-types",
+     "teaches": "conversion is somatic (partial)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.psychological-disorders.fact-box41-conversion",
+     "teaches": "conversion described (partial)"
+    }
+   ],
+   "best": "kc.psychology.psychological-disorders.list-somatic-types",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Conversion is taught as somatic, but nothing served names hoarding, trichotillomania or excoriation. B first leaned covered by elimination; settled to not covered (the item tests the category's members).",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 45,
+   "paperNumber": 495,
+   "questionId": "226895781421",
+   "section": "Sub-section 2, comprehension (Q491-495)",
+   "ntaKey": 4,
+   "chapter": "Psychological Disorders",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Trichotillomania = hair-pulling disorder"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "The word trichotillomania appears nowhere in the bank or deck. NCERT lepy104 p78.",
+   "agreesWithA": true,
+   "aVerdict": "not_covered",
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 46,
+   "paperNumber": 496,
+   "questionId": "226895781423",
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "ntaKey": 2,
+   "chapter": "Therapeutic Approaches",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Behaviour therapy techniques: token economy, modelling, systematic desensitisation",
+    "Cognitive restructuring is the aim of Beck's cognitive therapy, not a behaviour technique"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.fact-beck-cognitive-restructuring",
+     "teaches": "cognitive restructuring is the aim of Beck's cognitive therapy"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.def-modelling",
+     "teaches": "modelling in behaviour therapy"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.def-token-economy",
+     "teaches": "token economy for persons with behavioural problems"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.def-systematic-desensitisation",
+     "teaches": "Wolpe's technique for phobias"
+    }
+   ],
+   "best": "kc.psychology.therapeutic-approaches.fact-beck-cognitive-restructuring",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The decisive fact (cognitive restructuring belongs to cognitive therapy) is on a card; modelling is labelled behaviour therapy.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": [
+    {
+     "id": "3a8fbc1b-e14e-4102-a73b-06b1480aa6a9",
+     "why": "A said it places systematic desensitisation and aversive conditioning in behaviour therapy; the item only names the two techniques and never says behaviour therapy. Verdict unchanged (the cognitive-restructuring card decides it)."
+    }
+   ]
+  },
+  {
+   "n": 47,
+   "paperNumber": 497,
+   "questionId": "226895781424",
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "ntaKey": 1,
+   "chapter": "Therapeutic Approaches",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Systematic desensitisation: Wolpe"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "e9cac0e5-90eb-4240-bdd4-a3f901a2e7e0",
+     "teaches": "same question, same answer"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.def-systematic-desensitisation",
+     "teaches": "introduced by Wolpe"
+    },
+    {
+     "kind": "bank",
+     "id": "9494cdab-0c64-4944-b891-c1b8ca956314",
+     "teaches": "Wolpe - systematic desensitisation"
+    }
+   ],
+   "best": "e9cac0e5-90eb-4240-bdd4-a3f901a2e7e0",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank item asks the same thing with the same answer.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 48,
+   "paperNumber": 498,
+   "questionId": "226895781425",
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "ntaKey": 4,
+   "chapter": "Therapeutic Approaches",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Differential reinforcement reduces unwanted and increases wanted behaviour simultaneously"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.term-differential-reinforcement",
+     "teaches": "the sentence word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.types-differential-reinforcement-methods",
+     "teaches": "the two methods"
+    }
+   ],
+   "best": "kc.psychology.therapeutic-approaches.term-differential-reinforcement",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints the stem's sentence.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 49,
+   "paperNumber": 499,
+   "questionId": "226895781426",
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "ntaKey": 1,
+   "chapter": "Therapeutic Approaches",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Vicarious learning = learning by observing others, rewarding small changes"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.term-vicarious-learning",
+     "teaches": "the sentence word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.def-modelling",
+     "teaches": "modelling (distractor context)"
+    }
+   ],
+   "best": "kc.psychology.therapeutic-approaches.term-vicarious-learning",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card prints it.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 50,
+   "paperNumber": 500,
+   "questionId": "226895781427",
+   "section": "Sub-section 3, comprehension (Q496-500)",
+   "ntaKey": 3,
+   "chapter": "Therapeutic Approaches",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Aversive conditioning is used for alcohol addiction (NCERT example)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.ex-aversive-alcoholic",
+     "teaches": "alcoholic given a mild shock with the smell of alcohol"
+    },
+    {
+     "kind": "card",
+     "id": "kc.psychology.therapeutic-approaches.def-aversive-conditioning",
+     "teaches": "definition"
+    }
+   ],
+   "best": "kc.psychology.therapeutic-approaches.ex-aversive-alcoholic",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives alcohol as the worked case.",
+   "agreesWithA": true,
+   "aVerdict": "covered",
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  }
+ ]
+}

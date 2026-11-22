@@ -21,18 +21,18 @@
       "belowMinimum": false
     },
     "political_science.challenges-of-nation-building": {
-      "published": 76,
+      "published": 77,
       "quarantined": 0,
       "byKind": {
         "list": 3,
-        "fact": 60,
+        "fact": 61,
         "quote": 4,
         "key_line": 2,
         "definition": 4,
         "term": 3
       },
       "byImportance": {
-        "must": 60,
+        "must": 61,
         "good": 16
       },
       "coverage_note": null,
@@ -57,39 +57,39 @@
       "belowMinimum": false
     },
     "political_science.contemporary-south-asia": {
-      "published": 70,
+      "published": 73,
       "quarantined": 1,
       "byKind": {
         "list": 4,
-        "fact": 60,
+        "fact": 63,
         "key_line": 4,
         "definition": 2
       },
       "byImportance": {
-        "must": 38,
+        "must": 41,
         "good": 32
       },
       "coverage_note": null,
-      "mustShare": 0.54,
+      "mustShare": 0.56,
       "belowMinimum": false
     },
     "political_science.crisis-of-the-democratic-order": {
-      "published": 53,
+      "published": 55,
       "quarantined": 0,
       "byKind": {
         "term": 1,
         "key_line": 6,
-        "fact": 39,
+        "fact": 41,
         "quote": 2,
         "list": 3,
         "definition": 2
       },
       "byImportance": {
-        "must": 30,
+        "must": 32,
         "good": 23
       },
       "coverage_note": null,
-      "mustShare": 0.57,
+      "mustShare": 0.58,
       "belowMinimum": false
     },
     "political_science.democratic-upsurge-and-coalition-politics": {
@@ -109,10 +109,10 @@
       "belowMinimum": false
     },
     "political_science.end-of-bipolarity": {
-      "published": 90,
+      "published": 95,
       "quarantined": 0,
       "byKind": {
-        "fact": 72,
+        "fact": 77,
         "term": 3,
         "definition": 3,
         "key_line": 3,
@@ -120,11 +120,11 @@
         "types": 1
       },
       "byImportance": {
-        "must": 67,
-        "good": 23
+        "must": 71,
+        "good": 24
       },
       "coverage_note": null,
-      "mustShare": 0.74,
+      "mustShare": 0.75,
       "belowMinimum": false
     },
     "political_science.environment-and-natural-resources": {
@@ -147,35 +147,35 @@
       "belowMinimum": false
     },
     "political_science.era-of-one-party-dominance": {
-      "published": 78,
+      "published": 80,
       "quarantined": 2,
       "byKind": {
         "fact": 61,
         "types": 2,
         "definition": 4,
         "key_line": 9,
-        "list": 2
+        "list": 4
       },
       "byImportance": {
-        "must": 53,
-        "good": 25
+        "must": 54,
+        "good": 26
       },
       "coverage_note": null,
       "mustShare": 0.68,
       "belowMinimum": false
     },
     "political_science.globalisation": {
-      "published": 59,
+      "published": 60,
       "quarantined": 0,
       "byKind": {
         "definition": 4,
         "list": 3,
         "key_line": 13,
-        "fact": 38,
+        "fact": 39,
         "types": 1
       },
       "byImportance": {
-        "must": 43,
+        "must": 44,
         "good": 16
       },
       "coverage_note": null,
@@ -183,16 +183,16 @@
       "belowMinimum": false
     },
     "political_science.india-s-external-relations": {
-      "published": 70,
+      "published": 71,
       "quarantined": 0,
       "byKind": {
         "list": 5,
-        "fact": 56,
+        "fact": 57,
         "definition": 2,
         "term": 7
       },
       "byImportance": {
-        "must": 44,
+        "must": 45,
         "good": 26
       },
       "coverage_note": null,
@@ -200,18 +200,18 @@
       "belowMinimum": false
     },
     "political_science.international-organisations": {
-      "published": 81,
+      "published": 82,
       "quarantined": 0,
       "byKind": {
         "quote": 1,
         "key_line": 5,
-        "fact": 62,
+        "fact": 63,
         "definition": 5,
         "list": 7,
         "types": 1
       },
       "byImportance": {
-        "must": 54,
+        "must": 55,
         "good": 27
       },
       "coverage_note": null,
@@ -219,21 +219,21 @@
       "belowMinimum": false
     },
     "political_science.politics-of-planned-development": {
-      "published": 36,
+      "published": 37,
       "quarantined": 0,
       "byKind": {
         "definition": 4,
         "types": 1,
-        "fact": 28,
+        "fact": 29,
         "key_line": 2,
         "list": 1
       },
       "byImportance": {
-        "must": 25,
+        "must": 26,
         "good": 11
       },
       "coverage_note": null,
-      "mustShare": 0.69,
+      "mustShare": 0.7,
       "belowMinimum": false
     },
     "political_science.recent-issues-and-challenges": {
@@ -254,19 +254,19 @@
       "belowMinimum": false
     },
     "political_science.regional-aspirations": {
-      "published": 105,
+      "published": 107,
       "quarantined": 1,
       "byKind": {
         "key_line": 3,
-        "fact": 95,
+        "fact": 97,
         "steps": 1,
         "list": 4,
         "quote": 1,
         "term": 1
       },
       "byImportance": {
-        "must": 57,
-        "good": 48
+        "must": 58,
+        "good": 49
       },
       "coverage_note": null,
       "mustShare": 0.54,

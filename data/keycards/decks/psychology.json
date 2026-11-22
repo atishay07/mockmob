@@ -1,6 +1,6 @@
 {
   "subject": "psychology",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -2950,6 +2950,35 @@
         "stereotype"
       ],
       "order": 1130
+    },
+    {
+      "id": "kc.psychology.meeting-life-challenges.fact-high-and-low-stress-performance",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.meeting-life-challenges",
+      "chapter": "Meeting Life Challenges",
+      "unit": "Meeting Life Challenges",
+      "kind": "fact",
+      "front": "How do too much stress and too little stress each affect performance?",
+      "back": "High stress too can produce unpleasant effects and cause our performance to deteriorate. Conversely, too little stress may cause one to feel somewhat listless and low on motivation which may lead us to perform slowly and less efficiently.",
+      "quote": "High stress too can produce unpleasant effects and cause our performance to deteriorate. Conversely, too little stress may cause one to feel somewhat listless and low on motivation which may lead us to perform slowly and less efficiently.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy103",
+        "chapterNo": 3,
+        "page": 51,
+        "section": "Nature, Types and Sources of Stress"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "stress",
+        "performance"
+      ],
+      "order": 15,
+      "addedIn": "cov-1122"
     },
     {
       "id": "kc.psychology.meeting-life-challenges.term-eustress",
@@ -7967,6 +7996,91 @@
       "order": 630
     },
     {
+      "id": "kc.psychology.psychological-disorders.fact-hoarding-oc-category",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "Which disorder does NCERT name first among the other disorders in the obsessive-compulsive category?",
+      "back": "Other disorders in this category include hoarding",
+      "quote": "Many compulsions deal with counting, ordering, checking, touching and washing. Other disorders in this category include hoarding",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 77,
+        "section": "Obsessive-Compulsive and Related Disorders"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "obsessive-compulsive"
+      ],
+      "order": 631,
+      "note": "NCERT’s sentence goes on to the next page: hoarding disorder, trichotillomania and excoriation disorder.",
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.list-oc-related-body-focused",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "list",
+      "front": "Besides hoarding disorder, which disorders does NCERT place in the obsessive-compulsive category?",
+      "back": "trichotillomania (hair-pulling disorder)\nexcoriation (skin-picking) disorder",
+      "quote": "trichotillomania (hair-pulling disorder), excoriation (skin-picking) disorder",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 78,
+        "section": "Obsessive-Compulsive and Related Disorders"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "obsessive-compulsive"
+      ],
+      "order": 632,
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.def-trichotillomania",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "definition",
+      "front": "What is trichotillomania?",
+      "back": "trichotillomania (hair-pulling disorder)",
+      "quote": "trichotillomania (hair-pulling disorder), excoriation (skin-picking) disorder",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 78,
+        "section": "Obsessive-Compulsive and Related Disorders"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "obsessive-compulsive"
+      ],
+      "order": 633,
+      "addedIn": "cov-1122"
+    },
+    {
       "id": "kc.psychology.psychological-disorders.fact-ptsd-after-trauma",
       "v": 1,
       "subject": "psychology",
@@ -11793,6 +11907,34 @@
       "order": 690
     },
     {
+      "id": "kc.psychology.self-and-personality.fact-freud-hypnosis",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.self-and-personality",
+      "chapter": "Self & Personality",
+      "unit": "Self and Personality",
+      "kind": "fact",
+      "front": "Early in his career, what did Freud use to treat people with physical and emotional problems?",
+      "back": "Early in his career he used hypnosis to treat people with physical and emotional problems.",
+      "quote": "Early in his career he used hypnosis to treat people with physical and emotional problems.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy102",
+        "chapterNo": 2,
+        "page": 34,
+        "section": "Psychodynamic Approach"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "psychodynamic"
+      ],
+      "order": 699,
+      "addedIn": "cov-1122"
+    },
+    {
       "id": "kc.psychology.self-and-personality.fact-freud-methods",
       "v": 1,
       "subject": "psychology",
@@ -12224,6 +12366,34 @@
         "defence-mechanisms"
       ],
       "order": 850
+    },
+    {
+      "id": "kc.psychology.self-and-personality.ex-reaction-formation-religious-fervour",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.self-and-personality",
+      "chapter": "Self & Personality",
+      "unit": "Self and Personality",
+      "kind": "example",
+      "front": "What is NCERT’s classical example of reaction formation?",
+      "back": "A person with strong sexual urges, who channels her/his energy into religious fervour, presents a classical example of reaction formation.",
+      "quote": "A person with strong sexual urges, who channels her/his energy into religious fervour, presents a classical example of reaction formation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy102",
+        "chapterNo": 2,
+        "page": 35,
+        "section": "Ego Defence Mechanisms"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "defence-mechanisms"
+      ],
+      "order": 851,
+      "addedIn": "cov-1122"
     },
     {
       "id": "kc.psychology.self-and-personality.def-rationalisation",
@@ -13309,6 +13479,35 @@
       "order": 1260
     },
     {
+      "id": "kc.psychology.self-and-personality.list-first-self-report-measures",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.self-and-personality",
+      "chapter": "Self & Personality",
+      "unit": "Self and Personality",
+      "kind": "list",
+      "front": "Name the first two well-known self-report measures NCERT describes.",
+      "back": "The Minnesota Multiphasic Personality Inventory (MMPI)\nEysenck Personality Questionnaire (EPQ)",
+      "quote": "Some of the wellknown self-report measures are briefly described below. The Minnesota Multiphasic Personality Inventory (MMPI) This inventory is widely used as a test in personality assessment. Hathaway and McKinley developed this test as a helping tool for psychiatric diagnosis, but the test has been found very effective in identifying varieties of psychopathology. Its revised version is available as MMPI-2. It consists of 567 statements. The subject has to judge each statement as ‘true’ or ‘false’ for her/ him. The test is divided into 10 subscales, which seek to diagnose hypochondriasis, depression, hysteria, psychopathic deviate, masculinity-femininity, paranoia, psychasthenia, schizophrenia, mania and social introversion. In India, Mallick and Joshi have developed the Jodhpur Multiphasic Personality Inventory (JMPI) along the lines of MMPI. Eysenck Personality Questionnaire (EPQ)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy102",
+        "chapterNo": 2,
+        "page": 42,
+        "section": "Self-report Measures"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "self-report",
+        "assessment"
+      ],
+      "order": 1269,
+      "addedIn": "cov-1122"
+    },
+    {
       "id": "kc.psychology.self-and-personality.fact-mmpi-developers",
       "v": 1,
       "subject": "psychology",
@@ -13528,6 +13727,34 @@
         "projective"
       ],
       "order": 1350
+    },
+    {
+      "id": "kc.psychology.self-and-personality.list-projective-task-kinds",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.self-and-personality",
+      "chapter": "Self & Personality",
+      "unit": "Self and Personality",
+      "kind": "list",
+      "front": "Name the kinds of tasks that projective techniques use.",
+      "back": "reporting associations with stimuli (e.g., words, inkblots)\nstory writing around pictures\nsentence completions\nexpression through drawings\nchoice of stimuli from a large set of stimuli",
+      "quote": "A variety of projective techniques have been developed; they use various kinds of stimulus materials and situations for assessing personality. Some of them require reporting associations with stimuli (e.g., words, inkblots), some involve story writing around pictures, some require sentence completions, some require expression through drawings, and some require choice of stimuli from a large set of stimuli.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy102",
+        "chapterNo": 2,
+        "page": 43,
+        "section": "Projective Techniques"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "projective"
+      ],
+      "order": 1351,
+      "addedIn": "cov-1122"
     },
     {
       "id": "kc.psychology.self-and-personality.list-projective-features",
@@ -20818,6 +21045,34 @@
       "order": 610
     },
     {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-twin-sibling-iq-correlations",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the intelligence correlation NCERT reports for each kind of pair in the twin and sibling studies.",
+      "back": "identical twins reared together correlate almost 0.90\nidentical twins reared in different environments correlate 0.72\nfraternal twins reared together correlate almost 0.60\nbrothers and sisters reared together correlate about 0.50\nsiblings reared apart correlate about 0.25",
+      "quote": "The intelligence of identical twins reared together correlate almost 0.90. Twins separated early in childhood also show considerable similarity in their intellectual, personality and behavioural characteristics. The intelligence of identical twins reared in different environments correlate 0.72, those of fraternal twins reared together correlate almost 0.60, and those of brothers and sisters reared together correlate about 0.50, while siblings reared apart correlate about 0.25.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 10,
+        "section": "Intelligence: Interplay of Nature and Nurture"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "heredity"
+      ],
+      "order": 626,
+      "addedIn": "cov-1122"
+    },
+    {
       "id": "kc.psychology.variations-in-psychological-attributes.fact-adopted-children",
       "v": 1,
       "subject": "psychology",
@@ -21667,6 +21922,180 @@
         "tests"
       ],
       "order": 950
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-table12-verbal-tests-india",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the verbal intelligence tests developed in India, with their authors, as NCERT tabulates them.",
+      "back": "CIE Verbal Group Test of Intelligence by Uday Shankar\nGroup Test of General Mental Ability by S. Jalota\nGroup Test of Intelligence by Prayag Mehta\nThe Bihar Test of Intelligence by S.M. Mohsin\nGroup Test of Intelligence by Bureau of Psychology, Allahabad\nIndian Adaptation of Stanford-Binet Test (Third Edition) by S.K. Kulshrestha\nTest of General Mental Ability (Hindi) by M.C. Joshi.",
+      "quote": "CIE Verbal Group Test of Intelligence by Uday Shankar Group Test of General Mental Ability by S. Jalota Group Test of Intelligence by Prayag Mehta The Bihar Test of Intelligence by S.M. Mohsin Group Test of Intelligence by Bureau of Psychology, Allahabad Indian Adaptation of Stanford-Binet Test (Third Edition) by S.K. Kulshrestha Test of General Mental Ability (Hindi) by M.C. Joshi.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 15,
+        "section": "Table 1.2 : Some Tests Developed in India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tests",
+        "india"
+      ],
+      "order": 951,
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-table12-performance-tests-india",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the performance (non-verbal) intelligence tests developed in India, as NCERT tabulates them.",
+      "back": "CIE Non-verbal Group Test of Intelligence\nBhatia’s Battery of Performance Tests\nDraw-a-Man Test by Pramila Pathak\nAdaptation of Wechsler Adult Performance Intelligence Scale by R. Ramalingaswamy",
+      "quote": "CIE Non-verbal Group Test of Intelligence Bhatia’s Battery of Performance Tests Draw-a-Man Test by Pramila Pathak Adaptation of Wechsler Adult Performance Intelligence Scale by R. Ramalingaswamy",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 15,
+        "section": "Table 1.2 : Some Tests Developed in India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tests",
+        "india"
+      ],
+      "order": 952,
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.fact-bihar-test-mohsin",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "fact",
+      "front": "Who developed the Bihar Test of Intelligence?",
+      "back": "The Bihar Test of Intelligence by S.M. Mohsin",
+      "quote": "The Bihar Test of Intelligence by S.M. Mohsin",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 15,
+        "section": "Table 1.2 : Some Tests Developed in India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tests",
+        "india"
+      ],
+      "order": 953,
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.fact-draw-a-man-pathak",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "fact",
+      "front": "Who developed the Draw-a-Man Test in India?",
+      "back": "Draw-a-Man Test by Pramila Pathak",
+      "quote": "Draw-a-Man Test by Pramila Pathak",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 15,
+        "section": "Table 1.2 : Some Tests Developed in India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tests",
+        "india"
+      ],
+      "order": 954,
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.fact-gmat-hindi-joshi",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "fact",
+      "front": "Who developed the Test of General Mental Ability (Hindi)?",
+      "back": "Test of General Mental Ability (Hindi) by M.C. Joshi.",
+      "quote": "Test of General Mental Ability (Hindi) by M.C. Joshi.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 15,
+        "section": "Table 1.2 : Some Tests Developed in India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tests",
+        "india"
+      ],
+      "order": 955,
+      "addedIn": "cov-1122"
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.fact-group-test-prayag-mehta",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "fact",
+      "front": "Which Indian verbal group intelligence test did Prayag Mehta develop?",
+      "back": "Group Test of Intelligence by Prayag Mehta",
+      "quote": "Group Test of Intelligence by Prayag Mehta",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 15,
+        "section": "Table 1.2 : Some Tests Developed in India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tests",
+        "india"
+      ],
+      "order": 956,
+      "addedIn": "cov-1122"
     },
     {
       "id": "kc.psychology.variations-in-psychological-attributes.ex-kohs-block-design",

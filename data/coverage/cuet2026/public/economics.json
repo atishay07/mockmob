@@ -1,0 +1,1644 @@
+{
+ "id": "economics",
+ "name": "Economics",
+ "stream": "commerce",
+ "code": null,
+ "examDate": "2026-05-24",
+ "examDay": "24 May 2026",
+ "shift": "first shift",
+ "snapshotDate": "2026-11-20",
+ "snapshotDay": "20 November 2026",
+ "final": true,
+ "counts": {
+  "total": 50,
+  "same": 4,
+  "newValues": 2,
+  "concept": 33,
+  "notYet": 6,
+  "skill": 5,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 39,
+  "counted": 45,
+  "pct": 87
+ },
+ "chapters": [
+  {
+   "name": "Income Determination",
+   "asked": 7,
+   "covered": 5
+  },
+  {
+   "name": "National Income & Related Aggregates",
+   "asked": 5,
+   "covered": 3
+  },
+  {
+   "name": "Balance of Payments",
+   "asked": 4,
+   "covered": 4
+  },
+  {
+   "name": "Money & Banking",
+   "asked": 4,
+   "covered": 4
+  },
+  {
+   "name": "Development Experiences of India",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Government Budget & the Economy",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Introduction & Theory of Consumer Behaviour",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Production & Costs",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Economic Reforms Since 1991",
+   "asked": 2,
+   "covered": 2
+  },
+  {
+   "name": "Market Equilibrium & Simple Applications",
+   "asked": 2,
+   "covered": 2
+  },
+  {
+   "name": "Rural Development",
+   "asked": 2,
+   "covered": 2
+  },
+  {
+   "name": "Theory of Firms under Perfect Competition",
+   "asked": 2,
+   "covered": 2
+  },
+  {
+   "name": "Employment",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Environment & Sustainable Development",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Human Capital Formation",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Indian Economic Development 1950–1990",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Indian Economy on the Eve of Independence",
+   "asked": 1,
+   "covered": 1
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "type": "theory",
+   "stem": "In the economy, the collection of all possible combinations of goods and services that can be produced from a given amount of resources and a given stock of technological knowledge is called?",
+   "passage": null,
+   "options": [
+    "Production Possibilities.",
+    "Production Function.",
+    "Production Possibility Set.",
+    "Isoquant."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card states the paper's definition word for word but asks it the other way round (what is the set), so it teaches the fact, not the same question",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-pps",
+    "chapter": "Introduction & Theory of Consumer Behaviour",
+    "front": "What is the production possibility set of an economy?",
+    "back": "The collection of all possible combinations of the goods and services that can be produced from a given amount of resources and a given stock of technological knowledge is called the production possibility set of the economy.",
+    "source": "NCERT, Introductory Microeconomics, chapter 1, page 3",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "type": "theory",
+   "stem": "[Diagram: Mangoes on the vertical axis, Bananas on the horizontal axis, origin O; a downward-sloping budget line and three indifference curves; point A where the budget line touches the middle indifference curve; point D on the budget line on the lowest indifference curve, near the vertical axis; points B and C above the budget line on higher indifference curves.]\nFrom the above diagram, identify the point which is inferior for a consumer with respect to the indifference curve and budget line.",
+   "passage": null,
+   "options": [
+    "Point A",
+    "Point D",
+    "Point B",
+    "Point C"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card teaches that the rational consumer seeks the highest indifference curve on the budget line; the paper asks to pick the inferior point on a diagram",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.key-rational-highest-ic",
+    "chapter": "Introduction & Theory of Consumer Behaviour",
+    "front": "The rational consumer's problem is to move to a point on the ____ possible indifference curve given her budget set.",
+    "back": "The rational consumer's problem is to move to a point on the **highest** possible indifference curve given her budget set.",
+    "source": "NCERT, Introductory Microeconomics, chapter 2, page 20",
+    "more": {
+     "cards": 4,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "type": "numerical",
+   "stem": "Find the price elasticity of demand for chocolate pastries, when the price of a pastry increases from Rs. 10 per pastry to Rs. 15 per pastry and demand reduces from 20 pastries to 10 pastries.",
+   "passage": null,
+   "options": [
+    "1",
+    "0.5",
+    "0.33",
+    "0.25"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Production & Costs",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) q = f (y1, y2) | (I) Increasing Returns to Scale\n(B) f (ty1, ty2) = t.f (y1, y2) | (II) Decreasing Returns to Scale\n(C) f (ty1, ty2) > t.f (y1, y2) | (III) Production Function\n(D) f (ty1, ty2) < t.f (y1, y2) | (IV) Constant Returns to Scale\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card gives the increasing and decreasing returns formulas; the paper is a four-pair match that also needs the production function and constant returns",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.production-and-costs.frm-irs-drs-formula",
+    "chapter": "Production & Costs",
+    "front": "Formula: increasing and decreasing returns to scale when both inputs are increased t (t > 1) times.",
+    "back": "the production function exhibits increasing returns to scale if, f (tx1 , tx2 ) > t.f (x1 , x2 ).\nIt exhibits decreasing returns to scale if, f (tx1 , tx2 ) < t.f (x1 , x2 ).",
+    "source": "NCERT, Introductory Microeconomics, chapter 3, page 43",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Production & Costs",
+   "type": "theory",
+   "stem": "Isoquant is just an alternative way of representing the production function.  Which one of the following is NOT a characteristic of an isoquant.",
+   "passage": null,
+   "options": [
+    "The set of all possible combinations of the two inputs that yield the same maximum possible level of output.",
+    "Isoquants are positively sloped.",
+    "Isoquants are negatively sloped.",
+    "Each isoquant represents a particular level of output and is labelled with that amount of output."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "new Key cards in the deck state all three facts: the isoquant definition (def-isoquant), each isoquant labelled with one output level (fact-isoquant-output-label), and isoquants negatively sloped (fact-isoquant-negative-slope)",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.production-and-costs.fact-isoquant-negative-slope",
+    "chapter": "Production & Costs",
+    "front": "Why are isoquants negatively sloped?",
+    "back": "When marginal products are positive, with greater amount of one input, the same level of output can be produced only using lesser amount of the other. Therefore, isoquants are negatively sloped.",
+    "source": "NCERT, Introductory Microeconomics, chapter 3, page 38",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Production & Costs",
+   "type": "theory",
+   "stem": "Arrange the following statements in correct sequence with respect to the law of variable proportions\n(A) Initially total production increase at increasing rate\n(B) When one input(variable) increases ,keeping other inputs constant\n(C) After reaching to its maximum level total products starts declining\n(D) With the increase in variable input total product starts increasing at diminishing rate\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "type": "theory",
+   "stem": "In the short-run, if there is a positive level of output at which a firm's profit is maximised. Which of the following conditions must hold at that output level?\n(A) The price must be less than the short-run avegare cost.\n(B) The price must be equal to the short-run marginal cost.\n(C) Price must be greater than equal to the short-run average variable cost.\n(D) Short-run marginal costs must be non-decreasing.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card lists the three short-run conditions; the paper asks which of four statements hold",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.theory-of-firms-under-perfect-competition.list-summary-sr-conditions",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "front": "Name the 3 conditions for short run profit maximisation at a positive output level.",
+    "back": "(i) p = SMC\n(ii) SMC is non-decreasing\n(iii) p ≥ AVC",
+    "source": "NCERT, Introductory Microeconomics, chapter 4, page 67",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "type": "theory",
+   "stem": "As a determinant of firm's supply curve, if the wage rate of labour increases the firm's marginal cost curve will shift?",
+   "passage": null,
+   "options": [
+    "Upward",
+    "Downward",
+    "Rightward",
+    "Constant"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card says a dearer input shifts the MC curve up (left); the paper applies it to a wage rise",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-input-prices",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "front": "How does a rise in the price of an input shift a firm's supply curve?",
+    "back": "that is, there is a leftward (or upward) shift of the MC curve. This means that the firm's supply curve shifts to the left: at any given market price, the firm now supplies fewer units of output.",
+    "source": "NCERT, Introductory Microeconomics, chapter 4, page 62",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Market Equilibrium & Simple Applications",
+   "type": "theory",
+   "stem": "In a perfectly competitive market, whenever there is imbalance in the market, the prices are adjusted by the ___________.",
+   "passage": null,
+   "options": [
+    "Equilibrium Price",
+    "Equilibrium Quantity",
+    "Invisible Hand",
+    "Market Equilibrium"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card asks whose name goes with the Invisible Hand; the paper asks what adjusts prices",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.market-equilibrium-and-simple-applications.fact-invisible-hand-smith",
+    "chapter": "Market Equilibrium & Simple Applications",
+    "front": "Whose name is linked with the ‘Invisible Hand’ that changes price when a perfectly competitive market is out of balance?",
+    "back": "From the time of Adam Smith (1723-1790), it has been maintained that in a perfectly competitive market an ‘Invisible Hand’ is at play which changes price whenever there is imbalance in the market.",
+    "source": "NCERT, Introductory Microeconomics, chapter 5, page 72",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Market Equilibrium & Simple Applications",
+   "type": "theory",
+   "stem": "Which one of the following statements is NOT true in the context of the imposition of a price ceiling by the government on the market for kerosene.",
+   "passage": null,
+   "options": [
+    "The imposition of price is below the equilibrium price of kerosene.",
+    "The imposition of price is above the equilibrium price of kerosene.",
+    "It may result in the creation of a black market due to non-satisfactory quantity in a fair-price shop for kerosene.",
+    "It could end up creating excess demand of kerosene."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card states a ceiling below equilibrium causes excess demand; the paper asks for the false statement",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.market-equilibrium-and-simple-applications.fact-summary-ceiling-excess-demand",
+    "chapter": "Market Equilibrium & Simple Applications",
+    "front": "What does the imposition of a price ceiling below the equilibrium price lead to?",
+    "back": "Imposition of price ceiling below the equilibrium price leads to an excess demand.",
+    "source": "NCERT, Introductory Microeconomics, chapter 5, page 86",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "National Income & Related Aggregates",
+   "type": "theory",
+   "stem": "The most influential economics book, the \"General Theory of Employment, Interest and Money\" of the twentieth century written by John Maynard Keynes, was published in the year _________.",
+   "passage": null,
+   "options": [
+    "1883",
+    "1919",
+    "1929",
+    "1936"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "new Key card (leec101 p.5) states Keynes published The General Theory in 1936",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.national-income-and-related-aggregates.fact-general-theory-1936",
+    "chapter": "National Income & Related Aggregates",
+    "front": "In which year did Keynes publish The General Theory of Employment, Interest and Money?",
+    "back": "Macroeconomics, as a separate branch of economics, emerged after the British economist John Maynard Keynes published his celebrated book The General Theory of Employment, Interest and Money in 1936.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 1, page 5",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "National Income & Related Aggregates",
+   "type": "theory",
+   "stem": "The economic transactions of the domestic country with the rest of the world considered as an important sector in an economy, is called",
+   "passage": null,
+   "options": [
+    "External Sector.",
+    "Government Sector.",
+    "Private Sector.",
+    "Household Sector."
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "new Key cards (leec101 p.8) state the external sector is the fourth sector, trade with it being exports to and imports from the rest of the world, and the four sectors",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.national-income-and-related-aggregates.fact-external-sector-trade",
+    "chapter": "National Income & Related Aggregates",
+    "front": "What is the external sector in macroeconomics, and what two kinds of trade does it involve?",
+    "back": "The external sector is the fourth important sector in our study. Trade with the external sector can be of two kinds 1. The domestic country may sell goods to the rest of the world. These are called exports. 2. The economy may also buy goods from the rest of the world. These are called imports.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 1, page 8",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Money & Banking",
+   "type": "theory",
+   "stem": "In India, which authority regulates and sterilises the money supply in the economy?",
+   "passage": null,
+   "options": [
+    "Commercial Banks.",
+    "Reserve Bank of India.",
+    "Central Government.",
+    "Public."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card says how RBI regulates money supply; the paper asks which authority does it",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.money-and-banking.key-summary-rbi-regulates",
+    "chapter": "Money & Banking",
+    "front": "RBI regulates money supply by controlling the stock of ____, the ____ and ____ of the commercial banks.",
+    "back": "RBI regulates money supply by controlling the stock of high powered money, the bank rate and reserve requirements of the commercial banks.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 3, page 50",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Money & Banking",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) M1 | (I) CU + DD\n(B) M2 | (II) M1 + Savings deposits with Post Office savings banks\n(C) M3 | (III) M1 + Net time deposits of commercial banks\n(D) M4 | (IV) M3 + Total deposits with Post Office savings organisations (excluding National Savings Certificates)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card states M4 only; the paper matches M1 to M4",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.money-and-banking.formula-m4",
+    "chapter": "Money & Banking",
+    "front": "Formula: M4",
+    "back": "M4 = M3 + Total deposits with Post Office savings organisations (excluding National Savings Certificates)",
+    "source": "NCERT, Introductory Macroeconomics, chapter 3, page 48",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Money & Banking",
+   "type": "numerical",
+   "stem": "If the bank is only expected to keep 50 percent of its deposits as reserves. What is the value of a money multiplier?",
+   "passage": null,
+   "options": [
+    "0.5",
+    "5",
+    "2",
+    "50"
+   ],
+   "key": [
+    2
+   ],
+   "status": "new-values",
+   "reason": "bank question computes the money multiplier from a reserve ratio (10 per cent); the paper uses 50 per cent: same steps, new figure",
+   "match": {
+    "kind": "question",
+    "id": "02ffc58b-7ac4-41f7-8664-045d11c943fd",
+    "chapter": "Money & Banking",
+    "stem": "If banks are required to keep 10% of deposits as reserves (CRR = 10%) and there is no currency drain, what is the simple money multiplier?",
+    "passage": null,
+    "options": [
+     "10",
+     "9",
+     "0.10",
+     "1.1"
+    ],
+    "key": 0,
+    "explanation": "The simple multiplier is 1/CRR = 1/0.10 = 10 when currency held by public is ignored.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Money & Banking",
+   "type": "theory",
+   "stem": "The purchase or sale of government securities by the central bank to increase or decrease the money supply in the economy is called?",
+   "passage": null,
+   "options": [
+    "Repurchase Agreement",
+    "Net Worth",
+    "Open Market Operations",
+    "Assets"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card defines open market operations; the paper gives the definition and asks the term",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.money-and-banking.def-open-market-operations",
+    "chapter": "Money & Banking",
+    "front": "What are Open Market Operations?",
+    "back": "Open Market Operations refers to buying and selling of bonds issued by the Government in the open market. This purchase and sale is entrusted to the Central bank on behalf of the Government.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 3, page 43",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Income Determination",
+   "type": "theory",
+   "stem": "The rate of increase in ex-ante consumption due to a unit increment in income is called?",
+   "passage": null,
+   "options": [
+    "Marginal Propensity to Consume.",
+    "Average Propensity to Consume.",
+    "Autonomous Consumption",
+    "Aggregate Consumption."
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "the card asks the paper's question (rate of increase in ex ante consumption per unit of income) with the same answer, MPC",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.income-determination.term-summary-mpc",
+    "chapter": "Income Determination",
+    "front": "The rate of increase in ex ante consumption due to a unit increment in income is called ____.",
+    "back": "The rate of increase in ex ante consumption due to a unit increment in income is called marginal propensity to consume.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 4, page 65",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Income Determination",
+   "type": "theory",
+   "stem": "Select the correct statement in the context of consumption as a component of the aggregate demand.\n(A) Ex ante is the planned value of a variable as opposed to its actual value.\n(B) Ex post is the actual or realised value of a variable as opposed to its planned value.\n(C) Consumption changes at a constant rate the changes in income.\n(D) A consumption function describes the relation between consumption and income.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Income Determination",
+   "type": "numerical",
+   "stem": "What is the new equilibrium income when the investment rises from 10 to 20 at a given consumption function:\nC = 40 + 0.8Y",
+   "passage": null,
+   "options": [
+    "300",
+    "250",
+    "320",
+    "50"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Income Determination",
+   "type": "theory",
+   "stem": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount due to _________ .",
+   "passage": null,
+   "options": [
+    "Ex ante consumption.",
+    "Ex ante investment.",
+    "Marginal efficiency of investment.",
+    "Multiplier."
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "the card asks what makes output rise by more than autonomous spending; same answer, the multiplier",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.income-determination.fact-summary-multiplier",
+    "chapter": "Income Determination",
+    "front": "Summary: an increase in autonomous spending raises aggregate output of final goods by a larger amount through what?",
+    "back": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount through the multiplier process.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 4, page 65",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Income Determination",
+   "type": "theory",
+   "stem": "If the equilibrium level of output is less than the full employment of output, this situation is called the situation of ________ .",
+   "passage": null,
+   "options": [
+    "Deficient Demand.",
+    "Aggregate Demand.",
+    "Excess Demand.",
+    "Effective Demand."
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card defines deficient demand; the paper gives the situation and asks its name",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.income-determination.def-deficient-demand",
+    "chapter": "Income Determination",
+    "front": "What is the situation of deficient demand?",
+    "back": "If it is less than the full employment of output, it is due to the fact that demand is not enough to employ all factors of production. This situation is called the situation of deficient demand. It leads to decline in prices in the long run.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 4, page 64",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Income Determination",
+   "type": "theory",
+   "stem": "The function of the investment multiplier of the economy is denoted as:",
+   "passage": null,
+   "options": [
+    "1-MPS",
+    "1/1-MPS",
+    "MPC",
+    "1/1-MPC"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the bank question uses the multiplier 1/(1 - MPC) to compute a change; the paper asks for the formula itself",
+   "match": {
+    "kind": "question",
+    "id": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae",
+    "chapter": "Income Determination",
+    "stem": "In a simple closed economy with no taxes, if marginal propensity to consume (MPC) is 0.6 and government spending rises by 100, the change in equilibrium income (using the simple multiplier) is approximately:",
+    "passage": null,
+    "options": [
+     "250",
+     "150",
+     "100",
+     "2500"
+    ],
+    "key": 0,
+    "explanation": "Multiplier = 1/(1 - MPC) = 1/0.4 = 2.5, so ΔY = 2.5 * 100 = 250.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Government Budget & the Economy",
+   "type": "theory",
+   "stem": "Which one of the following functions is NOT the objective of government budget.",
+   "passage": null,
+   "options": [
+    "Allocation.",
+    "Consumption",
+    "Redistribution.",
+    "Stabilisation."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card names the three budget functions; the paper asks which option is not one",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.government-budget-and-the-economy.list-three-functions",
+    "chapter": "Government Budget & the Economy",
+    "front": "Name the three functions of the government budget.",
+    "back": "The three functions of allocation, redistribution and stabilisation operate through the expenditure and receipts of the government.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 5, page 81",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Government Budget & the Economy",
+   "type": "theory",
+   "stem": "Select the correct statements in the context of public goods.\n(A) Collectively consumed.\n(B) may be produced by government or private sector\n(C) Non-rivalrous.\n(D) Non-excludable.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the cards give non-rival, non-excludable, benefits to all and provision by government or private sector; the paper is a four-statement item",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.government-budget-and-the-economy.list-public-goods-features",
+    "chapter": "Government Budget & the Economy",
+    "front": "Name the two important features of public goods.",
+    "back": "they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 5, page 81",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Income Determination",
+   "type": "numerical",
+   "stem": "Calculate the change in the value of equilibrium income when the government increases spending by 100 at a given marginal propensity to consume 0.8.",
+   "passage": null,
+   "options": [
+    "800",
+    "500",
+    "80",
+    "5"
+   ],
+   "key": [
+    1
+   ],
+   "status": "new-values",
+   "reason": "bank question: change in equilibrium income from a spending rise of 100 at MPC 0.6; the paper uses MPC 0.8: same steps, new figure",
+   "match": {
+    "kind": "question",
+    "id": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae",
+    "chapter": "Income Determination",
+    "stem": "In a simple closed economy with no taxes, if marginal propensity to consume (MPC) is 0.6 and government spending rises by 100, the change in equilibrium income (using the simple multiplier) is approximately:",
+    "passage": null,
+    "options": [
+     "250",
+     "150",
+     "100",
+     "2500"
+    ],
+    "key": 0,
+    "explanation": "Multiplier = 1/(1 - MPC) = 1/0.4 = 2.5, so ΔY = 2.5 * 100 = 250.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Government Budget & the Economy",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Automatic Stabilizer | (I) It neither create an asset nor decrease the liability of the government\n(B) Revenue payment | (II) Income Tax\n(C) Capital Receipt | (III) Plan and Non-plan Expenditure\n(D) Total Expenditure | (IV) It either create a liability or decrease the asset of the government\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card explains the automatic stabiliser; the paper is a four-pair budget match taught by several items",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.income-determination.fact-proportional-tax-automatic-stabiliser",
+    "chapter": "Income Determination",
+    "front": "Why is a proportional income tax called an automatic stabiliser?",
+    "back": "It makes disposable income and spending less sensitive to GDP.\nThe proportional income tax, thus, acts as an automatic stabiliser – a shock absorber because it makes disposable income, and thus consumer spending, less sensitive to fluctuations in GDP.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 5, page 77",
+    "more": {
+     "cards": 4,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Balance of Payments",
+   "type": "theory",
+   "stem": "Arrange the following statements depicting the impact of an increase in demand for imports on the foreign exchange market.\n(A) Demand for foreign goods and services increases.\n(B) Shift in demand curve towards right.\n(C) Depreciation of domestic currency in terms of foreign currency.\n(D) Increase in exchange rate.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card states imports shift the demand for foreign exchange right and depreciate the rupee; the paper asks the order of the chain",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.balance-of-payments.key-income-imports-depreciation",
+    "chapter": "Balance of Payments",
+    "front": "When imports increase, the demand curve for foreign exchange shifts to the ____. There is a ____ of the domestic currency.",
+    "back": "When imports increase, the demand curve for foreign exchange shifts to the **right**. There is a **depreciation** of the domestic currency.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 6, page 93",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Balance of Payments",
+   "type": "theory",
+   "stem": "A system in which the central bank allows the exchange rate to be determined by market forces but intervene at times to influence the rate.",
+   "passage": null,
+   "options": [
+    "Managed Floating",
+    "Devaluation",
+    "Flexible Exchange Rate",
+    "Official Reserve Transactions"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card describes managed (dirty) floating; the paper gives the description and asks its name",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.balance-of-payments.fact-managed-dirty-floating",
+    "chapter": "Balance of Payments",
+    "front": "How do central banks act under managed floating (also called dirty floating)?",
+    "back": "Under this system, also called dirty floating, central banks intervene to buy and sell foreign currencies in an attempt to moderate exchange rate movements whenever they feel that such actions are appropriate.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 6, page 95",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Balance of Payments",
+   "type": "theory",
+   "stem": "Foreign trade influences the economy's aggregate demand in which of the two ways?",
+   "passage": null,
+   "options": [
+    "Expenditure, Revenue",
+    "Input, Output",
+    "Leakage, Injection",
+    "Employment, Productivity"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card calls import spending a leakage; the paper asks the two ways (leakage, injection)",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.balance-of-payments.fact-imports-leakage",
+    "chapter": "Balance of Payments",
+    "front": "When Indians buy foreign goods, is the spending a leakage or an injection, and what happens to aggregate demand?",
+    "back": "When Indians buy foreign goods, this spending escapes as a leakage from the circular flow of income decreasing aggregate demand.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 6, page 85",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Balance of Payments",
+   "type": "theory",
+   "stem": "A current account of any economy is in deficit when?",
+   "passage": null,
+   "options": [
+    "Receipts > Payments",
+    "Receipts = Payments",
+    "Receipts < Payments",
+    "Receipts = Zero"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "new Key card (leec106 p.88-89) states a current account deficit means spending more than it receives, i.e. receipts below payments",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.balance-of-payments.fact-ca-deficit-spends-more",
+    "chapter": "Balance of Payments",
+    "front": "What does a deficit in a country’s current account mean, and how must it be financed?",
+    "back": "a country that has a deficit in its current account (spending more than it receives from sales to the rest of the world) must finance it by selling assets or by borrowing abroad.",
+    "source": "NCERT, Introductory Macroeconomics, chapter 6, page 88",
+    "more": {
+     "cards": 4,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Indian Economy on the Eve of Independence",
+   "type": "theory",
+   "stem": "When was India's first official census operation undertaken?",
+   "passage": null,
+   "options": [
+    "1869",
+    "1881",
+    "1907",
+    "1921"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "the card asks the year of the first census and answers 1881, as the paper does",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-first-census-1881",
+    "chapter": "Indian Economy on the Eve of Independence",
+    "front": "In which year was the first census of British India carried out?",
+    "back": "Various details about the population of British India were first collected through a census in 1881.",
+    "source": "NCERT, Indian Economic Development, chapter 1, page 9",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Indian Economic Development 1950–1990",
+   "type": "theory",
+   "stem": "Arrange the following events in chronological order.\n(A) New Economic Policy.\n(B) Second Five Year Plan.\n(C) Planning Commission.\n(D) Green Revolution.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the cards date the four events (1950, Second Plan after 1951-56, mid-1960s, 1991); the paper asks their order",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.indian-economic-development-1950-1990.fact-planning-commission-1950",
+    "chapter": "Indian Economic Development 1950–1990",
+    "front": "When was the Planning Commission set up, and who was its Chairperson?",
+    "back": "In 1950, the Planning Commission was set up with the Prime Minister as its Chairperson.",
+    "source": "NCERT, Indian Economic Development, chapter 2, page 19",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Economic Reforms Since 1991",
+   "type": "theory",
+   "stem": "Select the correct statements in the context of reform policies in the industrial sector under New Economic Policy.\n(A) Industrial licensing was abolished.\n(B) The private sector was allowed in many industries.\n(C) Many goods produced by small-scale industries have now been dereserved.\n(D) Controls on price fixation and distribution of all industrial products by the government.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "new Key card states many small-scale goods were dereserved (C); A, B and D were already taught (list-licensing-retained, bank 1b2966cc, fact-public-sector-reserved, list-industrial-regulations), and the new fact-market-sets-prices card makes D false",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.economic-reforms-since-1991.fact-small-scale-dereserved",
+    "chapter": "Economic Reforms Since 1991",
+    "front": "What has happened to many goods produced by small-scale industries after the 1991 reforms?",
+    "back": "Many goods produced by small-scale industries have now been dereserved.",
+    "source": "NCERT, Indian Economic Development, chapter 3, page 41",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Economic Reforms Since 1991",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Outsourcing | (I) Hiring regular service from external sources.\n(B) Stabilisation Measures | (II) Control fluctuations in the balance of payments and high rate of inflation.\n(C) Structural Measures | (III) Integration of the economy of the country with the world economy.\n(D) Globalisation | (IV) Improve the efficiency and competitiveness of the economy.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the cards define outsourcing, stabilisation, structural measures and globalisation; the paper is a match",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.economic-reforms-since-1991.def-outsourcing",
+    "chapter": "Economic Reforms Since 1991",
+    "front": "What is outsourcing?",
+    "back": "In outsourcing, a company hires regular service from external sources, mostly from other countries, which was previously provided internally or from within the country",
+    "source": "NCERT, Indian Economic Development, chapter 3, page 45",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Human Capital Formation",
+   "type": "theory",
+   "stem": "Arrange the following in chronological order (oldest to latest).\n(A) The Tapas Majumdar Committee.\n(B) The (Kothari) Education Commission.\n(C) The latest National Education Policy.\n(D) The Right of Children to Free and Compulsory Education Act.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "new Key cards state all four dates: Education Commission 1964-66 (note: Kothari Commission), Tapas Majumdar Committee 1999, RTE Act 2009, National Education Policy 2020",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.human-capital-formation.fact-education-commission-six-percent",
+    "chapter": "Human Capital Formation",
+    "front": "What did the Education Commission (1964–66) recommend about the share of GDP spent on education?",
+    "back": "The Education Commission (1964–66) had recommended that at least 6 per cent of GDP be spent on education so as to make a noticeable rate of growth in educational achievements.",
+    "source": "NCERT, Indian Economic Development, chapter 4, page 69",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Environment & Sustainable Development",
+   "type": "theory",
+   "stem": "What are the functions of the environment?\n(A) Supplies both renewable and non-renewable resources.\n(B) Assimilates waste.\n(C) Sustains life by providing genetic and bio diversity.\n(D) Provides aesthetic services like scenery etc.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(B), (C) and (D) only",
+    "(A), (B), (C) and (D)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card names the four functions of the environment; the paper asks which statements are functions (all four); asked differently, so the weaker kind",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.environment-and-sustainable-development.list-four-functions",
+    "chapter": "Environment & Sustainable Development",
+    "front": "Name the four vital functions of the environment.",
+    "back": "it supplies resources\nit assimilates waste\nit sustains life by providing genetic and bio diversity\nit also provides aesthetic services like scenery etc.",
+    "source": "NCERT, Indian Economic Development, chapter 7, page 116",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Employment",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Union Ministry of Labour | (I) Casual wage labourers\n(B) Construction workers | (II) Collection of formal sector employment data.\n(C) MNREGA | (III) Rural employment\n(D) Association of TANWA | (IV) Women workers.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "new Key cards state the Union Ministry of Labour collects formal sector employment data (A) and TANWA trained women farmers (D); B (construction workers = casual wage labourers) and C (MGNREGA rural employment) were already taught",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.employment.fact-box61-labour-ministry-data",
+    "chapter": "Employment",
+    "front": "Who collects the information relating to employment in the formal sector, and through what?",
+    "back": "The information relating to employment in the formal sector is collected by the Union Ministry of Labour through employment exchanges located in different parts of the country.",
+    "source": "NCERT, Indian Economic Development, chapter 6, page 103",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Development Experiences of India",
+   "type": "theory",
+   "stem": "Which country has followed the classical development pattern of gradual shift from agriculture to manufacturing and then to services?",
+   "passage": null,
+   "options": [
+    "India",
+    "China",
+    "Pakistan",
+    "Bangladesh"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card contrasts China's classical shift with India and Pakistan; the paper asks which country followed it",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.development-experiences-of-india.fact-sector-shift-pattern",
+    "chapter": "Development Experiences of India",
+    "front": "How does the sectoral shift in China differ from that in India and Pakistan?",
+    "back": "China: via manufacturing; India and Pakistan: directly to services\nChina has followed the classical development pattern of gradual shift from agriculture to manufacturing and then to services, India and Pakistan’s shift has been directly from agriculture to service sector.",
+    "source": "NCERT, Indian Economic Development, chapter 8, page 147",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Development Experiences of India",
+   "type": "theory",
+   "stem": "Pakistan announced its first five year plan in year",
+   "passage": null,
+   "options": [
+    "1947",
+    "1951",
+    "1956",
+    "1960"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "the card gives all three countries' first plan years; the paper asks only Pakistan's",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.development-experiences-of-india.fact-first-five-year-plans",
+    "chapter": "Development Experiences of India",
+    "front": "When did India, Pakistan and China announce their first Five Year Plans?",
+    "back": "While India announced its first Five Year Plan for 1951–56, Pakistan announced its first five year plan, now called the Medium Term Development Plan, in 1956. China announced its First Five Year Plan in 1953.",
+    "source": "NCERT, Indian Economic Development, chapter 8, page 136",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "section": "Sub-section 1 (Q391-430)",
+   "chapter": "Development Experiences of India",
+   "type": "theory",
+   "stem": "Arrange the following country in higest to lowest rank in human development index, 2017-2019.\n(A) USA\n(B) China\n(C) India\n(D) Pakistan\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(A), (D), (C), (B)",
+    "(A), (C), (B), (D)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "the card gives the HDI ranks; the paper asks their order with the USA added",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.development-experiences-of-india.diff-table-8-5-hdi-rank",
+    "chapter": "Development Experiences of India",
+    "front": "India vs China vs Pakistan (Table 8.5): Rank based on HDI",
+    "back": "Rank (based on HDI) 130 78 168",
+    "source": "NCERT, Indian Economic Development, chapter 8, page 142",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "chapter": "National Income & Related Aggregates",
+   "type": "theory",
+   "stem": "The aggregate value of goods and services produced in an economy can be calculated by three methods.",
+   "passage": {
+    "title": "GDP and Welfare",
+    "text": "GDP is the sum total of the value of goods and services created within the geographical boundary of a country in a particular year. In order to compare the GDP figures and other macroeconomic variables of different countries or to compare the GDP figures of the same country at different points of time, we take the help of real GDP instead of relying on current market prices. The ratio of nominal GDP to real GDP gives us an idea of how prices have moved from the base year to the current year.  The Consumer Price Index (CPI) and Wholesale Price Index (WPI) are the other important ways to measure change of prices in an economy.\n\nGDP gets distributed among the people as incomes and may treat higher level of GDP of a country as an index of greater well-being of the people of that country. But it may be incorrect to treat GDP as an index of the welfare of the country based on three reasons. Firstly, the distribution of GDP is not uniform, secondly, non-monetary exchanges are not accounted as part of economic activity and lastly, GDP does not take into account externalities."
+   },
+   "options": [
+    "Product, Investment, Value Added",
+    "Product, Expenditure, Value Added",
+    "Product, Income, Expenditure",
+    "Product, Expenditure, Disposable Income"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "the card asks for the three methods of measuring aggregate output and answers product, income, expenditure, as the paper's key does",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.national-income-and-related-aggregates.types-three-methods-national-income",
+    "chapter": "National Income & Related Aggregates",
+    "front": "Name the three methods of calculating national income (aggregate value of goods and services).",
+    "back": "measuring the aggregate value of factor payments (income method)\nmeasuring the aggregate value of goods and services produced by the firms (product method)\nmeasuring the aggregate value of spending received by the firms (expenditure method)",
+    "source": "NCERT, Introductory Macroeconomics, chapter 2, page 32",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "chapter": "National Income & Related Aggregates",
+   "type": "numerical",
+   "stem": "Suppose India only produces wheat. In the year 2020, India produced 200 kg of wheat at a price of Rs 20 per kg of wheat and in the year 2021, it produced 310 kg of wheat at a price of Rs 30 per kg of wheat. Calculate India's real GDP of year 2021 taking 2020 as base year.",
+   "passage": {
+    "title": "GDP and Welfare",
+    "text": "GDP is the sum total of the value of goods and services created within the geographical boundary of a country in a particular year. In order to compare the GDP figures and other macroeconomic variables of different countries or to compare the GDP figures of the same country at different points of time, we take the help of real GDP instead of relying on current market prices. The ratio of nominal GDP to real GDP gives us an idea of how prices have moved from the base year to the current year.  The Consumer Price Index (CPI) and Wholesale Price Index (WPI) are the other important ways to measure change of prices in an economy.\n\nGDP gets distributed among the people as incomes and may treat higher level of GDP of a country as an index of greater well-being of the people of that country. But it may be incorrect to treat GDP as an index of the welfare of the country based on three reasons. Firstly, the distribution of GDP is not uniform, secondly, non-monetary exchanges are not accounted as part of economic activity and lastly, GDP does not take into account externalities."
+   },
+   "options": [
+    "Rs. 9300",
+    "Rs. 6200",
+    "Rs. 4000",
+    "Rs. 6000"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "chapter": "National Income & Related Aggregates",
+   "type": "numerical",
+   "stem": "Calculate GDP Deflator(in percentage terms) based on the information given in the question number 42.",
+   "passage": {
+    "title": "GDP and Welfare",
+    "text": "GDP is the sum total of the value of goods and services created within the geographical boundary of a country in a particular year. In order to compare the GDP figures and other macroeconomic variables of different countries or to compare the GDP figures of the same country at different points of time, we take the help of real GDP instead of relying on current market prices. The ratio of nominal GDP to real GDP gives us an idea of how prices have moved from the base year to the current year.  The Consumer Price Index (CPI) and Wholesale Price Index (WPI) are the other important ways to measure change of prices in an economy.\n\nGDP gets distributed among the people as incomes and may treat higher level of GDP of a country as an index of greater well-being of the people of that country. But it may be incorrect to treat GDP as an index of the welfare of the country based on three reasons. Firstly, the distribution of GDP is not uniform, secondly, non-monetary exchanges are not accounted as part of economic activity and lastly, GDP does not take into account externalities."
+   },
+   "options": [
+    "150 Percent",
+    "1.5 Percent",
+    "0.67 Percent",
+    "67 Percent"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "chapter": "National Income & Related Aggregates",
+   "type": "theory",
+   "stem": "The unregistered activity i.e., the domestic services women perform at home is example of which of the following?",
+   "passage": {
+    "title": "GDP and Welfare",
+    "text": "GDP is the sum total of the value of goods and services created within the geographical boundary of a country in a particular year. In order to compare the GDP figures and other macroeconomic variables of different countries or to compare the GDP figures of the same country at different points of time, we take the help of real GDP instead of relying on current market prices. The ratio of nominal GDP to real GDP gives us an idea of how prices have moved from the base year to the current year.  The Consumer Price Index (CPI) and Wholesale Price Index (WPI) are the other important ways to measure change of prices in an economy.\n\nGDP gets distributed among the people as incomes and may treat higher level of GDP of a country as an index of greater well-being of the people of that country. But it may be incorrect to treat GDP as an index of the welfare of the country based on three reasons. Firstly, the distribution of GDP is not uniform, secondly, non-monetary exchanges are not accounted as part of economic activity and lastly, GDP does not take into account externalities."
+   },
+   "options": [
+    "GDP",
+    "Positive Externalities.",
+    "Negative Externalities.",
+    "Non-monetary Exchanges."
+   ],
+   "key": [
+    3
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "chapter": "National Income & Related Aggregates",
+   "type": "theory",
+   "stem": "Choose the correct statement as per the given passage :",
+   "passage": {
+    "title": "GDP and Welfare",
+    "text": "GDP is the sum total of the value of goods and services created within the geographical boundary of a country in a particular year. In order to compare the GDP figures and other macroeconomic variables of different countries or to compare the GDP figures of the same country at different points of time, we take the help of real GDP instead of relying on current market prices. The ratio of nominal GDP to real GDP gives us an idea of how prices have moved from the base year to the current year.  The Consumer Price Index (CPI) and Wholesale Price Index (WPI) are the other important ways to measure change of prices in an economy.\n\nGDP gets distributed among the people as incomes and may treat higher level of GDP of a country as an index of greater well-being of the people of that country. But it may be incorrect to treat GDP as an index of the welfare of the country based on three reasons. Firstly, the distribution of GDP is not uniform, secondly, non-monetary exchanges are not accounted as part of economic activity and lastly, GDP does not take into account externalities."
+   },
+   "options": [
+    "For comparing a country at different point of times, we use current market prices instead of real GDP",
+    "CPI and WPI are the other important ways to measure change of prices in an economy.",
+    "The ratio of real GDP to nominal GDP represents how prices have moved from the base year to the current year.",
+    "Non-monetary exchanges are accounted as part of economic activity"
+   ],
+   "key": [
+    1
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "chapter": "Rural Development",
+   "type": "theory",
+   "stem": "What is rural development?",
+   "passage": {
+    "title": "Rural Development",
+    "text": "There is a greater need today to make rural areas more vibrant through diversification into dairying, poultry, fisheries, vegetables and fruits and linking up the rural production centres with the urban and foreign markets to realise higher returns on the investments in the products. Moreover, infrastructure elements like credit and marketing, farmer-friendly agricultural policies and a constant appraisal and dialogue between farmers' groups and state agricultural departments are essential to realise the full potential of the sector.\n\nToday we cannot look at the environment and rural development as two distinct subjects. There is need to invent or procure alternate sets of eco-friendly technologies that lead to sustainable development in different circumstances such as organic farming. From these, each rural community can choose whatever will suit its purpose. We need to learn from, and also try out when found relevant, practices from the available set of 'best practice' illustrations to speed up this process of 'learning by doing'. A good example of such practice is creating a group and channelising their savings through micro credit whcih functions like mini banks for the development of agriculture."
+   },
+   "options": [
+    "A plan of action for the development of agricultural areas which are lagging behind in socio-economic development.",
+    "A plan of action for the development of rural areas which are lagging behind in socio-economic development.",
+    "A plan of action for the development of marginalised regions which are lagging behind in socio-economic and sustainable development indicators.",
+    "A plan of action for the development of urban which are lagging behind in socio-economic development"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "the card asks the same question (what is rural development) but in NCERT's wording (village economy), not the keyed option's; the weaker kind",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.rural-development.def-rural-development",
+    "chapter": "Rural Development",
+    "front": "What is rural development?",
+    "back": "Rural development is a comprehensive term. It essentially focuses on action for the development of areas that are lagging behind in the overall development of the village economy.",
+    "source": "NCERT, Indian Economic Development, chapter 5, page 76",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "chapter": "Rural Development",
+   "type": "theory",
+   "stem": "Efforts in evolving technologies which are eco-friendly are essential for sustainable development and one such technology which is eco-friendly is defined as.",
+   "passage": {
+    "title": "Rural Development",
+    "text": "There is a greater need today to make rural areas more vibrant through diversification into dairying, poultry, fisheries, vegetables and fruits and linking up the rural production centres with the urban and foreign markets to realise higher returns on the investments in the products. Moreover, infrastructure elements like credit and marketing, farmer-friendly agricultural policies and a constant appraisal and dialogue between farmers' groups and state agricultural departments are essential to realise the full potential of the sector.\n\nToday we cannot look at the environment and rural development as two distinct subjects. There is need to invent or procure alternate sets of eco-friendly technologies that lead to sustainable development in different circumstances such as organic farming. From these, each rural community can choose whatever will suit its purpose. We need to learn from, and also try out when found relevant, practices from the available set of 'best practice' illustrations to speed up this process of 'learning by doing'. A good example of such practice is creating a group and channelising their savings through micro credit whcih functions like mini banks for the development of agriculture."
+   },
+   "options": [
+    "Organic Farming.",
+    "Sustain Farming.",
+    "Mixed crop-livestock Farming.",
+    "Green Farming."
+   ],
+   "key": [
+    0
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "chapter": "Rural Development",
+   "type": "theory",
+   "stem": "Farm Women's Groups (FWG) under Tamil Nadu Women in Agriculture (TANWA) project, are creating savings in their group by functioning like mini banks through a system called____",
+   "passage": {
+    "title": "Rural Development",
+    "text": "There is a greater need today to make rural areas more vibrant through diversification into dairying, poultry, fisheries, vegetables and fruits and linking up the rural production centres with the urban and foreign markets to realise higher returns on the investments in the products. Moreover, infrastructure elements like credit and marketing, farmer-friendly agricultural policies and a constant appraisal and dialogue between farmers' groups and state agricultural departments are essential to realise the full potential of the sector.\n\nToday we cannot look at the environment and rural development as two distinct subjects. There is need to invent or procure alternate sets of eco-friendly technologies that lead to sustainable development in different circumstances such as organic farming. From these, each rural community can choose whatever will suit its purpose. We need to learn from, and also try out when found relevant, practices from the available set of 'best practice' illustrations to speed up this process of 'learning by doing'. A good example of such practice is creating a group and channelising their savings through micro credit whcih functions like mini banks for the development of agriculture."
+   },
+   "options": [
+    "Rural Banking.",
+    "Micro Credit.",
+    "Community Investment Support Fund.",
+    "Regional Rural  Bank's"
+   ],
+   "key": [
+    1
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "chapter": "Rural Development",
+   "type": "theory",
+   "stem": "The change in cropping pattern and the other relates to a shift of workforce from agriculture to other allied activities and a non-agricultural sector is called?",
+   "passage": {
+    "title": "Rural Development",
+    "text": "There is a greater need today to make rural areas more vibrant through diversification into dairying, poultry, fisheries, vegetables and fruits and linking up the rural production centres with the urban and foreign markets to realise higher returns on the investments in the products. Moreover, infrastructure elements like credit and marketing, farmer-friendly agricultural policies and a constant appraisal and dialogue between farmers' groups and state agricultural departments are essential to realise the full potential of the sector.\n\nToday we cannot look at the environment and rural development as two distinct subjects. There is need to invent or procure alternate sets of eco-friendly technologies that lead to sustainable development in different circumstances such as organic farming. From these, each rural community can choose whatever will suit its purpose. We need to learn from, and also try out when found relevant, practices from the available set of 'best practice' illustrations to speed up this process of 'learning by doing'. A good example of such practice is creating a group and channelising their savings through micro credit whcih functions like mini banks for the development of agriculture."
+   },
+   "options": [
+    "Agro-processing Industries.",
+    "Diversification.",
+    "Subsistence Farming",
+    "Organic Farming."
+   ],
+   "key": [
+    1
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "chapter": "Rural Development",
+   "type": "theory",
+   "stem": "Agricultural marketing policy instruments are aimed at protecting the income of the farmers and providing foodgrains at a subsidised rate to the poor. Which is NOT an instrument of the agricultural market system.",
+   "passage": {
+    "title": "Rural Development",
+    "text": "There is a greater need today to make rural areas more vibrant through diversification into dairying, poultry, fisheries, vegetables and fruits and linking up the rural production centres with the urban and foreign markets to realise higher returns on the investments in the products. Moreover, infrastructure elements like credit and marketing, farmer-friendly agricultural policies and a constant appraisal and dialogue between farmers' groups and state agricultural departments are essential to realise the full potential of the sector.\n\nToday we cannot look at the environment and rural development as two distinct subjects. There is need to invent or procure alternate sets of eco-friendly technologies that lead to sustainable development in different circumstances such as organic farming. From these, each rural community can choose whatever will suit its purpose. We need to learn from, and also try out when found relevant, practices from the available set of 'best practice' illustrations to speed up this process of 'learning by doing'. A good example of such practice is creating a group and channelising their savings through micro credit whcih functions like mini banks for the development of agriculture."
+   },
+   "options": [
+    "Minimum Support Prices.",
+    "Public Distribution Support.",
+    "Buffer Stock.",
+    "Private Trade."
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "the card lists the three marketing instruments; the paper asks which option is not one",
+   "match": {
+    "kind": "card",
+    "id": "kc.economics.rural-development.list-policy-instruments",
+    "chapter": "Rural Development",
+    "front": "Name the policy instruments, the fourth element of government measures in agricultural marketing.",
+    "back": "assurance of minimum support prices (MSP) for agricultural products\nmaintenance of buffer stocks of wheat and rice by Food Corporation of India\ndistribution of food grains and sugar through PDS",
+    "source": "NCERT, Indian Economic Development, chapter 5, page 81",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  }
+ ]
+}

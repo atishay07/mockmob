@@ -1,0 +1,1501 @@
+{
+ "id": "sociology",
+ "name": "Sociology",
+ "stream": "humanities",
+ "code": "326",
+ "examDate": "2026-05-15",
+ "examDay": "15 May 2026",
+ "shift": "first shift",
+ "snapshotDate": "2026-11-22",
+ "snapshotDay": "22 November 2026",
+ "final": false,
+ "counts": {
+  "total": 50,
+  "same": 0,
+  "newValues": 0,
+  "concept": 30,
+  "notYet": 11,
+  "skill": 9,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 30,
+  "counted": 41,
+  "pct": 73
+ },
+ "chapters": [
+  {
+   "name": "Challenges of Cultural Diversity",
+   "asked": 8,
+   "covered": 8
+  },
+  {
+   "name": "Demographic Structure",
+   "asked": 6,
+   "covered": 5
+  },
+  {
+   "name": "Patterns of Social Inequality",
+   "asked": 6,
+   "covered": 5
+  },
+  {
+   "name": "Social Institutions",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Story of Indian Democracy",
+   "asked": 4,
+   "covered": 2
+  },
+  {
+   "name": "Market as a Social Institution",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Social Movements",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Structural Change",
+   "asked": 3,
+   "covered": 0
+  },
+  {
+   "name": "Change & Development in Industrial Society",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Cultural Change",
+   "asked": 1,
+   "covered": 1
+  },
+  {
+   "name": "Mass Media & Communications",
+   "asked": 1,
+   "covered": 0
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 501,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Demographic Structure",
+   "type": "theory",
+   "stem": "What is Social Demography?",
+   "passage": null,
+   "options": [
+    "It is concerned with measurement and analysis of the components of population change.",
+    "It is concerned with the wider causes and consequences of population structure and change.",
+    "It is concerned with the changes in the population due to genetic influence.",
+    "It studies the changes in the population due to climatic conditions."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card def-social-demography states the keyed definition; the formal-demography card separates option 1.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.demographic-structure.def-social-demography",
+    "chapter": "Demographic Structure",
+    "front": "What is population studies or social demography?",
+    "back": "Population studies or social demography, on the other hand, enquires into the wider causes and consequences of population structures and change.",
+    "source": "NCERT, Indian Society, chapter 2, page 8",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 502,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Demographic Structure",
+   "type": "theory",
+   "stem": "The age structure of population refers to:",
+   "passage": null,
+   "options": [
+    "the number of live births per 1000 women in the child-bearing age group",
+    "the number of deaths of babies before the age of one year per 1000 live births.",
+    "the proportion of persons in the different age groups relative to the total population.",
+    "the number of females per 1000 males in a given area at a specified time period."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card def-age-structure is the keyed sentence; the three distractors are the fertility rate, IMR and sex ratio, each on its own card.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.demographic-structure.def-age-structure",
+    "chapter": "Demographic Structure",
+    "front": "Define the age structure of the population.",
+    "back": "The age structure of the population refers to the proportion of persons in different age groups relative to the total population.",
+    "source": "NCERT, Indian Society, chapter 2, page 11",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 3,
+   "paperNumber": 503,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Structural Change",
+   "type": "theory",
+   "stem": "What factors contribute to the physical transplantation of urban life into a rural setup?",
+   "passage": null,
+   "options": [
+    "Mass Media and Communication",
+    "Migration",
+    "Industrialization",
+    "Secularization"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 4,
+   "paperNumber": 504,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Movements",
+   "type": "theory",
+   "stem": "Which of the following is an outcome of a social movement in Britain?",
+   "passage": null,
+   "options": [
+    "Protection of the monarchial prestige",
+    "Reservation in government jobs",
+    "Positive affirmation for coloured people",
+    "Universal Adult Suffrage"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 5,
+   "paperNumber": 505,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Institutions",
+   "type": "theory",
+   "stem": "The most common features of the caste system are:\nA. It is an ascribed identity.\nB. It is an endogamous group.\nC. It is linked to particular occupational groups.\nD. It is based on abilities and can change over time.\nChoose the correct statements from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "A, C and D only",
+    "A, B and D only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Card list-six-features (quote: born into, never a matter of choice, can never change it; endogamy; linked to occupations) settles all four statements.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.social-institutions.list-six-features",
+    "chapter": "Social Institutions",
+    "front": "Name the six most commonly cited defining features of caste.",
+    "back": "Caste is determined by birth\nMembership in a caste involves strict rules about marriage.\nCaste membership also involves rules about food and food-sharing.\nCaste involves a system consisting of many castes arranged in a hierarchy of rank and status.\nCastes also involve sub-divisions within themselves\nCastes were traditionally linked to occupations.",
+    "source": "NCERT, Indian Society, chapter 3, page 37",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 506,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Demographic Structure",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Concept) | LIST-II (Definition)\nA. Fertility Rate | I. refers to the number of deaths of babies before the age of one year per 1000 live births.\nB. Infant Mortality Rate | II. refers to the number of females per 1000 males in a given area at a specified time.\nC. Sex ratio | III. refers to the number of live births per 1000 women in the child-bearing age group\nD. Dependency ratio | IV. measure comparing the portion of a population which is composed of dependents with the portion that is in the working age group\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-III, B-I, C-II, D-IV",
+    "A-I, B-II, C-III, D-IV",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Four definition cards, each the keyed pairing word for word.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.demographic-structure.def-fertility-rate",
+    "chapter": "Demographic Structure",
+    "front": "Define the fertility rate.",
+    "back": "The fertility rate refers to the number of live births per 1000 women in the child-bearing age group, usually taken to be 15 to 49 years.",
+    "source": "NCERT, Indian Society, chapter 2, page 11",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 507,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Cultural Change",
+   "type": "theory",
+   "stem": "Which of the following can be understood as an effect of 'Sanskritisation'?",
+   "passage": null,
+   "options": [
+    "Adoption of western education by the Brahmins.",
+    "The practice of dowry among Dalit communities.",
+    "The tribes taking up new occupation.",
+    "Middle-caste women choosing to work outside the home."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card fact-crit-4-gender-practices names dowry replacing bride-price as a result of sanskritisation.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.cultural-change.fact-crit-4-gender-practices",
+    "chapter": "Cultural Change",
+    "front": "Fourth criticism of sanskritisation: what practices does adopting upper caste rites and rituals lead to (the gender angle)?",
+    "back": "Fourth, since sanskritisation results in the adoption of upper caste rites and rituals it leads to practices of secluding girls and women, adopting dowry practices instead of bride-price and practising caste discrimination against other groups, etc.",
+    "source": "NCERT, Social Change and Development in India, chapter 2, page 22",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 508,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Institutions",
+   "type": "theory",
+   "stem": "Which of the following can be understood as \"acquired\" trait for a person belonging to the Gond tribe?",
+   "passage": null,
+   "options": [
+    "The person decides to assert his tribal identity.",
+    "The person decides to stay in his/her place of origin.",
+    "The person decides to adopt the \"purity and pollution\" principle of caste to maintain their identity.",
+    "The person decides to continue to use his/her own language."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Two served bank explanations give the permanent/acquired split (language and region permanent, assimilation into Hindu society acquired) and the tribe-caste card puts purity-pollution in caste society. One step of application; weakest covered call, accepted.",
+   "match": {
+    "kind": "question",
+    "id": "3aa865f9-ec19-4667-9080-520e967b5b4c",
+    "chapter": "Social Institutions",
+    "stem": "In the classification of tribes, which of the following is treated as an 'acquired' trait rather than a 'permanent' trait?",
+    "passage": null,
+    "options": [
+     "Region of residence",
+     "Language spoken",
+     "Mode of livelihood",
+     "Physical and racial features"
+    ],
+    "key": 2,
+    "explanation": "Tribes are classified on permanent traits (region, language, physical-racial features) and acquired traits (livelihood and extent of assimilation into Hindu society). Mode of livelihood is therefore an acquired trait.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 509,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Institutions",
+   "type": "theory",
+   "stem": "Which of the following functions of the family is determined by lineage structure?",
+   "passage": null,
+   "options": [
+    "Rules of authority",
+    "Rules of residence",
+    "Rules of inheritance",
+    "Rules of marriage"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card diff-matrilineal-vs-patrilineal ties inheritance to lineage; residence and authority have separate cards.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.social-institutions.diff-matrilineal-vs-patrilineal",
+    "chapter": "Social Institutions",
+    "front": "Matrilineal vs patrilineal societies: the difference on rules of inheritance.",
+    "back": "With regard to the rules of inheritance, matrilineal societies pass on property from mother to daughter while patrilineal societies do so from father to son.",
+    "source": "NCERT, Indian Society, chapter 3, page 50",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 510,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Patterns of Social Inequality",
+   "type": "theory",
+   "stem": "Which of the following is correct for the OBC population in India?\nA. It is a diverse group with regional variations.\nB. They are mostly from untouchable castes.\nC. Till 1990, two different commissions were set up for OBC welfare.\nD. Southern states in India started mobilization of OBC long before the northern states.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, C and D only",
+    "B, C and D only",
+    "A, B and C only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Six cards state every part; B is false by fact-obc-service-artisanal.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.patterns-of-social-inequality.kl-obc-diverse",
+    "chapter": "Patterns of Social Inequality",
+    "front": "For these reasons, the OBCs are a much more ____ group than the Dalits or adivasis.",
+    "back": "For these reasons, the OBCs are a much more diverse group than the Dalits or adivasis.",
+    "source": "NCERT, Indian Society, chapter 5, page 82",
+    "more": {
+     "cards": 5,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 511,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Movements",
+   "type": "theory",
+   "stem": "Why is Dharma Sabha an example of countermovement?",
+   "passage": null,
+   "options": [
+    "It defended the right of older women to practice Sati.",
+    "It defended the practice of Sati and refused to bring in any change.",
+    "It attacked Sati but not the problem of polygamy.",
+    "It was against mass mobilization but wanted new rules to abolish Sati."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card ex-counter-sati is this example; kl-counter-movements gives the status-quo meaning.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.social-movements.ex-counter-sati",
+    "chapter": "Social Movements",
+    "front": "Which body did defenders of sati form against Raja Rammohun Roy's campaign (a counter movement)?",
+    "back": "When Raja Rammohun Roy campaigned against sati and formed the Brahmo Samaj, defenders of sati formed Dharma Sabha and petitioned the British not to legislate against sati.",
+    "source": "NCERT, Social Change and Development in India, chapter 8, page 111",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 512,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "Which of the following contributes towards the formation of ethno-national identities in India?\nA. Language\nB. Religion\nC. Region\nD. Tribe",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "B, C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card fact-language-not-religion names language, region and tribe and excludes religion: A, C, D.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.fact-language-not-religion",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "In India, what – not religion – has provided the most powerful instrument for forming ethno-national identity?",
+    "back": "Language coupled with regional and tribal identity – and not religion – has therefore provided the most powerful instrument for the formation of ethno-national identity in India.",
+    "source": "NCERT, Indian Society, chapter 6, page 105",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 513,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "\"The State is a body that successfully claims the monopoly of legitimate force in a particular territory\"—this definition of State was given by",
+   "passage": null,
+   "options": [
+    "Karl Marx",
+    "Max Weber",
+    "Emile Durkheim",
+    "B. R. Ambedkar"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card def-state-weber quotes the definition with its author.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.def-state-weber",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "Define the state (Max Weber).",
+    "back": "In Max Weber’s well-known definition, a state is a “body that successfully claims a monopoly of legitimate force in a particular territory” (Weber 1970:78).",
+    "source": "NCERT, Indian Society, chapter 6, page 99",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 514,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "What is the primary vision of the Constitution of India ?",
+   "passage": null,
+   "options": [
+    "To develop an assimilationist culture by identifying a cultural code.",
+    "To build an integrationist nation-State by establishing a singular idea.",
+    "To maintain a national unity by formally recognising differences among the people.",
+    "To have a written mandate which all Indians can comprehend."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "fact-forcible-imposition (national unity based upon a recognition of differences) plus the constitution and anti-assimilation cards give the keyed vision and rule out options 1 and 2.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.key-inclusive-built-in-constitution",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "To be effective, the ideas of inclusive nationalism had to be built into the ____.",
+    "back": "To be effective, the ideas of inclusive nationalism had to be built into the Constitution.",
+    "source": "NCERT, Indian Society, chapter 6, page 108",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 515,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Structural Change",
+   "type": "theory",
+   "stem": "Which of the following cities was outside the economic system of the colonial empire?",
+   "passage": null,
+   "options": [
+    "Bombay",
+    "Kolkata",
+    "Madras",
+    "Bhopal"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 16,
+   "paperNumber": 516,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Structural Change",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (CONCEPT) | LIST-II (IMPACT)\nA. Urbanisation | I. reordering of the relationship between the native and the migrant\nB. Westernisation | II. adopting new technology in the production process.\nC. Modernisation | III. reordering of the market economy.\nD. Industrialization | IV. reordering of the social value systems\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-IV, C-II, D-III",
+    "A-I, B-II, C-III, D-IV",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 17,
+   "paperNumber": 517,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Story of Indian Democracy",
+   "type": "theory",
+   "stem": "According to the 73rd Constitutional Amendment, the Panchayati Raj Institution is divided into how many tier system?",
+   "passage": null,
+   "options": [
+    "Two",
+    "Three",
+    "Four",
+    "Five"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card fact-three-tier-twenty-lakhs states three tiers under the 73rd Amendment.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.story-of-indian-democracy.fact-three-tier-twenty-lakhs",
+    "chapter": "Story of Indian Democracy",
+    "front": "The 73rd Amendment provided a three-tier Panchayati Raj for states with what population?",
+    "back": "The 73rd Amendment provided a three-tier system of Panchayati Raj for all states having a population of over twenty lakhs.",
+    "source": "NCERT, Social Change and Development in India, chapter 3, page 33",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 18,
+   "paperNumber": 518,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Story of Indian Democracy",
+   "type": "theory",
+   "stem": "Which of the following powers and responsibilities are delegated to the Panchayats?\nA. To prepare plans and schemes for economic development.\nB. To make laws for the villagers.\nC. To promote schemes that will enhance social justice\nD. To levy, collect, and appropriate taxes, duties, tolls and fees.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "B, C and D only",
+    "A, C and D only",
+    "A, B and C only",
+    "A, B and D only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 19,
+   "paperNumber": 519,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Change & Development in Industrial Society",
+   "type": "theory",
+   "stem": "What is the business practice called, where companies reduce their permanent workforce and assign work to smaller firms or individual workers at home?",
+   "passage": null,
+   "options": [
+    "Liberalisation",
+    "Outsourcing",
+    "Disinvestment",
+    "Mechanisation"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card kl-outsourcing-permanent is the description with outsourcing as the blank.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.change-and-development-in-industrial-society.kl-outsourcing-permanent",
+    "chapter": "Change & Development in Industrial Society",
+    "front": "More and more companies are reducing the number of permanent employees and ____ their work to smaller companies or even to homes.",
+    "back": "More and more companies are reducing the number of permanent employees and outsourcing their work to smaller companies or even to homes.",
+    "source": "NCERT, Social Change and Development in India, chapter 5, page 63",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 20,
+   "paperNumber": 520,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Story of Indian Democracy",
+   "type": "theory",
+   "stem": "How can judicial interpretation of the Constitution contribute to social transformation?",
+   "passage": null,
+   "options": [
+    "By restricting rights to literal constitutional meaning.",
+    "By preserving the intentions of original constitutional makers.",
+    "By expanding fundamental concepts like 'Right to Life' to encompass quality dimensions.",
+    "By maintaining strict separation between constitutional articles."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card fact-article-21-quality-of-life states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.story-of-indian-democracy.fact-article-21-quality-of-life",
+    "chapter": "Story of Indian Democracy",
+    "front": "What have the terse words of Article 21 (right to life and liberty) been interpreted as including?",
+    "back": "The terse words of Article 21 recognising the right to life and liberty have been interpreted as including all that goes into a life of quality, including livelihood, health, shelter, education and dignity.",
+    "source": "NCERT, Social Change and Development in India, chapter 3, page 32",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 521,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Story of Indian Democracy",
+   "type": "theory",
+   "stem": "What is the correct chronological sequence of democratic developments in India?\nA. Constitutional status granted to Panchayati Raj Institutions.\nB. Development of Van Panchayats\nC. Right to Information Act\nD. Right to Livelihood as constitutional right.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "D, A, B, C",
+    "B, D, A, C",
+    "B, A, D, C",
+    "D, C, B, A"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 22,
+   "paperNumber": 522,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Demographic Structure",
+   "type": "theory",
+   "stem": "Arrange the following Census events in the correct chronological order of their occurrence.\nA. The sex ratio had fallen to an all-time low of 927 females per thousand males.\nB. The total population of India was recorded to be 121 crores.\nC. India announced it's first population policy.\nD. The year when India experienced better demographic dividend compared to China.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "D, C, A, B",
+    "D, C, B, A",
+    "C, A, B, D",
+    "C, D, B, A"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Dated cards for 1952, 1991, 2011 and the 2020 average-age card fix the order C, A, B, D (C before A alone already picks option 3).",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.demographic-structure.fact-population-policy-1952",
+    "chapter": "Demographic Structure",
+    "front": "In which year did India announce an official population policy, and why is it notable?",
+    "back": "It is hardly surprising therefore that India has had an official population policy for more than a half century. In fact, India was perhaps the first country to explicitly announce such a policy in 1952.",
+    "source": "NCERT, Indian Society, chapter 2, page 31",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 23,
+   "paperNumber": 523,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Demographic Structure",
+   "type": "theory",
+   "stem": "Which of the following statements is true for India's demography and population?\nA. Famines were caused by high levels of continuing poverty and malnutrition.\nB. Unlike the death rate, the birth rate has not registered a sharp fall.\nC. Programmes for mass vaccination, and efforts to improve sanitation helped to control epidemics.\nD. Prosperity does not influence family size.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "B, C and D only",
+    "A, C and D only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 24,
+   "paperNumber": 524,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "Why is India often called a \"state-nation\"?",
+   "passage": null,
+   "options": [
+    "Since the political identity developed before a national identity.",
+    "Since it is committed to the idea of pluralistic identities co-existing peacefully within a single state polity.",
+    "Since it is developed in the model of assimilation to manage pluralism.",
+    "Since it is committed to the idea of one nation-one state."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card def-state-nation is the keyed sentence; key-india-state-nation names India.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.def-state-nation",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "What is a ‘state nation’, the alternative to the nation-state?",
+    "back": "An alternative to the nation-state, then, is the “state nation”, where various “nations” – be they ethnic, religious, linguistic or indigenous identities – can co-exist peacefully and cooperatively in a single state polity.",
+    "source": "NCERT, Indian Society, chapter 6, page 103",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 25,
+   "paperNumber": 525,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Institutions",
+   "type": "theory",
+   "stem": "What was the dominant contradiction within the Indian national movement concerning the caste system?",
+   "passage": null,
+   "options": [
+    "Nationalist leaders considered the abolition of untouchability undesirable while opposing social reforms.",
+    "Nationalist leaders worked for upliftment of lower castes while denying education to upper castes.",
+    "Nationalist leaders did not consider colonialism a social evil but regarded caste system a menace.",
+    "Nationalist leaders worked against discrimination of lower castes while also prioritizing the interests of upper castes."
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 26,
+   "paperNumber": 526,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Patterns of Social Inequality",
+   "type": "theory",
+   "stem": "Who, among the following, is a scholar on disability issues?",
+   "passage": null,
+   "options": [
+    "Jotiba Phule",
+    "Ralph Ellison",
+    "Anita Ghai",
+    "Sharmila Rege"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card fact-anita-ghai-invisible names her; Ralph Ellison appears on it as the novelist, which removes the distractor.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.patterns-of-social-inequality.fact-anita-ghai-invisible",
+    "chapter": "Patterns of Social Inequality",
+    "front": "Which scholar compares the invisibility of the disabled to Ralph Ellison’s Invisible Man?",
+    "back": "One of the leading activists and scholars of disability in the Indian context, Anita Ghai, argues that this invisibility of the disabled can be compared to the Invisible Man of Ralph Ellison.",
+    "source": "NCERT, Indian Society, chapter 5, page 89",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 27,
+   "paperNumber": 527,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "A person is forced to leave his job because of his colleagues' persisting comments about his religious and ethnic identity as inferior. What is he a victim of?",
+   "passage": null,
+   "options": [
+    "Casteism",
+    "Communalism",
+    "Regionalism",
+    "Secularism"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card def-communalism and bank 4d49ab64 give the meaning; the scenario applies it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.def-communalism",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "What does ‘communalism’ refer to in everyday language?",
+    "back": "In everyday language, the word ‘communalism’ refers to aggressive chauvinism based on religious identity.",
+    "source": "NCERT, Indian Society, chapter 6, page 111",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 28,
+   "paperNumber": 528,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Market as a Social Institution",
+   "type": "theory",
+   "stem": "Which of the following is an example of non-market exchange system?",
+   "passage": null,
+   "options": [
+    "Hundi system",
+    "Weekly haats",
+    "Nakarattars system",
+    "Jajmani system"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Card fact-jajmani-non-market states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.market-as-a-social-institution.fact-jajmani-non-market",
+    "chapter": "Market as a Social Institution",
+    "front": "Which non-market exchange system does NCERT cite as existing in many villages and regions?",
+    "back": "And while various kinds of non-market exchange systems (such as the ‘jajmani system’) did exist in many villages and regions",
+    "source": "NCERT, Indian Society, chapter 4, page 58",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 529,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Institutions",
+   "type": "theory",
+   "stem": "Identify the nature of the family structure consisting of more than two brothers, each with their own families, living together.",
+   "passage": null,
+   "options": [
+    "Nuclear",
+    "Extended",
+    "Matrilocal",
+    "Patrilocal"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card def-def-extended-family states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.social-institutions.def-def-extended-family",
+    "chapter": "Social Institutions",
+    "front": "What is an extended family (commonly known as the ‘joint family’)?",
+    "back": "An extended family (commonly known as the ‘joint family’) can take different forms, but has more than one couple, and often more than two generations, living together.",
+    "source": "NCERT, Indian Society, chapter 3, page 49",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 530,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Market as a Social Institution",
+   "type": "theory",
+   "stem": "Which of the following is a credit instrument in market systems?",
+   "passage": null,
+   "options": [
+    "Hundi",
+    "Nakarattar",
+    "Jajmani",
+    "Haat"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Card def-hundi states it; Nakarattar is a banking system on its own card.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.market-as-a-social-institution.def-hundi",
+    "chapter": "Market as a Social Institution",
+    "front": "What is a hundi?",
+    "back": "For instance, an important instrument of exchange and credit was the hundi, or bill of exchange (like a credit note), which allowed merchants to engage in long-distance trade.",
+    "source": "NCERT, Indian Society, chapter 4, page 58",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 531,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Demographic Structure",
+   "type": "theory",
+   "stem": "Which of the following refers to the situation where a large cohort of women of reproductive age will fuel population growth over the next generation, even if each woman has fewer children than previous generations did?",
+   "passage": null,
+   "options": [
+    "Demographic Transition",
+    "Population Momentum",
+    "Crude Death Rate",
+    "Crude Birth Rate"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card def-population-momentum is the stem sentence with the term as the answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.demographic-structure.def-population-momentum",
+    "chapter": "Demographic Structure",
+    "front": "What is population momentum?",
+    "back": "Population momentum refers to a situation, where a large cohort of women of reproductive age will fuel population growth over the next generation, even if each woman has fewer children than previous generations did.",
+    "source": "NCERT, Indian Society, chapter 2, page 32",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 532,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Market as a Social Institution",
+   "type": "theory",
+   "stem": "Which of the following is NOT true in the context of the Marwaris (business community) of India?",
+   "passage": null,
+   "options": [
+    "They became successful business community during colonial period.",
+    "They took advantage while settling in colonial cities such as Calcutta.",
+    "Their accumulated wealth had a negative impact on the commercial expansion of the British in India.",
+    "They transformed themselves into modern industrialists."
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 33,
+   "paperNumber": 533,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Patterns of Social Inequality",
+   "type": "theory",
+   "stem": "What was the purpose of Government of India Act of 1935?",
+   "passage": null,
+   "options": [
+    "To classify \"Other Backward Classes\" as a constitutional category.",
+    "To promote research on the social hierarchy of castes.",
+    "To ensure caste identities become more fluid.",
+    "To give legal recognition to the schedule of 'castes' and 'tribes'."
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Card fact-schedules-1935 states the 1935 schedules of castes and tribes drawn up by the British Indian government.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.patterns-of-social-inequality.fact-schedules-1935",
+    "chapter": "Patterns of Social Inequality",
+    "front": "When and by whom were the ‘Schedules’ listing castes and tribes deserving special treatment drawn up?",
+    "back": "The ‘Schedules’ listing the castes and tribes recognised as deserving of special treatment because of the massive discrimination practiced against them were drawn up in 1935, by the British Indian government.",
+    "source": "NCERT, Indian Society, chapter 5, page 80",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 534,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Patterns of Social Inequality",
+   "type": "theory",
+   "stem": "Which of the following statements indicate that disability is a social category?",
+   "passage": null,
+   "options": [
+    "There are linkages between poverty and disability.",
+    "There are linkages between past life and disability.",
+    "There are linkages between disability and climate change.",
+    "There are linakges between individual ability and disability."
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Card kl-disability-poverty-link states the link; bank 64b92c21 teaches disability as socially constructed.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.patterns-of-social-inequality.kl-disability-poverty-link",
+    "chapter": "Patterns of Social Inequality",
+    "front": "There is a close relationship between disability and ____.",
+    "back": "There is a close relationship between disability and poverty.",
+    "source": "NCERT, Indian Society, chapter 5, page 90",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 535,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Patterns of Social Inequality",
+   "type": "theory",
+   "stem": "Which of the following is true about apartheid in British South Africa?\nA. Black protesters were routinely jailed, murdered and tortured.\nB. While landownership was denied to the blacks, mixed marriages were allowed.\nC. Blacks earned only one-fourth of what the whites did.\nD. Black people were relocated to poor districts called 'Bantustans' or homelands.\nChoose the correct answer from the options below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "B, C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 36,
+   "paperNumber": 536,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Patterns of Social Inequality",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Concept) | LIST-II (Explanation)\nA. Prejudice | I. Individuals are cut off from full involvment in a wider society.\nB. Stratification | II. Disqualifying members of one group from the opportunities that are open to others.\nC. Exclusion | III. Pre-conceived opinions or attitudes held by members of one group towards another\nD. Discrimination | IV. A hierarchical arrangements of groups and communities in a society\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-IV, C-III, D-II",
+    "A-III, B-I, C-IV, D-II",
+    "A-IV, B-II, C-I, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Four cards, one per pair.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.patterns-of-social-inequality.def-prejudice",
+    "chapter": "Patterns of Social Inequality",
+    "front": "What are prejudices?",
+    "back": "Prejudices refer to pre-conceived opinions or attitudes held by members of one group towards another.",
+    "source": "NCERT, Indian Society, chapter 5, page 73",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 537,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "What is the opposite of religious chauvinism and do not imply hostility to the religion?",
+   "passage": null,
+   "options": [
+    "Communalism",
+    "Secularism",
+    "Regionalism",
+    "Nationalism"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Card fact-secularism-no-hostility is the sentence.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.fact-secularism-no-hostility",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "Secularism in the sense of the opposite of religious chauvinism need not necessarily imply what?",
+    "back": "Secularism in this sense is the opposite of religious chauvinism and it need not necessarily imply hostility to religion as such.",
+    "source": "NCERT, Indian Society, chapter 6, page 113",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 538,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "The assimilation and integration policies tend to focus on",
+   "passage": null,
+   "options": [
+    "Accomodating heterogeneous and hybrid identity of populations.",
+    "Adopting the symbols and heroes of minority groups.",
+    "Forcing all citizens to adopt a uniform set of cultural values and norms.",
+    "Decentralising powers and autonomy so that it spreads to minority groups too."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card def-assimilation-text states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.def-assimilation-text",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "What do policies that promote assimilation aim at?",
+    "back": "Policies that promote assimilation are aimed at persuading, encouraging or forcing all citizens to adopt a uniform set of cultural values and norms.",
+    "source": "NCERT, Indian Society, chapter 6, page 102",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 539,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Challenges of Cultural Diversity",
+   "type": "theory",
+   "stem": "Which is the non-state and non-market part of public domain in which individuals get together voluntarily to create institutions and organizations?",
+   "passage": null,
+   "options": [
+    "Society",
+    "Social Organization",
+    "Civil Society",
+    "Social Institution"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Card def-civil-society is the definition.",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.challenges-of-cultural-diversity.def-civil-society",
+    "chapter": "Challenges of Cultural Diversity",
+    "front": "What is civil society?",
+    "back": "Civil society is the name given to the broad arena which lies beyond the private domain of the family, but outside the domain of both state and market. Civil society is the non-state and non-market part of the public domain in which individuals get together voluntarily to create institutions and organisations.",
+    "source": "NCERT, Indian Society, chapter 6, page 114",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 540,
+   "section": "Sociology, sub-section 1 (stand-alone MCQs, Q501-540)",
+   "chapter": "Social Movements",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Social Movement) | LIST-II (Key feature)\nA. Chipko Movement | I. Linkage between women and agrarian concerns\nB. Old Social Movement | II. Right to self-determination\nC. Telengana Movement | III. Linkage between women and environmental concerns.\nD. Dalit Movement | IV. Re-organisation of power relations.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-II, B-I, C-III, D-IV",
+    "A-IV, B-II, C-III, D-I",
+    "A-III, B-II, C-IV, D-I",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Each pair has a card: Chipko (women hug trees; ecology concerns), kl-old-power-relations, list-women-agrarian-revolts (Telangana arms struggle), list-dalit-struggle (self-determination).",
+   "match": {
+    "kind": "card",
+    "id": "kc.sociology.social-movements.kl-old-power-relations",
+    "chapter": "Social Movements",
+    "front": "The old social movements clearly saw ____ as a central goal.",
+    "back": "The old social movements clearly saw reorganisation of power relations as a central goal.",
+    "source": "NCERT, Social Change and Development in India, chapter 8, page 114",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 541,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "chapter": "Globalisation & Social Change",
+   "type": "theory",
+   "stem": "The term liberalisation in the Indian context refers to policies introduced after which year?",
+   "passage": {
+    "title": "The Economic Policy of Liberalisation",
+    "text": "Globalisation involves a stretching of social and economic relationships throughout the world. This stretching is pushed by certain economic policies. Very broadly, this process in India is termed as liberalisation. The term liberalisation refers to a range of policy decisions that the Indian state took since 1991 to open up the Indian economy to the world market. This marked a break with an earlier stated policy of the government to have a greater control over the economy. The state after independence had put in place a large number of laws that ensured that the Indian market and Indian indigenous business were protected from competition of the wider world. The underlying assumption of such a policy was that an erstwhile colonial country would be at a disadvantage in a free market situation.\n\nLiberalisation of the economy meant the steady removal of the rules that regulated Indian trade and finance regulations. These measures are also described as economic reforms. What are these reforms? Since July 1991, the Indian economy has witnessed a series of reforms in all major sectors of the economy (agriculture, industry, trade, foreign investment and technology, public sector, financial institutions, etc). The basic assumption was that greater integration into the global market would be beneficial to the Indian economy."
+   },
+   "options": [
+    "1991",
+    "1995",
+    "1981",
+    "1985"
+   ],
+   "key": [
+    0
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 42,
+   "paperNumber": 542,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "chapter": "Globalisation & Social Change",
+   "type": "theory",
+   "stem": "Which of the following best describes liberalisation of the economy?",
+   "passage": {
+    "title": "The Economic Policy of Liberalisation",
+    "text": "Globalisation involves a stretching of social and economic relationships throughout the world. This stretching is pushed by certain economic policies. Very broadly, this process in India is termed as liberalisation. The term liberalisation refers to a range of policy decisions that the Indian state took since 1991 to open up the Indian economy to the world market. This marked a break with an earlier stated policy of the government to have a greater control over the economy. The state after independence had put in place a large number of laws that ensured that the Indian market and Indian indigenous business were protected from competition of the wider world. The underlying assumption of such a policy was that an erstwhile colonial country would be at a disadvantage in a free market situation.\n\nLiberalisation of the economy meant the steady removal of the rules that regulated Indian trade and finance regulations. These measures are also described as economic reforms. What are these reforms? Since July 1991, the Indian economy has witnessed a series of reforms in all major sectors of the economy (agriculture, industry, trade, foreign investment and technology, public sector, financial institutions, etc). The basic assumption was that greater integration into the global market would be beneficial to the Indian economy."
+   },
+   "options": [
+    "Creation of new government-owned industries.",
+    "Expansion of rural employment guarantees.",
+    "Removal of restrictions on trade and financial flow.",
+    "Increasing taxation on foreign companies."
+   ],
+   "key": [
+    2
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 43,
+   "paperNumber": 543,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "chapter": "Globalisation & Social Change",
+   "type": "theory",
+   "stem": "What was one major shift caused by the economic reforms of 1991?",
+   "passage": {
+    "title": "The Economic Policy of Liberalisation",
+    "text": "Globalisation involves a stretching of social and economic relationships throughout the world. This stretching is pushed by certain economic policies. Very broadly, this process in India is termed as liberalisation. The term liberalisation refers to a range of policy decisions that the Indian state took since 1991 to open up the Indian economy to the world market. This marked a break with an earlier stated policy of the government to have a greater control over the economy. The state after independence had put in place a large number of laws that ensured that the Indian market and Indian indigenous business were protected from competition of the wider world. The underlying assumption of such a policy was that an erstwhile colonial country would be at a disadvantage in a free market situation.\n\nLiberalisation of the economy meant the steady removal of the rules that regulated Indian trade and finance regulations. These measures are also described as economic reforms. What are these reforms? Since July 1991, the Indian economy has witnessed a series of reforms in all major sectors of the economy (agriculture, industry, trade, foreign investment and technology, public sector, financial institutions, etc). The basic assumption was that greater integration into the global market would be beneficial to the Indian economy."
+   },
+   "options": [
+    "Greater state ownership of farms.",
+    "Increased control of the government over private trade",
+    "Restrictions on foreign investment.",
+    "Opening Indian markets to international competition"
+   ],
+   "key": [
+    3
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 44,
+   "paperNumber": 544,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "chapter": "Globalisation & Social Change",
+   "type": "theory",
+   "stem": "Liberalisation measures, are also called economic reforms because",
+   "passage": {
+    "title": "The Economic Policy of Liberalisation",
+    "text": "Globalisation involves a stretching of social and economic relationships throughout the world. This stretching is pushed by certain economic policies. Very broadly, this process in India is termed as liberalisation. The term liberalisation refers to a range of policy decisions that the Indian state took since 1991 to open up the Indian economy to the world market. This marked a break with an earlier stated policy of the government to have a greater control over the economy. The state after independence had put in place a large number of laws that ensured that the Indian market and Indian indigenous business were protected from competition of the wider world. The underlying assumption of such a policy was that an erstwhile colonial country would be at a disadvantage in a free market situation.\n\nLiberalisation of the economy meant the steady removal of the rules that regulated Indian trade and finance regulations. These measures are also described as economic reforms. What are these reforms? Since July 1991, the Indian economy has witnessed a series of reforms in all major sectors of the economy (agriculture, industry, trade, foreign investment and technology, public sector, financial institutions, etc). The basic assumption was that greater integration into the global market would be beneficial to the Indian economy."
+   },
+   "options": [
+    "They were only related to taxation.",
+    "They restructured all major sectors of the economy.",
+    "They changed only the public sector.",
+    "They benefited only multinational companies."
+   ],
+   "key": [
+    1
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 45,
+   "paperNumber": 545,
+   "section": "Sociology, sub-section 2 (comprehension 226895781468, Q541-545)",
+   "chapter": "Globalisation & Social Change",
+   "type": "theory",
+   "stem": "If India had continued its pre-1991 protectionist policies, which scenario would most likely occur?",
+   "passage": {
+    "title": "The Economic Policy of Liberalisation",
+    "text": "Globalisation involves a stretching of social and economic relationships throughout the world. This stretching is pushed by certain economic policies. Very broadly, this process in India is termed as liberalisation. The term liberalisation refers to a range of policy decisions that the Indian state took since 1991 to open up the Indian economy to the world market. This marked a break with an earlier stated policy of the government to have a greater control over the economy. The state after independence had put in place a large number of laws that ensured that the Indian market and Indian indigenous business were protected from competition of the wider world. The underlying assumption of such a policy was that an erstwhile colonial country would be at a disadvantage in a free market situation.\n\nLiberalisation of the economy meant the steady removal of the rules that regulated Indian trade and finance regulations. These measures are also described as economic reforms. What are these reforms? Since July 1991, the Indian economy has witnessed a series of reforms in all major sectors of the economy (agriculture, industry, trade, foreign investment and technology, public sector, financial institutions, etc). The basic assumption was that greater integration into the global market would be beneficial to the Indian economy."
+   },
+   "options": [
+    "Faster inflow of foreign investment.",
+    "Easy competition with global companies.",
+    "Increased openness to the global market.",
+    "Domestic industries shielded from international competition."
+   ],
+   "key": [
+    3
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 46,
+   "paperNumber": 546,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "chapter": "Mass Media & Communications",
+   "type": "theory",
+   "stem": "After 1990, the mass media was shaped by which phenomenon?",
+   "passage": {
+    "title": "Mass Media And Communication",
+    "text": "It is obvious that there has been a phenomenal expansion of mass communication of all kinds in recent years. As students of sociology, there are many aspects to this growth which is of great interest to us. First, while we recognise the specificity of the current communication revolution, it is important to go back a little and sketch out the growth of modern mass media in the world and in India. This helps us realise that like any other social institution the structure and content of mass media is shaped by changes in the economic, political and socio-cultural contexts. For instance, we see how central the state and its vision of development influenced the media in the first decades after independence. And how in the post 1990 period of globalisation, the market has a key role to play. Second, this help us better appreciate how the relationship between mass media and communication with society is dialectical. Both influence each other. The nature and role of mass media is influenced by the society in which it is located. At the same time the far reaching influence of mass media on society cannot be over-emphasised. We shall see this dialectical relationship —(a) the role of media in colonial India, (b) in the first decades after independence and (c) and finally in the context of globalisation. Third, mass communication is different from other means of communication as it requires a formal structural organisation to meet large-scale capital, production and management demands. You will find, therefore, that the state and/or the market have a major role in the structure and functioning of mass media. Mass media functions through very large organisations with major investments and large body of employees. Fourth, there are sharp differences between how easily different sections of people can use mass media."
+   },
+   "options": [
+    "Globalization",
+    "Liberalization",
+    "Modernization",
+    "Secularization"
+   ],
+   "key": [
+    0
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 47,
+   "paperNumber": 547,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "chapter": "Mass Media & Communications",
+   "type": "theory",
+   "stem": "How is mass communication different from other means of communication?",
+   "passage": {
+    "title": "Mass Media And Communication",
+    "text": "It is obvious that there has been a phenomenal expansion of mass communication of all kinds in recent years. As students of sociology, there are many aspects to this growth which is of great interest to us. First, while we recognise the specificity of the current communication revolution, it is important to go back a little and sketch out the growth of modern mass media in the world and in India. This helps us realise that like any other social institution the structure and content of mass media is shaped by changes in the economic, political and socio-cultural contexts. For instance, we see how central the state and its vision of development influenced the media in the first decades after independence. And how in the post 1990 period of globalisation, the market has a key role to play. Second, this help us better appreciate how the relationship between mass media and communication with society is dialectical. Both influence each other. The nature and role of mass media is influenced by the society in which it is located. At the same time the far reaching influence of mass media on society cannot be over-emphasised. We shall see this dialectical relationship —(a) the role of media in colonial India, (b) in the first decades after independence and (c) and finally in the context of globalisation. Third, mass communication is different from other means of communication as it requires a formal structural organisation to meet large-scale capital, production and management demands. You will find, therefore, that the state and/or the market have a major role in the structure and functioning of mass media. Mass media functions through very large organisations with major investments and large body of employees. Fourth, there are sharp differences between how easily different sections of people can use mass media."
+   },
+   "options": [
+    "It requires a larger target audience.",
+    "It requires formal structural organization.",
+    "It requires specific skills.",
+    "It requires special training"
+   ],
+   "key": [
+    1
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 48,
+   "paperNumber": 548,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "chapter": "Mass Media & Communications",
+   "type": "theory",
+   "stem": "What is the relationship between mass media and communication?",
+   "passage": {
+    "title": "Mass Media And Communication",
+    "text": "It is obvious that there has been a phenomenal expansion of mass communication of all kinds in recent years. As students of sociology, there are many aspects to this growth which is of great interest to us. First, while we recognise the specificity of the current communication revolution, it is important to go back a little and sketch out the growth of modern mass media in the world and in India. This helps us realise that like any other social institution the structure and content of mass media is shaped by changes in the economic, political and socio-cultural contexts. For instance, we see how central the state and its vision of development influenced the media in the first decades after independence. And how in the post 1990 period of globalisation, the market has a key role to play. Second, this help us better appreciate how the relationship between mass media and communication with society is dialectical. Both influence each other. The nature and role of mass media is influenced by the society in which it is located. At the same time the far reaching influence of mass media on society cannot be over-emphasised. We shall see this dialectical relationship —(a) the role of media in colonial India, (b) in the first decades after independence and (c) and finally in the context of globalisation. Third, mass communication is different from other means of communication as it requires a formal structural organisation to meet large-scale capital, production and management demands. You will find, therefore, that the state and/or the market have a major role in the structure and functioning of mass media. Mass media functions through very large organisations with major investments and large body of employees. Fourth, there are sharp differences between how easily different sections of people can use mass media."
+   },
+   "options": [
+    "Dialectical",
+    "Paradoxical",
+    "Relational",
+    "Differential"
+   ],
+   "key": [
+    0
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 49,
+   "paperNumber": 549,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "chapter": "Mass Media & Communications",
+   "type": "theory",
+   "stem": "The Digital Divide can be understood as",
+   "passage": {
+    "title": "Mass Media And Communication",
+    "text": "It is obvious that there has been a phenomenal expansion of mass communication of all kinds in recent years. As students of sociology, there are many aspects to this growth which is of great interest to us. First, while we recognise the specificity of the current communication revolution, it is important to go back a little and sketch out the growth of modern mass media in the world and in India. This helps us realise that like any other social institution the structure and content of mass media is shaped by changes in the economic, political and socio-cultural contexts. For instance, we see how central the state and its vision of development influenced the media in the first decades after independence. And how in the post 1990 period of globalisation, the market has a key role to play. Second, this help us better appreciate how the relationship between mass media and communication with society is dialectical. Both influence each other. The nature and role of mass media is influenced by the society in which it is located. At the same time the far reaching influence of mass media on society cannot be over-emphasised. We shall see this dialectical relationship —(a) the role of media in colonial India, (b) in the first decades after independence and (c) and finally in the context of globalisation. Third, mass communication is different from other means of communication as it requires a formal structural organisation to meet large-scale capital, production and management demands. You will find, therefore, that the state and/or the market have a major role in the structure and functioning of mass media. Mass media functions through very large organisations with major investments and large body of employees. Fourth, there are sharp differences between how easily different sections of people can use mass media."
+   },
+   "options": [
+    "The feasibility of different groups' use of technology.",
+    "The connection between local and global technology.",
+    "The ability to divide the use of different technology.",
+    "The ability to use different languages in technology."
+   ],
+   "key": [
+    0
+   ],
+   "status": "skill",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 50,
+   "paperNumber": 550,
+   "section": "Sociology, sub-section 3 (comprehension 226895781474, Q546-550)",
+   "chapter": "Mass Media & Communications",
+   "type": "theory",
+   "stem": "Who are the target audience of most soap operas?",
+   "passage": {
+    "title": "Mass Media And Communication",
+    "text": "It is obvious that there has been a phenomenal expansion of mass communication of all kinds in recent years. As students of sociology, there are many aspects to this growth which is of great interest to us. First, while we recognise the specificity of the current communication revolution, it is important to go back a little and sketch out the growth of modern mass media in the world and in India. This helps us realise that like any other social institution the structure and content of mass media is shaped by changes in the economic, political and socio-cultural contexts. For instance, we see how central the state and its vision of development influenced the media in the first decades after independence. And how in the post 1990 period of globalisation, the market has a key role to play. Second, this help us better appreciate how the relationship between mass media and communication with society is dialectical. Both influence each other. The nature and role of mass media is influenced by the society in which it is located. At the same time the far reaching influence of mass media on society cannot be over-emphasised. We shall see this dialectical relationship —(a) the role of media in colonial India, (b) in the first decades after independence and (c) and finally in the context of globalisation. Third, mass communication is different from other means of communication as it requires a formal structural organisation to meet large-scale capital, production and management demands. You will find, therefore, that the state and/or the market have a major role in the structure and functioning of mass media. Mass media functions through very large organisations with major investments and large body of employees. Fourth, there are sharp differences between how easily different sections of people can use mass media."
+   },
+   "options": [
+    "women",
+    "children",
+    "teenagers",
+    "masses"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  }
+ ]
+}

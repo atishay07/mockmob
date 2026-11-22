@@ -1,0 +1,194 @@
+{
+ "builtAt": "2026-11-22T00:21:59.571Z",
+ "problems": [
+  {
+   "subject": "accountancy",
+   "n": 3,
+   "id": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 4,
+   "id": "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 13,
+   "id": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "concept"
+  },
+  {
+   "subject": "accountancy",
+   "n": 16,
+   "id": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 17,
+   "id": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 18,
+   "id": "86cc4648-e6d2-4854-b767-32d33a9cc06f",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 22,
+   "id": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 23,
+   "id": "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 35,
+   "id": "43e60b95-10cb-4861-822a-678a501c2050",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 36,
+   "id": "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 37,
+   "id": "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "concept"
+  },
+  {
+   "subject": "accountancy",
+   "n": 40,
+   "id": "4635494f-c14e-42a9-839b-8745eab4ec6d",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "concept"
+  },
+  {
+   "subject": "accountancy",
+   "n": 45,
+   "id": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "accountancy",
+   "n": 49,
+   "id": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "business-studies",
+   "n": 13,
+   "id": "8171062d-6e5e-418c-a453-08f9daedef4d",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "business-studies",
+   "n": 14,
+   "id": "660d06e2-8ff7-4cb4-9bc0-39b32e303538",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "business-studies",
+   "n": 16,
+   "id": "fe9b41bc-53e6-4d36-8d3d-fc290750292c",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "concept"
+  },
+  {
+   "subject": "business-studies",
+   "n": 18,
+   "id": "19400ad2-6e18-42ff-a1cc-d97fa9986bfa",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "same"
+  },
+  {
+   "subject": "business-studies",
+   "n": 22,
+   "id": "fa2b3abd-6e78-4816-9112-1873ecc413eb",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "business-studies",
+   "n": 30,
+   "id": "3bca44a8-5095-4fdf-ace1-595621a862b2",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "business-studies",
+   "n": 36,
+   "id": "4bb87b57-9f45-4c52-a2ee-48852a6f224e",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "same"
+  },
+  {
+   "subject": "business-studies",
+   "n": 38,
+   "id": "350e6b60-9039-406a-8e7f-c7d021e04ed4",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "economics",
+   "n": 3,
+   "id": "124e00d2-25e6-41a3-8351-283f4426bd07",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "economics",
+   "n": 6,
+   "id": "b8f7678f-4fba-4e20-93ff-014790a22cf5",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "economics",
+   "n": 19,
+   "id": "09eea9aa-9687-498b-8f1c-2a95024de7cb",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "economics",
+   "n": 42,
+   "id": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  },
+  {
+   "subject": "economics",
+   "n": 43,
+   "id": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
+   "problem": "the cited match is not resolved to served words (bank-cache.json or the Key card decks)",
+   "was": "new-values"
+  }
+ ]
+}
