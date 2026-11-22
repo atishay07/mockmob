@@ -3378,38 +3378,6 @@
       ]
     },
     {
-      "id": "kc.geography.transport-and-communication.fact-pipelines-new-zealand-milk",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.transport-and-communication",
-      "chapter": "Transport & Communication",
-      "unit": "Transport & Communication",
-      "kind": "fact",
-      "front": "What is supplied through pipelines from farms to factories in New Zealand?",
-      "back": "In New Zealand, milk is being supplied through pipelines from farms to factories.",
-      "quote": "In New Zealand, milk is being supplied through pipelines from farms to factories.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy107",
-        "chapterNo": 7,
-        "page": 66,
-        "section": "Pipelines"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "pipelines",
-        "New Zealand"
-      ],
-      "order": 1440,
-      "reasons": [
-        "review:not_important",
-        "review:Case-story filler (NZ milk pipeline)."
-      ]
-    },
-    {
       "id": "kc.geography.transport-and-communication.fact-india-satellites",
       "v": 2,
       "subject": "geography",

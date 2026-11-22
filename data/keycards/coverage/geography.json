@@ -38,12 +38,12 @@
       "belowMinimum": false
     },
     "geography.human-geography-nature-and-scope": {
-      "published": 45,
+      "published": 50,
       "quarantined": 15,
       "byKind": {
         "definition": 7,
         "key_line": 11,
-        "fact": 15,
+        "fact": 20,
         "list": 6,
         "term": 1,
         "example": 2,
@@ -51,11 +51,11 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 18,
+        "must": 23,
         "good": 27
       },
       "coverage_note": null,
-      "mustShare": 0.4,
+      "mustShare": 0.46,
       "belowMinimum": false
     },
     "geography.human-settlements": {
@@ -79,30 +79,30 @@
       "belowMinimum": false
     },
     "geography.india-people-and-economy": {
-      "published": 75,
+      "published": 76,
       "quarantined": 10,
       "byKind": {
         "fact": 52,
         "key_line": 7,
-        "list": 3,
+        "list": 4,
         "definition": 7,
         "formula": 2,
         "types": 4
       },
       "byImportance": {
-        "must": 22,
+        "must": 23,
         "good": 53
       },
       "coverage_note": null,
-      "mustShare": 0.29,
+      "mustShare": 0.3,
       "belowMinimum": false
     },
     "geography.international-trade": {
-      "published": 73,
+      "published": 74,
       "quarantined": 10,
       "byKind": {
         "definition": 17,
-        "fact": 29,
+        "fact": 30,
         "key_line": 11,
         "list": 4,
         "example": 7,
@@ -110,28 +110,28 @@
         "types": 4
       },
       "byImportance": {
-        "must": 15,
+        "must": 16,
         "good": 58
       },
       "coverage_note": null,
-      "mustShare": 0.21,
+      "mustShare": 0.22,
       "belowMinimum": false
     },
     "geography.international-trade-india": {
-      "published": 57,
+      "published": 58,
       "quarantined": 18,
       "byKind": {
         "key_line": 10,
-        "fact": 44,
+        "fact": 45,
         "list": 2,
         "difference": 1
       },
       "byImportance": {
-        "must": 17,
+        "must": 18,
         "good": 40
       },
       "coverage_note": null,
-      "mustShare": 0.3,
+      "mustShare": 0.31,
       "belowMinimum": false
     },
     "geography.land-resources-and-agriculture": {
@@ -213,23 +213,23 @@
       "belowMinimum": false
     },
     "geography.primary-activities": {
-      "published": 96,
+      "published": 99,
       "quarantined": 5,
       "byKind": {
         "definition": 13,
         "types": 3,
         "list": 12,
         "term": 3,
-        "fact": 59,
+        "fact": 62,
         "key_line": 5,
         "difference": 1
       },
       "byImportance": {
-        "must": 19,
+        "must": 22,
         "good": 77
       },
       "coverage_note": null,
-      "mustShare": 0.2,
+      "mustShare": 0.22,
       "belowMinimum": false
     },
     "geography.secondary-activities": {
@@ -274,22 +274,22 @@
       "belowMinimum": false
     },
     "geography.transport-and-communication": {
-      "published": 170,
-      "quarantined": 16,
+      "published": 172,
+      "quarantined": 15,
       "byKind": {
         "definition": 13,
         "term": 3,
         "types": 4,
         "list": 7,
         "key_line": 24,
-        "fact": 119
+        "fact": 121
       },
       "byImportance": {
-        "must": 31,
+        "must": 33,
         "good": 139
       },
       "coverage_note": null,
-      "mustShare": 0.18,
+      "mustShare": 0.19,
       "belowMinimum": false
     },
     "geography.transport-and-communication-india": {

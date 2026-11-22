@@ -1,0 +1,1059 @@
+{
+ "paper": "cuet2026-geography",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 22 Nov 2026; ids read by OCR (Windows OCR, cross-checked with RapidOCR) and matched to NTA's 2026 final key (subject 313)",
+ "shifts": {
+  "24-05-2026 (Second)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 51,
+   "questionId": "226895791309",
+   "page": 3,
+   "optionIds": {
+    "2268953068689": 1,
+    "2268953068690": 2,
+    "2268953068691": 3,
+    "2268953068692": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068689"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 52,
+   "questionId": "226895791310",
+   "page": 3,
+   "optionIds": {
+    "2268953068693": 1,
+    "2268953068694": 2,
+    "2268953068695": 3,
+    "2268953068696": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068695"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 53,
+   "questionId": "226895791311",
+   "page": 4,
+   "optionIds": {
+    "2268953068697": 1,
+    "2268953068698": 2,
+    "2268953068699": 3,
+    "2268953068700": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068700"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 54,
+   "questionId": "226895791312",
+   "page": 5,
+   "optionIds": {
+    "2268953068701": 1,
+    "2268953068702": 2,
+    "2268953068703": 3,
+    "2268953068704": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068701"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 55,
+   "questionId": "226895791313",
+   "page": 5,
+   "optionIds": {
+    "2268953068705": 1,
+    "2268953068706": 2,
+    "2268953068707": 3,
+    "2268953068708": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068708"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 56,
+   "questionId": "226895791314",
+   "page": 6,
+   "optionIds": {
+    "2268953068709": 1,
+    "2268953068710": 2,
+    "2268953068711": 3,
+    "2268953068712": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068709"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 57,
+   "questionId": "226895791315",
+   "page": 7,
+   "optionIds": {
+    "2268953068713": 1,
+    "2268953068714": 2,
+    "2268953068715": 3,
+    "2268953068716": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068715"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 58,
+   "questionId": "226895791316",
+   "page": 7,
+   "optionIds": {
+    "2268953068717": 1,
+    "2268953068718": 2,
+    "2268953068719": 3,
+    "2268953068720": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068720"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 59,
+   "questionId": "226895791317",
+   "page": 8,
+   "optionIds": {
+    "2268953068721": 1,
+    "2268953068722": 2,
+    "2268953068723": 3,
+    "2268953068724": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068724"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 60,
+   "questionId": "226895791318",
+   "page": 8,
+   "optionIds": {
+    "2268953068725": 1,
+    "2268953068726": 2,
+    "2268953068727": 3,
+    "2268953068728": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068725"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 61,
+   "questionId": "226895791319",
+   "page": 9,
+   "optionIds": {
+    "2268953068729": 1,
+    "2268953068730": 2,
+    "2268953068731": 3,
+    "2268953068732": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068729"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 62,
+   "questionId": "226895791320",
+   "page": 10,
+   "optionIds": {
+    "2268953068733": 1,
+    "2268953068734": 2,
+    "2268953068735": 3,
+    "2268953068736": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068735"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 63,
+   "questionId": "226895791321",
+   "page": 10,
+   "optionIds": {
+    "2268953068737": 1,
+    "2268953068738": 2,
+    "2268953068739": 3,
+    "2268953068740": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068738"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 64,
+   "questionId": "226895791322",
+   "page": 11,
+   "optionIds": {
+    "2268953068741": 1,
+    "2268953068742": 2,
+    "2268953068743": 3,
+    "2268953068744": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068743"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 65,
+   "questionId": "226895791323",
+   "page": 11,
+   "optionIds": {
+    "2268953068745": 1,
+    "2268953068746": 2,
+    "2268953068747": 3,
+    "2268953068748": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068746"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 66,
+   "questionId": "226895791324",
+   "page": 12,
+   "optionIds": {
+    "2268953068749": 1,
+    "2268953068750": 2,
+    "2268953068751": 3,
+    "2268953068752": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068750"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 67,
+   "questionId": "226895791325",
+   "page": 13,
+   "optionIds": {
+    "2268953068753": 1,
+    "2268953068754": 2,
+    "2268953068755": 3,
+    "2268953068756": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068755"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 68,
+   "questionId": "226895791326",
+   "page": 14,
+   "optionIds": {
+    "2268953068757": 1,
+    "2268953068758": 2,
+    "2268953068759": 3,
+    "2268953068760": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068758"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 69,
+   "questionId": "226895791327",
+   "page": 14,
+   "optionIds": {
+    "2268953068761": 1,
+    "2268953068762": 2,
+    "2268953068763": 3,
+    "2268953068764": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068764"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 70,
+   "questionId": "226895791328",
+   "page": 15,
+   "optionIds": {
+    "2268953068765": 1,
+    "2268953068766": 2,
+    "2268953068767": 3,
+    "2268953068768": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068766"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 71,
+   "questionId": "226895791329",
+   "page": 15,
+   "optionIds": {
+    "2268953068769": 1,
+    "2268953068770": 2,
+    "2268953068771": 3,
+    "2268953068772": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068769"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 72,
+   "questionId": "226895791330",
+   "page": 16,
+   "optionIds": {
+    "2268953068773": 1,
+    "2268953068774": 2,
+    "2268953068775": 3,
+    "2268953068776": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068775"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 73,
+   "questionId": "226895791331",
+   "page": 17,
+   "optionIds": {
+    "2268953068777": 1,
+    "2268953068778": 2,
+    "2268953068779": 3,
+    "2268953068780": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068777"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 74,
+   "questionId": "226895791332",
+   "page": 17,
+   "optionIds": {
+    "2268953068781": 1,
+    "2268953068782": 2,
+    "2268953068783": 3,
+    "2268953068784": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068783"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 75,
+   "questionId": "226895791333",
+   "page": 18,
+   "optionIds": {
+    "2268953068785": 1,
+    "2268953068786": 2,
+    "2268953068787": 3,
+    "2268953068788": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068787"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 76,
+   "questionId": "226895791334",
+   "page": 19,
+   "optionIds": {
+    "2268953068789": 1,
+    "2268953068790": 2,
+    "2268953068791": 3,
+    "2268953068792": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068789"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 77,
+   "questionId": "226895791335",
+   "page": 20,
+   "optionIds": {
+    "2268953068793": 1,
+    "2268953068794": 2,
+    "2268953068795": 3,
+    "2268953068796": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068795"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 78,
+   "questionId": "226895791336",
+   "page": 20,
+   "optionIds": {
+    "2268953068797": 1,
+    "2268953068798": 2,
+    "2268953068799": 3,
+    "2268953068800": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068798"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 79,
+   "questionId": "226895791337",
+   "page": 21,
+   "optionIds": {
+    "2268953068801": 1,
+    "2268953068802": 2,
+    "2268953068803": 3,
+    "2268953068804": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068803"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 80,
+   "questionId": "226895791338",
+   "page": 22,
+   "optionIds": {
+    "2268953068805": 1,
+    "2268953068806": 2,
+    "2268953068807": 3,
+    "2268953068808": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068808"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 81,
+   "questionId": "226895791339",
+   "page": 23,
+   "optionIds": {
+    "2268953068809": 1,
+    "2268953068810": 2,
+    "2268953068811": 3,
+    "2268953068812": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068812"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 82,
+   "questionId": "226895791340",
+   "page": 24,
+   "optionIds": {
+    "2268953068813": 1,
+    "2268953068814": 2,
+    "2268953068815": 3,
+    "2268953068816": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068814"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 83,
+   "questionId": "226895791341",
+   "page": 25,
+   "optionIds": {
+    "2268953068817": 1,
+    "2268953068818": 2,
+    "2268953068819": 3,
+    "2268953068820": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068817"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 84,
+   "questionId": "226895791342",
+   "page": 26,
+   "optionIds": {
+    "2268953068821": 1,
+    "2268953068822": 2,
+    "2268953068823": 3,
+    "2268953068824": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068824"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 85,
+   "questionId": "226895791343",
+   "page": 27,
+   "optionIds": {
+    "2268953068825": 1,
+    "2268953068826": 2,
+    "2268953068827": 3,
+    "2268953068828": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068828"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 86,
+   "questionId": "226895791344",
+   "page": 28,
+   "optionIds": {
+    "2268953068829": 1,
+    "2268953068830": 2,
+    "2268953068831": 3,
+    "2268953068832": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068830"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 87,
+   "questionId": "226895791345",
+   "page": 29,
+   "optionIds": {
+    "2268953068833": 1,
+    "2268953068834": 2,
+    "2268953068835": 3,
+    "2268953068836": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068836"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 88,
+   "questionId": "226895791346",
+   "page": 30,
+   "optionIds": {
+    "2268953068837": 1,
+    "2268953068838": 2,
+    "2268953068839": 3,
+    "2268953068840": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068837"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 89,
+   "questionId": "226895791347",
+   "page": 31,
+   "optionIds": {
+    "2268953068841": 1,
+    "2268953068842": 2,
+    "2268953068843": 3,
+    "2268953068844": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068844"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 90,
+   "questionId": "226895791348",
+   "page": 32,
+   "optionIds": {
+    "2268953068845": 1,
+    "2268953068846": 2,
+    "2268953068847": 3,
+    "2268953068848": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068847"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 91,
+   "questionId": "226895791350",
+   "page": 35,
+   "optionIds": {
+    "2268953068849": 1,
+    "2268953068850": 2,
+    "2268953068851": 3,
+    "2268953068852": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068850"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 92,
+   "questionId": "226895791351",
+   "page": 34,
+   "optionIds": {
+    "2268953068853": 1,
+    "2268953068854": 2,
+    "2268953068855": 3,
+    "2268953068856": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068854"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 93,
+   "questionId": "226895791352",
+   "page": 34,
+   "optionIds": {
+    "2268953068857": 1,
+    "2268953068858": 2,
+    "2268953068859": 3,
+    "2268953068860": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068860"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 94,
+   "questionId": "226895791353",
+   "page": 34,
+   "optionIds": {
+    "2268953068861": 1,
+    "2268953068862": 2,
+    "2268953068863": 3,
+    "2268953068864": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068862"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 95,
+   "questionId": "226895791354",
+   "page": 35,
+   "optionIds": {
+    "2268953068865": 1,
+    "2268953068866": 2,
+    "2268953068867": 3,
+    "2268953068868": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068865"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 96,
+   "questionId": "226895791356",
+   "page": 38,
+   "optionIds": {
+    "2268953068869": 1,
+    "2268953068870": 2,
+    "2268953068871": 3,
+    "2268953068872": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068869"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 97,
+   "questionId": "226895791357",
+   "page": 38,
+   "optionIds": {
+    "2268953068873": 1,
+    "2268953068874": 2,
+    "2268953068875": 3,
+    "2268953068876": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068873"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 98,
+   "questionId": "226895791358",
+   "page": 41,
+   "optionIds": {
+    "2268953068877": 1,
+    "2268953068878": 2,
+    "2268953068879": 3,
+    "2268953068880": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068879"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 99,
+   "questionId": "226895791359",
+   "page": 39,
+   "optionIds": {
+    "2268953068881": 1,
+    "2268953068882": 2,
+    "2268953068883": 3,
+    "2268953068884": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068884"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 100,
+   "questionId": "226895791360",
+   "page": 39,
+   "optionIds": {
+    "2268953068885": 1,
+    "2268953068886": 2,
+    "2268953068887": 3,
+    "2268953068888": 4
+   },
+   "inKey": true,
+   "keySubject": "geography",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953068886"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  }
+ ]
+}

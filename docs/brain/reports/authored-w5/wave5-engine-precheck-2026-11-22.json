@@ -1,0 +1,29 @@
+{
+ "kind": "authored_w5_engine_precheck",
+ "source": "claude-authored-2026-11-22-w5",
+ "candidatesFile": "docs/brain/reports/authored-w5/wave5-candidates-final-2026-11-22.json",
+ "method": "ntaEligibility on the row planPublication writes, empty agent and fit tables; score and fit reasons are not listed, only the veto gate (content, wording, structure, answer guard).",
+ "problems": [],
+ "refused": [],
+ "bySubject": {
+  "accountancy": {
+   "planned": 27,
+   "clean": 27,
+   "refused": 0
+  },
+  "business_studies": {
+   "planned": 8,
+   "clean": 8,
+   "refused": 0
+  },
+  "economics": {
+   "planned": 9,
+   "clean": 9,
+   "refused": 0
+  }
+ },
+ "reasons": {},
+ "planned": 44,
+ "engineRefused": 0,
+ "script": "scripts/authored-w4-engine-precheck.mjs (wave-4 script, run on the wave-5 list; its kind/source labels corrected here)"
+}

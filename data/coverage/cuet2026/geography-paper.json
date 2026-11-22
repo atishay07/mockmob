@@ -1,0 +1,1306 @@
+{
+ "paper": "cuet2026-geography",
+ "subject": "geography",
+ "subjectName": "Geography (Geography and Geology)",
+ "subjectCode": "313",
+ "examDate": "2026-05-24",
+ "shift": "Second",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Geography and Geology, 41 PDF pages: a cover plus 40 numbered pages), https://docs.aglasem.com/view/7025c4b2-c701-11f1-a920-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/7025c4b2-c701-11f1-a920-0aa932765c8b/7025c4b2-c701-11f1-a920-0aa932765c8b.pdf (9,253,417 bytes, ETag a10882e42d56b568fdf01186f7b5c693, Last-Modified 13 Oct 2026), downloaded 22 Nov 2026 under the owner's 22 Nov 2026 request for more subjects. English text from two OCR drafts (Windows OCR and RapidOCR) cross-checked against each other and the page images. Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 313.",
+ "structure": "One mandatory section of 50 numbered questions (51 to 100) printed in English then Hindi: sub-section 1 has 40 stand-alone MCQs (51-90: one-line MCQs, 5 sequence questions 76-80, 5 statement questions 81-85, 5 match-the-list questions 86-90), sub-sections 2 and 3 have one comprehension passage each with 5 questions (91-95 and 96-100). The paper's own header says 'Number of Questions: 42' and 'Section Marks: 250'; fifty questions are printed.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 313 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question.",
+ "transcribedBy": "Subagent paper stage, 22 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed. Wording and spelling kept as printed (e.g. Q52 option 2 'Huministic', Q77 'Kochchi Port', Q98 and the rail passage 'revolutionlised', Q95 'Silicon Forest technopolies is located').",
+  "Page = the page image (pNN.png of the 41-page PDF; the printed footer is one lower) where the question's English option ids are first printed.",
+  "Match tables are written as rows 'List-I item | List-II item' in the order the paper prints them (A with I, B with II, C with III, D with IV). The five match tables were read from the page images.",
+  "Fill-in-the-blank stems (Q52, 59, 62, 66, 68, 71) carry the printed blank as '_______'; both OCR engines dropped the blank lines, restored from the page images.",
+  "OCR slips fixed: 28 corrections of 26 distinct slips (e.g. 'oppoftunities', 'Bilths', 'Noffh', 'impon', 'stmctures'), plus Q77 item D and Q52's clause after the blank, which the Windows OCR dropped and the page image and RapidOCR show. Every fix was checked against the page image.",
+  "RapidOCR (the engine used for the first subjects) missed 11 question headers on this print (Q57, 66, 68, 79, 80, 83, 89, 92, 94, 96, 99); the Windows OCR read all 50, and the 39 both engines read agree exactly on question ids, option ids and answer positions.",
+  "The shift's key has 50 rows, all single-answer, none dropped. NTA's final key for subject 313 holds 13 shifts; this paper is the 24-05-2026 Second shift, and all 50 question ids fall in that one shift."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "keyRows": 50
+ },
+ "problems": [],
+ "passages": {
+  "P1-226895791349": {
+   "questionId": "226895791349",
+   "questionNumbers": "91 to 95",
+   "title": "Concept of High Technology Industry",
+   "page": 33,
+   "text": "Concept of High Technology Industry - High technology, or simply high-tech, is the latest generation of manufacturing activities. It is best understood as the application of intensive research and development (R and D) efforts leading to the manufacture of products of an advanced scientific and engineering character. Professional (white collar) workers make up a large share of the total workforce. These highly skilled specialists greatly outnumber the actual production (blue collar) workers. Robotics on the assembly line, computer-aided design (CAD) and manufacturing, electronic controls of smelting and refining processes, and the constant development of new chemical and pharmaceutical products are notable examples of a high-tech industry. Neatly spaced, low, modern, dispersed, office-plant-lab buildings rather than massive assembly structures, factories and storage areas mark the high-tech industrial landscape. Planned business parks for high-tech start-ups have become part of regional and local development schemes. High-tech industries which are regionally concentrated, self-sustained and highly specialized are called technopolies. The Silicon Valley near San Francisco and Silicon Forest near Seattle are examples of technopolies."
+  },
+  "P2-226895791355": {
+   "questionId": "226895791355",
+   "questionNumbers": "96 to 100",
+   "title": "Rail Transport",
+   "page": 38,
+   "text": "Rail Transport The Indian Railways network is one of the longest in the world. It facilitates the movement of both freight and passengers and contributes to the growth of the economy. Mahatma Gandhi said, the Indian railways \"...brought people of diverse cultures together to contribute to India's freedom struggle\". The Indian Railway was introduced in 1853, when a line was constructed from Bombay to Thane, covering a distance of 34 km. Indian Railways is the largest government undertaking in the country. The length of the Indian Railways network was 67,956 km (Railway yearbook 2019-20). Its very large size puts a lot of pressure on a centralised railway management system. Thus, in India, the railway system has been divided into 17 zones. Indian Railways has launched an extensive programme to convert the metre and narrow gauges to broad gauge. Moreover, steam engines have been replaced by diesel and electric engines. This step has increased the speed, as well as the haulage capacity. The replacement of steam engines run by coal has also improved the environment of the stations. Metro rail has revolutionlised the urban transport system in India. Replacement of diesel buses by CNG-run vehicles along with the introduction of the metro is a welcome step towards controlling the air pollution in urban centres. Areas around towns, raw material producing areas and plantations and other commercial crops, hill stations and cantonment towns were well-connected by railways from the British colonial era. These were mostly developed for the exploitation of resources. After the Independence of the country, railway routes have been extended to other areas too. The most significant development has been the development of the Konkan Railway along the western coast, providing a direct link between Mumbai and Mangaluru. The railway continues to remain the main means of transport for the masses. The railway network is relatively less dense in the hill states, north eastern states, central parts of India and Rajasthan."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 51,
+   "questionId": "226895791309",
+   "page": 3,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following is a push factor for migration?",
+   "options": [
+    "Unemployment",
+    "Better job opportunities",
+    "Peace and stability",
+    "Pleasant climate"
+   ],
+   "optionIds": [
+    "2268953068689",
+    "2268953068690",
+    "2268953068691",
+    "2268953068692"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068689",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 2,
+   "paperNumber": 52,
+   "questionId": "226895791310",
+   "page": 3,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "The Marxian theory was applied by _______ to explain social inequality.",
+   "options": [
+    "Positivist School of Thought",
+    "Huministic School of Thought",
+    "Radical School of Thought",
+    "Behavioural School of Thought"
+   ],
+   "optionIds": [
+    "2268953068693",
+    "2268953068694",
+    "2268953068695",
+    "2268953068696"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068695",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 3,
+   "paperNumber": 53,
+   "questionId": "226895791311",
+   "page": 4,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Ankaleshwar oilfield is located in which state?",
+   "options": [
+    "Assam",
+    "Rajasthan",
+    "Andhra Pradesh",
+    "Gujarat"
+   ],
+   "optionIds": [
+    "2268953068697",
+    "2268953068698",
+    "2268953068699",
+    "2268953068700"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068700",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 4,
+   "paperNumber": 54,
+   "questionId": "226895791312",
+   "page": 5,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following is NOT a component of population change?",
+   "options": [
+    "Sex Ratio",
+    "Births",
+    "Death",
+    "Migration"
+   ],
+   "optionIds": [
+    "2268953068701",
+    "2268953068702",
+    "2268953068703",
+    "2268953068704"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068701",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 5,
+   "paperNumber": 55,
+   "questionId": "226895791313",
+   "page": 5,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following approach was initially proposed by International Labour Organization?",
+   "options": [
+    "Income Approach",
+    "Capability Approach",
+    "Welfare Approach",
+    "Basic Need Approach"
+   ],
+   "optionIds": [
+    "2268953068705",
+    "2268953068706",
+    "2268953068707",
+    "2268953068708"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068708",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 6,
+   "paperNumber": 56,
+   "questionId": "226895791314",
+   "page": 6,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which part of tree is used for making quinine?",
+   "options": [
+    "Bark",
+    "Root",
+    "Fruit Seed",
+    "Flower"
+   ],
+   "optionIds": [
+    "2268953068709",
+    "2268953068710",
+    "2268953068711",
+    "2268953068712"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068709",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 7,
+   "paperNumber": 57,
+   "questionId": "226895791315",
+   "page": 7,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following is NOT a characteristic of Intensive Subsistence Farming?",
+   "options": [
+    "It is practiced with or without paddy.",
+    "Land holdings are small.",
+    "It is characterized by heavy use of farm machinery.",
+    "Farm yard manure is used to maintain the fertility of soil."
+   ],
+   "optionIds": [
+    "2268953068713",
+    "2268953068714",
+    "2268953068715",
+    "2268953068716"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068715",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 8,
+   "paperNumber": 58,
+   "questionId": "226895791316",
+   "page": 7,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Bailadila iron ore mines are located in which state?",
+   "options": [
+    "Madhya Pradesh",
+    "Karnataka",
+    "Maharashtra",
+    "Chhattisgarh"
+   ],
+   "optionIds": [
+    "2268953068717",
+    "2268953068718",
+    "2268953068719",
+    "2268953068720"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068720",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 9,
+   "paperNumber": 59,
+   "questionId": "226895791317",
+   "page": 8,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "The people who are engaged in activities that are knowledge oriented are considered as the workers of _______.",
+   "options": [
+    "Primary Activity",
+    "Secondary Activity",
+    "Tertiary Activity",
+    "Quaternary Activity"
+   ],
+   "optionIds": [
+    "2268953068721",
+    "2268953068722",
+    "2268953068723",
+    "2268953068724"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068724",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 10,
+   "paperNumber": 60,
+   "questionId": "226895791318",
+   "page": 9,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "At which place a geothermal energy plant has been commissioned?",
+   "options": [
+    "Manikaran",
+    "Khetri",
+    "Katni",
+    "Ratnagiri"
+   ],
+   "optionIds": [
+    "2268953068725",
+    "2268953068726",
+    "2268953068727",
+    "2268953068728"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068725",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 11,
+   "paperNumber": 61,
+   "questionId": "226895791319",
+   "page": 9,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following states had the highest density of population in 2011?",
+   "options": [
+    "Bihar",
+    "West Bengal",
+    "Uttar Pradesh",
+    "Kerala"
+   ],
+   "optionIds": [
+    "2268953068729",
+    "2268953068730",
+    "2268953068731",
+    "2268953068732"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068729",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 12,
+   "paperNumber": 62,
+   "questionId": "226895791320",
+   "page": 10,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "The ratio of total population to net cultivated area is called _______.",
+   "options": [
+    "Population Density",
+    "Agricultural Density",
+    "Physiological Density",
+    "Geometric Density"
+   ],
+   "optionIds": [
+    "2268953068733",
+    "2268953068734",
+    "2268953068735",
+    "2268953068736"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068735",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 13,
+   "paperNumber": 63,
+   "questionId": "226895791321",
+   "page": 10,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following languages has the highest percentage of speakers in India?",
+   "options": [
+    "Bengali",
+    "Hindi",
+    "Telugu",
+    "Marathi"
+   ],
+   "optionIds": [
+    "2268953068737",
+    "2268953068738",
+    "2268953068739",
+    "2268953068740"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068738",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 14,
+   "paperNumber": 64,
+   "questionId": "226895791322",
+   "page": 11,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Neodeterminism is also known as:",
+   "options": [
+    "Naturalisation of Humans",
+    "Humanisation of Nature",
+    "Stop and go determinism",
+    "Possibilism"
+   ],
+   "optionIds": [
+    "2268953068741",
+    "2268953068742",
+    "2268953068743",
+    "2268953068744"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068743",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 15,
+   "paperNumber": 65,
+   "questionId": "226895791323",
+   "page": 12,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "The third most populous country in the world is:",
+   "options": [
+    "Indonesia",
+    "U.S.A.",
+    "Brazil",
+    "Nigeria"
+   ],
+   "optionIds": [
+    "2268953068745",
+    "2268953068746",
+    "2268953068747",
+    "2268953068748"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068746",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 16,
+   "paperNumber": 66,
+   "questionId": "226895791324",
+   "page": 12,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "In India, compact or clustered settlements in rural areas are generally found in _______.",
+   "options": [
+    "remote jungles or in hilly areas.",
+    "fertile alluvial plains.",
+    "lower valleys of Himalayas",
+    "Meghalaya and Himachal Pradesh"
+   ],
+   "optionIds": [
+    "2268953068749",
+    "2268953068750",
+    "2268953068751",
+    "2268953068752"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068750",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 17,
+   "paperNumber": 67,
+   "questionId": "226895791325",
+   "page": 13,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following is NOT an ancient town of India?",
+   "options": [
+    "Varanasi",
+    "Madurai",
+    "Hyderabad",
+    "Pataliputra (Patna)"
+   ],
+   "optionIds": [
+    "2268953068753",
+    "2268953068754",
+    "2268953068755",
+    "2268953068756"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068755",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 18,
+   "paperNumber": 68,
+   "questionId": "226895791326",
+   "page": 14,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "In geography, regions, villages and towns have been described as _______.",
+   "options": [
+    "Face",
+    "Organisms",
+    "Arteries of circulation",
+    "Profile"
+   ],
+   "optionIds": [
+    "2268953068757",
+    "2268953068758",
+    "2268953068759",
+    "2268953068760"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068758",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 19,
+   "paperNumber": 69,
+   "questionId": "226895791327",
+   "page": 14,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following types of wasteland is NOT primarily caused by human action?",
+   "options": [
+    "Degraded land under plantation crops.",
+    "Degraded forests and pastures.",
+    "Mining and industrial wastelands.",
+    "Barren rocky areas and steep sloping land."
+   ],
+   "optionIds": [
+    "2268953068761",
+    "2268953068762",
+    "2268953068763",
+    "2268953068764"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068764",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 20,
+   "paperNumber": 70,
+   "questionId": "226895791328",
+   "page": 15,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following is ignored by the World Trade Organization?",
+   "options": [
+    "Rules related to trade between nations.",
+    "Issues of worker's right and child labour.",
+    "Trade in services.",
+    "Issues of intellectual property rights."
+   ],
+   "optionIds": [
+    "2268953068765",
+    "2268953068766",
+    "2268953068767",
+    "2268953068768"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068766",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 21,
+   "paperNumber": 71,
+   "questionId": "226895791329",
+   "page": 16,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Pipelines are used to supply milk from farms to factories in _______.",
+   "options": [
+    "New Zealand",
+    "USA",
+    "Russia",
+    "Turkmenistan"
+   ],
+   "optionIds": [
+    "2268953068769",
+    "2268953068770",
+    "2268953068771",
+    "2268953068772"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068769",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 22,
+   "paperNumber": 72,
+   "questionId": "226895791330",
+   "page": 16,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "The present level of urbanisation in world falls under which of following categories?",
+   "options": [
+    "Below 35 percent",
+    "35 to 50 percent",
+    "50 to 75 percent",
+    "Above 75 percent"
+   ],
+   "optionIds": [
+    "2268953068773",
+    "2268953068774",
+    "2268953068775",
+    "2268953068776"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068775",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 23,
+   "paperNumber": 73,
+   "questionId": "226895791331",
+   "page": 17,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Big Inch pipeline is located in which of the following continents?",
+   "options": [
+    "North America",
+    "Africa",
+    "Australia",
+    "Asia"
+   ],
+   "optionIds": [
+    "2268953068777",
+    "2268953068778",
+    "2268953068779",
+    "2268953068780"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068777",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 24,
+   "paperNumber": 74,
+   "questionId": "226895791332",
+   "page": 18,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which of the following has significantly contributed to turn the concept of the global village into a reality?",
+   "options": [
+    "Trans-Continental Railways",
+    "Trans-Continental Highways",
+    "Cyber Space",
+    "Inter-Continental Airways"
+   ],
+   "optionIds": [
+    "2268953068781",
+    "2268953068782",
+    "2268953068783",
+    "2268953068784"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068783",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 25,
+   "paperNumber": 75,
+   "questionId": "226895791333",
+   "page": 18,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Which out of the following is NOT a source of water pollution?",
+   "options": [
+    "Sewage Disposal",
+    "Urban run-off",
+    "Combustion of coal",
+    "Run-off over cultivated lands"
+   ],
+   "optionIds": [
+    "2268953068785",
+    "2268953068786",
+    "2268953068787",
+    "2268953068788"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068787",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 26,
+   "paperNumber": 76,
+   "questionId": "226895791334",
+   "page": 19,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Arrange the following countries in descending order of population size:\nA. China\nB. Brazil\nC. Bangladesh\nD. Mexico\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "A, C, B, D",
+    "B, A, D, C",
+    "C, B, D, A"
+   ],
+   "optionIds": [
+    "2268953068789",
+    "2268953068790",
+    "2268953068791",
+    "2268953068792"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068789",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 27,
+   "paperNumber": 77,
+   "questionId": "226895791335",
+   "page": 20,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Arrange the following ports in North to South direction.\nA. Deendayal Port\nB. Mumbai Port\nC. Kochchi Port\nD. Mangaluru Port\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "B, C, D, A",
+    "A, B, D, C",
+    "B, A, D, C"
+   ],
+   "optionIds": [
+    "2268953068793",
+    "2268953068794",
+    "2268953068795",
+    "2268953068796"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068795",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 28,
+   "paperNumber": 78,
+   "questionId": "226895791336",
+   "page": 21,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Arrange the following oil refineries in West to East direction.\nA. Mathura\nB. Barauni\nC. Panipat\nD. Bathinda\nChoose the correct answer from the options given below:",
+   "options": [
+    "C, D, A, B",
+    "D, C, A, B",
+    "B, A, D, C",
+    "C, B, D, A"
+   ],
+   "optionIds": [
+    "2268953068797",
+    "2268953068798",
+    "2268953068799",
+    "2268953068800"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068798",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 29,
+   "paperNumber": 79,
+   "questionId": "226895791337",
+   "page": 22,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Arrange the following religious groups in decreasing order of their population in India:\nA. Jains\nB. Christians\nC. Buddhists\nD. Sikhs\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "A, D, B, C",
+    "B, D, C, A",
+    "C, B, D, A"
+   ],
+   "optionIds": [
+    "2268953068801",
+    "2268953068802",
+    "2268953068803",
+    "2268953068804"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068803",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 30,
+   "paperNumber": 80,
+   "questionId": "226895791338",
+   "page": 23,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Arrange the following approaches of human geography from earlier colonial times to 1990s.\nA. Spatial Organization\nB. Post-Modernism in geography\nC. Areal Differentiation\nD. Emergence of humanistic, radical and behavioral schools\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "C, B, A, D",
+    "B, A, D, C",
+    "C, A, D, B"
+   ],
+   "optionIds": [
+    "2268953068805",
+    "2268953068806",
+    "2268953068807",
+    "2268953068808"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068808",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 31,
+   "paperNumber": 81,
+   "questionId": "226895791339",
+   "page": 24,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Identify the correct statements regarding water resources of India.\nA. India accounts for about 4 percent of the world's water resources.\nB. Annual precipitation in India is about 2000 cubic km.\nC. The total utilisable water resource in the country is about 1122 cubic km.\nD. Agriculture sector is the leading consumer of surface and groundwater.",
+   "options": [
+    "A, B and C only",
+    "A, B and D only",
+    "B, C and D only",
+    "A, C and D only"
+   ],
+   "optionIds": [
+    "2268953068809",
+    "2268953068810",
+    "2268953068811",
+    "2268953068812"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068812",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 32,
+   "paperNumber": 82,
+   "questionId": "226895791340",
+   "page": 25,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Identify correct statements regarding commercial dairy farming.\nA. It is highly capital intensive.\nB. It is practiced in North Western Europe.\nC. It is practiced mainly near urban and industrial centres.\nD. It is not labour intensive.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, C and D only",
+    "A, B and C only",
+    "A, B and D only",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953068813",
+    "2268953068814",
+    "2268953068815",
+    "2268953068816"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068814",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 33,
+   "paperNumber": 83,
+   "questionId": "226895791341",
+   "page": 25,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Consider the following and identify the correct statements.\nA. The Christian population is distributed mostly in rural areas of the country.\nB. Sikhs are mostly concentrated in relatively small area of the country.\nC. Buddhists are concentrated mostly in Andhra Pradesh.\nD. Jains have a major concentration in the urban areas of Rajasthan, Gujarat and Maharashtra.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953068817",
+    "2268953068818",
+    "2268953068819",
+    "2268953068820"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068817",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 34,
+   "paperNumber": 84,
+   "questionId": "226895791342",
+   "page": 26,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Identify correct statements with respect to Konkan Railway.\nA. It was constructed in 1989.\nB. It is a 760-km long rail route.\nC. It connects Roha to Mangalore.\nD. Asia's largest tunnel, which is nearly 6.5 km long, also lies on this route.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A, B and C only",
+    "A, C and D only",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953068821",
+    "2268953068822",
+    "2268953068823",
+    "2268953068824"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068824",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 35,
+   "paperNumber": 85,
+   "questionId": "226895791343",
+   "page": 27,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Choose the correct statements with reference to a rise in the import of petroleum products in Indian imports.\nA. Fuel demand has increased.\nB. It is used not only as a fuel but also as an industrial raw material.\nC. It is linked with industrialisation and urbanisation.\nD. Rural India still depends on fuel-wood.",
+   "options": [
+    "A, B and D only",
+    "A and D only",
+    "A, C and D only",
+    "A, B and C only"
+   ],
+   "optionIds": [
+    "2268953068825",
+    "2268953068826",
+    "2268953068827",
+    "2268953068828"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068828",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 36,
+   "paperNumber": 86,
+   "questionId": "226895791344",
+   "page": 28,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Sub Field of Geography) | LIST-II (Interface with sister discipline)\nA. Behavioral Geography | I. Epidemiology\nB. Medical Geography | II. Psychology\nC. Electoral Geography | III. Psephology\nD. Geography of Leisure | IV. Sociology\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-IV, B-II, C-III, D-I",
+    "A-II, B-I, C-III, D-IV",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953068829",
+    "2268953068830",
+    "2268953068831",
+    "2268953068832"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068830",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 37,
+   "paperNumber": 87,
+   "questionId": "226895791345",
+   "page": 29,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Pillars of Human Development) | LIST-II (Characteristics)\nA. Equity | I. Power to make choice.\nB. Sustainability | II. Access to opportunities should be gender, race and caste independent.\nC. Productivity | III. Work efficiency of the people of nation.\nD. Empowerment | IV. Opportunities should be continuously available.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-IV, B-II, C-I, D-III",
+    "A-IV, B-II, C-III, D-I",
+    "A-II, B-IV, C-I, D-III",
+    "A-II, B-IV, C-III, D-I"
+   ],
+   "optionIds": [
+    "2268953068833",
+    "2268953068834",
+    "2268953068835",
+    "2268953068836"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068836",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 38,
+   "paperNumber": 88,
+   "questionId": "226895791346",
+   "page": 30,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Type of Port) | LIST-II (Name of Port)\nA. Oil Port | I. Maracaibo\nB. Port of Call | II. Rotterdam\nC. Entrepot Ports | III. Honolulu\nD. Naval Port | IV. Kochi\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-III, C-II, D-IV",
+    "A-I, B-III, C-IV, D-II",
+    "A-III, B-IV, C-II, D-I",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953068837",
+    "2268953068838",
+    "2268953068839",
+    "2268953068840"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068837",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 39,
+   "paperNumber": 89,
+   "questionId": "226895791347",
+   "page": 31,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Air Port) | LIST-II (Country)\nA. Montreal | I. Thailand\nB. Madrid | II. Australia\nC. Bangkok | III. Canada\nD. Perth | IV. Spain\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-III, B-II, C-I, D-IV",
+    "A-I, B-II, C-IV, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953068841",
+    "2268953068842",
+    "2268953068843",
+    "2268953068844"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068844",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 40,
+   "paperNumber": 90,
+   "questionId": "226895791348",
+   "page": 32,
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Characteristic) | LIST-II (Thought)\nA. Perspective that contemporary social problems are related to the development of capitalism | I. Welfare Geography\nB. Study of social well-being of people like housing, health and education | II. Radical School of thought\nC. Study of human activities which make use of opportunities provided by nature and thus cause humanization of nature | III. Behavioural School of thought\nD. Study of lived experience and perceptions of space by social categories based on religion, race and ethnicity | IV. Possibilism\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-III, B-II, C-I, D-IV",
+    "A-II, B-I, C-IV, D-III",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953068845",
+    "2268953068846",
+    "2268953068847",
+    "2268953068848"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068847",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed"
+  },
+  {
+   "n": 41,
+   "paperNumber": 91,
+   "questionId": "226895791350",
+   "page": 34,
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "stem": "Which type of workers make up a large share of the total workforce in the high technology industry?",
+   "options": [
+    "Red collar",
+    "Whitecollar",
+    "Blue collar",
+    "Golden collar"
+   ],
+   "optionIds": [
+    "2268953068849",
+    "2268953068850",
+    "2268953068851",
+    "2268953068852"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068850",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P1-226895791349"
+  },
+  {
+   "n": 42,
+   "paperNumber": 92,
+   "questionId": "226895791351",
+   "page": 34,
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "stem": "Which of the following is the latest generation of manufacturing activities?",
+   "options": [
+    "Eco-tourism",
+    "High-tech",
+    "Medical tourism",
+    "Outsourcing"
+   ],
+   "optionIds": [
+    "2268953068853",
+    "2268953068854",
+    "2268953068855",
+    "2268953068856"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068854",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P1-226895791349"
+  },
+  {
+   "n": 43,
+   "paperNumber": 93,
+   "questionId": "226895791352",
+   "page": 34,
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "stem": "Which of the following is NOT the characteristic of the high technology industries?",
+   "options": [
+    "Highly skilled specialised workforce",
+    "Robotics on the assembly line",
+    "Computer-Aided Design",
+    "Massive industrial structures and storages"
+   ],
+   "optionIds": [
+    "2268953068857",
+    "2268953068858",
+    "2268953068859",
+    "2268953068860"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068860",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P1-226895791349"
+  },
+  {
+   "n": 44,
+   "paperNumber": 94,
+   "questionId": "226895791353",
+   "page": 35,
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "stem": "High-tech industries which are regionally concentrated, self-sustained and highly specialised are called:",
+   "options": [
+    "Minneapolis",
+    "Technopolies",
+    "Metropolis",
+    "Megalopolis"
+   ],
+   "optionIds": [
+    "2268953068861",
+    "2268953068862",
+    "2268953068863",
+    "2268953068864"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068862",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P1-226895791349"
+  },
+  {
+   "n": 45,
+   "paperNumber": 95,
+   "questionId": "226895791354",
+   "page": 35,
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "stem": "Silicon Forest technopolies is located in which country?",
+   "options": [
+    "USA",
+    "France",
+    "Germany",
+    "Japan"
+   ],
+   "optionIds": [
+    "2268953068865",
+    "2268953068866",
+    "2268953068867",
+    "2268953068868"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068865",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P1-226895791349"
+  },
+  {
+   "n": 46,
+   "paperNumber": 96,
+   "questionId": "226895791356",
+   "page": 38,
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "stem": "The Indian Railway was introduced in 1853 between which two places?",
+   "options": [
+    "Bombay to Thane",
+    "Bombay to Pune",
+    "Bombay to Nagpur",
+    "Delhi to Kanpur"
+   ],
+   "optionIds": [
+    "2268953068869",
+    "2268953068870",
+    "2268953068871",
+    "2268953068872"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068869",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P2-226895791355"
+  },
+  {
+   "n": 47,
+   "paperNumber": 97,
+   "questionId": "226895791357",
+   "page": 38,
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "stem": "In Indian Railways, which of the following gauges has the longest total length of tracks?",
+   "options": [
+    "Broad gauge",
+    "Standard gauge",
+    "Metre gauge",
+    "Narrow gauge"
+   ],
+   "optionIds": [
+    "2268953068873",
+    "2268953068874",
+    "2268953068875",
+    "2268953068876"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953068873",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P2-226895791355"
+  },
+  {
+   "n": 48,
+   "paperNumber": 98,
+   "questionId": "226895791358",
+   "page": 39,
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "stem": "Which of the following has revolutionlised the urban transport system in India?",
+   "options": [
+    "CNG-Buses",
+    "Electrical Vehicles",
+    "Metro rail",
+    "Bullet Train"
+   ],
+   "optionIds": [
+    "2268953068877",
+    "2268953068878",
+    "2268953068879",
+    "2268953068880"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953068879",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P2-226895791355"
+  },
+  {
+   "n": 49,
+   "paperNumber": 99,
+   "questionId": "226895791359",
+   "page": 39,
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "stem": "Which of the following regions has dense railway network?",
+   "options": [
+    "Hilly states",
+    "North Eastern States",
+    "Eastern Rajasthan",
+    "Ganga plains"
+   ],
+   "optionIds": [
+    "2268953068881",
+    "2268953068882",
+    "2268953068883",
+    "2268953068884"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953068884",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR missed this header line (it read the option ids), Windows OCR read the header; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P2-226895791355"
+  },
+  {
+   "n": 50,
+   "paperNumber": 100,
+   "questionId": "226895791360",
+   "page": 39,
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "stem": "Identify the railway zone whose headquarter is located in Bihar.",
+   "options": [
+    "North Eastern",
+    "East Central",
+    "Eastern",
+    "North Central"
+   ],
+   "optionIds": [
+    "2268953068885",
+    "2268953068886",
+    "2268953068887",
+    "2268953068888"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953068886",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idsReadBy": "Windows OCR, matched to key; RapidOCR read the same ids; text checked against the page image where the two OCR drafts disagreed",
+   "passage": "P2-226895791355"
+  }
+ ]
+}

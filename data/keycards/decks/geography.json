@@ -1,6 +1,6 @@
 {
   "subject": "geography",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -2984,6 +2984,33 @@
       "order": 60
     },
     {
+      "id": "kc.geography.human-geography-nature-and-scope.fact-regions-organisms",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.human-geography-nature-and-scope",
+      "chapter": "Human Geography — Nature & Scope",
+      "unit": "Human Geography - Nature and Scope",
+      "kind": "fact",
+      "front": "Human geography uses metaphors from the human anatomy: how have regions, villages and towns been described?",
+      "back": "regions, villages, towns have been described as ‘organisms’.",
+      "quote": "Similarly regions, villages, towns have been described as ‘organisms’.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy101",
+        "chapterNo": 1,
+        "page": 2,
+        "section": "Introduction"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "metaphors"
+      ],
+      "order": 75
+    },
+    {
       "id": "kc.geography.human-geography-nature-and-scope.list-physical-elements",
       "v": 1,
       "subject": "geography",
@@ -4059,6 +4086,116 @@
         "fields"
       ],
       "order": 620
+    },
+    {
+      "id": "kc.geography.human-geography-nature-and-scope.fact-behavioural-interface",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.human-geography-nature-and-scope",
+      "chapter": "Human Geography — Nature & Scope",
+      "unit": "Human Geography - Nature and Scope",
+      "kind": "fact",
+      "front": "Table 1.2: Behavioural Geography interfaces with which sister discipline of the social sciences?",
+      "back": "Psychology",
+      "quote": "Behavioural Geography Psychology",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "Fields and Sub-fields of Human Geography"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "fields"
+      ],
+      "order": 621
+    },
+    {
+      "id": "kc.geography.human-geography-nature-and-scope.fact-leisure-interface",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.human-geography-nature-and-scope",
+      "chapter": "Human Geography — Nature & Scope",
+      "unit": "Human Geography - Nature and Scope",
+      "kind": "fact",
+      "front": "Table 1.2: Geography of Leisure interfaces with which sister discipline of the social sciences?",
+      "back": "Sociology",
+      "quote": "Geography of Leisure Sociology",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "Fields and Sub-fields of Human Geography"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "fields"
+      ],
+      "order": 622
+    },
+    {
+      "id": "kc.geography.human-geography-nature-and-scope.fact-medical-interface",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.human-geography-nature-and-scope",
+      "chapter": "Human Geography — Nature & Scope",
+      "unit": "Human Geography - Nature and Scope",
+      "kind": "fact",
+      "front": "Table 1.2: Medical Geography interfaces with which sister discipline?",
+      "back": "Epidemology",
+      "quote": "Medical Geography Epidemology",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "Fields and Sub-fields of Human Geography"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "fields"
+      ],
+      "order": 623,
+      "note": "NCERT prints \"Epidemology\"; the usual spelling is epidemiology, the study of how disease spreads in a population."
+    },
+    {
+      "id": "kc.geography.human-geography-nature-and-scope.fact-electoral-interface",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.human-geography-nature-and-scope",
+      "chapter": "Human Geography — Nature & Scope",
+      "unit": "Human Geography - Nature and Scope",
+      "kind": "fact",
+      "front": "Table 1.2: Electoral Geography interfaces with which sister discipline?",
+      "back": "Psephology",
+      "quote": "Electoral Geography Psephology",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "Fields and Sub-fields of Human Geography"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "fields"
+      ],
+      "order": 624,
+      "note": "Psephology is the study of elections and voting."
     },
     {
       "id": "kc.geography.human-settlements.def-human-settlement",
@@ -7045,6 +7182,34 @@
       "note": "Census 2011 shares: Hindus 79.8%, Muslims 14.2%, Christians 2.3%, Sikhs 1.7%, Buddhists 0.7%, Jains 0.4%."
     },
     {
+      "id": "kc.geography.india-people-and-economy.list-religions-by-population",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.india-people-and-economy",
+      "chapter": "India — People & Economy",
+      "unit": "People (India)",
+      "kind": "list",
+      "front": "Census 2011: India's main religious groups from largest to smallest, with population (in million) and per cent of total.",
+      "back": "Hindus 966.3 79.8\nMuslims 172.2 14.2\nChristians 27.8 2.3\nSikhs 20.8 1.7\nBuddhists 8.4 0.7\nJains 4.5 0.4",
+      "quote": "Hindus 966.3 79.8 Muslims 172.2 14.2 Christians 27.8 2.3 Sikhs 20.8 1.7 Buddhists 8.4 0.7 Jains 4.5 0.4",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "India: People and Economy",
+        "code": "legy201",
+        "chapterNo": 1,
+        "page": 10,
+        "section": "Religious Composition"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "composition",
+        "religion"
+      ],
+      "order": 635
+    },
+    {
       "id": "kc.geography.india-people-and-economy.fact-hindus-distribution",
       "v": 1,
       "subject": "geography",
@@ -8899,6 +9064,33 @@
       "order": 500
     },
     {
+      "id": "kc.geography.international-trade.fact-wto-criticism-ignored",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.international-trade",
+      "chapter": "International Trade",
+      "unit": "Transport, Communication and Trade",
+      "kind": "fact",
+      "front": "Critics of the World Trade Organisation (WTO) argue that which issues are ignored by it?",
+      "back": "issues of health, worker’s rights, child labour and environment are ignored.",
+      "quote": "It is also argued that issues of health, worker’s rights, child labour and environment are ignored.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy108",
+        "chapterNo": 8,
+        "page": 74,
+        "section": "World Trade Organisation"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "WTO"
+      ],
+      "order": 505
+    },
+    {
       "id": "kc.geography.international-trade.fact-wto-hq",
       "v": 1,
       "subject": "geography",
@@ -10127,6 +10319,33 @@
         "imports"
       ],
       "order": 190
+    },
+    {
+      "id": "kc.geography.international-trade-india.fact-petroleum-import-reasons",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.international-trade-india",
+      "chapter": "International Trade (India)",
+      "unit": "Transport, Communication and International Trade",
+      "kind": "fact",
+      "front": "Imports of petroleum products into India have risen: besides a fuel, what else is it used as, and what does the rise indicate?",
+      "back": "It is used not only as a fuel but also as an industrial raw material. It indicates the tempo of rising industrialisation and better standard of living",
+      "quote": "It is used not only as a fuel but also as an industrial raw material. It indicates the tempo of rising industrialisation and better standard of living",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "India: People and Economy",
+        "code": "legy208",
+        "chapterNo": 8,
+        "page": 88,
+        "section": "Composition of Imports"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "imports"
+      ],
+      "order": 205
     },
     {
       "id": "kc.geography.international-trade-india.kl-sea-air-routes",
@@ -20894,6 +21113,33 @@
       "order": 120
     },
     {
+      "id": "kc.geography.primary-activities.fact-gathering-bark-quinine",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.primary-activities",
+      "chapter": "Primary Activities",
+      "unit": "Human Activities",
+      "kind": "fact",
+      "front": "Gathering: which part of trees is used for quinine, tanin extract and cork?",
+      "back": "the bark is used for quinine, tanin extract and cork",
+      "quote": "They use various parts of the plants, for example, the bark is used for quinine, tanin extract and cork",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy104",
+        "chapterNo": 4,
+        "page": 23,
+        "section": "Hunting and Gathering"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "gathering"
+      ],
+      "order": 125
+    },
+    {
       "id": "kc.geography.primary-activities.fact-gathering-global-chance",
       "v": 1,
       "subject": "geography",
@@ -21659,6 +21905,60 @@
         "intensive subsistence"
       ],
       "order": 420
+    },
+    {
+      "id": "kc.geography.primary-activities.fact-wet-paddy-machinery",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.primary-activities",
+      "chapter": "Primary Activities",
+      "unit": "Human Activities",
+      "kind": "fact",
+      "front": "Intensive subsistence agriculture (wet paddy): how much machinery is used, and how are most operations done?",
+      "back": "Use of machinery is limited and most of the agricultural operations are done by manual labour.",
+      "quote": "Use of machinery is limited and most of the agricultural operations are done by manual labour.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy104",
+        "chapterNo": 4,
+        "page": 27,
+        "section": "Intensive Subsistence Agriculture"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "intensive subsistence"
+      ],
+      "order": 422
+    },
+    {
+      "id": "kc.geography.primary-activities.fact-wet-paddy-farm-yard-manure",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.primary-activities",
+      "chapter": "Primary Activities",
+      "unit": "Human Activities",
+      "kind": "fact",
+      "front": "Intensive subsistence agriculture (wet paddy): what is used to maintain the fertility of the soil?",
+      "back": "Farm yard manure is used to maintain the fertility of the soil.",
+      "quote": "Farm yard manure is used to maintain the fertility of the soil.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy104",
+        "chapterNo": 4,
+        "page": 27,
+        "section": "Intensive Subsistence Agriculture"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "intensive subsistence"
+      ],
+      "order": 424
     },
     {
       "id": "kc.geography.primary-activities.fact-wet-paddy-yield",
@@ -31245,6 +31545,63 @@
         "pipelines"
       ],
       "order": 1430
+    },
+    {
+      "id": "kc.geography.transport-and-communication.fact-pipelines-new-zealand-milk",
+      "v": 2,
+      "subject": "geography",
+      "chapterKey": "geography.transport-and-communication",
+      "chapter": "Transport & Communication",
+      "unit": "Transport, Communication and Trade",
+      "kind": "fact",
+      "front": "In which country is milk supplied through pipelines from farms to factories?",
+      "back": "In New Zealand, milk is being supplied through pipelines from farms to factories.",
+      "quote": "In New Zealand, milk is being supplied through pipelines from farms to factories.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy107",
+        "chapterNo": 7,
+        "page": 66,
+        "section": "Pipelines"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "pipelines",
+        "New Zealand"
+      ],
+      "order": 1440
+    },
+    {
+      "id": "kc.geography.transport-and-communication.fact-big-inch-usa",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.transport-and-communication",
+      "chapter": "Transport & Communication",
+      "unit": "Transport, Communication and Trade",
+      "kind": "fact",
+      "front": "The famous Big Inch oil pipeline is part of a dense network of oil pipelines in which country?",
+      "back": "In U.S.A. there is a dense network of oil pipelines",
+      "quote": "In U.S.A. there is a dense network of oil pipelines",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Fundamentals of Human Geography",
+        "code": "legy107",
+        "chapterNo": 7,
+        "page": 66,
+        "section": "Pipelines"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "pipelines",
+        "U.S.A."
+      ],
+      "order": 1445,
+      "note": "Big Inch, which carries petroleum from the Gulf of Mexico to the North-eastern States, is one such pipeline: it is in the U.S.A., a country of North America."
     },
     {
       "id": "kc.geography.transport-and-communication.fact-big-inch",

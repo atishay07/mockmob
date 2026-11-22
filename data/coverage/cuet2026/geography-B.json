@@ -1,0 +1,1835 @@
+{
+ "paper": "cuet2026-geography",
+ "subject": "geography",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "313",
+  "date": "2026-05-24",
+  "shift": "Second",
+  "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Geography and Geology, 41 PDF pages: a cover plus 40 numbered pages), https://docs.aglasem.com/view/7025c4b2-c701-11f1-a920-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/7025c4b2-c701-11f1-a920-0aa932765c8b/7025c4b2-c701-11f1-a920-0aa932765c8b.pdf (9,253,417 bytes, ETag a10882e42d56b568fdf01186f7b5c693, Last-Modified 13 Oct 2026), downloaded 22 Nov 2026 under the owner's 22 Nov 2026 request for more subjects. English text from two OCR drafts (Windows OCR and RapidOCR) cross-checked against each other and the page images. Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 313.",
+  "keySource": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 313 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question."
+ },
+ "snapshotDate": "2026-11-22",
+ "bankRead": "No new production read by B. Worked from A's saved snapshot of 22 Nov 2026 (tmp/1122-coverage/snap/geography/: served_rows.json, served_geography.json 214 ids = the eligible ids in eligible.txt; the 9 visible-but-not-eligible rows are excluded). Card suspension not re-read (no second production read).",
+ "keyCardDeck": "data/keycards/decks/geography.json (v3, 1,345 cards); data/keycards/quarantine/geography.json (238 cards, not served) searched for near-misses only",
+ "syllabusSource": "Bank and deck chapter names for geography (Fundamentals of Human Geography and India: People and Economy); every question sits on the 2026 syllabus. Chapter labels for items 18 and 22 are best guesses where the bank has no home for the fact.",
+ "checker": "B",
+ "method": "data/coverage/METHOD.md strict rule. B wrote its own facts from the paper before opening A (tmp/1122-coverage/checkerB-geo/B_facts_before_A.txt), searched every question in the served rows, the deck and the NCERT text (pdftotext of ncert-books/pdf/legy1xx-2xx; pdfium for tables) with checkerB-geo/multi.mjs, s.mjs, ctx.mjs, pdfium_grep.py; verified every id A cited with checkerB-geo/verifyA.mjs; built by checkerB-geo/buildB.py.",
+ "paperStructure": "One compulsory Geography paper of 50 questions: Sub-section 1 = 40 single questions (Q51-90: one-line MCQs, 5 sequence, 5 statement, 5 match), Sub-section 2 = a passage on high-technology industry with 5 questions (Q91-95), Sub-section 3 = a passage on rail transport with 5 questions (Q96-100). The printed header says 42 questions; fifty ids are printed and the key has 50 rows for this shift.",
+ "counts": {
+  "covered": 26,
+  "not_covered": 17,
+  "skill": 7,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 43
+ },
+ "countsBySection": {
+  "subSection1": {
+   "covered": 25,
+   "not_covered": 15,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 40
+  },
+  "passage1": {
+   "covered": 0,
+   "not_covered": 1,
+   "skill": 4,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 1
+  },
+  "passage2": {
+   "covered": 1,
+   "not_covered": 1,
+   "skill": 3,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 2
+  }
+ },
+ "byType": {
+  "theory": {
+   "covered": 26,
+   "not_covered": 17,
+   "skill": 7,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 43
+  },
+  "numerical": {
+   "covered": 0,
+   "not_covered": 0,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 0
+  }
+ },
+ "coveredByMatchKind": {
+  "concept": 16,
+  "same": 10
+ },
+ "byChapter": {
+  "Population — Distribution, Density, Growth": {
+   "covered": 3,
+   "not_covered": 2
+  },
+  "Human Geography — Nature & Scope": {
+   "covered": 4,
+   "not_covered": 2
+  },
+  "Mineral and Energy Resources": {
+   "covered": 2,
+   "not_covered": 2
+  },
+  "Human Development": {
+   "covered": 2,
+   "not_covered": 0
+  },
+  "Primary Activities": {
+   "covered": 1,
+   "not_covered": 2
+  },
+  "Tertiary & Quaternary Activities": {
+   "covered": 1,
+   "not_covered": 0
+  },
+  "India — People & Economy": {
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Human Settlements": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Geographical Perspective on Selected Issues and Problems": {
+   "covered": 2,
+   "not_covered": 0
+  },
+  "International Trade": {
+   "covered": 1,
+   "not_covered": 1
+  },
+  "Transport & Communication": {
+   "covered": 1,
+   "not_covered": 3
+  },
+  "International Trade (India)": {
+   "covered": 1,
+   "not_covered": 1
+  },
+  "Water Resources": {
+   "covered": 1,
+   "not_covered": 0
+  },
+  "Transport and Communication (India)": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Secondary Activities": {
+   "covered": 0,
+   "not_covered": 1
+  }
+ },
+ "auditOfA": {
+  "citationsChecked": 54,
+  "citationsFailingServedOrDeck": 0,
+  "citationsRemovedForContent": 0,
+  "note": "Every bank id A cited is in served_geography.json and was read in full (stem, options, key, explanation); every card id is in the published deck and its front, back and quote were read. Each states what A attached to it. Corrections that are not removals: Q18's chapter is Human Geography - Nature & Scope (legy101 p2), and Q24 is a concept match, not same."
+ },
+ "ownSearchBeforeA": {
+  "plannedSkill": [
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   48,
+   49
+  ],
+  "differedFromAOn": [
+   23,
+   45
+  ],
+  "settled": {
+   "23": "B's first reading was covered-concept (Gulf of Mexico implies North America); settled to not covered: the card's answer side never names the USA or the continent, and the strict rule needs the fact stated.",
+   "45": "B planned skill; settled to not covered: the passage prints 'near Seattle' but not the country, so the answer is not readable off the passage, and served material never says Seattle is in the USA."
+  }
+ },
+ "final": {
+  "covered": 26,
+  "counted": 43,
+  "skill": 7,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "percent": 60.5,
+  "rule": "Covered only if both A and B say covered; B's skill, off-syllabus and dropped labels win.",
+  "disagreementsWithA": []
+ },
+ "openCallsSettled": [
+  {
+   "n": 45,
+   "call": "Near-miss: card fact-north-pacific-ports puts Seattle among ports 'on the American side' of the west coast of North America; reaching USA still needs the unstated step, so not covered."
+  },
+  {
+   "n": 23,
+   "call": "Near-miss: card fact-big-inch has the tag 'U.S.A.' but tags are not the answer side; not covered."
+  },
+  {
+   "n": 35,
+   "call": "Statements B and C alone pick option 4 (A, B and C); a card stating B and C would close it."
+  },
+  {
+   "n": 49,
+   "call": "Skill by elimination: the passage names hill states, north-eastern states and Rajasthan as less dense."
+  }
+ ],
+ "gapsToAuthor": {
+  "theoryFactsMissing": [
+   {
+    "n": 6,
+    "chapter": "Primary Activities",
+    "fact": "In gathering, the bark of trees is used for quinine (also tanin extract and cork)",
+    "close": "Key card from legy104 p23 (quote the bark clause)"
+   },
+   {
+    "n": 7,
+    "chapter": "Primary Activities",
+    "fact": "Intensive subsistence farming: use of machinery is limited (manual labour); farm yard manure keeps the soil fertile",
+    "close": "two Key cards from legy104 p27"
+   },
+   {
+    "n": 8,
+    "chapter": "Mineral and Energy Resources",
+    "fact": "Bailadila iron ore mines are in Chhattisgarh",
+    "close": "bank question (explanation names Dantewada, Chhattisgarh); the NCERT sentence (legy205 p55) names Bailadila but not the state, so a card alone does not close it"
+   },
+   {
+    "n": 15,
+    "chapter": "Population — Distribution, Density, Growth",
+    "fact": "The USA is the third most populous country, after India and China",
+    "close": "bank question; NCERT shows it only in Fig. 2.1 (graphic, no text on disk)"
+   },
+   {
+    "n": 18,
+    "chapter": "Human Geography — Nature & Scope",
+    "fact": "Regions, villages and towns have been described as 'organisms'",
+    "close": "Key card from legy101 p2"
+   },
+   {
+    "n": 20,
+    "chapter": "International Trade",
+    "fact": "The WTO is criticised for ignoring health, worker's rights, child labour and environment",
+    "close": "Key card from legy108 p74"
+   },
+   {
+    "n": 21,
+    "chapter": "Transport & Communication",
+    "fact": "In New Zealand milk is supplied through pipelines from farms to factories",
+    "close": "Key card from legy107 p66 (re-review the quarantined fact-pipelines-new-zealand-milk with the 2026 'asked' evidence)"
+   },
+   {
+    "n": 22,
+    "chapter": "Human Settlements",
+    "fact": "More than half of the world's people now live in urban areas (present world level in the 50-75 per cent band)",
+    "close": "bank question only, with a cited non-NCERT source (UN DESA); not in the 2026-27 NCERT"
+   },
+   {
+    "n": 23,
+    "chapter": "Transport & Communication",
+    "fact": "The Big Inch pipeline is in the U.S.A. (North America)",
+    "close": "Key card from legy107 p66-67 quoting the 'In U.S.A. there is a dense network of oil pipelines ...' sentence with the Big Inch sentence"
+   },
+   {
+    "n": 26,
+    "chapter": "Population — Distribution, Density, Growth",
+    "fact": "Population order China > Brazil > Bangladesh > Mexico",
+    "close": "bank question; NCERT Fig. 2.1 is a graphic (no text on disk)"
+   },
+   {
+    "n": 28,
+    "chapter": "Mineral and Energy Resources",
+    "fact": "West-to-east positions of the Bathinda, Panipat, Mathura and Barauni refineries",
+    "close": "bank question only (no NCERT sentence on disk)"
+   },
+   {
+    "n": 29,
+    "chapter": "India — People & Economy",
+    "fact": "2011 shares: Christians 2.3, Sikhs 1.7, Buddhists 0.7, Jains 0.4 per cent",
+    "close": "Key card from legy201 p10 Table 1.3 (pdfium row text) or a bank question"
+   },
+   {
+    "n": 35,
+    "chapter": "International Trade (India)",
+    "fact": "Petroleum is used as a fuel and as an industrial raw material; its import rise shows rising industrialisation and better living standards",
+    "close": "Key card from legy208 p88 (re-review the quarantined kl-petroleum-raw-material without the 'Table 8.4' front)"
+   },
+   {
+    "n": 36,
+    "chapter": "Human Geography — Nature & Scope",
+    "fact": "Table 1.2: behavioural - psychology, medical - epidemology, electoral - psephology, leisure - sociology",
+    "close": "four Key cards from legy101 p5 (same form as fact-marketing-interface)"
+   },
+   {
+    "n": 39,
+    "chapter": "Transport & Communication",
+    "fact": "Montreal (Canada), Madrid (Spain), Bangkok (Thailand), Perth (Australia) as major airports",
+    "close": "bank question only (NCERT Fig. 7.16 is a map)"
+   },
+   {
+    "n": 45,
+    "chapter": "Secondary Activities",
+    "fact": "Silicon Forest (near Seattle) is in the USA",
+    "close": "bank question on technopolies whose explanation names the USA (NCERT never names the country)"
+   },
+   {
+    "n": 50,
+    "chapter": "Transport and Communication (India)",
+    "fact": "Hajipur, headquarters of the East Central zone, is in Bihar",
+    "close": "bank question (NCERT Table 7.2 gives Hajipur, not the state)"
+   }
+  ],
+  "doNotAuthor": [],
+  "numericalTemplatesMissing": []
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 51,
+   "questionId": "226895791309",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "Population — Distribution, Density, Growth",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Unemployment is a push factor (it makes the place of origin less attractive); better jobs, peace and pleasant climate are pull factors"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.population-distribution-density-growth.def-push-factors",
+     "teaches": "push factors: unemployment, poor living conditions, political turmoil, unpleasant climate, disasters, epidemics"
+    },
+    {
+     "kind": "bank",
+     "id": "5aa61571-c798-4e5e-8b1b-89f3f4d8378b",
+     "teaches": "push factors are conditions at the origin; conditions at the destination are pull factors"
+    }
+   ],
+   "best": "kc.geography.population-distribution-density-growth.def-push-factors",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card def-push-factors names unemployment as a push factor; bank 5aa61571 says destination-side conditions are pull factors.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 2,
+   "paperNumber": 52,
+   "questionId": "226895791310",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Human Geography — Nature & Scope",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The radical school employed Marxian theory to explain poverty, deprivation and social inequality"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-geography-nature-and-scope.kl-radical-school",
+     "teaches": "Radical school employed Marxian theory to explain poverty, deprivation and social inequality"
+    }
+   ],
+   "best": "kc.geography.human-geography-nature-and-scope.kl-radical-school",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card kl-radical-school is the same fact and answer.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 3,
+   "paperNumber": 53,
+   "questionId": "226895791311",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Mineral and Energy Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ankaleshwar is an oilfield of Gujarat"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.mineral-and-energy-resources.fact-gujarat-oilfields",
+     "teaches": "major oilfields of Gujarat are Ankaleshwar, Kalol, Mehsana, Nawagam, Kosamba, Lunej"
+    }
+   ],
+   "best": "kc.geography.mineral-and-energy-resources.fact-gujarat-oilfields",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-gujarat-oilfields lists Ankaleshwar among Gujarat's oilfields.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 4,
+   "paperNumber": 54,
+   "questionId": "226895791312",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "Population — Distribution, Density, Growth",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The three components of population change are births, deaths and migration (sex ratio is not one)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.population-distribution-density-growth.list-three-components",
+     "teaches": "three components of population change: births, deaths, migration"
+    }
+   ],
+   "best": "kc.geography.population-distribution-density-growth.list-three-components",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card list-three-components gives births, deaths and migration, so sex ratio is the odd one.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 5,
+   "paperNumber": 55,
+   "questionId": "226895791313",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Human Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The basic needs approach was initially proposed by the ILO"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-development.fact-basic-needs-ilo",
+     "teaches": "basic needs approach was initially proposed by the International Labour Organisation"
+    }
+   ],
+   "best": "kc.geography.human-development.fact-basic-needs-ilo",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-basic-needs-ilo is the same fact.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 6,
+   "paperNumber": 56,
+   "questionId": "226895791314",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "Primary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In gathering, the bark of trees is used for quinine"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row or card mentions quinine or bark products; NCERT legy104 p23 states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 7,
+   "paperNumber": 57,
+   "questionId": "226895791315",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Primary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Intensive subsistence farming: dominated by wet paddy or by crops other than paddy",
+    "land holdings are very small",
+    "use of machinery is limited; most operations by manual labour (so heavy machinery is NOT a feature)",
+    "farm yard manure maintains soil fertility"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Cards give the two types and small holdings, but no served row or card says machinery is limited or that farm yard manure is used.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.primary-activities.fact-wet-paddy-holdings-labour"
+  },
+  {
+   "n": 8,
+   "paperNumber": 58,
+   "questionId": "226895791316",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Mineral and Energy Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The Bailadila iron ore mines are in Chhattisgarh (Dantewada district)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row or card names Bailadila; NCERT legy205 p55 names it without naming the state.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.mineral-and-energy-resources.fact-ne-belt-cover"
+  },
+  {
+   "n": 9,
+   "paperNumber": 59,
+   "questionId": "226895791317",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Tertiary & Quaternary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Knowledge-oriented workers belong to quaternary activities"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "66f791a5-a4e6-4377-afbe-4eef78e000c5",
+     "teaches": "quaternary activities are knowledge-based, tertiary are services, primary is extraction"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.tertiary-and-quaternary-activities.def-quaternary-activities",
+     "teaches": "quaternary activities involve collection, production and dissemination of information"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.tertiary-and-quaternary-activities.fact-knowledge-sector-divided",
+     "teaches": "the knowledge-oriented segment of the service sector divides into quaternary and quinary activities"
+    }
+   ],
+   "best": "66f791a5-a4e6-4377-afbe-4eef78e000c5",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank 66f791a5 states quaternary activities are knowledge-based; B adds card fact-knowledge-sector-divided (knowledge-oriented segment = quaternary and quinary).",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [
+    "kc.geography.tertiary-and-quaternary-activities.fact-knowledge-sector-divided"
+   ]
+  },
+  {
+   "n": 10,
+   "paperNumber": 60,
+   "questionId": "226895791318",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "Mineral and Energy Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A geothermal energy plant has been commissioned at Manikaran (Himachal Pradesh)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.mineral-and-energy-resources.fact-manikaran",
+     "teaches": "geothermal energy plant commissioned at Manikaran in Himachal Pradesh"
+    }
+   ],
+   "best": "kc.geography.mineral-and-energy-resources.fact-manikaran",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-manikaran is the same question and answer.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 11,
+   "paperNumber": 61,
+   "questionId": "226895791319",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "India — People & Economy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Population density 2011: Bihar 1,102 is higher than West Bengal 1,029, Kerala 859 and Uttar Pradesh 828"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.india-people-and-economy.fact-density-high-states",
+     "teaches": "Bihar (1102), West Bengal (1029), Uttar Pradesh (828), Kerala (859)"
+    }
+   ],
+   "best": "kc.geography.india-people-and-economy.fact-density-high-states",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-density-high-states gives Bihar 1102, West Bengal 1029, Kerala 859, UP 828.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 12,
+   "paperNumber": 62,
+   "questionId": "226895791320",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Population — Distribution, Density, Growth",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Physiological density = total population / net cultivated area"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.india-people-and-economy.formula-physiological-density",
+     "teaches": "physiological density = total population / net cultivated area"
+    },
+    {
+     "kind": "bank",
+     "id": "37b6b956-7cb6-4a0d-89c4-819d443d5d0a",
+     "teaches": "physiological density worked as population / arable land"
+    }
+   ],
+   "best": "kc.geography.india-people-and-economy.formula-physiological-density",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card formula-physiological-density states the formula asked; bank 37b6b956 practises it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 13,
+   "paperNumber": 63,
+   "questionId": "226895791321",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "India — People & Economy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Among scheduled languages, Hindi speakers have the highest percentage"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.india-people-and-economy.fact-hindi-highest",
+     "teaches": "speakers of Hindi have the highest percentage among scheduled languages"
+    }
+   ],
+   "best": "kc.geography.india-people-and-economy.fact-hindi-highest",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-hindi-highest is the same fact.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 14,
+   "paperNumber": 64,
+   "questionId": "226895791322",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Human Geography — Nature & Scope",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Neodeterminism (Griffith Taylor) is also called stop and go determinism"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-geography-nature-and-scope.def-def-neodeterminism",
+     "teaches": "Neodeterminism or stop and go determinism"
+    }
+   ],
+   "best": "kc.geography.human-geography-nature-and-scope.def-def-neodeterminism",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card def-def-neodeterminism gives 'stop and go determinism'.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 15,
+   "paperNumber": 65,
+   "questionId": "226895791323",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "Population — Distribution, Density, Growth",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The third most populous country of the world is the USA (after China and India)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Material says India is second after China; nothing names the third (USA).",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.india-people-and-economy.fact-population-2011"
+  },
+  {
+   "n": 16,
+   "paperNumber": 66,
+   "questionId": "226895791324",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "Human Settlements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Clustered (compact) rural settlements are generally found in fertile alluvial plains (and the north-eastern states)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-settlements.fact-clustered-where",
+     "teaches": "clustered settlements generally found in fertile alluvial plains and the north-eastern states"
+    },
+    {
+     "kind": "bank",
+     "id": "7ca304d9-3b20-41d1-a8fa-53b62e046556",
+     "teaches": "clustered villages are compact and common on fertile plains; dispersed ones lie in hilly or forested areas"
+    }
+   ],
+   "best": "kc.geography.human-settlements.fact-clustered-where",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-clustered-where: fertile alluvial plains; bank 7ca304d9 agrees.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 17,
+   "paperNumber": 67,
+   "questionId": "226895791325",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Human Settlements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Varanasi, Madurai and Pataliputra are ancient towns; Hyderabad is a medieval town"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-settlements.fact-ancient-examples",
+     "teaches": "Varanasi, Prayag, Pataliputra, Madurai are ancient towns"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.human-settlements.fact-medieval-examples",
+     "teaches": "medieval fort towns: Delhi, Hyderabad, Jaipur, Lucknow, Agra, Nagpur"
+    }
+   ],
+   "best": "kc.geography.human-settlements.fact-ancient-examples",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-ancient-examples lists Varanasi, Pataliputra, Madurai; fact-medieval-examples lists Hyderabad.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 18,
+   "paperNumber": 68,
+   "questionId": "226895791326",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "Human Geography — Nature & Scope",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In geography, regions, villages and towns have been described as 'organisms'"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row or card; NCERT legy101 p2 has the sentence (a neighbouring 'living organism' card is in quarantine, not served). Chapter corrected to Nature & Scope.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 19,
+   "paperNumber": 69,
+   "questionId": "226895791327",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Geographical Perspective on Selected Issues and Problems",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Barren rocky areas and steep sloping land are wastelands caused by natural agents; degraded plantation land, degraded forests/pastures and mining-industrial wastelands are caused by human action"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.types-wastelands-natural",
+     "teaches": "barren rocky areas and steep sloping land are wastelands caused by natural agents"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.types-wastelands-human",
+     "teaches": "degraded plantation land, forests, pastures, mining and industrial wastelands are caused by human action"
+    }
+   ],
+   "best": "kc.geography.geographical-perspective-on-selected-issues-and-problems.types-wastelands-natural",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The natural-agents card lists barren rocky areas and steep sloping land; the human-action card lists the other three options.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 20,
+   "paperNumber": 70,
+   "questionId": "226895791328",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "International Trade",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Critics argue the WTO ignores issues of health, worker's rights, child labour and environment (it does cover trade rules, services and intellectual property)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "WTO cards cover rules, services and intellectual rights and say it is criticised; none says worker's rights and child labour are ignored.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.international-trade.fact-wto-services"
+  },
+  {
+   "n": 21,
+   "paperNumber": 71,
+   "questionId": "226895791329",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "Transport & Communication",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In New Zealand milk is supplied through pipelines from farms to factories"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row or card; the NZ milk pipeline card exists only in quarantine (rejected as not important).",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.transport-and-communication.fact-pipelines-use"
+  },
+  {
+   "n": 22,
+   "paperNumber": 72,
+   "questionId": "226895791330",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Human Settlements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The present level of world urbanisation lies in the 50-75 per cent band (more than half the world lives in urban areas)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Only India's 2011 level (31.16%) is stated; no world level in material or in the 2026-27 NCERT.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.human-settlements.fact-urbanisation-2011"
+  },
+  {
+   "n": 23,
+   "paperNumber": 73,
+   "questionId": "226895791331",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "Transport & Communication",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The Big Inch pipeline is in the USA, i.e. North America (Gulf of Mexico oil wells to the north-eastern states)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Card fact-big-inch says Gulf of Mexico to the North-eastern States but never names the USA or North America on its answer side; doubtful.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.transport-and-communication.fact-big-inch"
+  },
+  {
+   "n": 24,
+   "paperNumber": 74,
+   "questionId": "226895791332",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Transport & Communication",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Modern communication systems (cyberspace/internet), more than transport, have made the global village a reality"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.transport-and-communication.fact-global-village",
+     "teaches": "modern communication systems have made the concept of global village a reality"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.transport-and-communication.def-cyberspace",
+     "teaches": "cyberspace is the world of electronic computerised space"
+    }
+   ],
+   "best": "kc.geography.transport-and-communication.fact-global-village",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card fact-global-village credits modern communication over transport; def-cyberspace names the option. Concept, not same (B weakens A's 'same').",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 25,
+   "paperNumber": 75,
+   "questionId": "226895791333",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Geographical Perspective on Selected Issues and Problems",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Sewage disposal, urban run-off and run-off over cultivated lands are sources of water pollution; combustion of coal (fossil fuels) is a source of air pollution"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.list-sources-water-pollution",
+     "teaches": "sewage disposal, urban run-off, toxic effluents, run-off over cultivated lands"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.list-air-pollution-sources",
+     "teaches": "main sources of air pollution: combustion of fossil fuels, mining, industries"
+    }
+   ],
+   "best": "kc.geography.geographical-perspective-on-selected-issues-and-problems.list-sources-water-pollution",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Water-pollution source card lists the three other options; air-pollution card lists combustion of fossil fuels.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 26,
+   "paperNumber": 76,
+   "questionId": "226895791334",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "Population — Distribution, Density, Growth",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Population size order: China > Brazil > Bangladesh > Mexico"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row or card gives the populations of Brazil, Bangladesh or Mexico (NCERT Fig. 2.1 is a graphic).",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 27,
+   "paperNumber": 77,
+   "questionId": "226895791335",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "International Trade (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "North to south: Deendayal (Kandla) > Mumbai > Mangaluru > Kochi",
+    "Deendayal Port is the Kandla port"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "6a0c3146-b6d0-45b3-a9eb-f5dfaed0c1ec",
+     "teaches": "north to south order of Kandla, Mumbai, Mangaluru, Kochi with latitudes"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.international-trade-india.fact-port-kandla-location",
+     "teaches": "Deendayal Port (Kandla) at the head of the Gulf of Kuchchh"
+    }
+   ],
+   "best": "6a0c3146-b6d0-45b3-a9eb-f5dfaed0c1ec",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank 6a0c3146 is the same four ports in the same task with the same answer; card fact-port-kandla-location ties Deendayal to Kandla.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 28,
+   "paperNumber": 78,
+   "questionId": "226895791336",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "Mineral and Energy Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "West to east: Bathinda (Punjab) > Panipat (Haryana) > Mathura (UP) > Barauni (Bihar)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Only Barauni appears (market-based refinery); no location for Bathinda, Panipat or Mathura.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.mineral-and-energy-resources.types-refineries"
+  },
+  {
+   "n": 29,
+   "paperNumber": 79,
+   "questionId": "226895791337",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "India — People & Economy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Religious groups 2011: Christians 2.3% > Sikhs 1.7% > Buddhists 0.7% > Jains 0.4%"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Card list-religious-groups-census lists group names only; no served material gives the shares or the size order.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.india-people-and-economy.list-religious-groups-census"
+  },
+  {
+   "n": 30,
+   "paperNumber": 80,
+   "questionId": "226895791338",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Human Geography — Nature & Scope",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Order of approaches: areal differentiation (1930s) > spatial organisation (1950s-60s) > humanistic, radical and behavioural schools (1970s) > post-modernism (1990s)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-geography-nature-and-scope.steps-stages-in-order",
+     "teaches": "areal differentiation, spatial organisation, humanistic radical behavioural, post-modernism"
+    }
+   ],
+   "best": "kc.geography.human-geography-nature-and-scope.steps-stages-in-order",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card steps-stages-in-order gives the order C, A, D, B.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 31,
+   "paperNumber": 81,
+   "questionId": "226895791339",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Water Resources",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "India has about 4% of world water resources (A true)",
+    "annual precipitation is about 4,000 cubic km, not 2,000 (B false)",
+    "utilisable water resource is 1,122 cubic km (C true)",
+    "agriculture uses most surface and ground water (D true)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.water-resources.fact-india-share",
+     "teaches": "about 4 per cent of the world water resources"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.water-resources.fact-precip-4000",
+     "teaches": "precipitation about 4,000 cubic km"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.water-resources.fact-utilisable-1122",
+     "teaches": "utilisable water 1,122 cubic km"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.water-resources.fact-agri-share-89-92",
+     "teaches": "agriculture accounts for 89 per cent of surface and 92 per cent of ground water use"
+    }
+   ],
+   "best": "kc.geography.water-resources.fact-india-share",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four water cards settle A, B (4,000 not 2,000 cubic km), C and D.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 32,
+   "paperNumber": 82,
+   "questionId": "226895791340",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "Primary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Commercial dairy farming is highly capital intensive (A)",
+    "North Western Europe is its largest region (B)",
+    "it is practised near urban and industrial centres (C)",
+    "it is highly labour intensive, so D is false"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.primary-activities.fact-dairy-capital-intensive",
+     "teaches": "highly capital intensive"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.primary-activities.list-dairy-regions",
+     "teaches": "largest region North Western Europe"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.primary-activities.fact-dairy-location",
+     "teaches": "practised mainly near urban and industrial centres"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.primary-activities.fact-dairy-labour-intensive",
+     "teaches": "highly labour intensive"
+    }
+   ],
+   "best": "kc.geography.primary-activities.fact-dairy-capital-intensive",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four dairy cards settle A to D; the labour-intensive card makes D false.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 33,
+   "paperNumber": 83,
+   "questionId": "226895791341",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "India — People & Economy",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Christians mostly rural (A true)",
+    "Sikhs concentrated in a relatively small area (B true)",
+    "Buddhists concentrated mostly in Maharashtra, not Andhra Pradesh (C false)",
+    "Jains in urban areas of Rajasthan, Gujarat, Maharashtra (D true)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.india-people-and-economy.fact-christians-concentration",
+     "teaches": "Christians distributed mostly in rural areas"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.india-people-and-economy.fact-sikhs-concentration",
+     "teaches": "Sikhs concentrated in a relatively small area"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.india-people-and-economy.fact-jains-buddhists",
+     "teaches": "Jains urban in Rajasthan, Gujarat, Maharashtra; Buddhists mostly in Maharashtra"
+    }
+   ],
+   "best": "kc.geography.india-people-and-economy.fact-christians-concentration",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Three cards settle all four statements (Buddhists in Maharashtra makes C false).",
+   "agreesWithA": true,
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 34,
+   "paperNumber": 84,
+   "questionId": "226895791342",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Transport and Communication (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Konkan Railway built in 1998, not 1989 (A false)",
+    "760 km long (B)",
+    "Roha to Mangalore (C)",
+    "Asia's largest tunnel, about 6.5 km, lies on it (D)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.transport-and-communication-india.fact-konkan-1998",
+     "teaches": "built in 1998, 760-km route connecting Roha to Mangalore"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.transport-and-communication-india.fact-konkan-bridges-tunnel",
+     "teaches": "Asia largest tunnel nearly 6.5 km on this route"
+    }
+   ],
+   "best": "kc.geography.transport-and-communication-india.fact-konkan-1998",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards fact-konkan-1998 and fact-konkan-bridges-tunnel settle all four statements (1998, not 1989).",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 35,
+   "paperNumber": 85,
+   "questionId": "226895791343",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "International Trade (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Petroleum is used not only as a fuel but also as an industrial raw material (B)",
+    "its rising import indicates rising industrialisation and better living standards (C)",
+    "rising fuel demand (A); rural dependence on fuel-wood is not a reason (D)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Served cards only say petroleum imports rose; the raw-material and industrialisation reasons sit on a quarantined card.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.international-trade-india.fact-fact-petroleum-import-rise"
+  },
+  {
+   "n": 36,
+   "paperNumber": 86,
+   "questionId": "226895791344",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 2,
+   "chapter": "Human Geography — Nature & Scope",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Table 1.2 interfaces: behavioural geography - psychology; medical geography - epidemiology; electoral geography - psephology; geography of leisure - sociology"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Only the marketing interface is on a card; none pairs behavioural, medical, electoral or leisure geography with its discipline.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.human-geography-nature-and-scope.list-social-subfields"
+  },
+  {
+   "n": 37,
+   "paperNumber": 87,
+   "questionId": "226895791345",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Human Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Equity = equal access irrespective of gender, race, income, caste; sustainability = continuity of opportunities; productivity = human labour productivity; empowerment = power to make choices"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-development.fact-equity-equal-grounds",
+     "teaches": "opportunities equal irrespective of gender, race, income and caste"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.human-development.def-sustainability",
+     "teaches": "continuity in the availability of opportunities"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.human-development.def-productivity",
+     "teaches": "human labour productivity or productivity in terms of human work"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.human-development.def-empowerment",
+     "teaches": "power to make choices"
+    }
+   ],
+   "best": "kc.geography.human-development.fact-equity-equal-grounds",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four human-development cards give the four pairs.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 38,
+   "paperNumber": 88,
+   "questionId": "226895791346",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 1,
+   "chapter": "International Trade",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Oil port = Maracaibo; port of call = Honolulu; entrepot = Rotterdam; naval port = Kochi"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.international-trade.ex-oil-port-examples",
+     "teaches": "Maracaibo is a tanker (oil) port"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.international-trade.ex-ports-of-call-examples",
+     "teaches": "Aden, Honolulu, Singapore are ports of call"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.international-trade.ex-entrepot-examples",
+     "teaches": "Rotterdam is the entrepot for Europe"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.international-trade.fact-naval-ports-india",
+     "teaches": "Kochi and Karwar are naval ports"
+    }
+   ],
+   "best": "kc.geography.international-trade.ex-oil-port-examples",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four port-type cards give the four pairs.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 39,
+   "paperNumber": 89,
+   "questionId": "226895791347",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 4,
+   "chapter": "Transport & Communication",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Montreal - Canada; Madrid - Spain; Bangkok - Thailand; Perth - Australia"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Rail cards place Montreal and Perth on lines but no material pairs Madrid or Bangkok with a country or treats airports.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 40,
+   "paperNumber": 90,
+   "questionId": "226895791348",
+   "section": "Geography, sub-section 1 (stand-alone MCQs, Q51-90)",
+   "ntaKey": 3,
+   "chapter": "Human Geography — Nature & Scope",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Radical school: social problems linked to capitalism; welfare school: social well-being (housing, health, education); possibilism: humanisation of nature; behavioural school: lived experience and perception of space by social categories"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.geography.human-geography-nature-and-scope.kl-radical-capitalism",
+     "teaches": "contemporary social problems related to the development of capitalism"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.human-geography-nature-and-scope.list-welfare-aspects",
+     "teaches": "welfare school studied housing, health, education"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.human-geography-nature-and-scope.def-def-possibilism",
+     "teaches": "nature provides opportunities and humans make use, nature gets humanised"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.human-geography-nature-and-scope.kl-behavioural-school",
+     "teaches": "lived experience and perception of space by social categories based on ethnicity, race, religion"
+    }
+   ],
+   "best": "kc.geography.human-geography-nature-and-scope.kl-radical-capitalism",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four Nature & Scope cards give the four pairs.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 41,
+   "paperNumber": 91,
+   "questionId": "226895791350",
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "ntaKey": 2,
+   "chapter": "Secondary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Passage: white collar workers make up a large share of the high-tech workforce"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is printed in the passage.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 42,
+   "paperNumber": 92,
+   "questionId": "226895791351",
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "ntaKey": 2,
+   "chapter": "Secondary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Passage: high-tech is the latest generation of manufacturing activities"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is printed in the passage.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 43,
+   "paperNumber": 93,
+   "questionId": "226895791352",
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "ntaKey": 4,
+   "chapter": "Secondary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Passage: high-tech landscape is low dispersed office-plant-lab buildings, not massive assembly structures and storage"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "The passage contrasts low dispersed buildings with massive assembly structures and storage areas.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 44,
+   "paperNumber": 94,
+   "questionId": "226895791353",
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "ntaKey": 2,
+   "chapter": "Secondary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Passage: regionally concentrated, self-sustained, highly specialised high-tech industries are technopolies"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is printed in the passage.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 45,
+   "paperNumber": 95,
+   "questionId": "226895791354",
+   "section": "Geography, sub-section 2 (comprehension 226895791349, Q91-95)",
+   "ntaKey": 1,
+   "chapter": "Secondary Activities",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Silicon Forest is near Seattle (printed) and Seattle is in the USA (not printed)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Card says Silicon Forest is near Seattle and another lists Seattle among ports on the American side of the North Pacific route; the USA is never named, so the step is doubtful.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.secondary-activities.fact-technopolies-examples"
+  },
+  {
+   "n": 46,
+   "paperNumber": 96,
+   "questionId": "226895791356",
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "ntaKey": 1,
+   "chapter": "Transport and Communication (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Passage: the first railway (1853) ran from Bombay to Thane"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is printed in the passage.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 47,
+   "paperNumber": 97,
+   "questionId": "226895791357",
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "ntaKey": 1,
+   "chapter": "Transport and Communication (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Broad gauge has the longest total track length of Indian Railways (63,950 km of broad gauge in 2019-20)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "5a9aecd3-212f-4efb-a84a-db6bed3a2177",
+     "teaches": "broad gauge accounts for the largest share of route length of Indian Railways"
+    },
+    {
+     "kind": "card",
+     "id": "kc.geography.transport-and-communication-india.fact-broad-gauge",
+     "teaches": "broad gauge total length 63950 km (2019-20)"
+    }
+   ],
+   "best": "5a9aecd3-212f-4efb-a84a-db6bed3a2177",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank 5a9aecd3 asks the same thing with the same answer; card fact-broad-gauge gives 63,950 km.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 48,
+   "paperNumber": 98,
+   "questionId": "226895791358",
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "ntaKey": 3,
+   "chapter": "Transport and Communication (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Passage: metro rail has revolutionised urban transport in India"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Answer is printed in the passage.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 49,
+   "paperNumber": 99,
+   "questionId": "226895791359",
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "ntaKey": 4,
+   "chapter": "Transport and Communication (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Passage: the network is less dense in hill states, north-eastern states, central India and Rajasthan, so the Ganga plains are the dense region"
+   ],
+   "verdict": "skill",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "The passage names the other three options as less dense.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": []
+  },
+  {
+   "n": 50,
+   "paperNumber": 100,
+   "questionId": "226895791360",
+   "section": "Geography, sub-section 3 (comprehension 226895791355, Q96-100)",
+   "ntaKey": 2,
+   "chapter": "Transport and Communication (India)",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The East Central zone has its headquarters at Hajipur, which is in Bihar"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Card list-railway-zones-hq gives East Central at Hajipur; no material says Hajipur is in Bihar.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": [],
+   "bCitationsAdded": [],
+   "nearMiss": "kc.geography.transport-and-communication-india.list-railway-zones-hq"
+  }
+ ]
+}

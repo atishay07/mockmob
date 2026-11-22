@@ -1,0 +1,1669 @@
+{
+ "id": "biology",
+ "name": "Biology",
+ "stream": "science",
+ "code": "304",
+ "examDate": "2026-05-20",
+ "examDay": "20 May 2026",
+ "shift": "first shift",
+ "snapshotDate": "2026-11-22",
+ "snapshotDay": "22 November 2026",
+ "final": true,
+ "counts": {
+  "total": 50,
+  "same": 13,
+  "newValues": 0,
+  "concept": 32,
+  "notYet": 5,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 45,
+  "counted": 50,
+  "pct": 90
+ },
+ "chapters": [
+  {
+   "name": "Molecular Basis of Inheritance",
+   "asked": 6,
+   "covered": 5
+  },
+  {
+   "name": "Biotechnology Principles & Processes",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Human Health & Disease",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Human Reproduction",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Principles of Inheritance & Variation",
+   "asked": 5,
+   "covered": 5
+  },
+  {
+   "name": "Biotechnology & its Applications",
+   "asked": 4,
+   "covered": 4
+  },
+  {
+   "name": "Microbes in Human Welfare",
+   "asked": 4,
+   "covered": 4
+  },
+  {
+   "name": "Sexual Reproduction in Flowering Plants",
+   "asked": 4,
+   "covered": 4
+  },
+  {
+   "name": "Biodiversity & Conservation",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Evolution",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Ecosystem",
+   "asked": 2,
+   "covered": 1
+  },
+  {
+   "name": "Organisms & Populations",
+   "asked": 2,
+   "covered": 2
+  },
+  {
+   "name": "Reproductive Health",
+   "asked": 2,
+   "covered": 2
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Organisms & Populations",
+   "type": "theory",
+   "stem": "Identify the chemicals produced by Calotropis that provide defense against grazers and browsers.",
+   "passage": null,
+   "options": [
+    "Strychnine",
+    "Quinine",
+    "Cardiac glycosides",
+    "Caffeine"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "Key card states the fact and the keyed answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.organisms-and-populations.fact-calotropis",
+    "chapter": "Organisms & Populations",
+    "front": "Why do cattle and goats not browse on the weed Calotropis?",
+    "back": "The plant produces highly poisonous cardiac glycosides and that is why you never see any cattle or goats browsing on this plant.",
+    "source": "NCERT, Biology, chapter 11, page 198",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Ecosystem",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Organisms) | List-II (Trophic levels)\n(A) Man, lion | (I) Third\n(B) Zooplankton, cow | (II) First\n(C) Phytoplankton, trees | (III) Fourth\n(D) Birds, wolves | (IV) Second\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)",
+    "(A) - (IV), (B) - (I), (C) - (III), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+    "(A) - (I), (B) - (IV), (C) - (III), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biodiversity & Conservation",
+   "type": "theory",
+   "stem": "The species confined to a particular region and not found anywhere else is:",
+   "passage": null,
+   "options": [
+    "Cosmopolitan",
+    "Endemism",
+    "Hot-spot",
+    "Alien species"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Key card defines endemism in the stem words; a served bank row asks the same.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biodiversity-and-conservation.def-endemism",
+    "chapter": "Biodiversity & Conservation",
+    "front": "What is endemism?",
+    "back": "species confined to that region and not found anywhere else",
+    "source": "NCERT, Biology, chapter 13, page 224",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biodiversity & Conservation",
+   "type": "theory",
+   "stem": "Identify the correct reasons for cutting and clearing of Amazon rain forest?\n(A) Cultivating soyabeans\n(B) Growing wheat and maize\n(C) Setting up industries\n(D) Conversion to grasslands for raising beef cattle\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A) and (D) only",
+    "(B) and (C) only",
+    "(A) and (C) only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "New card asks why the Amazon rain forest is being cut and cleared and answers cultivating soya beans or conversion to grasslands for raising beef cattle (lebo113 p.222): statements A and D, the keyed option.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biodiversity-and-conservation.fact-amazon-cleared-for",
+    "chapter": "Biodiversity & Conservation",
+    "front": "Why is the Amazon rain forest being cut and cleared?",
+    "back": "is being cut and cleared for cultivating soya beans or for conversion to grasslands for raising beef cattle.",
+    "source": "NCERT, Biology, chapter 13, page 222",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "theory",
+   "stem": "Which one of the following is a inhibitor genes in lac operon?",
+   "passage": null,
+   "options": [
+    "Gene i",
+    "Gene z",
+    "Gene y",
+    "Gene a"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Cards make i the repressor-coding (inhibiting) gene and z, y, a structural; the word \"inhibitor\" itself is not printed, so concept.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.molecular-basis-of-inheritance.kl-the-i-gene-codes-for-39",
+    "chapter": "Molecular Basis of Inheritance",
+    "front": "The i gene codes for the ____ of the lac operon.",
+    "back": "The i gene codes for the repressor of the lac operon.",
+    "source": "NCERT, Biology, chapter 5, page 100",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "theory",
+   "stem": "The scientist who developed a method for sequencing the DNA fragments was:",
+   "passage": null,
+   "options": [
+    "Frederick Griffith",
+    "Frederick Sanger",
+    "George Gamow",
+    "Har Gobind Khorana"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "Key card credits the sequencing method to Frederick Sanger.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.molecular-basis-of-inheritance.fact-the-fragments-were-sequenced-using-91",
+    "chapter": "Molecular Basis of Inheritance",
+    "front": "Whose method was the principle of the automated DNA sequencers used in the HGP?",
+    "back": "The fragments were sequenced using automated DNA sequencers that worked on the principle of a method developed by Frederick Sanger.",
+    "source": "NCERT, Biology, chapter 5, page 103",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "theory",
+   "stem": "Which one of the followings is not a terminator codon?",
+   "passage": null,
+   "options": [
+    "UAA",
+    "UAG",
+    "UUC",
+    "UGA"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Cards give the closed set of three stop codons, so UUC is positively not one (a closed list, not an elimination guess).",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.molecular-basis-of-inheritance.list-uaa-uag-uga-are-stop-5",
+    "chapter": "Molecular Basis of Inheritance",
+    "front": "Name the three stop codons.",
+    "back": "UAA\nUAG\nUGA",
+    "source": "NCERT, Biology, chapter 5, page 96",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Evolution",
+   "type": "theory",
+   "stem": "Select the correct statements regarding Hardy-Weinberg principle.\n(A) Sum total of all the allelic frequencies is 1.\n(B) Genetic drift affect Hardy-Weinberg principle.\n(C) Allele frequencies in a population are stable and is constant from generation to generation.\n(D) The gene pool continues changing generation after generation.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A) and (D) only",
+    "(B) and (C) only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Published cards state A (key-allele-sum: the allelic frequencies sum to 1), B (list-hw-factors: genetic drift affects H-W equilibrium) and C (def-hw-principle: frequencies stable and constant, so D is false). Checker A missed key-allele-sum; re-checked by the final judge.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.evolution.key-allele-sum",
+    "chapter": "Evolution",
+    "front": "Sum total of all the allelic frequencies is ____.",
+    "back": "Sum total of all the allelic frequencies is 1.",
+    "source": "NCERT, Biology, chapter 6, page 120",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Microbes in Human Welfare",
+   "type": "theory",
+   "stem": "Identify the agencies which are involved in developing the technology of biogas production.\n(A) Khadi and Village Industries Commission\n(B) Indian Farmers Welfare Association\n(C) Indian Biogas Production Institute\n(D) Indian Agricultural Research Institute\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A) and (D) only",
+    "(B) and (C) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "Published card asks which two bodies mainly developed biogas technology in India and answers IARI and KVIC, the keyed pair. Checker A missed it; re-checked by the final judge.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic",
+    "chapter": "Microbes in Human Welfare",
+    "front": "Which two bodies mainly developed biogas technology in India?",
+    "back": "The technology of biogas production was developed in India mainly due to the efforts of Indian Agricultural Research Institute (IARI) and Khadi and Village Industries Commission (KVIC).",
+    "source": "NCERT, Biology, chapter 8, page 156",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Microbes in Human Welfare",
+   "type": "theory",
+   "stem": "Identify the bacteria which can fix atmospheric nitrogen and are free-living in the soil.\n(A) Azotobacter\n(B) Rhizobium\n(C) Azospirillum\n(D) Anabaena\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) and (C) only",
+    "(B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A), (B) and (C) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "The card prints the NCERT sentence the item was built on and names the keyed pair; Rhizobium is symbiotic by card.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.microbes-in-human-welfare.fact-free-living-n2",
+    "chapter": "Microbes in Human Welfare",
+    "front": "Name two free-living bacteria that fix atmospheric nitrogen in soil.",
+    "back": "Other bacteria can fix atmospheric nitrogen while free-living in the soil (examples Azospirillum and Azotobacter), thus enriching the nitrogen content of the soil.",
+    "source": "NCERT, Biology, chapter 8, page 158",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology Principles & Processes",
+   "type": "theory",
+   "stem": "Arrange the following steps involved in PCR in the correct sequence.\n(A) Amplification\n(B) Extension of primers\n(C) Primer annealing\n(D) Denaturation\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(C), (B), (A), (D)",
+    "(D), (B), (A), (C)",
+    "(B), (A), (D), (C)",
+    "(D), (C), (B), (A)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Steps card gives the three steps in order and another card makes amplification the repeated outcome; a bank row asks the same ordering.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-principles-and-processes.steps-pcr-cycle",
+    "chapter": "Biotechnology Principles & Processes",
+    "front": "Steps in each PCR cycle, in order.",
+    "back": "(i) Denaturation\n(ii) Primer annealing\n(iii) Extension of primers",
+    "source": "NCERT, Biology, chapter 9, page 172",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology Principles & Processes",
+   "type": "theory",
+   "stem": "Which one of the following microorganisms is used as a cloning vector to deliver the genes of interest into a variety of plants?",
+   "passage": null,
+   "options": [
+    "Bacillus thuringiensis",
+    "Rhino viruses",
+    "Agrobacterium tumifaciens",
+    "Nucleopolyhedrovirus"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Key card states the fact and the keyed organism.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-principles-and-processes.fact-ti-plasmid",
+    "chapter": "Biotechnology Principles & Processes",
+    "front": "Which plasmid of Agrobacterium tumifaciens has been modified into a cloning vector for plants?",
+    "back": "The tumor inducing (Ti) plasmid of Agrobacterium tumifaciens has now been modified into a cloning vector which is no more pathogenic to the plants but is still able to use the mechanisms to deliver genes of our interest into a variety of plants.",
+    "source": "NCERT, Biology, chapter 9, page 170",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology Principles & Processes",
+   "type": "theory",
+   "stem": "Which one of the following organisms has been disarmed and used to deliver desirable genes into animal cells?",
+   "passage": null,
+   "options": [
+    "Retroviruses",
+    "Cyanobacteria",
+    "Yeast",
+    "Baculoviruses"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-principles-and-processes.fact-retrovirus-vector",
+    "chapter": "Biotechnology Principles & Processes",
+    "front": "Which disarmed viruses are used to deliver desirable genes into animal cells?",
+    "back": "Similarly, retroviruses have also been disarmed and are now used to deliver desirable genes into animal cells.",
+    "source": "NCERT, Biology, chapter 9, page 170",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology & its Applications",
+   "type": "theory",
+   "stem": "Arrange the following steps which are involved in action of Bt toxin proteins on insects in correct sequence.\n(A) Conversion of inactive toxin into active one by alkaline pH of the gut of insect\n(B) Creation of pores that cause cell swelling and lysis which leads to death of insect\n(C) Inactive protoxins is ingested by insect\n(D) Activated toxin binds to the surface of midgut epithelial cells of insect\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (D), (C), (B)",
+    "(D), (B), (C), (A)",
+    "(C), (A), (D), (B)",
+    "(C), (B), (A), (D)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "Key card gives the steps in the keyed order.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-and-its-applications.steps-bt-mode-of-action",
+    "chapter": "Biotechnology & its Applications",
+    "front": "How does Bt toxin kill an insect? (steps in order)",
+    "back": "once an insect ingest the inactive toxin\nit is converted into an active form of toxin due to the alkaline pH of the gut which solubilise the crystals\nThe activated toxin binds to the surface of midgut epithelial cells and create pores\nthat cause cell swelling and lysis and eventually cause death of the insect",
+    "source": "NCERT, Biology, chapter 10, page 179",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology & its Applications",
+   "type": "theory",
+   "stem": "Which one of the following techniques serve the purpose of early diagnosis of diseases?",
+   "passage": null,
+   "options": [
+    "Stool analysis",
+    "Enzyme linked immuno-sorbent assay",
+    "Urine analysis",
+    "Serum analysis"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Key card names ELISA among the early-diagnosis techniques.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-and-its-applications.list-diagnosis-techniques",
+    "chapter": "Biotechnology & its Applications",
+    "front": "Name the techniques that serve the purpose of early diagnosis.",
+    "back": "Recombinant DNA technology\nPolymerase Chain Reaction (PCR)\nEnzyme Linked Immuno-sorbent Assay (ELISA)",
+    "source": "NCERT, Biology, chapter 10, page 183",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Sexual Reproduction in Flowering Plants",
+   "type": "theory",
+   "stem": "When the pistils are fused together, this state is called:",
+   "passage": null,
+   "options": [
+    "Apocarpous",
+    "Syncarpous",
+    "Monocarpellary",
+    "Multicarpellary"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Key card gives syncarpous = fused, apocarpous = free.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.sexual-reproduction-in-flowering-plants.types-gynoecium-multicarpellary",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "front": "Types of multicarpellary gynoecium.",
+    "back": "fused together (syncarpous)\nfree (apocarpous)",
+    "source": "NCERT, Biology, chapter 1, page 8",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Sexual Reproduction in Flowering Plants",
+   "type": "theory",
+   "stem": "Pollination is not carried out by water in -",
+   "passage": null,
+   "options": [
+    "Zostera",
+    "Water lily",
+    "Hydrilla",
+    "Vallisneria"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "New card: water hyacinth and water lily flowers emerge above water and are pollinated by insects or wind (lebo101 p.13); published fact-water-examples makes Vallisneria, Hydrilla and Zostera water-pollinated. The key is stated, not eliminated.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.sexual-reproduction-in-flowering-plants.fact-water-lily-pollination",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "front": "How are water hyacinth and water lily pollinated?",
+    "back": "In a majority of aquatic plants such as water hyacinth and water lily, the flowers emerge above the level of water and are pollinated by insects or wind as in most of the land plants.",
+    "source": "NCERT, Biology, chapter 1, page 13",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Human Reproduction",
+   "type": "theory",
+   "stem": "Identify the structures which have the potency to give rise to all the tissues and organs.",
+   "passage": null,
+   "options": [
+    "Stem cells",
+    "Trophoblast",
+    "Chorionic villi",
+    "Placenta"
+   ],
+   "key": [
+    0
+   ],
+   "status": "same",
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-reproduction.fact-stem-cells",
+    "chapter": "Human Reproduction",
+    "front": "Which cells of the inner cell mass have the potency to give rise to all tissues and organs?",
+    "back": "Stem cells",
+    "source": "NCERT, Biology, chapter 2, page 38",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Human Reproduction",
+   "type": "theory",
+   "stem": "Which one of the following structures is not essential for maturation and motility of sperms?",
+   "passage": null,
+   "options": [
+    "Epididymis",
+    "Cervix",
+    "Seminal vesicle",
+    "Prostate"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "New card: secretions of epididymis, vas deferens, seminal vesicle and prostate are essential for maturation and motility of sperms (lebo102 p.32); published list-female-system-parts places the cervix in the female system, so it is the one not essential.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-reproduction.fact-secretions-sperm-maturation",
+    "chapter": "Human Reproduction",
+    "front": "Which secretions are essential for maturation and motility of sperms?",
+    "back": "Secretions of epididymis, vas deferens, seminal vesicle and prostate are essential for maturation and motility of sperms.",
+    "source": "NCERT, Biology, chapter 2, page 32",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Reproductive Health",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Contraceptive methods) | List-II (Examples)\n(A) Non-medicated IUD | (I) Multiload 375\n(B) Copper releasing IUD | (II) LNG-20\n(C) Hormone releasing IUD | (III) Vaults\n(D) Barrier method | (IV) Lippes loop\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (IV), (B) - (I), (C) - (III), (D) - (II)",
+    "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Two cards give all four pairs.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.reproductive-health.types-iud-types",
+    "chapter": "Reproductive Health",
+    "front": "Types of Intra Uterine Devices (IUDs), with examples.",
+    "back": "non-medicated IUDs (e.g., Lippes loop)\ncopper releasing IUDs (CuT, Cu7, Multiload 375)\nhormone releasing IUDs (Progestasert, LNG-20)",
+    "source": "NCERT, Biology, chapter 3, page 44",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Reproductive Health",
+   "type": "theory",
+   "stem": "Which one of the following diseases is completely curable if detected early and treated properly?",
+   "passage": null,
+   "options": [
+    "Hepatitis-B",
+    "Gonorrhoea",
+    "Genital herpes",
+    "HIV"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Key card states the rule; gonorrhoea is the curable one.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.reproductive-health.fact-sti-not-curable",
+    "chapter": "Reproductive Health",
+    "front": "Which STIs are not completely curable?",
+    "back": "Except for hepatitis-B, genital herpes and HIV infections, other diseases are completely curable if detected early and treated properly.",
+    "source": "NCERT, Biology, chapter 3, page 47",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Organisms & Populations",
+   "type": "theory",
+   "stem": "\"Two closely related species competing for the same resources cannot co-exist indefinitely and the competitively inferior one will be eliminated eventually.\" This statement was given by:",
+   "passage": null,
+   "options": [
+    "Malthus theory of population growth",
+    "Gause's competitive exclusion principle",
+    "Verhulst-Pearl logistic growth",
+    "Darwin's theory of natural selection"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Key card carries the stem sentence.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.organisms-and-populations.def-gause-principle",
+    "chapter": "Organisms & Populations",
+    "front": "State Gause's Competitive Exclusion Principle.",
+    "back": "Gause's ‘Competitive Exclusion Principle’ states that two closely related species competing for the same resources cannot co-exist indefinitely and the competitively inferior one will be eliminated eventually.",
+    "source": "NCERT, Biology, chapter 11, page 199",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Ecosystem",
+   "type": "theory",
+   "stem": "The trophic level that has a certain mass of living material at a particular time is called as:",
+   "passage": null,
+   "options": [
+    "Standing crop",
+    "Productivity",
+    "Stratification",
+    "Respiration loss"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Key card is the same definition.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.ecosystem.def-def-standing-crop",
+    "chapter": "Ecosystem",
+    "front": "What is the standing crop?",
+    "back": "Each trophic level has a certain mass of living material at a particular time called as the standing crop.",
+    "source": "NCERT, Biology, chapter 12, page 211",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biodiversity & Conservation",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Sacred Groves) | List-II (States)\n(A) Khasi and Jaintia Hills | (I) Rajasthan\n(B) Western Ghat regions | (II) Karnataka and Maharashtra\n(C) Sarguja and Bastar areas | (III) Madhya Pradesh\n(D) Aravalli Hills | (IV) Meghalaya\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (I), (B) - (IV), (C) - (III), (D) - (II)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Key card gives all four pairs.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biodiversity-and-conservation.fact-sacred-groves-places",
+    "chapter": "Biodiversity & Conservation",
+    "front": "Where are sacred groves found in India?",
+    "back": "Such sacred groves are found in Khasi and Jaintia Hills in Meghalaya, Aravalli Hills of Rajasthan, Western Ghat regions of Karnataka and Maharashtra and the Sarguja, Chanda and Bastar areas of Madhya Pradesh.",
+    "source": "NCERT, Biology, chapter 13, page 225",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "theory",
+   "stem": "Arrange the following steps involved in the regulation of gene expression in correct sequence.\n(A) Processing level\n(B) Translational level\n(C) Transcriptional level\n(D) Transport of mRNA from the nucleus to the cytoplasm\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(B), (A), (D), (C)",
+    "(D), (B), (A), (C)",
+    "(C), (A), (D), (B)",
+    "(A), (D), (B), (C)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Key card lists the four levels in the keyed order.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.molecular-basis-of-inheritance.list-regulation-could-be-exerted-at-6",
+    "chapter": "Molecular Basis of Inheritance",
+    "front": "Name the four levels at which gene expression can be regulated in eukaryotes.",
+    "back": "transcriptional level (formation of primary transcript)\nprocessing level (regulation of splicing)\ntransport of mRNA from nucleus to the cytoplasm\ntranslational level",
+    "source": "NCERT, Biology, chapter 5, page 99",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "theory",
+   "stem": "Identify the organism whose genome has not been sequenced.",
+   "passage": null,
+   "options": [
+    "Caenorhabditis elegans",
+    "Arabidopsis",
+    "Drosophila",
+    "Sea urchin"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "theory",
+   "stem": "Which one of the following statements is the correct fact about human genome project?",
+   "passage": null,
+   "options": [
+    "The average gene consists of 30000 bases.",
+    "The functions are unknown for less than 20 percent of the discovered genes.",
+    "Less than 2 percent of the genome codes for proteins.",
+    "Chromosome Y has the most genes (2968), and 1 has the fewest (231)."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Cards state the keyed statement and refute the other three.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.molecular-basis-of-inheritance.kl-less-than-2-per-cent-49",
+    "chapter": "Molecular Basis of Inheritance",
+    "front": "Less than ____ of the genome codes for proteins.",
+    "back": "Less than 2 per cent of the genome codes for proteins.",
+    "source": "NCERT, Biology, chapter 5, page 104",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Evolution",
+   "type": "theory",
+   "stem": "Arrange the following stages of human evolution in correct chronological order.\n(A) Australopithecines\n(B) Homo erectus\n(C) Ramapithecus\n(D) Homo sapiens\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(C), (A), (B), (D)",
+    "(A), (C), (B), (D)",
+    "(D), (A), (B), (C)",
+    "(C), (D), (A), (B)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Cards date all four stages, which fixes the order.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.evolution.fact-dryopithecus",
+    "chapter": "Evolution",
+    "front": "About 15 mya, which primates were existing?",
+    "back": "About 15 mya, primates called Dryopithecus and Ramapithecus were existing.",
+    "source": "NCERT, Biology, chapter 6, page 124",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Evolution",
+   "type": "theory",
+   "stem": "Which one of the given terms states that mutations caused speciation?",
+   "passage": null,
+   "options": [
+    "Variation",
+    "Genetic recombination",
+    "Gene migration",
+    "Saltation"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "Key card is the same fact and term.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.evolution.diff-gradual-vs-saltation",
+    "chapter": "Evolution",
+    "front": "Darwin vs deVries: the difference on how evolution proceeds",
+    "back": "Evolution for Darwin was gradual while deVries believed mutation caused speciation and hence called it saltation (single step large mutation).",
+    "source": "NCERT, Biology, chapter 6, page 119",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Microbes in Human Welfare",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Biocontrol agents) | List-II (Affected organisms)\n(A) Ladybird | (I) Mosquitoes\n(B) Bacillus thuringiensis | (II) Aphids\n(C) Dragonflies | (III) Plant pathogens\n(D) Trichoderma | (IV) Caterpillars\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (IV), (C) - (I), (D) - (III)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Cards give all four pairs.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.microbes-in-human-welfare.fact-ladybird-dragonfly",
+    "chapter": "Microbes in Human Welfare",
+    "front": "Which organisms get rid of aphids and mosquitoes respectively?",
+    "back": "The very familiar beetle with red and black markings - the Ladybird, and Dragonflies are useful to get rid of aphids and mosquitoes, respectively.",
+    "source": "NCERT, Biology, chapter 8, page 157",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Microbes in Human Welfare",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Applications) | List-II (Microorganisms)\n(A) Immunosuppressive agent | (I) Propionibacterium sharmanii\n(B) Blood-cholesterol lowering agents | (II) Trichoderma polysporum\n(C) Nitrogen fixation | (III) Monascus purpureus\n(D) Holes in 'Swiss cheese' | (IV) Oscillatoria\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (IV), (C) - (I), (D) - (III)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Four cards give the four pairs.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.microbes-in-human-welfare.fact-cyclosporin",
+    "chapter": "Microbes in Human Welfare",
+    "front": "Which fungus produces cyclosporin A, an immunosuppressive agent?",
+    "back": "cyclosporin A, that is used as an immunosuppressive agent in organ-transplant patients, is produced by the fungus Trichoderma polysporum.",
+    "source": "NCERT, Biology, chapter 8, page 153",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology Principles & Processes",
+   "type": "theory",
+   "stem": "Select the correct methods to introduce the recombinant DNA into the host cells.\n(A) Biolistics or gene gun for plant cells\n(B) Micro-injection for an animal cell\n(C) 'Disarmed pathogen' vectors\n(D) By heating the host cell at 100° C and then cooling to 70° C\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A) and (C) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology Principles & Processes",
+   "type": "theory",
+   "stem": "Arrange the following steps which are involved in the process of recombinant DNA technology in correct sequence.\n(A) Fragmentation of DNA by restriction endonucleases\n(B) Transferring the recombinant DNA into the host\n(C) Ligation of desired DNA fragment into a vector\n(D) Isolation of DNA\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (C), (B), (D)",
+    "(B), (D), (C), (A)",
+    "(C), (A), (D), (B)",
+    "(D), (A), (C), (B)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "reason": "The steps card gives the four steps in the keyed order; a bank row asks the same ordering.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-principles-and-processes.steps-rdna-steps",
+    "chapter": "Biotechnology Principles & Processes",
+    "front": "Steps in recombinant DNA technology, in order.",
+    "back": "isolation of DNA\nfragmentation of DNA by restriction endonucleases\nisolation of a desired DNA fragment\nligation of the DNA fragment into a vector\ntransferring the recombinant DNA into the host\nculturing the host cells in a medium at large scale\nextraction of the desired product",
+    "source": "NCERT, Biology, chapter 9, page 171",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology & its Applications",
+   "type": "theory",
+   "stem": "Identify the Bt toxin gene which controls the corn borer.",
+   "passage": null,
+   "options": [
+    "cryIAc",
+    "cryIIAb",
+    "cryIAb",
+    "cryIIAc"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-and-its-applications.fact-cry-genes-targets",
+    "chapter": "Biotechnology & its Applications",
+    "front": "Which cry genes control cotton bollworms, and which controls corn borer?",
+    "back": "There are a number of them, for example, the proteins encoded by the genes cryIAc and cryIIAb control the cotton bollworms, that of cryIAb controls corn borer.",
+    "source": "NCERT, Biology, chapter 10, page 180",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Biotechnology & its Applications",
+   "type": "theory",
+   "stem": "Select the incorrect statement about the insulin hormone produced by rDNA technique.",
+   "passage": null,
+   "options": [
+    "Two DNA sequences corresponding to A and B chains of insulin were prepared and introduced in E. coli.",
+    "Chains A and B were produced separately.",
+    "Two chains were extracted and combined with C chain.",
+    "In 1983, Eli Lilly, an American company, prepared the first human insulin."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Cards state each true statement, so the C-chain statement is the false one.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.biotechnology-and-its-applications.fact-eli-lilly",
+    "chapter": "Biotechnology & its Applications",
+    "front": "Which company produced human insulin chains in E. coli in 1983, and how?",
+    "back": "In 1983, Eli Lilly an American company prepared two DNA sequences corresponding to A and B, chains of human insulin and introduced them in plasmids of E. coli to produce insulin chains.",
+    "source": "NCERT, Biology, chapter 10, page 182",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Sexual Reproduction in Flowering Plants",
+   "type": "theory",
+   "stem": "Intine of the pollen grain is made up of:",
+   "passage": null,
+   "options": [
+    "Starch and agarose",
+    "Heparin and lignin",
+    "Cellulose and pectin",
+    "Glycogen and collagen"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Key card is the same fact.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.sexual-reproduction-in-flowering-plants.def-intine",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "front": "What is the intine of a pollen grain?",
+    "back": "The inner wall of the pollen grain is called the intine. It is a thin and continuous layer made up of cellulose and pectin.",
+    "source": "NCERT, Biology, chapter 1, page 7",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Sexual Reproduction in Flowering Plants",
+   "type": "theory",
+   "stem": "At maturity, a typical angiosperm embryo sac is:",
+   "passage": null,
+   "options": [
+    "6-nucleate and 8-celled",
+    "7-nucleate and 7-celled",
+    "7-nucleate and 8-celled",
+    "8-nucleate and 7-celled"
+   ],
+   "key": [
+    3
+   ],
+   "status": "same",
+   "reason": "Card and bank row give the same answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.sexual-reproduction-in-flowering-plants.fact-embryo-sac-seven-celled",
+    "chapter": "Sexual Reproduction in Flowering Plants",
+    "front": "How many cells does a mature angiosperm embryo sac have, though it is 8-nucleate?",
+    "back": "Thus, a typical angiosperm embryo sac, at maturity, though 8-nucleate is 7-celled.",
+    "source": "NCERT, Biology, chapter 1, page 11",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Human Reproduction",
+   "type": "theory",
+   "stem": "Which one of the following hormones is not involved in the process of parturition?",
+   "passage": null,
+   "options": [
+    "Estrogens",
+    "Cortisol",
+    "Oxytocin",
+    "Prolactin"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Human Reproduction",
+   "type": "theory",
+   "stem": "Which one of the following structures provide energy for sperm movement?",
+   "passage": null,
+   "options": [
+    "Acrosome",
+    "Head",
+    "Middle piece",
+    "Tail"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-reproduction.fact-middle-piece",
+    "chapter": "Human Reproduction",
+    "front": "What does the middle piece of a sperm possess and why?",
+    "back": "Numerous mitochondria, which produce energy for the movement of tail.",
+    "source": "NCERT, Biology, chapter 2, page 32",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "chapter": "Human Reproduction",
+   "type": "theory",
+   "stem": "Which one of the following hormones is at its peak during ovulation?",
+   "passage": null,
+   "options": [
+    "Progesterone",
+    "Estrogen",
+    "Luteinising hormone",
+    "Follicle stimulating hormone"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Key card says LH peaks mid-cycle and causes ovulation.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-reproduction.def-lh-surge",
+    "chapter": "Human Reproduction",
+    "front": "What is the LH surge?",
+    "back": "Rapid secretion of LH leading to its maximum level during the mid-cycle called LH surge induces rupture of Graafian follicle and thereby the release of ovum (ovulation).",
+    "source": "NCERT, Biology, chapter 2, page 35",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "chapter": "Human Health & Disease",
+   "type": "theory",
+   "stem": "Chemically, heroin is:",
+   "passage": {
+    "title": "Drugs and Drug Abuse",
+    "text": "Read the following passage carefully and answer the given questions.\n\nUse of drugs has been on the rise, especially among the youth. This is really a cause of concern as it could result in many harmful effects. Proper education and guidance would enable young people to safeguard themselves against these dangerous behaviour patterns and follow healthy lifestyles. The drugs which are commonly abused are opioids, cannabinoids and coca alkaloids. The majority of these are obtained from flowering plants. Some are obtained from fungi. Various plants, fruits and seeds having hallucinogenic properties have been used for hundreds of years in folk-medicine, religious ceremonies and rituals all over the globe. When these are taken for a purpose other than medicinal use or in amounts/frequency that impairs one's physical, physiological or psychological functions, it constitutes drug abuse. These days, some drugs are also being abused by some sports-persons."
+   },
+   "options": [
+    "Dichloroacetylene",
+    "Diacetylmorphine",
+    "Acetyl-pentene",
+    "Di-methylacetylene"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-health-and-disease.term-heroin",
+    "chapter": "Human Health & Disease",
+    "front": "Heroin (Figure 7.7), commonly called smack is chemically ____ which is a white, odourless, bitter crystalline compound.",
+    "back": "Heroin (Figure 7.7), commonly called smack is chemically diacetylmorphine which is a white, odourless, bitter crystalline compound.",
+    "source": "NCERT, Biology, chapter 7, page 142",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "chapter": "Human Health & Disease",
+   "type": "theory",
+   "stem": "Which one of the following drugs is not produced from Cannabis plant?",
+   "passage": {
+    "title": "Drugs and Drug Abuse",
+    "text": "Read the following passage carefully and answer the given questions.\n\nUse of drugs has been on the rise, especially among the youth. This is really a cause of concern as it could result in many harmful effects. Proper education and guidance would enable young people to safeguard themselves against these dangerous behaviour patterns and follow healthy lifestyles. The drugs which are commonly abused are opioids, cannabinoids and coca alkaloids. The majority of these are obtained from flowering plants. Some are obtained from fungi. Various plants, fruits and seeds having hallucinogenic properties have been used for hundreds of years in folk-medicine, religious ceremonies and rituals all over the globe. When these are taken for a purpose other than medicinal use or in amounts/frequency that impairs one's physical, physiological or psychological functions, it constitutes drug abuse. These days, some drugs are also being abused by some sports-persons."
+   },
+   "options": [
+    "Marijuana",
+    "Hashish",
+    "Smack",
+    "Charas and ganja"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "reason": "Cards name the cannabis products and place smack positively with the poppy.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-health-and-disease.list-cannabis-products",
+    "chapter": "Human Health & Disease",
+    "front": "Name the products made from the cannabis plant.",
+    "back": "marijuana\nhashish\ncharas\nganja",
+    "source": "NCERT, Biology, chapter 7, page 143",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "chapter": "Human Health & Disease",
+   "type": "theory",
+   "stem": "A very effective sedative and painkiller, which is very useful in patients who have undergone surgery is:",
+   "passage": {
+    "title": "Drugs and Drug Abuse",
+    "text": "Read the following passage carefully and answer the given questions.\n\nUse of drugs has been on the rise, especially among the youth. This is really a cause of concern as it could result in many harmful effects. Proper education and guidance would enable young people to safeguard themselves against these dangerous behaviour patterns and follow healthy lifestyles. The drugs which are commonly abused are opioids, cannabinoids and coca alkaloids. The majority of these are obtained from flowering plants. Some are obtained from fungi. Various plants, fruits and seeds having hallucinogenic properties have been used for hundreds of years in folk-medicine, religious ceremonies and rituals all over the globe. When these are taken for a purpose other than medicinal use or in amounts/frequency that impairs one's physical, physiological or psychological functions, it constitutes drug abuse. These days, some drugs are also being abused by some sports-persons."
+   },
+   "options": [
+    "Morphine",
+    "Heroin",
+    "Cocaine",
+    "Kanamycin"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "New card: morphine is a very effective sedative and painkiller, very useful in patients who have undergone surgery (lebo107 p.143). The card asks the use of morphine; the paper gives the use and asks the drug.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-health-and-disease.fact-morphine-use",
+    "chapter": "Human Health & Disease",
+    "front": "For what is morphine very effective and useful in medicine?",
+    "back": "Morphine is a very effective sedative and painkiller, and is very useful in patients who have undergone surgery.",
+    "source": "NCERT, Biology, chapter 7, page 143",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "chapter": "Human Health & Disease",
+   "type": "theory",
+   "stem": "Which one of the following drugs is not normally used as medicine to help patients cope with mental illnesses?",
+   "passage": {
+    "title": "Drugs and Drug Abuse",
+    "text": "Read the following passage carefully and answer the given questions.\n\nUse of drugs has been on the rise, especially among the youth. This is really a cause of concern as it could result in many harmful effects. Proper education and guidance would enable young people to safeguard themselves against these dangerous behaviour patterns and follow healthy lifestyles. The drugs which are commonly abused are opioids, cannabinoids and coca alkaloids. The majority of these are obtained from flowering plants. Some are obtained from fungi. Various plants, fruits and seeds having hallucinogenic properties have been used for hundreds of years in folk-medicine, religious ceremonies and rituals all over the globe. When these are taken for a purpose other than medicinal use or in amounts/frequency that impairs one's physical, physiological or psychological functions, it constitutes drug abuse. These days, some drugs are also being abused by some sports-persons."
+   },
+   "options": [
+    "Chloramphenicol",
+    "Amphetamines",
+    "Benzodiazepines",
+    "Barbiturates"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "New card: barbiturates, amphetamines and benzodiazepines are normally used as medicines to help patients cope with mental illnesses like depression and insomnia (lebo107 p.143); published list-antibiotic-markers names chloramphenicol as an antibiotic, so it is the one not used for mental illness.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.human-health-and-disease.fact-mental-illness-medicines",
+    "chapter": "Human Health & Disease",
+    "front": "For which illnesses are barbiturates, amphetamines and benzodiazepines normally used as medicines?",
+    "back": "Drugs like barbiturates, amphetamines, benzodiazepines, and other similar drugs, that are normally used as medicines to help patients cope with mental illnesses like depression and insomnia, are often abused.",
+    "source": "NCERT, Biology, chapter 7, page 143",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "chapter": "Human Health & Disease",
+   "type": "theory",
+   "stem": "Which one of the following plants does not have hallucinogenic properties?",
+   "passage": {
+    "title": "Drugs and Drug Abuse",
+    "text": "Read the following passage carefully and answer the given questions.\n\nUse of drugs has been on the rise, especially among the youth. This is really a cause of concern as it could result in many harmful effects. Proper education and guidance would enable young people to safeguard themselves against these dangerous behaviour patterns and follow healthy lifestyles. The drugs which are commonly abused are opioids, cannabinoids and coca alkaloids. The majority of these are obtained from flowering plants. Some are obtained from fungi. Various plants, fruits and seeds having hallucinogenic properties have been used for hundreds of years in folk-medicine, religious ceremonies and rituals all over the globe. When these are taken for a purpose other than medicinal use or in amounts/frequency that impairs one's physical, physiological or psychological functions, it constitutes drug abuse. These days, some drugs are also being abused by some sports-persons."
+   },
+   "options": [
+    "Atropa",
+    "Erythroxylum",
+    "Datura",
+    "Rauwolfia"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "theory",
+   "stem": "Which one of the following diseases is an autosomal dominant disorder?",
+   "passage": {
+    "title": "Mendelian Disorders",
+    "text": "Read the following passage carefully and answer the given questions.\n\nGenetic disorders may be grouped into two categories – Mendelian disorders and Chromosomal disorders. Mendelian disorders are mainly determined by alteration or mutation in a single gene. These disorders are transmitted to the offspring on the same lines as in the principle of inheritance. The pattern of inheritance of such Mendelian disorders can be traced in a family by pedigree analysis. Most common and prevalent Mendelian disorders are Haemophilia, Cystic fibrosis, Sickle-cell anaemia, Colour blindness, Phenylketonuria, Thalassemia, etc. The Mendelian disorders may be dominant or recessive. By pedigree analysis, one can easily understand whether the trait in question is dominant or recessive. Similarly, the trait may also be linked to the sex chromosome or an autosome."
+   },
+   "options": [
+    "Sickle-cell anaemia",
+    "Myotonic dystrophy",
+    "Phenylketonuria",
+    "Thalassemia"
+   ],
+   "key": [
+    1
+   ],
+   "status": "same",
+   "reason": "New card asks NCERT's example of an autosomal dominant trait and answers myotonic dystrophy (lebo104 p.73, Figure 4.14), the key; the three distractors are taught as autosomal recessive by published cards.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.principles-of-inheritance-and-variation.fact-autosomal-dominant-example",
+    "chapter": "Principles of Inheritance & Variation",
+    "front": "Which NCERT example illustrates an autosomal dominant trait in pedigree analysis?",
+    "back": "Autosomal dominant trait (for example: Myotonic dystrophy)",
+    "source": "NCERT, Biology, chapter 4, page 73",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "theory",
+   "stem": "Which one of the following substitutions is a cause of sickle-cell anaemia?",
+   "passage": {
+    "title": "Mendelian Disorders",
+    "text": "Read the following passage carefully and answer the given questions.\n\nGenetic disorders may be grouped into two categories – Mendelian disorders and Chromosomal disorders. Mendelian disorders are mainly determined by alteration or mutation in a single gene. These disorders are transmitted to the offspring on the same lines as in the principle of inheritance. The pattern of inheritance of such Mendelian disorders can be traced in a family by pedigree analysis. Most common and prevalent Mendelian disorders are Haemophilia, Cystic fibrosis, Sickle-cell anaemia, Colour blindness, Phenylketonuria, Thalassemia, etc. The Mendelian disorders may be dominant or recessive. By pedigree analysis, one can easily understand whether the trait in question is dominant or recessive. Similarly, the trait may also be linked to the sex chromosome or an autosome."
+   },
+   "options": [
+    "Substitution of valine by aspartic acid at the sixth position of the beta globin chain.",
+    "Substitution of glutamic acid by alanine at the sixth position of the beta globin chain.",
+    "Substitution of glutamic acid by valine at the sixth position of the beta globin chain.",
+    "Substitution of glycine by methionine at the sixth position of the beta globin chain."
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.principles-of-inheritance-and-variation.fact-sickle-cell-valine",
+    "chapter": "Principles of Inheritance & Variation",
+    "front": "In sickle-cell anaemia, which amino acid replaces glutamic acid (Glu) at the sixth position of the beta globin chain?",
+    "back": "Valine (Val), replacing glutamic acid (Glu)\nValine (Val) at the sixth position of the beta globin chain of the haemoglobin molecule.",
+    "source": "NCERT, Biology, chapter 4, page 75",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "theory",
+   "stem": "Which one of the followings is an example of an inborn error of metabolism and inherited as autosomal recessive trait?",
+   "passage": {
+    "title": "Mendelian Disorders",
+    "text": "Read the following passage carefully and answer the given questions.\n\nGenetic disorders may be grouped into two categories – Mendelian disorders and Chromosomal disorders. Mendelian disorders are mainly determined by alteration or mutation in a single gene. These disorders are transmitted to the offspring on the same lines as in the principle of inheritance. The pattern of inheritance of such Mendelian disorders can be traced in a family by pedigree analysis. Most common and prevalent Mendelian disorders are Haemophilia, Cystic fibrosis, Sickle-cell anaemia, Colour blindness, Phenylketonuria, Thalassemia, etc. The Mendelian disorders may be dominant or recessive. By pedigree analysis, one can easily understand whether the trait in question is dominant or recessive. Similarly, the trait may also be linked to the sex chromosome or an autosome."
+   },
+   "options": [
+    "Phenylketonuria",
+    "Thalassemia",
+    "Haemophilia",
+    "Colour Blindness"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "reason": "Key card has the stem sentence nearly word for word.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.principles-of-inheritance-and-variation.def-phenylketonuria",
+    "chapter": "Principles of Inheritance & Variation",
+    "front": "What is phenylketonuria and which enzyme is lacking?",
+    "back": "This inborn error of metabolism is also inherited as the autosomal recessive trait. The affected individual lacks an enzyme that converts the amino acid phenylalanine into tyrosine.",
+    "source": "NCERT, Biology, chapter 4, page 75",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "theory",
+   "stem": "α-thalassemia is controlled by the genes:",
+   "passage": {
+    "title": "Mendelian Disorders",
+    "text": "Read the following passage carefully and answer the given questions.\n\nGenetic disorders may be grouped into two categories – Mendelian disorders and Chromosomal disorders. Mendelian disorders are mainly determined by alteration or mutation in a single gene. These disorders are transmitted to the offspring on the same lines as in the principle of inheritance. The pattern of inheritance of such Mendelian disorders can be traced in a family by pedigree analysis. Most common and prevalent Mendelian disorders are Haemophilia, Cystic fibrosis, Sickle-cell anaemia, Colour blindness, Phenylketonuria, Thalassemia, etc. The Mendelian disorders may be dominant or recessive. By pedigree analysis, one can easily understand whether the trait in question is dominant or recessive. Similarly, the trait may also be linked to the sex chromosome or an autosome."
+   },
+   "options": [
+    "HBB and HB1 on chromosome 11 of each parent",
+    "HAA1 and HAB1 on chromosome 16 of each parent",
+    "HBA1 and HBA2 on chromosome 16 of each parent",
+    "HBB and HAA on chromosome 11 of each parent"
+   ],
+   "key": [
+    2
+   ],
+   "status": "same",
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.principles-of-inheritance-and-variation.fact-alpha-thalassemia-genes",
+    "chapter": "Principles of Inheritance & Variation",
+    "front": "Which genes and chromosome control alpha thalassemia?",
+    "back": "α Thalassemia is controlled by two closely linked genes HBA1 and HBA2 on chromosome 16 of each parent and it is observed due to mutation or deletion of one or more of the four genes.",
+    "source": "NCERT, Biology, chapter 4, page 75",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "theory",
+   "stem": "Failure of segregation of chromatids during cell division results in:",
+   "passage": {
+    "title": "Mendelian Disorders",
+    "text": "Read the following passage carefully and answer the given questions.\n\nGenetic disorders may be grouped into two categories – Mendelian disorders and Chromosomal disorders. Mendelian disorders are mainly determined by alteration or mutation in a single gene. These disorders are transmitted to the offspring on the same lines as in the principle of inheritance. The pattern of inheritance of such Mendelian disorders can be traced in a family by pedigree analysis. Most common and prevalent Mendelian disorders are Haemophilia, Cystic fibrosis, Sickle-cell anaemia, Colour blindness, Phenylketonuria, Thalassemia, etc. The Mendelian disorders may be dominant or recessive. By pedigree analysis, one can easily understand whether the trait in question is dominant or recessive. Similarly, the trait may also be linked to the sex chromosome or an autosome."
+   },
+   "options": [
+    "Apomixis",
+    "Aneuploidy",
+    "Polyploidy",
+    "Parthenocarpy"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "reason": "Key card is the same definition.",
+   "match": {
+    "kind": "card",
+    "id": "kc.biology.principles-of-inheritance-and-variation.def-aneuploidy",
+    "chapter": "Principles of Inheritance & Variation",
+    "front": "What is aneuploidy?",
+    "back": "Failure of segregation of chromatids during cell division cycle results in the gain or loss of a chromosome(s), called aneuploidy.",
+    "source": "NCERT, Biology, chapter 4, page 75",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  }
+ ]
+}

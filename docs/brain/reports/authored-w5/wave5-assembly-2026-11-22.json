@@ -1,0 +1,134 @@
+{
+ "kind": "authored_w5_assembly",
+ "source": "claude-authored-2026-11-22-w5",
+ "at": "2026-11-22T00:14:27.293Z",
+ "candidatesFile": "docs\\brain\\reports\\authored-w5\\wave5-candidates-final-2026-11-22.json",
+ "inputs": [
+  "tmp/1122-coverage/authored/accountancy/accepted.json",
+  "tmp/1122-coverage/authored/business-studies/accepted.json",
+  "tmp/1122-coverage/authored/economics/accepted.json"
+ ],
+ "questions": 44,
+ "problems": [],
+ "fieldChanges": [
+  {
+   "id": "76b59d07-7ce0-4074-bd10-d74bc5df3205",
+   "field": "_expert",
+   "from": "ready",
+   "to": "repaired",
+   "why": "accountancy audit.md Repairs table: accept (repaired)"
+  },
+  {
+   "id": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+   "field": "_expert",
+   "from": "ready",
+   "to": "repaired",
+   "why": "accountancy audit.md Repairs table: accept (repaired)"
+  },
+  {
+   "id": "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898",
+   "field": "_expert",
+   "from": "ready",
+   "to": "repaired",
+   "why": "accountancy audit.md Repairs table: accept (repaired)"
+  },
+  {
+   "id": "9d98237d-593c-4647-a695-9eaed7ed0caf",
+   "field": "_expert",
+   "from": "ready",
+   "to": "repaired",
+   "why": "accountancy audit.md Repairs table: accept (repaired)"
+  },
+  {
+   "id": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+   "field": "_expert",
+   "from": "ready",
+   "to": "repaired",
+   "why": "accountancy audit.md Repairs table: accept (repaired)"
+  },
+  {
+   "id": "8171062d-6e5e-418c-a453-08f9daedef4d",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/ready",
+   "why": "business-studies audit.md section 3 accepted it"
+  },
+  {
+   "id": "660d06e2-8ff7-4cb4-9bc0-39b32e303538",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/ready",
+   "why": "business-studies audit.md section 3 accepted it"
+  },
+  {
+   "id": "fe9b41bc-53e6-4d36-8d3d-fc290750292c",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/ready",
+   "why": "business-studies audit.md section 3 accepted it"
+  },
+  {
+   "id": "19400ad2-6e18-42ff-a1cc-d97fa9986bfa",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/ready",
+   "why": "business-studies audit.md section 3 accepted it"
+  },
+  {
+   "id": "fa2b3abd-6e78-4816-9112-1873ecc413eb",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/repaired",
+   "why": "business-studies audit.md section 3 accepted it after repair"
+  },
+  {
+   "id": "3bca44a8-5095-4fdf-ace1-595621a862b2",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/ready",
+   "why": "business-studies audit.md section 3 accepted it"
+  },
+  {
+   "id": "4bb87b57-9f45-4c52-a2ee-48852a6f224e",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/ready",
+   "why": "business-studies audit.md section 3 accepted it"
+  },
+  {
+   "id": "350e6b60-9039-406a-8e7f-c7d021e04ed4",
+   "field": "_verdict/_expert",
+   "from": "author_drafted/pending",
+   "to": "claude_audited/repaired",
+   "why": "business-studies audit.md section 3 accepted it after repair"
+  }
+ ],
+ "planHash": "4ddc6eaee187d432092d08131d0d2d5d0d08e59dfc388464e651f719be5ff57b",
+ "summary": {
+  "questions": 44,
+  "passageGroups": 0,
+  "bySubject": {
+   "accountancy": 27,
+   "business_studies": 8,
+   "economics": 9
+  },
+  "byType": {
+   "conceptual_mcq": 38,
+   "sequence_ordering": 4,
+   "statement_based": 1,
+   "match_the_following": 1
+  },
+  "byDifficulty": {
+   "medium": 25,
+   "hard": 18,
+   "easy": 1
+  },
+  "byExpertReview": {
+   "claude_audited": 44
+  },
+  "passageChildrenBySet": {},
+  "passageSetsBelowNtaMinimum": [],
+  "chapters": 16
+ },
+ "dropped": "none at this stage: rejected rows stay in tmp/1122-coverage/authored/<id>/rejected.json (business-studies 1, accountancy 0, economics 0)"
+}

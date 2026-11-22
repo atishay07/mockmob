@@ -1,0 +1,82 @@
+[
+  {
+    "id": "03853308-dd76-4191-a753-a3205aca1cf8",
+    "subject": "accountancy",
+    "batch": "accountancy__w5b1",
+    "chapter": "Profit & Loss Appropriation Account",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "76b59d07-7ce0-4074-bd10-d74bc5df3205",
+    "subject": "accountancy",
+    "batch": "accountancy__w5b1",
+    "chapter": "Profit & Loss Appropriation Account",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j2_quality_6"
+  },
+  {
+    "id": "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898",
+    "subject": "accountancy",
+    "batch": "accountancy__w5b2",
+    "chapter": "Goodwill Valuation",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_4; fit_flagged_by_two"
+  },
+  {
+    "id": "9d98237d-593c-4647-a695-9eaed7ed0caf",
+    "subject": "accountancy",
+    "batch": "accountancy__w5b2",
+    "chapter": "Goodwill Valuation",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6; fit_median_4; fit_flagged_by_two"
+  },
+  {
+    "id": "9a22be64-9753-4366-9287-edbdcf868b76",
+    "subject": "accountancy",
+    "batch": "accountancy__w5b2",
+    "chapter": "Share Capital",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6; fit_median_6"
+  },
+  {
+    "id": "fa2b3abd-6e78-4816-9112-1873ecc413eb",
+    "subject": "business_studies",
+    "batch": "business_studies__w5b1",
+    "chapter": "Financial Markets",
+    "type": "sequence_ordering",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_4; j1_flags_multiple_defensible; j2_quality_4; j2_flags_multiple_defensible"
+  },
+  {
+    "id": "4bb87b57-9f45-4c52-a2ee-48852a6f224e",
+    "subject": "business_studies",
+    "batch": "business_studies__w5b1",
+    "chapter": "Financial Markets",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6; j2_quality_6; fit_median_6"
+  },
+  {
+    "id": "b8f7678f-4fba-4e20-93ff-014790a22cf5",
+    "subject": "economics",
+    "batch": "economics__w5b1",
+    "chapter": "Production & Costs",
+    "type": "sequence_ordering",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j2_quality_6"
+  }
+]

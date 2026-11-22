@@ -2,23 +2,23 @@
   "subject": "biology",
   "chapters": {
     "biology.biodiversity-and-conservation": {
-      "published": 72,
+      "published": 73,
       "quarantined": 0,
       "byKind": {
         "definition": 13,
         "term": 2,
         "types": 3,
-        "fact": 46,
+        "fact": 47,
         "list": 6,
         "formula": 1,
         "key_line": 1
       },
       "byImportance": {
         "must": 44,
-        "good": 28
+        "good": 29
       },
       "coverage_note": null,
-      "mustShare": 0.61,
+      "mustShare": 0.6,
       "belowMinimum": false
     },
     "biology.biotechnology-and-its-applications": {
@@ -105,12 +105,12 @@
       "belowMinimum": false
     },
     "biology.human-health-and-disease": {
-      "published": 173,
+      "published": 175,
       "quarantined": 0,
       "byKind": {
         "definition": 25,
         "list": 15,
-        "fact": 105,
+        "fact": 107,
         "types": 10,
         "term": 14,
         "difference": 3,
@@ -118,28 +118,28 @@
       },
       "byImportance": {
         "must": 104,
-        "good": 69
+        "good": 71
       },
       "coverage_note": null,
-      "mustShare": 0.6,
+      "mustShare": 0.59,
       "belowMinimum": false
     },
     "biology.human-reproduction": {
-      "published": 123,
+      "published": 125,
       "quarantined": 1,
       "byKind": {
         "list": 9,
-        "fact": 56,
+        "fact": 58,
         "key_line": 37,
         "definition": 19,
         "steps": 2
       },
       "byImportance": {
         "must": 56,
-        "good": 67
+        "good": 69
       },
       "coverage_note": null,
-      "mustShare": 0.46,
+      "mustShare": 0.45,
       "belowMinimum": false
     },
     "biology.microbes-in-human-welfare": {
@@ -205,10 +205,10 @@
       "belowMinimum": false
     },
     "biology.principles-of-inheritance-and-variation": {
-      "published": 114,
+      "published": 115,
       "quarantined": 1,
       "byKind": {
-        "fact": 63,
+        "fact": 64,
         "definition": 32,
         "list": 5,
         "key_line": 9,
@@ -219,7 +219,7 @@
       },
       "byImportance": {
         "must": 72,
-        "good": 42
+        "good": 43
       },
       "coverage_note": null,
       "mustShare": 0.63,
@@ -244,13 +244,13 @@
       "belowMinimum": false
     },
     "biology.sexual-reproduction-in-flowering-plants": {
-      "published": 149,
+      "published": 150,
       "quarantined": 0,
       "byKind": {
         "term": 21,
         "list": 10,
         "key_line": 16,
-        "fact": 67,
+        "fact": 68,
         "definition": 28,
         "difference": 3,
         "types": 1,
@@ -258,10 +258,10 @@
       },
       "byImportance": {
         "must": 113,
-        "good": 36
+        "good": 37
       },
       "coverage_note": null,
-      "mustShare": 0.76,
+      "mustShare": 0.75,
       "belowMinimum": false
     }
   }

@@ -1,0 +1,1323 @@
+{
+ "paper": "cuet2026-biology",
+ "subject": "biology",
+ "subjectName": "Biology",
+ "subjectCode": "304",
+ "examDate": "2026-05-20",
+ "shift": "First",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Biology, 42 PDF pages: a cover plus 41 numbered pages), https://docs.aglasem.com/view/662d17e4-c701-11f1-8f72-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/662d17e4-c701-11f1-8f72-0aa932765c8b/662d17e4-c701-11f1-8f72-0aa932765c8b.pdf (8,729,875 bytes, ETag b9b5a0ea4c4592136bb4e5b6e6c658fd, Last-Modified 13 Oct 2026), downloaded 22 Nov 2026 under the owner's 22 Nov 2026 request for more subjects. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 304.",
+ "provenance": {
+  "viewUrl": "https://docs.aglasem.com/view/662d17e4-c701-11f1-8f72-0aa932765c8b",
+  "pdfUrl": "https://cdn.aglasem.com/aglasem-doc/662d17e4-c701-11f1-8f72-0aa932765c8b/662d17e4-c701-11f1-8f72-0aa932765c8b.pdf",
+  "downloadedOn": "2026-11-22",
+  "fileBytes": 8729875,
+  "etag": "b9b5a0ea4c4592136bb4e5b6e6c658fd",
+  "lastModified": "2026-10-13",
+  "localFile": "tmp/1122-coverage/papers/biology/pdf/cuet2026-biology.pdf",
+  "finalKey": "cuet-2026-final-keys.pdf (NTA CUET (UG) 2026 final answer key), subject 304, 24 shifts x 50 rows; rows extracted to tmp/1122-coverage/papers/biology/work/keys-biology.json",
+  "shift": "20-05-2026 (First)",
+  "questionsAuthenticated": 50
+ },
+ "structure": "Group 'Biology and Biological Studies and Biotechnology and Biochemistry', one mandatory section of 50 numbered questions (391 to 440) printed in English then Hindi: sub-section 1 has 40 stand-alone MCQs (391-430), sub-section 2 has two comprehension passages with 5 questions each (431-435 'Drugs and Drug Abuse', 436-440 'Mendelian Disorders'). The header says 'Number of Questions: 42', 'to be attempted: 42' and 'Section Marks: 250'; fifty questions are printed.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 20-05-2026 (First) final key for subject 304 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question.",
+ "transcribedBy": "Subagent paper stage, 22 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed, read from the page images. Spelling and wording kept as printed (e.g. Q395 'a inhibitor genes', Q397 and Q438 'followings', Q398 'Genetic drift affect', Q402 'tumifaciens', Q404 'Inactive protoxins is ingested', Q417 option 1 '30000 bases').",
+  "Page = the PDF page (pNN of the 42-page PDF; the printed footer is one lower) where the question's English option ids were read.",
+  "Match tables are written as rows 'List-I item | List-II item' in the order the paper prints them.",
+  "Q430: the English stem asks which hormone 'is at its peak during ovulation'; the Hindi copy asks which is NOT at its peak. The English text is transcribed; NTA's key gives option 3 (Luteinising hormone), which fits the English.",
+  "Q417: NTA's key gives option 3 (less than 2 percent of the genome codes for proteins). Option 1 prints '30000 bases' (NCERT says 3000); kept as printed.",
+  "Q398: NTA's final key gives option 2 ((A), (B) and (C) only). NCERT treats genetic drift as a factor that disturbs Hardy-Weinberg equilibrium, so statement (B) is arguable; kept as NTA's published key and flagged for the coverage stage.",
+  "Every other key was read against NCERT and fits the English text as transcribed.",
+  "Q432: OCR missed its header line, so its question id and option ids were read from the page image (p35) and cross-checked with the Hindi copy (p37); it then authenticated like the rest.",
+  "Q422 option text uses the degree sign for '100 0 C' and '70 0 C' as printed (superscript zero).",
+  "The shift's key has 50 rows, all single-answer, none dropped. NTA's final key for subject 304 holds 24 shifts; this paper is the 20-05-2026 First shift and all 50 question ids fall in that one shift.",
+  "OCR slips fixed: none needed in the final text, because the text was typed from the page images, not cleaned from OCR (the OCR draft dropped spaces between words and was used only for ids)."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "keyRows": 50,
+  "ocrSlipsFixed": 0
+ },
+ "problems": [],
+ "passages": {
+  "P1-226895785013": {
+   "questionId": "226895785013",
+   "questionNumbers": "431 to 435",
+   "title": "Drugs and Drug Abuse",
+   "page": 35,
+   "text": "Read the following passage carefully and answer the given questions.\n\nUse of drugs has been on the rise, especially among the youth. This is really a cause of concern as it could result in many harmful effects. Proper education and guidance would enable young people to safeguard themselves against these dangerous behaviour patterns and follow healthy lifestyles. The drugs which are commonly abused are opioids, cannabinoids and coca alkaloids. The majority of these are obtained from flowering plants. Some are obtained from fungi. Various plants, fruits and seeds having hallucinogenic properties have been used for hundreds of years in folk-medicine, religious ceremonies and rituals all over the globe. When these are taken for a purpose other than medicinal use or in amounts/frequency that impairs one's physical, physiological or psychological functions, it constitutes drug abuse. These days, some drugs are also being abused by some sports-persons."
+  },
+  "P2-226895785019": {
+   "questionId": "226895785019",
+   "questionNumbers": "436 to 440",
+   "title": "Mendelian Disorders",
+   "page": 39,
+   "text": "Read the following passage carefully and answer the given questions.\n\nGenetic disorders may be grouped into two categories – Mendelian disorders and Chromosomal disorders. Mendelian disorders are mainly determined by alteration or mutation in a single gene. These disorders are transmitted to the offspring on the same lines as in the principle of inheritance. The pattern of inheritance of such Mendelian disorders can be traced in a family by pedigree analysis. Most common and prevalent Mendelian disorders are Haemophilia, Cystic fibrosis, Sickle-cell anaemia, Colour blindness, Phenylketonuria, Thalassemia, etc. The Mendelian disorders may be dominant or recessive. By pedigree analysis, one can easily understand whether the trait in question is dominant or recessive. Similarly, the trait may also be linked to the sex chromosome or an autosome."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "questionId": "226895784973",
+   "page": 3,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Identify the chemicals produced by Calotropis that provide defense against grazers and browsers.",
+   "options": [
+    "Strychnine",
+    "Quinine",
+    "Cardiac glycosides",
+    "Caffeine"
+   ],
+   "optionIds": [
+    "2268953043969",
+    "2268953043970",
+    "2268953043971",
+    "2268953043972"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043971",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "questionId": "226895784974",
+   "page": 3,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Match List-I with List-II\nList-I (Organisms) | List-II (Trophic levels)\n(A) Man, lion | (I) Third\n(B) Zooplankton, cow | (II) First\n(C) Phytoplankton, trees | (III) Fourth\n(D) Birds, wolves | (IV) Second\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)",
+    "(A) - (IV), (B) - (I), (C) - (III), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+    "(A) - (I), (B) - (IV), (C) - (III), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043973",
+    "2268953043974",
+    "2268953043975",
+    "2268953043976"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043975",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "questionId": "226895784975",
+   "page": 4,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "The species confined to a particular region and not found anywhere else is:",
+   "options": [
+    "Cosmopolitan",
+    "Endemism",
+    "Hot-spot",
+    "Alien species"
+   ],
+   "optionIds": [
+    "2268953043977",
+    "2268953043978",
+    "2268953043979",
+    "2268953043980"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043978",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "questionId": "226895784976",
+   "page": 6,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Identify the correct reasons for cutting and clearing of Amazon rain forest?\n(A) Cultivating soyabeans\n(B) Growing wheat and maize\n(C) Setting up industries\n(D) Conversion to grasslands for raising beef cattle\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A) and (D) only",
+    "(B) and (C) only",
+    "(A) and (C) only"
+   ],
+   "optionIds": [
+    "2268953043981",
+    "2268953043982",
+    "2268953043983",
+    "2268953043984"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043982",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "questionId": "226895784977",
+   "page": 6,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following is a inhibitor genes in lac operon?",
+   "options": [
+    "Gene i",
+    "Gene z",
+    "Gene y",
+    "Gene a"
+   ],
+   "optionIds": [
+    "2268953043985",
+    "2268953043986",
+    "2268953043987",
+    "2268953043988"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043985",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "questionId": "226895784978",
+   "page": 7,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "The scientist who developed a method for sequencing the DNA fragments was:",
+   "options": [
+    "Frederick Griffith",
+    "Frederick Sanger",
+    "George Gamow",
+    "Har Gobind Khorana"
+   ],
+   "optionIds": [
+    "2268953043989",
+    "2268953043990",
+    "2268953043991",
+    "2268953043992"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043990",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "questionId": "226895784979",
+   "page": 7,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the followings is not a terminator codon?",
+   "options": [
+    "UAA",
+    "UAG",
+    "UUC",
+    "UGA"
+   ],
+   "optionIds": [
+    "2268953043993",
+    "2268953043994",
+    "2268953043995",
+    "2268953043996"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043995",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "questionId": "226895784980",
+   "page": 8,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Select the correct statements regarding Hardy-Weinberg principle.\n(A) Sum total of all the allelic frequencies is 1.\n(B) Genetic drift affect Hardy-Weinberg principle.\n(C) Allele frequencies in a population are stable and is constant from generation to generation.\n(D) The gene pool continues changing generation after generation.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A) and (D) only",
+    "(B) and (C) only"
+   ],
+   "optionIds": [
+    "2268953043997",
+    "2268953043998",
+    "2268953043999",
+    "2268953044000"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043998",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "questionId": "226895784981",
+   "page": 9,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Identify the agencies which are involved in developing the technology of biogas production.\n(A) Khadi and Village Industries Commission\n(B) Indian Farmers Welfare Association\n(C) Indian Biogas Production Institute\n(D) Indian Agricultural Research Institute\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A) and (D) only",
+    "(B) and (C) only"
+   ],
+   "optionIds": [
+    "2268953044001",
+    "2268953044002",
+    "2268953044003",
+    "2268953044004"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044003",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "questionId": "226895784982",
+   "page": 10,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Identify the bacteria which can fix atmospheric nitrogen and are free-living in the soil.\n(A) Azotobacter\n(B) Rhizobium\n(C) Azospirillum\n(D) Anabaena\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) and (C) only",
+    "(B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A), (B) and (C) only"
+   ],
+   "optionIds": [
+    "2268953044005",
+    "2268953044006",
+    "2268953044007",
+    "2268953044008"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044005",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "questionId": "226895784983",
+   "page": 11,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Arrange the following steps involved in PCR in the correct sequence.\n(A) Amplification\n(B) Extension of primers\n(C) Primer annealing\n(D) Denaturation\nChoose the correct answer from the options given below:",
+   "options": [
+    "(C), (B), (A), (D)",
+    "(D), (B), (A), (C)",
+    "(B), (A), (D), (C)",
+    "(D), (C), (B), (A)"
+   ],
+   "optionIds": [
+    "2268953044009",
+    "2268953044010",
+    "2268953044011",
+    "2268953044012"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044012",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "questionId": "226895784984",
+   "page": 12,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following microorganisms is used as a cloning vector to deliver the genes of interest into a variety of plants?",
+   "options": [
+    "Bacillus thuringiensis",
+    "Rhino viruses",
+    "Agrobacterium tumifaciens",
+    "Nucleopolyhedrovirus"
+   ],
+   "optionIds": [
+    "2268953044013",
+    "2268953044014",
+    "2268953044015",
+    "2268953044016"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044015",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "questionId": "226895784985",
+   "page": 13,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following organisms has been disarmed and used to deliver desirable genes into animal cells?",
+   "options": [
+    "Retroviruses",
+    "Cyanobacteria",
+    "Yeast",
+    "Baculoviruses"
+   ],
+   "optionIds": [
+    "2268953044017",
+    "2268953044018",
+    "2268953044019",
+    "2268953044020"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044017",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "questionId": "226895784986",
+   "page": 13,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Arrange the following steps which are involved in action of Bt toxin proteins on insects in correct sequence.\n(A) Conversion of inactive toxin into active one by alkaline pH of the gut of insect\n(B) Creation of pores that cause cell swelling and lysis which leads to death of insect\n(C) Inactive protoxins is ingested by insect\n(D) Activated toxin binds to the surface of midgut epithelial cells of insect\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (D), (C), (B)",
+    "(D), (B), (C), (A)",
+    "(C), (A), (D), (B)",
+    "(C), (B), (A), (D)"
+   ],
+   "optionIds": [
+    "2268953044021",
+    "2268953044022",
+    "2268953044023",
+    "2268953044024"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044023",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "questionId": "226895784987",
+   "page": 14,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following techniques serve the purpose of early diagnosis of diseases?",
+   "options": [
+    "Stool analysis",
+    "Enzyme linked immuno-sorbent assay",
+    "Urine analysis",
+    "Serum analysis"
+   ],
+   "optionIds": [
+    "2268953044025",
+    "2268953044026",
+    "2268953044027",
+    "2268953044028"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044026",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "questionId": "226895784988",
+   "page": 15,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "When the pistils are fused together, this state is called:",
+   "options": [
+    "Apocarpous",
+    "Syncarpous",
+    "Monocarpellary",
+    "Multicarpellary"
+   ],
+   "optionIds": [
+    "2268953044029",
+    "2268953044030",
+    "2268953044031",
+    "2268953044032"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044030",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "questionId": "226895784989",
+   "page": 16,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Pollination is not carried out by water in -",
+   "options": [
+    "Zostera",
+    "Water lily",
+    "Hydrilla",
+    "Vallisneria"
+   ],
+   "optionIds": [
+    "2268953044033",
+    "2268953044034",
+    "2268953044035",
+    "2268953044036"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044034",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "questionId": "226895784990",
+   "page": 16,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Identify the structures which have the potency to give rise to all the tissues and organs.",
+   "options": [
+    "Stem cells",
+    "Trophoblast",
+    "Chorionic villi",
+    "Placenta"
+   ],
+   "optionIds": [
+    "2268953044037",
+    "2268953044038",
+    "2268953044039",
+    "2268953044040"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044037",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "questionId": "226895784991",
+   "page": 17,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following structures is not essential for maturation and motility of sperms?",
+   "options": [
+    "Epididymis",
+    "Cervix",
+    "Seminal vesicle",
+    "Prostate"
+   ],
+   "optionIds": [
+    "2268953044041",
+    "2268953044042",
+    "2268953044043",
+    "2268953044044"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044042",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "questionId": "226895784992",
+   "page": 18,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Match List-I with List-II\nList-I (Contraceptive methods) | List-II (Examples)\n(A) Non-medicated IUD | (I) Multiload 375\n(B) Copper releasing IUD | (II) LNG-20\n(C) Hormone releasing IUD | (III) Vaults\n(D) Barrier method | (IV) Lippes loop\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (IV), (B) - (I), (C) - (III), (D) - (II)",
+    "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)"
+   ],
+   "optionIds": [
+    "2268953044045",
+    "2268953044046",
+    "2268953044047",
+    "2268953044048"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044048",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "questionId": "226895784993",
+   "page": 19,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following diseases is completely curable if detected early and treated properly?",
+   "options": [
+    "Hepatitis-B",
+    "Gonorrhoea",
+    "Genital herpes",
+    "HIV"
+   ],
+   "optionIds": [
+    "2268953044049",
+    "2268953044050",
+    "2268953044051",
+    "2268953044052"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044050",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "questionId": "226895784994",
+   "page": 20,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "\"Two closely related species competing for the same resources cannot co-exist indefinitely and the competitively inferior one will be eliminated eventually.\" This statement was given by:",
+   "options": [
+    "Malthus theory of population growth",
+    "Gause's competitive exclusion principle",
+    "Verhulst-Pearl logistic growth",
+    "Darwin's theory of natural selection"
+   ],
+   "optionIds": [
+    "2268953044053",
+    "2268953044054",
+    "2268953044055",
+    "2268953044056"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044054",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "questionId": "226895784995",
+   "page": 20,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "The trophic level that has a certain mass of living material at a particular time is called as:",
+   "options": [
+    "Standing crop",
+    "Productivity",
+    "Stratification",
+    "Respiration loss"
+   ],
+   "optionIds": [
+    "2268953044057",
+    "2268953044058",
+    "2268953044059",
+    "2268953044060"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044057",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "questionId": "226895784996",
+   "page": 21,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Match List-I with List-II\nList-I (Sacred Groves) | List-II (States)\n(A) Khasi and Jaintia Hills | (I) Rajasthan\n(B) Western Ghat regions | (II) Karnataka and Maharashtra\n(C) Sarguja and Bastar areas | (III) Madhya Pradesh\n(D) Aravalli Hills | (IV) Meghalaya\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (I), (B) - (IV), (C) - (III), (D) - (II)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953044061",
+    "2268953044062",
+    "2268953044063",
+    "2268953044064"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044064",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "questionId": "226895784997",
+   "page": 22,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Arrange the following steps involved in the regulation of gene expression in correct sequence.\n(A) Processing level\n(B) Translational level\n(C) Transcriptional level\n(D) Transport of mRNA from the nucleus to the cytoplasm\nChoose the correct answer from the options given below:",
+   "options": [
+    "(B), (A), (D), (C)",
+    "(D), (B), (A), (C)",
+    "(C), (A), (D), (B)",
+    "(A), (D), (B), (C)"
+   ],
+   "optionIds": [
+    "2268953044065",
+    "2268953044066",
+    "2268953044067",
+    "2268953044068"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044067",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "questionId": "226895784998",
+   "page": 23,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Identify the organism whose genome has not been sequenced.",
+   "options": [
+    "Caenorhabditis elegans",
+    "Arabidopsis",
+    "Drosophila",
+    "Sea urchin"
+   ],
+   "optionIds": [
+    "2268953044069",
+    "2268953044070",
+    "2268953044071",
+    "2268953044072"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044072",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "questionId": "226895784999",
+   "page": 24,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following statements is the correct fact about human genome project?",
+   "options": [
+    "The average gene consists of 30000 bases.",
+    "The functions are unknown for less than 20 percent of the discovered genes.",
+    "Less than 2 percent of the genome codes for proteins.",
+    "Chromosome Y has the most genes (2968), and 1 has the fewest (231)."
+   ],
+   "optionIds": [
+    "2268953044073",
+    "2268953044074",
+    "2268953044075",
+    "2268953044076"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044075",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "questionId": "226895785000",
+   "page": 24,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Arrange the following stages of human evolution in correct chronological order.\n(A) Australopithecines\n(B) Homo erectus\n(C) Ramapithecus\n(D) Homo sapiens\nChoose the correct answer from the options given below:",
+   "options": [
+    "(C), (A), (B), (D)",
+    "(A), (C), (B), (D)",
+    "(D), (A), (B), (C)",
+    "(C), (D), (A), (B)"
+   ],
+   "optionIds": [
+    "2268953044077",
+    "2268953044078",
+    "2268953044079",
+    "2268953044080"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044077",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "questionId": "226895785001",
+   "page": 25,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the given terms states that mutations caused speciation?",
+   "options": [
+    "Variation",
+    "Genetic recombination",
+    "Gene migration",
+    "Saltation"
+   ],
+   "optionIds": [
+    "2268953044081",
+    "2268953044082",
+    "2268953044083",
+    "2268953044084"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044084",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "questionId": "226895785002",
+   "page": 26,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Match List-I with List-II\nList-I (Biocontrol agents) | List-II (Affected organisms)\n(A) Ladybird | (I) Mosquitoes\n(B) Bacillus thuringiensis | (II) Aphids\n(C) Dragonflies | (III) Plant pathogens\n(D) Trichoderma | (IV) Caterpillars\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (IV), (C) - (I), (D) - (III)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)"
+   ],
+   "optionIds": [
+    "2268953044085",
+    "2268953044086",
+    "2268953044087",
+    "2268953044088"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044087",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "questionId": "226895785003",
+   "page": 27,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Match List-I with List-II\nList-I (Applications) | List-II (Microorganisms)\n(A) Immunosuppressive agent | (I) Propionibacterium sharmanii\n(B) Blood-cholesterol lowering agents | (II) Trichoderma polysporum\n(C) Nitrogen fixation | (III) Monascus purpureus\n(D) Holes in 'Swiss cheese' | (IV) Oscillatoria\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (IV), (C) - (I), (D) - (III)"
+   ],
+   "optionIds": [
+    "2268953044089",
+    "2268953044090",
+    "2268953044091",
+    "2268953044092"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044090",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "questionId": "226895785004",
+   "page": 29,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Select the correct methods to introduce the recombinant DNA into the host cells.\n(A) Biolistics or gene gun for plant cells\n(B) Micro-injection for an animal cell\n(C) 'Disarmed pathogen' vectors\n(D) By heating the host cell at 100° C and then cooling to 70° C\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A) and (C) only"
+   ],
+   "optionIds": [
+    "2268953044093",
+    "2268953044094",
+    "2268953044095",
+    "2268953044096"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044093",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "questionId": "226895785005",
+   "page": 29,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Arrange the following steps which are involved in the process of recombinant DNA technology in correct sequence.\n(A) Fragmentation of DNA by restriction endonucleases\n(B) Transferring the recombinant DNA into the host\n(C) Ligation of desired DNA fragment into a vector\n(D) Isolation of DNA\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (C), (B), (D)",
+    "(B), (D), (C), (A)",
+    "(C), (A), (D), (B)",
+    "(D), (A), (C), (B)"
+   ],
+   "optionIds": [
+    "2268953044097",
+    "2268953044098",
+    "2268953044099",
+    "2268953044100"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044100",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "questionId": "226895785006",
+   "page": 30,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Identify the Bt toxin gene which controls the corn borer.",
+   "options": [
+    "cryIAc",
+    "cryIIAb",
+    "cryIAb",
+    "cryIIAc"
+   ],
+   "optionIds": [
+    "2268953044101",
+    "2268953044102",
+    "2268953044103",
+    "2268953044104"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044103",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "questionId": "226895785007",
+   "page": 31,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Select the incorrect statement about the insulin hormone produced by rDNA technique.",
+   "options": [
+    "Two DNA sequences corresponding to A and B chains of insulin were prepared and introduced in E. coli.",
+    "Chains A and B were produced separately.",
+    "Two chains were extracted and combined with C chain.",
+    "In 1983, Eli Lilly, an American company, prepared the first human insulin."
+   ],
+   "optionIds": [
+    "2268953044105",
+    "2268953044106",
+    "2268953044107",
+    "2268953044108"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044107",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "questionId": "226895785008",
+   "page": 31,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Intine of the pollen grain is made up of:",
+   "options": [
+    "Starch and agarose",
+    "Heparin and lignin",
+    "Cellulose and pectin",
+    "Glycogen and collagen"
+   ],
+   "optionIds": [
+    "2268953044109",
+    "2268953044110",
+    "2268953044111",
+    "2268953044112"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044111",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "questionId": "226895785009",
+   "page": 32,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "At maturity, a typical angiosperm embryo sac is:",
+   "options": [
+    "6-nucleate and 8-celled",
+    "7-nucleate and 7-celled",
+    "7-nucleate and 8-celled",
+    "8-nucleate and 7-celled"
+   ],
+   "optionIds": [
+    "2268953044113",
+    "2268953044114",
+    "2268953044115",
+    "2268953044116"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044116",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "questionId": "226895785010",
+   "page": 32,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following hormones is not involved in the process of parturition?",
+   "options": [
+    "Estrogens",
+    "Cortisol",
+    "Oxytocin",
+    "Prolactin"
+   ],
+   "optionIds": [
+    "2268953044117",
+    "2268953044118",
+    "2268953044119",
+    "2268953044120"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044120",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "questionId": "226895785011",
+   "page": 33,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following structures provide energy for sperm movement?",
+   "options": [
+    "Acrosome",
+    "Head",
+    "Middle piece",
+    "Tail"
+   ],
+   "optionIds": [
+    "2268953044121",
+    "2268953044122",
+    "2268953044123",
+    "2268953044124"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044123",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "questionId": "226895785012",
+   "page": 34,
+   "section": "Biology, sub-section 1 (stand-alone MCQs, Q391-430)",
+   "stem": "Which one of the following hormones is at its peak during ovulation?",
+   "options": [
+    "Progesterone",
+    "Estrogen",
+    "Luteinising hormone",
+    "Follicle stimulating hormone"
+   ],
+   "optionIds": [
+    "2268953044125",
+    "2268953044126",
+    "2268953044127",
+    "2268953044128"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044127",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "questionId": "226895785014",
+   "page": 35,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "stem": "Chemically, heroin is:",
+   "options": [
+    "Dichloroacetylene",
+    "Diacetylmorphine",
+    "Acetyl-pentene",
+    "Di-methylacetylene"
+   ],
+   "optionIds": [
+    "2268953044129",
+    "2268953044130",
+    "2268953044131",
+    "2268953044132"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044130",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895785013"
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "questionId": "226895785015",
+   "page": 35,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "stem": "Which one of the following drugs is not produced from Cannabis plant?",
+   "options": [
+    "Marijuana",
+    "Hashish",
+    "Smack",
+    "Charas and ganja"
+   ],
+   "optionIds": [
+    "2268953044133",
+    "2268953044134",
+    "2268953044135",
+    "2268953044136"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044135",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the header line)",
+   "passage": "P1-226895785013"
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "questionId": "226895785016",
+   "page": 37,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "stem": "A very effective sedative and painkiller, which is very useful in patients who have undergone surgery is:",
+   "options": [
+    "Morphine",
+    "Heroin",
+    "Cocaine",
+    "Kanamycin"
+   ],
+   "optionIds": [
+    "2268953044137",
+    "2268953044138",
+    "2268953044139",
+    "2268953044140"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044137",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895785013"
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "questionId": "226895785017",
+   "page": 38,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "stem": "Which one of the following drugs is not normally used as medicine to help patients cope with mental illnesses?",
+   "options": [
+    "Chloramphenicol",
+    "Amphetamines",
+    "Benzodiazepines",
+    "Barbiturates"
+   ],
+   "optionIds": [
+    "2268953044141",
+    "2268953044142",
+    "2268953044143",
+    "2268953044144"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044141",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895785013"
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "questionId": "226895785018",
+   "page": 36,
+   "section": "Biology, sub-section 2 (comprehension 226895785013, Q431-435)",
+   "stem": "Which one of the following plants does not have hallucinogenic properties?",
+   "options": [
+    "Atropa",
+    "Erythroxylum",
+    "Datura",
+    "Rauwolfia"
+   ],
+   "optionIds": [
+    "2268953044145",
+    "2268953044146",
+    "2268953044147",
+    "2268953044148"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953044148",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895785013"
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "questionId": "226895785020",
+   "page": 39,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "stem": "Which one of the following diseases is an autosomal dominant disorder?",
+   "options": [
+    "Sickle-cell anaemia",
+    "Myotonic dystrophy",
+    "Phenylketonuria",
+    "Thalassemia"
+   ],
+   "optionIds": [
+    "2268953044149",
+    "2268953044150",
+    "2268953044151",
+    "2268953044152"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044150",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895785019"
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "questionId": "226895785021",
+   "page": 39,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "stem": "Which one of the following substitutions is a cause of sickle-cell anaemia?",
+   "options": [
+    "Substitution of valine by aspartic acid at the sixth position of the beta globin chain.",
+    "Substitution of glutamic acid by alanine at the sixth position of the beta globin chain.",
+    "Substitution of glutamic acid by valine at the sixth position of the beta globin chain.",
+    "Substitution of glycine by methionine at the sixth position of the beta globin chain."
+   ],
+   "optionIds": [
+    "2268953044153",
+    "2268953044154",
+    "2268953044155",
+    "2268953044156"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044155",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895785019"
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "questionId": "226895785022",
+   "page": 39,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "stem": "Which one of the followings is an example of an inborn error of metabolism and inherited as autosomal recessive trait?",
+   "options": [
+    "Phenylketonuria",
+    "Thalassemia",
+    "Haemophilia",
+    "Colour Blindness"
+   ],
+   "optionIds": [
+    "2268953044157",
+    "2268953044158",
+    "2268953044159",
+    "2268953044160"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953044157",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895785019"
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "questionId": "226895785023",
+   "page": 40,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "stem": "α-thalassemia is controlled by the genes:",
+   "options": [
+    "HBB and HB1 on chromosome 11 of each parent",
+    "HAA1 and HAB1 on chromosome 16 of each parent",
+    "HBA1 and HBA2 on chromosome 16 of each parent",
+    "HBB and HAA on chromosome 11 of each parent"
+   ],
+   "optionIds": [
+    "2268953044161",
+    "2268953044162",
+    "2268953044163",
+    "2268953044164"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953044163",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895785019"
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "questionId": "226895785024",
+   "page": 40,
+   "section": "Biology, sub-section 3 (comprehension 226895785019, Q436-440)",
+   "stem": "Failure of segregation of chromatids during cell division results in:",
+   "options": [
+    "Apomixis",
+    "Aneuploidy",
+    "Polyploidy",
+    "Parthenocarpy"
+   ],
+   "optionIds": [
+    "2268953044165",
+    "2268953044166",
+    "2268953044167",
+    "2268953044168"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953044166",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895785019"
+  }
+ ]
+}

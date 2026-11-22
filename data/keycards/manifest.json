@@ -5,9 +5,9 @@
     "cards": 1130
   },
   "biology": {
-    "version": 6,
-    "sha256": "f07f10dfd4627c433734243286907d5a7fb3dc7f40b5bc7493ef0e57673f4c26",
-    "cards": 1396
+    "version": 7,
+    "sha256": "4e97db1492b547db7d87a3b07fde84b7a97e098b3bad9da4a0af121f01111bfc",
+    "cards": 1403
   },
   "business_studies": {
     "version": 8,
@@ -35,9 +35,9 @@
     "cards": 881
   },
   "geography": {
-    "version": 3,
-    "sha256": "5e71706690e910ecc4081d3970652752d70804158da21276840a8f9596003d81",
-    "cards": 1345
+    "version": 4,
+    "sha256": "4f16f646ca39f48816386064e3584dee491a0d097603ca49d74cd802eb61a9da",
+    "cards": 1358
   },
   "history": {
     "version": 4,

@@ -1,0 +1,56 @@
+{
+ "kind": "authored_scores_check",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-22-w5",
+ "repairedTextPolicy": "admit",
+ "at": "2026-11-22T00:55:48.017Z",
+ "planned": 32,
+ "agentEntries": 32,
+ "hashChangedByRepair": 0,
+ "heldForFreshPass": 0,
+ "engineEligible": 32,
+ "engineIneligible": 0,
+ "engineIneligibleReasons": {},
+ "fitGate": {
+  "mirror": "scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)",
+  "minFit": 8,
+  "pass": 32,
+  "reasons": {},
+  "baseTablesMissing": []
+ },
+ "qualityAndFitBoth": 32,
+ "passageSets": {
+  "servable": 0,
+  "of": 0,
+  "blueprint": {
+   "passageWords": {
+    "min": 200,
+    "target": 280,
+    "max": 300
+   },
+   "minChildren": 4
+  },
+  "sets": []
+ },
+ "bySubject": {
+  "accountancy": {
+   "planned": 21,
+   "eligible": 21,
+   "fitPass": 21,
+   "both": 21
+  },
+  "business_studies": {
+   "planned": 3,
+   "eligible": 3,
+   "fitPass": 3,
+   "both": 3
+  },
+  "economics": {
+   "planned": 8,
+   "eligible": 8,
+   "fitPass": 8,
+   "both": 8
+  }
+ },
+ "ineligible": []
+}

@@ -59,6 +59,51 @@
   "explanation": "Tribes are classified on permanent traits (region, language, physical-racial features) and acquired traits (livelihood and extent of assimilation into Hindu society). Mode of livelihood is therefore an acquired trait.",
   "from": "saved read-only snapshot sociology/bank_sociology.json"
  },
+ "5a9aecd3-212f-4efb-a84a-db6bed3a2177": {
+  "subject": "geography",
+  "chapter": "Transport & Communication",
+  "stem": "Which railway gauge accounts for the largest share of the route length of Indian Railways?",
+  "passage": null,
+  "options": [
+   "Metre gauge",
+   "Dual gauge",
+   "Narrow gauge",
+   "Broad gauge"
+  ],
+  "key": 3,
+  "explanation": "Broad gauge (1,676 mm) carries most of the Indian Railways route length. Metre and narrow gauge cover much smaller shares, and dual gauge describes a track laid with two gauges rather than a separate gauge.",
+  "from": "saved read-only snapshot geography/bank_geography.json"
+ },
+ "66f791a5-a4e6-4377-afbe-4eef78e000c5": {
+  "subject": "geography",
+  "chapter": "Tertiary & Quaternary Activities",
+  "stem": "Consider the following statements about the tertiary and quaternary sectors:\n(A) Tertiary activities include services such as transport, trade and banking.\n(B) Quaternary activities are knowledge-based and cover research, information technology and data processing.\n(C) Tertiary activities directly extract raw materials such as minerals and timber from the earth.\n(D) Quaternary activities belong to the primary sector because they use natural resources.\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A) and (B) only",
+   "(A), (C) and (D) only",
+   "(B), (C) and (D) only",
+   "(A) and (C) only"
+  ],
+  "key": 0,
+  "explanation": "Statements (A) and (B) are correct, since tertiary activities are services and quaternary activities are knowledge-based. Statement (C) describes primary extraction, not tertiary activity, and statement (D) is false because quaternary activities are services, not primary activities.",
+  "from": "saved read-only snapshot geography/bank_geography.json"
+ },
+ "6a0c3146-b6d0-45b3-a9eb-f5dfaed0c1ec": {
+  "subject": "geography",
+  "chapter": "Transport & Communication",
+  "stem": "Arrange the following major ports on the western coast of India in order from north to south:\n(A) Mangaluru\n(B) Kandla\n(C) Kochi\n(D) Mumbai\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(B), (D), (A), (C)",
+   "(A), (B), (C), (D)",
+   "(B), (A), (D), (C)",
+   "(D), (B), (A), (C)"
+  ],
+  "key": 0,
+  "explanation": "Kandla in Gujarat lies at about 23 degrees north, Mumbai at about 19 degrees north, Mangaluru at about 13 degrees north and Kochi at about 10 degrees north. The north-to-south order is therefore (B), (D), (A), (C).",
+  "from": "saved read-only snapshot geography/bank_geography.json"
+ },
  "85d3bf13-325a-4f61-a44a-d5089498af88": {
   "subject": "psychology",
   "chapter": "Attitude & Social Cognition",

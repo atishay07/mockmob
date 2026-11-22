@@ -1,6 +1,6 @@
 {
   "subject": "biology",
-  "version": 6,
+  "version": 7,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -1808,6 +1808,31 @@
       "asked": 0,
       "tags": [],
       "order": 740
+    },
+    {
+      "id": "kc.biology.biodiversity-and-conservation.fact-amazon-cleared-for",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.biodiversity-and-conservation",
+      "chapter": "Biodiversity & Conservation",
+      "unit": "Ecology and Environment",
+      "kind": "fact",
+      "front": "Why is the Amazon rain forest being cut and cleared?",
+      "back": "is being cut and cleared for cultivating soya beans or for conversion to grasslands for raising beef cattle.",
+      "quote": "The Amazon rain forest (it is so huge that it is called the ‘lungs of the planet’) harbouring probably millions of species is being cut and cleared for cultivating soya beans or for conversion to grasslands for raising beef cattle.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo113",
+        "chapterNo": 13,
+        "page": 222,
+        "section": "Loss of Biodiversity"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 750
     },
     {
       "id": "kc.biology.biotechnology-and-its-applications.def-totipotency",
@@ -15214,6 +15239,56 @@
       "order": 1760
     },
     {
+      "id": "kc.biology.human-health-and-disease.fact-morphine-use",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.human-health-and-disease",
+      "chapter": "Human Health & Disease",
+      "unit": "Biology and Human Welfare",
+      "kind": "fact",
+      "front": "For what is morphine very effective and useful in medicine?",
+      "back": "Morphine is a very effective sedative and painkiller, and is very useful in patients who have undergone surgery.",
+      "quote": "Morphine is a very effective sedative and painkiller, and is very useful in patients who have undergone surgery.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo107",
+        "chapterNo": 7,
+        "page": 143,
+        "section": "7.5 Drugs and Alcohol Abuse"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 1770
+    },
+    {
+      "id": "kc.biology.human-health-and-disease.fact-mental-illness-medicines",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.human-health-and-disease",
+      "chapter": "Human Health & Disease",
+      "unit": "Biology and Human Welfare",
+      "kind": "fact",
+      "front": "For which illnesses are barbiturates, amphetamines and benzodiazepines normally used as medicines?",
+      "back": "Drugs like barbiturates, amphetamines, benzodiazepines, and other similar drugs, that are normally used as medicines to help patients cope with mental illnesses like depression and insomnia, are often abused.",
+      "quote": "Drugs like barbiturates, amphetamines, benzodiazepines, and other similar drugs, that are normally used as medicines to help patients cope with mental illnesses like depression and insomnia, are often abused.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo107",
+        "chapterNo": 7,
+        "page": 143,
+        "section": "7.5 Drugs and Alcohol Abuse"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 1780
+    },
+    {
       "id": "kc.biology.human-reproduction.list-male-system-parts",
       "v": 1,
       "subject": "biology",
@@ -18365,6 +18440,56 @@
       },
       "importance": "good",
       "order": 1250
+    },
+    {
+      "id": "kc.biology.human-reproduction.fact-secretions-sperm-maturation",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.human-reproduction",
+      "chapter": "Human Reproduction",
+      "unit": "Reproduction",
+      "kind": "fact",
+      "front": "Which secretions are essential for maturation and motility of sperms?",
+      "back": "Secretions of epididymis, vas deferens, seminal vesicle and prostate are essential for maturation and motility of sperms.",
+      "quote": "Secretions of epididymis, vas deferens, seminal vesicle and prostate are essential for maturation and motility of sperms.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo102",
+        "chapterNo": 2,
+        "page": 32,
+        "section": "Gametogenesis"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 1260
+    },
+    {
+      "id": "kc.biology.human-reproduction.fact-parturition-hormones",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.human-reproduction",
+      "chapter": "Human Reproduction",
+      "unit": "Reproduction",
+      "kind": "fact",
+      "front": "Which hormones are involved in the neuroendocrine mechanism that induces parturition?",
+      "back": "The process of childbirth is called parturition which is induced by a complex neuroendocrine mechanism involving cortisol, estrogens and oxytocin.",
+      "quote": "The process of childbirth is called parturition which is induced by a complex neuroendocrine mechanism involving cortisol, estrogens and oxytocin.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo102",
+        "chapterNo": 2,
+        "page": 39,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 1270
     },
     {
       "id": "kc.biology.microbes-in-human-welfare.term-lab-curd",
@@ -30146,6 +30271,31 @@
       "order": 1210
     },
     {
+      "id": "kc.biology.principles-of-inheritance-and-variation.fact-autosomal-dominant-example",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.principles-of-inheritance-and-variation",
+      "chapter": "Principles of Inheritance & Variation",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "Which NCERT example illustrates an autosomal dominant trait in pedigree analysis?",
+      "back": "Autosomal dominant trait (for example: Myotonic dystrophy)",
+      "quote": "Representative pedigree analysis of (a) Autosomal dominant trait (for example: Myotonic dystrophy) (b) Autosomal recessive trait (for example: Sickle-cell anaemia)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo104",
+        "chapterNo": 4,
+        "page": 73,
+        "section": "Pedigree Analysis"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 1220
+    },
+    {
       "id": "kc.biology.reproductive-health.def-reproductive-health-who",
       "v": 1,
       "subject": "biology",
@@ -35857,6 +36007,31 @@
       },
       "importance": "must",
       "order": 1530
+    },
+    {
+      "id": "kc.biology.sexual-reproduction-in-flowering-plants.fact-water-lily-pollination",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.sexual-reproduction-in-flowering-plants",
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "unit": "Reproduction",
+      "kind": "fact",
+      "front": "How are water hyacinth and water lily pollinated?",
+      "back": "In a majority of aquatic plants such as water hyacinth and water lily, the flowers emerge above the level of water and are pollinated by insects or wind as in most of the land plants.",
+      "quote": "In a majority of aquatic plants such as water hyacinth and water lily, the flowers emerge above the level of water and are pollinated by insects or wind as in most of the land plants.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo101",
+        "chapterNo": 1,
+        "page": 13,
+        "section": "1.2.3 Pollination"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 1540
     }
   ]
 }

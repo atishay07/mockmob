@@ -3,9 +3,10 @@
   "subject": "economics",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T15:32:56.738Z",
+  "merged_at": "2026-11-22T00:55:48.017Z",
   "models": [
-    "claude-haiku-5-5"
+    "claude-haiku-5-5",
+    "claude-subagent-unrecorded"
   ],
   "calibration": {
     "status": "calibrated",
@@ -72,7 +73,7 @@
       "off_syllabus": 6
     },
     "mean_of_means": 6.12,
-    "admissible_before_row_checks": 195
+    "admissible_before_row_checks": 203
   },
   "questions": {
     "0272fad9-8509-47e3-bcd5-2d5793b853ee": {
@@ -27990,6 +27991,756 @@
         "economics.theory-of-firms-under-perfect-competition.profit-from-price-minus-average-cost"
       ],
       "key_dispute": false
+    },
+    "09eea9aa-9687-498b-8f1c-2a95024de7cb": {
+      "question_id": "09eea9aa-9687-498b-8f1c-2a95024de7cb",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "Income Determination",
+      "key": "C",
+      "content_hash": "dfe2ce38350efff831ddb2f51a8ebe63287bd391d6c7805bd95435fb2865b27a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+          "flags": [],
+          "note": "(60 + 40) / 0.25 = 400; old level 320, change 80 and undivided 100 are exactly the common slips.",
+          "scored_content_hash": "dfe2ce38350efff831ddb2f51a8ebe63287bd391d6c7805bd95435fb2865b27a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+          "flags": [],
+          "note": "(60 + 40) / 0.25 = 400; old level 320 and change 80 are sharp distractors. Real-paper quality.",
+          "scored_content_hash": "dfe2ce38350efff831ddb2f51a8ebe63287bd391d6c7805bd95435fb2865b27a"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.income-determination.equilibrium-income-two-sector",
+        "economics.income-determination.equilibrium-income-two-sector"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "dfe2ce38350efff831ddb2f51a8ebe63287bd391d6c7805bd95435fb2865b27a",
+        "final_content_hash": "dfe2ce38350efff831ddb2f51a8ebe63287bd391d6c7805bd95435fb2865b27a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "124e00d2-25e6-41a3-8351-283f4426bd07": {
+      "question_id": "124e00d2-25e6-41a3-8351-283f4426bd07",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "key": "B",
+      "content_hash": "bed6a1b72ae5bc2ab491fee57fc8585c7c55d1a435b53ff3b75f3f356694d0b2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+          "flags": [],
+          "note": "25% / 20% = 1.25; final-base 2.0, inverted 0.8 and unit-change 5.0 distractors all verified.",
+          "scored_content_hash": "bed6a1b72ae5bc2ab491fee57fc8585c7c55d1a435b53ff3b75f3f356694d0b2"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+          "flags": [],
+          "note": "-25% / 20% = 1.25; 2.0 (final base), 0.8 (inverted), 5.0 (unit changes) all verified slips. Clean one-step numerical.",
+          "scored_content_hash": "bed6a1b72ae5bc2ab491fee57fc8585c7c55d1a435b53ff3b75f3f356694d0b2"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+        "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "bed6a1b72ae5bc2ab491fee57fc8585c7c55d1a435b53ff3b75f3f356694d0b2",
+        "final_content_hash": "bed6a1b72ae5bc2ab491fee57fc8585c7c55d1a435b53ff3b75f3f356694d0b2",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "7794c211-5b46-4abb-b5cd-3488933b6690": {
+      "question_id": "7794c211-5b46-4abb-b5cd-3488933b6690",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "National Income & Related Aggregates",
+      "key": "B",
+      "content_hash": "192ab73527bccb90a882baa0b6223157a547d1c2cd5f8ad3557ec42c8f5ffa8b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+          "flags": [],
+          "note": "3,000 + 2,000 = 5,000 verified; 3,000 (tea only) is a weak distractor.",
+          "scored_content_hash": "192ab73527bccb90a882baa0b6223157a547d1c2cd5f8ad3557ec42c8f5ffa8b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+          "flags": [],
+          "note": "3,000 + 2,000 = 5,000; 6,200 nominal verified. Distractor 3,000 (tea alone) is weak.",
+          "scored_content_hash": "192ab73527bccb90a882baa0b6223157a547d1c2cd5f8ad3557ec42c8f5ffa8b"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+        "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "192ab73527bccb90a882baa0b6223157a547d1c2cd5f8ad3557ec42c8f5ffa8b",
+        "final_content_hash": "192ab73527bccb90a882baa0b6223157a547d1c2cd5f8ad3557ec42c8f5ffa8b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "98867456-1444-492b-aaf5-ece8b7afb520": {
+      "question_id": "98867456-1444-492b-aaf5-ece8b7afb520",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "Income Determination",
+      "key": "B",
+      "content_hash": "4561ec1388c6055e869aaf8e4425b2240df2b18214d7f97199f873b9c765c9ed",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+          "flags": [],
+          "note": "S = -50 + 0.4 x 500 = 150 = I; distractors check. Label hard a notch high.",
+          "scored_content_hash": "4561ec1388c6055e869aaf8e4425b2240df2b18214d7f97199f873b9c765c9ed"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+          "flags": [],
+          "note": "I = 500 - (50 + 300) = 150; 200, 250, 350 distractors verified. Clean reverse working.",
+          "scored_content_hash": "4561ec1388c6055e869aaf8e4425b2240df2b18214d7f97199f873b9c765c9ed"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.income-determination.equilibrium-income-two-sector",
+        "economics.income-determination.equilibrium-income-two-sector"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "4561ec1388c6055e869aaf8e4425b2240df2b18214d7f97199f873b9c765c9ed",
+        "final_content_hash": "4561ec1388c6055e869aaf8e4425b2240df2b18214d7f97199f873b9c765c9ed",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "da49d617-023e-4bdb-bd5f-e11a8f957742": {
+      "question_id": "da49d617-023e-4bdb-bd5f-e11a8f957742",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "National Income & Related Aggregates",
+      "key": "A",
+      "content_hash": "dc1cfdf36ab8e54fa50c8071fe133b7c92a449d8ea5bdda4fd6f3116e4297dfd",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-relation",
+          "flags": [],
+          "note": "15,000 / 1.25 = 12,000 verified. One-step; label hard is two levels off (easy).",
+          "scored_content_hash": "dc1cfdf36ab8e54fa50c8071fe133b7c92a449d8ea5bdda4fd6f3116e4297dfd"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-gdp",
+          "flags": [],
+          "note": "15,000 / 1.25 = 12,000; distractors verified. One-step formula item; label hard is two levels too high (easy).",
+          "scored_content_hash": "dc1cfdf36ab8e54fa50c8071fe133b7c92a449d8ea5bdda4fd6f3116e4297dfd"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-relation",
+        "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-gdp"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "dc1cfdf36ab8e54fa50c8071fe133b7c92a449d8ea5bdda4fd6f3116e4297dfd",
+        "final_content_hash": "dc1cfdf36ab8e54fa50c8071fe133b7c92a449d8ea5bdda4fd6f3116e4297dfd",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "db2ce0f4-b7cd-43e1-829b-2bdcf680132d": {
+      "question_id": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "National Income & Related Aggregates",
+      "key": "D",
+      "content_hash": "9d253abf667ec8d56887b55fc1b23958d58301e778f5abb1b9fd49f66396d295",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-relation",
+          "flags": [],
+          "note": "12,000 / 7,500 = 160%; 1.6, 62.5 and base-GDP 200 are the real student errors.",
+          "scored_content_hash": "9d253abf667ec8d56887b55fc1b23958d58301e778f5abb1b9fd49f66396d295"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-gdp",
+          "flags": [],
+          "note": "12,000 / 7,500 = 160%; 1.6, 62.5 and 200 (base-year GDP denominator) are well-chosen slips. Explanation accurate.",
+          "scored_content_hash": "9d253abf667ec8d56887b55fc1b23958d58301e778f5abb1b9fd49f66396d295"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-relation",
+        "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-gdp"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "9d253abf667ec8d56887b55fc1b23958d58301e778f5abb1b9fd49f66396d295",
+        "final_content_hash": "9d253abf667ec8d56887b55fc1b23958d58301e778f5abb1b9fd49f66396d295",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595": {
+      "question_id": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "National Income & Related Aggregates",
+      "key": "A",
+      "content_hash": "d42fca5ff5aec1440b9e9557acf6b8f8957b238efa8232cf8938f3d5d6dc7746",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+          "flags": [],
+          "note": "600 x 40 = 24,000; nominal and mixed distractors realistic. One-step.",
+          "scored_content_hash": "d42fca5ff5aec1440b9e9557acf6b8f8957b238efa8232cf8938f3d5d6dc7746"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+          "flags": [],
+          "note": "600 x 40 = 24,000; nominal, base-year GDP and mixed-value distractors are exactly the common errors. Clean.",
+          "scored_content_hash": "d42fca5ff5aec1440b9e9557acf6b8f8957b238efa8232cf8938f3d5d6dc7746"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+        "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "d42fca5ff5aec1440b9e9557acf6b8f8957b238efa8232cf8938f3d5d6dc7746",
+        "final_content_hash": "d42fca5ff5aec1440b9e9557acf6b8f8957b238efa8232cf8938f3d5d6dc7746",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "f071a682-dcf6-4eaf-8822-d47cb3f7342a": {
+      "question_id": "f071a682-dcf6-4eaf-8822-d47cb3f7342a",
+      "batch": "authored-2026-10-14__economics__w5b1",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "key": "D",
+      "content_hash": "a74cd67dc1782c2051d3aa58a6009f14baf910ac7cef945118ded36f0d0690be",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+          "flags": [],
+          "note": "2 x 25% = 50% fall, 200 cartons; distractors check. 'Starting values as the base' is a needed clarifier; label hard a notch high.",
+          "scored_content_hash": "a74cd67dc1782c2051d3aa58a6009f14baf910ac7cef945118ded36f0d0690be"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+          "flags": [],
+          "note": "25% price rise x 2 = 50% fall, 200 cartons; distractors verified. Stem states the base convention explicitly, which is fine but wordy.",
+          "scored_content_hash": "a74cd67dc1782c2051d3aa58a6009f14baf910ac7cef945118ded36f0d0690be"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+        "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "a74cd67dc1782c2051d3aa58a6009f14baf910ac7cef945118ded36f0d0690be",
+        "final_content_hash": "a74cd67dc1782c2051d3aa58a6009f14baf910ac7cef945118ded36f0d0690be",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    }
+  },
+  "authored": {
+    "claude-authored-2026-11-22-w5": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-22T00:55:48.017Z",
+      "questions": 8,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-22",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }
   }
 }

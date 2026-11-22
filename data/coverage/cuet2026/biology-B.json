@@ -1,0 +1,2150 @@
+{
+  "paper": "cuet2026-biology",
+  "subject": "biology",
+  "provenance": {
+    "year": 2026,
+    "subjectCode": "304",
+    "date": "2026-05-20",
+    "shift": "First",
+    "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Biology, 42 PDF pages: a cover plus 41 numbered pages), https://docs.aglasem.com/view/662d17e4-c701-11f1-8f72-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/662d17e4-c701-11f1-8f72-0aa932765c8b/662d17e4-c701-11f1-8f72-0aa932765c8b.pdf (8,729,875 bytes, ETag b9b5a0ea4c4592136bb4e5b6e6c658fd, Last-Modified 13 Oct 2026), downloaded 22 Nov 2026 under the owner's 22 Nov 2026 request for more subjects. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 304.",
+    "keySource": "A question is authenticated when its printed NTA question id is in the 20-05-2026 (First) final key for subject 304 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question."
+  },
+  "snapshotDate": "2026-11-22",
+  "bankRead": "No database read by B. B worked only from the saved read-only copy of 22 Nov 2026 (tmp/1122-coverage/snap/biology/: served_rows.json, served_biology.json = 328 served ids, eligible.txt). Searches: tmp/1122-coverage/checkerB-bio/s.mjs (served rows only + published cards).",
+  "keyCardDeck": "data/keycards/decks/biology.json (v6, 1,396 cards). key_card_suspended was not read (A did not read it either; no subject so far had a suspended card).",
+  "syllabusSource": "data/cuet_syllabus.js biology units (13 chapters); every question is on the 2026 syllabus (B agrees with A).",
+  "checker": "B",
+  "method": "data/coverage/METHOD.md, strict rule. B wrote its own fact list and its own first verdicts from its own searches BEFORE opening A: tmp/1122-coverage/checkerB-bio/B_facts_before_A.txt. NCERT sentences were found with tmp/1122-coverage/checkerB-bio/nfind.mjs and checked with the deck pipeline's quoteCheck (qcheck.mjs, scripts/keycards/lib.mjs imported read-only).",
+  "auditOfA": {
+    "citationsChecked": 82,
+    "citationsFailingServedOrDeck": 0,
+    "citationsRemovedForContent": 0,
+    "note": "Every bank id A cited is in served_biology.json and every card id is in the published deck. Each was read in full; each states what A said it teaches. On n17, n44, n45 and n46 the citations are accurate but teach only the distractors, which is why B rules those items not covered. B added citations A missed: n8 key-allele-sum, def-hw-principle, list-hw-factors; n9 fact-biogas-iari-kvic; n7 kl-the-codon-is-triplet-61-29; n11 steps-pcr-cycle, fact-taq; n30 fact-bt-bacterium; n33 steps-rdna-steps."
+  },
+  "ownSearchBeforeA": {
+    "covered": 42,
+    "not_covered": 8,
+    "differedFromAOn": [
+      8,
+      9,
+      46
+    ],
+    "note": "Before opening A, B called 2, 4, 19, 26, 32, 38, 43, 46 not covered and the rest covered (17 by elimination). After reading A and the precedent of the other subjects (Sociology Q15, Political Science Q14, Psychology Q44, History Q27: a key reached only by elimination is not covered), B moved 17 to not covered and also ruled 44 and 45 not covered. B keeps 8 and 9 covered: A missed the cards."
+  },
+  "counts": {
+    "covered": 39,
+    "not_covered": 11,
+    "skill": 0,
+    "off_syllabus": 0,
+    "dropped": 0,
+    "countable": 50
+  },
+  "countsBySection": {
+    "subSection1": {
+      "covered": 33,
+      "not_covered": 7,
+      "skill": 0,
+      "off_syllabus": 0,
+      "dropped": 0,
+      "countable": 40
+    },
+    "passage1": {
+      "covered": 2,
+      "not_covered": 3,
+      "skill": 0,
+      "off_syllabus": 0,
+      "dropped": 0,
+      "countable": 5
+    },
+    "passage2": {
+      "covered": 4,
+      "not_covered": 1,
+      "skill": 0,
+      "off_syllabus": 0,
+      "dropped": 0,
+      "countable": 5
+    }
+  },
+  "final": {
+    "covered": 37,
+    "counted": 50,
+    "skill": 0,
+    "offSyllabus": 0,
+    "dropped": 0,
+    "percent": 74,
+    "rule": "Covered only if both A and B say covered; B's skill, off-syllabus and dropped labels win (none apply).",
+    "bySection": {
+      "subSection1": {
+        "covered": 31,
+        "counted": 40,
+        "skill": 0,
+        "offSyllabus": 0,
+        "dropped": 0
+      },
+      "passage1": {
+        "covered": 2,
+        "counted": 5,
+        "skill": 0,
+        "offSyllabus": 0,
+        "dropped": 0
+      },
+      "passage2": {
+        "covered": 4,
+        "counted": 5,
+        "skill": 0,
+        "offSyllabus": 0,
+        "dropped": 0
+      }
+    },
+    "byType": {
+      "theory": {
+        "covered": 37,
+        "counted": 50,
+        "skill": 0,
+        "offSyllabus": 0,
+        "dropped": 0
+      },
+      "numerical": {
+        "covered": 0,
+        "counted": 0,
+        "skill": 0,
+        "offSyllabus": 0,
+        "dropped": 0
+      }
+    },
+    "byChapter": {
+      "Organisms & Populations": {
+        "covered": 2,
+        "not_covered": 0
+      },
+      "Ecosystem": {
+        "covered": 1,
+        "not_covered": 1
+      },
+      "Biodiversity & Conservation": {
+        "covered": 2,
+        "not_covered": 1
+      },
+      "Molecular Basis of Inheritance": {
+        "covered": 5,
+        "not_covered": 1
+      },
+      "Evolution": {
+        "covered": 2,
+        "not_covered": 1
+      },
+      "Microbes in Human Welfare": {
+        "covered": 3,
+        "not_covered": 1
+      },
+      "Biotechnology Principles & Processes": {
+        "covered": 4,
+        "not_covered": 1
+      },
+      "Biotechnology & its Applications": {
+        "covered": 4,
+        "not_covered": 0
+      },
+      "Sexual Reproduction in Flowering Plants": {
+        "covered": 3,
+        "not_covered": 1
+      },
+      "Human Reproduction": {
+        "covered": 3,
+        "not_covered": 2
+      },
+      "Reproductive Health": {
+        "covered": 2,
+        "not_covered": 0
+      },
+      "Human Health & Disease": {
+        "covered": 2,
+        "not_covered": 3
+      },
+      "Principles of Inheritance & Variation": {
+        "covered": 4,
+        "not_covered": 1
+      }
+    },
+    "disagreementsWithA": [
+      {
+        "n": 8,
+        "a": "not_covered",
+        "b": "covered",
+        "why": "A did not find kc.biology.evolution.key-allele-sum, which prints statement A (\"Sum total of all the allelic frequencies is 1\") word for word; A's only gap was that statement."
+      },
+      {
+        "n": 9,
+        "a": "not_covered",
+        "b": "covered",
+        "why": "A did not find kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic, which names IARI and KVIC exactly."
+      },
+      {
+        "n": 17,
+        "a": "covered",
+        "b": "not_covered",
+        "why": "A covered it by elimination (its own eliminationNote asks B to rule first). B rules not covered: the keyed option is never named, the same rule Sociology Q15, Political Science Q14, Psychology Q44 and History Q27 applied."
+      },
+      {
+        "n": 44,
+        "a": "covered",
+        "b": "not_covered",
+        "why": "A covered it by elimination (weaker call). The card stops before \"mental illnesses\"; chloramphenicol is also a medicine, so the stem's discriminating fact is not served."
+      },
+      {
+        "n": 45,
+        "a": "covered",
+        "b": "not_covered",
+        "why": "A covered it by elimination (weaker call). Nothing served says Rauwolfia is not hallucinogenic."
+      },
+      {
+        "n": 46,
+        "a": "covered",
+        "b": "not_covered",
+        "why": "A covered it by elimination (weaker call). Myotonic dystrophy is never named in served material."
+      }
+    ],
+    "resolvableWithoutAuthoring": {
+      "questions": [
+        8,
+        9
+      ],
+      "note": "B says covered and A says not covered only because A missed an existing published card (ids in the question rows). Under the rule they stay not covered until A (or the orchestrator) re-checks them; no content needs to be written. If accepted, the figure is 39 of 50."
+    }
+  },
+  "openCallsSettled": {
+    "Q17 (paper 407)": "Not covered: elimination only (water lily never named). One card on NCERT p13 closes it.",
+    "Q44 (paper 434)": "Not covered: the card cuts the NCERT sentence before \"mental illnesses\". The full sentence passes the quote check on p143 (pdfium extraction).",
+    "Q45 (paper 435)": "Not covered: nothing says Rauwolfia is not hallucinogenic; NCERT does not say it either, so only a bank row can close it.",
+    "Q46 (paper 436)": "Not covered: myotonic dystrophy is named in NCERT only in the Figure 4.14 caption (p73), which passes the quote check.",
+    "Q26 (paper 416)": "Not covered and DO NOT AUTHOR: the key rests on the sea urchin being unsequenced, which is false (its genome was published in 2006); NCERT's list ends in \"etc.\"."
+  },
+  "gapsToAuthor": {
+    "note": "Full dossier with the paper text (author's eyes only), NCERT sentences, pages and quote-check results: tmp/1122-coverage/gaps/biology.md. All theory; no numericals.",
+    "noAuthoringNeeded": [
+      {
+        "n": 8,
+        "existing": "kc.biology.evolution.key-allele-sum"
+      },
+      {
+        "n": 9,
+        "existing": "kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic"
+      }
+    ],
+    "theoryFactsMissing": [
+      {
+        "n": 2,
+        "chapter": "Ecosystem",
+        "fact": "Organisms at each trophic level: phytoplankton/grass/trees first; zooplankton/grasshopper/cow second; birds/fishes/wolf third; man/lion fourth (top)",
+        "ncert": "lebo112 p210 Figure 12.2 (labels are inside the image; not in the PDF text)",
+        "route": "bank"
+      },
+      {
+        "n": 4,
+        "chapter": "Biodiversity & Conservation",
+        "fact": "Amazon rain forest cut and cleared for soya beans and for grasslands for beef cattle",
+        "ncert": "lebo113 p222",
+        "route": "card"
+      },
+      {
+        "n": 17,
+        "chapter": "Sexual Reproduction in Flowering Plants",
+        "fact": "Water hyacinth and water lily flowers emerge above water and are pollinated by insects or wind",
+        "ncert": "lebo101 p13",
+        "route": "card"
+      },
+      {
+        "n": 19,
+        "chapter": "Human Reproduction",
+        "fact": "Secretions of epididymis, vas deferens, seminal vesicle and prostate are essential for maturation and motility of sperms",
+        "ncert": "lebo102 p32",
+        "route": "card"
+      },
+      {
+        "n": 32,
+        "chapter": "Biotechnology Principles & Processes",
+        "fact": "Heat shock: ice, briefly 42 degrees C, back on ice",
+        "ncert": "lebo109 p171 (the PDF text renders 42°C as \"420C\")",
+        "route": "bank (a card would print \"420C\")"
+      },
+      {
+        "n": 38,
+        "chapter": "Human Reproduction",
+        "fact": "Parturition involves cortisol, estrogens and oxytocin; prolactin is for milk",
+        "ncert": "lebo102 p39 (Summary)",
+        "route": "card + bank (prolactin's role is Class XI)"
+      },
+      {
+        "n": 43,
+        "chapter": "Human Health & Disease",
+        "fact": "Morphine is a very effective sedative and painkiller, useful after surgery",
+        "ncert": "lebo107 p143",
+        "route": "card"
+      },
+      {
+        "n": 44,
+        "chapter": "Human Health & Disease",
+        "fact": "Barbiturates, amphetamines, benzodiazepines help patients cope with mental illnesses like depression and insomnia",
+        "ncert": "lebo107 p143 (full sentence passes only in the pdfium extraction)",
+        "route": "card"
+      },
+      {
+        "n": 45,
+        "chapter": "Human Health & Disease",
+        "fact": "Rauwolfia (reserpine) is a medicinal plant, not a hallucinogen; Atropa, Datura, coca are",
+        "ncert": "not stated in NCERT (Rauwolfia only lebo113 p217 as a reserpine source)",
+        "route": "bank"
+      },
+      {
+        "n": 46,
+        "chapter": "Principles of Inheritance & Variation",
+        "fact": "Myotonic dystrophy is an autosomal dominant trait",
+        "ncert": "lebo104 p73 (Figure 4.14 caption)",
+        "route": "card"
+      }
+    ],
+    "doNotAuthor": [
+      {
+        "n": 26,
+        "chapter": "Molecular Basis of Inheritance",
+        "reason": "NTA key (sea urchin genome not sequenced) is false in fact (sea urchin genome published 2006); NCERT lists sequenced organisms with \"etc.\", so no honest material can teach the keyed fact."
+      }
+    ]
+  },
+  "questions": [
+    {
+      "n": 1,
+      "paperNumber": 391,
+      "questionId": "226895784973",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Organisms & Populations",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Calotropis produces highly poisonous cardiac glycosides (defence against grazers and browsers)"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.organisms-and-populations.fact-calotropis",
+          "teaches": "Calotropis produces highly poisonous cardiac glycosides; cattle and goats do not browse it"
+        }
+      ],
+      "best": "kc.biology.organisms-and-populations.fact-calotropis",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card states the fact and the keyed answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 2,
+      "paperNumber": 392,
+      "questionId": "226895784974",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Ecosystem",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "phytoplankton, trees = producers (first level)",
+        "zooplankton, cow = primary consumers (second)",
+        "birds, wolves = secondary consumers (third)",
+        "man, lion = tertiary / top consumers (fourth)"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.ecosystem.fact-trophic-levels-order",
+          "teaches": "producers first, herbivores second, carnivores third (no organisms named)"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.ecosystem.fact-pyramid-base-apex",
+          "teaches": "apex = tertiary or top consumer (no organisms named)"
+        }
+      ],
+      "best": "kc.biology.ecosystem.fact-trophic-levels-order",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Served material gives the levels in the abstract; nothing places man and lion at the fourth level or birds and wolves at the third (NCERT has these only as labels inside Figure 12.2).",
+      "agreesWithA": true,
+      "aVerdict": "not_covered",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 3,
+      "paperNumber": 393,
+      "questionId": "226895784975",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Biodiversity & Conservation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Endemism = species confined to a region and not found anywhere else"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biodiversity-and-conservation.def-endemism",
+          "teaches": "endemism defined in the stem words"
+        },
+        {
+          "kind": "bank",
+          "id": "9ef91eac-af8e-440f-a610-c7603252d99b",
+          "teaches": "endemic species are restricted to a particular area"
+        }
+      ],
+      "best": "kc.biology.biodiversity-and-conservation.def-endemism",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card defines endemism in the stem words; a served bank row asks the same.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 4,
+      "paperNumber": 394,
+      "questionId": "226895784976",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Biodiversity & Conservation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "The Amazon rain forest is being cleared for cultivating soya beans and for conversion to grasslands for beef cattle (only these two)"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biodiversity-and-conservation.fact-amazon-greatest-biodiversity",
+          "teaches": "Amazon has the greatest biodiversity (not why it is cleared)"
+        }
+      ],
+      "best": "kc.biology.biodiversity-and-conservation.fact-amazon-greatest-biodiversity",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "No served row or card says why the Amazon forest is being cut and cleared; NCERT p222 does.",
+      "agreesWithA": true,
+      "aVerdict": "not_covered",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 5,
+      "paperNumber": 395,
+      "questionId": "226895784977",
+      "section": "subSection1",
+      "ntaKey": 1,
+      "chapter": "Molecular Basis of Inheritance",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "The i gene codes for the repressor (the inhibitor) of the lac operon",
+        "z, y, a are the structural genes"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.kl-the-i-gene-codes-for-39",
+          "teaches": "the i gene codes for the repressor"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.list-three-structural-genes-z-y-7",
+          "teaches": "z, y, a are the structural genes"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.fact-the-repressor-of-the-operon-81",
+          "teaches": "the repressor from the i gene blocks transcription"
+        }
+      ],
+      "best": "kc.biology.molecular-basis-of-inheritance.kl-the-i-gene-codes-for-39",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Cards make i the repressor-coding (inhibiting) gene and z, y, a structural; the word \"inhibitor\" itself is not printed, so concept.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 6,
+      "paperNumber": 396,
+      "questionId": "226895784978",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Molecular Basis of Inheritance",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Frederick Sanger developed the method of DNA sequencing"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.fact-the-fragments-were-sequenced-using-91",
+          "teaches": "sequencers worked on the principle of a method developed by Frederick Sanger"
+        }
+      ],
+      "best": "kc.biology.molecular-basis-of-inheritance.fact-the-fragments-were-sequenced-using-91",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card credits the sequencing method to Frederick Sanger.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 7,
+      "paperNumber": 397,
+      "questionId": "226895784979",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Molecular Basis of Inheritance",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "The stop codons are exactly UAA, UAG and UGA (three codons code for no amino acid)"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.list-uaa-uag-uga-are-stop-5",
+          "teaches": "the three stop codons"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.kl-the-codon-is-triplet-61-29",
+          "teaches": "exactly 3 codons are stop codons"
+        },
+        {
+          "kind": "bank",
+          "id": "5e916f81-91e8-4501-82a9-b2ffc334d66f",
+          "teaches": "UGA, UAA, UAG are stop codons"
+        }
+      ],
+      "best": "kc.biology.molecular-basis-of-inheritance.list-uaa-uag-uga-are-stop-5",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Cards give the closed set of three stop codons, so UUC is positively not one (a closed list, not an elimination guess).",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 8,
+      "paperNumber": 398,
+      "questionId": "226895784980",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Evolution",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Sum total of all allelic frequencies is 1",
+        "Allele frequencies are stable and constant from generation to generation (so the gene pool does not keep changing)",
+        "Genetic drift is one of the five factors that affect H-W equilibrium"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.key-allele-sum",
+          "teaches": "Sum total of all the allelic frequencies is 1 (statement A word for word)"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.def-hw-principle",
+          "teaches": "allele frequencies stable and constant (statement C; D false)"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.list-hw-factors",
+          "teaches": "genetic drift among the five factors affecting H-W equilibrium (statement B)"
+        }
+      ],
+      "best": "kc.biology.evolution.key-allele-sum",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Three Key cards state A, B and C and make D false; A missed the card key-allele-sum, which prints statement A word for word.",
+      "agreesWithA": false,
+      "aVerdict": "not_covered",
+      "whyDiffers": "A did not find kc.biology.evolution.key-allele-sum, which prints statement A (\"Sum total of all the allelic frequencies is 1\") word for word; A's only gap was that statement.",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 9,
+      "paperNumber": 399,
+      "questionId": "226895784981",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Microbes in Human Welfare",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Biogas technology in India was developed mainly by IARI and KVIC"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic",
+          "teaches": "biogas technology developed mainly by IARI and KVIC"
+        }
+      ],
+      "best": "kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card names exactly the two agencies; A missed it.",
+      "agreesWithA": false,
+      "aVerdict": "not_covered",
+      "whyDiffers": "A did not find kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic, which names IARI and KVIC exactly.",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 10,
+      "paperNumber": 400,
+      "questionId": "226895784982",
+      "section": "subSection1",
+      "ntaKey": 1,
+      "chapter": "Microbes in Human Welfare",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Free-living nitrogen-fixing bacteria in soil: Azospirillum and Azotobacter",
+        "Rhizobium fixes nitrogen in symbiosis (root nodules)",
+        "Anabaena is a cyanobacterium"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-free-living-n2",
+          "teaches": "Azospirillum and Azotobacter fix nitrogen while free-living in soil"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-rhizobium",
+          "teaches": "Rhizobium is symbiotic"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-cyano-n2",
+          "teaches": "Anabaena is a nitrogen-fixing cyanobacterium"
+        }
+      ],
+      "best": "kc.biology.microbes-in-human-welfare.fact-free-living-n2",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "The card prints the NCERT sentence the item was built on and names the keyed pair; Rhizobium is symbiotic by card.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 3,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 11,
+      "paperNumber": 401,
+      "questionId": "226895784983",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Biotechnology Principles & Processes",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "PCR cycle: denaturation, primer annealing, extension; repeated cycles give amplification"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.steps-pcr-cycle",
+          "teaches": "each cycle: denaturation, primer annealing, extension, in order"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.fact-taq",
+          "teaches": "repeated amplification by thermostable polymerase"
+        },
+        {
+          "kind": "bank",
+          "id": "b52d4156-825a-4124-86e1-a4eba1f28fb5",
+          "teaches": "orders denaturation, annealing, extension"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.fact-pcr-extension",
+          "teaches": "polymerase extends the primers"
+        }
+      ],
+      "best": "kc.biology.biotechnology-principles-and-processes.steps-pcr-cycle",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Steps card gives the three steps in order and another card makes amplification the repeated outcome; a bank row asks the same ordering.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "note": "A said matchKind concept; B same.",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 12,
+      "paperNumber": 402,
+      "questionId": "226895784984",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Biotechnology Principles & Processes",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Ti plasmid of Agrobacterium tumefaciens is a cloning vector that delivers genes into a variety of plants"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.fact-ti-plasmid",
+          "teaches": "Ti plasmid modified into a cloning vector for a variety of plants"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.key-t-dna",
+          "teaches": "Agrobacterium delivers T-DNA"
+        }
+      ],
+      "best": "kc.biology.biotechnology-principles-and-processes.fact-ti-plasmid",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card states the fact and the keyed organism.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 13,
+      "paperNumber": 403,
+      "questionId": "226895784985",
+      "section": "subSection1",
+      "ntaKey": 1,
+      "chapter": "Biotechnology Principles & Processes",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Retroviruses have been disarmed and are used to deliver desirable genes into animal cells"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.fact-retrovirus-vector",
+          "teaches": "same sentence"
+        }
+      ],
+      "best": "kc.biology.biotechnology-principles-and-processes.fact-retrovirus-vector",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same question and answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 14,
+      "paperNumber": 404,
+      "questionId": "226895784986",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Biotechnology & its Applications",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Bt: inactive protoxin ingested, activated by alkaline gut pH, binds midgut epithelial cells, pores, swelling, lysis, death"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-and-its-applications.steps-bt-mode-of-action",
+          "teaches": "the four steps in order"
+        },
+        {
+          "kind": "bank",
+          "id": "234b88ee-c820-4a1a-ae2f-87ae4f382003",
+          "teaches": "alkaline midgut activates the protoxin, binding, pores, lysis"
+        }
+      ],
+      "best": "kc.biology.biotechnology-and-its-applications.steps-bt-mode-of-action",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card gives the steps in the keyed order.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 15,
+      "paperNumber": 405,
+      "questionId": "226895784987",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Biotechnology & its Applications",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "ELISA (with rDNA technology and PCR) serves early diagnosis"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-and-its-applications.list-diagnosis-techniques",
+          "teaches": "early-diagnosis techniques: rDNA, PCR, ELISA"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-and-its-applications.fact-elisa-detection",
+          "teaches": "ELISA detects antigens or antibodies"
+        }
+      ],
+      "best": "kc.biology.biotechnology-and-its-applications.list-diagnosis-techniques",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card names ELISA among the early-diagnosis techniques.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 16,
+      "paperNumber": 406,
+      "questionId": "226895784988",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Fused carpels/pistils = syncarpous (free = apocarpous)"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.sexual-reproduction-in-flowering-plants.types-gynoecium-multicarpellary",
+          "teaches": "fused together (syncarpous), free (apocarpous)"
+        }
+      ],
+      "best": "kc.biology.sexual-reproduction-in-flowering-plants.types-gynoecium-multicarpellary",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card gives syncarpous = fused, apocarpous = free.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 17,
+      "paperNumber": 407,
+      "questionId": "226895784989",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Vallisneria, Hydrilla and Zostera are water-pollinated",
+        "Water lily flowers emerge above water and are pollinated by insects or wind"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.sexual-reproduction-in-flowering-plants.fact-water-examples",
+          "teaches": "Vallisneria, Hydrilla, Zostera are water-pollinated (the three distractors)"
+        }
+      ],
+      "best": "kc.biology.sexual-reproduction-in-flowering-plants.fact-water-examples",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Only the three distractors are taught; nothing served says how water lily is pollinated, so the key is reachable by elimination only (doubtful = not covered, the rule the other subjects applied).",
+      "agreesWithA": false,
+      "aVerdict": "covered",
+      "whyDiffers": "A covered it by elimination (its own eliminationNote asks B to rule first). B rules not covered: the keyed option is never named, the same rule Sociology Q15, Political Science Q14, Psychology Q44 and History Q27 applied.",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 18,
+      "paperNumber": 408,
+      "questionId": "226895784990",
+      "section": "subSection1",
+      "ntaKey": 1,
+      "chapter": "Human Reproduction",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Stem cells of the inner cell mass can give rise to all tissues and organs"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-reproduction.fact-stem-cells",
+          "teaches": "same question and answer"
+        }
+      ],
+      "best": "kc.biology.human-reproduction.fact-stem-cells",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same question and answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 19,
+      "paperNumber": 409,
+      "questionId": "226895784991",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Human Reproduction",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Secretions of epididymis, vas deferens, seminal vesicle and prostate are essential for maturation and motility of sperms (the cervix is not)"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-reproduction.list-male-ducts",
+          "teaches": "male ducts include epididymis (not their role)"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.human-reproduction.fact-seminal-plasma",
+          "teaches": "seminal plasma rich in fructose, calcium, enzymes (not maturation/motility)"
+        }
+      ],
+      "best": "kc.biology.human-reproduction.list-male-ducts",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Ducts and glands are named, but nothing served says their secretions are essential for sperm maturation and motility, the fact the item tests.",
+      "agreesWithA": true,
+      "aVerdict": "not_covered",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 20,
+      "paperNumber": 410,
+      "questionId": "226895784992",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Reproductive Health",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Lippes loop = non-medicated IUD; Multiload 375 = copper IUD; LNG-20 = hormone IUD; vaults = barrier"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.reproductive-health.types-iud-types",
+          "teaches": "IUD types with examples"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.reproductive-health.def-diaphragms",
+          "teaches": "vaults are barriers"
+        }
+      ],
+      "best": "kc.biology.reproductive-health.types-iud-types",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Two cards give all four pairs.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 21,
+      "paperNumber": 411,
+      "questionId": "226895784993",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Reproductive Health",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Except hepatitis-B, genital herpes and HIV, STIs are completely curable if detected early"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.reproductive-health.fact-sti-not-curable",
+          "teaches": "the rule word for word"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.reproductive-health.list-common-stis",
+          "teaches": "gonorrhoea is an STI"
+        }
+      ],
+      "best": "kc.biology.reproductive-health.fact-sti-not-curable",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card states the rule; gonorrhoea is the curable one.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 22,
+      "paperNumber": 412,
+      "questionId": "226895784994",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Organisms & Populations",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Gause's competitive exclusion principle"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.organisms-and-populations.def-gause-principle",
+          "teaches": "the stem sentence"
+        },
+        {
+          "kind": "bank",
+          "id": "1ce9f2a4-74b3-4486-b47e-fefded601961",
+          "teaches": "Paramecium result = competitive exclusion"
+        }
+      ],
+      "best": "kc.biology.organisms-and-populations.def-gause-principle",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card carries the stem sentence.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 23,
+      "paperNumber": 413,
+      "questionId": "226895784995",
+      "section": "subSection1",
+      "ntaKey": 1,
+      "chapter": "Ecosystem",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Standing crop = mass of living material at a trophic level at a particular time"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.ecosystem.def-def-standing-crop",
+          "teaches": "same definition"
+        }
+      ],
+      "best": "kc.biology.ecosystem.def-def-standing-crop",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same definition.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 24,
+      "paperNumber": 414,
+      "questionId": "226895784996",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Biodiversity & Conservation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Sacred groves: Khasi-Jaintia = Meghalaya; Western Ghats = Karnataka, Maharashtra; Sarguja/Bastar = Madhya Pradesh; Aravalli = Rajasthan"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biodiversity-and-conservation.fact-sacred-groves-places",
+          "teaches": "all four region-state pairs"
+        }
+      ],
+      "best": "kc.biology.biodiversity-and-conservation.fact-sacred-groves-places",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card gives all four pairs.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 25,
+      "paperNumber": 415,
+      "questionId": "226895784997",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Molecular Basis of Inheritance",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Eukaryotic regulation levels in order: transcriptional, processing, transport of mRNA, translational"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.list-regulation-could-be-exerted-at-6",
+          "teaches": "the four levels in NCERT order"
+        }
+      ],
+      "best": "kc.biology.molecular-basis-of-inheritance.list-regulation-could-be-exerted-at-6",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card lists the four levels in the keyed order.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 26,
+      "paperNumber": 416,
+      "questionId": "226895784998",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Molecular Basis of Inheritance",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Genomes sequenced per NCERT: bacteria, yeast, C. elegans, Drosophila, rice, Arabidopsis, etc.",
+        "Sea urchin is not one of them (the key)"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [],
+      "best": null,
+      "bestKind": null,
+      "needs": [],
+      "reason": "Nothing served lists the sequenced model organisms. Even NCERT's list ends in \"etc.\" and never names the sea urchin, whose genome was in fact published in 2006, so the key is reachable only by elimination from a list that is not closed.",
+      "agreesWithA": true,
+      "aVerdict": "not_covered",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 27,
+      "paperNumber": 417,
+      "questionId": "226895784999",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Molecular Basis of Inheritance",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "HGP: less than 2 per cent of the genome codes for proteins"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.kl-less-than-2-per-cent-49",
+          "teaches": "less than 2 per cent codes for proteins"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.kl-the-average-gene-consists-of-45",
+          "teaches": "average gene 3000 bases"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.kl-the-functions-are-unknown-for-48",
+          "teaches": "functions unknown for over 50 per cent"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.molecular-basis-of-inheritance.kl-chromosome-1-has-most-genes-50",
+          "teaches": "chromosome 1 most genes, Y fewest"
+        }
+      ],
+      "best": "kc.biology.molecular-basis-of-inheritance.kl-less-than-2-per-cent-49",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Cards state the keyed statement and refute the other three.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 4,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 28,
+      "paperNumber": 418,
+      "questionId": "226895785000",
+      "section": "subSection1",
+      "ntaKey": 1,
+      "chapter": "Evolution",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Ramapithecus (~15 mya) -> Australopithecines (2 mya) -> Homo erectus (1.5 mya) -> Homo sapiens (75,000-10,000 years ago)"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.fact-dryopithecus",
+          "teaches": "Ramapithecus about 15 mya"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.fact-australopithecines",
+          "teaches": "Australopithecines 2 mya"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.fact-homo-erectus-java",
+          "teaches": "Homo erectus 1.5 mya"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.fact-modern-sapiens-ice-age",
+          "teaches": "modern Homo sapiens 75,000-10,000 years ago"
+        },
+        {
+          "kind": "bank",
+          "id": "a6e15328-3f33-4874-b956-dd25c0a63f39",
+          "teaches": "orders Australopithecus, H. habilis, H. erectus, H. sapiens"
+        }
+      ],
+      "best": "kc.biology.evolution.fact-dryopithecus",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Cards date all four stages, which fixes the order.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 5,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 29,
+      "paperNumber": 419,
+      "questionId": "226895785001",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Evolution",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "de Vries: mutation caused speciation = saltation"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.evolution.diff-gradual-vs-saltation",
+          "teaches": "mutation caused speciation, called saltation"
+        }
+      ],
+      "best": "kc.biology.evolution.diff-gradual-vs-saltation",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same fact and term.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 30,
+      "paperNumber": 420,
+      "questionId": "226895785002",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Microbes in Human Welfare",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Ladybird -> aphids; Bt -> caterpillars; dragonflies -> mosquitoes; Trichoderma -> plant pathogens"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-ladybird-dragonfly",
+          "teaches": "ladybird aphids, dragonflies mosquitoes"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-bt-bacterium",
+          "teaches": "Bt controls butterfly caterpillars"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-trichoderma",
+          "teaches": "Trichoderma vs plant pathogens"
+        },
+        {
+          "kind": "bank",
+          "id": "ccbe9308-e3df-46c1-a7ec-6d9c25cf9073",
+          "teaches": "Bt vs caterpillars, ladybird vs aphids, Trichoderma vs plant pathogens"
+        }
+      ],
+      "best": "kc.biology.microbes-in-human-welfare.fact-ladybird-dragonfly",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Cards give all four pairs.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 3,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 31,
+      "paperNumber": 421,
+      "questionId": "226895785003",
+      "section": "subSection1",
+      "ntaKey": 2,
+      "chapter": "Microbes in Human Welfare",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Cyclosporin A (immunosuppressive) = Trichoderma polysporum; statins = Monascus purpureus; Oscillatoria fixes nitrogen; Swiss cheese holes = Propionibacterium sharmanii"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-cyclosporin",
+          "teaches": "cyclosporin A from Trichoderma polysporum"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-statins",
+          "teaches": "statins from Monascus purpureus"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-cyano-n2",
+          "teaches": "Oscillatoria fixes nitrogen"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.microbes-in-human-welfare.fact-swiss-cheese",
+          "teaches": "Propionibacterium sharmanii makes Swiss cheese holes"
+        }
+      ],
+      "best": "kc.biology.microbes-in-human-welfare.fact-cyclosporin",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Four cards give the four pairs.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 4,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 32,
+      "paperNumber": 422,
+      "questionId": "226895785004",
+      "section": "subSection1",
+      "ntaKey": 1,
+      "chapter": "Biotechnology Principles & Processes",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Micro-injection (animal), biolistics/gene gun (plant), disarmed pathogen vectors introduce rDNA",
+        "Heat shock = cells on ice, briefly at 42 degrees C, back on ice (not 100 then 70 degrees C)"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.list-alien-dna-methods",
+          "teaches": "statements A, B, C"
+        }
+      ],
+      "best": "kc.biology.biotechnology-principles-and-processes.list-alien-dna-methods",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Statements A to C are taught; nothing served gives the heat-shock temperature, so statement D cannot be judged from served material and the item tests all four.",
+      "agreesWithA": true,
+      "aVerdict": "not_covered",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 33,
+      "paperNumber": 423,
+      "questionId": "226895785005",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Biotechnology Principles & Processes",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "rDNA steps: isolation of DNA, fragmentation by restriction endonucleases, ligation into a vector, transfer into the host"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.steps-rdna-steps",
+          "teaches": "the steps in the keyed order"
+        },
+        {
+          "kind": "bank",
+          "id": "32ef64af-b81c-45e7-99e2-0be2ae7bcbcb",
+          "teaches": "isolation, cutting and ligation, transformation, selection"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.fact-same-enzyme-vector",
+          "teaches": "vector and source cut with the same enzyme"
+        }
+      ],
+      "best": "kc.biology.biotechnology-principles-and-processes.steps-rdna-steps",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "The steps card gives the four steps in the keyed order; a bank row asks the same ordering.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "note": "A said matchKind concept; B same.",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 34,
+      "paperNumber": 424,
+      "questionId": "226895785006",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Biotechnology & its Applications",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "cryIAb controls corn borer (cryIAc, cryIIAb cotton bollworms)"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-and-its-applications.fact-cry-genes-targets",
+          "teaches": "same question and answer"
+        }
+      ],
+      "best": "kc.biology.biotechnology-and-its-applications.fact-cry-genes-targets",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same question and answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 35,
+      "paperNumber": 425,
+      "questionId": "226895785007",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Biotechnology & its Applications",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Eli Lilly 1983: A and B chain DNA in E. coli plasmids; chains made separately, extracted and joined by disulphide bonds (no C chain)"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-and-its-applications.fact-eli-lilly",
+          "teaches": "statements 1 and 4"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-and-its-applications.fact-insulin-assembly",
+          "teaches": "chains made separately and joined by disulphide bonds"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-and-its-applications.fact-c-peptide",
+          "teaches": "C peptide removed in maturation"
+        },
+        {
+          "kind": "bank",
+          "id": "df20c45d-ee4a-4663-bf36-621580f47bca",
+          "teaches": "chains joined by disulphide bonds"
+        }
+      ],
+      "best": "kc.biology.biotechnology-and-its-applications.fact-eli-lilly",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Cards state each true statement, so the C-chain statement is the false one.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 4,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 36,
+      "paperNumber": 426,
+      "questionId": "226895785008",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Intine is made of cellulose and pectin"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.sexual-reproduction-in-flowering-plants.def-intine",
+          "teaches": "same fact"
+        }
+      ],
+      "best": "kc.biology.sexual-reproduction-in-flowering-plants.def-intine",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same fact.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 37,
+      "paperNumber": 427,
+      "questionId": "226895785009",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Mature embryo sac: 8-nucleate, 7-celled"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.sexual-reproduction-in-flowering-plants.fact-embryo-sac-seven-celled",
+          "teaches": "same fact"
+        },
+        {
+          "kind": "bank",
+          "id": "90af3dc3-86f8-447b-b84e-7f790f0fd692",
+          "teaches": "same answer"
+        }
+      ],
+      "best": "kc.biology.sexual-reproduction-in-flowering-plants.fact-embryo-sac-seven-celled",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Card and bank row give the same answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 38,
+      "paperNumber": 428,
+      "questionId": "226895785010",
+      "section": "subSection1",
+      "ntaKey": 4,
+      "chapter": "Human Reproduction",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Parturition is induced by a neuroendocrine mechanism involving cortisol, estrogens and oxytocin",
+        "Prolactin is not a parturition hormone (milk)"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-reproduction.fact-oxytocin-source",
+          "teaches": "oxytocin from the maternal pituitary in parturition"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.human-reproduction.fact-parturition-mechanism",
+          "teaches": "complex neuroendocrine mechanism (hormones not named)"
+        }
+      ],
+      "best": "kc.biology.human-reproduction.fact-oxytocin-source",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Only oxytocin is taught for parturition; nothing served names cortisol and estrogens or says prolactin is not involved.",
+      "agreesWithA": true,
+      "aVerdict": "not_covered",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 39,
+      "paperNumber": 429,
+      "questionId": "226895785011",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Human Reproduction",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Middle piece mitochondria give energy for sperm movement"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-reproduction.fact-middle-piece",
+          "teaches": "same question and answer"
+        }
+      ],
+      "best": "kc.biology.human-reproduction.fact-middle-piece",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same question and answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 40,
+      "paperNumber": 430,
+      "questionId": "226895785012",
+      "section": "subSection1",
+      "ntaKey": 3,
+      "chapter": "Human Reproduction",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "LH surge (maximum LH) at mid-cycle induces ovulation"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-reproduction.def-lh-surge",
+          "teaches": "LH at its maximum mid-cycle induces ovulation"
+        },
+        {
+          "kind": "bank",
+          "id": "a2eeb54c-0de9-4930-b1b8-c44e3f337872",
+          "teaches": "LH surge triggers follicle rupture"
+        }
+      ],
+      "best": "kc.biology.human-reproduction.def-lh-surge",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card says LH peaks mid-cycle and causes ovulation.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 41,
+      "paperNumber": 431,
+      "questionId": "226895785014",
+      "section": "passage1",
+      "ntaKey": 2,
+      "chapter": "Human Health & Disease",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Heroin (smack) is chemically diacetylmorphine"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.term-heroin",
+          "teaches": "same fact"
+        },
+        {
+          "kind": "bank",
+          "id": "09a87281-edba-4507-85d1-c3e313dd7071",
+          "teaches": "heroin = diacetylmorphine"
+        }
+      ],
+      "best": "kc.biology.human-health-and-disease.term-heroin",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same question and answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 42,
+      "paperNumber": 432,
+      "questionId": "226895785015",
+      "section": "passage1",
+      "ntaKey": 3,
+      "chapter": "Human Health & Disease",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Marijuana, hashish, charas, ganja come from Cannabis",
+        "Smack = heroin, from morphine of the poppy"
+      ],
+      "verdict": "covered",
+      "matchKind": "concept",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.list-cannabis-products",
+          "teaches": "cannabis products"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.term-heroin",
+          "teaches": "heroin is called smack"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.fact-morphine-source",
+          "teaches": "morphine from the poppy"
+        }
+      ],
+      "best": "kc.biology.human-health-and-disease.list-cannabis-products",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Cards name the cannabis products and place smack positively with the poppy.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 3,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 43,
+      "paperNumber": 433,
+      "questionId": "226895785016",
+      "section": "passage1",
+      "ntaKey": 1,
+      "chapter": "Human Health & Disease",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Morphine is a very effective sedative and painkiller, useful after surgery"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.fact-morphine-source",
+          "teaches": "morphine from the poppy (not its use)"
+        }
+      ],
+      "best": "kc.biology.human-health-and-disease.fact-morphine-source",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Nothing served states morphine's use as a sedative and painkiller after surgery.",
+      "agreesWithA": true,
+      "aVerdict": "not_covered",
+      "aCitationsChecked": 0,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 44,
+      "paperNumber": 434,
+      "questionId": "226895785017",
+      "section": "passage1",
+      "ntaKey": 1,
+      "chapter": "Human Health & Disease",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Barbiturates, amphetamines, benzodiazepines are normally used as medicines to help patients cope with mental illnesses like depression and insomnia",
+        "Chloramphenicol is an antibiotic"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.list-abused-medicines",
+          "teaches": "the three drugs are normally used as medicines (mental illness not on the card)"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biotechnology-principles-and-processes.list-antibiotic-markers",
+          "teaches": "chloramphenicol is an antibiotic"
+        }
+      ],
+      "best": "kc.biology.human-health-and-disease.list-abused-medicines",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "The card names the three drugs as medicines but stops before \"mental illnesses\" (its quote ends at a page-break figure caption); chloramphenicol is also a medicine, so the discriminating fact is not served.",
+      "agreesWithA": false,
+      "aVerdict": "covered",
+      "whyDiffers": "A covered it by elimination (weaker call). The card stops before \"mental illnesses\"; chloramphenicol is also a medicine, so the stem's discriminating fact is not served.",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 45,
+      "paperNumber": 435,
+      "questionId": "226895785018",
+      "section": "passage1",
+      "ntaKey": 4,
+      "chapter": "Human Health & Disease",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Atropa belladona and Datura are hallucinogenic",
+        "Cocaine (Erythroxylum coca) causes hallucinations in excess",
+        "Rauwolfia (reserpine) is not hallucinogenic"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.list-hallucinogenic-plants",
+          "teaches": "Atropa, Datura"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.fact-cocaine-source",
+          "teaches": "cocaine from Erythroxylum coca"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.human-health-and-disease.fact-cocaine-cns",
+          "teaches": "excess cocaine causes hallucinations"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.biodiversity-and-conservation.fact-rauwolfia-reserpine",
+          "teaches": "Rauwolfia is a medicinal plant making reserpine (says nothing on hallucinations)"
+        }
+      ],
+      "best": "kc.biology.human-health-and-disease.list-hallucinogenic-plants",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "The three distractors are taught as hallucinogenic; nothing served says Rauwolfia is not, so the key is elimination only.",
+      "agreesWithA": false,
+      "aVerdict": "covered",
+      "whyDiffers": "A covered it by elimination (weaker call). Nothing served says Rauwolfia is not hallucinogenic.",
+      "aCitationsChecked": 3,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 46,
+      "paperNumber": 436,
+      "questionId": "226895785020",
+      "section": "passage2",
+      "ntaKey": 2,
+      "chapter": "Principles of Inheritance & Variation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Myotonic dystrophy is an autosomal dominant trait",
+        "Sickle-cell anaemia, PKU, thalassemia are autosomal recessive"
+      ],
+      "verdict": "not_covered",
+      "matchKind": null,
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.def-sickle-cell-anaemia",
+          "teaches": "sickle-cell recessive"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.def-phenylketonuria",
+          "teaches": "PKU recessive"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.def-thalassemia",
+          "teaches": "thalassemia recessive"
+        }
+      ],
+      "best": "kc.biology.principles-of-inheritance-and-variation.def-sickle-cell-anaemia",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "The three distractors are taught as recessive; nothing served names myotonic dystrophy, so the key is elimination only.",
+      "agreesWithA": false,
+      "aVerdict": "covered",
+      "whyDiffers": "A covered it by elimination (weaker call). Myotonic dystrophy is never named in served material.",
+      "aCitationsChecked": 3,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "not_covered"
+    },
+    {
+      "n": 47,
+      "paperNumber": 437,
+      "questionId": "226895785021",
+      "section": "passage2",
+      "ntaKey": 3,
+      "chapter": "Principles of Inheritance & Variation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Sickle-cell: glutamic acid replaced by valine at the sixth position of the beta globin chain"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.fact-sickle-cell-valine",
+          "teaches": "same fact"
+        },
+        {
+          "kind": "bank",
+          "id": "dccaf7b2-9f8f-4112-88c7-f7850938c25a",
+          "teaches": "glutamic acid to valine at sixth position"
+        }
+      ],
+      "best": "kc.biology.principles-of-inheritance-and-variation.fact-sickle-cell-valine",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same question and answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 48,
+      "paperNumber": 438,
+      "questionId": "226895785022",
+      "section": "passage2",
+      "ntaKey": 1,
+      "chapter": "Principles of Inheritance & Variation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "PKU is an inborn error of metabolism inherited as an autosomal recessive trait"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.def-phenylketonuria",
+          "teaches": "the stem sentence"
+        }
+      ],
+      "best": "kc.biology.principles-of-inheritance-and-variation.def-phenylketonuria",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card has the stem sentence nearly word for word.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 1,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 49,
+      "paperNumber": 439,
+      "questionId": "226895785023",
+      "section": "passage2",
+      "ntaKey": 3,
+      "chapter": "Principles of Inheritance & Variation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Alpha thalassemia: HBA1 and HBA2 on chromosome 16 of each parent"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.fact-alpha-thalassemia-genes",
+          "teaches": "same fact"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.fact-beta-thalassemia-gene",
+          "teaches": "beta: HBB on chromosome 11"
+        }
+      ],
+      "best": "kc.biology.principles-of-inheritance-and-variation.fact-alpha-thalassemia-genes",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same question and answer.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    },
+    {
+      "n": 50,
+      "paperNumber": 440,
+      "questionId": "226895785024",
+      "section": "passage2",
+      "ntaKey": 2,
+      "chapter": "Principles of Inheritance & Variation",
+      "offSyllabus": false,
+      "type": "theory",
+      "facts": [
+        "Failure of segregation of chromatids -> aneuploidy"
+      ],
+      "verdict": "covered",
+      "matchKind": "same",
+      "matches": [
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.def-aneuploidy",
+          "teaches": "same definition"
+        },
+        {
+          "kind": "card",
+          "id": "kc.biology.principles-of-inheritance-and-variation.fact-polyploidy",
+          "teaches": "cytokinesis failure = polyploidy (distractor)"
+        }
+      ],
+      "best": "kc.biology.principles-of-inheritance-and-variation.def-aneuploidy",
+      "bestKind": "card",
+      "needs": [],
+      "reason": "Key card is the same definition.",
+      "agreesWithA": true,
+      "aVerdict": "covered",
+      "aCitationsChecked": 2,
+      "aCitationsRemoved": [],
+      "initialBVerdictBeforeReadingA": "covered"
+    }
+  ]
+}

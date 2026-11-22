@@ -37,6 +37,7 @@ export const AUTHORED_SOURCE = 'claude-authored-2026-10-14';
 export const AUTHORED_SOURCE_W2 = 'claude-authored-2026-10-14-w2';
 export const AUTHORED_SOURCE_W3 = 'claude-authored-2026-10-17-w3';
 export const AUTHORED_SOURCE_W4 = 'claude-authored-2026-10-17-w4';
+export const AUTHORED_SOURCE_W5 = 'claude-authored-2026-11-22-w5';
 export const AUTHORED_WAVE = 1;
 export const PUBLISH_VERSION = 'authored-publish-1';
 // What a wave is: its source key and the subjects it may hold. Wave 1 behaves exactly as it always did (an unknown source falls back to it).
@@ -51,10 +52,14 @@ export const WAVES = Object.freeze({
   // Wave 4 (17 Oct 2026): five subjects; Biology, Chemistry and General Test hold case sets (a stem with a case passage and a set id, stored like a Geography case set, wave 2). Every row was authored by Claude and then solved blind and checked by a second Claude pass (the `_audit` field of the
   // draft); that audit is the one verdict a wave-4 row carries (tag expert_review:claude_audited). Hindi stays out.
   4: Object.freeze({ wave: 4, source: AUTHORED_SOURCE_W4, subjects: Object.freeze(['biology', 'chemistry', 'general_test', 'mathematics', 'physics']), caseSetSubjects: Object.freeze(['biology', 'chemistry', 'general_test']), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']) }),
+  // Wave 5 (22 Nov 2026, CUET 2026 coverage run): the three commerce papers, standalone items only (no sets). Every row was authored by Claude, then
+  // solved blind and judged by an independent Claude audit per subject (tmp/1122-coverage/authored/<subject>/audit.md); the same check as wave 4, so
+  // the same row verdict (claude_audited). Like the wave-4 final list, every row must also carry the audit's own verdict, ready or repaired (`experts`).
+  5: Object.freeze({ wave: 5, source: AUTHORED_SOURCE_W5, subjects: Object.freeze(['accountancy', 'business_studies', 'economics']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']), experts: Object.freeze(['ready', 'repaired']) }),
 });
 export const AUTHORED_SOURCES = Object.freeze(Object.values(WAVES).map((entry) => entry.source));
-/** Every subject any wave publishes (wave 1's six, then wave 2's additions). */
-export const AUTHORED_SUBJECTS = Object.freeze([...WAVES[1].subjects, 'biology', 'computer_science', 'general_test', 'geography', 'mathematics', 'physics', 'hindi']);
+/** Every subject any wave publishes (wave 1's six, then wave 2's additions, then wave 5's commerce papers). */
+export const AUTHORED_SUBJECTS = Object.freeze([...WAVES[1].subjects, 'biology', 'computer_science', 'general_test', 'geography', 'mathematics', 'physics', 'hindi', 'accountancy', 'business_studies', 'economics']);
 /** The wave definition of a source key, or of a candidate (its `source`); wave 1 when unknown. */
 export const waveOf = (sourceOrCandidate) => {
   const source = typeof sourceOrCandidate === 'string' ? sourceOrCandidate : sourceOrCandidate?.source;
@@ -241,13 +246,17 @@ export function validateCandidates(candidates) {
     if (!chapterCache.has(c.subject)) chapterCache.set(c.subject, chaptersOf(c.subject));
     const chapters = chapterCache.get(c.subject);
     if (!chapters) add(id, 'no_blueprint_for_subject');
-    else if (chapters.excluded.has(c.chapter)) add(id, 'chapter_excluded_by_blueprint');
+    // Syllabus v2 (31 Oct 2026) retired chapters from the blueprints (excludedChapters). Waves 1-4 were checked and published before it, against the
+    // blueprint of their day, so a chapter retired later is still a valid chapter of THEIR list (their plans and hashes stay reproducible; their rows
+    // are already in the bank, so a re-run is refused there for existing ids). Every later wave (5 on) is refused for a retired chapter.
+    else if (chapters.excluded.has(c.chapter)) { if (wave.wave >= 5) add(id, 'chapter_excluded_by_blueprint'); }
     else if (!chapters.names.has(c.chapter)) add(id, 'chapter_not_in_blueprint');
     if (!AUTHORED_QUESTION_TYPE[c.type]) add(id, 'unknown_type');
     if (text(c.stem).trim().length < 10) add(id, 'stem_missing_or_too_short');
     if (!text(c.explanation).trim()) add(id, 'explanation_missing');
     if (!DIFFICULTY_WEIGHT[c.difficulty_label]) add(id, 'difficulty_label_invalid');
     if (!wave.verdicts.includes(c._verdict)) add(id, wave.wave >= 3 ? `verdict_not_one_of_${wave.verdicts.join('_or_')}` : 'expert_verdict_not_ready_or_repaired');
+    if (wave.experts && !wave.experts.includes(c._expert)) add(id, `expert_pass_not_one_of_${wave.experts.join('_or_')}`);
     const options = Array.isArray(c.options) ? c.options : [];
     if (options.length !== 4 || options.some((option, i) => option?.key !== OPTION_KEYS[i] || !text(option?.text).trim())) add(id, 'options_not_four_keyed_A_to_D');
     else if (new Set(options.map((option) => text(option.text).trim().toLowerCase())).size < 4) add(id, 'duplicate_option_text');

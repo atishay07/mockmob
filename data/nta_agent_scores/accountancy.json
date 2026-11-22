@@ -3,9 +3,10 @@
   "subject": "accountancy",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-13T15:32:56.719Z",
+  "merged_at": "2026-11-22T00:55:48.017Z",
   "models": [
-    "claude-haiku-5-5"
+    "claude-haiku-5-5",
+    "claude-subagent-unrecorded"
   ],
   "calibration": {
     "status": "calibrated",
@@ -73,7 +74,7 @@
       "garbled_text": 99
     },
     "mean_of_means": 6.47,
-    "admissible_before_row_checks": 849
+    "admissible_before_row_checks": 870
   },
   "questions": {
     "05030c47-80ff-456f-ae39-20bfa069d5f3": {
@@ -86969,6 +86970,1973 @@
         "accountancy.share-capital.calls-in-arrears-balance-sheet-presentation"
       ],
       "key_dispute": false
+    },
+    "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9": {
+      "question_id": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Dissolution of Partnership Firm",
+      "key": "D",
+      "content_hash": "4555b969257b4efd1cb85f92945c6d816480fe9839f724722b6026fc436326c6",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.dissolution-of-partnership-firm.cash-realised-from-assets",
+          "flags": [],
+          "note": "Only the 45,000 sold outside brings cash: 49,500. Total-realised 61,500 trap is exactly the common error.",
+          "scored_content_hash": "4555b969257b4efd1cb85f92945c6d816480fe9839f724722b6026fc436326c6"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.dissolution-of-partnership-firm.assets-taken-over-by-partner-realisation",
+          "flags": [],
+          "note": "Only 45,000 x 110% = 49,500 is cash; take-over is via capital. 61,500, 66,000, 45,000 are natural slips. Clean.",
+          "scored_content_hash": "4555b969257b4efd1cb85f92945c6d816480fe9839f724722b6026fc436326c6"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.dissolution-of-partnership-firm.cash-realised-from-assets",
+        "accountancy.dissolution-of-partnership-firm.assets-taken-over-by-partner-realisation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "4555b969257b4efd1cb85f92945c6d816480fe9839f724722b6026fc436326c6",
+        "final_content_hash": "4555b969257b4efd1cb85f92945c6d816480fe9839f724722b6026fc436326c6",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "34e245ae-b9e4-4a51-aed4-23448fb29a87": {
+      "question_id": "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Debentures",
+      "key": "A",
+      "content_hash": "1be81834f68f30752c5b03bde8e3c5b4d3e373e5f74712ad9f2d70a76c1dda05",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.debentures.debentures-issued-at-premium-instalments",
+          "flags": [],
+          "note": "3,20,000 + 80,000 split correct. Option D swap is a throwaway; label hard a notch high.",
+          "scored_content_hash": "1be81834f68f30752c5b03bde8e3c5b4d3e373e5f74712ad9f2d70a76c1dda05"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.debentures.debentures-issued-at-premium-in-instalments",
+          "flags": [],
+          "note": "8,000 x 50 = 4,00,000 split 3,20,000 + 80,000. Reversed-credit option D is a weak throwaway.",
+          "scored_content_hash": "1be81834f68f30752c5b03bde8e3c5b4d3e373e5f74712ad9f2d70a76c1dda05"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.debentures.debentures-issued-at-premium-instalments",
+        "accountancy.debentures.debentures-issued-at-premium-in-instalments"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "1be81834f68f30752c5b03bde8e3c5b4d3e373e5f74712ad9f2d70a76c1dda05",
+        "final_content_hash": "1be81834f68f30752c5b03bde8e3c5b4d3e373e5f74712ad9f2d70a76c1dda05",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "3b2c3c2a-e203-4a75-ac60-525a13070d8c": {
+      "question_id": "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Profit & Loss Appropriation Account",
+      "key": "C",
+      "content_hash": "e8f1a080c799147c35ce2a99c6bfc22ad3dd538d866c62b39da676215b62544d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-when-profits-insufficient",
+          "flags": [],
+          "note": "Profit 20,000 split 2:3 in interest ratio gives 8,000; equal-split distractor 10,000 is weak.",
+          "scored_content_hash": "e8f1a080c799147c35ce2a99c6bfc22ad3dd538d866c62b39da676215b62544d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-when-profits-insufficient",
+          "flags": [],
+          "note": "Deed provides interest as appropriation, so profit 20,000 split 2:3 gives 8,000. Stem says 'before charging interest', minor wording; otherwise clean.",
+          "scored_content_hash": "e8f1a080c799147c35ce2a99c6bfc22ad3dd538d866c62b39da676215b62544d"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-when-profits-insufficient",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.profit-and-loss-appropriation-account.interest-on-capital-when-profits-insufficient",
+        "accountancy.profit-and-loss-appropriation-account.interest-on-capital-when-profits-insufficient"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "e8f1a080c799147c35ce2a99c6bfc22ad3dd538d866c62b39da676215b62544d",
+        "final_content_hash": "e8f1a080c799147c35ce2a99c6bfc22ad3dd538d866c62b39da676215b62544d",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "43e60b95-10cb-4861-822a-678a501c2050": {
+      "question_id": "43e60b95-10cb-4861-822a-678a501c2050",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Share Capital",
+      "key": "C",
+      "content_hash": "40eaa080decf92dce49efddae7c90854055aa5a054441c039a5aa37032275909",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.share-capital.shares-issued-to-vendor-at-premium",
+          "flags": [],
+          "note": "2,40,000 / 12.50 = 19,200; face-value and whole-price slips all present as distractors.",
+          "scored_content_hash": "40eaa080decf92dce49efddae7c90854055aa5a054441c039a5aa37032275909"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.share-capital.shares-issued-for-non-cash-consideration",
+          "flags": [],
+          "note": "2,40,000 / 12.50 = 19,200; each distractor is a face-value or whole-price slip. Clean NCERT-style item.",
+          "scored_content_hash": "40eaa080decf92dce49efddae7c90854055aa5a054441c039a5aa37032275909"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.share-capital.shares-issued-to-vendor-at-premium",
+        "accountancy.share-capital.shares-issued-for-non-cash-consideration"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "40eaa080decf92dce49efddae7c90854055aa5a054441c039a5aa37032275909",
+        "final_content_hash": "40eaa080decf92dce49efddae7c90854055aa5a054441c039a5aa37032275909",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "462137b8-01fb-4977-91ec-65a0165ceb34": {
+      "question_id": "462137b8-01fb-4977-91ec-65a0165ceb34",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Retirement & Death of Partner",
+      "key": "D",
+      "content_hash": "397138c49e97be0f440143a7df52d37b20871d17931259670827f537fbe72b84",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+          "flags": [],
+          "note": "Stock change -16,000, revalued 64,000; distractor arithmetic checks. Label hard is a notch high.",
+          "scored_content_hash": "397138c49e97be0f440143a7df52d37b20871d17931259670827f537fbe72b84"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+          "flags": [],
+          "note": "50,000 - 20,000 + S = 14,000, S = -16,000, stock 64,000. Distractors verified; clean.",
+          "scored_content_hash": "397138c49e97be0f440143a7df52d37b20871d17931259670827f537fbe72b84"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+        "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "397138c49e97be0f440143a7df52d37b20871d17931259670827f537fbe72b84",
+        "final_content_hash": "397138c49e97be0f440143a7df52d37b20871d17931259670827f537fbe72b84",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "4635494f-c14e-42a9-839b-8745eab4ec6d": {
+      "question_id": "4635494f-c14e-42a9-839b-8745eab4ec6d",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Share Capital",
+      "key": "D",
+      "content_hash": "164d5828dcd61ff730aa81609eed84d54be5322a62f6e3df61356ff9a97bcf65",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "accountancy.share-capital.reissue-of-forfeited-shares-capital-reserve",
+          "flags": [],
+          "note": "Forfeited 2,000 (application only), reissue discount 1,000, capital reserve 1,000; premium-not-received trap well placed.",
+          "scored_content_hash": "164d5828dcd61ff730aa81609eed84d54be5322a62f6e3df61356ff9a97bcf65"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "accountancy.share-capital.forfeiture-and-reissue-capital-reserve",
+          "flags": [],
+          "note": "Key 1,000 right. Explanation muddled for distractor B: counting premium as forfeited gives 3,000 forfeited, not 3,000 capital reserve (would be 2,000 after discount).",
+          "scored_content_hash": "164d5828dcd61ff730aa81609eed84d54be5322a62f6e3df61356ff9a97bcf65"
+        }
+      ],
+      "mean": 8,
+      "min": 7,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.share-capital.reissue-of-forfeited-shares-capital-reserve",
+        "accountancy.share-capital.forfeiture-and-reissue-capital-reserve"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "164d5828dcd61ff730aa81609eed84d54be5322a62f6e3df61356ff9a97bcf65",
+        "final_content_hash": "164d5828dcd61ff730aa81609eed84d54be5322a62f6e3df61356ff9a97bcf65",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "509cb504-bf62-48b7-9699-e48439437ed9": {
+      "question_id": "509cb504-bf62-48b7-9699-e48439437ed9",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Admission of Partner",
+      "key": "A",
+      "content_hash": "93d6e6b6f496fb4574eabc391b81004790b55bc4a6446a8f658d2aebcaf3b178",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.admission-of-partner.premium-for-goodwill-in-sacrificing-ratio",
+          "flags": [],
+          "note": "Sacrifice 1/15 : 2/15, Y gets 30,000; old-ratio split 18,000/27,000 traps are realistic.",
+          "scored_content_hash": "93d6e6b6f496fb4574eabc391b81004790b55bc4a6446a8f658d2aebcaf3b178"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.admission-of-partner.premium-for-goodwill-in-sacrificing-ratio",
+          "flags": [],
+          "note": "Sacrifices 1/15 and 2/15, ratio 1:2, Y gets 30,000; 18,000 / 27,000 old-ratio and 22,500 equal-split distractors. Clean two-step item.",
+          "scored_content_hash": "93d6e6b6f496fb4574eabc391b81004790b55bc4a6446a8f658d2aebcaf3b178"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.admission-of-partner.premium-for-goodwill-in-sacrificing-ratio",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.admission-of-partner.premium-for-goodwill-in-sacrificing-ratio",
+        "accountancy.admission-of-partner.premium-for-goodwill-in-sacrificing-ratio"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "93d6e6b6f496fb4574eabc391b81004790b55bc4a6446a8f658d2aebcaf3b178",
+        "final_content_hash": "93d6e6b6f496fb4574eabc391b81004790b55bc4a6446a8f658d2aebcaf3b178",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "555cf4ac-9549-4c6b-91ba-08107b6989d9": {
+      "question_id": "555cf4ac-9549-4c6b-91ba-08107b6989d9",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Accounting Ratios",
+      "key": "B",
+      "content_hash": "921ddcf4ba2c0e2889d812307d4c5c947e1712ca13db0b2fc7cda1e7d9fde441",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+          "flags": [],
+          "note": "PBIT 6,00,000 / interest 1,50,000 = 4 verified. Stem redundant: opens 'Calculate the interest coverage ratio' and repeats it at the end.",
+          "scored_content_hash": "921ddcf4ba2c0e2889d812307d4c5c947e1712ca13db0b2fc7cda1e7d9fde441"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+          "flags": [],
+          "note": "PBT 4,50,000 + 1,50,000 = 6,00,000 / 1,50,000 = 4. Stem says 'Calculate...' then repeats 'The ratio is:', redundant.",
+          "scored_content_hash": "921ddcf4ba2c0e2889d812307d4c5c947e1712ca13db0b2fc7cda1e7d9fde441"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.accounting-ratios.interest-coverage-ratio",
+        "accountancy.accounting-ratios.interest-coverage-ratio"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "921ddcf4ba2c0e2889d812307d4c5c947e1712ca13db0b2fc7cda1e7d9fde441",
+        "final_content_hash": "921ddcf4ba2c0e2889d812307d4c5c947e1712ca13db0b2fc7cda1e7d9fde441",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "55e6c5a0-db6b-47d6-8901-71a9a8c983f5": {
+      "question_id": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Accounting Ratios",
+      "key": "C",
+      "content_hash": "7ac51b6585ab3cb50b80d0aeef63cc428d30b82208ef8f268703a5f2eedfc5fe",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+          "flags": [],
+          "note": "PBT 2,00,000, interest 1,00,000, PBIT 3,00,000, ICR 3; PBT/PAT-based slips as distractors.",
+          "scored_content_hash": "7ac51b6585ab3cb50b80d0aeef63cc428d30b82208ef8f268703a5f2eedfc5fe"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+          "flags": [],
+          "note": "PBT 2,00,000 + interest 1,00,000 = 3,00,000 / 1,00,000 = 3; PBT, PAT and PAT+interest slips give 2, 1.5, 2.5. Clean.",
+          "scored_content_hash": "7ac51b6585ab3cb50b80d0aeef63cc428d30b82208ef8f268703a5f2eedfc5fe"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.accounting-ratios.interest-coverage-ratio",
+        "accountancy.accounting-ratios.interest-coverage-ratio"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "7ac51b6585ab3cb50b80d0aeef63cc428d30b82208ef8f268703a5f2eedfc5fe",
+        "final_content_hash": "7ac51b6585ab3cb50b80d0aeef63cc428d30b82208ef8f268703a5f2eedfc5fe",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "56ef0e80-ec6b-4b55-a775-0febcd35def7": {
+      "question_id": "56ef0e80-ec6b-4b55-a775-0febcd35def7",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Goodwill Valuation",
+      "key": "D",
+      "content_hash": "e0bf0673d817b9045dc328ab007aa2725275f83a914703d6d7a0c49889ab6800",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+          "flags": [],
+          "note": "66,000 / 12% = 5,50,000 verified; distractors check. Same reverse-working idea as the NRR item.",
+          "scored_content_hash": "e0bf0673d817b9045dc328ab007aa2725275f83a914703d6d7a0c49889ab6800"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+          "flags": [],
+          "note": "66,000 / 12% = 5,50,000; all distractor figures verified. Same idea as the previous item; fine.",
+          "scored_content_hash": "e0bf0673d817b9045dc328ab007aa2725275f83a914703d6d7a0c49889ab6800"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+        "accountancy.goodwill-valuation.super-profit-method-reverse-working"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "e0bf0673d817b9045dc328ab007aa2725275f83a914703d6d7a0c49889ab6800",
+        "final_content_hash": "e0bf0673d817b9045dc328ab007aa2725275f83a914703d6d7a0c49889ab6800",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "59862358-7c7e-4c2b-a3e9-e2fd73c581e7": {
+      "question_id": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Retirement & Death of Partner",
+      "key": "B",
+      "content_hash": "717f06d05a582c805636ce12908099ec548cbfcbb3fc04e44a8aa051c7993614",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.current-account-on-retirement",
+          "flags": [],
+          "note": "Correct NCERT treatment; distractors plausible but long. Direct recall, label medium is a notch high.",
+          "scored_content_hash": "717f06d05a582c805636ce12908099ec548cbfcbb3fc04e44a8aa051c7993614"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.retiring-partner-current-account-treatment",
+          "flags": [],
+          "note": "Correct and unambiguous; distractors are plausible misconceptions though A and D are long. Explanation checks out.",
+          "scored_content_hash": "717f06d05a582c805636ce12908099ec548cbfcbb3fc04e44a8aa051c7993614"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.retirement-and-death-of-partner.current-account-on-retirement",
+        "accountancy.retirement-and-death-of-partner.retiring-partner-current-account-treatment"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "717f06d05a582c805636ce12908099ec548cbfcbb3fc04e44a8aa051c7993614",
+        "final_content_hash": "717f06d05a582c805636ce12908099ec548cbfcbb3fc04e44a8aa051c7993614",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "66622599-3956-47f8-acef-bb239aed9d33": {
+      "question_id": "66622599-3956-47f8-acef-bb239aed9d33",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Share Capital",
+      "key": "A",
+      "content_hash": "9a2d5bf4730caea97b5a4acacc5066ab8d8f5ce176dc354795b3c631b32c40e9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.share-capital.shares-issued-to-vendor-at-premium",
+          "flags": [],
+          "note": "2,400 shares x 25 = 60,000 verified; 70,000 (20% of whole price) distractor is weak.",
+          "scored_content_hash": "9a2d5bf4730caea97b5a4acacc5066ab8d8f5ce176dc354795b3c631b32c40e9"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.share-capital.shares-issued-for-non-cash-consideration",
+          "flags": [],
+          "note": "2,400 shares x 25 = 60,000. Distractor 70,000 (20% of whole price) is a weak slip; rest fine.",
+          "scored_content_hash": "9a2d5bf4730caea97b5a4acacc5066ab8d8f5ce176dc354795b3c631b32c40e9"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.share-capital.shares-issued-to-vendor-at-premium",
+        "accountancy.share-capital.shares-issued-for-non-cash-consideration"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "9a2d5bf4730caea97b5a4acacc5066ab8d8f5ce176dc354795b3c631b32c40e9",
+        "final_content_hash": "9a2d5bf4730caea97b5a4acacc5066ab8d8f5ce176dc354795b3c631b32c40e9",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "70291c3b-d5ad-4b37-989e-2f7f88c6cba6": {
+      "question_id": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Profit & Loss Appropriation Account",
+      "key": "D",
+      "content_hash": "66c904c75c8f613669c593c07b0a5356cff2bc233dbca306a3182289c35b5117",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-with-capital-changes",
+          "flags": [],
+          "note": "18,000 + 2,400 - 360 = 20,040 verified; every distractor is a real slip (net capital full year, ignored or added withdrawal).",
+          "scored_content_hash": "66c904c75c8f613669c593c07b0a5356cff2bc233dbca306a3182289c35b5117"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-with-capital-changes",
+          "flags": [],
+          "note": "6000+9000+5040 = 20,040; every distractor traces to a named slip (net capital, ignored or added withdrawal). Clean.",
+          "scored_content_hash": "66c904c75c8f613669c593c07b0a5356cff2bc233dbca306a3182289c35b5117"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-with-capital-changes",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.profit-and-loss-appropriation-account.interest-on-capital-with-capital-changes",
+        "accountancy.profit-and-loss-appropriation-account.interest-on-capital-with-capital-changes"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "66c904c75c8f613669c593c07b0a5356cff2bc233dbca306a3182289c35b5117",
+        "final_content_hash": "66c904c75c8f613669c593c07b0a5356cff2bc233dbca306a3182289c35b5117",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "7926bef3-599f-4cdb-9107-fbf0edba1d9a": {
+      "question_id": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Goodwill Valuation",
+      "key": "A",
+      "content_hash": "eb0fbeb9353dbf8413c82a295e6429f431f63b8320a5721f8e2a15c855428b4a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+          "flags": [],
+          "note": "Super profit 30,000, normal profit 1,20,000, NRR 20%; all three distractors are named ratio slips that check out.",
+          "scored_content_hash": "eb0fbeb9353dbf8413c82a295e6429f431f63b8320a5721f8e2a15c855428b4a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+          "flags": [],
+          "note": "SP 30,000, NP 1,20,000, 20%; 5%, 15%, 25% each match a stated slip. Clean reverse working; label hard is one notch high.",
+          "scored_content_hash": "eb0fbeb9353dbf8413c82a295e6429f431f63b8320a5721f8e2a15c855428b4a"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+        "accountancy.goodwill-valuation.super-profit-method-reverse-working"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "eb0fbeb9353dbf8413c82a295e6429f431f63b8320a5721f8e2a15c855428b4a",
+        "final_content_hash": "eb0fbeb9353dbf8413c82a295e6429f431f63b8320a5721f8e2a15c855428b4a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "86cc4648-e6d2-4854-b767-32d33a9cc06f": {
+      "question_id": "86cc4648-e6d2-4854-b767-32d33a9cc06f",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Retirement & Death of Partner",
+      "key": "B",
+      "content_hash": "65df48e8537c5e5ce97f233b8640dcff8236edf16aec9f4252317055c4e151d1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+          "flags": [],
+          "note": "+60,000 -30,000 -12,000 +8,000 = profit 26,000; sign-reversal and one-sided distractors. Simple netting.",
+          "scored_content_hash": "65df48e8537c5e5ce97f233b8640dcff8236edf16aec9f4252317055c4e151d1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+          "flags": [],
+          "note": "+60,000 -30,000 -12,000 +8,000 = profit 26,000. Straight one-step netting; sign-reversal distractor A is good.",
+          "scored_content_hash": "65df48e8537c5e5ce97f233b8640dcff8236edf16aec9f4252317055c4e151d1"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+        "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "65df48e8537c5e5ce97f233b8640dcff8236edf16aec9f4252317055c4e151d1",
+        "final_content_hash": "65df48e8537c5e5ce97f233b8640dcff8236edf16aec9f4252317055c4e151d1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "92ee6601-d67b-4cb6-a596-591a732287af": {
+      "question_id": "92ee6601-d67b-4cb6-a596-591a732287af",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Retirement & Death of Partner",
+      "key": "A",
+      "content_hash": "e890d7e4d892ab2db77b8c03b26b80c74f256cd357c4ac9e0f090c90acd46e36",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.profit-till-death-sales-basis",
+          "flags": [],
+          "note": "1,08,000 x 3/9 = 36,000; time-basis 45,000 and P-share 48,000 distractors verified. Clean two-step item.",
+          "scored_content_hash": "e890d7e4d892ab2db77b8c03b26b80c74f256cd357c4ac9e0f090c90acd46e36"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.deceased-partner-profit-sales-basis",
+          "flags": [],
+          "note": "1,08,000 x 3/9 = 36,000; 45,000 (time basis) and 48,000 (P share) verified. Paraphrased stem slightly roundabout.",
+          "scored_content_hash": "e890d7e4d892ab2db77b8c03b26b80c74f256cd357c4ac9e0f090c90acd46e36"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.retirement-and-death-of-partner.profit-till-death-sales-basis",
+        "accountancy.retirement-and-death-of-partner.deceased-partner-profit-sales-basis"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "e890d7e4d892ab2db77b8c03b26b80c74f256cd357c4ac9e0f090c90acd46e36",
+        "final_content_hash": "e890d7e4d892ab2db77b8c03b26b80c74f256cd357c4ac9e0f090c90acd46e36",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be": {
+      "question_id": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Retirement & Death of Partner",
+      "key": "C",
+      "content_hash": "8352b6e546614cd875507a8c7471adfadca856f43961718b5b61f37ee76a81bf",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.profit-till-death-sales-basis",
+          "flags": [],
+          "note": "15% of 2,50,000 = 37,500; 2023-24 profit is a fair decoy. Distractor 1,20,000 is a throwaway.",
+          "scored_content_hash": "8352b6e546614cd875507a8c7471adfadca856f43961718b5b61f37ee76a81bf"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.retirement-and-death-of-partner.deceased-partner-profit-sales-basis",
+          "flags": [],
+          "note": "15% x 2,50,000 = 37,500; time-basis 50,000 and Y-share 12,500 distractors verified. Deed line names the method, slight signposting.",
+          "scored_content_hash": "8352b6e546614cd875507a8c7471adfadca856f43961718b5b61f37ee76a81bf"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.retirement-and-death-of-partner.profit-till-death-sales-basis",
+        "accountancy.retirement-and-death-of-partner.deceased-partner-profit-sales-basis"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "8352b6e546614cd875507a8c7471adfadca856f43961718b5b61f37ee76a81bf",
+        "final_content_hash": "8352b6e546614cd875507a8c7471adfadca856f43961718b5b61f37ee76a81bf",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "ad7c29aa-6d1b-4e11-9598-4108289c6e04": {
+      "question_id": "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Debentures",
+      "key": "D",
+      "content_hash": "63cb85da92d70bb15d74d0050b9fa744cc83ea3ef2a9faa7bbbcf2499ed7d63b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+          "flags": [],
+          "note": "2,250 debentures, face 2,25,000, discount 27,000; entry matches NCERT. Distractors are real entry errors. Label hard a notch high.",
+          "scored_content_hash": "63cb85da92d70bb15d74d0050b9fa744cc83ea3ef2a9faa7bbbcf2499ed7d63b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+          "flags": [],
+          "note": "2,250 debentures, face 2,25,000, discount 27,000; entry D is the NCERT vendor entry. Distractors are real student errors.",
+          "scored_content_hash": "63cb85da92d70bb15d74d0050b9fa744cc83ea3ef2a9faa7bbbcf2499ed7d63b"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+        "accountancy.debentures.debentures-issued-to-vendor-at-discount"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "63cb85da92d70bb15d74d0050b9fa744cc83ea3ef2a9faa7bbbcf2499ed7d63b",
+        "final_content_hash": "63cb85da92d70bb15d74d0050b9fa744cc83ea3ef2a9faa7bbbcf2499ed7d63b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c3a7f8a4-e639-459d-8169-9a1ecd9bc421": {
+      "question_id": "c3a7f8a4-e639-459d-8169-9a1ecd9bc421",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Dissolution of Partnership Firm",
+      "key": "A",
+      "content_hash": "faf8fa5df9858ca0fbc31103cc4eb74c90568366616495a173b5aa79df0245e3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.dissolution-of-partnership-firm.loss-on-realisation-of-asset",
+          "flags": [],
+          "note": "3,200 + 7,200 = 10,400 verified; partial-loss distractors fair, 12,000 weaker.",
+          "scored_content_hash": "faf8fa5df9858ca0fbc31103cc4eb74c90568366616495a173b5aa79df0245e3"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.dissolution-of-partnership-firm.assets-taken-over-by-partner-realisation",
+          "flags": [],
+          "note": "3,200 + 7,200 = 10,400; part-only and whole-at-15% distractors verified. Fair two-step item.",
+          "scored_content_hash": "faf8fa5df9858ca0fbc31103cc4eb74c90568366616495a173b5aa79df0245e3"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.dissolution-of-partnership-firm.loss-on-realisation-of-asset",
+        "accountancy.dissolution-of-partnership-firm.assets-taken-over-by-partner-realisation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "faf8fa5df9858ca0fbc31103cc4eb74c90568366616495a173b5aa79df0245e3",
+        "final_content_hash": "faf8fa5df9858ca0fbc31103cc4eb74c90568366616495a173b5aa79df0245e3",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "cc769147-35f1-490f-8f6c-960ec66f1e56": {
+      "question_id": "cc769147-35f1-490f-8f6c-960ec66f1e56",
+      "batch": "authored-2026-10-14__accountancy__w5b2",
+      "chapter": "Debentures",
+      "key": "C",
+      "content_hash": "2cb878d7444dfc3d93f594f642334219342a9623f573e5fb4541115799f8a92f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "accountancy.debentures.debentures-issued-at-premium-instalments",
+          "flags": [],
+          "note": "105 - 25 - 45 = 35 x 6,000 = 2,10,000; distractors check. Stem slightly wordy ('which is Rs 5 above face value').",
+          "scored_content_hash": "2cb878d7444dfc3d93f594f642334219342a9623f573e5fb4541115799f8a92f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.debentures.debentures-issued-at-premium-in-instalments",
+          "flags": [],
+          "note": "105 - 25 - 45 = 35 x 6,000 = 2,10,000; distractors verified. Paraphrased stem ('6,000 in number') reads a little clumsily.",
+          "scored_content_hash": "2cb878d7444dfc3d93f594f642334219342a9623f573e5fb4541115799f8a92f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.debentures.debentures-issued-at-premium-instalments",
+        "accountancy.debentures.debentures-issued-at-premium-in-instalments"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "2cb878d7444dfc3d93f594f642334219342a9623f573e5fb4541115799f8a92f",
+        "final_content_hash": "2cb878d7444dfc3d93f594f642334219342a9623f573e5fb4541115799f8a92f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d": {
+      "question_id": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
+      "batch": "authored-2026-10-14__accountancy__w5b1",
+      "chapter": "Admission of Partner",
+      "key": "C",
+      "content_hash": "06cf560739ebd5d14ddee06f2aa612a5baa39a690519bb2e8a13cf3b983186c1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.admission-of-partner.sacrificing-ratio-calculation",
+          "flags": [],
+          "note": "9/40 : 1/40 = 9:1 verified; old-ratio, new-ratio and reversed 1:9 are exactly the common errors.",
+          "scored_content_hash": "06cf560739ebd5d14ddee06f2aa612a5baa39a690519bb2e8a13cf3b983186c1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-22",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "accountancy.admission-of-partner.sacrificing-ratio-calculation",
+          "flags": [],
+          "note": "9/40 : 1/40 = 9:1; old ratio, new ratio and reversed 1:9 are the classic slips. Real-paper quality.",
+          "scored_content_hash": "06cf560739ebd5d14ddee06f2aa612a5baa39a690519bb2e8a13cf3b983186c1"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "accountancy.admission-of-partner.sacrificing-ratio-calculation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "accountancy.admission-of-partner.sacrificing-ratio-calculation",
+        "accountancy.admission-of-partner.sacrificing-ratio-calculation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-22-w5",
+        "wave": 5,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "06cf560739ebd5d14ddee06f2aa612a5baa39a690519bb2e8a13cf3b983186c1",
+        "final_content_hash": "06cf560739ebd5d14ddee06f2aa612a5baa39a690519bb2e8a13cf3b983186c1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    }
+  },
+  "authored": {
+    "claude-authored-2026-11-22-w5": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-22T00:55:48.017Z",
+      "questions": 21,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-22",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }
   }
 }

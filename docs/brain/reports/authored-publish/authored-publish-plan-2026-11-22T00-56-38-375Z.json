@@ -1,0 +1,2002 @@
+{
+ "kind": "authored_publish_plan",
+ "version": "authored-publish-1",
+ "mode": "dry-run",
+ "source": "claude-authored-2026-11-22-w5",
+ "at": "2026-11-22T00:56:38.373Z",
+ "candidatesFile": "docs/brain/reports/authored-w5/wave5-candidates-kept-2026-11-22.json",
+ "candidatesSha256": "fab45f81f61a461b8d80fcca974eafdc01dddf2859669f78f45425216a8d6091",
+ "planHash": "cfec50c8fbebc9ea8d4c6532ec1dfd4bdcee2531a9d8e7598234699e7548b931",
+ "summary": {
+  "questions": 32,
+  "passageGroups": 0,
+  "bySubject": {
+   "accountancy": 21,
+   "business_studies": 3,
+   "economics": 8
+  },
+  "byType": {
+   "conceptual_mcq": 30,
+   "sequence_ordering": 1,
+   "match_the_following": 1
+  },
+  "byDifficulty": {
+   "medium": 17,
+   "hard": 14,
+   "easy": 1
+  },
+  "byExpertReview": {
+   "claude_audited": 32
+  },
+  "passageChildrenBySet": {},
+  "passageSetsBelowNtaMinimum": [],
+  "chapters": 14
+ },
+ "blockers": [],
+ "warnings": [],
+ "checks": {
+  "target": "isrxrxzjocewrdureyhp.supabase.co",
+  "questionColumnsMissing": 0,
+  "passageGroupColumnsMissing": 0,
+  "existingQuestionIds": 0,
+  "existingGroupIds": 0,
+  "liveBefore": {
+   "accountancy": 1315,
+   "business_studies": 394,
+   "economics": 410
+  },
+  "agentScores": {
+   "bound": 32,
+   "missing": 0,
+   "hashMismatch": 0
+  },
+  "fitScores": {
+   "bound": 32,
+   "missing": 0,
+   "hashMismatch": 0
+  },
+  "bankLookalikes": "not checked: no local export"
+ },
+ "checksDetail": {
+  "target": "isrxrxzjocewrdureyhp.supabase.co",
+  "questionColumnsMissing": [],
+  "passageGroupColumnsMissing": [],
+  "existingQuestionIds": [],
+  "existingGroupIds": [],
+  "liveBefore": {
+   "accountancy": 1315,
+   "business_studies": 394,
+   "economics": 410
+  },
+  "scores": {
+   "agent": {
+    "bound": 32,
+    "missing": [],
+    "hashMismatch": []
+   },
+   "fit": {
+    "checked": true,
+    "bound": 32,
+    "missing": [],
+    "hashMismatch": []
+   }
+  },
+  "bankLookalikes": {
+   "checked": false,
+   "exact": [],
+   "near": []
+  }
+ },
+ "groups": [],
+ "rows": [
+  {
+   "id": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
+   "subject": "accountancy",
+   "chapter": "Retirement & Death of Partner",
+   "question": null,
+   "body": "A partner retires from a firm, and the amount due to him is to be settled. Which statement about the treatment of his current account is correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "It is carried to the balance sheet of the reconstituted firm as a separate liability, and only the capital account balance is settled with the retiring partner"
+    },
+    {
+     "key": "B",
+     "text": "Its credit balance is added to his capital account (a debit balance is deducted) before the amount due to him is settled"
+    },
+    {
+     "key": "C",
+     "text": "It is first transferred to the Revaluation Account, so that it is cleared together with the profit or loss on revaluation of assets and liabilities"
+    },
+    {
+     "key": "D",
+     "text": "It is paid to him in cash only after the balance sheet of the reconstituted firm has been prepared, without any entry in his capital account"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "The amount due to a retiring partner is made up of the credit balance of his capital account, the credit balance of his current account, his share of goodwill, reserves and the gain on revaluation, less any debit balance of his current account. So the current account balance is brought into his capital account first, and the capital account is settled afterwards. The full order is: (1) the Revaluation Account is prepared first, and its profit or loss is transferred to the capital accounts of all the partners; (2) the current account balances are closed into the capital accounts; (3) the retiring partner's capital account is settled, by payment or by transfer to his loan account; (4) the balance sheet of the reconstituted firm is prepared last. The current account is not left as a separate liability, and it does not go to the Revaluation Account, which deals only with changes in the values of assets and liabilities.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 3 Reconstitution of a Partnership Firm - Retirement/Death of a Partner: amount due to the retiring partner, revaluation and settlement of accounts"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
+   "subject": "accountancy",
+   "chapter": "Profit & Loss Appropriation Account",
+   "question": null,
+   "body": "Meera and Naveen are partners. On 1 April 2025 their capitals were ₹ 3,00,000 and ₹ 2,00,000. On 1 August 2025 Meera brought in ₹ 60,000 as additional capital, and on 1 January 2026 she withdrew ₹ 24,000 from her capital. The partnership deed allows interest on capital at 6% per annum. Interest on capital payable to Meera for the year ended 31 March 2026 is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 20,160"
+    },
+    {
+     "key": "B",
+     "text": "₹ 20,400"
+    },
+    {
+     "key": "C",
+     "text": "₹ 20,760"
+    },
+    {
+     "key": "D",
+     "text": "₹ 20,040"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Interest on capital is worked for the period each amount stayed in the firm, up to 31 March. Interest on the opening capital for 12 months = 3,00,000 × 6% = 18,000. Interest on the addition for 8 months (1 August to 31 March) = 60,000 × 6% × 8/12 = 2,400, which is added. Interest on the withdrawal for 3 months (1 January to 31 March) = 24,000 × 6% × 3/12 = 360, which is deducted because that capital was not in the firm for those months. Interest = 18,000 + 2,400 − 360 = 20,040. Charging interest for a full year on the net capital of 3,36,000 gives 20,160, ignoring the withdrawal gives 20,400, and adding the withdrawal instead of deducting it gives 20,760.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Accounting for Partnership",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 1 Accounting for Partnership Firms - Fundamentals: interest on capital when capital is introduced or withdrawn during the year"
+   ],
+   "topic": "Accounting for Partnership",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
+   "subject": "accountancy",
+   "chapter": "Profit & Loss Appropriation Account",
+   "question": null,
+   "body": "Kavya and Lata are partners sharing profits in the ratio 3:2. Their capitals are ₹ 2,00,000 and ₹ 3,00,000. The partnership deed provides for interest on capital at 10% per annum. There is no other appropriation, and the profit for the year before charging interest on capital is ₹ 20,000. Interest on capital credited to Kavya is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 12,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 20,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 8,000"
+    },
+    {
+     "key": "D",
+     "text": "₹ 10,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "Interest due: Kavya 2,00,000 × 10% = 20,000 and Lata 3,00,000 × 10% = 30,000, a total of 50,000. The profit of 20,000 is less than this, so interest cannot be paid in full. When profit is not enough, it is divided in the ratio of the interest due (that is, the ratio of capitals), which is 20,000 : 30,000 = 2:3. Kavya gets 2/5 × 20,000 = 8,000. Using the profit sharing ratio 3:2 gives 12,000, paying her the full interest gives 20,000, and an equal division gives 10,000.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Accounting for Partnership",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 1 Accounting for Partnership Firms - Fundamentals: interest on capital when profit is not sufficient"
+   ],
+   "topic": "Accounting for Partnership",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+   "subject": "accountancy",
+   "chapter": "Goodwill Valuation",
+   "question": null,
+   "body": "A valuer put a firm's goodwill at ₹ 90,000 by taking 3 years' purchase of its super profit. The business makes ₹ 1,50,000 a year on average and uses ₹ 6,00,000 of capital. What normal rate of return did the valuer assume?",
+   "options": [
+    {
+     "key": "A",
+     "text": "20%"
+    },
+    {
+     "key": "B",
+     "text": "5%"
+    },
+    {
+     "key": "C",
+     "text": "15%"
+    },
+    {
+     "key": "D",
+     "text": "25%"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Work backwards from goodwill. Super profit = goodwill ÷ number of years' purchase = 90,000 ÷ 3 = 30,000. Normal profit = average profit − super profit = 1,50,000 − 30,000 = 1,20,000. Normal rate of return = normal profit ÷ capital employed × 100 = 1,20,000 ÷ 6,00,000 × 100 = 20%. Dividing the super profit by capital gives 5%, dividing goodwill by capital gives 15%, and treating the whole average profit as normal profit gives 25%.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 2 Reconstitution of a Partnership Firm - Admission of a Partner: goodwill by the super profit method (super profit = average profit − normal profit)"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "56ef0e80-ec6b-4b55-a775-0febcd35def7",
+   "subject": "accountancy",
+   "chapter": "Goodwill Valuation",
+   "question": null,
+   "body": "A business expects an average yearly profit of ₹ 84,000, and the usual return in its industry is 12%. Its goodwill, worked out at 2 years' purchase of super profit, comes to ₹ 36,000. The capital employed in the business is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 7,00,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 8,50,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 1,50,000"
+    },
+    {
+     "key": "D",
+     "text": "₹ 5,50,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Super profit = goodwill ÷ number of years' purchase = 36,000 ÷ 2 = 18,000. Normal profit = average profit − super profit = 84,000 − 18,000 = 66,000. Capital employed = normal profit ÷ normal rate of return = 66,000 ÷ 12% = 5,50,000. Using the whole average profit as normal profit gives 84,000 ÷ 12% = 7,00,000, adding the super profit instead of deducting it gives 1,02,000 ÷ 12% = 8,50,000, and using the super profit alone gives 18,000 ÷ 12% = 1,50,000.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 2 Reconstitution of a Partnership Firm - Admission of a Partner: goodwill by the super profit method (super profit = average profit − normal profit)"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
+   "subject": "accountancy",
+   "chapter": "Retirement & Death of Partner",
+   "question": null,
+   "body": "X, Y and Z are partners sharing profits in the ratio 3:2:1. Y died on 31 August 2025, and the last balance sheet of the firm was prepared on 31 March 2025. The profits of the firm were ₹ 1,05,000 for 2023-24 and ₹ 1,20,000 for 2024-25. Sales were ₹ 8,00,000 in 2024-25, and sales from 1 April 2025 to 31 August 2025 were ₹ 2,50,000. The deed says that profit up to the date of death is to be found on the basis of the last year's sales. The profit of the firm from 1 April 2025 to the date of death is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 50,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 12,500"
+    },
+    {
+     "key": "C",
+     "text": "₹ 37,500"
+    },
+    {
+     "key": "D",
+     "text": "₹ 1,20,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "On the sales basis, the profit ratio of the last year is applied to the sales up to the date of death. Profit ratio on sales = profit ÷ sales = 1,20,000 ÷ 8,00,000 = 15%. Profit up to the date of death = 15% × 2,50,000 = 37,500. The profit of 2023-24 is not needed. The time basis would give 5/12 × 1,20,000 = 50,000, Y's own share (2/6) of the profit is 12,500, and 1,20,000 is the whole of last year's profit.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 3 Reconstitution of a Partnership Firm - Retirement/Death of a Partner: share in profit up to the date of death (time basis and sales basis)"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "92ee6601-d67b-4cb6-a596-591a732287af",
+   "subject": "accountancy",
+   "chapter": "Retirement & Death of Partner",
+   "question": null,
+   "body": "Q, one of three partners P, Q and R, died on 30 September 2025, and the books were last closed on 31 March 2025. Profits are shared 4:3:2. In 2024-25 the firm earned ₹ 2,70,000 on sales of ₹ 18,00,000, and it sold goods worth ₹ 7,20,000 between 1 April and 30 September 2025. Taking last year's sales as the guide to profit, the part of the profit up to his death that belongs to Q is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 36,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 1,08,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 45,000"
+    },
+    {
+     "key": "D",
+     "text": "₹ 48,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Profit ratio on sales = 2,70,000 ÷ 18,00,000 = 15%. Profit of the firm up to the date of death = 15% × 7,20,000 = 1,08,000. Q's share is 3 out of 4 + 3 + 2 = 9 parts, so his share = 1,08,000 × 3/9 = 36,000. The figure 1,08,000 is the profit of the whole firm, 45,000 comes from the time basis (6/12 × 2,70,000 = 1,35,000, then 3/9), and 48,000 is the share of P (4/9) instead of Q.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 3 Reconstitution of a Partnership Firm - Retirement/Death of a Partner: share in profit up to the date of death (sales basis)"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "86cc4648-e6d2-4854-b767-32d33a9cc06f",
+   "subject": "accountancy",
+   "chapter": "Retirement & Death of Partner",
+   "question": null,
+   "body": "Before the amount due to a retiring partner is settled, the assets of a firm are revalued. Land and Building, shown at ₹ 4,00,000, is revalued at ₹ 4,60,000. Machinery, shown at ₹ 2,50,000, is revalued at ₹ 2,20,000. Stock, shown at ₹ 90,000, is revalued at ₹ 78,000. Furniture, shown at ₹ 40,000, is revalued at ₹ 48,000. The result of the revaluation is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Loss of ₹ 26,000"
+    },
+    {
+     "key": "B",
+     "text": "Profit of ₹ 26,000"
+    },
+    {
+     "key": "C",
+     "text": "Profit of ₹ 68,000"
+    },
+    {
+     "key": "D",
+     "text": "Loss of ₹ 42,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "For each asset, find new value − book value: Land and Building + 60,000, Machinery − 30,000, Stock − 12,000, Furniture + 8,000. Total increases = 60,000 + 8,000 = 68,000 and total decreases = 30,000 + 12,000 = 42,000. Net result = 68,000 − 42,000 = 26,000, a profit, which is credited to the Revaluation Account and shared among all the partners in the old ratio. Taking only the increases gives 68,000, taking only the decreases gives a loss of 42,000, and reversing the sign gives a loss of 26,000.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 3 Reconstitution of a Partnership Firm - Retirement/Death of a Partner: Revaluation Account, profit or loss on revaluation"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "462137b8-01fb-4977-91ec-65a0165ceb34",
+   "subject": "accountancy",
+   "chapter": "Retirement & Death of Partner",
+   "question": null,
+   "body": "The revaluation of the assets of a firm at the time of a partner's retirement gave a net profit of ₹ 14,000. Buildings were increased by ₹ 50,000 and Machinery was reduced by ₹ 20,000. Stock, which stood at ₹ 80,000 in the books, was also revalued. The revalued figure of stock is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 96,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 66,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 94,000"
+    },
+    {
+     "key": "D",
+     "text": "₹ 64,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Net revaluation profit = total increases − total decreases. Let the change in stock be S. Then 50,000 − 20,000 + S = 14,000, so S = 14,000 − 30,000 = − 16,000, which means the stock fell by 16,000. Revalued stock = 80,000 − 16,000 = 64,000. Adding 16,000 gives 96,000, deducting the whole profit of 14,000 gives 66,000, and adding the profit of 14,000 gives 94,000; none of these follows from the net result.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 3 Reconstitution of a Partnership Firm - Retirement/Death of a Partner: Revaluation Account, profit or loss on revaluation"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "question": null,
+   "body": "A and B share profits in the ratio 3:2. They admit C for a 1/4 share in the profits, and A and B agree to share the remaining profit equally between themselves. The sacrificing ratio of A and B is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3:2"
+    },
+    {
+     "key": "B",
+     "text": "1:1"
+    },
+    {
+     "key": "C",
+     "text": "9:1"
+    },
+    {
+     "key": "D",
+     "text": "1:9"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "C takes 1/4, so 3/4 is left for A and B. Shared equally, each gets 3/4 × 1/2 = 3/8. Sacrifice = old share − new share. A: 3/5 − 3/8 = 24/40 − 15/40 = 9/40. B: 2/5 − 3/8 = 16/40 − 15/40 = 1/40. Sacrificing ratio = 9/40 : 1/40 = 9:1. The old ratio 3:2 would be the sacrificing ratio only if A and B kept sharing in the old ratio, and 1:1 is the new ratio between them, not what each gave up.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 2 Reconstitution of a Partnership Firm - Admission of a Partner: sacrificing ratio = old share − new share"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "509cb504-bf62-48b7-9699-e48439437ed9",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "question": null,
+   "body": "X and Y share profits in the ratio 3:2. They admit Z for a 1/5 share in the profits, and X and Y agree to share the remaining profit in the ratio 2:1. Z brings ₹ 45,000 as his share of goodwill in cash, and the goodwill is not raised in the books. The amount credited to Y's capital account for goodwill is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 30,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 18,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 27,000"
+    },
+    {
+     "key": "D",
+     "text": "₹ 22,500"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Z takes 1/5, so 4/5 is left for X and Y, shared 2:1: X gets 4/5 × 2/3 = 8/15 and Y gets 4/5 × 1/3 = 4/15. Sacrifice = old share − new share. X: 3/5 − 8/15 = 9/15 − 8/15 = 1/15. Y: 2/5 − 4/15 = 6/15 − 4/15 = 2/15. Sacrificing ratio = 1:2. Goodwill brought in by the new partner is shared by the old partners in the sacrificing ratio, so Y gets 2/3 × 45,000 = 30,000. Sharing in the old ratio would give Y 2/5 × 45,000 = 18,000 (and X 27,000), and an equal division would give 22,500.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 2 Reconstitution of a Partnership Firm - Admission of a Partner: sacrificing ratio and treatment of the new partner's goodwill"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "43e60b95-10cb-4861-822a-678a501c2050",
+   "subject": "accountancy",
+   "chapter": "Share Capital",
+   "question": null,
+   "body": "Tara Ltd purchased equipment from Ravi Ltd for ₹ 2,60,000. It paid ₹ 20,000 in cash and issued equity shares of ₹ 10 each at a premium of 25% for the balance. The number of shares issued to Ravi Ltd is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "24,000"
+    },
+    {
+     "key": "B",
+     "text": "20,800"
+    },
+    {
+     "key": "C",
+     "text": "19,200"
+    },
+    {
+     "key": "D",
+     "text": "26,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "The amount payable in shares = purchase price − cash paid = 2,60,000 − 20,000 = 2,40,000. Issue price per share = face value + premium = 10 + 25% of 10 = 10 + 2.50 = ₹ 12.50. Number of shares = amount payable in shares ÷ issue price = 2,40,000 ÷ 12.50 = 19,200. Dividing by the face value of 10 gives 24,000, dividing the whole price by the issue price gives 20,800, and dividing the whole price by the face value gives 26,000.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Company Accounts: Accounting for Share and Debenture Capital",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 1 Accounting for Share Capital: issue of shares for consideration other than cash"
+   ],
+   "topic": "Company Accounts: Accounting for Share and Debenture Capital",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "66622599-3956-47f8-acef-bb239aed9d33",
+   "subject": "accountancy",
+   "chapter": "Share Capital",
+   "question": null,
+   "body": "Mohit Ltd purchased machinery for ₹ 3,50,000 from Sanjay Ltd. It paid ₹ 50,000 in cash and issued equity shares of ₹ 100 each at a premium of 25% for the balance. The amount credited to Securities Premium Account is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 60,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 75,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 87,500"
+    },
+    {
+     "key": "D",
+     "text": "₹ 70,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Amount payable in shares = 3,50,000 − 50,000 = 3,00,000. Issue price = 100 + 25 = ₹ 125 per share. Number of shares = 3,00,000 ÷ 125 = 2,400. Securities premium = 2,400 × 25 = 60,000. Taking 25% of the 3,00,000 gives 75,000, taking 25% of the whole price gives 87,500, and taking 20% of the whole price gives 70,000; none of them is the premium on the shares actually issued.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Company Accounts: Accounting for Share and Debenture Capital",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 1 Accounting for Share Capital: issue of shares for consideration other than cash, at a premium"
+   ],
+   "topic": "Company Accounts: Accounting for Share and Debenture Capital",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": null,
+   "body": "Rohan Ltd purchased furniture worth ₹ 1,98,000 from Sona Ltd and paid by issuing 9% debentures of ₹ 100 each at a discount of 12%. The journal entry for the issue of debentures to Sona Ltd is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Sona Ltd A/c Dr ₹ 1,98,000; To 9% Debentures A/c ₹ 1,98,000"
+    },
+    {
+     "key": "B",
+     "text": "Sona Ltd A/c Dr ₹ 2,25,000; To 9% Debentures A/c ₹ 2,25,000"
+    },
+    {
+     "key": "C",
+     "text": "Sona Ltd A/c Dr ₹ 1,98,000; To 9% Debentures A/c ₹ 1,71,000; To Securities Premium Reserve A/c ₹ 27,000"
+    },
+    {
+     "key": "D",
+     "text": "Sona Ltd A/c Dr ₹ 1,98,000; Discount on Issue of Debentures A/c Dr ₹ 27,000; To 9% Debentures A/c ₹ 2,25,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Issue price of a debenture = 100 − 12% of 100 = ₹ 88. Number of debentures = amount due ÷ issue price = 1,98,000 ÷ 88 = 2,250. Debentures A/c is credited at face value = 2,250 × 100 = 2,25,000. Discount on issue = 2,25,000 − 1,98,000 = 27,000, which is debited to Discount on Issue of Debentures A/c, while the vendor's account is debited with the 1,98,000 due to it. Crediting only 1,98,000 ignores the discount, debiting the vendor with the face value overstates what is due, and showing the 27,000 as Securities Premium treats a discount as a premium.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Company Accounts: Accounting for Share and Debenture Capital",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 2 Accounting for Debentures: issue of debentures for consideration other than cash, at a discount"
+   ],
+   "topic": "Company Accounts: Accounting for Share and Debenture Capital",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": null,
+   "body": "Zed Ltd issued 8,000 9% debentures of ₹ 100 each at a premium of 10%, payable ₹ 30 on application, ₹ 50 on allotment (including the premium) and the balance on first and final call. The issue was fully subscribed. The journal entry for the amount due on allotment is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Debenture Allotment A/c Dr ₹ 4,00,000; To 9% Debentures A/c ₹ 3,20,000; To Securities Premium A/c ₹ 80,000"
+    },
+    {
+     "key": "B",
+     "text": "Debenture Allotment A/c Dr ₹ 4,00,000; To 9% Debentures A/c ₹ 4,00,000"
+    },
+    {
+     "key": "C",
+     "text": "Debenture Allotment A/c Dr ₹ 3,20,000; To 9% Debentures A/c ₹ 3,20,000"
+    },
+    {
+     "key": "D",
+     "text": "Debenture Allotment A/c Dr ₹ 4,00,000; To 9% Debentures A/c ₹ 80,000; To Securities Premium A/c ₹ 3,20,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Issue price = 100 + 10 = ₹ 110, paid as ₹ 30 + ₹ 50 + ₹ 30. Amount due on allotment = 8,000 × 50 = 4,00,000. The ₹ 50 includes the premium of ₹ 10, so the part that belongs to the debentures = 8,000 × (50 − 10) = 3,20,000 and the premium = 8,000 × 10 = 80,000. Debenture Allotment A/c is debited with 4,00,000, Debentures A/c is credited with 3,20,000 and Securities Premium A/c with 80,000. Crediting the whole 4,00,000 to debentures ignores the premium, debiting only 3,20,000 leaves the premium out of the amount due, and reversing the two credits puts the premium at the wrong figure.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Company Accounts: Accounting for Share and Debenture Capital",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 2 Accounting for Debentures: issue of debentures at a premium, payable in instalments"
+   ],
+   "topic": "Company Accounts: Accounting for Share and Debenture Capital",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "cc769147-35f1-490f-8f6c-960ec66f1e56",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": null,
+   "body": "Debentures of ₹ 100 each, 6,000 in number, were offered by Kiran Ltd at ₹ 105 each, which is ₹ 5 above face value. Investors had to pay ₹ 25 along with the application and ₹ 45 on allotment, which includes the ₹ 5, and the rest was asked for in a single final call. The sum called on the final call is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 1,80,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 4,80,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 2,10,000"
+    },
+    {
+     "key": "D",
+     "text": "₹ 4,20,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "Issue price = 100 + 5 = ₹ 105 per debenture. Amount payable on the call per debenture = 105 − 25 − 45 = ₹ 35. Amount due on the call = 6,000 × 35 = 2,10,000. Ignoring the premium gives 6,000 × 30 = 1,80,000, forgetting the allotment instalment gives 6,000 × 80 = 4,80,000, and 4,20,000 is the money due on application and allotment together, not the call.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Company Accounts: Accounting for Share and Debenture Capital",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 2 Accounting for Debentures: issue of debentures at a premium, payable in instalments"
+   ],
+   "topic": "Company Accounts: Accounting for Share and Debenture Capital",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "4635494f-c14e-42a9-839b-8745eab4ec6d",
+   "subject": "accountancy",
+   "chapter": "Share Capital",
+   "question": null,
+   "body": "Shine Ltd issued shares of ₹ 10 each at a premium of ₹ 2, payable ₹ 4 on application, ₹ 5 on allotment (including the premium) and ₹ 3 on first and final call. A shareholder holding 500 shares did not pay the allotment money, and the first and final call had not been made. The shares were forfeited and then reissued at ₹ 8 per share as fully paid. The amount transferred to Capital Reserve is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 2,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 3,000"
+    },
+    {
+     "key": "C",
+     "text": "Nil"
+    },
+    {
+     "key": "D",
+     "text": "₹ 1,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "The shareholder paid only the application money of ₹ 4 per share. The allotment money, which includes the premium of ₹ 2, was never received, so the premium is not part of the forfeited amount. Amount forfeited = 500 × 4 = 2,000. On reissue as fully paid at ₹ 8, the discount allowed = 500 × (10 − 8) = 1,000. This discount is within the forfeited amount of ₹ 4 per share, so it is permitted. Capital Reserve = amount forfeited − discount on reissue = 2,000 − 1,000 = 1,000. Stopping at the forfeited amount gives 2,000, counting the unpaid premium as forfeited gives 500 × 6 = 3,000, and the reserve is not nil because the discount is smaller than the forfeited amount.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Company Accounts: Accounting for Share and Debenture Capital",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 1 Accounting for Share Capital: forfeiture of shares issued at a premium and reissue of forfeited shares at a discount"
+   ],
+   "topic": "Company Accounts: Accounting for Share and Debenture Capital",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+   "subject": "accountancy",
+   "chapter": "Dissolution of Partnership Firm",
+   "question": null,
+   "body": "A firm is being dissolved, and its stock has a book value of ₹ 60,000. One partner keeps a quarter of the stock, valued at 80% of its book value, and the other three quarters go to outside buyers at 10% above book value. How much cash does the firm receive for its stock?",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 61,500"
+    },
+    {
+     "key": "B",
+     "text": "₹ 66,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 45,000"
+    },
+    {
+     "key": "D",
+     "text": "₹ 49,500"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "The stock taken over by the partner is settled through his capital account, so no cash comes in for it: 25% × 60,000 = 15,000 at book value, taken at 80% = 12,000. The remaining stock = 75% × 60,000 = 45,000 at book value. It was sold at a gain of 10%, so cash realised = 45,000 × 110% = 49,500. Adding the 12,000 taken over gives 61,500, applying the gain to the whole stock gives 66,000, and selling the remaining stock at book value gives 45,000.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Dissolution of Partnership Firm",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 4 Dissolution of Partnership Firm: realisation of assets, assets taken over by a partner"
+   ],
+   "topic": "Dissolution of Partnership Firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "c3a7f8a4-e639-459d-8169-9a1ecd9bc421",
+   "subject": "accountancy",
+   "chapter": "Dissolution of Partnership Firm",
+   "question": null,
+   "body": "A firm is being wound up. Its furniture, carried at ₹ 80,000, was dealt with in two ways: 40% went to a partner at a price 10% below book value, and the balance was sold outside at 15% less than book value. The loss shown on furniture in the Realisation Account is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 10,400"
+    },
+    {
+     "key": "B",
+     "text": "₹ 7,200"
+    },
+    {
+     "key": "C",
+     "text": "₹ 3,200"
+    },
+    {
+     "key": "D",
+     "text": "₹ 12,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Furniture taken over: 40% × 80,000 = 32,000 at book value, taken at 90% = 28,800, a loss of 3,200. Furniture sold: 60% × 80,000 = 48,000 at book value, sold at 85% = 40,800, a loss of 7,200. Total value realised or taken over = 28,800 + 40,800 = 69,600. Loss on realisation = 80,000 − 69,600 = 10,400, which is also 3,200 + 7,200. The loss on the sold part alone is 7,200, the loss on the part taken over alone is 3,200, and 12,000 applies the 15% to the whole furniture.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Dissolution of Partnership Firm",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part I, Ch 4 Dissolution of Partnership Firm: Realisation Account, assets taken over by a partner and loss on realisation"
+   ],
+   "topic": "Dissolution of Partnership Firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": null,
+   "body": "A company has a net profit after tax of ₹ 1,50,000. It has 10% long-term debt of ₹ 10,00,000, and the rate of tax is 25%. The interest coverage ratio is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2 times"
+    },
+    {
+     "key": "B",
+     "text": "1.5 times"
+    },
+    {
+     "key": "C",
+     "text": "3 times"
+    },
+    {
+     "key": "D",
+     "text": "2.5 times"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "Profit before tax = profit after tax × 100 ÷ (100 − tax rate) = 1,50,000 × 100 ÷ 75 = 2,00,000. Interest on long-term debt = 10% × 10,00,000 = 1,00,000. Profit before interest and tax = 2,00,000 + 1,00,000 = 3,00,000. Interest coverage ratio = profit before interest and tax ÷ interest = 3,00,000 ÷ 1,00,000 = 3 times. Dividing the profit before tax by interest gives 2 times, dividing the profit after tax by interest gives 1.5 times, and adding the interest to the profit after tax gives 2.5 times.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Analysis of Financial Statements",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 5 Accounting Ratios: solvency ratios, interest coverage ratio"
+   ],
+   "topic": "Analysis of Financial Statements",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "555cf4ac-9549-4c6b-91ba-08107b6989d9",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": null,
+   "body": "Calculate the interest coverage ratio of a company that earned ₹ 2,70,000 after paying tax at 40%. Its borrowings are ₹ 10,00,000 raised through 9% debentures and ₹ 5,00,000 taken as a 12% term loan. The interest coverage ratio is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3 times"
+    },
+    {
+     "key": "B",
+     "text": "4 times"
+    },
+    {
+     "key": "C",
+     "text": "1.8 times"
+    },
+    {
+     "key": "D",
+     "text": "3.6 times"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "Profit before tax = 2,70,000 × 100 ÷ (100 − 40) = 4,50,000. Interest = 9% × 10,00,000 + 12% × 5,00,000 = 90,000 + 60,000 = 1,50,000. Profit before interest and tax = 4,50,000 + 1,50,000 = 6,00,000. Interest coverage ratio = 6,00,000 ÷ 1,50,000 = 4 times. Dividing the profit before tax by interest gives 3 times, dividing the profit after tax by interest gives 1.8 times, and adding back only the debenture interest gives 3.6 times.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Analysis of Financial Statements",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "authored_revision:reworded",
+    "ncert:NCERT Accountancy Part II, Ch 5 Accounting Ratios: solvency ratios, interest coverage ratio"
+   ],
+   "topic": "Analysis of Financial Statements",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "8171062d-6e5e-418c-a453-08f9daedef4d",
+   "subject": "business_studies",
+   "chapter": "Financial Markets",
+   "question": null,
+   "body": "Priya Textiles Ltd. needs Rs 8 crore for a new unit and wants to raise it through equity shares. Instead of approaching the public itself, the company sells the whole issue at an agreed price to a group of issuing houses, which then resell the shares to investors. Which method of floating new issues has the company used?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Initial public offer through a prospectus"
+    },
+    {
+     "key": "B",
+     "text": "Offer for sale"
+    },
+    {
+     "key": "C",
+     "text": "Private placement"
+    },
+    {
+     "key": "D",
+     "text": "Rights issue"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "In an offer for sale, securities are not issued directly to the public. The company sells them in bulk at an agreed price to intermediaries such as issuing houses or stock brokers, who then resell them to investors. In a public issue through a prospectus the company invites the public itself, in private placement the shares are allotted to institutional investors and a few selected individuals, and in a rights issue they are offered first to the existing shareholders.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Financial Markets",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Business Studies, Financial Markets: methods of floating new issues in the primary market (offer for sale); chapter text not in the 2026-27 print, fact from the last edition"
+   ],
+   "topic": "Financial Markets",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "3bca44a8-5095-4fdf-ace1-595621a862b2",
+   "subject": "business_studies",
+   "chapter": "Directing",
+   "question": null,
+   "body": "Arrange the following needs in Maslow's need hierarchy, from the lowest level to the highest.\n(A) The need to achieve one's full potential through growth and self-fulfilment\n(B) The need for self-respect, status and recognition\n(C) The need for food, water, sleep and shelter\n(D) The need for friendship and acceptance by colleagues",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (B), (D), (A)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (C), (B), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D), (B), (A)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Maslow's hierarchy rises from physiological needs (food, water, sleep, shelter), to safety needs (job security, a stable income, pension plans), social needs (affection, friendship, acceptance), esteem needs (self-respect, autonomy, status, recognition) and finally self-actualisation needs. Self-actualisation is the drive to become what one is capable of becoming, and it includes growth, self-fulfilment and the achievement of goals. It sits at the top, and a person turns to esteem only after the social needs below it are met.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:sequence_ordering",
+    "unit:Directing",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Business Studies Part 1, Ch 7 Directing: Maslow's need hierarchy theory, self-actualisation needs"
+   ],
+   "topic": "Directing",
+   "question_type": "sequence_ordering",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "350e6b60-9039-406a-8e7f-c7d021e04ed4",
+   "subject": "business_studies",
+   "chapter": "Controlling",
+   "question": null,
+   "body": "Match List-I with List-II. List-I (standards used to gauge performance): (A) Rate of labour turnover and absenteeism (B) Sales volume and advertising expenditure (C) Quantity, quality and cost of output (D) Capital expenditure, inventories and liquidity. List-II (functional areas): (I) Finance and Accounting (II) Human Resource Management (III) Production (IV) Marketing. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "Performance standards are set for each functional area. Production uses quantity, quality, cost and individual job performance; marketing uses sales volume, sales expenses, advertising expenditure and the performance of individual sales persons; human resource management uses labour relations, labour turnover and labour absenteeism; and finance and accounting use capital expenditure, inventories, the flow of capital and liquidity. Labour turnover therefore belongs to human resource management, not to production.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:match_the_following",
+    "unit:Controlling",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Business Studies Part 1, Ch 8 Controlling: standards used in functional areas to gauge performance (table)"
+   ],
+   "topic": "Controlling",
+   "question_type": "match_the_following",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "124e00d2-25e6-41a3-8351-283f4426bd07",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "question": null,
+   "body": "The price of a notebook rises from Rs 50 to Rs 60, and the number of notebooks bought in a week by the students of a school falls from 200 to 150. Ignoring the sign, the price elasticity of demand for the notebook is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.8"
+    },
+    {
+     "key": "B",
+     "text": "1.25"
+    },
+    {
+     "key": "C",
+     "text": "2.0"
+    },
+    {
+     "key": "D",
+     "text": "5.0"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "Price elasticity of demand = (% change in quantity demanded) / (% change in price), with both changes measured on the starting value. % change in quantity = (150 - 200) / 200 x 100 = -25%. % change in price = (60 - 50) / 50 x 100 = +20%. So eD = -25 / 20 = -1.25, and its absolute value is 1.25: demand is elastic. Taking the final values as the base gives 2.0, dividing the price change by the quantity change gives 0.8, and dividing the unit changes (50 / 10) gives 5.0.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Microeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Introductory Microeconomics, Ch 2 Theory of Consumer Behaviour, section 2.6 Elasticity of Demand: percentage method of measuring price elasticity (initial value as the base)"
+   ],
+   "topic": "Introductory Microeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "f071a682-dcf6-4eaf-8822-d47cb3f7342a",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "question": null,
+   "body": "The price elasticity of demand for a brand of fruit juice is 2 (ignoring the sign). Its price rises from Rs 8 to Rs 10 per carton, and demand at Rs 8 was 400 cartons a month. Using the percentage method with the starting values as the base, demand at Rs 10 will be:",
+   "options": [
+    {
+     "key": "A",
+     "text": "300 cartons"
+    },
+    {
+     "key": "B",
+     "text": "350 cartons"
+    },
+    {
+     "key": "C",
+     "text": "600 cartons"
+    },
+    {
+     "key": "D",
+     "text": "200 cartons"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Elasticity = (% change in quantity demanded) / (% change in price), so % change in quantity = elasticity x % change in price. % change in price = (10 - 8) / 8 x 100 = 25%. % change in quantity = 2 x 25 = 50%, and because price rises, demand falls by 50%: 400 - 50% of 400 = 200 cartons. A 25% fall (300 cartons) forgets to multiply by the elasticity, a 12.5% fall (350 cartons) divides by it, and 600 cartons adds the change instead of subtracting it.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Microeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Introductory Microeconomics, Ch 2 Theory of Consumer Behaviour, section 2.6 Elasticity of Demand: price elasticity as the ratio of percentage changes; law of demand (price and quantity move in opposite directions)"
+   ],
+   "topic": "Introductory Microeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
+   "subject": "economics",
+   "chapter": "National Income & Related Aggregates",
+   "question": null,
+   "body": "An economy produces only rice. In 2018 it produced 500 quintals at Rs 40 per quintal, and in 2019 it produced 600 quintals at Rs 55 per quintal. Taking 2018 as the base year, the real GDP of 2019 is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 24,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs 33,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs 20,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs 27,500"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Real GDP is the output of the current year valued at the prices of the base year: real GDP of 2019 = quantity of 2019 x price of 2018 = 600 x 40 = Rs 24,000. Rs 33,000 (600 x 55) is the nominal GDP of 2019, because it uses current prices. Rs 20,000 (500 x 40) is the GDP of the base year itself, and Rs 27,500 (500 x 55) mixes the old quantity with the new price.",
+   "difficulty": "easy",
+   "difficulty_weight": 1,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Macroeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Introductory Macroeconomics, Ch 2 National Income Accounting, section 2.4: nominal and real GDP; real GDP calculated at the prices of the base year"
+   ],
+   "topic": "Introductory Macroeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "7794c211-5b46-4abb-b5cd-3488933b6690",
+   "subject": "economics",
+   "chapter": "National Income & Related Aggregates",
+   "question": null,
+   "body": "An economy produces only tea and sugar. In the base year 2019 the prices were Rs 30 per kg of tea and Rs 40 per kg of sugar. In 2020 it produced 100 kg of tea at Rs 36 per kg and 50 kg of sugar at Rs 52 per kg. The real GDP of 2020, at base-year prices, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 6,200"
+    },
+    {
+     "key": "B",
+     "text": "Rs 5,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs 5,600"
+    },
+    {
+     "key": "D",
+     "text": "Rs 3,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "Real GDP of the current year is the sum of (current-year quantity x base-year price) over all goods. Tea: 100 x 30 = Rs 3,000. Sugar: 50 x 40 = Rs 2,000. Real GDP of 2020 = 3,000 + 2,000 = Rs 5,000. Rs 6,200 is the nominal GDP (3,600 + 2,600), Rs 5,600 uses the 2020 price for tea but the 2019 price for sugar, and Rs 3,000 counts tea alone.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Macroeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Introductory Macroeconomics, Ch 2 National Income Accounting, section 2.4: real GDP is GDP calculated at the prices of a base year, summed over all goods"
+   ],
+   "topic": "Introductory Macroeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
+   "subject": "economics",
+   "chapter": "National Income & Related Aggregates",
+   "question": null,
+   "body": "In the base year an economy produced 400 units of a good at Rs 15 per unit. In the current year it produced 500 units at Rs 24 per unit. The GDP deflator of the current year, in percentage terms, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "62.5 per cent"
+    },
+    {
+     "key": "B",
+     "text": "1.6 per cent"
+    },
+    {
+     "key": "C",
+     "text": "200 per cent"
+    },
+    {
+     "key": "D",
+     "text": "160 per cent"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "GDP deflator = nominal GDP / real GDP, and in percentage terms it is multiplied by 100. Nominal GDP of the current year = 500 x 24 = Rs 12,000. Real GDP of the current year at base-year prices = 500 x 15 = Rs 7,500. Deflator = 12,000 / 7,500 = 1.6, which is 160 per cent: prices are 1.6 times the base year (15 to 24). 1.6 forgets to multiply by 100, 62.5 turns the ratio upside down, and 200 divides by the base-year GDP (400 x 15 = 6,000), which wrongly counts the 25 per cent rise in output (400 to 500 units) as a rise in prices.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Macroeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Introductory Macroeconomics, Ch 2 National Income Accounting, section 2.4: GDP deflator = nominal GDP / real GDP, in percentage terms x 100"
+   ],
+   "topic": "Introductory Macroeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "da49d617-023e-4bdb-bd5f-e11a8f957742",
+   "subject": "economics",
+   "chapter": "National Income & Related Aggregates",
+   "question": null,
+   "body": "The nominal GDP of an economy in a year is Rs 15,000 crore and its GDP deflator for that year is 125 (base year = 100). The real GDP of that year is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 12,000 crore"
+    },
+    {
+     "key": "B",
+     "text": "Rs 18,750 crore"
+    },
+    {
+     "key": "C",
+     "text": "Rs 11,250 crore"
+    },
+    {
+     "key": "D",
+     "text": "Rs 15,000 crore"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "GDP deflator = (nominal GDP / real GDP) x 100, so real GDP = (nominal GDP / deflator) x 100 = (15,000 / 125) x 100 = Rs 12,000 crore. A deflator of 125 means prices are 25 per cent above the base year, so nominal GDP overstates real GDP. Rs 18,750 crore multiplies by 1.25 instead of dividing, Rs 11,250 crore takes 25 per cent off nominal GDP instead of dividing by 1.25, and Rs 15,000 crore treats nominal GDP as real GDP.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Macroeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Introductory Macroeconomics, Ch 2 National Income Accounting, section 2.4: GDP deflator = nominal GDP / real GDP, in percentage terms x 100"
+   ],
+   "topic": "Introductory Macroeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "09eea9aa-9687-498b-8f1c-2a95024de7cb",
+   "subject": "economics",
+   "chapter": "Income Determination",
+   "question": null,
+   "body": "In a two-sector economy the consumption function is C = 60 + 0.75Y (in Rs crore). If investment rises from Rs 20 crore to Rs 40 crore, the new equilibrium level of income is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 320 crore"
+    },
+    {
+     "key": "B",
+     "text": "Rs 80 crore"
+    },
+    {
+     "key": "C",
+     "text": "Rs 400 crore"
+    },
+    {
+     "key": "D",
+     "text": "Rs 100 crore"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "At equilibrium Y = C + I = (60 + 0.75Y) + I, so Y(1 - 0.75) = 60 + I and Y = (autonomous consumption + I) / (1 - MPC). With the new investment I = 40: Y = (60 + 40) / 0.25 = 100 / 0.25 = Rs 400 crore. Rs 320 crore is the old equilibrium income (80 / 0.25, with I = 20), and Rs 80 crore is only the change in income (20 x multiplier 4), not its level. Rs 100 crore forgets to divide by (1 - MPC).",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Macroeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Introductory Macroeconomics, Ch 4 Determination of Income and Employment, section 4.2: equilibrium output Y = (autonomous consumption + investment) / (1 - c)"
+   ],
+   "topic": "Introductory Macroeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "98867456-1444-492b-aaf5-ece8b7afb520",
+   "subject": "economics",
+   "chapter": "Income Determination",
+   "question": null,
+   "body": "An economy with no government and no foreign trade is in equilibrium at an income of Rs 500 crore, and its households follow the consumption function C = 50 + 0.6Y (Rs crore). Investment in this economy is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 200 crore"
+    },
+    {
+     "key": "B",
+     "text": "Rs 150 crore"
+    },
+    {
+     "key": "C",
+     "text": "Rs 250 crore"
+    },
+    {
+     "key": "D",
+     "text": "Rs 350 crore"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "At equilibrium Y = C + I, so Y = (autonomous consumption + I) / (1 - MPC), that is I = Y(1 - MPC) - autonomous consumption = 500 x 0.4 - 50 = 200 - 50 = Rs 150 crore. Check: C = 50 + 0.6 x 500 = Rs 350 crore, and Y - C = 500 - 350 = Rs 150 crore. Rs 200 crore forgets to subtract autonomous consumption, Rs 250 crore uses MPC instead of (1 - MPC), and Rs 350 crore is the level of consumption, not investment.",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-22-w5",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-22-w5",
+    "authored_wave:5",
+    "question_type:conceptual_mcq",
+    "unit:Introductory Macroeconomics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Introductory Macroeconomics, Ch 4 Determination of Income and Employment, section 4.2: equilibrium output Y = (autonomous consumption + investment) / (1 - c), read for investment"
+   ],
+   "topic": "Introductory Macroeconomics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  }
+ ]
+}

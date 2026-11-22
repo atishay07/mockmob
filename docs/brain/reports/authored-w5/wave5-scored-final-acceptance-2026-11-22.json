@@ -1,0 +1,1764 @@
+{
+ "kind": "authored_w5_final_acceptance",
+ "source": "claude-authored-2026-11-22-w5",
+ "date": "2026-11-22",
+ "built_at": "2026-11-22T00:55:04.371Z",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "rule": {
+  "solversMatchingKeyAtLeast": 4,
+  "solversRequired": 5,
+  "qualityScoreAtLeast": 7,
+  "qualityFlagsAllowed": 0,
+  "qualityBlindAnswerMustEqualKey": true,
+  "fitMedianAtLeast": 8,
+  "fitFlaggedByFewerThan": 2,
+  "source": "docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md (acceptance rule), docs/brain/RUNBOOK-PUBLISH-AUTHORED-2026-10-14.md section 0"
+ },
+ "publish_rule": {
+  "qualityMeanAtLeast": 8,
+  "fitMedianAtLeast": 8
+ },
+ "inputs": {
+  "expert": "docs/brain/reports/authored-w5/expert",
+  "resolve": "tmp/1122-coverage/scoring/resolve",
+  "fresh": [
+   "tmp/1122-coverage/scoring/reword"
+  ],
+  "raw": "tmp/1122-coverage/scoring",
+  "first_pass_acceptance": "docs/brain/reports/authored-w5/wave5-acceptance-2026-11-22.json",
+  "expert_files": [],
+  "expert_conflicts": [],
+  "blind_resolve_files_present": 0,
+  "fresh_pass_ids": 0,
+  "fresh_pass_partial": []
+ },
+ "note": "Wave-5 final acceptance, built by scripts/authored-w2-accept.mjs --wave=w5 --mode=final. Hindi is not in any file (no fluent reviewer). Repairs are applied from the expert verdicts (scripts/lib/authored-w3-repair.mjs); the batch files are unchanged.",
+ "total": {
+  "written": 44,
+  "acceptedByJudgesAndSolvers": 36,
+  "accepted": 36,
+  "rejected": 8,
+  "rejectedByReason": {
+   "solvers": 0,
+   "quality_score": 6,
+   "quality_flag": 1,
+   "judge_blind_answer": 0,
+   "fit_median": 5,
+   "fit_flags": 2,
+   "verification_incomplete": 0,
+   "structural": 0,
+   "blind_text": 0,
+   "duplicate": 0,
+   "repaired_without_resolve": 0,
+   "resolve": 0,
+   "expert_verdict": 0,
+   "other": 0
+  }
+ },
+ "final": {
+  "note": "Publication set under the owner rule of 17 Oct 2026: accepted by the first-pass rule (or the fresh pass for reworded rows), expert verdict ready or repaired, repair applied, blind re-solve where the text a solver sees changed, quality mean of the two judges 8 or more and fit median 8 or more. Rows that pass everything but score a quality mean of 7 to 7.9 are held for a later decision.",
+  "publish_rule": {
+   "qualityMeanAtLeast": 8,
+   "fitMedianAtLeast": 8
+  },
+  "publish": 32,
+  "held_7_to_7_9": 4,
+  "dropped": 8,
+  "droppedByCategory": {
+   "not_accepted_by_the_rule": 8
+  },
+  "byVerdict": {
+   "ready": 28,
+   "repaired": 4
+  },
+  "reworded_with_fresh_pass": 0,
+  "blindResolveOnFinalText": 0,
+  "judgeBlindAnswerCarriedOver": [],
+  "bySubject": {
+   "accountancy": {
+    "drafted": 27,
+    "scored": 27,
+    "accepted_first_pass": 22,
+    "accepted_after_expert_and_resolve": 22,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 27
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 21,
+    "held_7_to_7_9": 1,
+    "dropped_or_not_accepted": 5
+   },
+   "business_studies": {
+    "drafted": 8,
+    "scored": 8,
+    "accepted_first_pass": 6,
+    "accepted_after_expert_and_resolve": 6,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 8
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 3,
+    "held_7_to_7_9": 3,
+    "dropped_or_not_accepted": 2
+   },
+   "economics": {
+    "drafted": 9,
+    "scored": 9,
+    "accepted_first_pass": 8,
+    "accepted_after_expert_and_resolve": 8,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 9
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 8,
+    "held_7_to_7_9": 0,
+    "dropped_or_not_accepted": 1
+   }
+  },
+  "problems": []
+ },
+ "files": {
+  "batches": 4,
+  "expectedResultFiles": 40,
+  "presentResultFiles": 40,
+  "missing": [],
+  "malformed": [],
+  "recordIssues": [],
+  "batchLevelProblems": [],
+  "unexpectedFiles": [],
+  "fitFlagsOutsideRubricList": {},
+  "sourceCandidates": {
+   "candidatesFile": "docs/brain/reports/authored-w5/wave5-candidates-final-2026-11-22.json",
+   "candidatesSha256": "31fd9c655b676cbda937c3bbb75c8389ee2fb2fdbc9ff92925792a7fe9881c08",
+   "candidatesInFile": 44,
+   "manifestState": "ok",
+   "problems": [],
+   "candidatesNotLaidOut": {},
+   "excludedSubjects": []
+  }
+ },
+ "questions": [
+  {
+   "id": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Profit & Loss Appropriation Account",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "03853308-dd76-4191-a753-a3205aca1cf8",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Profit & Loss Appropriation Account",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "3b2c3c2a-e203-4a75-ac60-525a13070d8c",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Profit & Loss Appropriation Account",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "76b59d07-7ce0-4074-bd10-d74bc5df3205",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Profit & Loss Appropriation Account",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j2_quality_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    7,
+    6
+   ],
+   "quality_mean": 6.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "7926bef3-599f-4cdb-9107-fbf0edba1d9a",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Goodwill Valuation",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "56ef0e80-ec6b-4b55-a775-0febcd35def7",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Goodwill Valuation",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "92ee6601-d67b-4cb6-a596-591a732287af",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "86cc4648-e6d2-4854-b767-32d33a9cc06f",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    9,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "462137b8-01fb-4977-91ec-65a0165ceb34",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    8,
+    6
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Admission of Partner",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "509cb504-bf62-48b7-9699-e48439437ed9",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Admission of Partner",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "9859faf6-bb2f-4ccd-aaa6-acbfc64e6898",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Goodwill Valuation",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "fit_median_4",
+    "fit_flagged_by_two"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    7,
+    8
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    4,
+    6,
+    4
+   ],
+   "fit_median": 4
+  },
+  {
+   "id": "9d98237d-593c-4647-a695-9eaed7ed0caf",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Goodwill Valuation",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j1_quality_6",
+    "fit_median_4",
+    "fit_flagged_by_two"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    6,
+    8
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    4,
+    6,
+    4
+   ],
+   "fit_median": 4
+  },
+  {
+   "id": "43e60b95-10cb-4861-822a-678a501c2050",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Share Capital",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "66622599-3956-47f8-acef-bb239aed9d33",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Share Capital",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "ad7c29aa-6d1b-4e11-9598-4108289c6e04",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Debentures",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    4
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "24132c9b-32ec-4e97-8974-a8a0db395a19",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Debentures",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    9
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "34e245ae-b9e4-4a51-aed4-23448fb29a87",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Debentures",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    4
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "cc769147-35f1-490f-8f6c-960ec66f1e56",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Debentures",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "4635494f-c14e-42a9-839b-8745eab4ec6d",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Share Capital",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    7
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    8,
+    6
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "9a22be64-9753-4366-9287-edbdcf868b76",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Share Capital",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j1_quality_6",
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    6,
+    8
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "c3a7f8a4-e639-459d-8169-9a1ecd9bc421",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Dissolution of Partnership Firm",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Accounting Ratios",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "555cf4ac-9549-4c6b-91ba-08107b6989d9",
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Accounting Ratios",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "8171062d-6e5e-418c-a453-08f9daedef4d",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Financial Markets",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "660d06e2-8ff7-4cb4-9bc0-39b32e303538",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Financial Management",
+   "type": "sequence_ordering",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "fe9b41bc-53e6-4d36-8d3d-fc290750292c",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Financial Markets",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    10,
+    8,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "19400ad2-6e18-42ff-a1cc-d97fa9986bfa",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Financial Markets",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    10,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "fa2b3abd-6e78-4816-9112-1873ecc413eb",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Financial Markets",
+   "type": "sequence_ordering",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j1_quality_4",
+    "j1_flags_multiple_defensible",
+    "j2_quality_4",
+    "j2_flags_multiple_defensible"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    4,
+    4
+   ],
+   "quality_mean": 4,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "3bca44a8-5095-4fdf-ace1-595621a862b2",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Directing",
+   "type": "sequence_ordering",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "4bb87b57-9f45-4c52-a2ee-48852a6f224e",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Financial Markets",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j1_quality_6",
+    "j2_quality_6",
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    6,
+    6
+   ],
+   "quality_mean": 6,
+   "fit_scores": [
+    6,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "350e6b60-9039-406a-8e7f-c7d021e04ed4",
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Controlling",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "124e00d2-25e6-41a3-8351-283f4426bd07",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "f071a682-dcf6-4eaf-8822-d47cb3f7342a",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "b8f7678f-4fba-4e20-93ff-014790a22cf5",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Production & Costs",
+   "type": "sequence_ordering",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j2_quality_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    6
+   ],
+   "quality_mean": 6.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    10,
+    10,
+    9
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "7794c211-5b46-4abb-b5cd-3488933b6690",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    8
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "da49d617-023e-4bdb-bd5f-e11a8f957742",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    10
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "09eea9aa-9687-498b-8f1c-2a95024de7cb",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Income Determination",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    8,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "98867456-1444-492b-aaf5-ece8b7afb520",
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Income Determination",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    9,
+    9
+   ],
+   "fit_median": 9
+  }
+ ]
+}

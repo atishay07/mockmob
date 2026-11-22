@@ -17,6 +17,10 @@
 //   wave4-candidates-scored-, wave4-score-entries-, wave4-engine-check-<label>-. The duplicate screen also reads wave 2's final and wave 3's final candidates.
 //   Wave 4 holds case sets (biology, chemistry, general_test); the engine check gives them the group ids the publisher writes (groupIdOfCandidate).
 //
+// --wave=w5 (22 Nov 2026, claude-authored-2026-11-22-w5: accountancy, business_studies, economics; batches <subject>__w5b<n> under tmp/1122-coverage/scoring,
+//   laid out by scripts/authored-w5-scoring-layout.mjs) is wave 4's accept, check and final modes with wave-5 files. The final mode writes wave5-scored-final-*
+//   (never wave5-candidates-final-2026-11-22.json, the publisher's input list).
+//
 // final   (14 Oct, after the expert pass, the rewords and the spot-check) the same acceptance, now also reading
 //           --expert=<dir>        expert verdicts (docs/brain/reports/authored-w2/expert/*.json, { verdicts: [{ id, verdict, why, repair }] })
 //           --asjudged=<file>     the candidates as the first acceptance judged them (wave2-candidates-asjudged-...json), so a repair after judging is recorded
@@ -58,6 +62,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const W2_SOURCE = 'claude-authored-2026-10-14-w2';
 export const W3_SOURCE = 'claude-authored-2026-10-17-w3';
 export const W4_SOURCE = 'claude-authored-2026-10-17-w4';
+export const W5_SOURCE = 'claude-authored-2026-11-22-w5';
 const SOLVERS = ['s1', 's2', 's3', 's4', 's5'];
 const QUALITY = ['j1', 'j2'];
 const FIT = ['h1', 'h2', 'h3'];
@@ -136,11 +141,40 @@ export const WAVE_CONFIGS = {
     acceptNote: 'Wave-1 acceptance rule applied to the wave-4 raw files (general_test, physics, chemistry, mathematics, biology; Hindi stays out; the unaudited physics draft w4-phys-01 was not laid out). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the authoring verdict of the assembled candidates file (claude_audited), not an expert verdict.',
     entriesNote: 'One record per question the wave-4 rule accepted (the acceptance rule and the duplicate screen, no expert gate: every question was authored by Claude, solved blind and audited by a second Claude pass), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w4 from the raw files under tmp/authored-w4s (the role files are committed with git add -f). Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
   },
+  // Wave 5 (22 Nov 2026, CUET 2026 coverage run): accountancy, business_studies, economics; 44 audited rows laid out by scripts/authored-w5-scoring-layout.mjs
+  // under tmp/1122-coverage/scoring/<subject>/ (batches <subject>__w5b<n>, results in verify/). The same rule, engine check and final mode as wave 4. The candidates
+  // carry their audit marks (_verdict claude_audited, _expert ready|repaired), which the final mode reads as the expert verdict (there is no separate expert folder).
+  // finalFiles: the final mode must NOT write wave5-candidates-final-2026-11-22.json, which is the assembled input list the publisher's dry run hashed; its outputs
+  // are named wave5-scored-final-*.
+  w5: {
+    id: 'w5', wave: 5, source: W5_SOURCE, label: 'wave5', kind: 'authored_w5', modelNote: 'the model of the subagents that produced the raw files is not recorded in them',
+    models: { quality: 'claude-subagent-unrecorded', fit: 'claude-subagent-unrecorded', solver: 'claude-subagent-unrecorded' }, finalMode: false,
+    raw: 'tmp/1122-coverage/scoring', out: 'docs/brain/reports/authored-w5', date: '2026-11-22',
+    files: (date) => ({ acceptance: `wave5-acceptance-${date}.json`, candidates: `wave5-candidates-scored-${date}.json`, entries: `wave5-score-entries-${date}.json` }),
+    finalFiles: (date) => ({ acceptanceFinal: `wave5-scored-final-acceptance-${date}.json`, candidatesFinal: `wave5-scored-final-candidates-${date}.json`, entriesFinal: `wave5-scored-final-score-entries-${date}.json`, dropped: `wave5-scored-final-dropped-${date}.json`, held: `wave5-scored-final-held-7-${date}.json` }),
+    engineFile: (label, date) => `wave5-engine-check-${label}-${date}.json`,
+    blindFields: ['stem', 'options', 'passage_text', 'type', 'subject'], // the blind file carries no chapter by design (as in waves 3 and 4)
+    batchRe: /^(accountancy|business_studies|economics)__w5b\d+$/,
+    priorFiles: [
+      { from: 'wave2', file: 'docs/brain/reports/authored-w2/wave2-candidates-final-2026-10-14.json' },
+      { from: 'wave3', file: 'docs/brain/reports/authored-w3/wave3-candidates-final-2026-10-17.json' },
+      { from: 'wave4', file: 'docs/brain/reports/authored-w4/wave4-candidates-final-2026-10-17.json' },
+    ],
+    expert: null, asjudged: null, fresh: [], resolve: null, decisions: null, spotcheck: null, engineReasons: null,
+    sourceCandidates: 'docs/brain/reports/authored-w5/wave5-candidates-final-2026-11-22.json', manifest: 'tmp/1122-coverage/scoring/manifest.json',
+    resolvePrefix: 'rv-w5', carryBlindAnswers: false,
+    finalInputs: { expert: 'docs/brain/reports/authored-w5/expert', resolve: 'tmp/1122-coverage/scoring/resolve', fresh: ['tmp/1122-coverage/scoring/reword'] },
+    publishRule: { qualityMeanAtLeast: 8, fitMedianAtLeast: 8 },
+    batchLabel: '<subject>__w5b<n>',
+    acceptNote: 'Wave-1 acceptance rule applied to the wave-5 raw files (accountancy, business_studies, economics; the 44 rows of wave5-candidates-final-2026-11-22.json). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the audit marks of the assembled candidates file (_verdict claude_audited, _expert ready or repaired).',
+    entriesNote: 'One record per question the wave-5 rule accepted (the acceptance rule and the duplicate screen; every question was authored by Claude, audited by an independent Claude pass, then solved blind by five solvers and judged by two quality and three CUET-fit judges), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w5 from the raw files under tmp/1122-coverage/scoring. Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
+  },
 };
 const FILES = (date, cfg = WAVE_CONFIGS.w2) => ({
   ...cfg.files(date),
   ...(cfg.finalMode ? { candidatesFinal: `wave2-candidates-final-${date}.json`, entriesFinal: `wave2-score-entries-final-${date}.json`, dropped: `wave2-dropped-${date}.json` } : {}),
-  ...(cfg.finalInputs ? { acceptanceFinal: `${cfg.label}-final-acceptance-${date}.json`, candidatesFinal: `${cfg.label}-candidates-final-${date}.json`, entriesFinal: `${cfg.label}-score-entries-final-${date}.json`, dropped: `${cfg.label}-dropped-${date}.json`, held: `${cfg.label}-held-7-${date}.json` } : {}),
+  ...(cfg.finalInputs && cfg.finalFiles ? cfg.finalFiles(date) : {}),
+  ...(cfg.finalInputs && !cfg.finalFiles ? { acceptanceFinal: `${cfg.label}-final-acceptance-${date}.json`, candidatesFinal: `${cfg.label}-candidates-final-${date}.json`, entriesFinal: `${cfg.label}-score-entries-final-${date}.json`, dropped: `${cfg.label}-dropped-${date}.json`, held: `${cfg.label}-held-7-${date}.json` } : {}),
   engine: (label) => cfg.engineFile(label, date),
 });
 
@@ -915,7 +949,7 @@ export async function runAccept(args, { write = true } = {}) {
     total, bySubject, files: filesSummary, sets: setChildren,
     questions: rows,
   };
-  if (cfg.id === 'w4') acceptance.qualityMeanDistribution = qualityMeanDistribution(rows);
+  if (cfg.id === 'w4' || cfg.id === 'w5') acceptance.qualityMeanDistribution = qualityMeanDistribution(rows);
   if (cfg.id === 'w2') acceptance.final_pass_inputs = {
     expert_files: extras.expert.files, expert_conflicts: extras.expert.conflicts, asjudged: rel(path.resolve(args.asjudged)), fresh: args.fresh,
     fresh_pass_ids: extras.rewordIds.size, fresh_pass_partial: extras.ctx.freshPartial, text_set_to_the_fresh_pass: overriddenText,

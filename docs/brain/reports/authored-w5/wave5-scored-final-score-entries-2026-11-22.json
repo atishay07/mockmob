@@ -1,0 +1,3256 @@
+{
+ "kind": "authored_score_entries",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-22-w5",
+ "wave": 5,
+ "built_at": "2026-11-22T00:55:04.371Z",
+ "date": "2026-11-22",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "models_note": "The raw judge files do not record the model; the model of the subagents that produced the raw files is not recorded in them.",
+ "note": "One record per question of the wave-5 publication set (quality mean 8 or more, fit median 8 or more), in the wave-1 entries format, built by scripts/authored-w2-accept.mjs --wave=w5 --mode=final from the raw files (tmp/1122-coverage/scoring), the expert verdicts, the blind re-solves and the fresh pass on the reworded rows. Tables are built from it by scripts/authored-scores-merge.mjs.",
+ "candidates_file": "docs/brain/reports/authored-w5/wave5-scored-final-candidates-2026-11-22.json",
+ "candidates_sha256": "14eefb2748ed5dc523df622e92e728653db351953d92346f6f93becb415495f1",
+ "fresh_passes": [
+  "tmp/1122-coverage/scoring/reword"
+ ],
+ "counts": {
+  "candidates": 32,
+  "entries": 32,
+  "problems": 0,
+  "repaired": 4,
+  "judgedTextDiffers": 0,
+  "judgedOnFinalTextByFreshPass": 0,
+  "blindResolveOnFinalText": 0
+ },
+ "entries": {
+  "59862358-7c7e-4c2b-a3e9-e2fd73c581e7": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.current-account-on-retirement",
+     "flags": [],
+     "note": "Correct NCERT treatment; distractors plausible but long. Direct recall, label medium is a notch high.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.retiring-partner-current-account-treatment",
+     "flags": [],
+     "note": "Correct and unambiguous; distractors are plausible misconceptions though A and D are long. Explanation checks out.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Recall of current-account treatment on retirement; sentence-long options are wordier than CUET's.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Current account into capital before settlement: concept recall; long four-clause options, so format 2.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 64,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Current-account treatment on retirement is a supporting rule; four long clause-style options, wordier than CUET recall items.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "70291c3b-d5ad-4b37-989e-2f7f88c6cba6": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Profit & Loss Appropriation Account",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-with-capital-changes",
+     "flags": [],
+     "note": "18,000 + 2,400 - 360 = 20,040 verified; every distractor is a real slip (net capital full year, ignored or added withdrawal).",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-with-capital-changes",
+     "flags": [],
+     "note": "6000+9000+5040 = 20,040; every distractor traces to a named slip (net capital, ignored or added withdrawal). Clean.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Accounting for Partnership",
+     "chapter": "Profit & Loss Appropriation Account",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Interest on capital with an addition and a withdrawal: three period calculations, above CUET's one-step norm.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Accounting for Partnership",
+     "chapter": "Profit & Loss Appropriation Account",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Interest on capital with one addition and one withdrawal: four calculations, about 100 s; harder than usual CUET.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Accounting for Partnership",
+     "chapter": "Profit & Loss Appropriation Account",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Interest on capital with one addition and one withdrawal: three calculations, heavier than CUET one-step numericals.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "3b2c3c2a-e203-4a75-ac60-525a13070d8c": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Profit & Loss Appropriation Account",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-when-profits-insufficient",
+     "flags": [],
+     "note": "Profit 20,000 split 2:3 in interest ratio gives 8,000; equal-split distractor 10,000 is weak.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.profit-and-loss-appropriation-account.interest-on-capital-when-profits-insufficient",
+     "flags": [],
+     "note": "Deed provides interest as appropriation, so profit 20,000 split 2:3 gives 8,000. Stem says 'before charging interest', minor wording; otherwise clean.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Accounting for Partnership",
+     "chapter": "Profit & Loss Appropriation Account",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 82,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Board staple: insufficient profit shared in ratio of interest on capital; clean distractors.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Accounting for Partnership",
+     "chapter": "Profit & Loss Appropriation Account",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 82,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Interest on capital when profit is insufficient: standard board numerical, share in ratio of interest due.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Accounting for Partnership",
+     "chapter": "Profit & Loss Appropriation Account",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 82,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Interest on capital when profit is insufficient: a repeated board item, ratio-of-capitals trap in options.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "7926bef3-599f-4cdb-9107-fbf0edba1d9a": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Goodwill Valuation",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+     "flags": [],
+     "note": "Super profit 30,000, normal profit 1,20,000, NRR 20%; all three distractors are named ratio slips that check out.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+     "flags": [],
+     "note": "SP 30,000, NP 1,20,000, 20%; 5%, 15%, 25% each match a stated slip. Clean reverse working; label hard is one notch high.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Super-profit goodwill worked backwards to the normal rate: reverse item, harder than usual CUET goodwill.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reverse super-profit item (find normal rate from goodwill): three steps, not the usual forward direction.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reverse goodwill: normal rate of return from goodwill; three linked steps in an unusual direction, but fair.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "56ef0e80-ec6b-4b55-a775-0febcd35def7": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Goodwill Valuation",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+     "flags": [],
+     "note": "66,000 / 12% = 5,50,000 verified; distractors check. Same reverse-working idea as the NRR item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.goodwill-valuation.super-profit-method-reverse-working",
+     "flags": [],
+     "note": "66,000 / 12% = 5,50,000; all distractor figures verified. Same idea as the previous item; fine.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Super-profit goodwill worked backwards to capital employed: reverse item, harder than usual.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reverse super-profit item (find capital employed from goodwill): three steps; board-like but reversed.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reverse goodwill: capital employed from goodwill; three linked steps, one notch harder than the usual forward item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.profit-till-death-sales-basis",
+     "flags": [],
+     "note": "15% of 2,50,000 = 37,500; 2023-24 profit is a fair decoy. Distractor 1,20,000 is a throwaway.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.deceased-partner-profit-sales-basis",
+     "flags": [],
+     "note": "15% x 2,50,000 = 37,500; time-basis 50,000 and Y-share 12,500 distractors verified. Deed line names the method, slight signposting.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 78,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Board-pattern profit to date of death on sales basis; extra-year data is a fair distractor.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 96,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Death profit on sales basis; read 42 s, est 96 s; extra 2023-24 data adds parsing and time.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sales-basis profit to date of death; 2023-24 profit is a spare figure and the 112-word stem is long for CUET.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "92ee6601-d67b-4cb6-a596-591a732287af": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.profit-till-death-sales-basis",
+     "flags": [],
+     "note": "1,08,000 x 3/9 = 36,000; time-basis 45,000 and P-share 48,000 distractors verified. Clean two-step item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.deceased-partner-profit-sales-basis",
+     "flags": [],
+     "note": "1,08,000 x 3/9 = 36,000; 45,000 (time basis) and 48,000 (P share) verified. Paraphrased stem slightly roundabout.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sales-basis profit share; rephrased stem ('Taking last year's sales as the guide') reads less like a paper item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sales-basis profit then deceased's share: three linked steps, upper end of CUET demand.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sales-basis profit then Q's share; sibling of the previous item with an extra step, wordy phrasing.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "86cc4648-e6d2-4854-b767-32d33a9cc06f": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+     "flags": [],
+     "note": "+60,000 -30,000 -12,000 +8,000 = profit 26,000; sign-reversal and one-sided distractors. Simple netting.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+     "flags": [],
+     "note": "+60,000 -30,000 -12,000 +8,000 = profit 26,000. Straight one-step netting; sign-reversal distractor A is good.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 69,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Net revaluation profit from four asset changes: asked every year.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Net revaluation result of four assets: routine and fair, but no strong route claim.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 87,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Net profit or loss on revaluation of four assets: asked every year in reconstitution items; each wrong option is a real slip.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "462137b8-01fb-4977-91ec-65a0165ceb34": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Retirement & Death of Partner",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+     "flags": [],
+     "note": "Stock change -16,000, revalued 64,000; distractor arithmetic checks. Label hard is a notch high.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.retirement-and-death-of-partner.revaluation-profit-or-loss",
+     "flags": [],
+     "note": "50,000 - 20,000 + S = 14,000, S = -16,000, stock 64,000. Distractors verified; clean.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 62,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Missing stock value from net revaluation profit: short, clean, one equation.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reverse revaluation: solve unknown stock change from net profit; unusual direction, three steps.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Retirement & Death of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Reverse revaluation (find revalued stock from the net profit); contrived direction CUET does not use.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Admission of Partner",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.admission-of-partner.sacrificing-ratio-calculation",
+     "flags": [],
+     "note": "9/40 : 1/40 = 9:1 verified; old-ratio, new-ratio and reversed 1:9 are exactly the common errors.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.admission-of-partner.sacrificing-ratio-calculation",
+     "flags": [],
+     "note": "9/40 : 1/40 = 9:1; old ratio, new ratio and reversed 1:9 are the classic slips. Real-paper quality.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Admission of Partner",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 75,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Sacrificing ratio when old partners share remainder equally: a yearly CBT staple.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Admission of Partner",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 75,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Sacrificing ratio when remaining share is split equally: textbook board item, clean.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Admission of Partner",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 75,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Sacrificing ratio when old partners fix a new mutual ratio: standard board item with true-slip options.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "509cb504-bf62-48b7-9699-e48439437ed9": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b1",
+   "chapter": "Admission of Partner",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.admission-of-partner.premium-for-goodwill-in-sacrificing-ratio",
+     "flags": [],
+     "note": "Sacrifice 1/15 : 2/15, Y gets 30,000; old-ratio split 18,000/27,000 traps are realistic.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.admission-of-partner.premium-for-goodwill-in-sacrificing-ratio",
+     "flags": [],
+     "note": "Sacrifices 1/15 and 2/15, ratio 1:2, Y gets 30,000; 18,000 / 27,000 old-ratio and 22,500 equal-split distractors. Clean two-step item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Admission of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sacrifice ratio plus goodwill split: two linked stages, about 100 s.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Admission of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sacrifice ratio then goodwill share: four steps, est 102 s, upper end of CUET demand.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Admission of Partner",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Sacrificing ratio then goodwill share: four linked steps, 102 s; clearly harder than most CUET items.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b1"
+    }
+   ]
+  },
+  "43e60b95-10cb-4861-822a-678a501c2050": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Share Capital",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.share-capital.shares-issued-to-vendor-at-premium",
+     "flags": [],
+     "note": "2,40,000 / 12.50 = 19,200; face-value and whole-price slips all present as distractors.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.share-capital.shares-issued-for-non-cash-consideration",
+     "flags": [],
+     "note": "2,40,000 / 12.50 = 19,200; each distractor is a face-value or whole-price slip. Clean NCERT-style item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 58,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Shares issued to a vendor at a premium, number of shares: a standard CBT item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 58,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Shares issued for non-cash purchase: a board staple, two steps, distractors mirror slips.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 76,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Shares issued to a vendor at a premium for non-cash purchase: standard board item, slip-based options.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "66622599-3956-47f8-acef-bb239aed9d33": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Share Capital",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.share-capital.shares-issued-to-vendor-at-premium",
+     "flags": [],
+     "note": "2,400 shares x 25 = 60,000 verified; 70,000 (20% of whole price) distractor is weak.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.share-capital.shares-issued-for-non-cash-consideration",
+     "flags": [],
+     "note": "2,400 shares x 25 = 60,000. Distractor 70,000 (20% of whole price) is a weak slip; rest fine.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Premium on shares issued to vendor: clean, distractors match real slips.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Three short steps (balance, issue price, premium); central idea, fits the 72 s slot.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Securities premium on a non-cash share issue; clean item, but a sibling of the previous one so no route.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "ad7c29aa-6d1b-4e11-9598-4108289c6e04": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Debentures",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+     "flags": [],
+     "note": "2,250 debentures, face 2,25,000, discount 27,000; entry matches NCERT. Distractors are real entry errors. Label hard a notch high.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+     "flags": [],
+     "note": "2,250 debentures, face 2,25,000, discount 27,000; entry D is the NCERT vendor entry. Distractors are real student errors.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 93,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Journal entries as options (inline, not tables) and about 93 s; valid but heavier than CUET norm.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 93,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Entry in options needs number, face value, discount; long option lines push est to 93 s.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 111,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "All four options are full journal entries with amounts (profile lists this as off pattern); four calculation steps as well.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "34e245ae-b9e4-4a51-aed4-23448fb29a87": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Debentures",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.debentures.debentures-issued-at-premium-instalments",
+     "flags": [],
+     "note": "3,20,000 + 80,000 split correct. Option D swap is a throwaway; label hard a notch high.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.debentures.debentures-issued-at-premium-in-instalments",
+     "flags": [],
+     "note": "8,000 x 50 = 4,00,000 split 3,20,000 + 80,000. Reversed-credit option D is a weak throwaway.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Allotment entry with premium; journal-entry options are long for a CUET item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 95,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Allotment entry splitting premium; wordy stem and long entry options take 95 s.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 95,
+     "fit_score": 4,
+     "fit_flags": [
+      "off_pattern_for_subject"
+     ],
+     "note": "Allotment entry with three-line journal entries and amounts in every option (profile: off pattern); 95 s.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "cc769147-35f1-490f-8f6c-960ec66f1e56": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Debentures",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "accountancy.debentures.debentures-issued-at-premium-instalments",
+     "flags": [],
+     "note": "105 - 25 - 45 = 35 x 6,000 = 2,10,000; distractors check. Stem slightly wordy ('which is Rs 5 above face value').",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.debentures.debentures-issued-at-premium-in-instalments",
+     "flags": [],
+     "note": "105 - 25 - 45 = 35 x 6,000 = 2,10,000; distractors verified. Paraphrased stem ('6,000 in number') reads a little clumsily.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Final call on debentures at premium: routine; stem phrasing ('offered... at Rs 105, which is Rs 5 above') is unusual.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 66,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Call amount = issue price less instalments, times number: two steps, within 72 s.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Debentures",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 84,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Final-call amount with premium inside allotment; routine instalment idea, clumsy phrasing ('which is 5 above face value').",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "4635494f-c14e-42a9-839b-8745eab4ec6d": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Share Capital",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "accountancy.share-capital.reissue-of-forfeited-shares-capital-reserve",
+     "flags": [],
+     "note": "Forfeited 2,000 (application only), reissue discount 1,000, capital reserve 1,000; premium-not-received trap well placed.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "accountancy.share-capital.forfeiture-and-reissue-capital-reserve",
+     "flags": [],
+     "note": "Key 1,000 right. Explanation muddled for distractor B: counting premium as forfeited gives 3,000 forfeited, not 3,000 capital reserve (would be 2,000 after discount).",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 87,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Forfeiture of premium shares and reissue to capital reserve: a yearly CBT staple.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 105,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Unpaid premium excluded, reissue discount, reserve: four ideas, 105 s; harder than most items.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+     "chapter": "Share Capital",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 105,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Forfeiture with unpaid premium, then reissue at a discount: four linked steps with a trap; top of CBT range.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Dissolution of Partnership Firm",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.dissolution-of-partnership-firm.cash-realised-from-assets",
+     "flags": [],
+     "note": "Only the 45,000 sold outside brings cash: 49,500. Total-realised 61,500 trap is exactly the common error.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.dissolution-of-partnership-firm.assets-taken-over-by-partner-realisation",
+     "flags": [],
+     "note": "Only 45,000 x 110% = 49,500 is cash; take-over is via capital. 61,500, 66,000, 45,000 are natural slips. Clean.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Dissolution of Partnership Firm",
+     "chapter": "Dissolution of Partnership Firm",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 63,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Cash from stock on dissolution with partner takeover: routine application, clean.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Dissolution of Partnership Firm",
+     "chapter": "Dissolution of Partnership Firm",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Partner-taken stock is no cash: concept trap plus percentages; a notch above usual recall.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Dissolution of Partnership Firm",
+     "chapter": "Dissolution of Partnership Firm",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Cash from stock when a partner takes over a quarter: tests that take-over brings no cash; contrived but fair.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "c3a7f8a4-e639-459d-8169-9a1ecd9bc421": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Dissolution of Partnership Firm",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.dissolution-of-partnership-firm.loss-on-realisation-of-asset",
+     "flags": [],
+     "note": "3,200 + 7,200 = 10,400 verified; partial-loss distractors fair, 12,000 weaker.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.dissolution-of-partnership-firm.assets-taken-over-by-partner-realisation",
+     "flags": [],
+     "note": "3,200 + 7,200 = 10,400; part-only and whole-at-15% distractors verified. Fair two-step item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Dissolution of Partnership Firm",
+     "chapter": "Dissolution of Partnership Firm",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Loss on furniture split between takeover and sale; wording ('dealt with in two ways') less paper-like.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Dissolution of Partnership Firm",
+     "chapter": "Dissolution of Partnership Firm",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Realisation loss on furniture, two parts at simple percentages; three quick steps, 80 s.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Dissolution of Partnership Firm",
+     "chapter": "Dissolution of Partnership Firm",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 80,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Realisation loss on furniture split between partner take-over and outside sale; two percentages make it wordier than real items.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "55e6c5a0-db6b-47d6-8901-71a9a8c983f5": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Accounting Ratios",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+     "flags": [],
+     "note": "PBT 2,00,000, interest 1,00,000, PBIT 3,00,000, ICR 3; PBT/PAT-based slips as distractors.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+     "flags": [],
+     "note": "PBT 2,00,000 + interest 1,00,000 = 3,00,000 / 1,00,000 = 3; PBT, PAT and PAT+interest slips give 2, 1.5, 2.5. Clean.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Analysis of Financial Statements",
+     "chapter": "Accounting Ratios",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 74,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Interest coverage ratio from PAT and tax rate: a recurring CBT ratio item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Analysis of Financial Statements",
+     "chapter": "Accounting Ratios",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Interest coverage from PAT needs PBT, interest, PBIT: four steps, 92 s, just over the slot.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Analysis of Financial Statements",
+     "chapter": "Accounting Ratios",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Interest coverage needing PAT to PBT to PBIT: four steps, 92 s, a notch above the usual ratio item.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "555cf4ac-9549-4c6b-91ba-08107b6989d9": {
+   "subject": "accountancy",
+   "batch": "accountancy__w5b2",
+   "chapter": "Accounting Ratios",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited",
+    "audit_repaired": true
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+     "flags": [],
+     "note": "PBIT 6,00,000 / interest 1,50,000 = 4 verified. Stem redundant: opens 'Calculate the interest coverage ratio' and repeats it at the end.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.accounting-ratios.interest-coverage-ratio",
+     "flags": [],
+     "note": "PBT 4,50,000 + 1,50,000 = 6,00,000 / 1,50,000 = 4. Stem says 'Calculate...' then repeats 'The ratio is:', redundant.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Analysis of Financial Statements",
+     "chapter": "Accounting Ratios",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 95,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "ICR with two loans; stem repeats itself ('Calculate...The ratio is'); about 95 s.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Analysis of Financial Statements",
+     "chapter": "Accounting Ratios",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 113,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Two interest sources plus tax gross-up, five steps, 113 s; stem opens with 'Calculate'.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Analysis of Financial Statements",
+     "chapter": "Accounting Ratios",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 113,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Two borrowings plus tax gross-up: five steps, 113 s; stem says 'Calculate' and then 'is:'.",
+     "on_final_text": null,
+     "batch": "accountancy__w5b2"
+    }
+   ]
+  },
+  "8171062d-6e5e-418c-a453-08f9daedef4d": {
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Financial Markets",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-markets.offer-for-sale-method",
+     "flags": [],
+     "note": "Matches the NCERT definition of offer for sale (bulk sale to issuing houses who resell). Fair case-based recall.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "business_studies.financial-markets.methods-of-floating-new-issues",
+     "flags": [],
+     "note": "Matches NCERT offer-for-sale definition (en bloc to issuing houses who resell). Fair case-based recall; distractors plausible.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "One-line scenario to identify offer for sale: CUET BS style, supporting topic.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "One-line scenario, identify offer for sale; 48 s, direct NCERT recall, options are the four methods.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 48,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Offer-for-sale identified from a one-line scenario; clean. ncert_ref says the text is not in the 2026-27 print, so no route.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    }
+   ]
+  },
+  "3bca44a8-5095-4fdf-ace1-595621a862b2": {
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Directing",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "business_studies.directing.maslow-need-hierarchy-order",
+     "flags": [],
+     "note": "Physiological, social, esteem, self-actualisation correct (safety omitted, fine). Option B weak.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "business_studies.directing.maslow-need-hierarchy-order",
+     "flags": [],
+     "note": "Physiological, social, esteem, self-actualisation (safety omitted, order still valid). Explanation accurate. Direct recall.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Directing",
+     "chapter": "Directing",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 65,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Maslow hierarchy order: asked repeatedly in CUET and board papers.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Directing",
+     "chapter": "Directing",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 65,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Maslow hierarchy order is a yearly CBT and board staple; four short entries, 65 s, clean options.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Directing",
+     "chapter": "Directing",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 65,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Maslow's hierarchy order is asked almost every year; short entries, plausible misordered options.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    }
+   ]
+  },
+  "350e6b60-9039-406a-8e7f-c7d021e04ed4": {
+   "subject": "business_studies",
+   "batch": "business_studies__w5b1",
+   "chapter": "Controlling",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.controlling.functional-area-performance-standards",
+     "flags": [],
+     "note": "Mirrors the NCERT controlling table exactly; clean match layout, distractors swap plausible pairs.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "business_studies.controlling.functional-area-performance-standards",
+     "flags": [],
+     "note": "Mirrors the NCERT controlling table exactly; well-built match list with plausible swaps (labour turnover to production).",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Controlling",
+     "chapter": "Controlling",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Match functional areas to standards from NCERT's controlling table: clean CUET match.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Controlling",
+     "chapter": "Controlling",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Standards by functional area, an NCERT table; each pair is intuitive, four entries, 67 s.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Controlling",
+     "chapter": "Controlling",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 67,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "NCERT table of standards by functional area; valid match shape, pairings fairly easy once labour turnover is placed.",
+     "on_final_text": null,
+     "batch": "business_studies__w5b1"
+    }
+   ]
+  },
+  "124e00d2-25e6-41a3-8351-283f4426bd07": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+     "flags": [],
+     "note": "25% / 20% = 1.25; final-base 2.0, inverted 0.8 and unit-change 5.0 distractors all verified.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+     "flags": [],
+     "note": "-25% / 20% = 1.25; 2.0 (final base), 0.8 (inverted), 5.0 (unit changes) all verified slips. Clean one-step numerical.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 59,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Percentage-method price elasticity: a recurring one-step CBT numerical.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 77,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Percentage-method elasticity from two data points; asked every year. 3 steps, 77 s. Distractors are real slips (wrong base, inverted ratio).",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 77,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Percentage-method price elasticity: one of the most repeated one-step numericals, options mirror base-value slips.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  },
+  "f071a682-dcf6-4eaf-8822-d47cb3f7342a": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+     "flags": [],
+     "note": "2 x 25% = 50% fall, 200 cartons; distractors check. 'Starting values as the base' is a needed clarifier; label hard a notch high.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.introduction-and-theory-of-consumer-behaviour.price-elasticity-percentage-method",
+     "flags": [],
+     "note": "25% price rise x 2 = 50% fall, 200 cartons; distractors verified. Stem states the base convention explicitly, which is fine but wordy.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Elasticity used in reverse to find new quantity: one notch harder than usual.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Elasticity used in reverse to find new quantity with direction of change; harder than the usual forward item, still fair in 81 s.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 81,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Quantity from elasticity; the stem dictates the method ('starting values as the base'), which real items rarely print.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  },
+  "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+     "flags": [],
+     "note": "600 x 40 = 24,000; nominal and mixed distractors realistic. One-step.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+     "flags": [],
+     "note": "600 x 40 = 24,000; nominal, base-year GDP and mixed-value distractors are exactly the common errors. Clean.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 41,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Real GDP at base-year prices: a staple, nominal-GDP distractor.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 59,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Real GDP at base-year prices, one multiplication; nominal vs real is a yearly CBT staple. Options are nominal GDP and base-year GDP slips.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Real GDP at base-year prices for one product; clean one-step item with nominal and base-year slips as options.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  },
+  "7794c211-5b46-4abb-b5cd-3488933b6690": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+     "flags": [],
+     "note": "3,000 + 2,000 = 5,000 verified; 3,000 (tea only) is a weak distractor.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.national-income-and-related-aggregates.real-gdp-at-base-year-prices",
+     "flags": [],
+     "note": "3,000 + 2,000 = 5,000; 6,200 nominal verified. Distractor 3,000 (tea alone) is weak.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 65,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Two-good real GDP at base-year prices: clean, distractors mirror slips.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 83,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Two-good real GDP: two products and a sum, 83 s. Central skill, normal CUET numerical length; no route claimed.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 83,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Two-good real GDP; current-year prices are extra data, so the stem is wordier than real CUET items.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  },
+  "db2ce0f4-b7cd-43e1-829b-2bdcf680132d": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-relation",
+     "flags": [],
+     "note": "12,000 / 7,500 = 160%; 1.6, 62.5 and base-GDP 200 are the real student errors.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-gdp",
+     "flags": [],
+     "note": "12,000 / 7,500 = 160%; 1.6, 62.5 and 200 (base-year GDP denominator) are well-chosen slips. Explanation accurate.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "GDP deflator from quantities and prices: clean NCERT computation.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Deflator needs nominal and real GDP both computed, then ratio x100; a notch above the usual one-step deflator item. 78 s.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Deflator built from quantities and prices (nominal and real first); real items usually give GDP figures, so a notch harder.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  },
+  "da49d617-023e-4bdb-bd5f-e11a8f957742": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "National Income & Related Aggregates",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-relation",
+     "flags": [],
+     "note": "15,000 / 1.25 = 12,000 verified. One-step; label hard is two levels off (easy).",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.national-income-and-related-aggregates.gdp-deflator-nominal-real-gdp",
+     "flags": [],
+     "note": "15,000 / 1.25 = 12,000; distractors verified. One-step formula item; label hard is two levels too high (easy).",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Real GDP from nominal GDP and deflator: short one-formula item.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 58,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "One-formula real GDP from nominal GDP and deflator; distractors are multiply-instead-of-divide slips. 58 s. 'hard' label overstated.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "National Income & Related Aggregates",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 58,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Real GDP from nominal GDP and deflator: a one-formula numerical CBT papers repeat yearly.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  },
+  "09eea9aa-9687-498b-8f1c-2a95024de7cb": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Income Determination",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+     "flags": [],
+     "note": "(60 + 40) / 0.25 = 400; old level 320, change 80 and undivided 100 are exactly the common slips.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+     "flags": [],
+     "note": "(60 + 40) / 0.25 = 400; old level 320 and change 80 are sharp distractors. Real-paper quality.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "Income Determination",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 58,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Equilibrium income from C = a + bY and I: yearly CUET staple.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "Income Determination",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Equilibrium Y=(A+I)/(1-c) with a changed I; consumption function with intercept is a notch above plain multiplier items. 76 s, fair.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "Income Determination",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Equilibrium income from C = a + cY and new I; old investment is a distractor, one notch above a plain multiplier item.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  },
+  "98867456-1444-492b-aaf5-ece8b7afb520": {
+   "subject": "economics",
+   "batch": "economics__w5b1",
+   "chapter": "Income Determination",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+     "flags": [],
+     "note": "S = -50 + 0.4 x 500 = 150 = I; distractors check. Label hard a notch high.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "economics.income-determination.equilibrium-income-two-sector",
+     "flags": [],
+     "note": "I = 500 - (50 + 300) = 150; 200, 250, 350 distractors verified. Clean reverse working.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "Income Determination",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Investment worked back from equilibrium income: reverse item, a notch harder.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "Income Determination",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Investment as Y minus C at equilibrium: two steps, 59 s. Distractors (consumption level, MPC instead of 1-MPC) are real slips.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Introductory Macroeconomics",
+     "chapter": "Income Determination",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Investment from equilibrium income and the consumption function; clean Y = C + I application with slip-based options.",
+     "on_final_text": null,
+     "batch": "economics__w5b1"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,624 @@
+{
+  "kind": "authored_w5_held_7_to_7_9",
+  "source": "claude-authored-2026-11-22-w5",
+  "date": "2026-11-22",
+  "built_at": "2026-11-22T00:55:04.371Z",
+  "rule": {
+    "qualityMeanAtLeast": 8,
+    "fitMedianAtLeast": 8
+  },
+  "note": "Questions that passed every gate (rule, expert verdict ready or repaired, repair applied, re-solve) but whose two quality judges average between 7 and 7.9. Held for a later owner decision: NOT in the publication set and NOT merged into any score table. Each item carries the candidate text and its full judge record, so it can be published with the same tooling.",
+  "count": 4,
+  "bySubject": {
+    "accountancy": 1,
+    "business_studies": 3
+  },
+  "items": [
+    {
+      "candidate": {
+        "id": "24132c9b-32ec-4e97-8974-a8a0db395a19",
+        "subject": "accountancy",
+        "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+        "chapter": "Debentures",
+        "type": "single_mcq",
+        "stem": "A plant priced at ₹ 4,05,000 was bought by Pavan Ltd from Mohan Ltd, and the seller accepted 10% debentures with a face value of ₹ 100 each, issued at 10% below face value, in full settlement. The 10% Debentures Account is credited with:",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹ 4,05,000"
+          },
+          {
+            "key": "B",
+            "text": "₹ 4,50,000"
+          },
+          {
+            "key": "C",
+            "text": "₹ 4,45,500"
+          },
+          {
+            "key": "D",
+            "text": "₹ 3,64,500"
+          }
+        ],
+        "correct_key": "B",
+        "explanation": "Issue price of a debenture = 100 − 10% of 100 = ₹ 90. Number of debentures = 4,05,000 ÷ 90 = 4,500. Debentures A/c is credited at face value = 4,500 × 100 = 4,50,000, and the discount of 45,000 is debited to Discount on Issue of Debentures A/c. The purchase price of 4,05,000 is what is due to the vendor, not the face value. Adding 10% to the price gives 4,45,500 and taking 90% of the price gives 3,64,500; both wrongly apply the discount to the amount due.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Accountancy Part II, Ch 2 Accounting for Debentures: issue of debentures for consideration other than cash, at a discount",
+        "source": "claude-authored-2026-11-22-w5",
+        "_verdict": "claude_audited",
+        "_expert": "ready",
+        "_reworded": true
+      },
+      "record": {
+        "subject": "accountancy",
+        "batch": "accountancy__w5b2",
+        "chapter": "Debentures",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited",
+          "audit_repaired": true
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 8,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+            "flags": [],
+            "note": "4,05,000 / 90 x 100 = 4,50,000 verified; 4,45,500 and 3,64,500 are weaker distractors.",
+            "on_final_text": null,
+            "batch": "accountancy__w5b2"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "accountancy.debentures.debentures-issued-to-vendor-at-discount",
+            "flags": [],
+            "note": "4,500 x 100 = 4,50,000 correct. Explanation says 4,45,500 'applies the discount', but it adds 10% to price; distractors C and D are weak. Wordy stem.",
+            "on_final_text": null,
+            "batch": "accountancy__w5b2"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+            "chapter": "Debentures",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 60,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Debentures to vendor at discount; passive, roundabout stem wording.",
+            "on_final_text": null,
+            "batch": "accountancy__w5b2"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+            "chapter": "Debentures",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 78,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Face value vs amount due trap with discount; three steps, a notch above one-step CUET items.",
+            "on_final_text": null,
+            "batch": "accountancy__w5b2"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+            "chapter": "Debentures",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 78,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "Debentures credited at face value on a discounted non-cash issue; clean figures-only options.",
+            "on_final_text": null,
+            "batch": "accountancy__w5b2"
+          }
+        ]
+      },
+      "quality_scores": [
+        8,
+        7
+      ],
+      "quality_mean": 7.5,
+      "fit_scores": [
+        8,
+        8,
+        9
+      ],
+      "fit_median": 8,
+      "held_because": [
+        "quality_mean_7.5_below_8"
+      ]
+    },
+    {
+      "candidate": {
+        "id": "660d06e2-8ff7-4cb4-9bc0-39b32e303538",
+        "subject": "business_studies",
+        "unit": "Business Finance",
+        "chapter": "Financial Management",
+        "type": "sequence_ordering",
+        "stem": "A company is checking how debt will change its earnings per share. Arrange the following in the order in which they are worked out, starting from operating earnings.\n(A) Earnings after taxes (EAT)\n(B) Earnings before taxes (EBT)\n(C) Earnings per share (EPS)\n(D) Earnings before interest and taxes (EBIT)",
+        "options": [
+          {
+            "key": "A",
+            "text": "(B), (D), (A), (C)"
+          },
+          {
+            "key": "B",
+            "text": "(D), (A), (B), (C)"
+          },
+          {
+            "key": "C",
+            "text": "(D), (B), (A), (C)"
+          },
+          {
+            "key": "D",
+            "text": "(D), (B), (C), (A)"
+          }
+        ],
+        "correct_key": "C",
+        "explanation": "The working starts with EBIT. Interest on debt is deducted from EBIT to give earnings before taxes (EBT), tax is deducted from EBT to give earnings after taxes (EAT), and EAT divided by the number of equity shares gives EPS. For example, EBIT of Rs 6,00,000 less interest of Rs 1,50,000 gives EBT of Rs 4,50,000; tax at 30 per cent is Rs 1,35,000, so EAT is Rs 3,15,000, and with 30,000 equity shares EPS is Rs 10.50. Interest is deducted before tax because it is a tax-deductible expense, so EBT must come before EAT.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Class 12 Business Studies Part 2, Ch 9 Financial Management: EBIT-EPS analysis, order of items from EBIT to EPS",
+        "source": "claude-authored-2026-11-22-w5",
+        "_verdict": "claude_audited",
+        "_expert": "ready"
+      },
+      "record": {
+        "subject": "business_studies",
+        "batch": "business_studies__w5b1",
+        "chapter": "Financial Management",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 8,
+            "blind_answer": "C",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "business_studies.financial-management.ebit-to-eps-order",
+            "flags": [],
+            "note": "EBIT, EBT, EAT, EPS; explanation arithmetic checks (EPS 10.50). 'Starting from operating earnings' signposts EBIT first; easy.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "C",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "business_studies.financial-management.ebit-eps-computation-order",
+            "flags": [],
+            "note": "EBIT, EBT, EAT, EPS correct; worked example in explanation checks out. 'Starting from operating earnings' signposts the first step, minus one; trivial item.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "sequence_ordering",
+            "passage_skill": null,
+            "unit": "Business Finance",
+            "chapter": "Financial Management",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 64,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "EBIT to EPS order: three options start (D) and order is near common sense.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "sequence_ordering",
+            "passage_skill": null,
+            "unit": "Business Finance",
+            "chapter": "Financial Management",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 64,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "EBIT to EPS order is easy and quick (64 s); stem has a scene-setting preface and the topic is a supporting idea.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "sequence_ordering",
+            "passage_skill": null,
+            "unit": "Business Finance",
+            "chapter": "Financial Management",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 64,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "EBIT-to-EPS order is a calculation order, not a managerial process sequence BS papers usually print; fair but peripheral.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          }
+        ]
+      },
+      "quality_scores": [
+        8,
+        7
+      ],
+      "quality_mean": 7.5,
+      "fit_scores": [
+        8,
+        8,
+        8
+      ],
+      "fit_median": 8,
+      "held_because": [
+        "quality_mean_7.5_below_8"
+      ]
+    },
+    {
+      "candidate": {
+        "id": "fe9b41bc-53e6-4d36-8d3d-fc290750292c",
+        "subject": "business_studies",
+        "unit": "Financial Markets",
+        "chapter": "Financial Markets",
+        "type": "statement_based",
+        "stem": "Consider the following statements about Treasury Bills.\n(A) They are issued by the Reserve Bank of India on behalf of the Central Government.\n(B) They are long-term instruments with a maturity of more than one year.\n(C) They are zero coupon instruments, issued at a discount to the face value and repaid at par on maturity.\n(D) They are available for a minimum amount of Rs 25,000 and in multiples of that amount.\nChoose the correct answer from the options given below.",
+        "options": [
+          {
+            "key": "A",
+            "text": "(A), (B) and (C) only"
+          },
+          {
+            "key": "B",
+            "text": "(A), (B) and (D) only"
+          },
+          {
+            "key": "C",
+            "text": "(B), (C) and (D) only"
+          },
+          {
+            "key": "D",
+            "text": "(A), (C) and (D) only"
+          }
+        ],
+        "correct_key": "D",
+        "explanation": "Treasury bills are issued by the Reserve Bank of India on behalf of the Central Government, not by State Governments, to meet its short-term need for funds. They are zero coupon instruments sold at a price below the face value and redeemed at par, so the investor earns the difference instead of interest. They can be bought for a minimum amount of Rs 25,000 and in multiples of Rs 25,000, which is why an investor with a smaller sum cannot buy one. Their maturity is under one year (91, 182 or 364 days), so they are money market instruments and the statement about more than one year is wrong.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Class 12 Business Studies, Financial Markets: money market instruments, treasury bills; chapter text not in the 2026-27 print, fact from the last edition",
+        "source": "claude-authored-2026-11-22-w5",
+        "_verdict": "claude_audited",
+        "_expert": "ready"
+      },
+      "record": {
+        "subject": "business_studies",
+        "batch": "business_studies__w5b1",
+        "chapter": "Financial Markets",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 8,
+            "blind_answer": "D",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "business_studies.financial-markets.treasury-bills-features",
+            "flags": [],
+            "note": "A, C, D true per NCERT; B (long-term) false. Well-built statement item; only one statement to spot.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "D",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "business_studies.financial-markets.treasury-bills-features",
+            "flags": [],
+            "note": "Facts correct (RBI for Centre, zero coupon, Rs 25,000 multiples, under 1 year). But only option D omits (B), so spotting one false statement gives the answer.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "Financial Markets",
+            "chapter": "Financial Markets",
+            "pyq_closeness": 0,
+            "ten_route": "cbt_staple",
+            "est_seconds": 75,
+            "fit_score": 10,
+            "fit_flags": [],
+            "note": "Treasury bill features statements: a repeated money-market staple.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "Financial Markets",
+            "chapter": "Financial Markets",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 75,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Statement D needs the Rs 25,000 minimum, a figure recall harder than usual CUET; 75 s is fine.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "Financial Markets",
+            "chapter": "Financial Markets",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 75,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "Treasury bill statements; (B) is easy to reject and (D) is a minor figure. ncert_ref says text not in 2026-27 print.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          }
+        ]
+      },
+      "quality_scores": [
+        8,
+        7
+      ],
+      "quality_mean": 7.5,
+      "fit_scores": [
+        10,
+        8,
+        9
+      ],
+      "fit_median": 9,
+      "held_because": [
+        "quality_mean_7.5_below_8"
+      ]
+    },
+    {
+      "candidate": {
+        "id": "19400ad2-6e18-42ff-a1cc-d97fa9986bfa",
+        "subject": "business_studies",
+        "unit": "Financial Markets",
+        "chapter": "Financial Markets",
+        "type": "single_mcq",
+        "stem": "Which of the following is NOT a function of a stock exchange?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Providing liquidity and marketability to existing securities"
+          },
+          {
+            "key": "B",
+            "text": "Helping to fix the prices of securities through demand and supply"
+          },
+          {
+            "key": "C",
+            "text": "Putting an end to every form of speculation in share trading"
+          },
+          {
+            "key": "D",
+            "text": "Spreading the habit of investing in equity shares among the public"
+          }
+        ],
+        "correct_key": "C",
+        "explanation": "A stock exchange provides liquidity and marketability to existing securities, helps in the pricing of securities through the interaction of demand and supply, ensures the safety of transactions through its rules and regulations, contributes to economic growth by channelling savings into investment, spreads the equity cult, and provides scope for healthy speculation within the limits of the law. It does not try to stop speculation completely, so ending every form of speculation is not one of its functions.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Class 12 Business Studies, Financial Markets: functions of a stock exchange; chapter text not in the 2026-27 print, fact from the last edition",
+        "source": "claude-authored-2026-11-22-w5",
+        "_verdict": "claude_audited",
+        "_expert": "ready"
+      },
+      "record": {
+        "subject": "business_studies",
+        "batch": "business_studies__w5b1",
+        "chapter": "Financial Markets",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 7,
+            "blind_answer": "C",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "business_studies.financial-markets.functions-of-stock-exchange",
+            "flags": [],
+            "note": "Key correct, but 'every form of' absolute wording makes option C obvious by elimination.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "C",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "business_studies.financial-markets.functions-of-stock-exchange",
+            "flags": [],
+            "note": "Key correct (NCERT lists scope for healthy speculation). Absolute 'every form' in C makes it guessable by elimination.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Financial Markets",
+            "chapter": "Financial Markets",
+            "pyq_closeness": 0,
+            "ten_route": "cbt_staple",
+            "est_seconds": 42,
+            "fit_score": 10,
+            "fit_flags": [],
+            "note": "Functions of a stock exchange, NOT type: CBT staple; 'every form' slightly cues the key.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Financial Markets",
+            "chapter": "Financial Markets",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 42,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "Core NOT-a-function item, 42 s; the absolute wording 'every form' in the key is a cue, so no route to 10.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Financial Markets",
+            "chapter": "Financial Markets",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 42,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "Stock-exchange functions NOT item; the key option's absolute wording ('every form') is a cue, so no route.",
+            "on_final_text": null,
+            "batch": "business_studies__w5b1"
+          }
+        ]
+      },
+      "quality_scores": [
+        7,
+        7
+      ],
+      "quality_mean": 7,
+      "fit_scores": [
+        10,
+        9,
+        9
+      ],
+      "fit_median": 9,
+      "held_because": [
+        "quality_mean_7_below_8"
+      ]
+    }
+  ]
+}
