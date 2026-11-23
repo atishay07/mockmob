@@ -165,7 +165,7 @@ const FEATURES = heroFeatures({ compass: SHOWCASE.programmes.length > 0, keyCard
 const PRICE_HOOK = heroPriceHook(OFFER, { from: BUILT });
 // The addresses a visitor arrives at from elsewhere (HashSettle): the FAQ, the one frame, and the frame's rows by their old
 // sections' names (page.js keeps an anchor for each; the frame opens that row).
-const HASH_IDS = ['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake'];
+const HASH_IDS = ['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake', 'cuet-2026'];
 
 export default function LandingPage() {
   return (
@@ -350,7 +350,8 @@ export default function LandingPage() {
           </section></Later>
         ) : null}
 
-        {/* The real CUET 2026 papers, checked against MockMob (owner, 22 Nov 2026; LK368): a teaser to /cuet-2026-coverage. */}
+        {/* The real CUET 2026 papers, checked against MockMob, question by question (owner LK427, 23 Nov 2026; it replaced the
+            teaser of LK368): stream tabs, subject chips, a strip of every question, NTA's question beside MockMob's. */}
         <Later><CoverageProof /></Later>
 
         {/* ------------------------------ PRICING --------------------------- */}

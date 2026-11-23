@@ -1,50 +1,31 @@
-import Link from 'next/link';
 import { Marked } from '@/components/doodle/Doodle';
-import { COVERAGE_COPY as C, COVERAGE_PATH, coverageTeaser } from './coverage2026.mjs';
+import FIRST_PAPER from '@/../data/coverage/cuet2026/home/accountancy.json';
+import { coverageExplorer, homeQuestion } from './coverage2026.mjs';
+import { EXPLORER as C } from './coverageWords.mjs';
+import CoverageExplorer from './CoverageExplorer';
 import './coverage-proof.css';
 
 /**
- * The CUET 2026 coverage teaser on the home page (owner, 22 Nov 2026; LK368). A server component with no script: the share of
- * the real 2026 papers that MockMob's questions and Key cards already teach, as one big figure, a bar for each subject (each a
- * link to that subject's question-by-question page), and one key to /cuet-2026-coverage. Every number is from
- * data/coverage/cuet2026/public/summary.json (coverage2026.mjs). Nothing moves and nothing floats.
+ * The CUET 2026 check on the home page (owner LK427, 23 Nov 2026; it replaced the teaser of LK368): the head and the total,
+ * then the explorer (CoverageExplorer.jsx: stream tabs, subject chips, the question strip, NTA's question beside MockMob's).
+ * Every number is from data/coverage/cuet2026/public/summary.json (coverage2026.mjs). The pair the section opens on is in
+ * this page's HTML, from the first paper's trimmed file; a test holds FIRST_PAPER to the model's first subject.
  */
 export default function CoverageProof() {
-  const { total, subjects } = coverageTeaser();
-  if (!subjects.length) return null;
+  const model = coverageExplorer();
+  if (!model.first) return null;
+  const firstQ = model.first.subject === FIRST_PAPER.id ? homeQuestion(FIRST_PAPER, model.first.n) : null;
   return (
     <section className="lp-sec lp-cov" id="cuet-2026" aria-labelledby="cov-title">
       <div className="mm-wrap lp-cov__inner">
         <div className="lp-cov__head">
-          <p className="lp-cov__kicker">{C.kicker}</p>
           <h2 className="lp-h2" id="cov-title"><Marked text={C.h2} marks={[[C.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
+          <p className="lp-cov__total">
+            <b>{model.total.pct}<span>%</span></b>
+            <span>{C.total(model.total.covered, model.total.of, model.total.papers)}</span>
+          </p>
         </div>
-        <div className="lp-cov__card">
-          <div className="lp-cov__lead">
-            <p className="lp-cov__total">
-              <b>{total.pct}<span>%</span></b>
-              <span>{C.totalLabel(total.of)}</span>
-            </p>
-            <p className="lp-cov__go"><Link href={COVERAGE_PATH} className="mm-btn mm-btn--primary">{C.key}</Link></p>
-          </div>
-          <ul className="lp-cov__rows">
-            {subjects.map((s) => (
-              <li key={s.id}>
-                <Link href={s.href} className="lp-cov__link">
-                  <span className="lp-cov__row">
-                    <span className="lp-cov__name">{s.name}</span>
-                    <b className="lp-cov__pct">{s.pct}%</b>
-                  </span>
-                  <span className="lp-cov__bar" role="img" aria-label={`${s.name}: ${C.row(s.covered, s.of)}, ${s.pct} percent`}>
-                    <i style={{ width: `${s.pct}%` }} />
-                  </span>
-                  <span className="lp-cov__count">{C.row(s.covered, s.of)}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className="lp-cov__note">{C.note}</p>
-        </div>
+        <CoverageExplorer model={model} first={firstQ ? { subject: FIRST_PAPER.id, q: firstQ } : null} />
       </div>
     </section>
   );

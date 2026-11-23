@@ -467,6 +467,9 @@ async function main() {
   if (skipped.length) console.log(`skipped: ${skipped.map((s) => `${s.id} (${s.why})`).join(', ')}`);
   console.log(`total ${total.covered}/${total.counted} (${total.pct}%), same ${total.same}, new numbers ${total.newValues}; chapters ${withPractice} of ${asked} with practice`);
   console.log(`problems: ${problems.length}; bank-cache ${Object.keys(nextCache).length} of ${wanted.size} cited bank ids`);
+  // The home page's trimmed copies follow the public files (owner LK427, 23 Nov 2026).
+  const { buildHome } = await import('./build-home.mjs');
+  await buildHome();
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });

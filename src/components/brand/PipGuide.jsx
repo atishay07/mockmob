@@ -414,7 +414,9 @@ export default function PipGuide() {
         // R8 SEC-01: an eyebrow seat is centred over its heading (the DU and pricing heads). Once it has scrolled up past
         // the lane's top he used to be held there at the seat's x, right over the heading and then the calculator, for as
         // long as the section was in view. Held, he waits in the lane at the right instead, clear of the content.
-        if(wide && lane && target.y-y>8 && s.seat.classList.contains('pip-seat--eyebrow')) target.x=lane.x+(lane.w-g.w)/2;
+        // 23 Nov 2026 (LK427): the same when the seat is still below the window (the pricing head's, while the CUET 2026 check is
+        // read): held at the window's foot at the seat's x he stood on that section's last lines.
+        if(wide && lane && Math.abs(target.y-y)>8 && s.seat.classList.contains('pip-seat--eyebrow')) target.x=lane.x+(lane.w-g.w)/2;
         // Phone frames follow the document exactly; only an 8px local arrival eases.
         // Easing the viewport coordinate itself would trail fast scroll over controls.
         if(!wide && (!current || current.station!==s.id)) current={...target,arrival:direction*8,station:s.id};
