@@ -73,12 +73,12 @@
    "n": 7,
    "chapter": "Electrostatic Potential & Capacitance",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "118066da-3ff7-47f8-9a9f-eb5ccd12fe70",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The one served row with these steps (118066da) has the right key but a wrong line in its working (drops the 1/2 of U = CV^2/2, gets the initial energy, then retracts with \"oh wait check\" and states CV0^2/4 without working); a wrong working never counts. Repairing that explanation closes Q7."
+   "reason": "Bank 118066da asks the same charge-sharing steps (common potential V0/2, energy halves); its explanation was repaired and republished on 24 Nov 2026, so the working is now right."
   },
   {
    "n": 8,

@@ -15,18 +15,18 @@
   "total": 50,
   "same": 1,
   "newValues": 15,
-  "concept": 27,
-  "notYet": 7,
+  "concept": 28,
+  "notYet": 6,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 43,
+  "covered": 44,
   "counted": 50,
-  "pct": 86,
+  "pct": 88,
   "first": 23,
   "firstPct": 46,
   "addedCards": 0,
-  "addedQuestions": 20,
+  "addedQuestions": 21,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -85,7 +85,7 @@
   {
    "name": "Electrostatic Potential & Capacitance",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Nuclei",
@@ -346,11 +346,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Bank 118066da asks the same charge-sharing steps (common potential V0/2, energy halves); its explanation was repaired and republished on 24 Nov 2026, so the working is now right.",
+   "match": {
+    "kind": "question",
+    "id": "118066da-3ff7-47f8-9a9f-eb5ccd12fe70",
+    "chapter": "Electrostatic Potential & Capacitance",
+    "stem": "Two identical capacitors (each C) are initially uncharged. Capacitor A is connected to a battery of voltage V0, charged and then disconnected from the battery; it is then connected in parallel to uncharged capacitor B. Which of the following correctly describes the final common potential and total electrostatic energy compared to initial energy stored in A?",
+    "passage": null,
+    "options": [
+     "Final potential = V0/2; total energy is half the initial energy",
+     "Final potential = V0; total energy equals initial energy",
+     "Final potential = V0/2; total energy equals initial energy",
+     "Final potential = V0/√2; total energy is half the initial energy"
+    ],
+    "key": 0,
+    "explanation": "When capacitor A is disconnected from the battery it holds a charge Q = CV0, and its stored energy is (1/2)CV0². Connected in parallel to the uncharged capacitor B, the charge is conserved but now spreads over a total capacitance 2C, so the common potential is V = Q/(2C) = CV0/(2C) = V0/2. The energy stored in the combination is U = (1/2)(2C)(V0/2)² = (1/2)(2C)(V0²/4) = CV0²/4, which is half of the initial (1/2)CV0². The other half is dissipated as heat (and a little electromagnetic radiation) in the connecting wires while the charge flows from A to B. A final potential of V0 would need twice the charge; keeping the energy equal to the initial energy is the slip of forgetting that energy is lost when charge flows between capacitors at different potentials; and V0/√2 is the potential you would get only if the energy stayed the same, which it does not. So the final potential is V0/2 and the total energy is half the initial energy.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 8,

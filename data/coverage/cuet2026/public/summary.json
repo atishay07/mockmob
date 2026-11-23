@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-23T19:42:28.369Z",
+ "builtAt": "2026-11-23T20:02:33.802Z",
  "snapshotDate": "2026-11-24",
  "snapshotDay": "24 November 2026",
  "snapshotDates": [
@@ -260,12 +260,12 @@
    "shift": "second shift",
    "total": 50,
    "counted": 50,
-   "covered": 43,
-   "pct": 86,
+   "covered": 44,
+   "pct": 88,
    "same": 1,
    "newValues": 15,
-   "concept": 27,
-   "notYet": 7,
+   "concept": 28,
+   "notYet": 6,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -274,7 +274,7 @@
    "firstPct": 46,
    "firstDay": "23 November 2026",
    "addedCards": 0,
-   "addedQuestions": 20,
+   "addedQuestions": 21,
    "found": 0
   },
   {
@@ -358,11 +358,11 @@
  ],
  "total": {
   "counted": 686,
-  "covered": 652,
+  "covered": 653,
   "same": 95,
   "newValues": 74,
-  "concept": 483,
-  "notYet": 34,
+  "concept": 484,
+  "notYet": 33,
   "skill": 39,
   "pct": 95
  },
@@ -375,7 +375,7 @@
   "counted": 686,
   "pct": 66,
   "addedCards": 84,
-  "addedQuestions": 113,
+  "addedQuestions": 114,
   "found": 2,
   "same": 67,
   "newValues": 4,
@@ -1487,7 +1487,7 @@
     "subject": "physics",
     "chapter": "Electrostatic Potential & Capacitance",
     "asked": 3,
-    "covered": 2,
+    "covered": 3,
     "served": 36,
     "practice": true
    },

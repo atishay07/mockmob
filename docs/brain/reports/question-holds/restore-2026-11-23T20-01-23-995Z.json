@@ -1,0 +1,41 @@
+{
+ "kind": "question_hold",
+ "mode": "apply",
+ "reason": "audited fixes 24 Nov 2026: 118066da explanation, f9f62398 List II (D) and explanation, ddbac3ae key A->B and explanation",
+ "at": "2026-11-23T20:01:23.993Z",
+ "requested": 3,
+ "found": 3,
+ "missing": [],
+ "alreadyHidden": 0,
+ "toHold": 3,
+ "toHoldBySubject": {
+  "physics": 2,
+  "mathematics": 1
+ },
+ "rows": [
+  {
+   "id": "118066da-3ff7-47f8-9a9f-eb5ccd12fe70",
+   "subject": "physics",
+   "chapter": "Electrostatic Potential & Capacitance",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active"
+  },
+  {
+   "id": "ddbac3ae-10d8-4219-a4d2-6841ebc45f66",
+   "subject": "mathematics",
+   "chapter": "Differential Equations",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active"
+  },
+  {
+   "id": "f9f62398-f7f8-4747-8e15-f052f362870e",
+   "subject": "physics",
+   "chapter": "Current Electricity",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active"
+  }
+ ]
+}

@@ -1,0 +1,86 @@
+[
+ {
+  "id": "118066da-3ff7-47f8-9a9f-eb5ccd12fe70",
+  "subject": "physics",
+  "body": "Case: Two identical capacitors (each C) are initially uncharged. Capacitor A is connected to a battery of voltage V0, charged and then disconnected from the battery; it is then connected in parallel to uncharged capacitor B. Which of the following correctly describes the final common potential and total electrostatic energy compared to initial energy stored in A?",
+  "options": [
+   {
+    "key": "A",
+    "text": "A Final potential = V0/2; total energy is half the initial energy"
+   },
+   {
+    "key": "B",
+    "text": "B Final potential = V0; total energy equals initial energy"
+   },
+   {
+    "key": "C",
+    "text": "C Final potential = V0/2; total energy equals initial energy"
+   },
+   {
+    "key": "D",
+    "text": "D Final potential = V0/√2; total energy is half the initial energy"
+   }
+  ],
+  "correct_answer": "A",
+  "explanation": "Charge divides equally, final V = V0/2; initial energy CV0^2/2 becomes total C_total( V0/2)^2 = 2C*V0^2/4 = CV0^2/2, oh wait check: initial energy was (1/2)CV0^2, final total is (1/4)CV0^2, i.e., half — so A is correct.",
+  "status": "pending",
+  "verification_state": "disputed",
+  "exploration_state": "pending_review"
+ },
+ {
+  "id": "f9f62398-f7f8-4747-8e15-f052f362870e",
+  "subject": "physics",
+  "body": "Match List I (quantity) with List II (expression). List I: (1) Conductivity σ, (2) Mobility μ, (3) Resistivity ρ, (4) Drift velocity v_d for given current. List II: (A) n·e·μ, (B) 1/σ, (C) I/(n e A), (D) n e τ/m (assume τ = mean free time).",
+  "options": [
+   {
+    "key": "A",
+    "text": "A 1–A, 2–D, 3–B, 4–C"
+   },
+   {
+    "key": "B",
+    "text": "B 1–D, 2–A, 3–B, 4–C"
+   },
+   {
+    "key": "C",
+    "text": "C 1–A, 2–C, 3–B, 4–D"
+   },
+   {
+    "key": "D",
+    "text": "D 1–C, 2–A, 3–D, 4–B"
+   }
+  ],
+  "correct_answer": "A",
+  "explanation": "σ = n e μ, mobility μ = e τ/m relates to D but option A matches conventional relations; resistivity ρ =1/σ, drift velocity v_d = I/(n e A).",
+  "status": "pending",
+  "verification_state": "disputed",
+  "exploration_state": "pending_review"
+ },
+ {
+  "id": "ddbac3ae-10d8-4219-a4d2-6841ebc45f66",
+  "subject": "mathematics",
+  "body": "Consider the differential equation: \\( \\frac{d^3y}{dx^3} + \\sqrt{\\frac{d^2y}{dx^2}} + y = 0 \\). Read the following statements:\nStatement I: The order of the differential equation is 3.\nStatement II: The degree of the differential equation is 2.\nStatement III: The degree is not defined because the equation is not a polynomial in derivatives.\nWhich of the following combinations is correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "I and III only"
+   },
+   {
+    "key": "B",
+    "text": "I and II only"
+   },
+   {
+    "key": "C",
+    "text": "II and III only"
+   },
+   {
+    "key": "D",
+    "text": "I, II and III"
+   }
+  ],
+  "correct_answer": "A",
+  "explanation": null,
+  "status": "pending",
+  "verification_state": "disputed",
+  "exploration_state": "pending_review"
+ }
+]
