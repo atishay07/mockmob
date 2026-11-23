@@ -20,7 +20,7 @@ def once(a, b):
 
 
 # the page's own sheet, one folder up
-once("import './home-sheets.css';", "import '../home-sheets.css';")
+once("import './home-sheets.css';", "import '@/app/home-sheets.css';")
 
 # imports the separate sections need
 once("import OnePlaceGate from '@/components/landing/OnePlaceGate';\n",

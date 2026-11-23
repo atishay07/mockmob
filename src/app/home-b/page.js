@@ -85,7 +85,7 @@ import '@/components/brand/mobi-figure.css';
 // The home page's own 24 sheets (landing.css ... r16-tour-stack.css), joined in their cascade order into one file, so a phone
 // makes one render-blocking request for them instead of seven (paint pass, 15 Nov 2026). The list, its order and why are in
 // src/lib/homeCss.mjs. Edit those sheets, never home-sheets.css: node scripts/gen-home-css.mjs rewrites it (next dev does too).
-import '../home-sheets.css';
+import '@/app/home-sheets.css';
 
 // The home page (21 Nov 2026, owner: "Switch it live", after judging /home-next on his phone, LK363 and LK364). The tour deck,
 // the Key cards section, Bring a mistake and the exam screen section are one frame, "Your whole CUET prep, in one place."
