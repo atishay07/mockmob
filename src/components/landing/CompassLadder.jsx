@@ -14,9 +14,13 @@ const AXIS_MIN = 0;
 const AXIS_MAX = 1000;
 const pct = (v) => Math.min(100, Math.max(0, ((v - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)) * 100));
 const ROUND_LABEL = { 'round-1': 'Round 1', 'round-2': 'Round 2', 'round-3': 'Round 3' };
-// The tour eases back and forth across this band, where the showcased cutoffs sit.
-const SWEEP_LOW = 600;
-const SWEEP_HIGH = 960;
+// The tour eases back and forth across the band where the list's cutoffs sit (bandOf). 23 Nov 2026 (LK427): it swept 600 to
+// 960 for every list, so on the first list (lowest cutoff 793.5) every row read "Short by ..." and the count "0 of 10
+// cleared" for half of each round. Its lowest score is now the lowest listed cutoff rounded up to a step (one college
+// cleared), its highest a little past the highest (all cleared). A list with no cutoff keeps the old band.
+const SWEEP_FALLBACK = Object.freeze({ low: 600, high: 960 });
+const SWEEP_PAST = 20;
+const SWEEP_MIN_SPAN = 60;
 const SWEEP_PERIOD_MS = 11000;
 // The tour moves in steps of 10 points: at most about 10 steps a second at the middle of the sweep, fewer at its ends
 // (fix-misc, 21 Nov 2026, evening: a step costs a phone's main thread about 30 ms of style, layout and paint at CPU 6x, and
@@ -29,7 +33,9 @@ const READER_HOLD_MS = 8000;
 const ONE_DECIMAL = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const fmt = (n) => ONE_DECIMAL.format(n);
 
-const INITIAL_SCORE = 780;
+// Where the card stands before the tour first plays: inside the first list's band, so a few colleges are cleared (was 780,
+// under every cutoff of that list).
+const INITIAL_SCORE = 860;
 // The clock, read only from the reader's own events (take, hold) and the tour's effect, never while rendering.
 const now = () => performance.now();
 // The reader's motion setting: the system's, or the site's own (html[data-motion='reduced']).
@@ -39,12 +45,23 @@ const PRESETS = [650, 800, 950];
 // A college's words for a score: the one rule, used by the render and by the tour's direct writes.
 const gapFor = (cutoff, value) => (cutoff === null ? 'Not listed' : value >= cutoff ? (value === cutoff ? 'At cutoff' : fmt(cutoff)) : `Short by ${fmt(cutoff - value)}`);
 // The tour's score at a phase of the sweep: a cosine ping-pong, so it slows at each end instead of bouncing.
-const sweepAt = (phase) => SWEEP_LOW + ((SWEEP_HIGH - SWEEP_LOW) * (1 - Math.cos(phase * 2 * Math.PI))) / 2;
+const sweepAt = (phase, band) => band.low + ((band.high - band.low) * (1 - Math.cos(phase * 2 * Math.PI))) / 2;
+/** The band the tour sweeps for a list of cutoffs (null where a college lists none). */
+export function bandOf(cutoffs) {
+  const listed = cutoffs.filter((c) => c !== null && Number.isFinite(c));
+  if (!listed.length) return SWEEP_FALLBACK;
+  const up = (v) => Math.ceil(v / SWEEP_STEP) * SWEEP_STEP;
+  const high = Math.min(AXIS_MAX, up(Math.max(...listed) + SWEEP_PAST));
+  const low = Math.min(up(Math.min(...listed)), high - SWEEP_MIN_SPAN);
+  return { low: Math.max(AXIS_MIN, low), high };
+}
+/** The sweep's phase that lands on a score in a band. */
+const phaseOf = (value, band) => Math.acos(1 - 2 * Math.min(1, Math.max(0, (value - band.low) / (band.high - band.low)))) / (2 * Math.PI);
 const scaleOf = (value) => `scaleX(${pct(value) / 100})`;
 
 // The bars glide (owner LK366, 22 Nov 2026: "these bars used to be very smooth previously, and now they are a bit choppy").
 // Since 21 Nov the digits and the words step in 10s for speed, and the bars stepped with them. Now the bars do not step:
-// while the tour plays, every bar runs one Web Animation of the whole sweep (TOUR_FRAMES, the same cosine sampled 96 times,
+// while the tour plays, every bar runs one Web Animation of the whole sweep (tourFrames, the same cosine sampled 96 times,
 // linear between), so they move every frame on the compositor while the main thread only writes a step's words. The tour's
 // clock is that animation's own time, so the digits and the bars never drift apart. When the reader takes the score, or the
 // tour rests, the bars ease from where they are drawn to the new score in GLIDE_MS. Not a CSS transition: the steps come
@@ -53,18 +70,19 @@ const scaleOf = (value) => `scaleX(${pct(value) / 100})`;
 // Animation fires no DOM event. Reduced motion: no tour and no glide; a bar is set at once.
 const GLIDE_MS = 180;
 const GLIDE_EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
-const TOUR_FRAMES = Array.from({ length: 97 }, (_, k) => ({ offset: k / 96, transform: scaleOf(sweepAt(k / 96)) }));
+const tourFrames = (band) => Array.from({ length: 97 }, (_, k) => ({ offset: k / 96, transform: scaleOf(sweepAt(k / 96, band)) }));
 const barsOf = (root) => (root ? [...root.querySelectorAll('.cl__track u')] : []);
 function makeGlide(initial) {
   let anims = [];
   let mode = 'still';
   let from = initial;
   let to = initial;
+  let band = SWEEP_FALLBACK;
   const clock = () => (mode === 'tour' && anims[0]?.currentTime != null ? anims[0] : null);
   // The score the bars are drawn at now, from the running animation's own time (no style or layout read).
   const drawn = () => {
     const tour = clock();
-    if (tour) return sweepAt((Number(tour.currentTime) / SWEEP_PERIOD_MS) % 1);
+    if (tour) return sweepAt((Number(tour.currentTime) / SWEEP_PERIOD_MS) % 1, band);
     const progress = mode === 'ease' ? anims[0]?.effect?.getComputedTiming().progress : null;
     return progress == null ? to : from + (to - from) * progress;
   };
@@ -73,11 +91,13 @@ function makeGlide(initial) {
     clock,
     touring: () => mode === 'tour',
     // The whole sweep from `phase` on, round and round; each bar's own --fill stays under it for when it stops.
-    tour(root, phase) {
+    tour(root, phase, sweep) {
       stop();
       mode = 'tour';
+      band = sweep;
+      const frames = tourFrames(sweep);
       anims = barsOf(root).map((u) => {
-        const a = u.animate(TOUR_FRAMES, { duration: SWEEP_PERIOD_MS, iterations: Infinity });
+        const a = u.animate(frames, { duration: SWEEP_PERIOD_MS, iterations: Infinity });
         a.currentTime = phase * SWEEP_PERIOD_MS;
         return a;
       });
@@ -162,7 +182,9 @@ export default function CompassLadder({ data }) {
   // Changes only when the reader presses the Pause / Play key (owner LK365, 21 Nov 2026: "It should never be paused. The
   // pause button just exists. If someone clicks it explicitly ..."). Nothing else ever sets it.
   const [paused, setPaused] = useState(false);
-  const phaseRef = useRef(Math.acos(1 - 2 * (INITIAL_SCORE - SWEEP_LOW) / (SWEEP_HIGH - SWEEP_LOW)) / (2 * Math.PI));
+  // The sweep's phase; null until the tour first starts, when it is read from the score on screen in the list's own band.
+  const phaseRef = useRef(null);
+  const bandRef = useRef(SWEEP_FALLBACK);
   const [inView, setInView] = useState(false);
   const [shown, setShown] = useState(true);
   const [reduced, setReduced] = useState(false);
@@ -219,6 +241,11 @@ export default function CompassLadder({ data }) {
     if (paused || !inView || !shown || reduced || motionReduced()) return undefined;
     const root = rootRef.current;
     const cutoffs = rows.map((r) => r.cutoff);
+    const band = bandOf(cutoffs);
+    // The tour goes on from the score on screen: a first start, and a list whose band differs (another course, round or
+    // category), find their place in the band; a resume keeps the phase it was left at.
+    if (phaseRef.current === null || bandRef.current.low !== band.low || bandRef.current.high !== band.high) phaseRef.current = phaseOf(liveRef.current, band);
+    bandRef.current = band;
     const flipKey = (value) => cutoffs.filter((c) => c !== null && value >= c).length;
     let frame = 0;
     let last = 0;
@@ -232,7 +259,7 @@ export default function CompassLadder({ data }) {
       const clock = glide.clock();
       phaseRef.current = clock ? (Number(clock.currentTime) / SWEEP_PERIOD_MS) % 1 : (phaseRef.current + dt / SWEEP_PERIOD_MS) % 1;
       // Steps of SWEEP_STEP points for the words, never a step a frame (round 13, audit F10); the bars glide between them.
-      const next = Math.round(sweepAt(phaseRef.current) / SWEEP_STEP) * SWEEP_STEP;
+      const next = Math.round(sweepAt(phaseRef.current, band) / SWEEP_STEP) * SWEEP_STEP;
       if (next !== stepShown) {
         stepShown = next;
         liveRef.current = next;
@@ -243,7 +270,7 @@ export default function CompassLadder({ data }) {
       frame = window.requestAnimationFrame(tick);
     };
     const wait = heldAt ? heldAt + READER_HOLD_MS - now() : 0;
-    const start = window.setTimeout(() => { glide.tour(root, phaseRef.current); frame = window.requestAnimationFrame(tick); }, Math.max(0, wait));
+    const start = window.setTimeout(() => { glide.tour(root, phaseRef.current, band); frame = window.requestAnimationFrame(tick); }, Math.max(0, wait));
     return () => {
       window.clearTimeout(start);
       window.cancelAnimationFrame(frame);
@@ -255,10 +282,7 @@ export default function CompassLadder({ data }) {
   useEffect(() => () => glide.stop(), [glide]);
 
   // The sweep's phase that lands on a score, so the tour goes on from the reader's score rather than jumping.
-  const phaseFrom = (value) => {
-    const x = Math.min(1, Math.max(0, (value - SWEEP_LOW) / (SWEEP_HIGH - SWEEP_LOW)));
-    phaseRef.current = Math.acos(1 - 2 * x) / (2 * Math.PI);
-  };
+  const phaseFrom = (value) => { phaseRef.current = phaseOf(value, bandRef.current); };
   const toggle = () => {
     if (paused) { phaseFrom(liveRef.current); setHeldAt(0); setPaused(false); } else setPaused(true);
   };

@@ -60,6 +60,9 @@ export function SectionPosition({ sections }) {
   // The bottom bar: the live story (index into sections), its step and step count, and where Skip goes. Like the band,
   // it keeps the last story's words while it fades out.
   const [bar, setBar] = useState({ on: false, index: 0, step: 0, steps: 0, next: null });
+  // True while the live story's end is above the window's foot (a phone): the bar steps out for the section coming in.
+  const [leaving, setLeaving] = useState(false);
+  const barShown = bar.on && !leaving;
   const barRef = useRef(null);
   const key = sections.map((section) => section.id).join('|');
 
@@ -124,8 +127,14 @@ export function SectionPosition({ sections }) {
       const box = track.getBoundingClientRect();
       geo = { top: box.top + window.scrollY, height: box.height, width: steps.clientWidth };
     };
+    let gone = false;
     const paint = ({ y, vh, resized }) => {
       if (!geo || resized) measure();
+      // 23 Nov 2026 (LK427): the bar belongs to the story's own screen. Once the story's end has risen off the window's foot
+      // the next section is coming in under it, and the bar used to stay (until the story was half gone) over that section's
+      // first line. It leaves as soon as the next section shows.
+      const leavingNow = geo.top - y + geo.height < vh - 2;
+      if (leavingNow !== gone) { gone = leavingNow; setLeaving(leavingNow); }
       const progress = positionProgress({ top: geo.top - y, height: geo.height, vh, hasTrack: true });
       const at = (progress * (bar.steps - 1) + 0.5) / bar.steps;
       mobi.style.transform = `translate3d(${(at * geo.width).toFixed(1)}px, 0, 0)`;
@@ -133,7 +142,7 @@ export function SectionPosition({ sections }) {
     const first = bus.read();
     paint({ y: first.y, vh: first.vh, resized: true });
     const off = bus.subscribe(paint);
-    return () => { off(); mobi.style.transform = ''; };
+    return () => { off(); mobi.style.transform = ''; setLeaving(false); };
   }, [bar.on, bar.index, bar.steps, key]);
 
   // ---- the band under the site bar (wide windows)
@@ -233,7 +242,7 @@ export function SectionPosition({ sections }) {
           <i className="lp-pos__rule" ref={ruleRef} aria-hidden="true" />
         </div>
       </div>
-      <div className="lp-bar" ref={barRef} data-on={bar.on ? 'true' : 'false'} {...(bar.on ? { role: 'group', 'aria-label': 'Where you are on this page' } : null)}>
+      <div className="lp-bar" ref={barRef} data-on={barShown ? 'true' : 'false'} {...(barShown ? { role: 'group', 'aria-label': 'Where you are on this page' } : null)}>
         <div className="lp-bar__blur" aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="mm-wrap lp-bar__row">
           <button type="button" className="lp-bar__top" onClick={top} aria-label="Back to the top">

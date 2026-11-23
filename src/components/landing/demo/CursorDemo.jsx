@@ -253,6 +253,9 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
           if (step.settle) { const pane = stage.querySelector(step.settle); if (pane && pane.scrollTop) scrollPane(pane, 0); }
           // Another tap right after keeps the cursor on the glass; a wait lifts it.
           if (!steps[i + 1]?.target) liftSoon();
+        } else if ((step.dwell ?? DWELL_MS) > 700) {
+          // A move that only points (the tap comes later): it has shown where; it does not wait on the label.
+          liftSoon();
         }
         // A dwell waits for what the click started, so it gives up at most a quarter of its length.
         await hold(step.dwell ?? DWELL_MS, step.exact ? 1 : 0.75);
