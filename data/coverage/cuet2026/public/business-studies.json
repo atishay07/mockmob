@@ -8,6 +8,8 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-20",
+ "firstDay": "20 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 44,
   "counted": 49,
-  "pct": 90
+  "pct": 90,
+  "first": 30,
+  "firstPct": 61,
+  "addedCards": 11,
+  "addedQuestions": 3,
+  "found": 0,
+  "sameFirst": 3,
+  "newValuesFirst": 1
  },
  "chapters": [
   {
@@ -103,6 +112,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards state each feature (uncertain, complex, relative); the paper asks which statements are true.",
    "match": {
     "kind": "card",
@@ -135,6 +146,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card asks which process organisation structure is the outcome of: organising, the paper answer.",
    "match": {
     "kind": "card",
@@ -167,6 +180,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards give the staffing steps in order; the paper orders their descriptions.",
    "match": {
     "kind": "card",
@@ -199,6 +214,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card lists the ten consumer responsibilities; the paper asks which statements are true.",
    "match": {
     "kind": "card",
@@ -231,6 +248,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards state all three delegation benefits in options 1-3 (more time for important matters, ready workforce for new ventures, basis of management hierarchy); option 4 is on the divisional-structure card, so the NOT item can be judged.",
    "match": {
     "kind": "card",
@@ -263,6 +282,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card names the five selection tests; the paper asks which is not one.",
    "match": {
     "kind": "card",
@@ -295,6 +316,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: bank row describes quality, performance and features and asks the philosophy: product concept.",
    "match": {
     "kind": "question",
@@ -334,6 +357,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards: human resources the most important asset, staffing continuous, training benefits.",
    "match": {
     "kind": "card",
@@ -366,6 +391,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card states judging accuracy of standards; the paper gives a case.",
    "match": {
     "kind": "card",
@@ -398,6 +425,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards state the importance of coordination: functional differentiation (departments with their own objectives conflict), growth in size and specialisation.",
    "match": {
     "kind": "card",
@@ -430,6 +459,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card states the manager reduces overfull demand by cutting promotion or raising prices; the paper asks the name.",
    "match": {
     "kind": "card",
@@ -462,6 +493,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card lists standing plans (policies, procedures, methods, rules) and single-use plans.",
    "match": {
     "kind": "card",
@@ -494,6 +527,8 @@
     0
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "Accepted bank candidate: a company sells its equity issue to issuing houses who resell it to investors = offer for sale; explanation separates prospectus, private placement and rights issue.",
    "match": {
     "kind": "question",
@@ -533,6 +568,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -554,6 +591,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card names functional, psychological and social benefits; the paper asks which is not one.",
    "match": {
     "kind": "card",
@@ -586,6 +625,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -607,6 +648,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards state each nature point, including not rigid prescriptions.",
    "match": {
     "kind": "card",
@@ -639,6 +682,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -660,6 +705,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card gives the seven planning steps in order; the paper orders their descriptions.",
    "match": {
     "kind": "card",
@@ -692,6 +739,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards list off-the-job (programmed instruction) and on-the-job methods.",
    "match": {
     "kind": "card",
@@ -725,6 +774,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: bank row ties a missing expiry date to the right to be informed; the paper case differs (expired medicine, two accepted keys).",
    "match": {
     "kind": "question",
@@ -764,6 +815,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -785,6 +838,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards list packaging reasons and label functions; the paper asks which statements are true.",
    "match": {
     "kind": "card",
@@ -817,6 +872,8 @@
     0
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks why decentralisation must be applied with caution: it can lead to organisational disintegration (NCERT sentence the key uses).",
    "match": {
     "kind": "card",
@@ -849,6 +906,8 @@
     1
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks which Taylor principle the Japanese paternalistic, black-badge example shows: harmony, not discord.",
    "match": {
     "kind": "card",
@@ -881,6 +940,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards list economic components and social elements (attitudes towards product innovations).",
    "match": {
     "kind": "card",
@@ -913,6 +974,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards state reference checks (verify and gain information), the job offer letter (date to report on duty) and the contract headings (title, duties, pay, hours, leave); preliminary screening was already on a card.",
    "match": {
     "kind": "card",
@@ -945,6 +1008,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card: restricted entry through an examination or degree, a feature of a profession.",
    "match": {
     "kind": "card",
@@ -977,6 +1042,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card states the aim of method study (minimise cost, maximise quality and customer satisfaction); motion, fatigue and time study were already on cards.",
    "match": {
     "kind": "card",
@@ -1009,6 +1076,8 @@
     2
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "Accepted bank candidate orders Maslow needs from their descriptions; its explanation states self-actualisation is the drive to become what one is capable of becoming. Physiological, safety and esteem descriptions are on cards.",
    "match": {
     "kind": "question",
@@ -1048,6 +1117,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card lists the four objections to advertising.",
    "match": {
     "kind": "card",
@@ -1080,6 +1151,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: bank statement item says planning leads to rigidity when conditions change; the paper gives a case.",
    "match": {
     "kind": "question",
@@ -1119,6 +1192,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards link pricing objectives to price levels (market share leadership lower, quality leadership higher, short-run profit maximum, long-run profit lower); sales promotion cards place free samples and contests.",
    "match": {
     "kind": "card",
@@ -1151,6 +1226,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards: management increases efficiency, efficiency = task done correctly at minimum cost.",
    "match": {
     "kind": "card",
@@ -1183,6 +1260,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card defines span of management; the paper gives the definition and asks the term.",
    "match": {
     "kind": "card",
@@ -1215,6 +1294,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1236,6 +1317,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards define responsibility, accountability, delegation and centralised organisations.",
    "match": {
     "kind": "card",
@@ -1268,6 +1351,8 @@
     2
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "Accepted bank candidate (List-II reordered by the judge) matches standards to production, marketing, HRM and finance; its explanation gives every standard in the NCERT table.",
    "match": {
     "kind": "question",
@@ -1307,6 +1392,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card defines the right to be informed, ingredients included; the paper gives a case.",
    "match": {
     "kind": "card",
@@ -1339,6 +1426,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards name the NCERT examples: events (fashion show), services (online trading), ideas (family planning), places (Udaipur, City of Lakes).",
    "match": {
     "kind": "card",
@@ -1374,6 +1463,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards: financial planning ensures enough funds at the right time.",
    "match": {
     "kind": "card",
@@ -1409,6 +1500,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: bank row defines capital structure as the debt-equity mix; the paper gives the case.",
    "match": {
     "kind": "question",
@@ -1451,6 +1544,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards: cash flows must cover fixed payment obligations; a stronger cash flow favours debt.",
    "match": {
     "kind": "card",
@@ -1486,6 +1581,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: cards define floatation cost; higher cost, less attractive source.",
    "match": {
     "kind": "card",
@@ -1521,6 +1618,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1545,6 +1644,8 @@
     1
    ],
    "status": "new-values",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: bank row: a case of encouraging better performance identified as motivation, a different context.",
    "match": {
     "kind": "question",
@@ -1587,6 +1688,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card states career advancement opportunity: managers give employees chances to improve skills and be promoted to higher levels.",
    "match": {
     "kind": "card",
@@ -1622,6 +1725,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card names individual autonomy as an organisational climate characteristic (Ansh); job security, status and recognition were already on cards, so recognition is the one not in the case.",
    "match": {
     "kind": "card",
@@ -1657,6 +1762,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card lists job enrichment in full: variety, higher skill, more autonomy and responsibility, personal growth and meaningful work experience.",
    "match": {
     "kind": "card",
@@ -1692,6 +1799,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Covered by A and B. Match: card asks which need job security, stability of income and pension plans satisfy: safety.",
    "match": {
     "kind": "card",

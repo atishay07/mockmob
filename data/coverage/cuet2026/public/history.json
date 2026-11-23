@@ -8,6 +8,8 @@
  "shift": "second shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-22",
+ "firstDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 39,
   "counted": 42,
-  "pct": 93
+  "pct": 93,
+  "first": 28,
+  "firstPct": 67,
+  "addedCards": 11,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 8,
+  "newValuesFirst": 0
  },
  "chapters": [
   {
@@ -98,6 +107,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card types-phases calls 1900-1300 BCE the decadent phase (Late Harappan).",
    "match": {
     "kind": "card",
@@ -130,6 +141,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card def-archaeo-botanists gives the keyed definition.",
    "match": {
     "kind": "card",
@@ -162,6 +175,8 @@
     2
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks where terracotta plough models were found and answers Cholistan and Banawali (lehs101 p.3), the keyed option.",
    "match": {
     "kind": "card",
@@ -194,6 +209,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-marshall-first-professional states it.",
    "match": {
     "kind": "card",
@@ -226,6 +243,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card states A (Lower Town = residential buildings, lehs101 p.7); kl-no-windows-privacy gives B and makes C false (concern for privacy); fact-house-bathroom gives D.",
    "match": {
     "kind": "card",
@@ -258,6 +277,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four cards give the four pairs (the priest-king card's front names Mohenjodaro).",
    "match": {
     "kind": "card",
@@ -290,6 +311,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card states that pottery and ornaments in some graves perhaps indicate a belief in the afterlife (lehs101 p.9); asked from the other side.",
    "match": {
     "kind": "card",
@@ -322,6 +345,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -343,6 +368,8 @@
     3
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks which rulers issued the largest hoards of gold coins (c. first century CE) and answers the Kushanas (lehs102 p.44).",
    "match": {
     "kind": "card",
@@ -375,6 +402,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-prinsep-deciphered states it.",
    "match": {
     "kind": "card",
@@ -407,6 +436,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card ties early states to the sixth century BCE.",
    "match": {
     "kind": "card",
@@ -439,6 +470,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Timeline 1 cards date all four: Ashtadhyayi c.500 BCE, Tripitaka c.500-100 BCE (new), Natyashastra c.300 CE, Aryabhata and Varahamihira c.400-500 CE (new), giving C, B, D, A.",
    "match": {
     "kind": "card",
@@ -471,6 +504,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card fact-begums-bhopal-funds names Sultan Jehan Begum.",
    "match": {
     "kind": "card",
@@ -503,6 +538,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -524,6 +561,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card lists the thinkers by country.",
    "match": {
     "kind": "card",
@@ -556,6 +595,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card def-hagiography gives the definition (chapter set to Thinkers, where NCERT defines it).",
    "match": {
     "kind": "card",
@@ -588,6 +629,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card lists the five vows.",
    "match": {
     "kind": "card",
@@ -620,6 +663,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card quotes the line and the tradition.",
    "match": {
     "kind": "card",
@@ -652,6 +697,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Served bank row 0f03d599 asks this with the same key.",
    "match": {
     "kind": "question",
@@ -691,6 +738,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Restored card gives Peter Mundy from England (lehs201 p.137); fact-marco-polo-italy, fact-barbosa (Portuguese) and fact-nikitin (Russia) give the other pairs.",
    "match": {
     "kind": "card",
@@ -723,6 +772,8 @@
     0
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks the region of the Marichi sculpture (Fig. 6.3, lehs202 p.142) and answers Bihar.",
    "match": {
     "kind": "card",
@@ -755,6 +806,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card fact-saguna-focus has the keyed wording.",
    "match": {
     "kind": "card",
@@ -787,6 +840,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card fact-andal states it.",
    "match": {
     "kind": "card",
@@ -819,6 +874,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Timeline cards date Sambandar c.500-800 CE, Lal Shahbaz Qalandar c.1300-1400 and Sri Chaitanya c.1500-1600 (new, lehs202 p.167); fact-basavanna gives 1106-68: A, B, C, D.",
    "match": {
     "kind": "card",
@@ -851,6 +908,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card kl-karnataka-samrajyamu states it.",
    "match": {
     "kind": "card",
@@ -883,6 +942,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-yavana-title states it.",
    "match": {
     "kind": "card",
@@ -915,6 +976,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -936,6 +999,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Two cards give 1485, the Saluvas to 1503 and the Tuluva dynasty.",
    "match": {
     "kind": "card",
@@ -968,6 +1033,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card asks from where the Aravidu dynasty ruled and answers Penukonda, later Chandragiri (lehs203 p.174); asked from the other side.",
    "match": {
     "kind": "card",
@@ -1000,6 +1067,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-maize states it.",
    "match": {
     "kind": "card",
@@ -1032,6 +1101,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Served bank row c53a951d asks it with the same key.",
    "match": {
     "kind": "question",
@@ -1071,6 +1142,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-artisans-25-percent states it.",
    "match": {
     "kind": "card",
@@ -1103,6 +1176,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four timeline cards date all four events.",
    "match": {
     "kind": "card",
@@ -1135,6 +1210,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Three cards give the four pairs.",
    "match": {
     "kind": "card",
@@ -1167,6 +1244,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-paharias (and bank 9cdb4b48's explanation) place the Paharias around the Rajmahal hills.",
    "match": {
     "kind": "card",
@@ -1199,6 +1278,8 @@
     3
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks who wrote the Mirajgaon petition to the Collector, Ahmednagar (Source 8, lehs301 p.252) and answers a ryot.",
    "match": {
     "kind": "card",
@@ -1231,6 +1312,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card def-rentier states it.",
    "match": {
     "kind": "card",
@@ -1263,6 +1346,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards give BHU 1916 as his first major public appearance and the speech's charge that nationalism was elite; the 'statement of intent' half-sentence (lehs303 p288) is not on a card, so concept only.",
    "match": {
     "kind": "card",
@@ -1295,6 +1380,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card list-organisation has the sentence.",
    "match": {
     "kind": "card",
@@ -1327,6 +1414,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards state D (police secret reports, lehs303 p.298) and that the newsmagazine was the American Time (p.299), so C is false; fact-dandi-12-march gives A, fact-irwin-notice gives B.",
    "match": {
     "kind": "card",
@@ -1362,6 +1451,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-shah-mal-gonoo names pargana Barout; the passage does not.",
    "match": {
     "kind": "card",
@@ -1397,6 +1488,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1421,6 +1514,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1445,6 +1540,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1469,6 +1566,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards cover all four pairs (none is in the passage).",
    "match": {
     "kind": "card",
@@ -1504,6 +1603,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1528,6 +1629,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1552,6 +1655,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1576,6 +1681,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1600,6 +1707,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   }

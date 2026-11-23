@@ -1,8 +1,9 @@
 import { Marked } from '@/components/doodle/Doodle';
 import FIRST_PAPER from '@/../data/coverage/cuet2026/home/accountancy.json';
 import { coverageExplorer, homeQuestion } from './coverage2026.mjs';
-import { EXPLORER as C } from './coverageWords.mjs';
+import { EXPLORER as C, howWeCounted } from './coverageWords.mjs';
 import CoverageExplorer from './CoverageExplorer';
+import CoverageHow from './CoverageHow';
 import './coverage-proof.css';
 
 /**
@@ -18,14 +19,12 @@ export default function CoverageProof() {
   return (
     <section className="lp-sec lp-cov" id="cuet-2026" aria-labelledby="cov-title">
       <div className="mm-wrap lp-cov__inner">
-        <div className="lp-cov__head">
-          <h2 className="lp-h2" id="cov-title"><Marked text={C.h2} marks={[[C.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
-          <p className="lp-cov__total">
-            <b>{model.total.pct}<span>%</span></b>
-            <span>{C.total(model.total.covered, model.total.of, model.total.papers)}</span>
-          </p>
-        </div>
-        <CoverageExplorer model={model} first={firstQ ? { subject: FIRST_PAPER.id, q: firstQ } : null} />
+        <CoverageExplorer
+          model={model}
+          first={firstQ ? { subject: FIRST_PAPER.id, q: firstQ } : null}
+          heading={<h2 key="heading" className="lp-h2" id="cov-title"><Marked text={C.h2} marks={[[C.mark, { mark: 'highlight', tone: 'volt' }]]} /></h2>}
+          how={<CoverageHow key="how" how={howWeCounted({ total: model.total })} />}
+        />
       </div>
     </section>
   );

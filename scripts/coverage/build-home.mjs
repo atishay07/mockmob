@@ -20,17 +20,22 @@ export async function buildHome({ log = console.log } = {}) {
   // strips.json is imported by coverage2026.mjs: on a first run it has to exist before that module can load.
   mkdirSync(HOME, { recursive: true });
   if (!existsSync(path.join(HOME, 'strips.json'))) write(path.join(HOME, 'strips.json'), {});
-  const { homeSubject, stripOf } = await import(pathToFileURL(path.join(ROOT, 'src/components/landing/coverage2026.mjs')).href);
+  if (!existsSync(path.join(HOME, 'marks.json'))) write(path.join(HOME, 'marks.json'), {});
+  const { homeSubject, marksOf, stripOf } = await import(pathToFileURL(path.join(ROOT, 'src/components/landing/coverage2026.mjs')).href);
   const summary = read(path.join(PUB, 'summary.json'));
   const strips = {};
-  const kept = new Set(['strips.json']);
+  const marks = {};
+  const kept = new Set(['strips.json', 'marks.json']);
   for (const s of summary.subjects) {
     const file = read(path.join(PUB, `${s.id}.json`));
     strips[s.id] = stripOf(file);
+    marks[s.id] = marksOf(file);
     write(path.join(HOME, `${s.id}.json`), homeSubject(file));
     kept.add(`${s.id}.json`);
   }
   write(path.join(HOME, 'strips.json'), strips);
+  // The first check, one letter a question: 1 counted then, 0 not (coverageWords.mjs viewStrip).
+  write(path.join(HOME, 'marks.json'), marks);
   // A subject that left the summary leaves the home folder too.
   for (const name of readdirSync(HOME)) if (!kept.has(name)) rmSync(path.join(HOME, name));
   log(`home files: ${summary.subjects.map((s) => `${s.id} ${strips[s.id].length}`).join(', ')}`);

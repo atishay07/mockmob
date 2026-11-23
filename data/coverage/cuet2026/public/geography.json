@@ -8,6 +8,8 @@
  "shift": "second shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-22",
+ "firstDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 35,
   "counted": 43,
-  "pct": 81
+  "pct": 81,
+  "first": 26,
+  "firstPct": 60,
+  "addedCards": 9,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 5,
+  "newValuesFirst": 1
  },
  "chapters": [
   {
@@ -118,6 +127,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-push-factors names unemployment as a push factor; bank 5aa61571 says destination-side conditions are pull factors.",
    "match": {
     "kind": "card",
@@ -150,6 +161,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card kl-radical-school is the same fact and answer.",
    "match": {
     "kind": "card",
@@ -182,6 +195,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-gujarat-oilfields lists Ankaleshwar among Gujarat's oilfields.",
    "match": {
     "kind": "card",
@@ -214,6 +229,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card list-three-components gives births, deaths and migration, so sex ratio is the odd one.",
    "match": {
     "kind": "card",
@@ -246,6 +263,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-basic-needs-ilo is the same fact.",
    "match": {
     "kind": "card",
@@ -278,6 +297,8 @@
     0
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks which part of trees gives quinine (gathering) and answers the bark (legy104 p.23), the keyed option.",
    "match": {
     "kind": "card",
@@ -310,6 +331,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards: machinery use is limited, operations manual, and farm yard manure keeps soil fertile (legy104 p.27); served types-subsistence-agriculture-types and fact-wet-paddy-holdings-labour give the paddy/non-paddy types and small holdings, so heavy machinery is the odd one.",
    "match": {
     "kind": "card",
@@ -342,6 +365,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -363,6 +388,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Bank 66f791a5 states quaternary activities are knowledge-based; B adds card fact-knowledge-sector-divided (knowledge-oriented segment = quaternary and quinary).",
    "match": {
     "kind": "question",
@@ -402,6 +429,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card fact-manikaran is the same question and answer.",
    "match": {
     "kind": "card",
@@ -434,6 +463,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-density-high-states gives Bihar 1102, West Bengal 1029, Kerala 859, UP 828.",
    "match": {
     "kind": "card",
@@ -466,6 +497,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card formula-physiological-density states the formula asked; bank 37b6b956 practises it.",
    "match": {
     "kind": "card",
@@ -498,6 +531,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card fact-hindi-highest is the same fact.",
    "match": {
     "kind": "card",
@@ -530,6 +565,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-def-neodeterminism gives 'stop and go determinism'.",
    "match": {
     "kind": "card",
@@ -562,6 +599,8 @@
     1
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -583,6 +622,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card fact-clustered-where: fertile alluvial plains; bank 7ca304d9 agrees.",
    "match": {
     "kind": "card",
@@ -615,6 +656,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-ancient-examples lists Varanasi, Pataliputra, Madurai; fact-medieval-examples lists Hyderabad.",
    "match": {
     "kind": "card",
@@ -647,6 +690,8 @@
     1
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks how regions, villages and towns have been described and answers 'organisms' (legy101 p.2).",
    "match": {
     "kind": "card",
@@ -679,6 +724,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The natural-agents card lists barren rocky areas and steep sloping land; the human-action card lists the other three options.",
    "match": {
     "kind": "card",
@@ -711,6 +758,8 @@
     1
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks which issues critics say the WTO ignores and answers health, worker's rights, child labour and environment (legy108 p.74).",
    "match": {
     "kind": "card",
@@ -743,6 +792,8 @@
     0
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "Rewritten card (v2) asks in which country milk goes by pipeline from farms to factories and answers New Zealand (legy107 p.66).",
    "match": {
     "kind": "card",
@@ -775,6 +826,8 @@
     2
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -796,6 +849,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card: Big Inch belongs to the dense oil-pipeline network of the U.S.A. (legy107 p.66; published fact-big-inch gives Gulf of Mexico to North-eastern States); the paper asks the continent, North America.",
    "match": {
     "kind": "card",
@@ -828,6 +883,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-global-village credits modern communication over transport; def-cyberspace names the option. Concept, not same (B weakens A's 'same').",
    "match": {
     "kind": "card",
@@ -860,6 +917,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Water-pollution source card lists the three other options; air-pollution card lists combustion of fossil fuels.",
    "match": {
     "kind": "card",
@@ -892,6 +951,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -913,6 +974,8 @@
     2
    ],
    "status": "new-values",
+   "first": true,
+   "since": null,
    "reason": "Bank 6a0c3146 is the same four ports in the same task with the same answer; card fact-port-kandla-location ties Deendayal to Kandla.",
    "match": {
     "kind": "question",
@@ -952,6 +1015,8 @@
     1
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -973,6 +1038,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New Table 1.3 card lists Census 2011 groups largest to smallest with figures: Christians 27.8, Sikhs 20.8, Buddhists 8.4, Jains 4.5 million (legy201 p.10), giving B, D, C, A.",
    "match": {
     "kind": "card",
@@ -1005,6 +1072,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card steps-stages-in-order gives the order C, A, D, B.",
    "match": {
     "kind": "card",
@@ -1037,6 +1106,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four water cards settle A, B (4,000 not 2,000 cubic km), C and D.",
    "match": {
     "kind": "card",
@@ -1069,6 +1140,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four dairy cards settle A to D; the labour-intensive card makes D false.",
    "match": {
     "kind": "card",
@@ -1101,6 +1174,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Three cards settle all four statements (Buddhists in Maharashtra makes C false).",
    "match": {
     "kind": "card",
@@ -1133,6 +1208,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards fact-konkan-1998 and fact-konkan-bridges-tunnel settle all four statements (1998, not 1989).",
    "match": {
     "kind": "card",
@@ -1165,6 +1242,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card: petroleum is used not only as a fuel but also as an industrial raw material, and the import rise indicates rising industrialisation (legy208 p.88): B and C are true, and only the keyed option holds both (A is in every option, so it decides nothing).",
    "match": {
     "kind": "card",
@@ -1197,6 +1276,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Four new Table 1.2 cards (legy101 p.5): Behavioural-Psychology, Medical-Epidemology, Electoral-Psephology, Leisure-Sociology give all four pairs.",
    "match": {
     "kind": "card",
@@ -1229,6 +1310,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four human-development cards give the four pairs.",
    "match": {
     "kind": "card",
@@ -1261,6 +1344,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four port-type cards give the four pairs.",
    "match": {
     "kind": "card",
@@ -1293,6 +1378,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1314,6 +1401,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four Nature & Scope cards give the four pairs.",
    "match": {
     "kind": "card",
@@ -1349,6 +1438,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1373,6 +1464,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1397,6 +1490,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1421,6 +1516,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1445,6 +1542,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1469,6 +1568,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1493,6 +1594,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Bank 5a9aecd3 asks the same thing with the same answer; card fact-broad-gauge gives 63,950 km.",
    "match": {
     "kind": "question",
@@ -1535,6 +1638,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1559,6 +1664,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1583,6 +1690,8 @@
     1
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   }

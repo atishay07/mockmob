@@ -8,6 +8,8 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-20",
+ "firstDay": "20 November 2026",
  "final": true,
  "counts": {
   "total": 55,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 54,
   "counted": 55,
-  "pct": 98
+  "pct": 98,
+  "first": 38,
+  "firstPct": 69,
+  "addedCards": 3,
+  "addedQuestions": 13,
+  "found": 0,
+  "sameFirst": 12,
+  "newValuesFirst": 0
  },
  "chapters": [
   {
@@ -108,6 +117,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card answers 'deed silent: no interest on capital is allowed' inside a list of Act rules; the paper asks the rate with no deed",
    "match": {
     "kind": "card",
@@ -140,6 +151,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card contrasts fixed and fluctuating capital: salary goes to the current account under fixed capital; the paper asks only the salary posting",
    "match": {
     "kind": "card",
@@ -172,6 +185,8 @@
     2
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate works interest on capital for opening capital, an addition and a withdrawal by the months each stayed in the firm: same formula and steps, new figures",
    "match": {
     "kind": "question",
@@ -211,6 +226,8 @@
     2
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate has profit below total interest on capital and divides the profit in the ratio of interest due: same steps, new figures",
    "match": {
     "kind": "question",
@@ -250,6 +267,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "list-features-six plus cards fact-co-ownership-not-partnership and kl-mutual-agency-principal-agent state every statement; the paper asks a select-the-features item",
    "match": {
     "kind": "card",
@@ -282,6 +301,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks the same question (nothing specified: in what ratio does the new partner get his share) with the same answer, old profit sharing ratio",
    "match": {
     "kind": "card",
@@ -314,6 +335,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card is the same sentence with the same blank: consent of all the existing partners",
    "match": {
     "kind": "card",
@@ -346,6 +369,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks the same question for a retiring partner's share with no information: old profit sharing ratio",
    "match": {
     "kind": "card",
@@ -378,6 +403,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card defines the gaining ratio; the paper gives the definition and asks the term",
    "match": {
     "kind": "card",
@@ -410,6 +437,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks whose the accumulated profits or losses are at retirement: all the partners, the keyed answer",
    "match": {
     "kind": "card",
@@ -442,6 +471,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card list-accounting-aspects with fact-revaluation-purpose and fact-executor-account teaches the order; the paper is a sequence item",
    "match": {
     "kind": "card",
@@ -474,6 +505,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card lists the deductions from a retiring partner's share, all four of the paper's statements; the paper is a select-all item",
    "match": {
     "kind": "card",
@@ -506,6 +539,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate keys that current account balances go into capital accounts before settlement, and its explanation states the whole order: Revaluation, current accounts, capital account settled, balance sheet last",
    "match": {
     "kind": "question",
@@ -545,6 +580,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "four formula cards (gaining share, sacrifice, goodwill by capitalising super profit, capitalised value of average profits) give every pair of the match",
    "match": {
     "kind": "card",
@@ -577,6 +614,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card def-as26-intangible-assets-standard (leac102 p. 72) states AS 26 and its definition of an intangible asset, the paper's wording; asked the other way round",
    "match": {
     "kind": "card",
@@ -609,6 +648,8 @@
     1
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate works back from goodwill and years' purchase to super profit, normal profit and the normal rate of return: same steps, new figures",
    "match": {
     "kind": "question",
@@ -648,6 +689,8 @@
     2
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate finds the firm's profit to the date of death on last year's sales (profit/sales ratio times sales to death), older years as distractors: same steps, new figures",
    "match": {
     "kind": "question",
@@ -687,6 +730,8 @@
     3
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate nets several asset increases and decreases into one revaluation result: same steps, new figures (its result is a profit, not nil)",
    "match": {
     "kind": "question",
@@ -726,6 +771,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card gives the entry Incoming Partner's Current A/c Dr To Sacrificing Partners' Capital A/c without figures; the paper adds figures split in the old ratio",
    "match": {
     "kind": "card",
@@ -758,6 +805,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card says internally generated goodwill is not recognised as an asset; the paper asks which item is not shown as an asset",
    "match": {
     "kind": "card",
@@ -790,6 +839,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards def-as26-intangible-assets-standard and fact-as26-intangible-write-off-limit (10 years) with the existing fact-section-37 and def-partnership-section-4 state all four pairs",
    "match": {
     "kind": "card",
@@ -822,6 +873,8 @@
     0
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate finds the sacrificing ratio when the old partners agree a new ratio between themselves on admission (old share minus new share): same steps, new figures",
    "match": {
     "kind": "question",
@@ -861,6 +914,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -882,6 +937,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks the entry closing P&L Suspense on death: Gaining Partners' Capital A/c Dr To P&L Suspense A/c, the keyed option",
    "match": {
     "kind": "card",
@@ -914,6 +971,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card gives the entry for a debit balance of P&L on admission: old partners' capital accounts Dr To P&L A/c, the keyed option",
    "match": {
     "kind": "card",
@@ -946,6 +1005,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card defines perpetual succession; the paper quotes a saying and asks the feature",
    "match": {
     "kind": "card",
@@ -978,6 +1039,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks the One Person Company limits and answers average annual turnover of three years not above Rs 2 crore, the keyed figure",
    "match": {
     "kind": "card",
@@ -1010,6 +1073,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card is a cloze on the same sentence but blanks 'distributable profits'; the paper asks who (equity shareholders)",
    "match": {
     "kind": "card",
@@ -1042,6 +1107,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "bank question asks the minimum subscription percentage of the issued amount under SEBI guidelines: 90%, the keyed answer",
    "match": {
     "kind": "question",
@@ -1081,6 +1148,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card asks what a debenture is and gives the definition; the paper gives the definition and asks the instrument",
    "match": {
     "kind": "card",
@@ -1113,6 +1182,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card is the same sentence with the same blank: interest coupon",
    "match": {
     "kind": "card",
@@ -1145,6 +1216,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "cards on other-than-cash, collateral security, offer to the public and discount state every pair; the paper is a match item",
    "match": {
     "kind": "card",
@@ -1177,6 +1250,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card lists the five permitted uses of securities premium; the paper is a select-the-uses item",
    "match": {
     "kind": "card",
@@ -1209,6 +1284,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "cards on forfeiture, reissue and transfer to capital reserve, and bank 40151d2f, give the order; the paper is a sequence item",
    "match": {
     "kind": "card",
@@ -1241,6 +1318,8 @@
     2
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate finds the number of shares issued to a vendor at a premium (price less cash, over issue price): same steps, new figures",
    "match": {
     "kind": "question",
@@ -1280,6 +1359,8 @@
     1
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate finds the number of debentures issued to a vendor at a discount and picks the entry with the vendor debited at the price and the discount debited: same steps, new figures",
    "match": {
     "kind": "question",
@@ -1319,6 +1400,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidates split the allotment instalment into debentures and premium (34e245ae) and work the call amount from the instalments (cc769147); the paper asks which of four entries are correct",
    "match": {
     "kind": "question",
@@ -1358,6 +1441,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks the entry cancelling collateral debentures on repayment: Debentures A/c Dr To Debenture Suspense A/c, the keyed option",
    "match": {
     "kind": "card",
@@ -1390,6 +1475,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card defines authorised capital and says it is also called nominal capital; the paper asks what nominal capital is",
    "match": {
     "kind": "card",
@@ -1422,6 +1509,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate forfeits shares with the premium unpaid on allotment, reissues at a discount and finds the capital reserve; the paper also makes the student back out the application money from the instalments",
    "match": {
     "kind": "question",
@@ -1461,6 +1550,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card lists the contingencies including completion of a venture; the paper applies it to a case",
    "match": {
     "kind": "card",
@@ -1493,6 +1584,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card lists the court grounds; list-contingencies shows death is not one; the paper is a select item",
    "match": {
     "kind": "card",
@@ -1525,6 +1618,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card gives the order of applying assets on dissolution; the paper is a sequence item with figures",
    "match": {
     "kind": "card",
@@ -1557,6 +1652,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "four entry cards give each realisation-expense case; the paper is a match item",
    "match": {
     "kind": "card",
@@ -1589,6 +1686,8 @@
     2
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate has a partner take part of the stock (no cash) and the rest sold at a gain, asking the cash realised: same steps, new figures",
    "match": {
     "kind": "question",
@@ -1628,6 +1727,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "cards on operating inflows, interest and dividends received as investing, share issue as financing and short-term investments as cash equivalents give every pair",
    "match": {
     "kind": "card",
@@ -1660,6 +1761,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "cards on total revenue, the expense list and profit before tax give the order of the Statement of Profit and Loss items",
    "match": {
     "kind": "card",
@@ -1692,6 +1795,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks the same thing: current ratio 2:1, goods bought on credit, effect on the ratio: it falls",
    "match": {
     "kind": "card",
@@ -1724,6 +1829,8 @@
     0
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate grosses profit after tax up by the tax rate, adds debt interest and divides by interest: same formula and steps, new figures",
    "match": {
     "kind": "question",
@@ -1763,6 +1870,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card asks what comparative statement analysis is also called (horizontal analysis); the paper asks the other way round",
    "match": {
     "kind": "card",
@@ -1795,6 +1904,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card lists the five advantages of CAS; the paper's keyed option is the distorted one",
    "match": {
     "kind": "card",
@@ -1827,6 +1938,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "cards on ranges, mixed, absolute and relative (default) references give every pair of the match",
    "match": {
     "kind": "card",
@@ -1859,6 +1972,8 @@
     0
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "new Key card steps-ch2-freeze-formula-paste-special (leca102 p. 27) gives the four steps in order: select, Copy, Paste Special, Values and OK, the keyed sequence",
    "match": {
     "kind": "card",
@@ -1891,6 +2006,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "card lists the PMT parameters with Nper = total number of payments; the paper asks which argument that is",
    "match": {
     "kind": "card",
@@ -1923,6 +2040,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "card asks the same question: a graph has at least two axes",
    "match": {
     "kind": "card",

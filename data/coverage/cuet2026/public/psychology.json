@@ -8,6 +8,8 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-22",
+ "firstDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 48,
   "counted": 50,
-  "pct": 96
+  "pct": 96,
+  "first": 40,
+  "firstPct": 80,
+  "addedCards": 8,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 10,
+  "newValuesFirst": 0
  },
  "chapters": [
   {
@@ -78,6 +87,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card gives the paper's definition word for word but asks it the other way round (define intelligence), so it teaches the fact, not the same question",
    "match": {
     "kind": "card",
@@ -110,6 +121,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks for Binet's definition and states he was one of the first psychologists to work on intelligence; the paper asks who that was",
    "match": {
     "kind": "card",
@@ -142,6 +155,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the six operations of the structure-of-intellect model; the paper asks how many there are",
    "match": {
     "kind": "card",
@@ -174,6 +189,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the bank item asks which is NOT Gardner's (componential, Sternberg's) and its explanation lists all eight; the paper is a four-statement item, a different question type",
    "match": {
     "kind": "question",
@@ -213,6 +230,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks what experiential (creative) intelligence is; the paper asks the other name of creative intelligence",
    "match": {
     "kind": "card",
@@ -245,6 +264,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card (lepy101 p10) states identical twins reared in different environments correlate 0.72, with the 0.60, 0.50 and 0.25 distractors on the same card; asked as a list, not the paper's question",
    "match": {
     "kind": "card",
@@ -277,6 +298,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the four levels with their IQ ranges; the paper is a four-pair match",
    "match": {
     "kind": "card",
@@ -309,6 +332,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the characteristics of gifted children, including a high level of intrinsic motivation and self-esteem; the paper asks which is NOT one",
    "match": {
     "kind": "card",
@@ -341,6 +366,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards (lepy101 p15, Table 1.2) list the Bihar Test (Mohsin), Group Test of GMA (Jalota) and Test of GMA Hindi (Joshi) as verbal and the Draw-a-Man Test (Pathak) as performance; the paper is a four-statement item",
    "match": {
     "kind": "card",
@@ -373,6 +400,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card defines self-concept in the paper's words but asks it the other way round (what is self-concept)",
    "match": {
     "kind": "card",
@@ -405,6 +434,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card states the paper's sentence but asks who demonstrates high self-efficacy; the paper gives the person and asks the term",
    "match": {
     "kind": "card",
@@ -437,6 +468,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the four features (main features do not easily change); the paper asks which of four statements hold",
    "match": {
     "kind": "card",
@@ -469,6 +502,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card names Hippocrates' four types; the paper asks which option is not one",
    "match": {
     "kind": "card",
@@ -501,6 +536,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks what Type-D is (proneness to depression); the paper gives the trait and asks the type",
    "match": {
     "kind": "card",
@@ -533,6 +570,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card (lepy102 p33-34) states Freud used hypnosis; free association and dream analysis were already on fact-freud-methods, so the method he did not use follows from served material",
    "match": {
     "kind": "card",
@@ -565,6 +604,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card (lepy102 p35) states NCERT's classical example, urges channelled into religious fervour, as reaction formation; the card gives the example and asks it the other way round",
    "match": {
     "kind": "card",
@@ -597,6 +638,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks who developed the JMPI and answers Mallick and Joshi, as the paper does",
    "match": {
     "kind": "card",
@@ -629,6 +672,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the cited card gives Rorschach only; the four-pair match is taught by several cards (verdict kept from A and B)",
    "match": {
     "kind": "card",
@@ -661,6 +706,8 @@
     1
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -682,6 +729,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card (lepy103 p51) states high stress makes performance deteriorate and too little stress leaves one listless and slow, ruling out high, low and no stress; with term-eustress the moderate level follows; NCERT never prints the word moderate",
    "match": {
     "kind": "card",
@@ -714,6 +763,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card describes the two stress pathways and says the adrenal gland releases catecholamines; the paper asks only what it releases",
    "match": {
     "kind": "card",
@@ -746,6 +797,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the four dimensions of stress; the paper asks which option is not one",
    "match": {
     "kind": "card",
@@ -778,6 +831,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks what happens in the alarm reaction stage; the paper gives that description and asks the stage",
    "match": {
     "kind": "card",
@@ -810,6 +865,8 @@
     1
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -831,6 +888,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card states Kobasa's finding on hardiness but asks who shares the traits; the paper asks who gave the trait",
    "match": {
     "kind": "card",
@@ -863,6 +922,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks for the four Ds and answers deviance, distress, dysfunction and danger, as the paper's key does",
    "match": {
     "kind": "card",
@@ -895,6 +956,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks which body prepared ICD-10 and answers the WHO, as the paper does",
    "match": {
     "kind": "card",
@@ -927,6 +990,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks which neurotransmitters go with three disorders; the paper gives GABA and asks the disorder",
    "match": {
     "kind": "card",
@@ -959,6 +1024,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks the first step in RET and answers the antecedent-belief-consequence analysis; the paper asks what ABC stands for",
    "match": {
     "kind": "card",
@@ -991,6 +1058,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the six ethical standards; the paper asks which of four statements are standards",
    "match": {
     "kind": "card",
@@ -1023,6 +1092,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card names the four features of attitudes; the paper asks which option is not one",
    "match": {
     "kind": "card",
@@ -1055,6 +1126,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card states when balance is found; the paper is a four-statement item that also asks the imbalance cases",
    "match": {
     "kind": "card",
@@ -1087,6 +1160,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks who proposed cognitive dissonance and answers Leon Festinger, as the paper does",
    "match": {
     "kind": "card",
@@ -1119,6 +1194,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the bank item names the three components of attitude from a belief, a feeling and an act in a new context; the paper asks to order three statements by component (A said new-values, B cited a card: the weaker kind)",
    "match": {
     "kind": "question",
@@ -1158,6 +1235,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks who proposed the two-step concept and answers S.M. Mohsin, as the paper does",
    "match": {
     "kind": "card",
@@ -1190,6 +1269,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks Tuckman's stages in order (forming, storming, norming, performing, adjourning), the paper's key",
    "match": {
     "kind": "card",
@@ -1222,6 +1303,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards (lepy101 p15) pair all four tests with their authors: Draw-a-Man with Pramila Pathak, the Bihar Test with S.M. Mohsin, Test of GMA (Hindi) with M.C. Joshi, Group Test of Intelligence with Prayag Mehta; the paper is a match",
    "match": {
     "kind": "card",
@@ -1254,6 +1337,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the cloze card is the paper's capital punishment example with the same answer, the bandwagon effect",
    "match": {
     "kind": "card",
@@ -1286,6 +1371,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the explanations of social loafing, the keyed option word for word among them; the paper asks to pick the one correct explanation",
    "match": {
     "kind": "card",
@@ -1318,6 +1405,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card names the conditions of group formation (proximity, similarity, common motives and goals); the paper asks which option is not one",
    "match": {
     "kind": "card",
@@ -1353,6 +1442,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card defines obsessive-compulsive disorder; the paper asks to diagnose a case",
    "match": {
     "kind": "card",
@@ -1388,6 +1479,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks what obsessive behaviour is; the paper gives the definition and asks the term",
    "match": {
     "kind": "card",
@@ -1423,6 +1516,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card defines compulsive behaviour; the paper asks to name the behaviour in the case",
    "match": {
     "kind": "card",
@@ -1458,6 +1553,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards (lepy104 p77-78) place hoarding, trichotillomania and excoriation in the obsessive-compulsive category; conversion was already taught as a somatic symptom disorder (list-somatic-types)",
    "match": {
     "kind": "card",
@@ -1493,6 +1590,8 @@
     3
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "new Key card (lepy104 p78) asks what trichotillomania is and answers hair-pulling disorder, the paper's key",
    "match": {
     "kind": "card",
@@ -1528,6 +1627,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card places cognitive restructuring in Beck's cognitive therapy; the paper asks which option is not a behaviour therapy technique",
    "match": {
     "kind": "card",
@@ -1563,6 +1664,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the bank item asks who developed systematic desensitisation and answers Wolpe, as the paper does",
    "match": {
     "kind": "question",
@@ -1605,6 +1708,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the cloze card is the paper's sentence with the same answer, differential reinforcement",
    "match": {
     "kind": "card",
@@ -1640,6 +1745,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the cloze card is the paper's sentence with the same answer, vicarious learning",
    "match": {
     "kind": "card",
@@ -1675,6 +1782,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card gives the alcoholic example of aversive conditioning; the paper asks which disorder suits the technique",
    "match": {
     "kind": "card",

@@ -17,7 +17,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Ban, BookOpen, BookOpenCheck, Check, ChevronLeft, ChevronRight, CircleDashed, Equal, EqualApproximately } from 'lucide-react';
-import { CODE_STATUS, COVERAGE_PATH, EXPLORER as C, LEGEND, STATUS_WORDS, firstPick, groupOf } from './coverageWords.mjs';
+import { CODE_STATUS, EXPLORER as C, LEGEND, STATUS_CODE, STATUS_WORDS, firstPick, groupOf, viewStrip } from './coverageWords.mjs';
 
 // One file a paper, each its own chunk. coverage2026.test.mjs holds this list to the summary's subjects.
 const LOADERS = {
@@ -131,8 +131,10 @@ function Ours({ q }) {
   );
 }
 
-export default function CoverageExplorer({ model, first }) {
+export default function CoverageExplorer({ model, first, heading, how }) {
   const start = model.first;
+  // Two figures, one switch: before, and now. The chosen one decides the chips, the legend and the strip.
+  const [view, setView] = useState('now');
   const [streamId, setStreamId] = useState(start.stream);
   const [subjectId, setSubjectId] = useState(start.subject);
   const [n, setN] = useState(start.n);
@@ -182,7 +184,7 @@ export default function CoverageExplorer({ model, first }) {
 
   const subject = model.subjects[subjectId];
   const stream = model.streams.find((s) => s.id === streamId) || model.streams[0];
-  const cells = subject.strip;
+  const cells = viewStrip(subject.strip, subject.marks, view);
   const file = files[subjectId];
   const fromFile = file ? file.questions.find((x) => x.n === n) : null;
   const q = fromFile
@@ -203,7 +205,7 @@ export default function CoverageExplorer({ model, first }) {
     if (!next) return;
     lastSubject.current[next.stream] = id;
     setSubjectId(id);
-    setN(lastN.current[id] || firstPick(next.strip));
+    setN(lastN.current[id] || firstPick(viewStrip(next.strip, next.marks, view)));
     if (!files[id]) load(id);
   };
   const pickStream = (id) => {
@@ -221,9 +223,34 @@ export default function CoverageExplorer({ model, first }) {
     strip.current?.querySelector(`[data-n="${to}"]`)?.focus();
   };
 
-  const legend = LEGEND.map((item) => ({ status: item.status, n: item.fields.reduce((sum, f) => sum + (subject.counts[f] || 0), 0) })).filter((item) => item.n > 0);
+  const codesOf = (item) => (item.status === 'concept' ? ['s', 'v', 'c'] : item.status === 'skill' ? [STATUS_CODE.skill, STATUS_CODE['off-syllabus'], STATUS_CODE.dropped] : [STATUS_CODE[item.status]]);
+  const legend = LEGEND.map((item) => ({ status: item.status, label: item.label, n: Array.from(cells).filter((code) => codesOf(item).includes(code)).length })).filter((item) => item.n > 0);
+  const shown = view === 'before' ? subject.first : subject;
 
   return (
+    <>
+    <div className="lp-cov__head">
+      {heading}
+      <div className="lp-cov__fig">
+        {model.before ? (
+          <div className="lp-cv" role="group" aria-label={C.views}>
+            {[['before', model.before], ['now', model.total]].map(([id, fig]) => (
+              <button key={id} type="button" className="lp-cv__view" aria-pressed={view === id} onClick={() => setView(id)}>
+                <span className="lp-cv__name">{C.view[id]}</span>
+                <b className="lp-cv__pct">{fig.pct}<span>%</span></b>
+                <span className="lp-cv__count">{C.viewCount(fig.covered, fig.of)}</span>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p className="lp-cov__total">
+            <b>{model.total.pct}<span>%</span></b>
+            <span>{C.total(model.total.covered, model.total.of, model.total.papers)}</span>
+          </p>
+        )}
+        {how}
+      </div>
+    </div>
     <div className="lp-cq" ref={root} data-status={status}>
       <div className="lp-cq__pick">
         <div className="lp-cq__streams" role="group" aria-label={C.streams}>
@@ -236,10 +263,10 @@ export default function CoverageExplorer({ model, first }) {
             const s = model.subjects[id];
             return (
               <button key={id} type="button" className="lp-cq__subject" aria-pressed={id === subjectId}
-                onClick={(e) => { pickSubject(id); e.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }}
+                onClick={(e) => { pickSubject(id); const row = e.currentTarget.parentElement; if (row && row.scrollWidth > row.clientWidth) e.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }}
                 onPointerEnter={() => { if (!files[id]) load(id); }}>
                 <span className="lp-cq__subject-name">{s.name}</span>
-                <b className="lp-cq__subject-pct">{s.pct}%</b>
+                <b className="lp-cq__subject-pct">{view === 'before' ? s.first.pct : s.pct}%</b>
               </button>
             );
           })}
@@ -248,13 +275,13 @@ export default function CoverageExplorer({ model, first }) {
       </div>
 
       <div className="lp-cq__paper">
-        <p className="lp-cq__line"><b>{subject.name}</b><span>{C.subjectLine(subject.covered, subject.of)}</span></p>
+        <p className="lp-cq__line"><b>{subject.name}</b><span>{C.subjectLine(shown.covered, subject.of)}</span></p>
         <ul className="lp-cq__legend">
           {legend.map((item) => (
             <li key={item.status}>
               <span className={`lp-cq__swatch lp-cq-st--${item.status}`} aria-hidden="true" />
               <b>{item.n}</b>
-              <span>{STATUS_WORDS[item.status].short}</span>
+              <span>{item.label}</span>
             </li>
           ))}
         </ul>
@@ -321,8 +348,9 @@ export default function CoverageExplorer({ model, first }) {
 
       <div className="lp-cq__foot">
         <Link href={subject.href} prefetch={false} className="mm-btn mm-btn--secondary lp-cq__full">{C.full(subject.name, subject.total)}</Link>
-        <p className="lp-cq__note">{C.note(subject.sitting)} <Link href={COVERAGE_PATH} prefetch={false} className="lp-cq__how">{C.how}</Link></p>
+        {subject.sitting ? <p className="lp-cq__note">{C.note(subject.sitting)}</p> : null}
       </div>
     </div>
+    </>
   );
 }

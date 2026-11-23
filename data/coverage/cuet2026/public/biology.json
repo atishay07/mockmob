@@ -8,6 +8,8 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-22",
+ "firstDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 45,
   "counted": 50,
-  "pct": 90
+  "pct": 90,
+  "first": 37,
+  "firstPct": 74,
+  "addedCards": 6,
+  "addedQuestions": 0,
+  "found": 2,
+  "sameFirst": 10,
+  "newValuesFirst": 0
  },
  "chapters": [
   {
@@ -108,6 +117,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card states the fact and the keyed answer.",
    "match": {
     "kind": "card",
@@ -140,6 +151,8 @@
     2
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -161,6 +174,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card defines endemism in the stem words; a served bank row asks the same.",
    "match": {
     "kind": "card",
@@ -193,6 +208,8 @@
     1
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks why the Amazon rain forest is being cut and cleared and answers cultivating soya beans or conversion to grasslands for raising beef cattle (lebo113 p.222): statements A and D, the keyed option.",
    "match": {
     "kind": "card",
@@ -225,6 +242,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards make i the repressor-coding (inhibiting) gene and z, y, a structural; the word \"inhibitor\" itself is not printed, so concept.",
    "match": {
     "kind": "card",
@@ -257,6 +276,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card credits the sequencing method to Frederick Sanger.",
    "match": {
     "kind": "card",
@@ -289,6 +310,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards give the closed set of three stop codons, so UUC is positively not one (a closed list, not an elimination guess).",
    "match": {
     "kind": "card",
@@ -321,6 +344,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "found",
    "reason": "Published cards state A (key-allele-sum: the allelic frequencies sum to 1), B (list-hw-factors: genetic drift affects H-W equilibrium) and C (def-hw-principle: frequencies stable and constant, so D is false). Checker A missed key-allele-sum; re-checked by the final judge.",
    "match": {
     "kind": "card",
@@ -353,6 +378,8 @@
     2
    ],
    "status": "same",
+   "first": false,
+   "since": "found",
    "reason": "Published card asks which two bodies mainly developed biogas technology in India and answers IARI and KVIC, the keyed pair. Checker A missed it; re-checked by the final judge.",
    "match": {
     "kind": "card",
@@ -385,6 +412,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card prints the NCERT sentence the item was built on and names the keyed pair; Rhizobium is symbiotic by card.",
    "match": {
     "kind": "card",
@@ -417,6 +446,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Steps card gives the three steps in order and another card makes amplification the repeated outcome; a bank row asks the same ordering.",
    "match": {
     "kind": "card",
@@ -449,6 +480,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card states the fact and the keyed organism.",
    "match": {
     "kind": "card",
@@ -481,6 +514,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same question and answer.",
    "match": {
     "kind": "card",
@@ -513,6 +548,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card gives the steps in the keyed order.",
    "match": {
     "kind": "card",
@@ -545,6 +582,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card names ELISA among the early-diagnosis techniques.",
    "match": {
     "kind": "card",
@@ -577,6 +616,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card gives syncarpous = fused, apocarpous = free.",
    "match": {
     "kind": "card",
@@ -609,6 +650,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card: water hyacinth and water lily flowers emerge above water and are pollinated by insects or wind (lebo101 p.13); published fact-water-examples makes Vallisneria, Hydrilla and Zostera water-pollinated. The key is stated, not eliminated.",
    "match": {
     "kind": "card",
@@ -641,6 +684,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same question and answer.",
    "match": {
     "kind": "card",
@@ -673,6 +718,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card: secretions of epididymis, vas deferens, seminal vesicle and prostate are essential for maturation and motility of sperms (lebo102 p.32); published list-female-system-parts places the cervix in the female system, so it is the one not essential.",
    "match": {
     "kind": "card",
@@ -705,6 +752,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Two cards give all four pairs.",
    "match": {
     "kind": "card",
@@ -737,6 +786,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card states the rule; gonorrhoea is the curable one.",
    "match": {
     "kind": "card",
@@ -769,6 +820,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card carries the stem sentence.",
    "match": {
     "kind": "card",
@@ -801,6 +854,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same definition.",
    "match": {
     "kind": "card",
@@ -833,6 +888,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card gives all four pairs.",
    "match": {
     "kind": "card",
@@ -865,6 +922,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card lists the four levels in the keyed order.",
    "match": {
     "kind": "card",
@@ -897,6 +956,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -918,6 +979,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards state the keyed statement and refute the other three.",
    "match": {
     "kind": "card",
@@ -950,6 +1013,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards date all four stages, which fixes the order.",
    "match": {
     "kind": "card",
@@ -982,6 +1047,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same fact and term.",
    "match": {
     "kind": "card",
@@ -1014,6 +1081,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards give all four pairs.",
    "match": {
     "kind": "card",
@@ -1046,6 +1115,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four cards give the four pairs.",
    "match": {
     "kind": "card",
@@ -1078,6 +1149,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1099,6 +1172,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The steps card gives the four steps in the keyed order; a bank row asks the same ordering.",
    "match": {
     "kind": "card",
@@ -1131,6 +1206,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same question and answer.",
    "match": {
     "kind": "card",
@@ -1163,6 +1240,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards state each true statement, so the C-chain statement is the false one.",
    "match": {
     "kind": "card",
@@ -1195,6 +1274,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same fact.",
    "match": {
     "kind": "card",
@@ -1227,6 +1308,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Card and bank row give the same answer.",
    "match": {
     "kind": "card",
@@ -1259,6 +1342,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1280,6 +1365,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same question and answer.",
    "match": {
     "kind": "card",
@@ -1312,6 +1399,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card says LH peaks mid-cycle and causes ovulation.",
    "match": {
     "kind": "card",
@@ -1347,6 +1436,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same question and answer.",
    "match": {
     "kind": "card",
@@ -1382,6 +1473,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards name the cannabis products and place smack positively with the poppy.",
    "match": {
     "kind": "card",
@@ -1417,6 +1510,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card: morphine is a very effective sedative and painkiller, very useful in patients who have undergone surgery (lebo107 p.143). The card asks the use of morphine; the paper gives the use and asks the drug.",
    "match": {
     "kind": "card",
@@ -1452,6 +1547,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card: barbiturates, amphetamines and benzodiazepines are normally used as medicines to help patients cope with mental illnesses like depression and insomnia (lebo107 p.143); published list-antibiotic-markers names chloramphenicol as an antibiotic, so it is the one not used for mental illness.",
    "match": {
     "kind": "card",
@@ -1487,6 +1584,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1511,6 +1610,8 @@
     1
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks NCERT's example of an autosomal dominant trait and answers myotonic dystrophy (lebo104 p.73, Figure 4.14), the key; the three distractors are taught as autosomal recessive by published cards.",
    "match": {
     "kind": "card",
@@ -1546,6 +1647,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same question and answer.",
    "match": {
     "kind": "card",
@@ -1581,6 +1684,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card has the stem sentence nearly word for word.",
    "match": {
     "kind": "card",
@@ -1616,6 +1721,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same question and answer.",
    "match": {
     "kind": "card",
@@ -1651,6 +1758,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Key card is the same definition.",
    "match": {
     "kind": "card",

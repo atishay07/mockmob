@@ -8,6 +8,8 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-22",
+ "firstDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 39,
   "counted": 41,
-  "pct": 95
+  "pct": 95,
+  "first": 27,
+  "firstPct": 66,
+  "addedCards": 12,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 10,
+  "newValuesFirst": 0
  },
  "chapters": [
   {
@@ -118,6 +127,8 @@
     1
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks the region India gains access to through Russia and answers Central Asia (NCERT leps101 p.13), the keyed option.",
    "match": {
     "kind": "card",
@@ -150,6 +161,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card names the three Soviet-aided plants; Bankura is the odd one.",
    "match": {
     "kind": "card",
@@ -182,6 +195,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards state lost savings (A), subsidies withdrawn into poverty (D) and new disparities (so C is false); fact-cst-garage-sale states B.",
    "match": {
     "kind": "card",
@@ -214,6 +229,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card states the year and the Bangkok Declaration.",
    "match": {
     "kind": "card",
@@ -246,6 +263,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The 1981 card is the key; the 1988 card disposes of the 1987 option.",
    "match": {
     "kind": "card",
@@ -278,6 +297,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four dated timeline cards give the order B, C, A, D.",
    "match": {
     "kind": "card",
@@ -310,6 +331,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The cloze card is the paper's sentence; a served bank row says the same.",
    "match": {
     "kind": "card",
@@ -342,6 +365,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards tie the extraordinary success to the national-movement legacy and its all-inclusive nature; the distractors (Hindi agitation, urban Hindi support) are Jana Sangh facts on other cards.",
    "match": {
     "kind": "card",
@@ -374,6 +399,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New list cards name Mukherjee, Upadhyaya and Madhok as BJS leaders and Ajay Ghosh among CPI leaders.",
    "match": {
     "kind": "card",
@@ -406,6 +433,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four dated cards give D, B, A, C.",
    "match": {
     "kind": "card",
@@ -438,6 +467,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "A, B, C taught by fact-global-networks, fact-seattle, def-wsf; the new card states the February 2024 WSF met in Nepal, so D is false.",
    "match": {
     "kind": "card",
@@ -470,6 +501,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card asks and answers the same thing.",
    "match": {
     "kind": "card",
@@ -502,6 +535,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards state the direction of the shift and the true statements.",
    "match": {
     "kind": "card",
@@ -534,6 +569,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "A and B by the First Plan dam and land cards; new card states the First Plan planners sought to push savings up (D); fact-tariffs asks and answers the Second Plan tariffs, so C is not the First Plan.",
    "match": {
     "kind": "card",
@@ -566,6 +603,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card states the criticism.",
    "match": {
     "kind": "card",
@@ -598,6 +637,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards give the true statements and the last-resort rule that exposes option 3.",
    "match": {
     "kind": "card",
@@ -630,6 +671,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Dated cards give C, D, A, B. A's card list-nuclear-five carries 1968 only on its front, so B replaced it with fact-npt.",
    "match": {
     "kind": "card",
@@ -662,6 +705,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards state the three challenges, so partition assets is the one left out.",
    "match": {
     "kind": "card",
@@ -694,6 +739,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The Manipur card is the key; other cards dispose of the distractors.",
    "match": {
     "kind": "card",
@@ -726,6 +773,8 @@
     0
    ],
    "status": "same",
+   "first": false,
+   "since": "added",
    "reason": "New card asks which cities besides Lahore became communal zones and answers Amritsar and Kolkata (leps201 p.10).",
    "match": {
     "kind": "card",
@@ -758,6 +807,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Two cards name Kanshi Ram.",
    "match": {
     "kind": "card",
@@ -790,6 +841,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card states the keyed fact and refutes the 300-seat and 2012 options.",
    "match": {
     "kind": "card",
@@ -822,6 +875,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The Suez-Hungary card is the key; the alliance cards confirm the true options.",
    "match": {
     "kind": "card",
@@ -854,6 +909,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Dated material gives D 1987 accord, A 1988 nuclear-installations agreement (new), B Farakka Dec 1996, C FTA Dec 1998 (new).",
    "match": {
     "kind": "card",
@@ -886,6 +943,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Nepal-SPA, Sri Lanka-IPKF and Maldives-1988 troops were cards; the new card states India and Bangladesh exchanged enclaves in 2015.",
    "match": {
     "kind": "card",
@@ -918,6 +977,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card is the keyed definition.",
    "match": {
     "kind": "card",
@@ -950,6 +1011,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -971,6 +1034,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card lists the three, so the veto statement is the odd one.",
    "match": {
     "kind": "card",
@@ -1003,6 +1068,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Boutros-Ghali Agenda for Peace, Hammarskjold Suez and Annan Human Rights Council were cards; the new card states Ban Ki-moon worked for UN Women.",
    "match": {
     "kind": "card",
@@ -1035,6 +1102,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card states Defence Production Nov 1962 and Defence Supplies Nov 1965; fact-npt gives 1968 and fact-tashkent January 1966.",
    "match": {
     "kind": "card",
@@ -1067,6 +1136,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card states it word for word.",
    "match": {
     "kind": "card",
@@ -1099,6 +1170,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Cards cover B, C, D and give Kamraj as the leader, so A fails.",
    "match": {
     "kind": "card",
@@ -1131,6 +1204,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card is the keyed sentence.",
    "match": {
     "kind": "card",
@@ -1163,6 +1238,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New cards: JP founder general secretary of the CSP, Charan Singh founded the BKD; fact-railway-strike (Fernandes) and fact-gujarat-morarji-fast with kl-gujarat-jan-1974 (Morarji in the Gujarat students' movement).",
    "match": {
     "kind": "card",
@@ -1195,6 +1272,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card is the keyed fact.",
    "match": {
     "kind": "card",
@@ -1227,6 +1306,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Dated material gives D, B, A, C. A's card fact-assam-accord-terms carries 1985 only on its front; B cites the bank rows that state it.",
    "match": {
     "kind": "card",
@@ -1259,6 +1340,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card lists the three, so the asymmetry option is left out.",
    "match": {
     "kind": "card",
@@ -1291,6 +1374,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card states Goa became a State in 1987; fact-ne-statehood gives Nagaland 1963 and Meghalaya 1972, fact-punjab-1966 gives Punjab.",
    "match": {
     "kind": "card",
@@ -1323,6 +1408,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card is the keyed fact.",
    "match": {
     "kind": "card",
@@ -1355,6 +1442,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card is the keyed sentence.",
    "match": {
     "kind": "card",
@@ -1387,6 +1476,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1408,6 +1499,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1429,6 +1522,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1450,6 +1545,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1471,6 +1568,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1492,6 +1591,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1513,6 +1614,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1534,6 +1637,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1555,6 +1660,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1576,6 +1683,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   }

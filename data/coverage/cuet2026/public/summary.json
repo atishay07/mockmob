@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-22T06:51:30.874Z",
+ "builtAt": "2026-11-23T13:08:41.186Z",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
  "snapshotDates": [
@@ -33,7 +33,13 @@
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 38,
+   "firstPct": 69,
+   "firstDay": "20 November 2026",
+   "addedCards": 3,
+   "addedQuestions": 13,
+   "found": 0
   },
   {
    "id": "biology",
@@ -53,7 +59,13 @@
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 37,
+   "firstPct": 74,
+   "firstDay": "22 November 2026",
+   "addedCards": 6,
+   "addedQuestions": 0,
+   "found": 2
   },
   {
    "id": "business-studies",
@@ -73,7 +85,13 @@
    "skill": 1,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 30,
+   "firstPct": 61,
+   "firstDay": "20 November 2026",
+   "addedCards": 11,
+   "addedQuestions": 3,
+   "found": 0
   },
   {
    "id": "economics",
@@ -93,7 +111,13 @@
    "skill": 5,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 32,
+   "firstPct": 71,
+   "firstDay": "20 November 2026",
+   "addedCards": 7,
+   "addedQuestions": 4,
+   "found": 0
   },
   {
    "id": "geography",
@@ -113,7 +137,13 @@
    "skill": 7,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 26,
+   "firstPct": 60,
+   "firstDay": "22 November 2026",
+   "addedCards": 9,
+   "addedQuestions": 0,
+   "found": 0
   },
   {
    "id": "history",
@@ -133,7 +163,13 @@
    "skill": 8,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 28,
+   "firstPct": 67,
+   "firstDay": "22 November 2026",
+   "addedCards": 11,
+   "addedQuestions": 0,
+   "found": 0
   },
   {
    "id": "political-science",
@@ -153,7 +189,13 @@
    "skill": 9,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 27,
+   "firstPct": 66,
+   "firstDay": "22 November 2026",
+   "addedCards": 12,
+   "addedQuestions": 0,
+   "found": 0
   },
   {
    "id": "psychology",
@@ -173,7 +215,13 @@
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 40,
+   "firstPct": 80,
+   "firstDay": "22 November 2026",
+   "addedCards": 8,
+   "addedQuestions": 0,
+   "found": 0
   },
   {
    "id": "sociology",
@@ -193,7 +241,13 @@
    "skill": 9,
    "offSyllabus": 0,
    "dropped": 0,
-   "final": true
+   "final": true,
+   "first": 30,
+   "firstPct": 73,
+   "firstDay": "22 November 2026",
+   "addedCards": 5,
+   "addedQuestions": 0,
+   "found": 0
   }
  ],
  "total": {
@@ -205,6 +259,21 @@
   "notYet": 34,
   "skill": 39,
   "pct": 92
+ },
+ "firstCheck": {
+  "from": "2026-11-20",
+  "to": "2026-11-22",
+  "fromDay": "20 November 2026",
+  "toDay": "22 November 2026",
+  "covered": 288,
+  "counted": 416,
+  "pct": 69,
+  "addedCards": 72,
+  "addedQuestions": 20,
+  "found": 2,
+  "same": 67,
+  "newValues": 4,
+  "questions": 455
  },
  "chapters": {
   "asked": 114,

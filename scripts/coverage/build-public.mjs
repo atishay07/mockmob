@@ -14,6 +14,13 @@
 //     say covered, and then the status is "concept" (taught in MockMob); anything else is "not-yet". Never upgraded.
 //   * a covered question whose best match cannot be resolved to served words is "not-yet" and listed in problems.json.
 //
+// The first check (owner, 23 Nov 2026: the pages must say what was there before we read the papers). A and B are the first
+// check of a paper: the bank as it stood on their snapshotDate, before anything was written for the paper. Every question
+// carries `first` (counted at the first check: A and B both found it, and it is counted now) and, when it is counted now and
+// was not then, `since`: "added" (its match was written after the first check) or "found" (its match was already there and
+// a later check found it). `since` is read from added-after.json (scripts/coverage/added-after.py, from git history); a
+// later-counted question that file does not list is called "added" (the smaller claim) and listed in problems.json.
+//
 // The matched words: Key cards from data/keycards/decks/<deck>.json by card id; bank questions from
 // data/coverage/cuet2026/bank-cache.json ({ [id]: { stem, options[4], key, explanation, chapter, subject, from } }). Only
 // served rows ever enter the cache:
@@ -33,6 +40,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const DIR = path.join(ROOT, 'data/coverage/cuet2026');
 const OUT = path.join(DIR, 'public');
 const CACHE = path.join(DIR, 'bank-cache.json');
+const ADDED_AFTER = path.join(DIR, 'added-after.json');
 const SERVED_CHAPTERS = path.join(OUT, 'served-chapters.json');
 const DECKS = path.join(ROOT, 'data/keycards/decks');
 
@@ -231,7 +239,17 @@ const passageOf = (paper, q) => {
   return p?.text ? { title: p.title || null, text: p.text } : null;
 };
 
-function buildSubject(subject, cache, problems) {
+/** "added" or "found" for a question counted now and not at the first check, from added-after.json; null when not listed. */
+function sinceOf(record, id, n, best) {
+  const row = record?.subjects?.[id];
+  if (!row) return null;
+  const has = (list) => (list || []).some((x) => x.n === n && x.id === best);
+  if (has(row.addedCards) || has(row.addedQuestions)) return 'added';
+  if (has(row.found)) return 'found';
+  return null;
+}
+
+function buildSubject(subject, cache, problems, addedAfter) {
   const { id, paper, A, B, final } = subject;
   const meta = SUBJECTS[id] || { name: titleOf(id), stream: 'other' };
   const snapshotDate = final?.snapshotDate || B.snapshotDate || A.snapshotDate || null;
@@ -250,6 +268,15 @@ function buildSubject(subject, cache, problems) {
       }
     }
     const keys = Array.isArray(q.answerPositions) && q.answerPositions.length ? q.answerPositions : [q.answerPosition];
+    const first = COVERED.has(status) && verdictFromChecks(r.a, r.b) === 'covered';
+    let since = null;
+    if (COVERED.has(status) && !first) {
+      since = sinceOf(addedAfter, id, q.n, r.best);
+      if (!since) {
+        problems.push({ subject: id, n: q.n, id: r.best || null, problem: 'counted now and not at the first check, and not listed in added-after.json: run python scripts/coverage/added-after.py', was: status });
+        since = 'added';
+      }
+    }
     return {
       n: q.n,
       paperNumber: q.paperNumber ?? null,
@@ -261,6 +288,8 @@ function buildSubject(subject, cache, problems) {
       options: q.options,
       key: keys.filter((k) => Number.isInteger(k)).map((k) => k - 1),
       status,
+      first,
+      since,
       reason: COVERED.has(status) ? cleanReason(r.reason) : null,
       match,
     };
@@ -280,6 +309,15 @@ function buildSubject(subject, cache, problems) {
   counts.covered = counts.same + counts.newValues + counts.concept;
   counts.counted = counts.covered + counts.notYet;
   counts.pct = counts.counted ? Math.round((counts.covered / counts.counted) * 100) : 0;
+  // The first check, over the same counted questions.
+  counts.first = questions.filter((q) => q.first).length;
+  counts.firstPct = counts.counted ? Math.round((counts.first / counts.counted) * 100) : 0;
+  counts.addedCards = questions.filter((q) => q.since === 'added' && q.match?.kind === 'card').length;
+  counts.addedQuestions = questions.filter((q) => q.since === 'added' && q.match?.kind !== 'card').length;
+  counts.found = questions.filter((q) => q.since === 'found').length;
+  counts.sameFirst = questions.filter((q) => q.first && q.status === 'same').length;
+  counts.newValuesFirst = questions.filter((q) => q.first && q.status === 'new-values').length;
+  const firstDates = [A.snapshotDate, B.snapshotDate].filter(Boolean).sort();
 
   const byChapter = new Map();
   for (const q of questions) {
@@ -302,6 +340,8 @@ function buildSubject(subject, cache, problems) {
     shift: shiftLine(paper.shift),
     snapshotDate,
     snapshotDay: dayLine(snapshotDate),
+    firstDate: firstDates[0] || null,
+    firstDay: dayLine(firstDates[0]),
     final: Boolean(final),
     counts,
     chapters,
@@ -405,7 +445,8 @@ async function main() {
   // Owner LK368 (22 Nov 2026): "get every subject to at least 80% or above. Once that is done, just build the section."
   // So a subject is shown only when its whole exercise is done (the independent final check wrote <id>-final.json) and it
   // stands at SHOW_MIN_PCT or more; the others are built, listed under `held` with the reason, and not drawn anywhere.
-  const builtAll = subjects.map((s) => buildSubject(s, nextCache, problems));
+  const addedAfter = readIf(ADDED_AFTER, { subjects: {} });
+  const builtAll = subjects.map((s) => buildSubject(s, nextCache, problems, addedAfter));
   const held = [];
   const built = builtAll.filter((s) => {
     const why = !s.final ? 'no final check yet' : s.counts.pct < SHOW_MIN_PCT ? `below ${SHOW_MIN_PCT}%` : null;
@@ -439,6 +480,24 @@ async function main() {
     skill: t.skill + s.counts.skill,
   }), { counted: 0, covered: 0, same: 0, newValues: 0, concept: 0, notYet: 0, skill: 0 });
   total.pct = total.counted ? Math.round((total.covered / total.counted) * 100) : 0;
+  // The first check and what came after it, over the same questions (kept apart from `total`, which older readers hold whole).
+  const sumOf = (field) => built.reduce((n, s) => n + s.counts[field], 0);
+  const firstDays = [...new Set(built.map((s) => s.firstDate).filter(Boolean))].sort();
+  const firstCheck = {
+    from: firstDays[0] || null,
+    to: firstDays[firstDays.length - 1] || null,
+    fromDay: dayLine(firstDays[0]),
+    toDay: dayLine(firstDays[firstDays.length - 1]),
+    covered: sumOf('first'),
+    counted: total.counted,
+    pct: total.counted ? Math.round((sumOf('first') / total.counted) * 100) : 0,
+    addedCards: sumOf('addedCards'),
+    addedQuestions: sumOf('addedQuestions'),
+    found: sumOf('found'),
+    same: sumOf('sameFirst'),
+    newValues: sumOf('newValuesFirst'),
+    questions: sumOf('total'),
+  };
 
   const snapshotDates = [...new Set(built.map((s) => s.snapshotDate).filter(Boolean))].sort();
   const summary = {
@@ -452,8 +511,11 @@ async function main() {
       total: s.counts.total, counted: s.counts.counted, covered: s.counts.covered, pct: s.counts.pct,
       same: s.counts.same, newValues: s.counts.newValues, concept: s.counts.concept, notYet: s.counts.notYet,
       skill: s.counts.skill, offSyllabus: s.counts.offSyllabus, dropped: s.counts.dropped, final: s.final,
+      first: s.counts.first, firstPct: s.counts.firstPct, firstDay: s.firstDay,
+      addedCards: s.counts.addedCards, addedQuestions: s.counts.addedQuestions, found: s.counts.found,
     })),
     total,
+    firstCheck,
     chapters: { asked, withPractice, minServed: PRACTICE_MIN_SERVED, rule: servedChapters.rule, list: chapterList },
     skipped,
     held,
@@ -466,6 +528,7 @@ async function main() {
   console.log(`subjects built: ${built.map((s) => `${s.id} ${s.counts.covered}/${s.counts.counted} (${s.counts.pct}%)${s.final ? ' final' : ''}`).join(', ') || 'none'}`);
   if (skipped.length) console.log(`skipped: ${skipped.map((s) => `${s.id} (${s.why})`).join(', ')}`);
   console.log(`total ${total.covered}/${total.counted} (${total.pct}%), same ${total.same}, new numbers ${total.newValues}; chapters ${withPractice} of ${asked} with practice`);
+  console.log(`first check ${firstCheck.covered}/${firstCheck.counted} (${firstCheck.pct}%), ${firstCheck.fromDay} to ${firstCheck.toDay}; since then ${firstCheck.addedCards} Key cards and ${firstCheck.addedQuestions} questions added, ${firstCheck.found} found`);
   console.log(`problems: ${problems.length}; bank-cache ${Object.keys(nextCache).length} of ${wanted.size} cited bank ids`);
   // The home page's trimmed copies follow the public files (owner LK427, 23 Nov 2026).
   const { buildHome } = await import('./build-home.mjs');

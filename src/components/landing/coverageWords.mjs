@@ -24,13 +24,20 @@ export const STATUS_WORDS = Object.freeze({
 });
 export const groupOf = (status) => STATUS_WORDS[status]?.group || 'out';
 
-/** The legend under a subject's name: the four counted statuses in order, then everything shown and not counted as one. */
+/** A paper's strip as a view draws it. "now" is the strip itself; "before" draws a question that was not counted then as
+ *  "not yet" (marks: one letter a question, 1 = counted then). */
+export function viewStrip(strip, marks, view) {
+  if (view !== 'before') return String(strip || '');
+  return Array.from(String(strip || ''), (code, i) => ('svc'.includes(code) && marks?.[i] !== '1' ? STATUS_CODE['not-yet'] : code)).join('');
+}
+
+/** The legend beside a subject's name (owner, 23 Nov 2026 evening: "way too much ... clutter"; his reference draws two states).
+ *  The strip draws three things and no more: in MockMob, not yet, and shown but not counted. Which kind of match a question
+ *  has (the same question, new numbers, taught) is said once, on the chosen question itself. */
 export const LEGEND = Object.freeze([
-  Object.freeze({ status: 'same', fields: Object.freeze(['same']) }),
-  Object.freeze({ status: 'new-values', fields: Object.freeze(['newValues']) }),
-  Object.freeze({ status: 'concept', fields: Object.freeze(['concept']) }),
-  Object.freeze({ status: 'not-yet', fields: Object.freeze(['notYet']) }),
-  Object.freeze({ status: 'skill', fields: Object.freeze(['skill', 'offSyllabus', 'dropped']) }),
+  Object.freeze({ status: 'concept', label: 'In MockMob', fields: Object.freeze(['same', 'newValues', 'concept']) }),
+  Object.freeze({ status: 'not-yet', label: 'Not yet', fields: Object.freeze(['notYet']) }),
+  Object.freeze({ status: 'skill', label: 'Not counted', fields: Object.freeze(['skill', 'offSyllabus', 'dropped']) }),
 ]);
 
 /** The streams as the home page's tabs, in the owner's order (LK427). `pending` are subjects of the stream whose papers are
@@ -58,7 +65,7 @@ const list = (names) => (names.length <= 1 ? names.join('') : `${names.slice(0, 
 
 export const EXPLORER = Object.freeze({
   h2: 'CUET 2026, checked question by question.',
-  mark: 'question by question.',
+  mark: 'CUET 2026,',
   total: (covered, of, papers) => `${covered} of ${of} questions from ${papers} CUET 2026 papers are taught in MockMob.`,
   streams: 'Stream',
   subjects: 'Subject',
@@ -85,6 +92,37 @@ export const EXPLORER = Object.freeze({
   failed: 'This paper did not load.',
   retry: 'Try again',
   full: (name, total) => `See all ${total} ${name} questions`,
-  how: 'How we checked',
-  note: (sitting) => `${sitting ? `This paper: ${sitting}. ` : ''}A question counts only when two separate checks both found it in MockMob.`,
+  note: (sitting) => (sitting ? `This paper: ${sitting}.` : ''),
+  // The two figures (owner, 23 Nov 2026): each key carries its own number.
+  views: 'Which figure',
+  view: Object.freeze({ before: 'First check', now: 'Now, for CUET 2027' }),
+  viewCount: (covered, of) => `${covered} of ${of} questions`,
 });
+
+/** "How we counted": the short sheet behind the figure (owner, 23 Nov 2026: a button like his reference's, "showing their
+ *  transparency and assumptions"; then, the same evening: keep it basic). What counts, what was checked, and one plain line
+ *  on what the figure is. The numbers are passed in from the model. */
+export function howWeCounted({ total }) {
+  return {
+    button: 'How we counted',
+    title: 'How we counted',
+    close: 'Close',
+    sections: [
+      {
+        id: 'counts', head: 'What counts as taught', points: [
+          'A theory question counts when MockMob states every fact it tests, in a practice question or on a Key card.',
+          'A sum counts only when a MockMob question uses the same formula and the same steps. The numbers can differ.',
+          'Two separate checks read every question. It counts only when both found it.',
+        ],
+      },
+      {
+        id: 'checked', head: 'What we checked', points: [
+          `${total.papers} CUET 2026 ${total.papers === 1 ? 'paper' : 'papers'}, one shift of each subject. ${total.of} questions are counted.`,
+          'A question you can answer from a passage printed in the paper is shown and not counted.',
+        ],
+      },
+    ],
+    note: 'We checked after the exam. Each figure is what MockMob taught when it was counted.',
+    link: { href: COVERAGE_PATH, text: `Open all ${total.papers} ${total.papers === 1 ? 'paper' : 'papers'}` },
+  };
+}

@@ -1,0 +1,440 @@
+{
+ "what": "For each CUET 2026 question counted now and not at the first check: whether its best match was written after the first check (added) or was already there (found). Written by scripts/coverage/added-after.py.",
+ "firstCommit": "211cdc9f9",
+ "subjects": {
+  "accountancy": {
+   "addedCards": [
+    {
+     "n": 15,
+     "id": "kc.accountancy.goodwill-valuation.def-as26-intangible-assets-standard"
+    },
+    {
+     "n": 21,
+     "id": "kc.accountancy.goodwill-valuation.fact-as26-intangible-write-off-limit"
+    },
+    {
+     "n": 53,
+     "id": "kc.accountancy.computerized-accounting-system.steps-ch2-freeze-formula-paste-special"
+    }
+   ],
+   "addedQuestions": [
+    {
+     "n": 3,
+     "id": "70291c3b-d5ad-4b37-989e-2f7f88c6cba6"
+    },
+    {
+     "n": 4,
+     "id": "3b2c3c2a-e203-4a75-ac60-525a13070d8c"
+    },
+    {
+     "n": 13,
+     "id": "59862358-7c7e-4c2b-a3e9-e2fd73c581e7"
+    },
+    {
+     "n": 16,
+     "id": "7926bef3-599f-4cdb-9107-fbf0edba1d9a"
+    },
+    {
+     "n": 17,
+     "id": "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be"
+    },
+    {
+     "n": 18,
+     "id": "86cc4648-e6d2-4854-b767-32d33a9cc06f"
+    },
+    {
+     "n": 22,
+     "id": "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d"
+    },
+    {
+     "n": 35,
+     "id": "43e60b95-10cb-4861-822a-678a501c2050"
+    },
+    {
+     "n": 36,
+     "id": "ad7c29aa-6d1b-4e11-9598-4108289c6e04"
+    },
+    {
+     "n": 37,
+     "id": "34e245ae-b9e4-4a51-aed4-23448fb29a87"
+    },
+    {
+     "n": 40,
+     "id": "4635494f-c14e-42a9-839b-8745eab4ec6d"
+    },
+    {
+     "n": 45,
+     "id": "0b239ef8-ccb0-4cdd-8f1c-b9def2e9edc9"
+    },
+    {
+     "n": 49,
+     "id": "55e6c5a0-db6b-47d6-8901-71a9a8c983f5"
+    }
+   ],
+   "found": []
+  },
+  "biology": {
+   "addedCards": [
+    {
+     "n": 4,
+     "id": "kc.biology.biodiversity-and-conservation.fact-amazon-cleared-for"
+    },
+    {
+     "n": 17,
+     "id": "kc.biology.sexual-reproduction-in-flowering-plants.fact-water-lily-pollination"
+    },
+    {
+     "n": 19,
+     "id": "kc.biology.human-reproduction.fact-secretions-sperm-maturation"
+    },
+    {
+     "n": 43,
+     "id": "kc.biology.human-health-and-disease.fact-morphine-use"
+    },
+    {
+     "n": 44,
+     "id": "kc.biology.human-health-and-disease.fact-mental-illness-medicines"
+    },
+    {
+     "n": 46,
+     "id": "kc.biology.principles-of-inheritance-and-variation.fact-autosomal-dominant-example"
+    }
+   ],
+   "addedQuestions": [],
+   "found": [
+    {
+     "n": 8,
+     "id": "kc.biology.evolution.key-allele-sum"
+    },
+    {
+     "n": 9,
+     "id": "kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic"
+    }
+   ]
+  },
+  "business-studies": {
+   "addedCards": [
+    {
+     "n": 5,
+     "id": "kc.business_studies.organising.fact-delegation-basis-of-hierarchy"
+    },
+    {
+     "n": 10,
+     "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-functional-differentiation"
+    },
+    {
+     "n": 24,
+     "id": "kc.business_studies.organising.fact-decentralisation-caution"
+    },
+    {
+     "n": 25,
+     "id": "kc.business_studies.principles-of-management.fact-harmony-japanese-example"
+    },
+    {
+     "n": 27,
+     "id": "kc.business_studies.staffing.fact-reference-checks-purpose"
+    },
+    {
+     "n": 29,
+     "id": "kc.business_studies.principles-of-management.fact-method-study-cost-quality-aim"
+    },
+    {
+     "n": 33,
+     "id": "kc.business_studies.marketing-management.fact-pricing-market-share-lower-prices"
+    },
+    {
+     "n": 40,
+     "id": "kc.business_studies.marketing-management.fact-marketed-events-examples"
+    },
+    {
+     "n": 47,
+     "id": "kc.business_studies.directing.fact-career-advancement-meaning"
+    },
+    {
+     "n": 48,
+     "id": "kc.business_studies.directing.list-org-climate-characteristics"
+    },
+    {
+     "n": 49,
+     "id": "kc.business_studies.directing.list-job-enrichment-features"
+    }
+   ],
+   "addedQuestions": [
+    {
+     "n": 13,
+     "id": "8171062d-6e5e-418c-a453-08f9daedef4d"
+    },
+    {
+     "n": 30,
+     "id": "3bca44a8-5095-4fdf-ace1-595621a862b2"
+    },
+    {
+     "n": 38,
+     "id": "350e6b60-9039-406a-8e7f-c7d021e04ed4"
+    }
+   ],
+   "found": []
+  },
+  "economics": {
+   "addedCards": [
+    {
+     "n": 5,
+     "id": "kc.economics.production-and-costs.fact-isoquant-negative-slope"
+    },
+    {
+     "n": 11,
+     "id": "kc.economics.national-income-and-related-aggregates.fact-general-theory-1936"
+    },
+    {
+     "n": 12,
+     "id": "kc.economics.national-income-and-related-aggregates.fact-external-sector-trade"
+    },
+    {
+     "n": 30,
+     "id": "kc.economics.balance-of-payments.fact-ca-deficit-spends-more"
+    },
+    {
+     "n": 33,
+     "id": "kc.economics.economic-reforms-since-1991.fact-small-scale-dereserved"
+    },
+    {
+     "n": 35,
+     "id": "kc.economics.human-capital-formation.fact-education-commission-six-percent"
+    },
+    {
+     "n": 37,
+     "id": "kc.economics.employment.fact-box61-labour-ministry-data"
+    }
+   ],
+   "addedQuestions": [
+    {
+     "n": 3,
+     "id": "124e00d2-25e6-41a3-8351-283f4426bd07"
+    },
+    {
+     "n": 19,
+     "id": "09eea9aa-9687-498b-8f1c-2a95024de7cb"
+    },
+    {
+     "n": 42,
+     "id": "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595"
+    },
+    {
+     "n": 43,
+     "id": "db2ce0f4-b7cd-43e1-829b-2bdcf680132d"
+    }
+   ],
+   "found": []
+  },
+  "geography": {
+   "addedCards": [
+    {
+     "n": 6,
+     "id": "kc.geography.primary-activities.fact-gathering-bark-quinine"
+    },
+    {
+     "n": 7,
+     "id": "kc.geography.primary-activities.fact-wet-paddy-machinery"
+    },
+    {
+     "n": 18,
+     "id": "kc.geography.human-geography-nature-and-scope.fact-regions-organisms"
+    },
+    {
+     "n": 20,
+     "id": "kc.geography.international-trade.fact-wto-criticism-ignored"
+    },
+    {
+     "n": 21,
+     "id": "kc.geography.transport-and-communication.fact-pipelines-new-zealand-milk"
+    },
+    {
+     "n": 23,
+     "id": "kc.geography.transport-and-communication.fact-big-inch-usa"
+    },
+    {
+     "n": 29,
+     "id": "kc.geography.india-people-and-economy.list-religions-by-population"
+    },
+    {
+     "n": 35,
+     "id": "kc.geography.international-trade-india.fact-petroleum-import-reasons"
+    },
+    {
+     "n": 36,
+     "id": "kc.geography.human-geography-nature-and-scope.fact-behavioural-interface"
+    }
+   ],
+   "addedQuestions": [],
+   "found": []
+  },
+  "history": {
+   "addedCards": [
+    {
+     "n": 3,
+     "id": "kc.history.bricks-beads-and-bones.fact-terracotta-plough-models"
+    },
+    {
+     "n": 5,
+     "id": "kc.history.bricks-beads-and-bones.fact-lower-town-residential"
+    },
+    {
+     "n": 7,
+     "id": "kc.history.bricks-beads-and-bones.fact-graves-pottery-ornaments-afterlife"
+    },
+    {
+     "n": 9,
+     "id": "kc.history.kings-farmers-and-towns.fact-kushanas-largest-gold-hoards"
+    },
+    {
+     "n": 12,
+     "id": "kc.history.kinship-caste-and-class.fact-timeline-early-buddhist-texts"
+    },
+    {
+     "n": 20,
+     "id": "kc.history.through-the-eyes-of-travellers.fact-mundy-england"
+    },
+    {
+     "n": 21,
+     "id": "kc.history.bhakti-sufi-traditions.fact-marichi-sculpture-bihar"
+    },
+    {
+     "n": 24,
+     "id": "kc.history.bhakti-sufi-traditions.list-timeline-teachers-1300-1400"
+    },
+    {
+     "n": 29,
+     "id": "kc.history.an-imperial-capital-vijayanagara.fact-aravidu-penukonda-chandragiri"
+    },
+    {
+     "n": 36,
+     "id": "kc.history.colonialism-and-the-countryside.fact-mirajgaon-petition-ryot"
+    },
+    {
+     "n": 40,
+     "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-salt-march-police-secret-reports"
+    }
+   ],
+   "addedQuestions": [],
+   "found": []
+  },
+  "political-science": {
+   "addedCards": [
+    {
+     "n": 1,
+     "id": "kc.political_science.end-of-bipolarity.fact-russia-central-asia"
+    },
+    {
+     "n": 3,
+     "id": "kc.political_science.end-of-bipolarity.fact-cst-inflation-savings"
+    },
+    {
+     "n": 9,
+     "id": "kc.political_science.era-of-one-party-dominance.list-bjs-leaders"
+    },
+    {
+     "n": 11,
+     "id": "kc.political_science.globalisation.fact-wsf-2024-nepal"
+    },
+    {
+     "n": 14,
+     "id": "kc.political_science.politics-of-planned-development.fact-first-plan-savings"
+    },
+    {
+     "n": 20,
+     "id": "kc.political_science.challenges-of-nation-building.fact-communal-zone-cities"
+    },
+    {
+     "n": 24,
+     "id": "kc.political_science.contemporary-south-asia.fact-tl-1988-nuclear-agreement"
+    },
+    {
+     "n": 25,
+     "id": "kc.political_science.contemporary-south-asia.fact-bangladesh-enclaves-2015"
+    },
+    {
+     "n": 29,
+     "id": "kc.political_science.international-organisations.fact-sg-bankimoon-un-women"
+    },
+    {
+     "n": 30,
+     "id": "kc.political_science.india-s-external-relations.fact-defence-departments-founded"
+    },
+    {
+     "n": 34,
+     "id": "kc.political_science.crisis-of-the-democratic-order.fact-jp-founder-congress-socialist"
+    },
+    {
+     "n": 38,
+     "id": "kc.political_science.regional-aspirations.fact-goa-state-1987"
+    }
+   ],
+   "addedQuestions": [],
+   "found": []
+  },
+  "psychology": {
+   "addedCards": [
+    {
+     "n": 6,
+     "id": "kc.psychology.variations-in-psychological-attributes.list-twin-sibling-iq-correlations"
+    },
+    {
+     "n": 9,
+     "id": "kc.psychology.variations-in-psychological-attributes.list-table12-verbal-tests-india"
+    },
+    {
+     "n": 15,
+     "id": "kc.psychology.self-and-personality.fact-freud-hypnosis"
+    },
+    {
+     "n": 16,
+     "id": "kc.psychology.self-and-personality.ex-reaction-formation-religious-fervour"
+    },
+    {
+     "n": 20,
+     "id": "kc.psychology.meeting-life-challenges.fact-high-and-low-stress-performance"
+    },
+    {
+     "n": 37,
+     "id": "kc.psychology.variations-in-psychological-attributes.list-table12-verbal-tests-india"
+    },
+    {
+     "n": 44,
+     "id": "kc.psychology.psychological-disorders.list-oc-related-body-focused"
+    },
+    {
+     "n": 45,
+     "id": "kc.psychology.psychological-disorders.def-trichotillomania"
+    }
+   ],
+   "addedQuestions": [],
+   "found": []
+  },
+  "sociology": {
+   "addedCards": [
+    {
+     "n": 18,
+     "id": "kc.sociology.story-of-indian-democracy.list-panchayat-powers"
+    },
+    {
+     "n": 23,
+     "id": "kc.sociology.demographic-structure.fact-famine-causes-poverty-rainfall"
+    },
+    {
+     "n": 25,
+     "id": "kc.sociology.social-institutions.fact-nationalists-reassure-upper-castes"
+    },
+    {
+     "n": 32,
+     "id": "kc.sociology.market-as-a-social-institution.fact-marwari-bankers-british-expansion"
+    },
+    {
+     "n": 35,
+     "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-black-protestors-repression"
+    }
+   ],
+   "addedQuestions": [],
+   "found": []
+  }
+ }
+}

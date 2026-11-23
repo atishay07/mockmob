@@ -8,6 +8,8 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-20",
+ "firstDay": "20 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 43,
   "counted": 45,
-  "pct": 96
+  "pct": 96,
+  "first": 32,
+  "firstPct": 71,
+  "addedCards": 7,
+  "addedQuestions": 4,
+  "found": 0,
+  "sameFirst": 4,
+  "newValuesFirst": 2
  },
  "chapters": [
   {
@@ -128,6 +137,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card states the paper's definition word for word but asks it the other way round (what is the set), so it teaches the fact, not the same question",
    "match": {
     "kind": "card",
@@ -160,6 +171,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card teaches that the rational consumer seeks the highest indifference curve on the budget line; the paper asks to pick the inferior point on a diagram",
    "match": {
     "kind": "card",
@@ -192,6 +205,8 @@
     0
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate computes price elasticity from two prices and two quantities with the starting values as base and takes the absolute value: same formula and steps, new figures",
    "match": {
     "kind": "question",
@@ -231,6 +246,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card gives the increasing and decreasing returns formulas; the paper is a four-pair match that also needs the production function and constant returns",
    "match": {
     "kind": "card",
@@ -263,6 +280,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards in the deck state all three facts: the isoquant definition (def-isoquant), each isoquant labelled with one output level (fact-isoquant-output-label), and isoquants negatively sloped (fact-isoquant-negative-slope)",
    "match": {
     "kind": "card",
@@ -295,6 +314,8 @@
     2
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -316,6 +337,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the three short-run conditions; the paper asks which of four statements hold",
    "match": {
     "kind": "card",
@@ -348,6 +371,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card says a dearer input shifts the MC curve up (left); the paper applies it to a wage rise",
    "match": {
     "kind": "card",
@@ -380,6 +405,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks whose name goes with the Invisible Hand; the paper asks what adjusts prices",
    "match": {
     "kind": "card",
@@ -412,6 +439,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card states a ceiling below equilibrium causes excess demand; the paper asks for the false statement",
    "match": {
     "kind": "card",
@@ -444,6 +473,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card (leec101 p.5) states Keynes published The General Theory in 1936",
    "match": {
     "kind": "card",
@@ -476,6 +507,8 @@
     0
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards (leec101 p.8) state the external sector is the fourth sector, trade with it being exports to and imports from the rest of the world, and the four sectors",
    "match": {
     "kind": "card",
@@ -508,6 +541,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card says how RBI regulates money supply; the paper asks which authority does it",
    "match": {
     "kind": "card",
@@ -540,6 +575,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card states M4 only; the paper matches M1 to M4",
    "match": {
     "kind": "card",
@@ -572,6 +609,8 @@
     2
    ],
    "status": "new-values",
+   "first": true,
+   "since": null,
    "reason": "bank question computes the money multiplier from a reserve ratio (10 per cent); the paper uses 50 per cent: same steps, new figure",
    "match": {
     "kind": "question",
@@ -611,6 +650,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card defines open market operations; the paper gives the definition and asks the term",
    "match": {
     "kind": "card",
@@ -643,6 +684,8 @@
     0
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks the paper's question (rate of increase in ex ante consumption per unit of income) with the same answer, MPC",
    "match": {
     "kind": "card",
@@ -675,6 +718,8 @@
     1
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -696,6 +741,8 @@
     0
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate solves the new equilibrium income level Y = (autonomous C + I)/(1 - MPC) after investment rises: same formula and steps, new figures",
    "match": {
     "kind": "question",
@@ -735,6 +782,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks what makes output rise by more than autonomous spending; same answer, the multiplier",
    "match": {
     "kind": "card",
@@ -767,6 +816,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card defines deficient demand; the paper gives the situation and asks its name",
    "match": {
     "kind": "card",
@@ -799,6 +850,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the bank question uses the multiplier 1/(1 - MPC) to compute a change; the paper asks for the formula itself",
    "match": {
     "kind": "question",
@@ -838,6 +891,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card names the three budget functions; the paper asks which option is not one",
    "match": {
     "kind": "card",
@@ -870,6 +925,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the cards give non-rival, non-excludable, benefits to all and provision by government or private sector; the paper is a four-statement item",
    "match": {
     "kind": "card",
@@ -902,6 +959,8 @@
     1
    ],
    "status": "new-values",
+   "first": true,
+   "since": null,
    "reason": "bank question: change in equilibrium income from a spending rise of 100 at MPC 0.6; the paper uses MPC 0.8: same steps, new figure",
    "match": {
     "kind": "question",
@@ -941,6 +1000,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card explains the automatic stabiliser; the paper is a four-pair budget match taught by several items",
    "match": {
     "kind": "card",
@@ -973,6 +1034,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card states imports shift the demand for foreign exchange right and depreciate the rupee; the paper asks the order of the chain",
    "match": {
     "kind": "card",
@@ -1005,6 +1068,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card describes managed (dirty) floating; the paper gives the description and asks its name",
    "match": {
     "kind": "card",
@@ -1037,6 +1102,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card calls import spending a leakage; the paper asks the two ways (leakage, injection)",
    "match": {
     "kind": "card",
@@ -1069,6 +1136,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card (leec106 p.88-89) states a current account deficit means spending more than it receives, i.e. receipts below payments",
    "match": {
     "kind": "card",
@@ -1101,6 +1170,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks the year of the first census and answers 1881, as the paper does",
    "match": {
     "kind": "card",
@@ -1133,6 +1204,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the cards date the four events (1950, Second Plan after 1951-56, mid-1960s, 1991); the paper asks their order",
    "match": {
     "kind": "card",
@@ -1165,6 +1238,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key card states many small-scale goods were dereserved (C); A, B and D were already taught (list-licensing-retained, bank 1b2966cc, fact-public-sector-reserved, list-industrial-regulations), and the new fact-market-sets-prices card makes D false",
    "match": {
     "kind": "card",
@@ -1197,6 +1272,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the cards define outsourcing, stabilisation, structural measures and globalisation; the paper is a match",
    "match": {
     "kind": "card",
@@ -1229,6 +1306,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards state all four dates: Education Commission 1964-66 (note: Kothari Commission), Tapas Majumdar Committee 1999, RTE Act 2009, National Education Policy 2020",
    "match": {
     "kind": "card",
@@ -1261,6 +1340,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card names the four functions of the environment; the paper asks which statements are functions (all four); asked differently, so the weaker kind",
    "match": {
     "kind": "card",
@@ -1293,6 +1374,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "new Key cards state the Union Ministry of Labour collects formal sector employment data (A) and TANWA trained women farmers (D); B (construction workers = casual wage labourers) and C (MGNREGA rural employment) were already taught",
    "match": {
     "kind": "card",
@@ -1325,6 +1408,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card contrasts China's classical shift with India and Pakistan; the paper asks which country followed it",
    "match": {
     "kind": "card",
@@ -1357,6 +1442,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card gives all three countries' first plan years; the paper asks only Pakistan's",
    "match": {
     "kind": "card",
@@ -1389,6 +1476,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card gives the HDI ranks; the paper asks their order with the USA added",
    "match": {
     "kind": "card",
@@ -1424,6 +1513,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "the card asks for the three methods of measuring aggregate output and answers product, income, expenditure, as the paper's key does",
    "match": {
     "kind": "card",
@@ -1459,6 +1550,8 @@
     1
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate computes real GDP of the current year as current quantity x base-year price for a one-good economy: same steps, new figures",
    "match": {
     "kind": "question",
@@ -1501,6 +1594,8 @@
     0
    ],
    "status": "new-values",
+   "first": false,
+   "since": "added",
    "reason": "accepted bank candidate computes the GDP deflator as nominal / real GDP x 100 from base-year and current-year price and quantity: same steps, new figures",
    "match": {
     "kind": "question",
@@ -1543,6 +1638,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1567,6 +1664,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1591,6 +1690,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card asks the same question (what is rural development) but in NCERT's wording (village economy), not the keyed option's; the weaker kind",
    "match": {
     "kind": "card",
@@ -1626,6 +1727,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1650,6 +1753,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1674,6 +1779,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1698,6 +1805,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "the card lists the three marketing instruments; the paper asks which option is not one",
    "match": {
     "kind": "card",

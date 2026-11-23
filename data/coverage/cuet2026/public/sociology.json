@@ -8,6 +8,8 @@
  "shift": "first shift",
  "snapshotDate": "2026-11-22",
  "snapshotDay": "22 November 2026",
+ "firstDate": "2026-11-22",
+ "firstDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
@@ -20,7 +22,14 @@
   "dropped": 0,
   "covered": 35,
   "counted": 41,
-  "pct": 85
+  "pct": 85,
+  "first": 30,
+  "firstPct": 73,
+  "addedCards": 5,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 5,
+  "newValuesFirst": 0
  },
  "chapters": [
   {
@@ -98,6 +107,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card asks what social demography is and answers the keyed definition (wider causes and consequences of population structure and change); the formal-demography card separates option 1.",
    "match": {
     "kind": "card",
@@ -130,6 +141,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card asks for the meaning of the age structure and answers the keyed definition word for word; the distractors are the fertility rate, IMR and sex ratio, each on its own card.",
    "match": {
     "kind": "card",
@@ -162,6 +175,8 @@
     2
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -183,6 +198,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -204,6 +221,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card list-six-features (quote: born into, never a matter of choice, can never change it; endogamy; linked to occupations) settles all four statements.",
    "match": {
     "kind": "card",
@@ -236,6 +255,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four definition cards, each the keyed pairing word for word.",
    "match": {
     "kind": "card",
@@ -268,6 +289,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-crit-4-gender-practices names dowry replacing bride-price as a result of sanskritisation.",
    "match": {
     "kind": "card",
@@ -300,6 +323,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Two served bank explanations give the permanent/acquired split (language and region permanent, assimilation into Hindu society acquired) and the tribe-caste card puts purity-pollution in caste society. One step of application; weakest covered call, accepted.",
    "match": {
     "kind": "question",
@@ -339,6 +364,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card diff-matrilineal-vs-patrilineal ties inheritance to lineage; residence and authority have separate cards.",
    "match": {
     "kind": "card",
@@ -371,6 +398,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Six cards state every part; B is false by fact-obc-service-artisanal.",
    "match": {
     "kind": "card",
@@ -403,6 +432,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card asks which body the defenders of sati formed (Dharma Sabha) and kl-counter-movements says counter movements defend the status quo; the paper asks why it is a counter movement, so the facts are taught by a different question.",
    "match": {
     "kind": "card",
@@ -435,6 +466,8 @@
     2
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card asks what, not religion, forms ethno-national identity in India and answers language with region and tribe: the paper asks the same and keys A, C, D.",
    "match": {
     "kind": "card",
@@ -467,6 +500,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card gives Weber's definition of the state with his name; the paper quotes the definition and asks its author, the other way round.",
    "match": {
     "kind": "card",
@@ -499,6 +534,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "fact-forcible-imposition (national unity based upon a recognition of differences) plus the constitution and anti-assimilation cards give the keyed vision and rule out options 1 and 2.",
    "match": {
     "kind": "card",
@@ -531,6 +568,8 @@
     3
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -552,6 +591,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -573,6 +614,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card states the 73rd Amendment provided a three-tier Panchayati Raj but asks about the population threshold, not the number of tiers.",
    "match": {
     "kind": "card",
@@ -605,6 +648,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New list card (lesy203 p34) gives the delegated powers: economic development plans, social justice schemes, levying taxes, duties, tolls and fees, devolution of finances; law-making is not on it, so A, C, D.",
    "match": {
     "kind": "card",
@@ -637,6 +682,8 @@
     1
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card is the paper's description of companies cutting permanent staff and passing work to small firms or homes, with outsourcing as the blank.",
    "match": {
     "kind": "card",
@@ -669,6 +716,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card asks what Article 21 has been interpreted to include (a life of quality: livelihood, health, shelter, education, dignity); the paper asks how judicial interpretation brings social change.",
    "match": {
     "kind": "card",
@@ -701,6 +750,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -722,6 +773,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Dated cards for 1952, 1991, 2011 and the 2020 average-age card fix the order C, A, B, D (C before A alone already picks option 3).",
    "match": {
     "kind": "card",
@@ -754,6 +807,8 @@
     1
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card states famines were caused by continuing poverty and malnutrition (A, lesy102 p15); fact-india-transition-incomplete gives B, fact-epidemic-control-measures C, and fact-prosperity-lowers-birth-rate makes D false.",
    "match": {
     "kind": "card",
@@ -786,6 +841,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-state-nation is the keyed sentence; key-india-state-nation names India.",
    "match": {
     "kind": "card",
@@ -818,6 +875,8 @@
     3
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card (lesy103 p40) states Gandhi and the nationalist leaders worked for lower-caste upliftment and against untouchability while reassuring the landowning upper castes their interests would be looked after: the keyed contradiction.",
    "match": {
     "kind": "card",
@@ -850,6 +909,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card asks which scholar compares the invisibility of the disabled to Ellison's Invisible Man and names Anita Ghai as a leading scholar of disability; the paper asks who is a disability scholar.",
    "match": {
     "kind": "card",
@@ -882,6 +943,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-communalism and bank 4d49ab64 give the meaning; the scenario applies it.",
    "match": {
     "kind": "card",
@@ -914,6 +977,8 @@
     3
    ],
    "status": "same",
+   "first": true,
+   "since": null,
    "reason": "The card asks which non-market exchange system NCERT cites and answers the jajmani system, the paper's key.",
    "match": {
     "kind": "card",
@@ -946,6 +1011,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-def-extended-family states it.",
    "match": {
     "kind": "card",
@@ -978,6 +1045,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card asks what a hundi is (an instrument of exchange and credit); the paper asks which is a credit instrument, the other way round.",
    "match": {
     "kind": "card",
@@ -1010,6 +1079,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-population-momentum is the stem sentence with the term as the answer.",
    "match": {
     "kind": "card",
@@ -1042,6 +1113,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "New card (lesy104 p61) states Marwari bankers helped the commercial expansion of the British, so option 3 is the false one; fact-marwaris-colonial and steps-marwari-steps give options 1, 2 and 4.",
    "match": {
     "kind": "card",
@@ -1074,6 +1147,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card fact-schedules-1935 states the 1935 schedules of castes and tribes drawn up by the British Indian government.",
    "match": {
     "kind": "card",
@@ -1106,6 +1181,8 @@
     0
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card kl-disability-poverty-link states the link; bank 64b92c21 teaches disability as socially constructed.",
    "match": {
     "kind": "card",
@@ -1138,6 +1215,8 @@
     2
    ],
    "status": "concept",
+   "first": false,
+   "since": "added",
    "reason": "Five new apartheid cards (lesy105 p76-77): protestors jailed, tortured and killed (A), mixed marriages prohibited (B false), one-fourth earnings (C), Bantustans (D).",
    "match": {
     "kind": "card",
@@ -1170,6 +1249,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Four cards, one per pair.",
    "match": {
     "kind": "card",
@@ -1202,6 +1283,8 @@
     1
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card names secularism as the opposite of religious chauvinism and asks what it need not imply; the paper gives that description and asks for the term.",
    "match": {
     "kind": "card",
@@ -1234,6 +1317,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Card def-assimilation-text states it.",
    "match": {
     "kind": "card",
@@ -1266,6 +1351,8 @@
     2
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "The card asks what civil society is and gives the paper's definition; the paper gives the definition and asks for the term.",
    "match": {
     "kind": "card",
@@ -1298,6 +1385,8 @@
     3
    ],
    "status": "concept",
+   "first": true,
+   "since": null,
    "reason": "Each pair has a card: Chipko (women hug trees; ecology concerns), kl-old-power-relations, list-women-agrarian-revolts (Telangana arms struggle), list-dalit-struggle (self-determination).",
    "match": {
     "kind": "card",
@@ -1333,6 +1422,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1357,6 +1448,8 @@
     2
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1381,6 +1474,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1405,6 +1500,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1429,6 +1526,8 @@
     3
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1453,6 +1552,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1477,6 +1578,8 @@
     1
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1501,6 +1604,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1525,6 +1630,8 @@
     0
    ],
    "status": "skill",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   },
@@ -1549,6 +1656,8 @@
     0
    ],
    "status": "not-yet",
+   "first": false,
+   "since": null,
    "reason": null,
    "match": null
   }

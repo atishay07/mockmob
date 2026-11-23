@@ -296,6 +296,10 @@ export default function LandingPage() {
         {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
         <Later><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></Later>
 
+        {/* The real CUET 2026 papers, checked against MockMob, question by question (owner LK427, 23 Nov 2026; above the Mistake Lab since
+            the owner's note of 23 Nov evening): stream tabs, subject chips, a strip of every question, NTA's question beside MockMob's. */}
+        <Later><CoverageProof /></Later>
+
         {/* ------------------- MISTAKE LAB CINEMA (held scroll story) ------------------ */}
         <Later><section className="lp-sec lp-sec--cinema lp-pos-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
           {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
@@ -357,10 +361,6 @@ export default function LandingPage() {
             </div>
           </section></Later>
         ) : null}
-
-        {/* The real CUET 2026 papers, checked against MockMob, question by question (owner LK427, 23 Nov 2026; it replaced the
-            teaser of LK368): stream tabs, subject chips, a strip of every question, NTA's question beside MockMob's. */}
-        <Later><CoverageProof /></Later>
 
         {/* ------------------------------ PRICING --------------------------- */}
         {/* R3-D8 (owner LK109-LK111), R4-H7 (LK130-LK132): the /pricing page's one plan as a glass card under "Pro" and, round 5

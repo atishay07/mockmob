@@ -181,3 +181,35 @@ test('the pages are static and the filter is their only script', () => {
   for (const rel of ['src/app/cuet-2026-coverage/page.js', 'src/app/cuet-2026-coverage/[subject]/page.js']) assert.doesNotMatch(src(rel), /'use client'/);
   assert.match(src('src/app/sitemap.js'), /cuet-2026-coverage|COVERAGE_PATH/);
 });
+
+// ---- The first check, on record and not drawn (owner, 23 Nov 2026 evening). The data files keep what MockMob taught before
+// anything was written for these papers, and which matches were written after; the pages show today's figure only.
+test('the first check is on record in the data, counted from the two first checks themselves', () => {
+  const fc = summary.firstCheck;
+  assert.ok(fc, 'summary.firstCheck');
+  const record = read(path.join(DIR, 'added-after.json'));
+  let first = 0;
+  for (const { s, file } of subjects) {
+    const A = new Map(read(path.join(DIR, `${s.id}-A.json`)).questions.map((q) => [q.n, q.verdict]));
+    const B = new Map(read(path.join(DIR, `${s.id}-B.json`)).questions.map((q) => [q.n, q.verdict]));
+    const own = file.questions.filter((q) => COVERED.has(q.status) && A.get(q.n) === 'covered' && B.get(q.n) === 'covered').length;
+    assert.equal(s.first, own, `${s.id}: first check`);
+    assert.equal(s.first + s.addedCards + s.addedQuestions + s.found, s.covered, `${s.id}: first + added + found = now`);
+    const row = record.subjects[s.id] || { addedCards: [], addedQuestions: [], found: [] };
+    const listed = new Map([...row.addedCards, ...row.addedQuestions].map((x) => [x.n, ['added', x.id]]).concat(row.found.map((x) => [x.n, ['found', x.id]])));
+    for (const q of file.questions) {
+      assert.equal(Boolean(q.first || q.since), COVERED.has(q.status), `${file.id} Q${q.n}`);
+      if (q.since) assert.deepEqual(listed.get(q.n), [q.since, q.match.id], `${file.id} Q${q.n}: on record in added-after.json`);
+    }
+    assert.equal(listed.size, s.addedCards + s.addedQuestions + s.found, `${s.id}: nothing on record that the paper does not show`);
+    first += own;
+  }
+  assert.equal(fc.covered, first);
+  assert.equal(fc.counted, summary.total.counted);
+  assert.equal(fc.covered + fc.addedCards + fc.addedQuestions + fc.found, summary.total.covered);
+  // Not drawn: no page reads these fields.
+  const src = (rel) => readFileSync(path.join(ROOT, rel), 'utf8');
+  for (const rel of ['src/app/cuet-2026-coverage/page.js', 'src/app/cuet-2026-coverage/[subject]/page.js', 'src/components/coverage/CoveragePieces.jsx', 'src/components/coverage/coverageCopy.mjs']) {
+    assert.doesNotMatch(src(rel), /firstCheck|\.since\b|addedCards/, rel);
+  }
+});

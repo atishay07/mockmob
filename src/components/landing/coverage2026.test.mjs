@@ -4,8 +4,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { COVERAGE_PATH, COVERAGE_STRIPS, COVERAGE_SUMMARY, coverageExplorer, coveragePct, homeQuestion, homeSubject, stripOf } from './coverage2026.mjs';
-import { CODE_STATUS, EXPLORER, HOME_STREAMS, LEGEND, STATUS_CODE, STATUS_WORDS, firstPick, groupOf } from './coverageWords.mjs';
+import { COVERAGE_MARKS, COVERAGE_PATH, COVERAGE_STRIPS, COVERAGE_SUMMARY, coverageExplorer, coveragePct, homeQuestion, homeSubject, marksOf, stripOf } from './coverage2026.mjs';
+import { CODE_STATUS, EXPLORER, HOME_STREAMS, LEGEND, STATUS_CODE, STATUS_WORDS, firstPick, groupOf, howWeCounted, viewStrip } from './coverageWords.mjs';
 
 const path = (rel) => fileURLToPath(new URL(`../../../${rel}`, import.meta.url));
 const read = (rel) => readFileSync(path(rel), 'utf8');
@@ -19,6 +19,7 @@ test('every number is the built summary, never a number typed here', () => {
   assert.deepEqual(COVERAGE_SUMMARY.total, summary.total);
   const model = coverageExplorer();
   assert.deepEqual(model.total, { covered: summary.total.covered, of: summary.total.counted, pct: summary.total.pct, papers: summary.subjects.length });
+  assert.deepEqual(model.before, { covered: summary.firstCheck.covered, of: summary.firstCheck.counted, pct: summary.firstCheck.pct });
   assert.equal(model.total.pct, coveragePct(summary.total.covered, summary.total.counted));
   assert.equal(Object.keys(model.subjects).length, summary.subjects.length);
   for (const src of summary.subjects) {
@@ -103,7 +104,7 @@ test('each strip is its paper, question for question, and counts to the summary'
 
 test('the trimmed papers are what build-home.mjs writes, and carry the words of every match', () => {
   const files = readdirSync(path('data/coverage/cuet2026/home')).sort();
-  assert.deepEqual(files, [...summary.subjects.map((s) => `${s.id}.json`), 'strips.json'].sort());
+  assert.deepEqual(files, [...summary.subjects.map((s) => `${s.id}.json`), 'strips.json', 'marks.json'].sort());
   for (const s of summary.subjects) {
     const file = full(s.id);
     const slim = home(s.id);
@@ -170,7 +171,8 @@ test('the words say what was checked: no hype, no prediction, no comparison with
   }
   assert.equal(EXPLORER.h2, 'CUET 2026, checked question by question.');
   assert.ok(EXPLORER.h2.includes(EXPLORER.mark));
-  assert.match(EXPLORER.note('20 May 2026, first shift'), /A question counts only when two separate checks both found it in MockMob\.$/);
+  assert.equal(EXPLORER.note('20 May 2026, first shift'), 'This paper: 20 May 2026, first shift.');
+  assert.equal(EXPLORER.note(''), '');
   assert.equal(EXPLORER.total(382, 416, 9), '382 of 416 questions from 9 CUET 2026 papers are taught in MockMob.');
 });
 
@@ -180,19 +182,81 @@ test('the section sits right before pricing, keeps its address, and links each p
   assert.match(shell, /<section className="lp-sec lp-cov" id="cuet-2026"/);
   const explorer = read('src/components/landing/CoverageExplorer.jsx');
   assert.match(explorer, /href=\{subject\.href\}/);
-  assert.match(explorer, /href=\{COVERAGE_PATH\}/);
+  // The way to every paper is the sheet's own key ("Open all 9 papers"), under the figure.
+  assert.match(read('src/components/landing/coverageWords.mjs'), /link: \{ href: COVERAGE_PATH,/);
+  assert.match(shell, /<CoverageHow key="how" how=\{howWeCounted\(\{ total: model\.total \}\)\} \/>/);
   const css = read('src/components/landing/coverage-proof.css');
   assert.doesNotMatch(css, /position:\s*(fixed|sticky)/);
   assert.doesNotMatch(css, /infinite/, 'nothing loops');
   assert.match(css, /prefers-reduced-motion: reduce/);
   const page = read('src/app/page.js');
   assert.match(page, /<Later><CoverageProof \/><\/Later>/);
+  // Owner, 23 Nov 2026 evening: the check sits right above the Mistake Lab.
   const at = page.indexOf('<Later><CoverageProof />');
-  const pricing = page.indexOf('id="pricing"');
-  assert.ok(at > 0 && pricing > at, 'the check comes before the pricing section');
-  assert.doesNotMatch(page.slice(at + 30, page.lastIndexOf('<Later>', pricing)), /<Later>/, 'nothing between the check and pricing');
+  const lab = page.indexOf('id="inside-the-lab"');
+  assert.ok(at > 0 && lab > at, 'the check comes before the Mistake Lab');
+  assert.doesNotMatch(page.slice(at + 30, page.lastIndexOf('<Later>', lab)), /<Later>/, 'nothing between the check and the Lab');
   assert.match(page, /const HASH_IDS = \[[^\]]*'cuet-2026'/, '/#cuet-2026 lands on the section');
   // The full pages stay: the index and one page a subject.
   assert.ok(existsSync(path('src/app/cuet-2026-coverage/page.js')));
   assert.ok(existsSync(path('src/app/cuet-2026-coverage/[subject]/page.js')));
+});
+
+// ---- Owner, 23 Nov 2026 evening: "way too much transparency and clutter ... how clean, aesthetic, and elegant" his reference
+// is. One figure, a strip that draws three things, and one quiet key to a short sheet.
+test('the strip and its legend draw three things: in MockMob, not yet, not counted', () => {
+  assert.deepEqual(LEGEND.map((item) => item.label), ['In MockMob', 'Not yet', 'Not counted']);
+  assert.deepEqual(LEGEND[0].fields, ['same', 'newValues', 'concept']);
+  for (const s of summary.subjects) {
+    const legend = LEGEND.map((item) => item.fields.reduce((sum, f) => sum + (s[f] || 0), 0));
+    assert.deepEqual(legend, [s.covered, s.notYet, s.skill + s.offSyllabus + s.dropped], `${s.id}: the legend is the paper's own count`);
+    assert.equal(legend.reduce((a, b) => a + b, 0), s.total, `${s.id}: every question is in the legend once`);
+  }
+  const css = read('src/components/landing/coverage-proof.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  assert.match(css, /\.lp-cq-st--concept, \.lp-cq-st--same, \.lp-cq-st--new-values \{ background: var\(--cq-in\); \}/, 'one look for a question in MockMob');
+  assert.doesNotMatch(css, /\.lp-cq-st--(same|new-values) \{[^}]*(repeating-linear-gradient|inset 0 0 0 4px)/, 'no rings or stripes on the strip');
+  assert.match(css, /\.lp-cq-st--not-yet \{[^}]*repeating-linear-gradient/, 'not yet is hollow and hatched: never colour alone');
+  // Which kind of match a question has is still said, once, on the chosen question.
+  assert.match(read('src/components/landing/CoverageExplorer.jsx'), /<b>\{words\.label\}<\/b>/);
+});
+
+test('"How we counted" is one quiet key and a short sheet: what counts, what was checked, and that it is today\'s figure', () => {
+  const model = coverageExplorer();
+  const how = howWeCounted({ total: model.total });
+  assert.equal(how.button, 'How we counted');
+  assert.deepEqual(how.sections.map((s) => s.id), ['counts', 'checked']);
+  assert.ok(how.sections.every((s) => s.points.length <= 3), 'short lists');
+  assert.equal(how.sections[1].points[0], `${summary.subjects.length} CUET 2026 papers, one shift of each subject. ${summary.total.counted} questions are counted.`);
+  assert.equal(how.note, 'We checked after the exam. Each figure is what MockMob taught when it was counted.');
+  assert.deepEqual(how.link, { href: COVERAGE_PATH, text: `Open all ${summary.subjects.length} papers` });
+  const words = [how.title, how.note, how.link.text, ...how.sections.flatMap((s) => [s.head, ...s.points])];
+  for (const w of words) {
+    assert.doesNotMatch(w, /[—!]|\p{Extended_Pictographic}/u, w);
+    assert.doesNotMatch(w, /guarantee|came from MockMob|leaked|preparoo|highest in the market|73%/i, w);
+    // No claim about what MockMob held before the exam: the only tense is today's.
+    assert.doesNotMatch(w, /2026 bank|before the exam|already covered|had covered|we had/i, w);
+    if (/predict/i.test(w)) assert.match(w, /It is not a prediction\.$/, w);
+  }
+  const sheet = read('src/components/landing/CoverageHow.jsx');
+  assert.match(sheet, /^'use client'/);
+  assert.match(sheet, /<dialog ref=\{dialogRef\} className="lp-ch" aria-labelledby="lp-ch-title"/, 'a native dialog: Esc closes it and the page behind is inert');
+  assert.match(sheet, /showModal\(\)/);
+  assert.match(sheet, /className="lp-ch-key" onClick=\{open\}/);
+  assert.match(sheet, /keyRef\.current\?\.focus\(\{ preventScroll: true \}\)/, 'focus returns to the key');
+  // Two figures as one switch (owner, 23 Nov 2026): the first check and now, each a key with its own number. No dates, no marks.
+  const explorer = read('src/components/landing/CoverageExplorer.jsx');
+  assert.match(explorer, /\[\['before', model\.before\], \['now', model\.total\]\]/);
+  assert.match(explorer, /useState\('now'\)/);
+  assert.doesNotMatch(explorer, /data-since/);
+  assert.deepEqual(EXPLORER.view, { before: 'First check', now: 'Now, for CUET 2027' });
+  assert.deepEqual(COVERAGE_MARKS, json('data/coverage/cuet2026/home/marks.json'));
+  for (const s of summary.subjects) {
+    const marks = COVERAGE_MARKS[s.id];
+    assert.equal(marks, marksOf(full(s.id)), s.id);
+    assert.equal([...marks].filter((m) => m === '1').length, s.first, `${s.id}: the marks count to the first check`);
+    const strip = COVERAGE_STRIPS[s.id];
+    assert.equal(viewStrip(strip, marks, 'now'), strip);
+    assert.equal([...viewStrip(strip, marks, 'before')].filter((c) => 'svc'.includes(c)).length, s.first, `${s.id}: the first view counts to the first check`);
+    assert.deepEqual(model.subjects[s.id].first, { covered: s.first, pct: s.firstPct });
+  }
 });
