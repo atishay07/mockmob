@@ -6,27 +6,27 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "second shift",
- "snapshotDate": "2026-11-23",
- "snapshotDay": "23 November 2026",
+ "snapshotDate": "2026-11-24",
+ "snapshotDay": "24 November 2026",
  "firstDate": "2026-11-23",
  "firstDay": "23 November 2026",
  "final": true,
  "counts": {
   "total": 85,
   "same": 0,
-  "newValues": 0,
-  "concept": 33,
-  "notYet": 52,
+  "newValues": 33,
+  "concept": 39,
+  "notYet": 13,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 33,
+  "covered": 72,
   "counted": 85,
-  "pct": 39,
+  "pct": 85,
   "first": 33,
   "firstPct": 39,
   "addedCards": 0,
-  "addedQuestions": 0,
+  "addedQuestions": 39,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -35,17 +35,17 @@
   {
    "name": "Application of Derivatives",
    "asked": 8,
-   "covered": 6
+   "covered": 8
   },
   {
    "name": "Matrices",
    "asked": 8,
-   "covered": 2
+   "covered": 6
   },
   {
    "name": "Determinants",
    "asked": 7,
-   "covered": 1
+   "covered": 5
   },
   {
    "name": "Differential Equations",
@@ -55,42 +55,42 @@
   {
    "name": "Financial Mathematics",
    "asked": 6,
-   "covered": 3
+   "covered": 5
   },
   {
    "name": "Integrals",
    "asked": 6,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Numbers, Quantification and Numerical Applications",
    "asked": 6,
-   "covered": 0
+   "covered": 5
   },
   {
    "name": "Continuity & Differentiability",
    "asked": 5,
-   "covered": 0
+   "covered": 4
   },
   {
    "name": "Linear Programming",
    "asked": 5,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "Probability",
    "asked": 5,
-   "covered": 1
+   "covered": 5
   },
   {
    "name": "Probability Distributions",
    "asked": 4,
-   "covered": 1
+   "covered": 4
   },
   {
    "name": "Vector Algebra",
    "asked": 4,
-   "covered": 0
+   "covered": 4
   },
   {
    "name": "Application of Integrals",
@@ -105,17 +105,17 @@
   {
    "name": "Three Dimensional Geometry",
    "asked": 3,
-   "covered": 0
+   "covered": 2
   },
   {
    "name": "Relations & Functions",
    "asked": 2,
-   "covered": 0
+   "covered": 2
   },
   {
    "name": "Time Based Data",
    "asked": 2,
-   "covered": 1
+   "covered": 2
   },
   {
    "name": "Inverse Trigonometric Functions",
@@ -141,11 +141,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "042703b8-ea06-434c-b594-247954b00760",
+    "chapter": "Matrices",
+    "stem": "M is a square matrix of order 3 whose entry in row i and column j is i − j. Consider the following statements:\n(A) M is a skew-symmetric matrix.\n(B) M is a diagonal matrix.\n(C) M is a symmetric matrix.\n(D) M is invertible.\n(E) |M| = 0\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "Only (A), (B) and (E)",
+     "Only (A) and (D)",
+     "Only (A) and (E)",
+     "Only (C) and (E)"
+    ],
+    "key": 2,
+    "explanation": "Write M from the rule (entry in row i, column j = i − j): row 1 is (0, −1, −2), row 2 is (1, 0, −1) and row 3 is (2, 1, 0). The entry in row j, column i is j − i = −(i − j), so every entry changes sign on transposing: M′ = −M, which is the definition of a skew-symmetric matrix, so (A) is true. A symmetric matrix needs M′ = M; here the entry in row 1, column 2 is −1 while the entry in row 2, column 1 is 1, so (C) is false. Every entry on the leading diagonal is i − i = 0, but a diagonal matrix needs every entry off the leading diagonal to be zero, and the entry in row 1, column 2 is −1, so M is not a diagonal matrix and (B) is false. Expanding |M| along row 1: 0 × (0 × 0 − (−1) × 1) − (−1) × (1 × 0 − (−1) × 2) + (−2) × (1 × 1 − 0 × 2) = 0 + 2 − 2 = 0. So |M| = 0 and (E) is true. A square matrix is invertible only when it is non-singular (|M| ≠ 0), so M is not invertible and (D) is false. The true statements are (A) and (E). Reading the zero diagonal as a diagonal matrix adds (B); taking the middle term of the expansion as −2 gives |M| = −4, which makes M look invertible and gives (A) and (D); swapping the definitions of symmetric (M′ = M) and skew-symmetric (M′ = −M) gives (C) and (E).",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 2,
@@ -164,11 +182,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "fdf5673c-1968-42e4-abde-754500ee367e",
+    "chapter": "Matrices",
+    "stem": "P and Q are square matrices of the same order such that PQ = Q and QP = P. Then which one of the following is true?",
+    "passage": null,
+    "options": [
+     "P² = I and Q² = I",
+     "P² = P and Q² = Q",
+     "P² = Q and Q² = P",
+     "P² = P and Q² = I"
+    ],
+    "key": 1,
+    "explanation": "Only the two given products and the associative law of matrix multiplication, (XY)Z = X(YZ), are needed. P² = P · P = P(QP), writing the second P as QP. By the associative law this is (PQ)P = QP = P. In the same way Q² = Q · Q = Q(PQ) = (QP)Q = PQ = Q. So P² = P and Q² = Q: both matrices are idempotent. PQ = Q does not let us cancel Q to get P = I, because Q need not be invertible: for example, P with rows (1, 1) and (0, 0) and Q with rows (1, 0) and (0, 0) satisfy PQ = Q and QP = P, yet neither of them is I; cancelling anyway gives P² = I and Q² = I. Mixing up the two given products in the last step (reading QP as Q, and PQ as P) gives P² = Q and Q² = P, but the same example has P² = P, which is not Q. Working P² out correctly and then cancelling P from QP = P to get Q = I gives P² = P with Q² = I.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 3,
@@ -210,11 +246,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "24bb3f55-56dd-4570-8492-c3bce1369bf7",
+    "chapter": "Determinants",
+    "stem": "The determinant of the adjoint of a square matrix A of order 3 is 49. Then the determinant of the matrix 3A is",
+    "passage": null,
+    "options": [
+     "189",
+     "189 or −189",
+     "63 or −63",
+     "21 or −21"
+    ],
+    "key": 1,
+    "explanation": "For a square matrix of order n, |adj A| = |A|ⁿ⁻¹. Here n = 3, so |A|² = 49 and |A| = 7 or −7: both signs are possible because the power n − 1 = 2 is even. Multiplying a matrix of order n by k multiplies its determinant by kⁿ, so |3A| = 3³ × |A| = 27 × 7 = 189 or 27 × (−7) = −189. Writing only 189 drops the negative root; 63 or −63 uses 3² (the power n − 1 in place of n); 21 or −21 multiplies the determinant by 3 only, as if |kA| were k|A|.",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 5,
@@ -233,11 +287,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "67910760-3c36-4917-9ca7-79fa4315f9c4",
+    "chapter": "Continuity & Differentiability",
+    "stem": "If y = [(1 + x)/(1 − x)]^(3/2), where −1 < x < 1, then (1 − x²) dy/dx − 3y is equal to",
+    "passage": null,
+    "options": [
+     "−2y",
+     "−y",
+     "0",
+     "−3y(1 + x)"
+    ],
+    "key": 2,
+    "explanation": "Take logarithms (allowed, since (1 + x)/(1 − x) > 0 for −1 < x < 1): log y = (3/2)[log(1 + x) − log(1 − x)]. Differentiate with respect to x: (1/y) dy/dx = (3/2)[1/(1 + x) + 1/(1 − x)], because the derivative of log(1 − x) is −1/(1 − x). The bracket is [(1 − x) + (1 + x)]/(1 − x²) = 2/(1 − x²), so (1/y) dy/dx = 3/(1 − x²) and (1 − x²) dy/dx = 3y. Hence (1 − x²) dy/dx − 3y = 0. Missing the minus sign from log(1 − x) gives the bracket −2x/(1 − x²) and the value −3y(1 + x); using the factor 1/2 of a square root in place of 3/2 gives y − 3y = −2y; dropping the factor 3/2 altogether gives 2y − 3y = −y.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 6,
@@ -379,11 +451,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "416fed88-c2e1-4723-9f03-f85b5d78dc1e",
+    "chapter": "Integrals",
+    "stem": "A function f satisfies 2f(x) + f(1/x) = 3x for every x ≠ 0. Then ∫₁² f(x) dx is equal to",
+    "passage": null,
+    "options": [
+     "3 − logₑ 2",
+     "3 + logₑ 2",
+     "3/2",
+     "3/2 − 2 logₑ 2"
+    ],
+    "key": 0,
+    "explanation": "Replace x by 1/x in the given relation: 2f(1/x) + f(x) = 3/x. Now there are two linear equations in f(x) and f(1/x). Multiply the first by 2 and subtract the second: 4f(x) − f(x) = 6x − 3/x, so 3f(x) = 6x − 3/x and f(x) = 2x − 1/x. Check: 2(2x − 1/x) + (2/x − x) = 3x. In general, 2f(x) + f(1/x) = g(x) gives f(x) = [2g(x) − g(1/x)]/3 in the same way. Then ∫₁² (2x − 1/x) dx = [x² − logₑ x] from 1 to 2 = (4 − logₑ 2) − (1 − 0) = 3 − logₑ 2. Taking −3/x as +3/x in the subtraction gives f(x) = 2x + 1/x and 3 + logₑ 2; treating f(1/x) as if it were f(x) gives 3f(x) = 3x, f(x) = x and 3/2; putting the 2 on the wrong term, f(x) = [g(x) − 2g(1/x)]/3 = (3x − 6/x)/3 = x − 2/x, gives 3/2 − 2 logₑ 2.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 10,
@@ -589,11 +679,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "fd8df5f2-406a-4a8e-99aa-be5af592e4d2",
+    "chapter": "Linear Programming",
+    "stem": "Match List I with List II for the graph of each inequality in the xy-plane.\nList I\n(A) 3x − 4y ≥ −12\n(B) 3x − 4y ≤ −12\n(C) 3x − 4y > −12\n(D) 3x − 4y < −12\nList II\n(I) The half-plane that does not contain the origin, without the points of the line 3x − 4y = −12\n(II) The half-plane that contains the origin, together with the points of the line 3x − 4y = −12\n(III) The half-plane that contains the origin, without the points of the line 3x − 4y = −12\n(IV) The half-plane that does not contain the origin, together with the points of the line 3x − 4y = −12\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+     "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)",
+     "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+     "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    ],
+    "key": 0,
+    "explanation": "The line 3x − 4y = −12, through (−4, 0) and (0, 3), divides the plane into two half-planes. The side an inequality describes is found by testing a point that is not on the line, usually the origin: at (0, 0), 3x − 4y = 0, and 0 > −12. So the origin satisfies 3x − 4y ≥ −12 and 3x − 4y > −12, and does not satisfy 3x − 4y ≤ −12 or 3x − 4y < −12. Whether the line itself belongs to the solution depends on the sign: with ≥ or ≤ the points of the line satisfy the inequality and are included (the line is drawn solid); with > or < they do not, and are excluded: the solution is an open half-plane (the line is drawn dotted). So ≥ gives the origin's side with the line (II), ≤ the other side with the line (IV), > the origin's side without the line (III) and < the other side without the line (I). Taking the ≤ side as the one that holds the origin, without testing, is the common slip: that is true only when the constant on the right is positive, as in x + y ≤ 4. Swapping the boundary rule (strict signs keeping the line) is the other slip.",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 16,
@@ -612,11 +720,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "c7942f37-b18b-42d1-a098-414033a5fd48",
+    "chapter": "Relations & Functions",
+    "stem": "On the set A = {1, 2, 3, ..., 20}, a relation R is defined by R = {(x, y) : y = 5x; x, y ∈ A}. Which of the following statements about R are correct?\n(A) R is reflexive.\n(B) The domain of R is {1, 2, 3, 4}.\n(C) R is not symmetric.\n(D) The range of R is {5, 10, 15, 20}.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (B) and (D)",
+     "Only (A), (B) and (D)",
+     "Only (B), (C) and (D)",
+     "Only (C) and (D)"
+    ],
+    "key": 2,
+    "explanation": "Both x and y = 5x must lie in A, so 5x ≤ 20 and x ≤ 4. Hence R = {(1, 5), (2, 10), (3, 15), (4, 20)}. The domain is the set of first elements, {1, 2, 3, 4}, so (B) is true; taking the whole set A as the domain is the slip that rejects (B). The range is the set of second elements, {5, 10, 15, 20}, so (D) is true. R is reflexive only if (a, a) ∈ R for every a in A; (1, 1) ∉ R because 5 × 1 ≠ 1 (no pair (a, a) is in R at all, since 5a = a only for a = 0), so (A) is false. R is symmetric only if (x, y) ∈ R always gives (y, x) ∈ R; (1, 5) ∈ R but (5, 1) ∉ R because 1 ≠ 5 × 5, so R is not symmetric and (C) is true. Calling R symmetric rejects (C); calling it reflexive and symmetric swaps the truth of (A) and (C). The correct statements are (B), (C) and (D).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 17,
@@ -635,11 +761,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "c1d0ea41-465a-44c0-8c9c-6b4fb2f20334",
+    "chapter": "Relations & Functions",
+    "stem": "Consider the function f : N → N given by f(x) = x² − x + 5, N being the set of natural numbers. Then f is",
+    "passage": null,
+    "options": [
+     "one-one and onto",
+     "one-one but not onto",
+     "many-one but not onto",
+     "many-one and onto"
+    ],
+    "key": 1,
+    "explanation": "One-one: if f(x₁) = f(x₂), then (x₁² − x₂²) − (x₁ − x₂) = 0, that is (x₁ − x₂)(x₁ + x₂ − 1) = 0. For natural numbers x₁ + x₂ ≥ 2, so x₁ + x₂ − 1 ≠ 0 and x₁ = x₂; f is one-one. On the real numbers f would be many-one, because f(0) = f(1) = 5, but 0 is not a natural number; that is the slip behind the many-one answers. Onto: f(1) = 5, f(2) = 7, f(3) = 11, f(4) = 17, and the values keep increasing, so the least value of f is 5. The natural numbers 1, 2, 3, 4 (and 6) are not the image of any natural number, so f is not onto. Hence f is one-one but not onto.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 18,
@@ -733,11 +877,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "011bdc0f-c488-4ed1-bd9c-66100095738d",
+    "chapter": "Matrices",
+    "stem": "For the matrix A = [4 3; 2 2], a scalar λ satisfies A² − 6A + λI = O, where I and O are the identity and null matrices of order 2. The value of λ is",
+    "passage": null,
+    "options": [
+     "−2",
+     "8",
+     "−8",
+     "2"
+    ],
+    "key": 3,
+    "explanation": "A² = [4 3; 2 2][4 3; 2 2] = [16 + 6, 12 + 6; 8 + 4, 6 + 4] = [22 18; 12 10]. Also 6A = [24 18; 12 12]. So A² − 6A = [−2 0; 0 −2] = −2I, and A² − 6A + λI = (λ − 2)I = O gives λ = 2. Reading A² − 6A = −2I as λ = −2 is the sign slip. Squaring each entry instead of multiplying the matrices gives [16 9; 4 4], and its (1, 1) entry 16 − 24 + λ = 0 gives 8; that slip together with the sign slip gives −8.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 21,
@@ -779,11 +941,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "8d51bc35-edc6-40f3-ae71-2804b409c82c",
+    "chapter": "Determinants",
+    "stem": "P(x₁, y₁), Q(x₂, y₂) and R(x₃, y₃) are the vertices of an equilateral triangle each of whose sides has length a. If Δ = |x₁ y₁ 4; x₂ y₂ 4; x₃ y₃ 4|, then Δ² is equal to",
+    "passage": null,
+    "options": [
+     "3a⁴",
+     "12a⁴",
+     "12a²",
+     "3a⁴/4"
+    ],
+    "key": 1,
+    "explanation": "Expanding Δ along its third column, every term carries the factor 4, so Δ = 4 × |x₁ y₁ 1; x₂ y₂ 1; x₃ y₃ 1|. The area of a triangle with these vertices is (1/2)|x₁ y₁ 1; x₂ y₂ 1; x₃ y₃ 1| taken positive, so that determinant equals ±2 × area. The area of an equilateral triangle of side a is (√3/4)a², so Δ = ±4 × 2 × (√3/4)a² = ±2√3a² and Δ² = 12a⁴. Taking the 4 out but not squaring it, or forgetting the factor 2 between the determinant and the area, gives 3a⁴; ignoring the 4s altogether gives 3a⁴/4; squaring √3/4 but not a² gives 12a².",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 23,
@@ -802,11 +982,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "9771f434-7ddd-4781-8943-33b7fa556226",
+    "chapter": "Determinants",
+    "stem": "For non-zero real numbers x, y and z, the determinant |2 + x 2 2; 2 2 + y 2; 2 2 2 + z| is equal to 0. The value of 1/x + 1/y + 1/z is",
+    "passage": null,
+    "options": [
+     "1/2",
+     "−2",
+     "−1/2",
+     "−1"
+    ],
+    "key": 2,
+    "explanation": "Expand along the first row: (2 + x)[(2 + y)(2 + z) − 4] − 2[2(2 + z) − 4] + 2[4 − 2(2 + y)] = (2 + x)(2y + 2z + yz) − 4z − 4y. Multiplying out, this is 4y + 4z + 2yz + 2xy + 2xz + xyz − 4z − 4y = xyz + 2(xy + yz + zx). Setting it equal to 0 and dividing by xyz (which is not zero): 1 + 2(1/z + 1/x + 1/y) = 0, so 1/x + 1/y + 1/z = −1/2. The sign slip gives 1/2; dividing by 2 the wrong way gives −2; −1 is the value for the determinant with 1s in place of the 2s, which is what recalling that result without working gives.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 24,
@@ -848,11 +1046,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "7adf3fa9-f420-4272-a69a-bce650f0c663",
+    "chapter": "Continuity & Differentiability",
+    "stem": "For a real constant k, let f(x) = k(x² − 4x + 9) when x < 1 and f(x) = |x − 4| when x ≥ 1. If f has a derivative at x = 1, then k equals",
+    "passage": null,
+    "options": [
+     "1/2",
+     "−1/2",
+     "2",
+     "−2"
+    ],
+    "key": 0,
+    "explanation": "Near x = 1 we have x − 4 < 0, so |x − 4| = 4 − x. Right-hand derivative at x = 1: d/dx (4 − x) = −1. Left-hand derivative at x = 1: k(2x − 4) at x = 1, which is −2k. Differentiability at x = 1 needs the two to be equal: −2k = −1, so k = 1/2. Continuity agrees: k(1 − 4 + 9) = 6k = 3 = |1 − 4|. Writing |x − 4| as x − 4 gives the right-hand derivative +1 and k = −1/2; solving −2k = −1 as k = 2 inverts the ratio; both slips together give −2.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 26,
@@ -894,11 +1110,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "145c823f-14d1-4d7d-bc81-5107510977c9",
+    "chapter": "Continuity & Differentiability",
+    "stem": "If x = t − 1/t and y = t³ − 1/t³, where t > 0, then the derivative dy/dx, written in terms of x and y, is",
+    "passage": null,
+    "options": [
+     "3√((y² − 4)/(x² − 4))",
+     "3√((y² + 4)/(x² + 4))",
+     "9(y² + 4)/(x² + 4)",
+     "3(y² + 4)/(x² + 4)"
+    ],
+    "key": 1,
+    "explanation": "dx/dt = 1 + 1/t² = (1/t)(t + 1/t) and dy/dt = 3t² + 3/t⁴ = (3/t)(t³ + 1/t³), so dy/dx = 3(t³ + 1/t³)/(t + 1/t). Now (t + 1/t)² = (t − 1/t)² + 4 = x² + 4 and (t³ + 1/t³)² = (t³ − 1/t³)² + 4 = y² + 4. For t > 0 both sums are positive, so t + 1/t = √(x² + 4) and t³ + 1/t³ = √(y² + 4). Hence dy/dx = 3√((y² + 4)/(x² + 4)). The version with − 4 belongs to the sum pair x = t + 1/t, y = t³ + 1/t³: there the same steps give dy/dx = 3(t³ − 1/t³)/(t − 1/t), and (t − 1/t)² = x² − 4, (t³ − 1/t³)² = y² − 4, so dy/dx = 3√((y² − 4)/(x² − 4)); using that form for this difference pair is the slip. Squaring the ratio and not taking the root gives 9(y² + 4)/(x² + 4); keeping the 3 but dropping the root gives 3(y² + 4)/(x² + 4).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 28,
@@ -1295,11 +1529,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "e1b72304-b6c3-4a73-adaf-414b30351497",
+    "chapter": "Vector Algebra",
+    "stem": "Match List-I with List-II.\nList-I\n(A) For vectors a and b with |a| = √10, |b| = 5 and |a × b| = 15, the value of |a · b|\n(B) The value of p for which the vectors 4î − 2ĵ + 6k̂ and pî − 3ĵ + 9k̂ are collinear\n(C) The value of λ for which the vectors î + 2ĵ − k̂ and 3î + λĵ + 5k̂ are perpendicular\n(D) The value of (ĵ × k̂) · î + (k̂ × î) · ĵ + (î × ĵ) · k̂\nList-II\n(I) 5\n(II) 1\n(III) 6\n(IV) 3\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+     "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)",
+     "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+     "(A) - (III), (B) - (I), (C) - (II), (D) - (IV)"
+    ],
+    "key": 0,
+    "explanation": "(A) |a × b| = |a||b| sin θ and |a · b| = |a||b| |cos θ|, so |a × b|² + (a · b)² = |a|²|b|². Hence (a · b)² = 10 × 25 − 15² = 250 − 225 = 25 and |a · b| = 5. (B) Collinear vectors have proportional components: p/4 = (−3)/(−2) = 9/6 = 3/2, so p = 6. (C) Perpendicular vectors have zero scalar product: 1(3) + 2(λ) + (−1)(5) = 2λ − 2 = 0, so λ = 1. (D) ĵ × k̂ = î, k̂ × î = ĵ and î × ĵ = k̂, so each term is 1 and the sum is 3. So (A) - (I), (B) - (III), (C) - (II), (D) - (IV). Writing k̂ × î = −ĵ makes the sum in (D) equal to 1, the pairing that swaps (C) and (D); the other two pairings put 3 or 6 against |a · b|, which needs (a · b)² = 25.",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 39,
@@ -1318,11 +1570,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "00418d8d-46ad-4f4f-9b56-6231cd1c93f9",
+    "chapter": "Vector Algebra",
+    "stem": "If a = yî + xĵ, b = î + ĵ + k̂ and c = xî + zĵ are vectors such that a × b is perpendicular to c, then",
+    "passage": null,
+    "options": [
+     "y² = xz",
+     "z² = xy",
+     "x² = yz",
+     "x² + yz = 0"
+    ],
+    "key": 2,
+    "explanation": "a × b = |î ĵ k̂; y x 0; 1 1 1| = î(x × 1 − 0 × 1) − ĵ(y × 1 − 0 × 1) + k̂(y × 1 − x × 1) = xî − yĵ + (y − x)k̂. a × b is perpendicular to c exactly when (a × b) · c = 0: x × x + (−y) × z + (y − x) × 0 = x² − yz = 0, so x² = yz. Dropping the minus sign of the ĵ-component gives x² + yz = 0; y² = xz and z² = xy come from pairing the components of a × b with the wrong components of c.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 40,
@@ -1341,11 +1611,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "015bdaee-c7bb-4789-ac68-9778bff9785f",
+    "chapter": "Vector Algebra",
+    "stem": "For the vector a = 2î − ĵ + 3k̂, the sum of squared magnitudes |a × î|² + |a × ĵ|² + |a × k̂|² is",
+    "passage": null,
+    "options": [
+     "14",
+     "28",
+     "42",
+     "2√14"
+    ],
+    "key": 1,
+    "explanation": "For a unit vector e, |a × e| = |a| sin θ and a · e = |a| cos θ, so |a × e|² = |a|² − (a · e)². Adding over î, ĵ and k̂: the sum is 3|a|² − [(a · î)² + (a · ĵ)² + (a · k̂)²] = 3|a|² − |a|² = 2|a|². Here |a|² = 4 + 1 + 9 = 14, so the value is 28. Directly: a × î = 3ĵ + k̂, a × ĵ = −3î + 2k̂ and a × k̂ = −î − 2ĵ, with squared lengths 10, 13 and 5, which add to 28. Not subtracting the squared dot products gives 3|a|² = 42; taking |a × e|² as (a · e)² gives |a|² = 14; dropping the squares gives 2|a| = 2√14.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 41,
@@ -1364,11 +1652,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "3fc288aa-a85e-4279-8aed-73f9d89b9e7b",
+    "chapter": "Vector Algebra",
+    "stem": "The unit vector a is perpendicular to each of the unit vectors b and c, and the angle between b and c is π/4. Then a is equal to",
+    "passage": null,
+    "options": [
+     "±(b × c)",
+     "±(1/√2)(b × c)",
+     "±2 (b × c)",
+     "±√2 (b × c)"
+    ],
+    "key": 3,
+    "explanation": "a is perpendicular to both b and c, so it is parallel to b × c: a = λ(b × c) for some scalar λ. |b × c| = |b||c| sin(π/4) = 1/√2. Since |a| = 1, |λ| × (1/√2) = 1, so λ = ±√2 and a = ±√2 (b × c); both signs give unit vectors perpendicular to b and c. Treating b × c as a unit vector gives ±(b × c); multiplying by sin(π/4) instead of dividing gives ±(1/√2)(b × c); taking |b × c| as sin²(π/4) = 1/2 gives ±2(b × c).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 42,
@@ -1410,11 +1716,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "08bed2f1-75a5-490e-a080-f5217fd83ae8",
+    "chapter": "Three Dimensional Geometry",
+    "stem": "The straight line given by x = 2z + 1, y = 3z − 2 and the straight line given by x = kz + 4, y = 2z + 5 are at right angles to each other. The value of k is",
+    "passage": null,
+    "options": [
+     "−3",
+     "−7/2",
+     "7/2",
+     "4/3"
+    ],
+    "key": 1,
+    "explanation": "Write each line in symmetric form. From x = 2z + 1 and y = 3z − 2: (x − 1)/2 = (y + 2)/3 = z/1, so its direction ratios are 2, 3, 1. Similarly (x − 4)/k = (y − 5)/2 = z/1, with direction ratios k, 2, 1. Lines with direction ratios a₁, b₁, c₁ and a₂, b₂, c₂ are perpendicular when a₁a₂ + b₁b₂ + c₁c₂ = 0: 2k + 6 + 1 = 0, so k = −7/2. In general, lines x = pz + q, y = rz + s and x = p′z + q′, y = r′z + s′ have direction ratios p, r, 1 and p′, r′, 1, so they are perpendicular exactly when pp′ + rr′ + 1 = 0. Leaving out the direction ratio 1 of z gives 2k + 6 = 0 and k = −3; a sign slip gives 7/2; using the condition for parallel lines, k/2 = 2/3, gives 4/3.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 44,
@@ -1433,11 +1757,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "3b90d5df-32be-4379-8924-d94eadfd8161",
+    "chapter": "Three Dimensional Geometry",
+    "stem": "Two lines are L₁: r = (î − ĵ + 2k̂) + λ(î + 2ĵ − 2k̂) and L₂: r = (3î + k̂) + μ(−2î − 4ĵ + 4k̂), where λ and μ are real numbers. Which of the following statements are correct?\n(A) L₁ and L₂ are parallel.\n(B) The shortest distance between L₁ and L₂ is √2.\n(C) L₁ and L₂ are the same line.\n(D) L₁ and L₂ are perpendicular.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (A)",
+     "Only (A) and (C)",
+     "Only (A) and (B)",
+     "Only (B) and (D)"
+    ],
+    "key": 2,
+    "explanation": "The direction vector of L₂ is −2î − 4ĵ + 4k̂ = −2(î + 2ĵ − 2k̂), a multiple of that of L₁, so the lines are parallel: (A) is true. Their scalar product is 1(−2) + 2(−4) + (−2)(4) = −18 ≠ 0, so they are not perpendicular: (D) is false. The point (3, 0, 1) of L₂ lies on L₁ only if (3, 0, 1) − (1, −1, 2) = (2, 1, −1) is a multiple of (1, 2, −2); it is not, so the lines are distinct and (C) is false (proportional direction ratios alone make lines parallel, not the same line). For parallel lines r = a₁ + λb and r = a₂ + μb the distance is |b × (a₂ − a₁)|/|b|. With b = î + 2ĵ − 2k̂ and a₂ − a₁ = 2î + ĵ − k̂, b × (a₂ − a₁) = 0î − 3ĵ − 3k̂, of length 3√2, and |b| = 3, so the distance is √2: (B) is true. Dividing by 6, the length of −2î − 4ĵ + 4k̂, instead of by the length of the vector used in the cross product, gives √2/2 and rejects (B), as does taking |a₂ − a₁| = √6 as the distance. The correct statements are (A) and (B).",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 45,
@@ -1520,11 +1862,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "5f8c6f5f-5e4a-4381-82e5-edbb509e2463",
+    "chapter": "Probability",
+    "stem": "Two witnesses, Riya and Kabir, report on the same incident independently. Riya tells the truth 70% of the time and Kabir 85% of the time. The probability that their reports contradict each other is",
+    "passage": null,
+    "options": [
+     "9/25",
+     "16/25",
+     "21/200",
+     "9/20"
+    ],
+    "key": 0,
+    "explanation": "They contradict each other exactly when one of them speaks the truth and the other does not. They speak independently, so P(Riya true, Kabir false) = 0.7 × 0.15 = 0.105 and P(Riya false, Kabir true) = 0.3 × 0.85 = 0.255. These two cases cannot happen together, so the probability is 0.105 + 0.255 = 0.36 = 9/25. 16/25 = 0.7 × 0.85 + 0.3 × 0.15 is the probability that they agree; 21/200 counts only the first case; 9/20 = 0.3 + 0.15 adds the two chances of not telling the truth instead of multiplying across the two people.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 48,
@@ -1543,11 +1903,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "57b9fb51-2f98-4a1e-a928-b19edc7bbddb",
+    "chapter": "Probability",
+    "stem": "Two events A and B of a random experiment have P(A) = 3/5, P(B) = 3/8 and P(A ∩ B) = 1/5. The conditional probability P(A′|B) is",
+    "passage": null,
+    "options": [
+     "8/15",
+     "7/40",
+     "7/15",
+     "7/16"
+    ],
+    "key": 2,
+    "explanation": "P(A′|B) = P(A′ ∩ B)/P(B). The event B splits into A ∩ B and A′ ∩ B, so P(A′ ∩ B) = P(B) − P(A ∩ B) = 3/8 − 1/5 = 15/40 − 8/40 = 7/40. Then P(A′|B) = (7/40)/(3/8) = (7/40) × (8/3) = 7/15. (Check: P(A|B) = (1/5)/(3/8) = 8/15, and 8/15 + 7/15 = 1.) 8/15 is P(A|B), with the complement forgotten; 7/40 is P(A′ ∩ B), not divided by P(B); 7/16 = (7/40)/(2/5) divides by P(A′) and so gives P(B|A′).",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 49,
@@ -1566,11 +1944,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "7a7efe5b-85be-41b8-9e2b-1ca4184e47e9",
+    "chapter": "Probability",
+    "stem": "For two events A and B, the probability that both occur is 0.2 and the probability that exactly one of them occurs is 0.5. Which of the following statements are correct?\n(A) P(A) + P(B) = 0.7\n(B) P(A′ ∩ B′) = 0.3\n(C) P(A′) + P(B′) = 1.1\n(D) P(A ∩ B | A ∪ B) = 2/5\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (A) and (B)",
+     "Only (B) and (C)",
+     "Only (B), (C) and (D)",
+     "Only (C)"
+    ],
+    "key": 1,
+    "explanation": "P(exactly one) = P(A) + P(B) − 2P(A ∩ B), so P(A) + P(B) = 0.5 + 2(0.2) = 0.9 and (A) is false; 0.7 = 0.2 + 0.5 counts the \"both\" case once instead of twice. P(A ∪ B) = P(exactly one) + P(both) = 0.5 + 0.2 = 0.7, so P(A′ ∩ B′) = 1 − P(A ∪ B) = 0.3 and (B) is true; taking it as 1 − 0.5 forgets the \"both\" case. P(A′) + P(B′) = 2 − 0.9 = 1.1, so (C) is true. Since A ∩ B lies inside A ∪ B, P(A ∩ B | A ∪ B) = P(A ∩ B)/P(A ∪ B) = 0.2/0.7 = 2/7, so (D) is false; 2/5 divides by the \"exactly one\" probability 0.5 instead of by 0.7. The correct statements are (B) and (C). In general, if P(A ∩ B) = p and P(exactly one) = q, then P(A) + P(B) = q + 2p, so P(A′) + P(B′) = 2 − 2p − q, P(A′ ∩ B′) = 1 − p − q and P(A ∩ B | A ∪ B) = p/(p + q).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 50,
@@ -1589,11 +1985,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "317a454e-ddae-4661-900e-a336ac3d0294",
+    "chapter": "Probability",
+    "stem": "A courier packet is addressed either to SANJANA or to ANJALI, each being equally likely. Only two consecutive letters of the name, AN, can be read on the label. The probability that the packet is for SANJANA is",
+    "passage": null,
+    "options": [
+     "3/8",
+     "2/3",
+     "12/19",
+     "5/8"
+    ],
+    "key": 3,
+    "explanation": "Let E₁: the name is SANJANA, E₂: the name is ANJALI, with P(E₁) = P(E₂) = 1/2, and let A: the pair AN is the one seen. SANJANA has 7 letters, so 6 pairs of consecutive letters: SA, AN, NJ, JA, AN, NA. AN occurs twice, so P(A|E₁) = 2/6 = 1/3. ANJALI has 6 letters, so 5 pairs: AN, NJ, JA, AL, LI. AN occurs once, so P(A|E₂) = 1/5. By Bayes' theorem, P(E₁|A) = (1/2)(1/3) / [(1/2)(1/3) + (1/2)(1/5)] = (1/3)/(8/15) = 5/8. 3/8 is the probability for ANJALI; 2/3 counts only the occurrences of AN (2 out of 3) and ignores how many pairs each name has; 12/19 divides by the number of letters (2/7 and 1/6) instead of the number of consecutive pairs.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 51,
@@ -1612,11 +2026,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "6045c1a6-9b49-426e-ad4e-922024c81a97",
+    "chapter": "Financial Mathematics",
+    "stem": "A bank pays interest at a nominal rate of 8% per annum, compounded quarterly. The effective annual rate of interest is:",
+    "passage": null,
+    "options": [
+     "8%",
+     "8.24%",
+     "8.16%",
+     "0.0824%"
+    ],
+    "key": 1,
+    "explanation": "The effective rate is the rate which, compounded once a year, gives the same interest as the nominal rate r compounded m times a year: effective rate = (1 + r/m)^m − 1. Here r = 0.08 and m = 4, so the rate per quarter is 0.08/4 = 0.02 and the effective rate is (1.02)⁴ − 1. Square twice: (1.02)² = 1.0404 and (1.0404)² = 1.08243216, so the effective rate is 0.08243216, about 8.24% per annum. It exceeds 8% because each quarter’s interest itself earns interest in the later quarters. 8% takes the nominal rate as the effective rate; 8.16% is (1.04)² − 1, compounding half-yearly instead of quarterly; 0.0824% writes the decimal 0.0824 with a per cent sign without multiplying it by 100.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 52,
@@ -1781,11 +2213,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "5610ffb8-7ac5-44f3-809b-4ed68c4e9420",
+    "chapter": "Financial Mathematics",
+    "stem": "A scholarship fund must pay ₹ 1,200 at the end of every six months for ever. If the fund needed now is ₹ 30,000, the rate of interest per annum, compounded half-yearly, is:",
+    "passage": null,
+    "options": [
+     "2%",
+     "16%",
+     "8%",
+     "4%"
+    ],
+    "key": 2,
+    "explanation": "For a perpetuity that pays R at the end of every period, the present value is PV = R/i, where i is the rate of interest per payment period. So i = R/PV = 1,200/30,000 = 0.04, that is 4% per half-year. A year has two half-years, so the rate per annum compounded half-yearly is 2 × 4% = 8%. Check: ₹ 30,000 at 4% per half-year earns exactly ₹ 1,200 every six months and the capital stays intact for ever. 4% is the half-yearly rate left unconverted; 2% halves it instead of doubling it; 16% multiplies it by 4, as if the payments were quarterly.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 57,
@@ -1845,11 +2295,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "2252c6b1-1287-4af3-9ffa-0e80e71b37a8",
+    "chapter": "Probability Distributions",
+    "stem": "Match List-I with List-II.\nList-I:\n(A) Mean of a binomial distribution with n = 24 and q = 0.25\n(B) Number of trials of a binomial distribution with mean 6 and variance 4.2\n(C) Probability of success of a binomial distribution with mean 9 and variance 2.25\n(D) Variance of the number of heads when a fair coin is tossed 8 times\nList-II:\n(I) 0.75\n(II) 18\n(III) 2\n(IV) 20\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)",
+     "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)",
+     "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)",
+     "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    ],
+    "key": 0,
+    "explanation": "For a binomial distribution with n trials and probability of success p, mean = np and variance = npq, where q = 1 − p. Dividing the variance by the mean gives q. (A) p = 1 − 0.25 = 0.75, so the mean is 24 × 0.75 = 18 (using q in place of p gives 6). (B) q = 4.2/6 = 0.7, so p = 0.3 and n = mean/p = 6/0.3 = 20; check: 20 × 0.3 × 0.7 = 4.2. (C) q = 2.25/9 = 0.25, so p = 0.75 (and n = 9/0.75 = 12). (D) n = 8 and p = q = 1/2, so the variance is 8 × 1/2 × 1/2 = 2; the mean, 4, is a different quantity. Dividing the mean by the variance instead would give q greater than 1, which is impossible: q is always variance ÷ mean.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 59,
@@ -1868,11 +2336,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "064f7b67-0793-4a21-affa-3a9c6d65c3e4",
+    "chapter": "Probability Distributions",
+    "stem": "For a Poisson variate X, the probabilities satisfy 5P(X = 3) = 2P(X = 4). The mean of X is:",
+    "passage": null,
+    "options": [
+     "2.5",
+     "7.5",
+     "1.6",
+     "10"
+    ],
+    "key": 3,
+    "explanation": "For a Poisson variate with mean m, P(X = r) = e^(−m) m^r / r!. So 5 × e^(−m) m³/3! = 2 × e^(−m) m⁴/4!. Cancel e^(−m) and m³ (m > 0): 5/6 = 2m/24, that is 5/6 = m/12, so m = 10. Check: P(X = 4)/P(X = 3) = m/4 = 10/4 = 5/2, which is what 5P(X = 3) = 2P(X = 4) requires. 2.5 drops the factorials (5m³ = 2m⁴); 7.5 takes the ratio of successive probabilities as m/3 instead of m/4; 1.6 turns the relation upside down (m/4 = 2/5).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 60,
@@ -1891,11 +2377,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "007d4d2b-b34d-4665-95a2-330a369e7ee0",
+    "chapter": "Probability Distributions",
+    "stem": "The marks of 2,000 candidates in a test are normally distributed with mean 52 and standard deviation 6. Which of the following statements are true?\n(A) The mean, the median and the mode of the marks are all equal to 52.\n(B) About 1,000 candidates scored more than 52.\n(C) The normal curve of the marks is symmetric about 52.\n(D) About 68% of the candidates scored between 40 and 64.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (C) and (D) only",
+     "(A), (B), (C) and (D)",
+     "(A), (B) and (C) only",
+     "(B), (C) and (D) only"
+    ],
+    "key": 2,
+    "explanation": "A normal curve is bell-shaped and symmetric about its mean, so (C) is true, and for this symmetric single-peaked curve the mean, the median and the mode coincide, all at 52, so (A) is true. Because the median is 52, half of the total area lies on each side of it: about 50% of 2,000, that is 1,000 candidates, scored more than 52, so (B) is true. About 68% of a normal distribution lies within one standard deviation of the mean, here 52 ± 6, from 46 to 58. The range 40 to 64 is 52 ± 12, two standard deviations on each side, and holds about 95% of the candidates, so (D) is false.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 61,
@@ -1914,11 +2418,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "b370d2f9-ddf6-4109-8964-6e98fe47416f",
+    "chapter": "Continuity & Differentiability",
+    "stem": "For y = e^(3x) · 5^x, where log means the logarithm to base e, the derivative dy/dx is:",
+    "passage": null,
+    "options": [
+     "e^(3x) · 5^x (1 + log 5)",
+     "3e^(3x) · 5^x log 5",
+     "e^(3x) · 5^x (3 + log 5)",
+     "e^(3x) · 5^(x − 1) (15 + x)"
+    ],
+    "key": 2,
+    "explanation": "Use the product rule with d/dx e^(3x) = 3e^(3x) (chain rule) and d/dx a^x = a^x log a. So dy/dx = 3e^(3x) · 5^x + e^(3x) · 5^x log 5 = e^(3x) · 5^x (3 + log 5). Check: y = (5e³)^x, whose derivative is (5e³)^x log(5e³) = e^(3x) · 5^x (log 5 + 3). Dropping the chain-rule factor 3 gives (1 + log 5); multiplying the two derivatives instead of using the product rule gives 3e^(3x) · 5^x log 5; differentiating 5^x as if it were a power, x · 5^(x − 1), gives e^(3x) · 5^(x − 1) (15 + x).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 62,
@@ -1960,11 +2482,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "dee791a1-239d-40dd-9522-b59c70abbc99",
+    "chapter": "Application of Derivatives",
+    "stem": "The price p (in ₹) at which x units of a product can be sold is given by p = 300 − 4x − x². The marginal revenue when 6 units are sold is:",
+    "passage": null,
+    "options": [
+     "₹ 144",
+     "₹ 240",
+     "₹ 1,440",
+     "₹ 224"
+    ],
+    "key": 0,
+    "explanation": "Total revenue R = price × quantity = x(300 − 4x − x²) = 300x − 4x² − x³. Marginal revenue is the rate of change of total revenue with respect to the number of units sold: MR = dR/dx = 300 − 8x − 3x². At x = 6, MR = 300 − 48 − 108 = ₹ 144. ₹ 240 is the price p(6), the average revenue, not the marginal revenue; ₹ 1,440 is the total revenue R(6) = 6 × 240; ₹ 224 adds dp/dx = −4 − 2x = −16 to the price without multiplying it by x, whereas MR = p + x(dp/dx) = 240 + 6 × (−16) = 144.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 64,
@@ -1983,11 +2523,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "f0cb4875-4e15-45cd-9b05-6e2d49d80535",
+    "chapter": "Application of Derivatives",
+    "stem": "The function f(x) = x³ − 6x² + 12x + 5 has:",
+    "passage": null,
+    "options": [
+     "a local maximum at x = 2",
+     "a local minimum at x = 2",
+     "no stationary point",
+     "a point of inflexion at x = 2"
+    ],
+    "key": 3,
+    "explanation": "f′(x) = 3x² − 12x + 12 = 3(x − 2)², so f′(x) = 0 only at x = 2, the one stationary point. For x a little less than 2 and a little more than 2, 3(x − 2)² is positive, so f′ does not change sign as x passes through 2 and f keeps increasing. By the first derivative test, x = 2 is neither a point of local maximum nor a point of local minimum: it is a point of inflexion (f(2) = 13). The second derivative test cannot decide here, because f″(x) = 6x − 12 is 0 at x = 2. Reading f′(x) ≥ 0 as there being no stationary point misses that f′(2) = 0.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 65,
@@ -2309,11 +2867,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "a22433a4-e270-4fc9-beed-a818d33a06b3",
+    "chapter": "Time Based Data",
+    "stem": "Match List-I with List-II.\nList-I (component of a time series):\n(A) Secular trend\n(B) Seasonal variation\n(C) Cyclical variation\n(D) Irregular variation\nList-II (example):\n(I) Sales of a factory fall sharply for one month after a flood\n(II) The population of a country rises steadily over fifty years\n(III) Business activity swings through boom and depression over seven to ten years\n(IV) Sales of woollen clothes rise every winter and fall every summer\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)",
+     "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+     "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+     "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    ],
+    "key": 1,
+    "explanation": "A time series is made up of four components: secular trend, seasonal variation, cyclical variation and irregular (random) variation. The secular trend is the general long-term tendency to rise, fall or stay steady, as in a population rising over fifty years. Seasonal variation repeats regularly within a year, with the seasons, festivals or customs, as woollen sales do every winter. Cyclical variation is the up-and-down swing of a business cycle (prosperity, recession, depression, recovery) over a period of more than a year, usually several years. Irregular variation comes from unforeseen events such as floods, strikes or wars and follows no pattern. Seasonal and cyclical swings are the pair most often confused: a seasonal pattern repeats within one year, while a cycle takes several years.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 74,
@@ -2414,11 +2990,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "6525eda7-fe41-427f-8b9c-d4786ec84c2b",
+    "chapter": "Matrices",
+    "stem": "A and B are invertible matrices of the same order, and k is a non-zero real number. Which of the following statements are true for all such A, B and k?\n(A) (AB)⁻¹ = B⁻¹A⁻¹\n(B) (Aᵀ)⁻¹ = (A⁻¹)ᵀ\n(C) (kA)⁻¹ = kA⁻¹\n(D) (A⁻¹)⁻¹ = A\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (B) and (D) only",
+     "(A), (C) and (D) only",
+     "(B), (C) and (D) only",
+     "(A), (B), (C) and (D)"
+    ],
+    "key": 0,
+    "explanation": "(A) is true (NCERT Theorem 4): (AB)(B⁻¹A⁻¹) = A(BB⁻¹)A⁻¹ = AA⁻¹ = I, so the inverse of a product is the product of the inverses in the reverse order; writing it as A⁻¹B⁻¹ is the common slip, and that is wrong in general because matrix products do not commute. (B) is true: using (PQ)ᵀ = QᵀPᵀ, Aᵀ(A⁻¹)ᵀ = (A⁻¹A)ᵀ = Iᵀ = I and (A⁻¹)ᵀAᵀ = (AA⁻¹)ᵀ = I, so the inverse of the transpose is the transpose of the inverse. It is not Aᵀ itself: the matrix with rows (2, 0) and (0, 1) equals its transpose, but its inverse has rows (1/2, 0) and (0, 1). (C) is false: (kA)(kA⁻¹) = k²I, which is I only when k = ±1; the correct rule is (kA)⁻¹ = (1/k)A⁻¹. (D) is true, because AA⁻¹ = A⁻¹A = I says that A is the inverse of A⁻¹, and by NCERT Theorem 3 an inverse is unique.",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 77,
@@ -2437,11 +3031,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "7eb64d37-a4cd-414a-ad09-7c10cbd1f993",
+    "chapter": "Determinants",
+    "stem": "Match List-I with List-II.\nList-I:\n(A) |adj(adj A)|, where A is a square matrix of order 3 with |A| = 4\n(B) |adj(adj A)|, where A is a square matrix of order 2 with |A| = 5\n(C) |adj(adj A)|, where A is a square matrix of order 4 with |A| = 1/2\n(D) |A⁻¹|, where A is a non-singular matrix with |A| = 1/4\nList-II:\n(I) 4\n(II) 1/512\n(III) 256\n(IV) 5\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+     "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)",
+     "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+     "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    ],
+    "key": 2,
+    "explanation": "For a square matrix B of order n, |adj B| = |B|^(n − 1). Applying it twice, |adj(adj A)| = |adj A|^(n − 1) = (|A|^(n − 1))^(n − 1) = |A|^((n − 1)²). (A) n = 3: 4^(2²) = 4⁴ = 256. (B) n = 2: 5^(1²) = 5; for order 2, adj(adj A) is A itself. (C) n = 4: (1/2)^(3²) = (1/2)⁹ = 1/512. (D) |A| |A⁻¹| = |AA⁻¹| = |I| = 1, so |A⁻¹| = 1/|A| = 1/(1/4) = 4. Using the exponent n − 1 only once instead of (n − 1)² is the usual slip: it gives 16 for (A) and 1/8 for (C).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 78,
@@ -2524,11 +3136,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "086521e1-2f7e-4453-ae3d-d235efa465da",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "stem": "a, b and c are real numbers. Which of the following statements are true?\n(A) If a < b and b < c, then a < c.\n(B) If a < b and c > 0, then a/c > b/c.\n(C) If a < b and c < 0, then a/c > b/c.\n(D) If a > b and c < 0, then a − c > b − c.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (C) and (D) only",
+     "(A), (B) and (C) only",
+     "(B), (C) and (D) only",
+     "(A), (B), (C) and (D)"
+    ],
+    "key": 0,
+    "explanation": "(A) is the transitive property of inequalities: if a is less than b and b is less than c, then a is less than c (and in the same way a > b and b > c give a > c), so it is true. Multiplying or dividing both sides of an inequality by a positive number keeps its direction: a < b and c > 0 give a/c < b/c (3 < 6 gives 1 < 2 for c = 3), so (B) is false. Multiplying or dividing both sides by a negative number reverses it: a < b and c < 0 give a/c > b/c (3 < 6 gives −1 > −2 for c = −3), so (C) is true; in the same way a > b and c < 0 give ac < bc. Adding or subtracting the same number, positive or negative, never changes the direction, even when c is negative: a > b gives a − c > b − c (6 > 3 gives 9 > 6 for c = −3), so (D) is true. Only multiplying or dividing both sides by a negative number reverses an inequality, so (B), which reverses it for a positive divisor, is the one false statement.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 81,
@@ -2547,11 +3177,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "b8734f7d-2dae-486c-8374-7db9334189ed",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "stem": "A barrel contains 125 litres of pure coconut oil. 25 litres are drawn out and replaced with groundnut oil. The same operation is carried out three times in all. How much coconut oil is now in the barrel?",
+    "passage": null,
+    "options": [
+     "50 litres",
+     "80 litres",
+     "61 litres",
+     "64 litres"
+    ],
+    "key": 3,
+    "explanation": "Each operation removes 25/125 = 1/5 of whatever is in the barrel, so 4/5 of the coconut oil present stays. After n operations, the coconut oil left = Q(1 − r/Q)ⁿ = 125 × (4/5)³ = 125 × 64/125 = 64 litres. Step by step: 125 → 100 → 80 → 64. Taking out 25 litres of pure coconut oil every time gives 125 − 75 = 50 litres, but after the first operation the 25 litres drawn are partly groundnut oil; 80 litres is the amount after only two operations; 61 litres is the groundnut oil now in the barrel (125 − 64), not the coconut oil.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 82,
@@ -2593,11 +3241,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "9f9b57bf-93aa-4bc6-a44f-b888fad054b7",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "stem": "A boat moves at 15 km/h in still water. Rowing a fixed distance upstream takes twice as long as rowing the same distance downstream. The speed of the stream is:",
+    "passage": null,
+    "options": [
+     "10 km/h",
+     "5 km/h",
+     "7.5 km/h",
+     "20 km/h"
+    ],
+    "key": 1,
+    "explanation": "With boat speed b = 15 km/h and stream speed s, the downstream speed is b + s and the upstream speed is b − s. For the same distance, time is inversely proportional to speed, so upstream time = 2 × downstream time means b + s = 2(b − s). Then 15 + s = 30 − 2s, 3s = 15 and s = 5 km/h. Check: downstream 20 km/h, upstream 10 km/h, and 20 = 2 × 10. 10 km/h and 20 km/h are the upstream and downstream speeds of the boat, not the speed of the stream; 7.5 km/h divides the boat’s speed by 2 instead of solving the equation.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 84,
@@ -2616,11 +3282,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "59b0916c-0775-4cf9-9070-878e03330466",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "stem": "Two taps, A and B, can fill an empty water drum in 10 minutes and 15 minutes respectively, and a drain C can empty the full drum in 12 minutes. Starting with the drum empty, all three are opened together, and the drain is shut 3 minutes before the drum is full. How long does the drum take to fill?",
+    "passage": null,
+    "options": [
+     "9 minutes",
+     "12 minutes",
+     "6 minutes",
+     "7.5 minutes"
+    ],
+    "key": 0,
+    "explanation": "In one minute tap A fills 1/10 and tap B fills 1/15 of the drum, together (3 + 2)/30 = 1/6; drain C empties 1/12. Let the drum be full after T minutes. A and B run for all T minutes, while C runs for T − 3 minutes, so T/6 − (T − 3)/12 = 1. Multiplying by 12: 2T − T + 3 = 12, so T = 9 minutes. Check: A and B fill 9/6 = 3/2 drums, C empties 6/12 = 1/2 drum, net 1 drum. 12 minutes keeps the drain open to the end (net rate 1/6 − 1/12 = 1/12); 6 minutes leaves the drain shut throughout; 7.5 minutes runs the drain for only the last 3 minutes instead of all but the last 3.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 85,
@@ -2639,11 +3323,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "61d6cc6e-f5f9-4b8a-b424-7fcc20a8ad4a",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "stem": "Over an 800 m track, cyclist P finishes in 100 seconds and cyclist Q in 125 seconds, both riding at steady speeds. How far behind the finishing line is Q when P finishes?",
+    "passage": null,
+    "options": [
+     "200 m",
+     "640 m",
+     "25 m",
+     "160 m"
+    ],
+    "key": 3,
+    "explanation": "Q’s speed is 800/125 = 6.4 m/s. When P finishes, 100 seconds have passed, so Q has covered 6.4 × 100 = 640 m and is 800 − 640 = 160 m from the line: P beats Q by 160 m. Another way: Q still needs the 25 seconds of the time gap, and in 25 s Q rides 6.4 × 25 = 160 m. 640 m is the distance Q has covered, not the margin; 200 m multiplies the 25 s gap by P’s speed (8 m/s) instead of Q’s; 25 m gives the time gap in seconds as if it were a distance.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   }
  ]
 }

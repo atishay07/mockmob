@@ -26,6 +26,8 @@
 //   check and final modes with wave-6 files (wave6-scored-final-*; never wave6-candidates-final-2026-11-23.json).
 // --wave=w6b2 (23 Nov 2026) is wave 6's second batch: the same wave and source, its own raw folder (tmp/1123-close/integrate/scoring2, batches
 //   <subject>__w6b2) and its own files (wave6b2-*); batch 1 is not re-read.
+// --wave=w6b3 (24 Nov 2026) is wave 6's third batch: chemistry, computer_science, physics, mathematics (tmp/1123-close/integrate/scoring3, batches
+//   <subject>__w6b3 or <subject>__w6b3a/b/c; files wave6b3-*); batches 1 and 2 are not re-read.
 //
 // final   (14 Oct, after the expert pass, the rewords and the spot-check) the same acceptance, now also reading
 //           --expert=<dir>        expert verdicts (docs/brain/reports/authored-w2/expert/*.json, { verdicts: [{ id, verdict, why, repair }] })
@@ -232,6 +234,36 @@ export const WAVE_CONFIGS = {
     batchLabel: '<subject>__w6b2',
     acceptNote: 'Wave-1 acceptance rule applied to the raw files of wave 6, batch 2 (13 rewritten rows of wave6b2-candidates-final-2026-11-23.json, each replacing a held batch-1 row). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the audit marks of the assembled candidates file (_verdict claude_audited, _expert ready or repaired).',
     entriesNote: 'One record per question of wave 6 batch 2 that the rule accepted (the acceptance rule and the duplicate screen; every question was authored by Claude, audited by an independent Claude pass, then solved blind by five solvers and judged by two quality and three CUET-fit judges), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w6b2 from the raw files under tmp/1123-close/integrate/scoring2. Batch 1 has its own files (wave6-*). Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
+  },
+  // Wave 6, batch 3 (24 Nov 2026): 92 audited bank rows of four new papers (chemistry, computer_science, physics, mathematics). The same wave and source as
+  // w6 and w6b2; its own raw folder (tmp/1123-close/integrate/scoring3) and files (wave6b3-*). A subject may hold several batch files (<subject>__w6b3 or
+  // <subject>__w6b3a/b/c: physics and mathematics are split by audit part so that no scoring agent reads more than about 35 questions).
+  // The duplicate screen reads the 23 PUBLISHED wave-6 rows (batch 1 and batch 2 kept lists) besides waves 2-5.
+  w6b3: {
+    id: 'w6b3', wave: 6, source: W6_SOURCE, label: 'wave6b3', kind: 'authored_w6', modelNote: 'the model of the subagents that produced the raw files is not recorded in them',
+    models: { quality: 'claude-subagent-unrecorded', fit: 'claude-subagent-unrecorded', solver: 'claude-subagent-unrecorded' }, finalMode: false,
+    raw: 'tmp/1123-close/integrate/scoring3', out: 'docs/brain/reports/authored-w6', date: '2026-11-24',
+    files: (date) => ({ acceptance: `wave6b3-acceptance-${date}.json`, candidates: `wave6b3-candidates-scored-${date}.json`, entries: `wave6b3-score-entries-${date}.json` }),
+    finalFiles: (date) => ({ acceptanceFinal: `wave6b3-scored-final-acceptance-${date}.json`, candidatesFinal: `wave6b3-scored-final-candidates-${date}.json`, entriesFinal: `wave6b3-scored-final-score-entries-${date}.json`, dropped: `wave6b3-scored-final-dropped-${date}.json`, held: `wave6b3-scored-final-held-7-${date}.json` }),
+    engineFile: (label, date) => `wave6b3-engine-check-${label}-${date}.json`,
+    blindFields: ['stem', 'options', 'passage_text', 'type', 'subject'],
+    batchRe: /^(chemistry|computer_science|physics|mathematics)__w6b3[a-c]?$/,
+    priorFiles: [
+      { from: 'wave2', file: 'docs/brain/reports/authored-w2/wave2-candidates-final-2026-10-14.json' },
+      { from: 'wave3', file: 'docs/brain/reports/authored-w3/wave3-candidates-final-2026-10-17.json' },
+      { from: 'wave4', file: 'docs/brain/reports/authored-w4/wave4-candidates-final-2026-10-17.json' },
+      { from: 'wave5', file: 'docs/brain/reports/authored-w5/wave5-candidates-kept-2026-11-22.json' },
+      { from: 'wave6', file: 'docs/brain/reports/authored-w6/wave6-candidates-kept-2026-11-23.json' },
+      { from: 'wave6b2', file: 'docs/brain/reports/authored-w6/wave6b2-candidates-kept-2026-11-23.json' },
+    ],
+    expert: null, asjudged: null, fresh: [], resolve: null, decisions: null, spotcheck: null, engineReasons: null,
+    sourceCandidates: 'docs/brain/reports/authored-w6/wave6b3-candidates-final-2026-11-24.json', manifest: 'tmp/1123-close/integrate/scoring3/manifest.json',
+    resolvePrefix: 'rv-w6b3', carryBlindAnswers: false,
+    finalInputs: { expert: 'docs/brain/reports/authored-w6/expert-b3', resolve: 'tmp/1123-close/integrate/scoring3/resolve', fresh: ['tmp/1123-close/integrate/scoring3/reword'] },
+    publishRule: { qualityMeanAtLeast: 8, fitMedianAtLeast: 8 },
+    batchLabel: '<subject>__w6b3[a-c]',
+    acceptNote: 'Wave-1 acceptance rule applied to the raw files of wave 6, batch 3 (92 audited bank rows of chemistry, computer_science, physics and mathematics in wave6b3-candidates-final-2026-11-24.json). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the audit marks of the assembled candidates file (_verdict claude_audited, _expert ready or repaired).',
+    entriesNote: 'One record per question of wave 6 batch 3 that the rule accepted (the acceptance rule and the duplicate screen; every question was authored by Claude, audited by an independent Claude pass, then solved blind by five solvers and judged by two quality and three CUET-fit judges), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w6b3 from the raw files under tmp/1123-close/integrate/scoring3. Batches 1 and 2 have their own files. Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
   },
 };
 const FILES = (date, cfg = WAVE_CONFIGS.w2) => ({
@@ -1013,7 +1045,7 @@ export async function runAccept(args, { write = true } = {}) {
     total, bySubject, files: filesSummary, sets: setChildren,
     questions: rows,
   };
-  if (cfg.id === 'w4' || cfg.id === 'w5' || cfg.id === 'w6' || cfg.id === 'w6b2') acceptance.qualityMeanDistribution = qualityMeanDistribution(rows);
+  if (cfg.id === 'w4' || cfg.id === 'w5' || cfg.id === 'w6' || cfg.id === 'w6b2' || cfg.id === 'w6b3') acceptance.qualityMeanDistribution = qualityMeanDistribution(rows);
   if (cfg.id === 'w2') acceptance.final_pass_inputs = {
     expert_files: extras.expert.files, expert_conflicts: extras.expert.conflicts, asjudged: rel(path.resolve(args.asjudged)), fresh: args.fresh,
     fresh_pass_ids: extras.rewordIds.size, fresh_pass_partial: extras.ctx.freshPartial, text_set_to_the_fresh_pass: overriddenText,

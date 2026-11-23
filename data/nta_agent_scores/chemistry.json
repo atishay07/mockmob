@@ -3,7 +3,7 @@
   "subject": "chemistry",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-17T04:38:05.858Z",
+  "merged_at": "2026-11-23T18:50:19.173Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -73,7 +73,7 @@
       "answer_in_stem": 9
     },
     "mean_of_means": 5.74,
-    "admissible_before_row_checks": 310
+    "admissible_before_row_checks": 316
   },
   "questions": {
     "01c8396e-6be9-442d-aeec-3d36a63cb1c5": {
@@ -35454,6 +35454,558 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "118c166c-8d63-4a53-9e2e-6fbd994b8dce": {
+      "question_id": "118c166c-8d63-4a53-9e2e-6fbd994b8dce",
+      "batch": "authored-2026-10-14__chemistry__w6b3",
+      "chapter": "Electrochemistry",
+      "key": "D",
+      "content_hash": "06a43d3f645b33bfab3425e33cf505a4ce2e9277c430edcc5b88947a049312e2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.electrochemistry.gibbs-energy-cell-potential",
+          "flags": [],
+          "note": "-2 x 96487 x 0.46 = -88.77 kJ; distractors from sign slip, n=1, n=4. Clean one-step numerical.",
+          "scored_content_hash": "06a43d3f645b33bfab3425e33cf505a4ce2e9277c430edcc5b88947a049312e2"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.electrochemistry.gibbs-energy-cell-potential",
+          "flags": [],
+          "note": "-2x96487x0.46 = -88.77 kJ; distractors from sign slip and n=1/n=4. Near-copy of the NCERT worked cell; one-step, so easy rather than medium.",
+          "scored_content_hash": "06a43d3f645b33bfab3425e33cf505a4ce2e9277c430edcc5b88947a049312e2"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.electrochemistry.gibbs-energy-cell-potential",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.electrochemistry.gibbs-energy-cell-potential",
+        "chemistry.electrochemistry.gibbs-energy-cell-potential"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "06a43d3f645b33bfab3425e33cf505a4ce2e9277c430edcc5b88947a049312e2",
+        "final_content_hash": "06a43d3f645b33bfab3425e33cf505a4ce2e9277c430edcc5b88947a049312e2",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "6dcb8cfe-0adc-4195-98f4-5226d9f244e2": {
+      "question_id": "6dcb8cfe-0adc-4195-98f4-5226d9f244e2",
+      "batch": "authored-2026-10-14__chemistry__w6b3",
+      "chapter": "Haloalkanes & Haloarenes",
+      "key": "C",
+      "content_hash": "94cfa449ef73f56080977e19d33a5dd8c87bbab9221839b89a31d99acb44e992",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.haloalkanes-and-haloarenes.polyhalogen-compound-uses",
+          "flags": [],
+          "note": "Correct NCERT 6.8 match; CH2Cl2/CHCl3 swap is a real confusion, but (D)-(I) DDT is the same in every option, so only three pairs discriminate.",
+          "scored_content_hash": "94cfa449ef73f56080977e19d33a5dd8c87bbab9221839b89a31d99acb44e992"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.haloalkanes-and-haloarenes.polyhalogen-compound-uses",
+          "flags": [],
+          "note": "Direct NCERT 6.8 recall; each distractor is a single swap of the confusable CH2Cl2/CHCl3 uses; explanation facts check out.",
+          "scored_content_hash": "94cfa449ef73f56080977e19d33a5dd8c87bbab9221839b89a31d99acb44e992"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.haloalkanes-and-haloarenes.polyhalogen-compound-uses",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.polyhalogen-compound-uses",
+        "chemistry.haloalkanes-and-haloarenes.polyhalogen-compound-uses"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "94cfa449ef73f56080977e19d33a5dd8c87bbab9221839b89a31d99acb44e992",
+        "final_content_hash": "94cfa449ef73f56080977e19d33a5dd8c87bbab9221839b89a31d99acb44e992",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "95b01a7e-77e9-48b7-b8ac-ecd89a97c9f6": {
+      "question_id": "95b01a7e-77e9-48b7-b8ac-ecd89a97c9f6",
+      "batch": "authored-2026-10-14__chemistry__w6b3",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "key": "C",
+      "content_hash": "a298c9e33a373a19b09cbcf76d9770c3ef32cd103ceefd8ae550907969969e56",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.reimer-tiemann-reaction",
+          "flags": [],
+          "note": "Correct; (C) and (E) are long and mechanistic for CUET, (B) meta is an easy elimination. Fit for a mock.",
+          "scored_content_hash": "a298c9e33a373a19b09cbcf76d9770c3ef32cd103ceefd8ae550907969969e56"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.reimer-tiemann-reaction",
+          "flags": [],
+          "note": "Matches NCERT scheme (phenoxide with ortho CHCl2 intermediate). Meta statement (B) is an easy eliminator; otherwise clean.",
+          "scored_content_hash": "a298c9e33a373a19b09cbcf76d9770c3ef32cd103ceefd8ae550907969969e56"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.alcohols-phenols-and-ethers.reimer-tiemann-reaction",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.reimer-tiemann-reaction",
+        "chemistry.alcohols-phenols-and-ethers.reimer-tiemann-reaction"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "a298c9e33a373a19b09cbcf76d9770c3ef32cd103ceefd8ae550907969969e56",
+        "final_content_hash": "a298c9e33a373a19b09cbcf76d9770c3ef32cd103ceefd8ae550907969969e56",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a0bb9354-1682-425f-9aba-88bae69912e6": {
+      "question_id": "a0bb9354-1682-425f-9aba-88bae69912e6",
+      "batch": "authored-2026-10-14__chemistry__w6b3",
+      "chapter": "Biomolecules",
+      "key": "A",
+      "content_hash": "422f486cc1fa9c4a0b254c35adae7e0b7289ccee576bbdfef7309b5cac550e36",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.biomolecules.amino-acid-side-chains",
+          "flags": [],
+          "note": "Correct per Table 10.2; List-II ring descriptions are wordy for a CUET item but fair. Each distractor is one swap.",
+          "scored_content_hash": "422f486cc1fa9c4a0b254c35adae7e0b7289ccee576bbdfef7309b5cac550e36"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.biomolecules.amino-acid-side-chains",
+          "flags": [],
+          "note": "Correct Table 10.2 recall; ring descriptions in List-II help a little; each distractor one swap. Essential-amino-acid remarks are accurate.",
+          "scored_content_hash": "422f486cc1fa9c4a0b254c35adae7e0b7289ccee576bbdfef7309b5cac550e36"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.biomolecules.amino-acid-side-chains",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.biomolecules.amino-acid-side-chains",
+        "chemistry.biomolecules.amino-acid-side-chains"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "422f486cc1fa9c4a0b254c35adae7e0b7289ccee576bbdfef7309b5cac550e36",
+        "final_content_hash": "422f486cc1fa9c4a0b254c35adae7e0b7289ccee576bbdfef7309b5cac550e36",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 4,
+          "answers": [
+            "A",
+            "D",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b4803f7d-4e48-4a1f-9571-061c08ab4cbf": {
+      "question_id": "b4803f7d-4e48-4a1f-9571-061c08ab4cbf",
+      "batch": "authored-2026-10-14__chemistry__w6b3",
+      "chapter": "Coordination Compounds",
+      "key": "B",
+      "content_hash": "4ca6306add7b3284ad388cfb5e0df191296a0c486961c033008a709df77d4374",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.spectrochemical-series-absorption-wavelength",
+          "flags": [],
+          "note": "Mirrors NCERT exercise on absorption wavelength order; reversed-order distractor C is the natural slip. Clean.",
+          "scored_content_hash": "4ca6306add7b3284ad388cfb5e0df191296a0c486961c033008a709df77d4374"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.spectrochemical-series-absorption-wavelength",
+          "flags": [],
+          "note": "Clean two-step reasoning (series then E=hc/lambda); reverse-order distractor is the classic slip; NCERT series and Table 5.3 values quoted correctly.",
+          "scored_content_hash": "4ca6306add7b3284ad388cfb5e0df191296a0c486961c033008a709df77d4374"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.coordination-compounds.spectrochemical-series-absorption-wavelength",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.coordination-compounds.spectrochemical-series-absorption-wavelength",
+        "chemistry.coordination-compounds.spectrochemical-series-absorption-wavelength"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "4ca6306add7b3284ad388cfb5e0df191296a0c486961c033008a709df77d4374",
+        "final_content_hash": "4ca6306add7b3284ad388cfb5e0df191296a0c486961c033008a709df77d4374",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "cf4e8cf1-4dbf-4cdc-a71d-10f1a6ffc6a1": {
+      "question_id": "cf4e8cf1-4dbf-4cdc-a71d-10f1a6ffc6a1",
+      "batch": "authored-2026-10-14__chemistry__w6b3",
+      "chapter": "d- and f-Block Elements",
+      "key": "A",
+      "content_hash": "9f1b2b8abaac96e4dd9808c956b2c3f46de730752b77ffc3cc0eb6e8ff9eb048",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.chromate-dichromate-interconversion",
+          "flags": [],
+          "note": "Correct statement item; (C) same +6 state is the classic trap. Option B (A,D only) is a weak distractor.",
+          "scored_content_hash": "9f1b2b8abaac96e4dd9808c956b2c3f46de730752b77ffc3cc0eb6e8ff9eb048"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.chromate-dichromate-interconversion",
+          "flags": [],
+          "note": "Correct; same +6 state is a fair trap. Explanation mentions a 'reverse claim' not in the stem and pads with off-topic uses; minor.",
+          "scored_content_hash": "9f1b2b8abaac96e4dd9808c956b2c3f46de730752b77ffc3cc0eb6e8ff9eb048"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.d-and-f-block-elements.chromate-dichromate-interconversion",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.chromate-dichromate-interconversion",
+        "chemistry.d-and-f-block-elements.chromate-dichromate-interconversion"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "9f1b2b8abaac96e4dd9808c956b2c3f46de730752b77ffc3cc0eb6e8ff9eb048",
+        "final_content_hash": "9f1b2b8abaac96e4dd9808c956b2c3f46de730752b77ffc3cc0eb6e8ff9eb048",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -35490,6 +36042,18 @@
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 1,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-11-23-w6": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-23T18:50:19.173Z",
+      "questions": 6,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-24",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

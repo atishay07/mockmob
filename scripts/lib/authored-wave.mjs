@@ -59,7 +59,8 @@ export const WAVES = Object.freeze({
   5: Object.freeze({ wave: 5, source: AUTHORED_SOURCE_W5, subjects: Object.freeze(['accountancy', 'business_studies', 'economics']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']), experts: Object.freeze(['ready', 'repaired']) }),
   // Wave 6 (23 Nov 2026, closing the open CUET 2026 questions): nine papers, standalone items only (no sets). Every row was authored by Claude, then audited
   // by an independent Claude pass per subject (tmp/1123-close/<subject>/audit.json, only accept and repair verdicts kept); the same rule as wave 5.
-  6: Object.freeze({ wave: 6, source: AUTHORED_SOURCE_W6, subjects: Object.freeze(['accountancy', 'biology', 'business_studies', 'economics', 'geography', 'history', 'political_science', 'psychology', 'sociology']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']), experts: Object.freeze(['ready', 'repaired']) }),
+  // Batch 3 (24 Nov 2026) adds four papers: chemistry, computer_science, physics, mathematics (standalone bank rows; their Key cards go through the deck pipeline).
+  6: Object.freeze({ wave: 6, source: AUTHORED_SOURCE_W6, subjects: Object.freeze(['accountancy', 'biology', 'business_studies', 'economics', 'geography', 'history', 'political_science', 'psychology', 'sociology', 'chemistry', 'computer_science', 'physics', 'mathematics']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']), experts: Object.freeze(['ready', 'repaired']) }),
 });
 export const AUTHORED_SOURCES = Object.freeze(Object.values(WAVES).map((entry) => entry.source));
 /** Every subject any wave publishes (wave 1's six, then wave 2's additions, then wave 5's commerce papers). Wave 6 adds none: its nine are all here already. */

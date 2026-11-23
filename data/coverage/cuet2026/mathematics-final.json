@@ -1,29 +1,29 @@
 {
  "subject": "mathematics",
- "snapshotDate": "2026-11-23",
- "checkedOn": "2026-11-23",
+ "snapshotDate": "2026-11-24",
+ "checkedOn": "2026-11-24",
  "questions": [
   {
    "n": 1,
    "chapter": "Matrices",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "042703b8-ea06-434c-b594-247954b00760",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Cards define the four properties and the expansion, but no served bank row builds a matrix from an element rule, tests its type and expands its determinant."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 2,
    "chapter": "Matrices",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "fdf5673c-1968-42e4-abde-754500ee367e",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row derives idempotence from AB = A and BA = B by associativity."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 3,
@@ -40,23 +40,23 @@
    "n": 4,
    "chapter": "Determinants",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "24bb3f55-56dd-4570-8492-c3bce1369bf7",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows use |adj A| = |A|^(n-1) forward and |kA| = k^n|A|; none goes back from |adj A| to |A| with both signs, the step that makes the key +-40."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 5,
    "chapter": "Continuity & Differentiability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "67910760-3c36-4917-9ca7-79fa4315f9c4",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row differentiates the root of a quotient and rebuilds an expression in y."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 6,
@@ -95,12 +95,12 @@
    "n": 9,
    "chapter": "Integrals",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "416fed88-c2e1-4723-9f03-f85b5d78dc1e",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row solves a functional equation for f(x) before integrating it."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 10,
@@ -161,34 +161,34 @@
    "n": 15,
    "chapter": "Linear Programming",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "fd8df5f2-406a-4a8e-99aa-be5af592e4d2",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served material covers only the non-strict half-planes; nothing says a strict inequality excludes the line or which side holds the origin."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 16,
    "chapter": "Relations & Functions",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "c7942f37-b18b-42d1-a098-414033a5fd48",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row lists a relation from a rule and gives its domain and range (statements A and B)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 17,
    "chapter": "Relations & Functions",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "c1d0ea41-465a-44c0-8c9c-6b4fb2f20334",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Cards define one-one and onto, but no served bank row tests a polynomial map on N for both."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 18,
@@ -216,12 +216,12 @@
    "n": 20,
    "chapter": "Matrices",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "011bdc0f-c488-4ed1-bd9c-66100095738d",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row solves a matrix polynomial A^2 + kA + lambda I = O for a constant."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 21,
@@ -238,23 +238,23 @@
    "n": 22,
    "chapter": "Determinants",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "8d51bc35-edc6-40f3-ae71-2804b409c82c",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served area rows apply the formula to given vertices; none links a determinant with a column of 2s to the area of an equilateral triangle."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 23,
    "chapter": "Determinants",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "9771f434-7ddd-4781-8943-33b7fa556226",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row evaluates this kind of determinant."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 24,
@@ -271,12 +271,12 @@
    "n": 25,
    "chapter": "Continuity & Differentiability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "7adf3fa9-f420-4272-a69a-bce650f0c663",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows find a constant from continuity; none equates left and right derivatives of a piecewise function."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 26,
@@ -293,12 +293,12 @@
    "n": 27,
    "chapter": "Continuity & Differentiability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "145c823f-14d1-4d7d-bc81-5107510977c9",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A served row differentiates parametrically, but none rewrites the result in x and y, which is the step tested."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 28,
@@ -414,45 +414,45 @@
    "n": 38,
    "chapter": "Vector Algebra",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "e1b72304-b6c3-4a73-adaf-414b30351497",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Only part C has a served worked row; nothing computes |a.b| from the identity, a collinearity ratio or the unit-vector products."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 39,
    "chapter": "Vector Algebra",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "00418d8d-46ad-4f4f-9b56-6231cd1c93f9",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row sets (a x b).c = 0 to find a relation between unknowns."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 40,
    "chapter": "Vector Algebra",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "015bdaee-c7bb-4789-ac68-9778bff9785f",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row applies the Lagrange identity and sums over i, j, k."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 41,
    "chapter": "Vector Algebra",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "3fc288aa-a85e-4279-8aed-73f9d89b9e7b",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row finds a unit vector along b x c from the angle between b and c."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 42,
@@ -469,23 +469,23 @@
    "n": 43,
    "chapter": "Three Dimensional Geometry",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "08bed2f1-75a5-490e-a080-f5217fd83ae8",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A served row applies the perpendicular condition to symmetric forms; none rewrites this form to read the direction ratios."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 44,
    "chapter": "Three Dimensional Geometry",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "3b90d5df-32be-4379-8924-d94eadfd8161",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served shortest-distance row is for skew lines; no bank row computes the distance between parallel lines."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 45,
@@ -513,56 +513,56 @@
    "n": 47,
    "chapter": "Probability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "5f8c6f5f-5e4a-4381-82e5-edbb509e2463",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row finds the probability that exactly one of two independent events happens."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 48,
    "chapter": "Probability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "57b9fb51-2f98-4a1e-a928-b19edc7bbddb",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row computes a complement-conditional probability with numbers; two rows each give half the method, which is not one template."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 49,
    "chapter": "Probability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "7a7efe5b-85be-41b8-9e2b-1ca4184e47e9",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row handles exactly one of two events or a conditional on the union."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 50,
    "chapter": "Probability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "317a454e-ddae-4661-900e-a336ac3d0294",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A served row applies Bayes with given likelihoods; none finds them by counting consecutive letter pairs, the step this item turns on."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 51,
    "chapter": "Financial Mathematics",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "6045c1a6-9b49-426e-ad4e-922024c81a97",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row computes an effective rate."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 52,
@@ -612,12 +612,12 @@
    "n": 56,
    "chapter": "Financial Mathematics",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "5610ffb8-7ac5-44f3-809b-4ed68c4e9420",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served row finds the present value from an annual rate; none finds the rate from the present value or handles half-yearly payments."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 57,
@@ -634,45 +634,45 @@
    "n": 58,
    "chapter": "Probability Distributions",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "2252c6b1-1287-4af3-9ffa-0e80e71b37a8",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A served row computes np and npq forward; none recovers p and n from a given mean and variance (parts C and D)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 59,
    "chapter": "Probability Distributions",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "064f7b67-0793-4a21-affa-3a9c6d65c3e4",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served Poisson rows use mean = variance; none uses the Poisson probability formula."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 60,
    "chapter": "Probability Distributions",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "007d4d2b-b34d-4665-95a2-330a369e7ee0",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Nothing served says the normal curve is symmetric about the mean or that half lies above it."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 61,
    "chapter": "Continuity & Differentiability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "b370d2f9-ddf6-4109-8964-6e98fe47416f",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served bank row differentiates a^x or a product with it."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 62,
@@ -689,23 +689,23 @@
    "n": 63,
    "chapter": "Application of Derivatives",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "dee791a1-239d-40dd-9522-b59c70abbc99",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served bank row computes marginal revenue from a demand function."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 64,
    "chapter": "Application of Derivatives",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "f0cb4875-4e15-45cd-9b05-6e2d49d80535",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A Key card states the rule, but no served bank row finds a point of inflexion by working."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 65,
@@ -799,12 +799,12 @@
    "n": 73,
    "chapter": "Time Based Data",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "a22433a4-e270-4fc9-beed-a818d33a06b3",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Nothing served names the four components of a time series."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 74,
@@ -832,23 +832,23 @@
    "n": 76,
    "chapter": "Matrices",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "6525eda7-fe41-427f-8b9c-d4786ec84c2b",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A, B and C are taught but nothing served states (A')^-1 = (A^-1)', so D is reached only by elimination; multi-statement items need every part."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 77,
    "chapter": "Determinants",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "7eb64d37-a4cd-414a-ad09-7c10cbd1f993",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Nothing served gives |adj(adj A)| = |A|^((n-1)^2), which three parts need."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 78,
@@ -876,23 +876,23 @@
    "n": 80,
    "chapter": "Numbers, Quantification and Numerical Applications",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "086521e1-2f7e-4453-ae3d-d235efa465da",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A bank row gives the multiply-by-negative rule only; transitivity and the division rules are not stated."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 81,
    "chapter": "Numbers, Quantification and Numerical Applications",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "b8734f7d-2dae-486c-8374-7db9334189ed",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row on repeated removal and replacement."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 82,
@@ -909,34 +909,34 @@
    "n": 83,
    "chapter": "Numbers, Quantification and Numerical Applications",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "9f9b57bf-93aa-4bc6-a44f-b888fad054b7",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served boat row works from two given speeds; none uses a ratio of times."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 84,
    "chapter": "Numbers, Quantification and Numerical Applications",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "59b0916c-0775-4cf9-9070-878e03330466",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served pipes row keeps all pipes open; none closes one before the end."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 85,
    "chapter": "Numbers, Quantification and Numerical Applications",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "61d6cc6e-f5f9-4b8a-b424-7fcc20a8ad4a",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served race row combines margins; none works from finishing times."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   }
  ]
 }

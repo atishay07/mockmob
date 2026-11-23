@@ -6,27 +6,27 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-23",
- "snapshotDay": "23 November 2026",
+ "snapshotDate": "2026-11-24",
+ "snapshotDay": "24 November 2026",
  "firstDate": "2026-11-23",
  "firstDay": "23 November 2026",
  "final": true,
  "counts": {
   "total": 85,
   "same": 0,
-  "newValues": 0,
-  "concept": 69,
-  "notYet": 16,
+  "newValues": 4,
+  "concept": 70,
+  "notYet": 11,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 69,
+  "covered": 74,
   "counted": 85,
-  "pct": 81,
+  "pct": 87,
   "first": 69,
   "firstPct": 81,
   "addedCards": 0,
-  "addedQuestions": 0,
+  "addedQuestions": 5,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -65,7 +65,7 @@
   {
    "name": "Database Query using SQL",
    "asked": 4,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "Introduction to Computer Networks",
@@ -90,12 +90,12 @@
   {
    "name": "Sorting",
    "asked": 4,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Stack",
    "asked": 4,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "Security Aspects",
@@ -105,7 +105,7 @@
   {
    "name": "Understanding Data",
    "asked": 3,
-   "covered": 1
+   "covered": 3
   },
   {
    "name": "Data Communication",
@@ -902,11 +902,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "98649894-84d2-49e0-bb06-2526cc5bfc9b",
+    "chapter": "Stack",
+    "stem": "Using a stack, the infix expression (M - N) * (P + Q) is converted into postfix notation. What is the equivalent postfix expression?",
+    "passage": null,
+    "options": [
+     "* - M N + P Q",
+     "M N - P Q + *",
+     "M N P * - Q +",
+     "M N + P Q - *"
+    ],
+    "key": 1,
+    "explanation": "Scan the infix expression from left to right (NCERT Algorithm 3.1). An operand is appended to the postfix string; a left parenthesis is pushed; an operator is pushed (after popping any operator of higher precedence from the top); a right parenthesis pops operators into the string until its left parenthesis is popped and discarded; at the end, the operators left on the stack are popped. '(' push; M append: M; '-' push; N append: M N; ')' pop '-': M N -; '*' push (the stack was empty); '(' push; P append: M N - P; '+' push (the top is '('); Q append: M N - P Q; ')' pop '+': M N - P Q +; end of input, pop the remaining '*': M N - P Q + *. So each bracketed part becomes operand, operand, operator, and the operator that joins the two brackets comes last. NCERT's Example 3.1 converts (x + y)/(z * 8) the same way, to x y + z 8 * /. Option A is the prefix (Polish) form, with operators before their operands. Option C ignores the parentheses and applies normal precedence to M - N * P + Q. Option D swaps the two inner operators.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 24,
@@ -1121,11 +1139,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "6a46890c-13bd-4b83-8b37-939ca17ffa22",
+    "chapter": "Sorting",
+    "stem": "How many passes does bubble sort make to sort a list of 8 elements?",
+    "passage": null,
+    "options": [
+     "8",
+     "7",
+     "28",
+     "64"
+    ],
+    "key": 1,
+    "explanation": "Each iteration through the elements of the list is called a pass. In every pass bubble sort compares adjacent elements and swaps them when they are out of order, so the largest remaining element 'bubbles up' to its correct place at the end, and that element is left out of the later passes. NCERT states that for a list with n elements, bubble sort makes a total of n - 1 passes: once n - 1 elements are in their places, the last one is already in place. Here n = 8, so 8 - 1 = 7 passes. In the same way a list of 6 elements needs 5 passes, as in NCERT's Figure 5.1, where the list was already sorted in the 4th pass but the technique still made the 5th pass. 28 is the number of comparisons (7 + 6 + 5 + 4 + 3 + 2 + 1), not of passes; 64 is n squared, the order of bubble sort's time complexity; 8 counts one pass per element.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 31,
@@ -1249,11 +1285,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "cf1843f6-eb22-40c8-b512-dbc85fba0ea9",
+    "chapter": "Understanding Data",
+    "stem": "The number of minutes a student spent on practice questions on 8 days was recorded as: 12, 14, 14, 14, 15, 15, 17, 19. What is the standard deviation of this data?",
+    "passage": null,
+    "options": [
+     "4",
+     "15",
+     "2",
+     "7"
+    ],
+    "key": 2,
+    "explanation": "Standard deviation (sigma) is the positive square root of the average of the squared differences of each value from the mean: sigma = square root of [sum of (xi - mean) squared / n], where n is the number of values. Step 1, the mean: (12 + 14 + 14 + 14 + 15 + 15 + 17 + 19) / 8 = 120 / 8 = 15. Step 2, the deviations from the mean: -3, -1, -1, -1, 0, 0, 2, 4. Step 3, their squares: 9, 1, 1, 1, 0, 0, 4, 16, whose sum is 32. Step 4, the average of the squares: 32 / 8 = 4. Step 5, the square root: the square root of 4 = 2. So the standard deviation is 2. When the mean is not a whole number the steps are the same: for the six values 4, 6, 7, 9, 11, 14 the mean is 51 / 6 = 8.5, the squared deviations 20.25, 6.25, 2.25, 0.25, 6.25 and 30.25 add up to 65.5, 65.5 / 6 is about 10.92, and its square root is about 3.3 (to one decimal place). Option A (4) stops before the square root; B (15) is the mean; D (7) is the range, 19 - 12.",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 35,
@@ -1272,11 +1326,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "be44d900-4cc9-4189-8dbb-fc7d09281db9",
+    "chapter": "Understanding Data",
+    "stem": "The monthly pocket money (in rupees) of seven friends is 300, 320, 350, 360, 380, 400 and 5,000. Which measure of central tendency gives the better idea of a typical friend's pocket money here, and what is its value?",
+    "passage": null,
+    "options": [
+     "Mean, about Rs 1,016",
+     "Median, Rs 360",
+     "Median, Rs 380",
+     "Range, Rs 4,700"
+    ],
+    "key": 1,
+    "explanation": "Rs 5,000 is an outlier: an exceptionally large value in comparison to the other values. The mean is 7,110 / 7, about Rs 1,016, which is higher than six of the seven values, so it does not describe a typical friend; this is why NCERT says the mean is not a suitable choice if there are outliers in the data. The median is the middle value of the sorted data: with 7 values it is the 4th, Rs 360 (Rs 380 is the 5th value, not the middle one). The median depends only on which value sits in the middle position, so it stays Rs 360 however large the outlier becomes; that is why the median is the measure of central tendency better suited to data with an outlier. The mode is the value that occurs most often; here every value occurs only once, so this data has no mode. Option D is not a measure of central tendency at all: the range (5,000 - 300 = Rs 4,700) measures the spread of the data, and as it is calculated from the two extreme values, any outlier badly influences it.",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 36,
@@ -1886,11 +1958,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "6ea07aa6-eb31-4f94-a5c1-f9761ea75103",
+    "chapter": "Structured Query Language",
+    "stem": "Relation STUDENT has 5 attributes and 6 tuples, and relation CLUB has 3 attributes and 4 tuples. What are the degree and the cardinality of the relation STUDENT X CLUB obtained by their Cartesian product?",
+    "passage": null,
+    "options": [
+     "Degree 15, cardinality 10",
+     "Degree 8, cardinality 10",
+     "Degree 15, cardinality 24",
+     "Degree 8, cardinality 24"
+    ],
+    "key": 3,
+    "explanation": "The Cartesian product pairs every tuple of the first relation with every tuple of the second, and each resulting tuple carries all the attributes of both. So the degree of the result is the sum of the degrees of the two relations, and its cardinality is the product of their cardinalities. Degree = 5 + 3 = 8. Cardinality = 6 x 4 = 24. NCERT's own example works the same way: DANCE and MUSIC are both of degree 3, with cardinalities 4 and 5, so DANCE X MUSIC has degree 3 + 3 = 6 and cardinality 4 x 5 = 20. Option A multiplies the degrees and adds the cardinalities (the two rules swapped); option B adds both; option C multiplies both.",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 54,

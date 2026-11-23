@@ -1,10 +1,11 @@
 {
- "builtAt": "2026-11-23T18:13:27.310Z",
- "snapshotDate": "2026-11-23",
- "snapshotDay": "23 November 2026",
+ "builtAt": "2026-11-23T18:51:27.255Z",
+ "snapshotDate": "2026-11-24",
+ "snapshotDay": "24 November 2026",
  "snapshotDates": [
   "2026-11-22",
-  "2026-11-23"
+  "2026-11-23",
+  "2026-11-24"
  ],
  "statuses": [
   "same",
@@ -103,12 +104,12 @@
    "shift": "first shift",
    "total": 50,
    "counted": 50,
-   "covered": 40,
-   "pct": 80,
+   "covered": 46,
+   "pct": 92,
    "same": 0,
-   "newValues": 0,
-   "concept": 40,
-   "notYet": 10,
+   "newValues": 1,
+   "concept": 45,
+   "notYet": 4,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -117,7 +118,7 @@
    "firstPct": 80,
    "firstDay": "23 November 2026",
    "addedCards": 0,
-   "addedQuestions": 0,
+   "addedQuestions": 6,
    "found": 0
   },
   {
@@ -129,12 +130,12 @@
    "shift": "first shift",
    "total": 85,
    "counted": 85,
-   "covered": 69,
-   "pct": 81,
+   "covered": 74,
+   "pct": 87,
    "same": 0,
-   "newValues": 0,
-   "concept": 69,
-   "notYet": 16,
+   "newValues": 4,
+   "concept": 70,
+   "notYet": 11,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -143,7 +144,7 @@
    "firstPct": 81,
    "firstDay": "23 November 2026",
    "addedCards": 0,
-   "addedQuestions": 0,
+   "addedQuestions": 5,
    "found": 0
   },
   {
@@ -233,12 +234,12 @@
    "shift": "second shift",
    "total": 85,
    "counted": 85,
-   "covered": 33,
-   "pct": 39,
+   "covered": 72,
+   "pct": 85,
    "same": 0,
-   "newValues": 0,
-   "concept": 33,
-   "notYet": 52,
+   "newValues": 33,
+   "concept": 39,
+   "notYet": 13,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -247,7 +248,7 @@
    "firstPct": 39,
    "firstDay": "23 November 2026",
    "addedCards": 0,
-   "addedQuestions": 0,
+   "addedQuestions": 39,
    "found": 0
   },
   {
@@ -259,12 +260,12 @@
    "shift": "second shift",
    "total": 50,
    "counted": 50,
-   "covered": 23,
-   "pct": 46,
-   "same": 0,
-   "newValues": 0,
-   "concept": 23,
-   "notYet": 27,
+   "covered": 43,
+   "pct": 86,
+   "same": 1,
+   "newValues": 15,
+   "concept": 27,
+   "notYet": 7,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -273,7 +274,7 @@
    "firstPct": 46,
    "firstDay": "23 November 2026",
    "addedCards": 0,
-   "addedQuestions": 0,
+   "addedQuestions": 20,
    "found": 0
   },
   {
@@ -357,13 +358,13 @@
  ],
  "total": {
   "counted": 686,
-  "covered": 570,
-  "same": 86,
-  "newValues": 21,
-  "concept": 463,
-  "notYet": 116,
+  "covered": 640,
+  "same": 87,
+  "newValues": 74,
+  "concept": 479,
+  "notYet": 46,
   "skill": 39,
-  "pct": 83
+  "pct": 93
  },
  "firstCheck": {
   "from": "2026-11-20",
@@ -374,7 +375,7 @@
   "counted": 686,
   "pct": 66,
   "addedCards": 72,
-  "addedQuestions": 43,
+  "addedQuestions": 113,
   "found": 2,
   "same": 67,
   "newValues": 4,
@@ -694,7 +695,7 @@
     "subject": "chemistry",
     "chapter": "Alcohols, Phenols & Ethers",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 35,
     "practice": true
    },
@@ -718,7 +719,7 @@
     "subject": "chemistry",
     "chapter": "Biomolecules",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 29,
     "practice": true
    },
@@ -734,7 +735,7 @@
     "subject": "chemistry",
     "chapter": "Coordination Compounds",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 34,
     "practice": true
    },
@@ -742,7 +743,7 @@
     "subject": "chemistry",
     "chapter": "d- and f-Block Elements",
     "asked": 5,
-    "covered": 2,
+    "covered": 3,
     "served": 33,
     "practice": true
    },
@@ -750,7 +751,7 @@
     "subject": "chemistry",
     "chapter": "Electrochemistry",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 29,
     "practice": true
    },
@@ -758,7 +759,7 @@
     "subject": "chemistry",
     "chapter": "Haloalkanes & Haloarenes",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 28,
     "practice": true
    },
@@ -822,7 +823,7 @@
     "subject": "computer-science",
     "chapter": "Database Query using SQL",
     "asked": 4,
-    "covered": 3,
+    "covered": 4,
     "served": 0,
     "practice": true
    },
@@ -862,7 +863,7 @@
     "subject": "computer-science",
     "chapter": "Sorting",
     "asked": 4,
-    "covered": 2,
+    "covered": 3,
     "served": 20,
     "practice": true
    },
@@ -870,7 +871,7 @@
     "subject": "computer-science",
     "chapter": "Stack",
     "asked": 4,
-    "covered": 3,
+    "covered": 4,
     "served": 10,
     "practice": true
    },
@@ -886,7 +887,7 @@
     "subject": "computer-science",
     "chapter": "Understanding Data",
     "asked": 3,
-    "covered": 1,
+    "covered": 3,
     "served": 16,
     "practice": true
    },
@@ -1262,7 +1263,7 @@
     "subject": "mathematics",
     "chapter": "Application of Derivatives",
     "asked": 8,
-    "covered": 6,
+    "covered": 8,
     "served": 23,
     "practice": true
    },
@@ -1270,7 +1271,7 @@
     "subject": "mathematics",
     "chapter": "Matrices",
     "asked": 8,
-    "covered": 2,
+    "covered": 6,
     "served": 24,
     "practice": true
    },
@@ -1278,7 +1279,7 @@
     "subject": "mathematics",
     "chapter": "Determinants",
     "asked": 7,
-    "covered": 1,
+    "covered": 5,
     "served": 20,
     "practice": true
    },
@@ -1294,7 +1295,7 @@
     "subject": "mathematics",
     "chapter": "Financial Mathematics",
     "asked": 6,
-    "covered": 3,
+    "covered": 5,
     "served": 16,
     "practice": true
    },
@@ -1302,7 +1303,7 @@
     "subject": "mathematics",
     "chapter": "Integrals",
     "asked": 6,
-    "covered": 4,
+    "covered": 5,
     "served": 29,
     "practice": true
    },
@@ -1310,7 +1311,7 @@
     "subject": "mathematics",
     "chapter": "Numbers, Quantification and Numerical Applications",
     "asked": 6,
-    "covered": 0,
+    "covered": 5,
     "served": 18,
     "practice": true
    },
@@ -1318,7 +1319,7 @@
     "subject": "mathematics",
     "chapter": "Continuity & Differentiability",
     "asked": 5,
-    "covered": 0,
+    "covered": 4,
     "served": 21,
     "practice": true
    },
@@ -1326,7 +1327,7 @@
     "subject": "mathematics",
     "chapter": "Linear Programming",
     "asked": 5,
-    "covered": 3,
+    "covered": 4,
     "served": 27,
     "practice": true
    },
@@ -1334,7 +1335,7 @@
     "subject": "mathematics",
     "chapter": "Probability",
     "asked": 5,
-    "covered": 1,
+    "covered": 5,
     "served": 20,
     "practice": true
    },
@@ -1342,7 +1343,7 @@
     "subject": "mathematics",
     "chapter": "Probability Distributions",
     "asked": 4,
-    "covered": 1,
+    "covered": 4,
     "served": 17,
     "practice": true
    },
@@ -1350,7 +1351,7 @@
     "subject": "mathematics",
     "chapter": "Vector Algebra",
     "asked": 4,
-    "covered": 0,
+    "covered": 4,
     "served": 11,
     "practice": true
    },
@@ -1374,7 +1375,7 @@
     "subject": "mathematics",
     "chapter": "Three Dimensional Geometry",
     "asked": 3,
-    "covered": 0,
+    "covered": 2,
     "served": 18,
     "practice": true
    },
@@ -1382,7 +1383,7 @@
     "subject": "mathematics",
     "chapter": "Relations & Functions",
     "asked": 2,
-    "covered": 0,
+    "covered": 2,
     "served": 76,
     "practice": true
    },
@@ -1390,7 +1391,7 @@
     "subject": "mathematics",
     "chapter": "Time Based Data",
     "asked": 2,
-    "covered": 1,
+    "covered": 2,
     "served": 15,
     "practice": true
    },
@@ -1406,7 +1407,7 @@
     "subject": "physics",
     "chapter": "Current Electricity",
     "asked": 5,
-    "covered": 1,
+    "covered": 4,
     "served": 27,
     "practice": true
    },
@@ -1414,7 +1415,7 @@
     "subject": "physics",
     "chapter": "Electromagnetic Waves",
     "asked": 5,
-    "covered": 1,
+    "covered": 4,
     "served": 21,
     "practice": true
    },
@@ -1422,7 +1423,7 @@
     "subject": "physics",
     "chapter": "Moving Charges & Magnetism",
     "asked": 5,
-    "covered": 3,
+    "covered": 5,
     "served": 27,
     "practice": true
    },
@@ -1430,7 +1431,7 @@
     "subject": "physics",
     "chapter": "Electric Charges & Fields",
     "asked": 4,
-    "covered": 3,
+    "covered": 4,
     "served": 74,
     "practice": true
    },
@@ -1438,7 +1439,7 @@
     "subject": "physics",
     "chapter": "Ray Optics & Optical Instruments",
     "asked": 4,
-    "covered": 0,
+    "covered": 4,
     "served": 28,
     "practice": true
    },
@@ -1446,7 +1447,7 @@
     "subject": "physics",
     "chapter": "Semiconductor Electronics",
     "asked": 4,
-    "covered": 2,
+    "covered": 4,
     "served": 14,
     "practice": true
    },
@@ -1454,7 +1455,7 @@
     "subject": "physics",
     "chapter": "Alternating Current",
     "asked": 3,
-    "covered": 1,
+    "covered": 2,
     "served": 23,
     "practice": true
    },
@@ -1478,7 +1479,7 @@
     "subject": "physics",
     "chapter": "Electromagnetic Induction",
     "asked": 3,
-    "covered": 2,
+    "covered": 3,
     "served": 28,
     "practice": true
    },
@@ -1486,7 +1487,7 @@
     "subject": "physics",
     "chapter": "Electrostatic Potential & Capacitance",
     "asked": 3,
-    "covered": 1,
+    "covered": 2,
     "served": 36,
     "practice": true
    },
@@ -1502,7 +1503,7 @@
     "subject": "physics",
     "chapter": "Wave Optics",
     "asked": 3,
-    "covered": 0,
+    "covered": 1,
     "served": 24,
     "practice": true
    },
@@ -1510,7 +1511,7 @@
     "subject": "physics",
     "chapter": "Magnetism & Matter",
     "asked": 2,
-    "covered": 1,
+    "covered": 2,
     "served": 22,
     "practice": true
    },

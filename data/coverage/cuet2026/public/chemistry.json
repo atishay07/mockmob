@@ -6,27 +6,27 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-23",
- "snapshotDay": "23 November 2026",
+ "snapshotDate": "2026-11-24",
+ "snapshotDay": "24 November 2026",
  "firstDate": "2026-11-23",
  "firstDay": "23 November 2026",
  "final": true,
  "counts": {
   "total": 50,
   "same": 0,
-  "newValues": 0,
-  "concept": 40,
-  "notYet": 10,
+  "newValues": 1,
+  "concept": 45,
+  "notYet": 4,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 40,
+  "covered": 46,
   "counted": 50,
-  "pct": 80,
+  "pct": 92,
   "first": 40,
   "firstPct": 80,
   "addedCards": 0,
-  "addedQuestions": 0,
+  "addedQuestions": 6,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -35,7 +35,7 @@
   {
    "name": "Alcohols, Phenols & Ethers",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Aldehydes, Ketones & Carboxylic Acids",
@@ -50,7 +50,7 @@
   {
    "name": "Biomolecules",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Chemical Kinetics",
@@ -60,22 +60,22 @@
   {
    "name": "Coordination Compounds",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "d- and f-Block Elements",
    "asked": 5,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Electrochemistry",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Haloalkanes & Haloarenes",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Solutions",
@@ -124,11 +124,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "6dcb8cfe-0adc-4195-98f4-5226d9f244e2",
+    "chapter": "Haloalkanes & Haloarenes",
+    "stem": "Match List-I with List-II.\nList-I (Compound)\n(A) Methylene chloride, CH₂Cl₂\n(B) Chloroform, CHCl₃\n(C) Iodoform, CHI₃\n(D) DDT\nList-II (Use)\n(I) Insecticide\n(II) Once used as an antiseptic\n(III) Solvent used as a paint remover\n(IV) Production of the freon refrigerant R-22\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+     "(A) - (II), (B) - (IV), (C) - (III), (D) - (I)",
+     "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+     "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)"
+    ],
+    "key": 2,
+    "explanation": "Methylene chloride is the common name of dichloromethane, CH₂Cl₂: NCERT heads its section \"Dichloromethane (Methylene chloride)\" and lists CH₂Cl₂ as methylene chloride (common name) and dichloromethane (IUPAC name). It is widely used as a solvent, as a paint remover, as a propellant in aerosols and as a process solvent in the manufacture of drugs, so (A)-(III). Chloroform (trichloromethane, CHCl₃) is a solvent for fats, alkaloids and iodine; its major use today is in the production of the freon refrigerant R-22, and it was once a general anaesthetic, since replaced by safer ones such as ether, so (B)-(IV). Iodoform (triiodomethane, CHI₃) was used earlier as an antiseptic, but the antiseptic action comes from the free iodine it liberates, not from iodoform itself; because of its objectionable smell it has been replaced by other iodine formulations, so (C)-(II). DDT (p,p′-dichlorodiphenyltrichloroethane) was the first chlorinated organic insecticide, so (D)-(I). The paint remover is therefore methylene chloride. Option A swaps the uses of methylene chloride and chloroform; options B and D give the paint remover or the refrigerant to iodoform.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 3,
@@ -727,11 +745,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "cf4e8cf1-4dbf-4cdc-a71d-10f1a6ffc6a1",
+    "chapter": "d- and f-Block Elements",
+    "stem": "Consider the following statements about chromates and dichromates.\n(A) Acidifying a yellow solution of sodium chromate gives orange sodium dichromate.\n(B) Adding an alkali to a solution of potassium dichromate converts the dichromate ions into chromate ions.\n(C) Chromium is in a higher oxidation state in the dichromate ion than in the chromate ion.\n(D) Potassium dichromate is prepared by treating a solution of sodium dichromate with potassium chloride, as the sodium salt is the more soluble of the two.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A), (B) and (D) only",
+     "(A) and (D) only",
+     "(A), (B) and (C) only",
+     "(B), (C) and (D) only"
+    ],
+    "key": 0,
+    "explanation": "Chromates and dichromates are interconvertible in aqueous solution, and which one is present depends on the pH: 2CrO₄²⁻ + 2H⁺ → Cr₂O₇²⁻ + H₂O and Cr₂O₇²⁻ + 2OH⁻ → 2CrO₄²⁻ + H₂O. Adding acid (lowering the pH) turns chromate into dichromate; adding alkali (raising the pH) turns dichromate back into chromate. In the manufacture, the yellow sodium chromate solution is acidified with sulphuric acid and orange sodium dichromate crystallises, so (A) is true, and alkali gives chromate, so (B) is true. The reverse claim, that dichromate changes into chromate as the pH falls, is false. The oxidation state of chromium is the same, +6, in both ions (CrO₄²⁻: x − 8 = −2; Cr₂O₇²⁻: 2x − 14 = −2), so (C) is false: the change is an acid-base one, not a redox one. Sodium dichromate is more soluble than potassium dichromate, so potassium dichromate is prepared by treating sodium dichromate solution with potassium chloride, and orange crystals of K₂Cr₂O₇ separate, so (D) is true. The chromate ion is tetrahedral; the dichromate ion is two tetrahedra sharing one corner, with a Cr–O–Cr bond angle of 126°. Potassium dichromate is used in the leather industry and as an oxidant for preparing many azo compounds; in acid it takes six electrons per ion, Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O. Option B leaves out the true (B); options C and D include the false (C).",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 21,
@@ -927,11 +963,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "b4803f7d-4e48-4a1f-9571-061c08ab4cbf",
+    "chapter": "Coordination Compounds",
+    "stem": "Arrange the following chromium(III) complexes in decreasing order of the wavelength of light they absorb (longest wavelength first):\n(A) [Cr(CN)₆]³⁻\n(B) [Cr(H₂O)₆]³⁺\n(C) [CrCl₆]³⁻\n(D) [Cr(en)₃]³⁺\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(C), (D), (B), (A)",
+     "(C), (B), (D), (A)",
+     "(A), (D), (B), (C)",
+     "(B), (C), (D), (A)"
+    ],
+    "key": 1,
+    "explanation": "For complexes of the same metal ion in the same oxidation state, the crystal field splitting Δo grows with the field strength of the ligand. NCERT's spectrochemical series, in increasing field strength, is I⁻ < Br⁻ < SCN⁻ < Cl⁻ < S²⁻ < F⁻ < OH⁻ < C₂O₄²⁻ < H₂O < NCS⁻ < edta⁴⁻ < NH₃ < en < CN⁻ < CO. The colour comes from promoting an electron from the t2g to the eg level by absorbing light whose energy matches Δo. A larger Δo needs light of higher energy, and since E = hc/λ, higher energy means a shorter wavelength. So the stronger the ligand, the shorter the wavelength absorbed: the weak-field Cl⁻ complex absorbs the longest wavelength, then H₂O, then en, and the strong-field CN⁻ complex the shortest: (C), (B), (D), (A). Longest wavelength first therefore follows the series from its weak-field end; asked in increasing order of wavelength, the same complexes would come in the reverse of the series order, strongest ligand first. NCERT's Table 5.3 shows the trend: [Co(NH₃)₆]³⁺ absorbs at 475 nm, while [Co(CN)₆]³⁻, with the stronger CN⁻ ligand, absorbs at 310 nm, in the ultraviolet. Option C lists the complexes shortest wavelength first (strongest ligand first), the reverse of what is asked, which is also what a student gets by wrongly taking a stronger ligand to absorb a longer wavelength; option D puts the anion Cl⁻ above H₂O in field strength, as a point-charge picture would wrongly expect (NCERT notes that anionic ligands actually sit at the low end of the series); option A swaps en and H₂O.",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 27,
@@ -1372,11 +1426,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "a0bb9354-1682-425f-9aba-88bae69912e6",
+    "chapter": "Biomolecules",
+    "stem": "Match List-I with List-II.\nList-I (Amino acid)\n(A) Tryptophan\n(B) Tyrosine\n(C) Histidine\n(D) Phenylalanine\nList-II (Side chain R in R–CH(NH₂)–COOH)\n(I) C₆H₅–CH₂–\n(II) –CH₂– attached to an indole ring (a benzene ring fused to a five-membered ring containing an N–H group)\n(III) (p)HO–C₆H₄–CH₂–\n(IV) –CH₂– attached to an imidazole ring (a five-membered ring containing two nitrogen atoms)\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+     "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+     "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+     "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)"
+    ],
+    "key": 0,
+    "explanation": "NCERT's Table 10.2 writes each natural amino acid as R–CH(NH₂)–COOH and draws its side chain R. Tryptophan's R is a –CH₂– group joined to an indole ring, a benzene ring fused to a five-membered ring that carries an N–H; the CH₂ sits on the carbon of the five-membered ring that is not next to the nitrogen (position 3), so tryptophan is H₂N–CH(CH₂–indol-3-yl)–COOH and (A)-(II). Tyrosine's R is (p)HO–C₆H₄–CH₂–, a benzyl group with an –OH para on the ring, so (B)-(III). Histidine's R is –CH₂– joined to an imidazole ring, a five-membered ring with two nitrogen atoms, so (C)-(IV). Phenylalanine's R is C₆H₅–CH₂–, the benzyl group with no –OH, so (D)-(I). Tryptophan, histidine and phenylalanine are marked essential in the table (the body cannot make them, so they must come from the diet); tyrosine is not. Each wrong option makes one swap: option B swaps tryptophan and histidine (one ring nitrogen in indole, two in imidazole), option C swaps tyrosine and phenylalanine (they differ only by the para –OH), and option D swaps tryptophan and phenylalanine (an indole ring against a plain benzene ring).",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 40,
@@ -1483,11 +1555,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "118c166c-8d63-4a53-9e2e-6fbd994b8dce",
+    "chapter": "Electrochemistry",
+    "stem": "For the cell reaction Cu(s) + 2Ag⁺(aq) → Cu²⁺(aq) + 2Ag(s), the standard cell potential E°cell is 0.46 V. Taking F = 96487 C mol⁻¹, the standard Gibbs energy of the reaction, ΔrG°, is:",
+    "passage": null,
+    "options": [
+     "−44.38 kJ mol⁻¹",
+     "+88.77 kJ mol⁻¹",
+     "−177.54 kJ mol⁻¹",
+     "−88.77 kJ mol⁻¹"
+    ],
+    "key": 3,
+    "explanation": "ΔrG° = −nFE°cell, where n is the number of electrons transferred in the balanced cell reaction. Copper is oxidised at the anode, Cu(s) → Cu²⁺(aq) + 2e⁻, and the two silver ions take one electron each at the cathode, 2Ag⁺(aq) + 2e⁻ → 2Ag(s). The two electrons copper loses are the same two the silver ions gain, so n = 2 (not 1, and not 4). (E°cell = E°cathode − E°anode = 0.80 V − 0.34 V = 0.46 V.) ΔrG° = −2 × 96487 C mol⁻¹ × 0.46 V = −88,768 J mol⁻¹ = −88.77 kJ mol⁻¹, since 1 C × 1 V = 1 J. The negative value means the reaction is spontaneous, as a positive E°cell always gives. +88.77 drops the minus sign; −44.38 uses n = 1; −177.54 counts the electrons twice (n = 4). The same steps give NCERT's Example 2.3: for the Daniell cell, Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s), E°cell = 1.1 V and n = 2, so ΔrG° = −2 × 1.1 V × 96487 C mol⁻¹ = −212.27 kJ mol⁻¹.",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 43,
@@ -1701,11 +1791,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "95b01a7e-77e9-48b7-b8ac-ecd89a97c9f6",
+    "chapter": "Alcohols, Phenols & Ethers",
+    "stem": "Consider the following statements about the Reimer–Tiemann reaction of phenol.\n(A) Phenol is treated with chloroform in the presence of aqueous sodium hydroxide.\n(B) The –CHO group enters the benzene ring at the position meta to the oxygen.\n(C) The intermediate is a substituted benzal chloride: a sodium phenoxide carrying a –CHCl₂ group at the ortho position.\n(D) The intermediate is hydrolysed by the alkali, and acidification of the product then gives salicylaldehyde.\n(E) The intermediate carries a –CH₂Cl group, which the alkali oxidises to –CHO.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A), (B) and (C) only",
+     "(A), (D) and (E) only",
+     "(A), (C) and (D) only",
+     "(C), (D) and (E) only"
+    ],
+    "key": 2,
+    "explanation": "On treating phenol with chloroform in the presence of sodium hydroxide, a –CHO group is introduced at the ortho position of the benzene ring; this is the Reimer–Tiemann reaction, so (A) is true and (B) is false (the –OH group, and still more the phenoxide ion, directs incoming groups to the ortho and para positions, not meta). NCERT's scheme runs: phenol, with CHCl₃ and aqueous NaOH, gives the intermediate; NaOH turns it into the sodium salt carrying –CHO at the ortho position; H⁺ then gives salicylaldehyde (2-hydroxybenzaldehyde). The intermediate is a substituted benzal chloride. Benzal chloride is C₆H₅CHCl₂ (side-chain chlorination of toluene gives it, and its hydrolysis gives benzaldehyde), so the intermediate carries a –CHCl₂ group ortho to the oxygen; because the medium is alkaline, the oxygen is present as the phenoxide, –O⁻Na⁺, not as –OH. So (C) is true. Hydrolysis of the –CHCl₂ group by the alkali gives –CHO (still as the phenoxide), and acidification then gives salicylaldehyde, so (D) is true. (E) is false: the new carbon comes from chloroform, CHCl₃, and the group carries two chlorine atoms, –CHCl₂, not one; the step that makes –CHO is a hydrolysis, not an oxidation. The phenoxide carrying –CHO is the product of that hydrolysis, not the intermediate. Option A includes the false (B); options B and D include the false (E).",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 49,

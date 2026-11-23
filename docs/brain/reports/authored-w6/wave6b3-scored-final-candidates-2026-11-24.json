@@ -1,0 +1,2452 @@
+[
+  {
+    "id": "6dcb8cfe-0adc-4195-98f4-5226d9f244e2",
+    "subject": "chemistry",
+    "unit": "Haloalkanes and Haloarenes",
+    "chapter": "Haloalkanes & Haloarenes",
+    "type": "match_the_following",
+    "stem": "Match List-I with List-II.\nList-I (Compound)\n(A) Methylene chloride, CH₂Cl₂\n(B) Chloroform, CHCl₃\n(C) Iodoform, CHI₃\n(D) DDT\nList-II (Use)\n(I) Insecticide\n(II) Once used as an antiseptic\n(III) Solvent used as a paint remover\n(IV) Production of the freon refrigerant R-22\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+      },
+      {
+        "key": "B",
+        "text": "(A) - (II), (B) - (IV), (C) - (III), (D) - (I)"
+      },
+      {
+        "key": "C",
+        "text": "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+      },
+      {
+        "key": "D",
+        "text": "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Methylene chloride is the common name of dichloromethane, CH₂Cl₂: NCERT heads its section \"Dichloromethane (Methylene chloride)\" and lists CH₂Cl₂ as methylene chloride (common name) and dichloromethane (IUPAC name). It is widely used as a solvent, as a paint remover, as a propellant in aerosols and as a process solvent in the manufacture of drugs, so (A)-(III). Chloroform (trichloromethane, CHCl₃) is a solvent for fats, alkaloids and iodine; its major use today is in the production of the freon refrigerant R-22, and it was once a general anaesthetic, since replaced by safer ones such as ether, so (B)-(IV). Iodoform (triiodomethane, CHI₃) was used earlier as an antiseptic, but the antiseptic action comes from the free iodine it liberates, not from iodoform itself; because of its objectionable smell it has been replaced by other iodine formulations, so (C)-(II). DDT (p,p′-dichlorodiphenyltrichloroethane) was the first chlorinated organic insecticide, so (D)-(I). The paint remover is therefore methylene chloride. Option A swaps the uses of methylene chloride and chloroform; options B and D give the paint remover or the refrigerant to iodoform.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Chemistry Part II (lech201, Reprint 2026-27), Ch 6 Haloalkanes and Haloarenes: common names table, p 162; 6.8 Polyhalogen Compounds, p 187 (6.8.1 Dichloromethane (Methylene chloride), 6.8.2 Trichloromethane (Chloroform), 6.8.3 Triiodomethane (Iodoform)) and p 188 (6.8.6 DDT)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "cf4e8cf1-4dbf-4cdc-a71d-10f1a6ffc6a1",
+    "subject": "chemistry",
+    "unit": "d and f Block Elements",
+    "chapter": "d- and f-Block Elements",
+    "type": "statement_based",
+    "stem": "Consider the following statements about chromates and dichromates.\n(A) Acidifying a yellow solution of sodium chromate gives orange sodium dichromate.\n(B) Adding an alkali to a solution of potassium dichromate converts the dichromate ions into chromate ions.\n(C) Chromium is in a higher oxidation state in the dichromate ion than in the chromate ion.\n(D) Potassium dichromate is prepared by treating a solution of sodium dichromate with potassium chloride, as the sodium salt is the more soluble of the two.\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A), (B) and (D) only"
+      },
+      {
+        "key": "B",
+        "text": "(A) and (D) only"
+      },
+      {
+        "key": "C",
+        "text": "(A), (B) and (C) only"
+      },
+      {
+        "key": "D",
+        "text": "(B), (C) and (D) only"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Chromates and dichromates are interconvertible in aqueous solution, and which one is present depends on the pH: 2CrO₄²⁻ + 2H⁺ → Cr₂O₇²⁻ + H₂O and Cr₂O₇²⁻ + 2OH⁻ → 2CrO₄²⁻ + H₂O. Adding acid (lowering the pH) turns chromate into dichromate; adding alkali (raising the pH) turns dichromate back into chromate. In the manufacture, the yellow sodium chromate solution is acidified with sulphuric acid and orange sodium dichromate crystallises, so (A) is true, and alkali gives chromate, so (B) is true. The reverse claim, that dichromate changes into chromate as the pH falls, is false. The oxidation state of chromium is the same, +6, in both ions (CrO₄²⁻: x − 8 = −2; Cr₂O₇²⁻: 2x − 14 = −2), so (C) is false: the change is an acid-base one, not a redox one. Sodium dichromate is more soluble than potassium dichromate, so potassium dichromate is prepared by treating sodium dichromate solution with potassium chloride, and orange crystals of K₂Cr₂O₇ separate, so (D) is true. The chromate ion is tetrahedral; the dichromate ion is two tetrahedra sharing one corner, with a Cr–O–Cr bond angle of 126°. Potassium dichromate is used in the leather industry and as an oxidant for preparing many azo compounds; in acid it takes six electrons per ion, Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O. Option B leaves out the true (B); options C and D include the false (C).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Chemistry Part I (lech104, Reprint 2026-27), Ch 4 The d- and f-Block Elements, Potassium dichromate K2Cr2O7: preparation from chromate, p 105; solubility, pH interconversion equations, same oxidation state, structures (126°), p 106; oxidising action in acid, p 106",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "b4803f7d-4e48-4a1f-9571-061c08ab4cbf",
+    "subject": "chemistry",
+    "unit": "Coordination Compounds",
+    "chapter": "Coordination Compounds",
+    "type": "sequence_ordering",
+    "stem": "Arrange the following chromium(III) complexes in decreasing order of the wavelength of light they absorb (longest wavelength first):\n(A) [Cr(CN)₆]³⁻\n(B) [Cr(H₂O)₆]³⁺\n(C) [CrCl₆]³⁻\n(D) [Cr(en)₃]³⁺\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(C), (D), (B), (A)"
+      },
+      {
+        "key": "B",
+        "text": "(C), (B), (D), (A)"
+      },
+      {
+        "key": "C",
+        "text": "(A), (D), (B), (C)"
+      },
+      {
+        "key": "D",
+        "text": "(B), (C), (D), (A)"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "For complexes of the same metal ion in the same oxidation state, the crystal field splitting Δo grows with the field strength of the ligand. NCERT's spectrochemical series, in increasing field strength, is I⁻ < Br⁻ < SCN⁻ < Cl⁻ < S²⁻ < F⁻ < OH⁻ < C₂O₄²⁻ < H₂O < NCS⁻ < edta⁴⁻ < NH₃ < en < CN⁻ < CO. The colour comes from promoting an electron from the t2g to the eg level by absorbing light whose energy matches Δo. A larger Δo needs light of higher energy, and since E = hc/λ, higher energy means a shorter wavelength. So the stronger the ligand, the shorter the wavelength absorbed: the weak-field Cl⁻ complex absorbs the longest wavelength, then H₂O, then en, and the strong-field CN⁻ complex the shortest: (C), (B), (D), (A). Longest wavelength first therefore follows the series from its weak-field end; asked in increasing order of wavelength, the same complexes would come in the reverse of the series order, strongest ligand first. NCERT's Table 5.3 shows the trend: [Co(NH₃)₆]³⁺ absorbs at 475 nm, while [Co(CN)₆]³⁻, with the stronger CN⁻ ligand, absorbs at 310 nm, in the ultraviolet. Option C lists the complexes shortest wavelength first (strongest ligand first), the reverse of what is asked, which is also what a student gets by wrongly taking a stronger ligand to absorb a longer wavelength; option D puts the anion Cl⁻ above H₂O in field strength, as a point-charge picture would wrongly expect (NCERT notes that anionic ligands actually sit at the low end of the series); option A swaps en and H₂O.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Chemistry Part I (lech105, Reprint 2026-27), Ch 5 Coordination Compounds: 5.5.4 Crystal Field Theory, spectrochemical series, p 132; 5.5.5 Colour in Coordination Compounds and Table 5.3 (wavelength absorbed), p 133; 5.5.6 Limitations of Crystal Field Theory (anionic ligands at the low end), p 135; exercise on the order of wavelengths of absorption, p 140",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "a0bb9354-1682-425f-9aba-88bae69912e6",
+    "subject": "chemistry",
+    "unit": "Biomolecules",
+    "chapter": "Biomolecules",
+    "type": "match_the_following",
+    "stem": "Match List-I with List-II.\nList-I (Amino acid)\n(A) Tryptophan\n(B) Tyrosine\n(C) Histidine\n(D) Phenylalanine\nList-II (Side chain R in R–CH(NH₂)–COOH)\n(I) C₆H₅–CH₂–\n(II) –CH₂– attached to an indole ring (a benzene ring fused to a five-membered ring containing an N–H group)\n(III) (p)HO–C₆H₄–CH₂–\n(IV) –CH₂– attached to an imidazole ring (a five-membered ring containing two nitrogen atoms)\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)"
+      },
+      {
+        "key": "B",
+        "text": "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+      },
+      {
+        "key": "C",
+        "text": "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)"
+      },
+      {
+        "key": "D",
+        "text": "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "NCERT's Table 10.2 writes each natural amino acid as R–CH(NH₂)–COOH and draws its side chain R. Tryptophan's R is a –CH₂– group joined to an indole ring, a benzene ring fused to a five-membered ring that carries an N–H; the CH₂ sits on the carbon of the five-membered ring that is not next to the nitrogen (position 3), so tryptophan is H₂N–CH(CH₂–indol-3-yl)–COOH and (A)-(II). Tyrosine's R is (p)HO–C₆H₄–CH₂–, a benzyl group with an –OH para on the ring, so (B)-(III). Histidine's R is –CH₂– joined to an imidazole ring, a five-membered ring with two nitrogen atoms, so (C)-(IV). Phenylalanine's R is C₆H₅–CH₂–, the benzyl group with no –OH, so (D)-(I). Tryptophan, histidine and phenylalanine are marked essential in the table (the body cannot make them, so they must come from the diet); tyrosine is not. Each wrong option makes one swap: option B swaps tryptophan and histidine (one ring nitrogen in indole, two in imidazole), option C swaps tyrosine and phenylalanine (they differ only by the para –OH), and option D swaps tryptophan and phenylalanine (an indole ring against a plain benzene ring).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Chemistry Part II (lech205, Reprint 2026-27), Ch 10 Biomolecules: 10.2.1 Amino Acids, Table 10.2 Natural Amino Acids (side chains of phenylalanine, tyrosine, tryptophan and histidine drawn; essential amino acids marked), pp 290-291; 10.2.2 Classification of Amino Acids, p 291",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "118c166c-8d63-4a53-9e2e-6fbd994b8dce",
+    "subject": "chemistry",
+    "unit": "Electrochemistry",
+    "chapter": "Electrochemistry",
+    "type": "single_mcq",
+    "stem": "For the cell reaction Cu(s) + 2Ag⁺(aq) → Cu²⁺(aq) + 2Ag(s), the standard cell potential E°cell is 0.46 V. Taking F = 96487 C mol⁻¹, the standard Gibbs energy of the reaction, ΔrG°, is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "−44.38 kJ mol⁻¹"
+      },
+      {
+        "key": "B",
+        "text": "+88.77 kJ mol⁻¹"
+      },
+      {
+        "key": "C",
+        "text": "−177.54 kJ mol⁻¹"
+      },
+      {
+        "key": "D",
+        "text": "−88.77 kJ mol⁻¹"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "ΔrG° = −nFE°cell, where n is the number of electrons transferred in the balanced cell reaction. Copper is oxidised at the anode, Cu(s) → Cu²⁺(aq) + 2e⁻, and the two silver ions take one electron each at the cathode, 2Ag⁺(aq) + 2e⁻ → 2Ag(s). The two electrons copper loses are the same two the silver ions gain, so n = 2 (not 1, and not 4). (E°cell = E°cathode − E°anode = 0.80 V − 0.34 V = 0.46 V.) ΔrG° = −2 × 96487 C mol⁻¹ × 0.46 V = −88,768 J mol⁻¹ = −88.77 kJ mol⁻¹, since 1 C × 1 V = 1 J. The negative value means the reaction is spontaneous, as a positive E°cell always gives. +88.77 drops the minus sign; −44.38 uses n = 1; −177.54 counts the electrons twice (n = 4). The same steps give NCERT's Example 2.3: for the Daniell cell, Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s), E°cell = 1.1 V and n = 2, so ΔrG° = −2 × 1.1 V × 96487 C mol⁻¹ = −212.27 kJ mol⁻¹.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Chemistry Part I (lech102, Reprint 2026-27), Ch 2 Electrochemistry: Table 2.1 Standard Electrode Potentials at 298 K, p 37; 2.3.2 Electrochemical Cell and Gibbs Energy of the Reaction, equation 2.16 and Example 2.3, p 40 (Example 2.2 on the same page uses this Cu/Ag cell, E°cell 0.46 V, for Kc)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "95b01a7e-77e9-48b7-b8ac-ecd89a97c9f6",
+    "subject": "chemistry",
+    "unit": "Alcohols, Phenols and Ethers",
+    "chapter": "Alcohols, Phenols & Ethers",
+    "type": "statement_based",
+    "stem": "Consider the following statements about the Reimer–Tiemann reaction of phenol.\n(A) Phenol is treated with chloroform in the presence of aqueous sodium hydroxide.\n(B) The –CHO group enters the benzene ring at the position meta to the oxygen.\n(C) The intermediate is a substituted benzal chloride: a sodium phenoxide carrying a –CHCl₂ group at the ortho position.\n(D) The intermediate is hydrolysed by the alkali, and acidification of the product then gives salicylaldehyde.\n(E) The intermediate carries a –CH₂Cl group, which the alkali oxidises to –CHO.\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A), (B) and (C) only"
+      },
+      {
+        "key": "B",
+        "text": "(A), (D) and (E) only"
+      },
+      {
+        "key": "C",
+        "text": "(A), (C) and (D) only"
+      },
+      {
+        "key": "D",
+        "text": "(C), (D) and (E) only"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "On treating phenol with chloroform in the presence of sodium hydroxide, a –CHO group is introduced at the ortho position of the benzene ring; this is the Reimer–Tiemann reaction, so (A) is true and (B) is false (the –OH group, and still more the phenoxide ion, directs incoming groups to the ortho and para positions, not meta). NCERT's scheme runs: phenol, with CHCl₃ and aqueous NaOH, gives the intermediate; NaOH turns it into the sodium salt carrying –CHO at the ortho position; H⁺ then gives salicylaldehyde (2-hydroxybenzaldehyde). The intermediate is a substituted benzal chloride. Benzal chloride is C₆H₅CHCl₂ (side-chain chlorination of toluene gives it, and its hydrolysis gives benzaldehyde), so the intermediate carries a –CHCl₂ group ortho to the oxygen; because the medium is alkaline, the oxygen is present as the phenoxide, –O⁻Na⁺, not as –OH. So (C) is true. Hydrolysis of the –CHCl₂ group by the alkali gives –CHO (still as the phenoxide), and acidification then gives salicylaldehyde, so (D) is true. (E) is false: the new carbon comes from chloroform, CHCl₃, and the group carries two chlorine atoms, –CHCl₂, not one; the step that makes –CHO is a hydrolysis, not an oxidation. The phenoxide carrying –CHO is the product of that hydrolysis, not the intermediate. Option A includes the false (B); options B and D include the false (E).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Chemistry Part II (lech202, Reprint 2026-27), Ch 7 Alcohols, Phenols and Ethers: 7.4.4 Chemical Reactions of phenols, 3. Reimer-Tiemann reaction (text and scheme with the intermediate), p 213; Summary, p 221; benzal chloride: lech203 Ch 8 Aldehydes, Ketones and Carboxylic Acids, preparation of benzaldehyde by side chain chlorination, p 233",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "98649894-84d2-49e0-bb06-2526cc5bfc9b",
+    "subject": "computer_science",
+    "unit": "Section B1: Computer Science",
+    "chapter": "Stack",
+    "type": "single_mcq",
+    "stem": "Using a stack, the infix expression (M - N) * (P + Q) is converted into postfix notation. What is the equivalent postfix expression?",
+    "options": [
+      {
+        "key": "A",
+        "text": "* - M N + P Q"
+      },
+      {
+        "key": "B",
+        "text": "M N - P Q + *"
+      },
+      {
+        "key": "C",
+        "text": "M N P * - Q +"
+      },
+      {
+        "key": "D",
+        "text": "M N + P Q - *"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "Scan the infix expression from left to right (NCERT Algorithm 3.1). An operand is appended to the postfix string; a left parenthesis is pushed; an operator is pushed (after popping any operator of higher precedence from the top); a right parenthesis pops operators into the string until its left parenthesis is popped and discarded; at the end, the operators left on the stack are popped. '(' push; M append: M; '-' push; N append: M N; ')' pop '-': M N -; '*' push (the stack was empty); '(' push; P append: M N - P; '+' push (the top is '('); Q append: M N - P Q; ')' pop '+': M N - P Q +; end of input, pop the remaining '*': M N - P Q + *. So each bracketed part becomes operand, operand, operator, and the operator that joins the two brackets comes last. NCERT's Example 3.1 converts (x + y)/(z * 8) the same way, to x y + z 8 * /. Option A is the prefix (Polish) form, with operators before their operands. Option C ignores the parentheses and applies normal precedence to M - N * P + Q. Option D swaps the two inner operators.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Computer Science Class XII (lecs103, Reprint 2026-27), Ch 3 Stack, 3.6 Conversion from Infix to Postfix Notation, Algorithm 3.1 and Example 3.1 ((x + y)/(z*8)), printed pp47-48; Table 3.1 infix, prefix and postfix notations, 3.5",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "6a46890c-13bd-4b83-8b37-939ca17ffa22",
+    "subject": "computer_science",
+    "unit": "Section B1: Computer Science",
+    "chapter": "Sorting",
+    "type": "single_mcq",
+    "stem": "How many passes does bubble sort make to sort a list of 8 elements?",
+    "options": [
+      {
+        "key": "A",
+        "text": "8"
+      },
+      {
+        "key": "B",
+        "text": "7"
+      },
+      {
+        "key": "C",
+        "text": "28"
+      },
+      {
+        "key": "D",
+        "text": "64"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "Each iteration through the elements of the list is called a pass. In every pass bubble sort compares adjacent elements and swaps them when they are out of order, so the largest remaining element 'bubbles up' to its correct place at the end, and that element is left out of the later passes. NCERT states that for a list with n elements, bubble sort makes a total of n - 1 passes: once n - 1 elements are in their places, the last one is already in place. Here n = 8, so 8 - 1 = 7 passes. In the same way a list of 6 elements needs 5 passes, as in NCERT's Figure 5.1, where the list was already sorted in the 4th pass but the technique still made the 5th pass. 28 is the number of comparisons (7 + 6 + 5 + 4 + 3 + 2 + 1), not of passes; 64 is n squared, the order of bubble sort's time complexity; 8 counts one pass per element.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Computer Science Class XII (lecs105, Reprint 2026-27), Ch 5 Sorting, 5.2 Bubble Sort and Figure 5.1, printed p68 ('For a list with n elements, the bubble sort makes a total of n – 1 passes to sort the list') and the Summary, p78",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "cf1843f6-eb22-40c8-b512-dbc85fba0ea9",
+    "subject": "computer_science",
+    "unit": "Section B1: Computer Science",
+    "chapter": "Understanding Data",
+    "type": "single_mcq",
+    "stem": "The number of minutes a student spent on practice questions on 8 days was recorded as: 12, 14, 14, 14, 15, 15, 17, 19. What is the standard deviation of this data?",
+    "options": [
+      {
+        "key": "A",
+        "text": "4"
+      },
+      {
+        "key": "B",
+        "text": "15"
+      },
+      {
+        "key": "C",
+        "text": "2"
+      },
+      {
+        "key": "D",
+        "text": "7"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Standard deviation (sigma) is the positive square root of the average of the squared differences of each value from the mean: sigma = square root of [sum of (xi - mean) squared / n], where n is the number of values. Step 1, the mean: (12 + 14 + 14 + 14 + 15 + 15 + 17 + 19) / 8 = 120 / 8 = 15. Step 2, the deviations from the mean: -3, -1, -1, -1, 0, 0, 2, 4. Step 3, their squares: 9, 1, 1, 1, 0, 0, 4, 16, whose sum is 32. Step 4, the average of the squares: 32 / 8 = 4. Step 5, the square root: the square root of 4 = 2. So the standard deviation is 2. When the mean is not a whole number the steps are the same: for the six values 4, 6, 7, 9, 11, 14 the mean is 51 / 6 = 8.5, the squared deviations 20.25, 6.25, 2.25, 0.25, 6.25 and 30.25 add up to 65.5, 65.5 / 6 is about 10.92, and its square root is about 3.3 (to one decimal place). Option A (4) stops before the square root; B (15) is the mean; D (7) is the range, 19 - 12.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Computer Science Class XII (lecs107, Reprint 2026-27), Ch 7 Understanding Data, 7.5.2 Measures of Variability, (B) Standard deviation, formula and Example 7.5 with Table 7.3, printed pp105-106",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "be44d900-4cc9-4189-8dbb-fc7d09281db9",
+    "subject": "computer_science",
+    "unit": "Section B1: Computer Science",
+    "chapter": "Understanding Data",
+    "type": "single_mcq",
+    "stem": "The monthly pocket money (in rupees) of seven friends is 300, 320, 350, 360, 380, 400 and 5,000. Which measure of central tendency gives the better idea of a typical friend's pocket money here, and what is its value?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Mean, about Rs 1,016"
+      },
+      {
+        "key": "B",
+        "text": "Median, Rs 360"
+      },
+      {
+        "key": "C",
+        "text": "Median, Rs 380"
+      },
+      {
+        "key": "D",
+        "text": "Range, Rs 4,700"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "Rs 5,000 is an outlier: an exceptionally large value in comparison to the other values. The mean is 7,110 / 7, about Rs 1,016, which is higher than six of the seven values, so it does not describe a typical friend; this is why NCERT says the mean is not a suitable choice if there are outliers in the data. The median is the middle value of the sorted data: with 7 values it is the 4th, Rs 360 (Rs 380 is the 5th value, not the middle one). The median depends only on which value sits in the middle position, so it stays Rs 360 however large the outlier becomes; that is why the median is the measure of central tendency better suited to data with an outlier. The mode is the value that occurs most often; here every value occurs only once, so this data has no mode. Option D is not a measure of central tendency at all: the range (5,000 - 300 = Rs 4,700) measures the spread of the data, and as it is calculated from the two extreme values, any outlier badly influences it.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Computer Science Class XII (lecs107, Reprint 2026-27), Ch 7 Understanding Data, 7.5.1 Measures of Central Tendency: (A) Mean with the outlier note, (B) Median and its Think and Reflect on sensitivity to outliers, (C) Mode, printed p104-105; 7.5.2 (A) Range, p105",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "6ea07aa6-eb31-4f94-a5c1-f9761ea75103",
+    "subject": "computer_science",
+    "unit": "Section B2: Informatics Practices",
+    "chapter": "Structured Query Language",
+    "type": "single_mcq",
+    "stem": "Relation STUDENT has 5 attributes and 6 tuples, and relation CLUB has 3 attributes and 4 tuples. What are the degree and the cardinality of the relation STUDENT X CLUB obtained by their Cartesian product?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Degree 15, cardinality 10"
+      },
+      {
+        "key": "B",
+        "text": "Degree 8, cardinality 10"
+      },
+      {
+        "key": "C",
+        "text": "Degree 15, cardinality 24"
+      },
+      {
+        "key": "D",
+        "text": "Degree 8, cardinality 24"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "The Cartesian product pairs every tuple of the first relation with every tuple of the second, and each resulting tuple carries all the attributes of both. So the degree of the result is the sum of the degrees of the two relations, and its cardinality is the product of their cardinalities. Degree = 5 + 3 = 8. Cardinality = 6 x 4 = 24. NCERT's own example works the same way: DANCE and MUSIC are both of degree 3, with cardinalities 4 and 5, so DANCE X MUSIC has degree 3 + 3 = 6 and cardinality 4 x 5 = 20. Option A multiplies the degrees and adds the cardinalities (the two rules swapped); option B adds both; option C multiplies both.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Informatics Practices Class XII (leip101, Reprint 2026-27), Ch 1 Querying and SQL Functions, 1.4.4 Cartesian Product, printed p18; also NCERT Computer Science Class XII, Ch 9 Structured Query Language (lecs109), Cartesian product",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "042703b8-ea06-434c-b594-247954b00760",
+    "subject": "mathematics",
+    "unit": "Section A1 (common)",
+    "chapter": "Matrices",
+    "type": "statement_based",
+    "stem": "M is a square matrix of order 3 whose entry in row i and column j is i − j. Consider the following statements:\n(A) M is a skew-symmetric matrix.\n(B) M is a diagonal matrix.\n(C) M is a symmetric matrix.\n(D) M is invertible.\n(E) |M| = 0\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "Only (A), (B) and (E)"
+      },
+      {
+        "key": "B",
+        "text": "Only (A) and (D)"
+      },
+      {
+        "key": "C",
+        "text": "Only (A) and (E)"
+      },
+      {
+        "key": "D",
+        "text": "Only (C) and (E)"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Write M from the rule (entry in row i, column j = i − j): row 1 is (0, −1, −2), row 2 is (1, 0, −1) and row 3 is (2, 1, 0). The entry in row j, column i is j − i = −(i − j), so every entry changes sign on transposing: M′ = −M, which is the definition of a skew-symmetric matrix, so (A) is true. A symmetric matrix needs M′ = M; here the entry in row 1, column 2 is −1 while the entry in row 2, column 1 is 1, so (C) is false. Every entry on the leading diagonal is i − i = 0, but a diagonal matrix needs every entry off the leading diagonal to be zero, and the entry in row 1, column 2 is −1, so M is not a diagonal matrix and (B) is false. Expanding |M| along row 1: 0 × (0 × 0 − (−1) × 1) − (−1) × (1 × 0 − (−1) × 2) + (−2) × (1 × 1 − 0 × 2) = 0 + 2 − 2 = 0. So |M| = 0 and (E) is true. A square matrix is invertible only when it is non-singular (|M| ≠ 0), so M is not invertible and (D) is false. The true statements are (A) and (E). Reading the zero diagonal as a diagonal matrix adds (B); taking the middle term of the expansion as −2 gives |M| = −4, which makes M look invertible and gives (A) and (D); swapping the definitions of symmetric (M′ = M) and skew-symmetric (M′ = −M) gives (C) and (E).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (Reprint 2026-27): Ch 3, matrix from a rule (Example 3, p 38), diagonal matrix (p 40), Definitions 4-5 (p 63); Ch 4, 3 × 3 expansion (p 77-78), non-singular matrix and Theorem 4 (p 89-90)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "fdf5673c-1968-42e4-abde-754500ee367e",
+    "subject": "mathematics",
+    "unit": "Section A1 (common)",
+    "chapter": "Matrices",
+    "type": "single_mcq",
+    "stem": "P and Q are square matrices of the same order such that PQ = Q and QP = P. Then which one of the following is true?",
+    "options": [
+      {
+        "key": "A",
+        "text": "P² = I and Q² = I"
+      },
+      {
+        "key": "B",
+        "text": "P² = P and Q² = Q"
+      },
+      {
+        "key": "C",
+        "text": "P² = Q and Q² = P"
+      },
+      {
+        "key": "D",
+        "text": "P² = P and Q² = I"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "Only the two given products and the associative law of matrix multiplication, (XY)Z = X(YZ), are needed. P² = P · P = P(QP), writing the second P as QP. By the associative law this is (PQ)P = QP = P. In the same way Q² = Q · Q = Q(PQ) = (QP)Q = PQ = Q. So P² = P and Q² = Q: both matrices are idempotent. PQ = Q does not let us cancel Q to get P = I, because Q need not be invertible: for example, P with rows (1, 1) and (0, 0) and Q with rows (1, 0) and (0, 0) satisfy PQ = Q and QP = P, yet neither of them is I; cancelling anyway gives P² = I and Q² = I. Mixing up the two given products in the last step (reading QP as Q, and PQ as P) gives P² = Q and Q² = P, but the same example has P² = P, which is not Q. Working P² out correctly and then cancelling P from QP = P to get Q = I gives P² = P with Q² = I.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (Reprint 2026-27), Ch 3 Matrices, 3.4.6 properties of multiplication of matrices: the associative law (AB)C = A(BC) (p 54)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "24bb3f55-56dd-4570-8492-c3bce1369bf7",
+    "subject": "mathematics",
+    "unit": "Section A1 (common)",
+    "chapter": "Determinants",
+    "type": "single_mcq",
+    "stem": "The determinant of the adjoint of a square matrix A of order 3 is 49. Then the determinant of the matrix 3A is",
+    "options": [
+      {
+        "key": "A",
+        "text": "189"
+      },
+      {
+        "key": "B",
+        "text": "189 or −189"
+      },
+      {
+        "key": "C",
+        "text": "63 or −63"
+      },
+      {
+        "key": "D",
+        "text": "21 or −21"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "For a square matrix of order n, |adj A| = |A|ⁿ⁻¹. Here n = 3, so |A|² = 49 and |A| = 7 or −7: both signs are possible because the power n − 1 = 2 is even. Multiplying a matrix of order n by k multiplies its determinant by kⁿ, so |3A| = 3³ × |A| = 27 × 7 = 189 or 27 × (−7) = −189. Writing only 189 drops the negative root; 63 or −63 uses 3² (the power n − 1 in place of n); 21 or −21 multiplies the determinant by 3 only, as if |kA| were k|A|.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (Reprint 2026-27), Ch 4 Determinants: |A| = kⁿ|B| when A = kB, order n (4.2, p 80); |adj (A)| = |A|ⁿ⁻¹ for a square matrix of order n (4.5, p 90)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "67910760-3c36-4917-9ca7-79fa4315f9c4",
+    "subject": "mathematics",
+    "unit": "Section A1 (common)",
+    "chapter": "Continuity & Differentiability",
+    "type": "single_mcq",
+    "stem": "If y = [(1 + x)/(1 − x)]^(3/2), where −1 < x < 1, then (1 − x²) dy/dx − 3y is equal to",
+    "options": [
+      {
+        "key": "A",
+        "text": "−2y"
+      },
+      {
+        "key": "B",
+        "text": "−y"
+      },
+      {
+        "key": "C",
+        "text": "0"
+      },
+      {
+        "key": "D",
+        "text": "−3y(1 + x)"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Take logarithms (allowed, since (1 + x)/(1 − x) > 0 for −1 < x < 1): log y = (3/2)[log(1 + x) − log(1 − x)]. Differentiate with respect to x: (1/y) dy/dx = (3/2)[1/(1 + x) + 1/(1 − x)], because the derivative of log(1 − x) is −1/(1 − x). The bracket is [(1 − x) + (1 + x)]/(1 − x²) = 2/(1 − x²), so (1/y) dy/dx = 3/(1 − x²) and (1 − x²) dy/dx = 3y. Hence (1 − x²) dy/dx − 3y = 0. Missing the minus sign from log(1 − x) gives the bracket −2x/(1 − x²) and the value −3y(1 + x); using the factor 1/2 of a square root in place of 3/2 gives y − 3y = −2y; dropping the factor 3/2 altogether gives 2y − 3y = −y.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (Reprint 2026-27), Ch 5 Continuity and Differentiability, 5.5 Logarithmic Differentiation (p 130); derivative of log x and the chain rule",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "416fed88-c2e1-4723-9f03-f85b5d78dc1e",
+    "subject": "mathematics",
+    "unit": "Section A1 (common)",
+    "chapter": "Integrals",
+    "type": "single_mcq",
+    "stem": "A function f satisfies 2f(x) + f(1/x) = 3x for every x ≠ 0. Then ∫₁² f(x) dx is equal to",
+    "options": [
+      {
+        "key": "A",
+        "text": "3 − logₑ 2"
+      },
+      {
+        "key": "B",
+        "text": "3 + logₑ 2"
+      },
+      {
+        "key": "C",
+        "text": "3/2"
+      },
+      {
+        "key": "D",
+        "text": "3/2 − 2 logₑ 2"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Replace x by 1/x in the given relation: 2f(1/x) + f(x) = 3/x. Now there are two linear equations in f(x) and f(1/x). Multiply the first by 2 and subtract the second: 4f(x) − f(x) = 6x − 3/x, so 3f(x) = 6x − 3/x and f(x) = 2x − 1/x. Check: 2(2x − 1/x) + (2/x − x) = 3x. In general, 2f(x) + f(1/x) = g(x) gives f(x) = [2g(x) − g(1/x)]/3 in the same way. Then ∫₁² (2x − 1/x) dx = [x² − logₑ x] from 1 to 2 = (4 − logₑ 2) − (1 − 0) = 3 − logₑ 2. Taking −3/x as +3/x in the subtraction gives f(x) = 2x + 1/x and 3 + logₑ 2; treating f(1/x) as if it were f(x) gives 3f(x) = 3x, f(x) = x and 3/2; putting the 2 on the wrong term, f(x) = [g(x) − 2g(1/x)]/3 = (3x − 6/x)/3 = x − 2/x, gives 3/2 − 2 logₑ 2.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "hard",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (Reprint 2026-27), Ch 7 Integrals, 7.8.3 second fundamental theorem of integral calculus (p 268), with the standard integrals of x and 1/x; finding f(x) needs only the solution of two linear equations",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "fd8df5f2-406a-4a8e-99aa-be5af592e4d2",
+    "subject": "mathematics",
+    "unit": "Section A1 (common)",
+    "chapter": "Linear Programming",
+    "type": "match_the_following",
+    "stem": "Match List I with List II for the graph of each inequality in the xy-plane.\nList I\n(A) 3x − 4y ≥ −12\n(B) 3x − 4y ≤ −12\n(C) 3x − 4y > −12\n(D) 3x − 4y < −12\nList II\n(I) The half-plane that does not contain the origin, without the points of the line 3x − 4y = −12\n(II) The half-plane that contains the origin, together with the points of the line 3x − 4y = −12\n(III) The half-plane that contains the origin, without the points of the line 3x − 4y = −12\n(IV) The half-plane that does not contain the origin, together with the points of the line 3x − 4y = −12\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+      },
+      {
+        "key": "B",
+        "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+      },
+      {
+        "key": "C",
+        "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+      },
+      {
+        "key": "D",
+        "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "The line 3x − 4y = −12, through (−4, 0) and (0, 3), divides the plane into two half-planes. The side an inequality describes is found by testing a point that is not on the line, usually the origin: at (0, 0), 3x − 4y = 0, and 0 > −12. So the origin satisfies 3x − 4y ≥ −12 and 3x − 4y > −12, and does not satisfy 3x − 4y ≤ −12 or 3x − 4y < −12. Whether the line itself belongs to the solution depends on the sign: with ≥ or ≤ the points of the line satisfy the inequality and are included (the line is drawn solid); with > or < they do not, and are excluded: the solution is an open half-plane (the line is drawn dotted). So ≥ gives the origin's side with the line (II), ≤ the other side with the line (IV), > the origin's side without the line (III) and < the other side without the line (I). Taking the ≤ side as the one that holds the origin, without testing, is the common slip: that is true only when the constant on the right is positive, as in x + y ≤ 4. Swapping the boundary rule (strict signs keeping the line) is the other slip.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (Reprint 2026-27), Ch 12 Linear Programming: constraints as half planes (12.2.2, p 397); 'open half plane determined by ax + by > M' (p 399); graphing taught in Class XI Linear Inequalities",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "c7942f37-b18b-42d1-a098-414033a5fd48",
+    "subject": "mathematics",
+    "unit": "Relations and Functions",
+    "chapter": "Relations & Functions",
+    "type": "statement_based",
+    "stem": "On the set A = {1, 2, 3, ..., 20}, a relation R is defined by R = {(x, y) : y = 5x; x, y ∈ A}. Which of the following statements about R are correct?\n(A) R is reflexive.\n(B) The domain of R is {1, 2, 3, 4}.\n(C) R is not symmetric.\n(D) The range of R is {5, 10, 15, 20}.\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Only (B) and (D)"
+      },
+      {
+        "key": "B",
+        "text": "Only (A), (B) and (D)"
+      },
+      {
+        "key": "C",
+        "text": "Only (B), (C) and (D)"
+      },
+      {
+        "key": "D",
+        "text": "Only (C) and (D)"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Both x and y = 5x must lie in A, so 5x ≤ 20 and x ≤ 4. Hence R = {(1, 5), (2, 10), (3, 15), (4, 20)}. The domain is the set of first elements, {1, 2, 3, 4}, so (B) is true; taking the whole set A as the domain is the slip that rejects (B). The range is the set of second elements, {5, 10, 15, 20}, so (D) is true. R is reflexive only if (a, a) ∈ R for every a in A; (1, 1) ∉ R because 5 × 1 ≠ 1 (no pair (a, a) is in R at all, since 5a = a only for a = 0), so (A) is false. R is symmetric only if (x, y) ∈ R always gives (y, x) ∈ R; (1, 5) ∈ R but (5, 1) ∉ R because 1 ≠ 5 × 5, so R is not symmetric and (C) is true. Calling R symmetric rejects (C); calling it reflexive and symmetric swaps the truth of (A) and (C). The correct statements are (B), (C) and (D).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 1 Relations and Functions: 1.2 Types of Relations (reflexive, symmetric), p 2; domain and range of a relation from Class XI",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "c1d0ea41-465a-44c0-8c9c-6b4fb2f20334",
+    "subject": "mathematics",
+    "unit": "Relations and Functions",
+    "chapter": "Relations & Functions",
+    "type": "single_mcq",
+    "stem": "Consider the function f : N → N given by f(x) = x² − x + 5, N being the set of natural numbers. Then f is",
+    "options": [
+      {
+        "key": "A",
+        "text": "one-one and onto"
+      },
+      {
+        "key": "B",
+        "text": "one-one but not onto"
+      },
+      {
+        "key": "C",
+        "text": "many-one but not onto"
+      },
+      {
+        "key": "D",
+        "text": "many-one and onto"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "One-one: if f(x₁) = f(x₂), then (x₁² − x₂²) − (x₁ − x₂) = 0, that is (x₁ − x₂)(x₁ + x₂ − 1) = 0. For natural numbers x₁ + x₂ ≥ 2, so x₁ + x₂ − 1 ≠ 0 and x₁ = x₂; f is one-one. On the real numbers f would be many-one, because f(0) = f(1) = 5, but 0 is not a natural number; that is the slip behind the many-one answers. Onto: f(1) = 5, f(2) = 7, f(3) = 11, f(4) = 17, and the values keep increasing, so the least value of f is 5. The natural numbers 1, 2, 3, 4 (and 6) are not the image of any natural number, so f is not onto. Hence f is one-one but not onto.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 1 Relations and Functions: 1.3 Types of Functions, Definitions 5 and 6 (one-one, onto), p 7",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "011bdc0f-c488-4ed1-bd9c-66100095738d",
+    "subject": "mathematics",
+    "unit": "Algebra",
+    "chapter": "Matrices",
+    "type": "single_mcq",
+    "stem": "For the matrix A = [4 3; 2 2], a scalar λ satisfies A² − 6A + λI = O, where I and O are the identity and null matrices of order 2. The value of λ is",
+    "options": [
+      {
+        "key": "A",
+        "text": "−2"
+      },
+      {
+        "key": "B",
+        "text": "8"
+      },
+      {
+        "key": "C",
+        "text": "−8"
+      },
+      {
+        "key": "D",
+        "text": "2"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "A² = [4 3; 2 2][4 3; 2 2] = [16 + 6, 12 + 6; 8 + 4, 6 + 4] = [22 18; 12 10]. Also 6A = [24 18; 12 12]. So A² − 6A = [−2 0; 0 −2] = −2I, and A² − 6A + λI = (λ − 2)I = O gives λ = 2. Reading A² − 6A = −2I as λ = −2 is the sign slip. Squaring each entry instead of multiplying the matrices gives [16 9; 4 4], and its (1, 1) entry 16 − 24 + λ = 0 gives 8; that slip together with the sign slip gives −8.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 3 Matrices: 3.4.5 Multiplication of matrices, p 50-51; identity and zero matrices, p 40",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "8d51bc35-edc6-40f3-ae71-2804b409c82c",
+    "subject": "mathematics",
+    "unit": "Algebra",
+    "chapter": "Determinants",
+    "type": "single_mcq",
+    "stem": "P(x₁, y₁), Q(x₂, y₂) and R(x₃, y₃) are the vertices of an equilateral triangle each of whose sides has length a. If Δ = |x₁ y₁ 4; x₂ y₂ 4; x₃ y₃ 4|, then Δ² is equal to",
+    "options": [
+      {
+        "key": "A",
+        "text": "3a⁴"
+      },
+      {
+        "key": "B",
+        "text": "12a⁴"
+      },
+      {
+        "key": "C",
+        "text": "12a²"
+      },
+      {
+        "key": "D",
+        "text": "3a⁴/4"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "Expanding Δ along its third column, every term carries the factor 4, so Δ = 4 × |x₁ y₁ 1; x₂ y₂ 1; x₃ y₃ 1|. The area of a triangle with these vertices is (1/2)|x₁ y₁ 1; x₂ y₂ 1; x₃ y₃ 1| taken positive, so that determinant equals ±2 × area. The area of an equilateral triangle of side a is (√3/4)a², so Δ = ±4 × 2 × (√3/4)a² = ±2√3a² and Δ² = 12a⁴. Taking the 4 out but not squaring it, or forgetting the factor 2 between the determinant and the area, gives 3a⁴; ignoring the 4s altogether gives 3a⁴/4; squaring √3/4 but not a² gives 12a².",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 4 Determinants: 4.2.3 expansion of a determinant of order 3, p 77-78; 4.3 Area of a Triangle, p 82",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "9771f434-7ddd-4781-8943-33b7fa556226",
+    "subject": "mathematics",
+    "unit": "Algebra",
+    "chapter": "Determinants",
+    "type": "single_mcq",
+    "stem": "For non-zero real numbers x, y and z, the determinant |2 + x 2 2; 2 2 + y 2; 2 2 2 + z| is equal to 0. The value of 1/x + 1/y + 1/z is",
+    "options": [
+      {
+        "key": "A",
+        "text": "1/2"
+      },
+      {
+        "key": "B",
+        "text": "−2"
+      },
+      {
+        "key": "C",
+        "text": "−1/2"
+      },
+      {
+        "key": "D",
+        "text": "−1"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Expand along the first row: (2 + x)[(2 + y)(2 + z) − 4] − 2[2(2 + z) − 4] + 2[4 − 2(2 + y)] = (2 + x)(2y + 2z + yz) − 4z − 4y. Multiplying out, this is 4y + 4z + 2yz + 2xy + 2xz + xyz − 4z − 4y = xyz + 2(xy + yz + zx). Setting it equal to 0 and dividing by xyz (which is not zero): 1 + 2(1/z + 1/x + 1/y) = 0, so 1/x + 1/y + 1/z = −1/2. The sign slip gives 1/2; dividing by 2 the wrong way gives −2; −1 is the value for the determinant with 1s in place of the 2s, which is what recalling that result without working gives.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 4 Determinants: 4.2.3 Determinant of a matrix of order 3 × 3, expansion along the first row, p 77-78",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "7adf3fa9-f420-4272-a69a-bce650f0c663",
+    "subject": "mathematics",
+    "unit": "Calculus",
+    "chapter": "Continuity & Differentiability",
+    "type": "single_mcq",
+    "stem": "For a real constant k, let f(x) = k(x² − 4x + 9) when x < 1 and f(x) = |x − 4| when x ≥ 1. If f has a derivative at x = 1, then k equals",
+    "options": [
+      {
+        "key": "A",
+        "text": "1/2"
+      },
+      {
+        "key": "B",
+        "text": "−1/2"
+      },
+      {
+        "key": "C",
+        "text": "2"
+      },
+      {
+        "key": "D",
+        "text": "−2"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Near x = 1 we have x − 4 < 0, so |x − 4| = 4 − x. Right-hand derivative at x = 1: d/dx (4 − x) = −1. Left-hand derivative at x = 1: k(2x − 4) at x = 1, which is −2k. Differentiability at x = 1 needs the two to be equal: −2k = −1, so k = 1/2. Continuity agrees: k(1 − 4 + 9) = 6k = 3 = |1 − 4|. Writing |x − 4| as x − 4 gives the right-hand derivative +1 and k = −1/2; solving −2k = −1 as k = 2 inverts the ratio; both slips together give −2.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 5 Continuity and Differentiability: 5.3 Differentiability, left and right hand derivatives, p 119",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "145c823f-14d1-4d7d-bc81-5107510977c9",
+    "subject": "mathematics",
+    "unit": "Calculus",
+    "chapter": "Continuity & Differentiability",
+    "type": "single_mcq",
+    "stem": "If x = t − 1/t and y = t³ − 1/t³, where t > 0, then the derivative dy/dx, written in terms of x and y, is",
+    "options": [
+      {
+        "key": "A",
+        "text": "3√((y² − 4)/(x² − 4))"
+      },
+      {
+        "key": "B",
+        "text": "3√((y² + 4)/(x² + 4))"
+      },
+      {
+        "key": "C",
+        "text": "9(y² + 4)/(x² + 4)"
+      },
+      {
+        "key": "D",
+        "text": "3(y² + 4)/(x² + 4)"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "dx/dt = 1 + 1/t² = (1/t)(t + 1/t) and dy/dt = 3t² + 3/t⁴ = (3/t)(t³ + 1/t³), so dy/dx = 3(t³ + 1/t³)/(t + 1/t). Now (t + 1/t)² = (t − 1/t)² + 4 = x² + 4 and (t³ + 1/t³)² = (t³ − 1/t³)² + 4 = y² + 4. For t > 0 both sums are positive, so t + 1/t = √(x² + 4) and t³ + 1/t³ = √(y² + 4). Hence dy/dx = 3√((y² + 4)/(x² + 4)). The version with − 4 belongs to the sum pair x = t + 1/t, y = t³ + 1/t³: there the same steps give dy/dx = 3(t³ − 1/t³)/(t − 1/t), and (t − 1/t)² = x² − 4, (t³ − 1/t³)² = y² − 4, so dy/dx = 3√((y² − 4)/(x² − 4)); using that form for this difference pair is the slip. Squaring the ratio and not taking the root gives 9(y² + 4)/(x² + 4); keeping the 3 but dropping the root gives 3(y² + 4)/(x² + 4).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "hard",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 5 Continuity and Differentiability: 5.6 Derivatives of Functions in Parametric Forms, p 134-135",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "e1b72304-b6c3-4a73-adaf-414b30351497",
+    "subject": "mathematics",
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapter": "Vector Algebra",
+    "type": "match_the_following",
+    "stem": "Match List-I with List-II.\nList-I\n(A) For vectors a and b with |a| = √10, |b| = 5 and |a × b| = 15, the value of |a · b|\n(B) The value of p for which the vectors 4î − 2ĵ + 6k̂ and pî − 3ĵ + 9k̂ are collinear\n(C) The value of λ for which the vectors î + 2ĵ − k̂ and 3î + λĵ + 5k̂ are perpendicular\n(D) The value of (ĵ × k̂) · î + (k̂ × î) · ĵ + (î × ĵ) · k̂\nList-II\n(I) 5\n(II) 1\n(III) 6\n(IV) 3\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)"
+      },
+      {
+        "key": "B",
+        "text": "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)"
+      },
+      {
+        "key": "C",
+        "text": "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+      },
+      {
+        "key": "D",
+        "text": "(A) - (III), (B) - (I), (C) - (II), (D) - (IV)"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "(A) |a × b| = |a||b| sin θ and |a · b| = |a||b| |cos θ|, so |a × b|² + (a · b)² = |a|²|b|². Hence (a · b)² = 10 × 25 − 15² = 250 − 225 = 25 and |a · b| = 5. (B) Collinear vectors have proportional components: p/4 = (−3)/(−2) = 9/6 = 3/2, so p = 6. (C) Perpendicular vectors have zero scalar product: 1(3) + 2(λ) + (−1)(5) = 2λ − 2 = 0, so λ = 1. (D) ĵ × k̂ = î, k̂ × î = ĵ and î × ĵ = k̂, so each term is 1 and the sum is 3. So (A) - (I), (B) - (III), (C) - (II), (D) - (IV). Writing k̂ × î = −ĵ makes the sum in (D) equal to 1, the pairing that swaps (C) and (D); the other two pairings put 3 or 6 against |a · b|, which needs (a · b)² = 25.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 10 Vector Algebra: collinear vectors, p 341, and collinear exactly when the components are proportional, 10.5 Remarks, p 349; 10.6.1 scalar product, p 355-356; 10.6.3 vector product and î × ĵ = k̂, ĵ × k̂ = î, k̂ × î = ĵ, p 363-364",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "00418d8d-46ad-4f4f-9b56-6231cd1c93f9",
+    "subject": "mathematics",
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapter": "Vector Algebra",
+    "type": "single_mcq",
+    "stem": "If a = yî + xĵ, b = î + ĵ + k̂ and c = xî + zĵ are vectors such that a × b is perpendicular to c, then",
+    "options": [
+      {
+        "key": "A",
+        "text": "y² = xz"
+      },
+      {
+        "key": "B",
+        "text": "z² = xy"
+      },
+      {
+        "key": "C",
+        "text": "x² = yz"
+      },
+      {
+        "key": "D",
+        "text": "x² + yz = 0"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "a × b = |î ĵ k̂; y x 0; 1 1 1| = î(x × 1 − 0 × 1) − ĵ(y × 1 − 0 × 1) + k̂(y × 1 − x × 1) = xî − yĵ + (y − x)k̂. a × b is perpendicular to c exactly when (a × b) · c = 0: x × x + (−y) × z + (y − x) × 0 = x² − yz = 0, so x² = yz. Dropping the minus sign of the ĵ-component gives x² + yz = 0; y² = xz and z² = xy come from pairing the components of a × b with the wrong components of c.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 10 Vector Algebra: 10.6.3 vector product in component (determinant) form, p 363-364; perpendicular vectors have zero scalar product, p 356",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "015bdaee-c7bb-4789-ac68-9778bff9785f",
+    "subject": "mathematics",
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapter": "Vector Algebra",
+    "type": "single_mcq",
+    "stem": "For the vector a = 2î − ĵ + 3k̂, the sum of squared magnitudes |a × î|² + |a × ĵ|² + |a × k̂|² is",
+    "options": [
+      {
+        "key": "A",
+        "text": "14"
+      },
+      {
+        "key": "B",
+        "text": "28"
+      },
+      {
+        "key": "C",
+        "text": "42"
+      },
+      {
+        "key": "D",
+        "text": "2√14"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "For a unit vector e, |a × e| = |a| sin θ and a · e = |a| cos θ, so |a × e|² = |a|² − (a · e)². Adding over î, ĵ and k̂: the sum is 3|a|² − [(a · î)² + (a · ĵ)² + (a · k̂)²] = 3|a|² − |a|² = 2|a|². Here |a|² = 4 + 1 + 9 = 14, so the value is 28. Directly: a × î = 3ĵ + k̂, a × ĵ = −3î + 2k̂ and a × k̂ = −î − 2ĵ, with squared lengths 10, 13 and 5, which add to 28. Not subtracting the squared dot products gives 3|a|² = 42; taking |a × e|² as (a · e)² gives |a|² = 14; dropping the squares gives 2|a| = 2√14.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 10 Vector Algebra: 10.6.1 scalar product, p 355; 10.6.3 vector product, |a × b| = |a||b| sin θ, p 363-364",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "3fc288aa-a85e-4279-8aed-73f9d89b9e7b",
+    "subject": "mathematics",
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapter": "Vector Algebra",
+    "type": "single_mcq",
+    "stem": "The unit vector a is perpendicular to each of the unit vectors b and c, and the angle between b and c is π/4. Then a is equal to",
+    "options": [
+      {
+        "key": "A",
+        "text": "±(b × c)"
+      },
+      {
+        "key": "B",
+        "text": "±(1/√2)(b × c)"
+      },
+      {
+        "key": "C",
+        "text": "±2 (b × c)"
+      },
+      {
+        "key": "D",
+        "text": "±√2 (b × c)"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "a is perpendicular to both b and c, so it is parallel to b × c: a = λ(b × c) for some scalar λ. |b × c| = |b||c| sin(π/4) = 1/√2. Since |a| = 1, |λ| × (1/√2) = 1, so λ = ±√2 and a = ±√2 (b × c); both signs give unit vectors perpendicular to b and c. Treating b × c as a unit vector gives ±(b × c); multiplying by sin(π/4) instead of dividing gives ±(1/√2)(b × c); taking |b × c| as sin²(π/4) = 1/2 gives ±2(b × c).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 10 Vector Algebra: 10.6.3 vector product, a × b = |a||b| sin θ n̂ perpendicular to both vectors, p 363; unit vector perpendicular to two vectors, p 363-364",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "08bed2f1-75a5-490e-a080-f5217fd83ae8",
+    "subject": "mathematics",
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapter": "Three Dimensional Geometry",
+    "type": "single_mcq",
+    "stem": "The straight line given by x = 2z + 1, y = 3z − 2 and the straight line given by x = kz + 4, y = 2z + 5 are at right angles to each other. The value of k is",
+    "options": [
+      {
+        "key": "A",
+        "text": "−3"
+      },
+      {
+        "key": "B",
+        "text": "−7/2"
+      },
+      {
+        "key": "C",
+        "text": "7/2"
+      },
+      {
+        "key": "D",
+        "text": "4/3"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "Write each line in symmetric form. From x = 2z + 1 and y = 3z − 2: (x − 1)/2 = (y + 2)/3 = z/1, so its direction ratios are 2, 3, 1. Similarly (x − 4)/k = (y − 5)/2 = z/1, with direction ratios k, 2, 1. Lines with direction ratios a₁, b₁, c₁ and a₂, b₂, c₂ are perpendicular when a₁a₂ + b₁b₂ + c₁c₂ = 0: 2k + 6 + 1 = 0, so k = −7/2. In general, lines x = pz + q, y = rz + s and x = p′z + q′, y = r′z + s′ have direction ratios p, r, 1 and p′, r′, 1, so they are perpendicular exactly when pp′ + rr′ + 1 = 0. Leaving out the direction ratio 1 of z gives 2k + 6 = 0 and k = −3; a sign slip gives 7/2; using the condition for parallel lines, k/2 = 2/3, gives 4/3.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 11 Three Dimensional Geometry: 11.3 Equation of a Line in Space (Cartesian form), p 381-383; 11.4 Angle between Two Lines, perpendicular when a₁a₂ + b₁b₂ + c₁c₂ = 0, p 383-384",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "3b90d5df-32be-4379-8924-d94eadfd8161",
+    "subject": "mathematics",
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapter": "Three Dimensional Geometry",
+    "type": "statement_based",
+    "stem": "Two lines are L₁: r = (î − ĵ + 2k̂) + λ(î + 2ĵ − 2k̂) and L₂: r = (3î + k̂) + μ(−2î − 4ĵ + 4k̂), where λ and μ are real numbers. Which of the following statements are correct?\n(A) L₁ and L₂ are parallel.\n(B) The shortest distance between L₁ and L₂ is √2.\n(C) L₁ and L₂ are the same line.\n(D) L₁ and L₂ are perpendicular.\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Only (A)"
+      },
+      {
+        "key": "B",
+        "text": "Only (A) and (C)"
+      },
+      {
+        "key": "C",
+        "text": "Only (A) and (B)"
+      },
+      {
+        "key": "D",
+        "text": "Only (B) and (D)"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "The direction vector of L₂ is −2î − 4ĵ + 4k̂ = −2(î + 2ĵ − 2k̂), a multiple of that of L₁, so the lines are parallel: (A) is true. Their scalar product is 1(−2) + 2(−4) + (−2)(4) = −18 ≠ 0, so they are not perpendicular: (D) is false. The point (3, 0, 1) of L₂ lies on L₁ only if (3, 0, 1) − (1, −1, 2) = (2, 1, −1) is a multiple of (1, 2, −2); it is not, so the lines are distinct and (C) is false (proportional direction ratios alone make lines parallel, not the same line). For parallel lines r = a₁ + λb and r = a₂ + μb the distance is |b × (a₂ − a₁)|/|b|. With b = î + 2ĵ − 2k̂ and a₂ − a₁ = 2î + ĵ − k̂, b × (a₂ − a₁) = 0î − 3ĵ − 3k̂, of length 3√2, and |b| = 3, so the distance is √2: (B) is true. Dividing by 6, the length of −2î − 4ĵ + 4k̂, instead of by the length of the vector used in the cross product, gives √2/2 and rejects (B), as does taking |a₂ − a₁| = √6 as the distance. The correct statements are (A) and (B).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 11 Three Dimensional Geometry: 11.5.2 Distance between parallel lines, d = |b × (a₂ − a₁)|/|b|, p 387-388; 11.4 angle between two lines, p 383-384",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "5f8c6f5f-5e4a-4381-82e5-edbb509e2463",
+    "subject": "mathematics",
+    "unit": "Probability",
+    "chapter": "Probability",
+    "type": "single_mcq",
+    "stem": "Two witnesses, Riya and Kabir, report on the same incident independently. Riya tells the truth 70% of the time and Kabir 85% of the time. The probability that their reports contradict each other is",
+    "options": [
+      {
+        "key": "A",
+        "text": "9/25"
+      },
+      {
+        "key": "B",
+        "text": "16/25"
+      },
+      {
+        "key": "C",
+        "text": "21/200"
+      },
+      {
+        "key": "D",
+        "text": "9/20"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "They contradict each other exactly when one of them speaks the truth and the other does not. They speak independently, so P(Riya true, Kabir false) = 0.7 × 0.15 = 0.105 and P(Riya false, Kabir true) = 0.3 × 0.85 = 0.255. These two cases cannot happen together, so the probability is 0.105 + 0.255 = 0.36 = 9/25. 16/25 = 0.7 × 0.85 + 0.3 × 0.15 is the probability that they agree; 21/200 counts only the first case; 9/20 = 0.3 + 0.15 adds the two chances of not telling the truth instead of multiplying across the two people.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 13 Probability: 13.4 Independent Events, P(E ∩ F) = P(E) P(F), p 417",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "57b9fb51-2f98-4a1e-a928-b19edc7bbddb",
+    "subject": "mathematics",
+    "unit": "Probability",
+    "chapter": "Probability",
+    "type": "single_mcq",
+    "stem": "Two events A and B of a random experiment have P(A) = 3/5, P(B) = 3/8 and P(A ∩ B) = 1/5. The conditional probability P(A′|B) is",
+    "options": [
+      {
+        "key": "A",
+        "text": "8/15"
+      },
+      {
+        "key": "B",
+        "text": "7/40"
+      },
+      {
+        "key": "C",
+        "text": "7/15"
+      },
+      {
+        "key": "D",
+        "text": "7/16"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "P(A′|B) = P(A′ ∩ B)/P(B). The event B splits into A ∩ B and A′ ∩ B, so P(A′ ∩ B) = P(B) − P(A ∩ B) = 3/8 − 1/5 = 15/40 − 8/40 = 7/40. Then P(A′|B) = (7/40)/(3/8) = (7/40) × (8/3) = 7/15. (Check: P(A|B) = (1/5)/(3/8) = 8/15, and 8/15 + 7/15 = 1.) 8/15 is P(A|B), with the complement forgotten; 7/40 is P(A′ ∩ B), not divided by P(B); 7/16 = (7/40)/(2/5) divides by P(A′) and so gives P(B|A′).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 13 Probability: 13.2 Conditional Probability, P(E|F) = P(E ∩ F)/P(F) and its properties, p 407-409",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "7a7efe5b-85be-41b8-9e2b-1ca4184e47e9",
+    "subject": "mathematics",
+    "unit": "Probability",
+    "chapter": "Probability",
+    "type": "statement_based",
+    "stem": "For two events A and B, the probability that both occur is 0.2 and the probability that exactly one of them occurs is 0.5. Which of the following statements are correct?\n(A) P(A) + P(B) = 0.7\n(B) P(A′ ∩ B′) = 0.3\n(C) P(A′) + P(B′) = 1.1\n(D) P(A ∩ B | A ∪ B) = 2/5\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Only (A) and (B)"
+      },
+      {
+        "key": "B",
+        "text": "Only (B) and (C)"
+      },
+      {
+        "key": "C",
+        "text": "Only (B), (C) and (D)"
+      },
+      {
+        "key": "D",
+        "text": "Only (C)"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "P(exactly one) = P(A) + P(B) − 2P(A ∩ B), so P(A) + P(B) = 0.5 + 2(0.2) = 0.9 and (A) is false; 0.7 = 0.2 + 0.5 counts the \"both\" case once instead of twice. P(A ∪ B) = P(exactly one) + P(both) = 0.5 + 0.2 = 0.7, so P(A′ ∩ B′) = 1 − P(A ∪ B) = 0.3 and (B) is true; taking it as 1 − 0.5 forgets the \"both\" case. P(A′) + P(B′) = 2 − 0.9 = 1.1, so (C) is true. Since A ∩ B lies inside A ∪ B, P(A ∩ B | A ∪ B) = P(A ∩ B)/P(A ∪ B) = 0.2/0.7 = 2/7, so (D) is false; 2/5 divides by the \"exactly one\" probability 0.5 instead of by 0.7. The correct statements are (B) and (C). In general, if P(A ∩ B) = p and P(exactly one) = q, then P(A) + P(B) = q + 2p, so P(A′) + P(B′) = 2 − 2p − q, P(A′ ∩ B′) = 1 − p − q and P(A ∩ B | A ∪ B) = p/(p + q).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 13 Probability: 13.2 Conditional Probability, P(E|F) = P(E ∩ F)/P(F), p 407-408; addition rule and complements from Class XI Probability",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "317a454e-ddae-4661-900e-a336ac3d0294",
+    "subject": "mathematics",
+    "unit": "Probability",
+    "chapter": "Probability",
+    "type": "single_mcq",
+    "stem": "A courier packet is addressed either to SANJANA or to ANJALI, each being equally likely. Only two consecutive letters of the name, AN, can be read on the label. The probability that the packet is for SANJANA is",
+    "options": [
+      {
+        "key": "A",
+        "text": "3/8"
+      },
+      {
+        "key": "B",
+        "text": "2/3"
+      },
+      {
+        "key": "C",
+        "text": "12/19"
+      },
+      {
+        "key": "D",
+        "text": "5/8"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "Let E₁: the name is SANJANA, E₂: the name is ANJALI, with P(E₁) = P(E₂) = 1/2, and let A: the pair AN is the one seen. SANJANA has 7 letters, so 6 pairs of consecutive letters: SA, AN, NJ, JA, AN, NA. AN occurs twice, so P(A|E₁) = 2/6 = 1/3. ANJALI has 6 letters, so 5 pairs: AN, NJ, JA, AL, LI. AN occurs once, so P(A|E₂) = 1/5. By Bayes' theorem, P(E₁|A) = (1/2)(1/3) / [(1/2)(1/3) + (1/2)(1/5)] = (1/3)/(8/15) = 5/8. 3/8 is the probability for ANJALI; 2/3 counts only the occurrences of AN (2 out of 3) and ignores how many pairs each name has; 12/19 divides by the number of letters (2/7 and 1/6) instead of the number of consecutive pairs.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 13 Probability: 13.5 Bayes' Theorem and the theorem of total probability, p 423-425",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "6045c1a6-9b49-426e-ad4e-922024c81a97",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Financial Mathematics",
+    "type": "single_mcq",
+    "stem": "A bank pays interest at a nominal rate of 8% per annum, compounded quarterly. The effective annual rate of interest is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "8%"
+      },
+      {
+        "key": "B",
+        "text": "8.24%"
+      },
+      {
+        "key": "C",
+        "text": "8.16%"
+      },
+      {
+        "key": "D",
+        "text": "0.0824%"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "The effective rate is the rate which, compounded once a year, gives the same interest as the nominal rate r compounded m times a year: effective rate = (1 + r/m)^m − 1. Here r = 0.08 and m = 4, so the rate per quarter is 0.08/4 = 0.02 and the effective rate is (1.02)⁴ − 1. Square twice: (1.02)² = 1.0404 and (1.0404)² = 1.08243216, so the effective rate is 0.08243216, about 8.24% per annum. It exceeds 8% because each quarter’s interest itself earns interest in the later quarters. 8% takes the nominal rate as the effective rate; 8.16% is (1.04)² − 1, compounding half-yearly instead of quarterly; 0.0824% writes the decimal 0.0824 with a per cent sign without multiplying it by 100.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XI, Financial Mathematics: nominal and effective rate of interest, effective rate = (1 + r/m)^m − 1; CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "5610ffb8-7ac5-44f3-809b-4ed68c4e9420",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Financial Mathematics",
+    "type": "single_mcq",
+    "stem": "A scholarship fund must pay ₹ 1,200 at the end of every six months for ever. If the fund needed now is ₹ 30,000, the rate of interest per annum, compounded half-yearly, is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "2%"
+      },
+      {
+        "key": "B",
+        "text": "16%"
+      },
+      {
+        "key": "C",
+        "text": "8%"
+      },
+      {
+        "key": "D",
+        "text": "4%"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "For a perpetuity that pays R at the end of every period, the present value is PV = R/i, where i is the rate of interest per payment period. So i = R/PV = 1,200/30,000 = 0.04, that is 4% per half-year. A year has two half-years, so the rate per annum compounded half-yearly is 2 × 4% = 8%. Check: ₹ 30,000 at 4% per half-year earns exactly ₹ 1,200 every six months and the capital stays intact for ever. 4% is the half-yearly rate left unconverted; 2% halves it instead of doubling it; 16% multiplies it by 4, as if the payments were quarterly.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Financial Mathematics: perpetuity, present value PV = R/i with i the rate per payment period; CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "2252c6b1-1287-4af3-9ffa-0e80e71b37a8",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Probability Distributions",
+    "type": "match_the_following",
+    "stem": "Match List-I with List-II.\nList-I:\n(A) Mean of a binomial distribution with n = 24 and q = 0.25\n(B) Number of trials of a binomial distribution with mean 6 and variance 4.2\n(C) Probability of success of a binomial distribution with mean 9 and variance 2.25\n(D) Variance of the number of heads when a fair coin is tossed 8 times\nList-II:\n(I) 0.75\n(II) 18\n(III) 2\n(IV) 20\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+      },
+      {
+        "key": "B",
+        "text": "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)"
+      },
+      {
+        "key": "C",
+        "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+      },
+      {
+        "key": "D",
+        "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "For a binomial distribution with n trials and probability of success p, mean = np and variance = npq, where q = 1 − p. Dividing the variance by the mean gives q. (A) p = 1 − 0.25 = 0.75, so the mean is 24 × 0.75 = 18 (using q in place of p gives 6). (B) q = 4.2/6 = 0.7, so p = 0.3 and n = mean/p = 6/0.3 = 20; check: 20 × 0.3 × 0.7 = 4.2. (C) q = 2.25/9 = 0.25, so p = 0.75 (and n = 9/0.75 = 12). (D) n = 8 and p = q = 1/2, so the variance is 8 × 1/2 × 1/2 = 2; the mean, 4, is a different quantity. Dividing the mean by the variance instead would give q greater than 1, which is impossible: q is always variance ÷ mean.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Probability Distributions: binomial distribution, mean np and variance npq; CUET 2026 Applied Mathematics syllabus, Unit IV Probability Distributions",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "064f7b67-0793-4a21-affa-3a9c6d65c3e4",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Probability Distributions",
+    "type": "single_mcq",
+    "stem": "For a Poisson variate X, the probabilities satisfy 5P(X = 3) = 2P(X = 4). The mean of X is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "2.5"
+      },
+      {
+        "key": "B",
+        "text": "7.5"
+      },
+      {
+        "key": "C",
+        "text": "1.6"
+      },
+      {
+        "key": "D",
+        "text": "10"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "For a Poisson variate with mean m, P(X = r) = e^(−m) m^r / r!. So 5 × e^(−m) m³/3! = 2 × e^(−m) m⁴/4!. Cancel e^(−m) and m³ (m > 0): 5/6 = 2m/24, that is 5/6 = m/12, so m = 10. Check: P(X = 4)/P(X = 3) = m/4 = 10/4 = 5/2, which is what 5P(X = 3) = 2P(X = 4) requires. 2.5 drops the factorials (5m³ = 2m⁴); 7.5 takes the ratio of successive probabilities as m/3 instead of m/4; 1.6 turns the relation upside down (m/4 = 2/5).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Probability Distributions: Poisson distribution, P(X = r) = e^(−m) m^r / r!; CUET 2026 Applied Mathematics syllabus, Unit IV Probability Distributions",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "007d4d2b-b34d-4665-95a2-330a369e7ee0",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Probability Distributions",
+    "type": "statement_based",
+    "stem": "The marks of 2,000 candidates in a test are normally distributed with mean 52 and standard deviation 6. Which of the following statements are true?\n(A) The mean, the median and the mode of the marks are all equal to 52.\n(B) About 1,000 candidates scored more than 52.\n(C) The normal curve of the marks is symmetric about 52.\n(D) About 68% of the candidates scored between 40 and 64.\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A), (C) and (D) only"
+      },
+      {
+        "key": "B",
+        "text": "(A), (B), (C) and (D)"
+      },
+      {
+        "key": "C",
+        "text": "(A), (B) and (C) only"
+      },
+      {
+        "key": "D",
+        "text": "(B), (C) and (D) only"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "A normal curve is bell-shaped and symmetric about its mean, so (C) is true, and for this symmetric single-peaked curve the mean, the median and the mode coincide, all at 52, so (A) is true. Because the median is 52, half of the total area lies on each side of it: about 50% of 2,000, that is 1,000 candidates, scored more than 52, so (B) is true. About 68% of a normal distribution lies within one standard deviation of the mean, here 52 ± 6, from 46 to 58. The range 40 to 64 is 52 ± 12, two standard deviations on each side, and holds about 95% of the candidates, so (D) is false.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Probability Distributions: normal distribution, symmetric about its mean, mean = median = mode, areas within 1 and 2 SD; CUET 2026 Applied Mathematics syllabus, Unit IV",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "b370d2f9-ddf6-4109-8964-6e98fe47416f",
+    "subject": "mathematics",
+    "unit": "Calculus",
+    "chapter": "Continuity & Differentiability",
+    "type": "single_mcq",
+    "stem": "For y = e^(3x) · 5^x, where log means the logarithm to base e, the derivative dy/dx is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "e^(3x) · 5^x (1 + log 5)"
+      },
+      {
+        "key": "B",
+        "text": "3e^(3x) · 5^x log 5"
+      },
+      {
+        "key": "C",
+        "text": "e^(3x) · 5^x (3 + log 5)"
+      },
+      {
+        "key": "D",
+        "text": "e^(3x) · 5^(x − 1) (15 + x)"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Use the product rule with d/dx e^(3x) = 3e^(3x) (chain rule) and d/dx a^x = a^x log a. So dy/dx = 3e^(3x) · 5^x + e^(3x) · 5^x log 5 = e^(3x) · 5^x (3 + log 5). Check: y = (5e³)^x, whose derivative is (5e³)^x log(5e³) = e^(3x) · 5^x (log 5 + 3). Dropping the chain-rule factor 3 gives (1 + log 5); multiplying the two derivatives instead of using the product rule gives 3e^(3x) · 5^x log 5; differentiating 5^x as if it were a power, x · 5^(x − 1), gives e^(3x) · 5^(x − 1) (15 + x).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh105, Reprint 2026-27), Ch 5 Continuity and Differentiability: derivative of a^x, d/dx(a^x) = a^x log a, p 131; product rule and chain rule (Section 5.3)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "dee791a1-239d-40dd-9522-b59c70abbc99",
+    "subject": "mathematics",
+    "unit": "Calculus",
+    "chapter": "Application of Derivatives",
+    "type": "single_mcq",
+    "stem": "The price p (in ₹) at which x units of a product can be sold is given by p = 300 − 4x − x². The marginal revenue when 6 units are sold is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "₹ 144"
+      },
+      {
+        "key": "B",
+        "text": "₹ 240"
+      },
+      {
+        "key": "C",
+        "text": "₹ 1,440"
+      },
+      {
+        "key": "D",
+        "text": "₹ 224"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Total revenue R = price × quantity = x(300 − 4x − x²) = 300x − 4x² − x³. Marginal revenue is the rate of change of total revenue with respect to the number of units sold: MR = dR/dx = 300 − 8x − 3x². At x = 6, MR = 300 − 48 − 108 = ₹ 144. ₹ 240 is the price p(6), the average revenue, not the marginal revenue; ₹ 1,440 is the total revenue R(6) = 6 × 240; ₹ 224 adds dp/dx = −4 − 2x = −16 to the price without multiplying it by x, whereas MR = p + x(dp/dx) = 240 + 6 × (−16) = 144.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh106, Reprint 2026-27), Ch 6 Application of Derivatives, 6.2 Rate of Change of Quantities: marginal revenue as dR/dx, Example 6, p 150",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "f0cb4875-4e15-45cd-9b05-6e2d49d80535",
+    "subject": "mathematics",
+    "unit": "Calculus",
+    "chapter": "Application of Derivatives",
+    "type": "single_mcq",
+    "stem": "The function f(x) = x³ − 6x² + 12x + 5 has:",
+    "options": [
+      {
+        "key": "A",
+        "text": "a local maximum at x = 2"
+      },
+      {
+        "key": "B",
+        "text": "a local minimum at x = 2"
+      },
+      {
+        "key": "C",
+        "text": "no stationary point"
+      },
+      {
+        "key": "D",
+        "text": "a point of inflexion at x = 2"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "f′(x) = 3x² − 12x + 12 = 3(x − 2)², so f′(x) = 0 only at x = 2, the one stationary point. For x a little less than 2 and a little more than 2, 3(x − 2)² is positive, so f′ does not change sign as x passes through 2 and f keeps increasing. By the first derivative test, x = 2 is neither a point of local maximum nor a point of local minimum: it is a point of inflexion (f(2) = 13). The second derivative test cannot decide here, because f″(x) = 6x − 12 is 0 at x = 2. Reading f′(x) ≥ 0 as there being no stationary point misses that f′(2) = 0.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh106, Reprint 2026-27), Ch 6 Application of Derivatives, 6.4 Maxima and Minima: first derivative test, point of inflexion, p 163-167",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "a22433a4-e270-4fc9-beed-a818d33a06b3",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Time Based Data",
+    "type": "match_the_following",
+    "stem": "Match List-I with List-II.\nList-I (component of a time series):\n(A) Secular trend\n(B) Seasonal variation\n(C) Cyclical variation\n(D) Irregular variation\nList-II (example):\n(I) Sales of a factory fall sharply for one month after a flood\n(II) The population of a country rises steadily over fifty years\n(III) Business activity swings through boom and depression over seven to ten years\n(IV) Sales of woollen clothes rise every winter and fall every summer\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+      },
+      {
+        "key": "B",
+        "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+      },
+      {
+        "key": "C",
+        "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+      },
+      {
+        "key": "D",
+        "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "A time series is made up of four components: secular trend, seasonal variation, cyclical variation and irregular (random) variation. The secular trend is the general long-term tendency to rise, fall or stay steady, as in a population rising over fifty years. Seasonal variation repeats regularly within a year, with the seasons, festivals or customs, as woollen sales do every winter. Cyclical variation is the up-and-down swing of a business cycle (prosperity, recession, depression, recovery) over a period of more than a year, usually several years. Irregular variation comes from unforeseen events such as floods, strikes or wars and follows no pattern. Seasonal and cyclical swings are the pair most often confused: a seasonal pattern repeats within one year, while a cycle takes several years.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Time Based Data: time series and its components (secular trend, seasonal, cyclical and irregular variations); CUET 2026 Applied Mathematics syllabus, Unit V Time Based Data",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "6525eda7-fe41-427f-8b9c-d4786ec84c2b",
+    "subject": "mathematics",
+    "unit": "Algebra",
+    "chapter": "Matrices",
+    "type": "statement_based",
+    "stem": "A and B are invertible matrices of the same order, and k is a non-zero real number. Which of the following statements are true for all such A, B and k?\n(A) (AB)⁻¹ = B⁻¹A⁻¹\n(B) (Aᵀ)⁻¹ = (A⁻¹)ᵀ\n(C) (kA)⁻¹ = kA⁻¹\n(D) (A⁻¹)⁻¹ = A\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A), (B) and (D) only"
+      },
+      {
+        "key": "B",
+        "text": "(A), (C) and (D) only"
+      },
+      {
+        "key": "C",
+        "text": "(B), (C) and (D) only"
+      },
+      {
+        "key": "D",
+        "text": "(A), (B), (C) and (D)"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "(A) is true (NCERT Theorem 4): (AB)(B⁻¹A⁻¹) = A(BB⁻¹)A⁻¹ = AA⁻¹ = I, so the inverse of a product is the product of the inverses in the reverse order; writing it as A⁻¹B⁻¹ is the common slip, and that is wrong in general because matrix products do not commute. (B) is true: using (PQ)ᵀ = QᵀPᵀ, Aᵀ(A⁻¹)ᵀ = (A⁻¹A)ᵀ = Iᵀ = I and (A⁻¹)ᵀAᵀ = (AA⁻¹)ᵀ = I, so the inverse of the transpose is the transpose of the inverse. It is not Aᵀ itself: the matrix with rows (2, 0) and (0, 1) equals its transpose, but its inverse has rows (1/2, 0) and (0, 1). (C) is false: (kA)(kA⁻¹) = k²I, which is I only when k = ±1; the correct rule is (kA)⁻¹ = (1/k)A⁻¹. (D) is true, because AA⁻¹ = A⁻¹A = I says that A is the inverse of A⁻¹, and by NCERT Theorem 3 an inverse is unique.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh103, Reprint 2026-27), Ch 3 Matrices: transpose properties p 61; Theorem 3 (inverse unique) and Theorem 4 ((AB)⁻¹ = B⁻¹A⁻¹) p 69; (Aᵀ)⁻¹ = (A⁻¹)ᵀ is not printed and is proved here",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "7eb64d37-a4cd-414a-ad09-7c10cbd1f993",
+    "subject": "mathematics",
+    "unit": "Algebra",
+    "chapter": "Determinants",
+    "type": "match_the_following",
+    "stem": "Match List-I with List-II.\nList-I:\n(A) |adj(adj A)|, where A is a square matrix of order 3 with |A| = 4\n(B) |adj(adj A)|, where A is a square matrix of order 2 with |A| = 5\n(C) |adj(adj A)|, where A is a square matrix of order 4 with |A| = 1/2\n(D) |A⁻¹|, where A is a non-singular matrix with |A| = 1/4\nList-II:\n(I) 4\n(II) 1/512\n(III) 256\n(IV) 5\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+      },
+      {
+        "key": "B",
+        "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+      },
+      {
+        "key": "C",
+        "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+      },
+      {
+        "key": "D",
+        "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "For a square matrix B of order n, |adj B| = |B|^(n − 1). Applying it twice, |adj(adj A)| = |adj A|^(n − 1) = (|A|^(n − 1))^(n − 1) = |A|^((n − 1)²). (A) n = 3: 4^(2²) = 4⁴ = 256. (B) n = 2: 5^(1²) = 5; for order 2, adj(adj A) is A itself. (C) n = 4: (1/2)^(3²) = (1/2)⁹ = 1/512. (D) |A| |A⁻¹| = |AA⁻¹| = |I| = 1, so |A⁻¹| = 1/|A| = 1/(1/4) = 4. Using the exponent n − 1 only once instead of (n − 1)² is the usual slip: it gives 16 for (A) and 1/8 for (C).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Mathematics Part I (lemh104, Reprint 2026-27), Ch 4 Determinants, 4.5 Adjoint and Inverse of a Matrix: A(adj A) = |A| I and |adj A| = |A|^(n − 1) (shown for order 3), p 88-90; |AB| = |A||B| and AA⁻¹ = I give |A⁻¹| = 1/|A|, p 89-90",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "086521e1-2f7e-4453-ae3d-d235efa465da",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "type": "statement_based",
+    "stem": "a, b and c are real numbers. Which of the following statements are true?\n(A) If a < b and b < c, then a < c.\n(B) If a < b and c > 0, then a/c > b/c.\n(C) If a < b and c < 0, then a/c > b/c.\n(D) If a > b and c < 0, then a − c > b − c.\nChoose the correct answer from the options given below.",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A), (C) and (D) only"
+      },
+      {
+        "key": "B",
+        "text": "(A), (B) and (C) only"
+      },
+      {
+        "key": "C",
+        "text": "(B), (C) and (D) only"
+      },
+      {
+        "key": "D",
+        "text": "(A), (B), (C) and (D)"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "(A) is the transitive property of inequalities: if a is less than b and b is less than c, then a is less than c (and in the same way a > b and b > c give a > c), so it is true. Multiplying or dividing both sides of an inequality by a positive number keeps its direction: a < b and c > 0 give a/c < b/c (3 < 6 gives 1 < 2 for c = 3), so (B) is false. Multiplying or dividing both sides by a negative number reverses it: a < b and c < 0 give a/c > b/c (3 < 6 gives −1 > −2 for c = −3), so (C) is true; in the same way a > b and c < 0 give ac < bc. Adding or subtracting the same number, positive or negative, never changes the direction, even when c is negative: a > b gives a − c > b − c (6 > 3 gives 9 > 6 for c = −3), so (D) is true. Only multiplying or dividing both sides by a negative number reverses an inequality, so (B), which reverses it for a positive divisor, is the one false statement.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XI, Numbers, Quantification and Numerical Applications: rules of inequalities (the same rules as NCERT Class 11 Linear Inequalities); CUET 2026 syllabus, Unit I",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "b8734f7d-2dae-486c-8374-7db9334189ed",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "type": "single_mcq",
+    "stem": "A barrel contains 125 litres of pure coconut oil. 25 litres are drawn out and replaced with groundnut oil. The same operation is carried out three times in all. How much coconut oil is now in the barrel?",
+    "options": [
+      {
+        "key": "A",
+        "text": "50 litres"
+      },
+      {
+        "key": "B",
+        "text": "80 litres"
+      },
+      {
+        "key": "C",
+        "text": "61 litres"
+      },
+      {
+        "key": "D",
+        "text": "64 litres"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "Each operation removes 25/125 = 1/5 of whatever is in the barrel, so 4/5 of the coconut oil present stays. After n operations, the coconut oil left = Q(1 − r/Q)ⁿ = 125 × (4/5)³ = 125 × 64/125 = 64 litres. Step by step: 125 → 100 → 80 → 64. Taking out 25 litres of pure coconut oil every time gives 125 − 75 = 50 litres, but after the first operation the 25 litres drawn are partly groundnut oil; 80 litres is the amount after only two operations; 61 litres is the groundnut oil now in the barrel (125 − 64), not the coconut oil.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XI and XII, Numbers, Quantification and Numerical Applications: alligation and mixture, repeated replacement, quantity left = Q(1 − r/Q)^n; CUET 2026 Applied Mathematics syllabus, Unit I",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "9f9b57bf-93aa-4bc6-a44f-b888fad054b7",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "type": "single_mcq",
+    "stem": "A boat moves at 15 km/h in still water. Rowing a fixed distance upstream takes twice as long as rowing the same distance downstream. The speed of the stream is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "10 km/h"
+      },
+      {
+        "key": "B",
+        "text": "5 km/h"
+      },
+      {
+        "key": "C",
+        "text": "7.5 km/h"
+      },
+      {
+        "key": "D",
+        "text": "20 km/h"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "With boat speed b = 15 km/h and stream speed s, the downstream speed is b + s and the upstream speed is b − s. For the same distance, time is inversely proportional to speed, so upstream time = 2 × downstream time means b + s = 2(b − s). Then 15 + s = 30 − 2s, 3s = 15 and s = 5 km/h. Check: downstream 20 km/h, upstream 10 km/h, and 20 = 2 × 10. 10 km/h and 20 km/h are the upstream and downstream speeds of the boat, not the speed of the stream; 7.5 km/h divides the boat’s speed by 2 instead of solving the equation.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Numbers, Quantification and Numerical Applications: boats and streams (downstream speed b + s, upstream speed b − s); CUET 2026 Applied Mathematics syllabus, Unit I",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "59b0916c-0775-4cf9-9070-878e03330466",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "type": "single_mcq",
+    "stem": "Two taps, A and B, can fill an empty water drum in 10 minutes and 15 minutes respectively, and a drain C can empty the full drum in 12 minutes. Starting with the drum empty, all three are opened together, and the drain is shut 3 minutes before the drum is full. How long does the drum take to fill?",
+    "options": [
+      {
+        "key": "A",
+        "text": "9 minutes"
+      },
+      {
+        "key": "B",
+        "text": "12 minutes"
+      },
+      {
+        "key": "C",
+        "text": "6 minutes"
+      },
+      {
+        "key": "D",
+        "text": "7.5 minutes"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "In one minute tap A fills 1/10 and tap B fills 1/15 of the drum, together (3 + 2)/30 = 1/6; drain C empties 1/12. Let the drum be full after T minutes. A and B run for all T minutes, while C runs for T − 3 minutes, so T/6 − (T − 3)/12 = 1. Multiplying by 12: 2T − T + 3 = 12, so T = 9 minutes. Check: A and B fill 9/6 = 3/2 drums, C empties 6/12 = 1/2 drum, net 1 drum. 12 minutes keeps the drain open to the end (net rate 1/6 − 1/12 = 1/12); 6 minutes leaves the drain shut throughout; 7.5 minutes runs the drain for only the last 3 minutes instead of all but the last 3.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Numbers, Quantification and Numerical Applications: pipes and cisterns (inlet and outlet rates, a pipe closed before the tank is full); CUET 2026 Applied Mathematics syllabus, Unit I",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "61d6cc6e-f5f9-4b8a-b424-7fcc20a8ad4a",
+    "subject": "mathematics",
+    "unit": "Applied Mathematics",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "type": "single_mcq",
+    "stem": "Over an 800 m track, cyclist P finishes in 100 seconds and cyclist Q in 125 seconds, both riding at steady speeds. How far behind the finishing line is Q when P finishes?",
+    "options": [
+      {
+        "key": "A",
+        "text": "200 m"
+      },
+      {
+        "key": "B",
+        "text": "640 m"
+      },
+      {
+        "key": "C",
+        "text": "25 m"
+      },
+      {
+        "key": "D",
+        "text": "160 m"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "Q’s speed is 800/125 = 6.4 m/s. When P finishes, 100 seconds have passed, so Q has covered 6.4 × 100 = 640 m and is 800 − 640 = 160 m from the line: P beats Q by 160 m. Another way: Q still needs the 25 seconds of the time gap, and in 25 s Q rides 6.4 × 25 = 160 m. 640 m is the distance Q has covered, not the margin; 200 m multiplies the 25 s gap by P’s speed (8 m/s) instead of Q’s; 25 m gives the time gap in seconds as if it were a distance.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Numbers, Quantification and Numerical Applications: races and games (distance by which one runner beats another); CUET 2026 Applied Mathematics syllabus, Unit I",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "ee3406d3-0055-4602-935c-270823e4c3d0",
+    "subject": "physics",
+    "unit": "Electrostatics",
+    "chapter": "Electric Charges & Fields",
+    "type": "single_mcq",
+    "stem": "Three small charged beads can slide freely along a smooth, straight insulating thread. The two outer beads each carry +16 nC and are 30 cm apart, and the third bead, of charge q, sits exactly midway between them. For all three beads to stay at rest, q must be:",
+    "options": [
+      {
+        "key": "A",
+        "text": "−16 nC"
+      },
+      {
+        "key": "B",
+        "text": "−8 nC"
+      },
+      {
+        "key": "C",
+        "text": "−4 nC"
+      },
+      {
+        "key": "D",
+        "text": "+4 nC"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "The middle bead is acted on by two equal charges at equal distances (15 cm each) on opposite sides, so the two forces on it cancel whatever q is. Each outer bead must also feel zero net force. An outer bead is repelled by the other outer bead, 30 cm away, with a force k(16 nC)²/(0.30 m)²; this must be cancelled by an equal attraction towards q, which is 15 cm away: k(16 nC)|q|/(0.15 m)². Equating the two, |q| = 16 nC × (0.15/0.30)² = 16 nC/4 = 4 nC. The force from q must pull the positive outer bead inwards, so q is negative: q = −4 nC (in general −Q/4 for equal end charges Q). A charge of +4 nC has the right size but would push both outer beads outwards; −8 nC comes from forgetting to square the distances (−Q/2), and −16 nC from taking both distances as equal (−Q).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 1 Electric Charges and Fields: 1.5 Coulomb's law, p 6; 1.6 Forces between multiple charges (superposition), p 11",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "a73a2390-6cd9-4bcc-92cb-c84f80e5747b",
+    "subject": "physics",
+    "unit": "Electrostatics",
+    "chapter": "Electrostatic Potential & Capacitance",
+    "type": "single_mcq",
+    "stem": "A student has four identical capacitors of 2 μF each. Joined in series they give an equivalent capacitance Cs; joined in parallel they give an equivalent capacitance Cp. The ratio Cs/Cp is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "4"
+      },
+      {
+        "key": "B",
+        "text": "1/4"
+      },
+      {
+        "key": "C",
+        "text": "16"
+      },
+      {
+        "key": "D",
+        "text": "1/16"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "In series the reciprocals add: 1/Cs = 1/2 + 1/2 + 1/2 + 1/2 = 2 per μF, so Cs = 0.5 μF, which is C/n for n equal capacitors. In parallel the capacitances add: Cp = 4 × 2 μF = 8 μF, which is nC. So Cs/Cp = 0.5/8 = 1/16, that is 1/n² for n equal capacitors. The value 1/4 compares the series combination with a single capacitor (Cs/C) instead of with the parallel one; 16 is the ratio turned upside down (Cp/Cs); 4 compares the parallel combination with a single capacitor (Cp/C).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 2 Electrostatic Potential and Capacitance: 2.14.1 Capacitors in series, pp 71-72, Eq. (2.60) p 72; 2.14.2 Capacitors in parallel, Eq. (2.67), p 72",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "bd9f24c9-5f9b-4820-9457-44be14354497",
+    "subject": "physics",
+    "unit": "Current Electricity",
+    "chapter": "Current Electricity",
+    "type": "statement_based",
+    "stem": "Identify the correct statements among the following.\n(A) A metal wire carrying a steady current has no net electric charge.\n(B) If the temperature of a metal wire rises while the electric field in it stays the same, the drift speed of its free electrons decreases.\n(C) The emf of a cell is the potential difference between its electrodes on open circuit and does not depend on the internal resistance of the cell.\n(D) The internal resistance of a dry cell is much lower than that of a common electrolytic cell.\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "Only (A), (B) and (C)"
+      },
+      {
+        "key": "B",
+        "text": "Only (B) and (C)"
+      },
+      {
+        "key": "C",
+        "text": "Only (A), (C) and (D)"
+      },
+      {
+        "key": "D",
+        "text": "Only (A) and (B)"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "(A) is true: in a current-carrying metal wire the free electrons drift, but as much charge enters any part of the wire as leaves it, and the negative charge of the electrons is balanced by the positive charge of the metal ions, so the wire stays electrically neutral; a current-carrying wire is not a charged wire. (B) is true: as the temperature rises the electrons move faster and collide more often, so the average time τ between collisions decreases; since the drift velocity is vd = eEτ/m, at the same field E the drift speed decreases (the same fall in τ is why the resistivity of a metal rises with temperature). (C) is true: the emf ε is the potential difference between the positive and negative electrodes on open circuit, when no current flows; the internal resistance r only makes the terminal voltage smaller when a current I is drawn, V = ε − Ir. (D) is false: the internal resistance of dry cells is much higher than that of common electrolytic cells. The correct statements are (A), (B) and (C).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 3 Current Electricity: 3.5 drift velocity vd = eEτ/m, p 88; p 91 (average collision time τ decreases with temperature); 3.10 Cells, emf, internal resistance, p 94 (emf on open circuit; dry cells have much higher internal resistance); Points to Ponder 5, p 105 (a neutral wire carrying current)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "ae59a8ac-3cf5-49ef-afa7-be504e1edca0",
+    "subject": "physics",
+    "unit": "Current Electricity",
+    "chapter": "Current Electricity",
+    "type": "single_mcq",
+    "stem": "The resistance of a metal conductor at 47 °C is R. It is heated until its resistance becomes 1.25 R. If the temperature coefficient of resistance of the metal is 5.0 × 10^-4 K^-1, the final temperature of the conductor is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "500 K"
+      },
+      {
+        "key": "B",
+        "text": "547 K"
+      },
+      {
+        "key": "C",
+        "text": "820 K"
+      },
+      {
+        "key": "D",
+        "text": "2820 K"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "Over a limited range the resistance varies as R_T = R_0[1 + α(T − T_0)], where R_0 is the resistance at T_0 = 47 °C = 320 K. Here R_T/R_0 = 1.25, so α(T − T_0) = 0.25 and the rise is T − T_0 = 0.25/(5.0 × 10^-4 K^-1) = 500 K. The final temperature is T = 320 K + 500 K = 820 K (that is, 547 °C). The value 500 K is only the rise in temperature; 547 K adds the rise to 47 written in degrees Celsius and then labels the result in kelvin; 2820 K uses 1.25 instead of 0.25 as the fractional increase (it forgets to subtract 1).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 3 Current Electricity: 3.8 Temperature dependence of resistivity, Eq. (3.26), p 90; Example 3.3, p 91 (steady temperature of a heating element)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "0221d710-a478-4fc5-a397-51c66831fd63",
+    "subject": "physics",
+    "unit": "Current Electricity",
+    "chapter": "Current Electricity",
+    "type": "single_mcq",
+    "stem": "In a Wheatstone bridge with arms P, Q, R and S, the arms P and Q are the ratio arms, R is a variable standard resistance and S is an unknown resistance. The galvanometer shows no deflection when R = 400 Ω. When P and Q are interchanged, the null deflection is obtained with R = 441 Ω. The value of S is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "1.05 Ω"
+      },
+      {
+        "key": "B",
+        "text": "41 Ω"
+      },
+      {
+        "key": "C",
+        "text": "420 Ω"
+      },
+      {
+        "key": "D",
+        "text": "841 Ω"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "At balance P/Q = R/S. First balance: P/Q = 400/S, so S = 400 × Q/P. With P and Q interchanged: Q/P = 441/S, so S = 441 × P/Q. Multiplying the two results removes the unknown ratio: S² = 400 × 441, so S = 20 × 21 = 420 Ω (and P/Q = 400/420 = 20/21, two nearly equal arms). The value 1.05 Ω is the ratio Q/P = 21/20, which has no unit of resistance; 41 Ω is the difference and 841 Ω the sum of the two balancing readings.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 3 Current Electricity: 3.13 Wheatstone bridge, balance condition Eq. (3.64), pp 100-101",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "6a10c022-27e2-4ee4-b08b-03f4fcdac734",
+    "subject": "physics",
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapter": "Moving Charges & Magnetism",
+    "type": "single_mcq",
+    "stem": "A solenoid 40 cm long is wound with 800 turns. The magnetic field well inside it, near its centre, is 6.28 × 10^-3 T. The current in the solenoid is: (μ0 = 4π × 10^-7 T m A^-1)",
+    "options": [
+      {
+        "key": "A",
+        "text": "2.5 A"
+      },
+      {
+        "key": "B",
+        "text": "5.0 A"
+      },
+      {
+        "key": "C",
+        "text": "6.25 A"
+      },
+      {
+        "key": "D",
+        "text": "15.6 A"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Inside a long solenoid B = μ0 n I, where n is the number of turns per unit length: n = 800/0.40 m = 2000 per metre. So I = B/(μ0 n) = (6.28 × 10^-3)/(4π × 10^-7 × 2000) = (6.28 × 10^-3)/(2.512 × 10^-3) = 2.5 A. The value 5.0 A comes from using μ0 n I/2, the field at an end of the solenoid, instead of μ0 n I; 6.25 A from putting the total number of turns N in place of n; 15.6 A from multiplying N by the length instead of dividing by it.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 4 Moving Charges and Magnetism: 4.7 The solenoid, B = μ0 n I, Eq. (4.16), p 122 (Example 4.8)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "e1d200a2-f90b-488f-a4a1-61f1e268496e",
+    "subject": "physics",
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapter": "Moving Charges & Magnetism",
+    "type": "single_mcq",
+    "stem": "A wire carrying a current of 6.0 A comes in along a straight line directed towards a point O, follows a circular arc of radius 2.0 cm centred on O through one quarter of a circle (90°), and leaves along a straight line directed away from O. The magnitude of the magnetic field at O is: (μ0 = 4π × 10^-7 T m A^-1)",
+    "options": [
+      {
+        "key": "A",
+        "text": "4.7 × 10^-5 T"
+      },
+      {
+        "key": "B",
+        "text": "6.0 × 10^-5 T"
+      },
+      {
+        "key": "C",
+        "text": "1.4 × 10^-4 T"
+      },
+      {
+        "key": "D",
+        "text": "1.9 × 10^-4 T"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "For every element of the two straight parts, dl lies along the line joining it to O, so dl × r = 0 and the straight parts add nothing to the field at O. Every element of the arc is at the same distance R from O and gives a field in the same direction, so an arc subtending an angle θ at O gives the fraction θ/2π of the field at the centre of a full circular loop. Full loop: μ0 I/(2R) = (4π × 10^-7 × 6.0)/(2 × 0.020) = 1.9 × 10^-4 T. A quarter of it is 4.7 × 10^-5 T. The value 1.9 × 10^-4 T is the field of a full loop; 1.4 × 10^-4 T takes the remaining three-quarters of the circle instead of the arc; 6.0 × 10^-5 T uses the formula μ0 I/(2πR) for a long straight wire.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 4 Moving Charges and Magnetism: 4.5 Magnetic field on the axis of a circular current loop (at the centre B = μ0 I/2R), p 116; Example 4.5 (arc: straight segments contribute nothing, a semicircle gives half the loop field), p 117",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "5bc9735c-eaac-4470-84c1-3d93089740c9",
+    "subject": "physics",
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapter": "Magnetism & Matter",
+    "type": "single_mcq",
+    "stem": "A bar magnet of magnetic moment 4.0 A m² is pivoted at its centre and can turn freely in a horizontal plane in a uniform horizontal magnetic field of 0.30 T. It is held at rest with its axis at 60° to the field by a force F applied at right angles to its axis, 12 cm from the pivot. The magnitude of F is:",
+    "options": [
+      {
+        "key": "A",
+        "text": "0.087 N"
+      },
+      {
+        "key": "B",
+        "text": "0.12 N"
+      },
+      {
+        "key": "C",
+        "text": "5.0 N"
+      },
+      {
+        "key": "D",
+        "text": "8.7 N"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "The field exerts a torque τ = mB sin θ = 4.0 × 0.30 × sin 60° = 1.2 × 0.866 ≈ 1.04 N m, which tries to turn the magnet into line with the field. To hold the magnet at rest the applied force must give an equal and opposite torque about the pivot, F × 0.12 m = 1.04 N m, so F = 1.04/0.12 ≈ 8.7 N (exactly 5√3 N). The value 5.0 N comes from using cos 60° in place of sin 60°; 0.087 N from leaving the distance as 12 (in centimetres) instead of 0.12 m; 0.12 N from multiplying the torque by the distance instead of dividing by it.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 5 Magnetism and Matter: torque on a magnetic dipole τ = m × B, magnitude mB sin θ, Eq. (5.2), p 139",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "e0336aca-26f0-46d6-bbc5-2177bccf48d3",
+    "subject": "physics",
+    "unit": "Electromagnetic Induction and Alternating Currents",
+    "chapter": "Electromagnetic Induction",
+    "type": "single_mcq",
+    "stem": "A circular coil of mean diameter 14 cm is held with its plane perpendicular to a uniform magnetic field. The field is reduced steadily from 0.50 T to 0.10 T in 0.20 s, and an emf of 3.08 V is induced in the coil. The number of turns in the coil is: (take π = 22/7)",
+    "options": [
+      {
+        "key": "A",
+        "text": "25"
+      },
+      {
+        "key": "B",
+        "text": "80"
+      },
+      {
+        "key": "C",
+        "text": "100"
+      },
+      {
+        "key": "D",
+        "text": "400"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "The area of each turn is A = π(D/2)² = (22/7) × (0.07 m)² = 0.0154 m². The flux through each turn changes by A × ΔB = 0.0154 × (0.50 − 0.10) = 6.16 × 10^-3 Wb in 0.20 s, so the emf induced in one turn is 6.16 × 10^-3/0.20 = 0.0308 V. By Faraday's law the emf of N turns is ε = N dΦ/dt, so N = 3.08/0.0308 = 100. The value 25 comes from using the diameter as the radius (four times the area); 400 from using the final field 0.10 T instead of the change of 0.40 T; 80 from using the initial field 0.50 T instead of the change.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 6 Electromagnetic Induction: 6.4 Faraday's law of induction, pp 157-158, Eq. (6.3) and, for a closely wound coil of N turns, ε = −N dΦ/dt, Eq. (6.4), p 158; Example 6.3, p 159",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "0a23e819-de4b-4c22-83e4-89ea94574653",
+    "subject": "physics",
+    "unit": "Electromagnetic Induction and Alternating Currents",
+    "chapter": "Alternating Current",
+    "type": "single_mcq",
+    "stem": "A coil of negligible resistance and inductance 0.35 H is connected to a 154 V, 50 Hz a.c. supply. The rms current in the coil is: (take π = 22/7)",
+    "options": [
+      {
+        "key": "A",
+        "text": "0.99 A"
+      },
+      {
+        "key": "B",
+        "text": "1.4 A"
+      },
+      {
+        "key": "C",
+        "text": "2.0 A"
+      },
+      {
+        "key": "D",
+        "text": "8.8 A"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "The inductive reactance is X_L = ωL = 2πνL = 2 × (22/7) × 50 × 0.35 = 110 Ω. For a pure inductor the rms current is I = V/X_L = 154 V/110 Ω = 1.4 A (the supply voltage of 154 V is its rms value). The value 2.0 A is the peak current, √2 × 1.4 A; 0.99 A treats 154 V as a peak value and divides by √2 again; 8.8 A uses ν in place of ω = 2πν, giving X_L = 17.5 Ω.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 7 Alternating Current: 7.4 AC voltage applied to an inductor, X_L = ωL, Eq. (7.14), p 182; Example 7.2 (inductive reactance and rms current), p 183",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "95586ea4-c72b-4d72-87e2-888f2f6e143b",
+    "subject": "physics",
+    "unit": "Electromagnetic Waves",
+    "chapter": "Electromagnetic Waves",
+    "type": "single_mcq",
+    "stem": "A parallel-plate capacitor is being charged, and at one instant the conduction current in the connecting wires is 4.0 mA. The displacement current between the plates at that instant is",
+    "options": [
+      {
+        "key": "A",
+        "text": "zero, whatever the source, since no charge crosses the gap"
+      },
+      {
+        "key": "B",
+        "text": "4.0 mA with an a.c. source, but zero with a battery"
+      },
+      {
+        "key": "C",
+        "text": "4.0 mA, with either an a.c. source or a battery"
+      },
+      {
+        "key": "D",
+        "text": "4.0 mA with a battery, but zero with an a.c. source"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "No charge crosses the gap between the plates, so the conduction current there is zero. But the charge on the plates, and with it the electric field and its flux between them, changes at the rate set by the current in the wires, and this changing field is the displacement current, i_d = ε0 dΦE/dt = dq/dt = i. NCERT puts it this way: outside the plates there is only conduction current, i_c = i, and i_d = 0; inside the capacitor there is no conduction current, i_c = 0, and only displacement current, so i_d = i. The displacement current in the gap therefore equals the conduction current in the wires at every instant, 4.0 mA here. The kind of source does not matter. With an a.c. supply the field keeps changing and i_d keeps equal to i_c from moment to moment. With a battery (d.c.) the capacitor still charges through a current that dies away with time; while that current flows the field between the plates grows and i_d equals it, and once the capacitor is fully charged the field is steady and both currents are zero. So conduction current equals displacement current whether the source is a.c. or d.c. Saying it is zero forgets that displacement current needs no charge to cross the gap; zero with a battery forgets that a battery also changes the field while it charges the plates; zero with an a.c. source confuses the instantaneous value with an average over a cycle.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (leph108, Reprint 2026-27), Ch 8 Electromagnetic Waves: 8.2 Displacement current, p 203-204 (outside the plates ic = i, id = 0; inside, ic = 0 and id = i; Eq. 8.5; steady fields give zero displacement current); Exercises 8.1 (constant charging current) and 8.2 (a.c. source), p 213-214",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "0f39713a-7e46-4375-b27e-f2ae37c125d9",
+    "subject": "physics",
+    "unit": "Electromagnetic Waves",
+    "chapter": "Electromagnetic Waves",
+    "type": "statement_based",
+    "stem": "Consider the following statements about electromagnetic waves.\n(A) Ultraviolet rays are preferred to infrared rays for photographing distant hills through haze.\n(B) Gamma rays and microwaves travel through vacuum at the same speed.\n(C) A charged particle going round a circle at constant speed emits no electromagnetic waves, since its speed does not change.\n(D) Once a battery has fully charged a capacitor, the displacement current between its plates is zero.\n(E) A charge oscillating with a certain frequency produces electromagnetic waves of that same frequency.\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A), (B), (D) and (E) only"
+      },
+      {
+        "key": "B",
+        "text": "(B), (C), (D) and (E) only"
+      },
+      {
+        "key": "C",
+        "text": "(B), (C) and (E) only"
+      },
+      {
+        "key": "D",
+        "text": "(B), (D) and (E) only"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "(A) is false. Haze is made of very fine particles (dust, smoke, tiny droplets), and such particles scatter short wavelengths much more strongly than long ones (for particles much smaller than the wavelength the scattering falls roughly as 1/λ^4). Infrared, whose wavelength is longer than that of visible light, is scattered much less and gets through haze and mist far better, so infrared, not ultraviolet, is used to see and photograph distant objects through haze and fog. Ultraviolet, of shorter wavelength than visible light, is scattered even more, so it is useless for this. (B) is true: all electromagnetic waves, whatever their frequency, travel through vacuum with the same speed c = 3 × 10^8 m/s; they differ only in wavelength and frequency. (C) is false: accelerated charges radiate electromagnetic waves, and a charge moving in a circle is accelerated all the time even at constant speed, because the direction of its velocity keeps changing (centripetal acceleration). This is why, by classical theory, an electron orbiting a nucleus should radiate and spiral inwards, as NCERT notes before the Bohr model. (D) is true: the displacement current is ε0 dΦE/dt. While the battery charges the capacitor the field between the plates grows and the displacement current equals the charging current; once the capacitor is fully charged the field is steady, so the displacement current is zero (and the conduction current is zero too). (E) is true: an oscillating charge is an accelerated charge; it sets up an oscillating electric field, which produces an oscillating magnetic field, and so on, and the frequency of the wave equals the frequency of oscillation of the charge. The true statements are (B), (D) and (E).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (leph108, Reprint 2026-27), Ch 8 Electromagnetic Waves: 8.2 Displacement current, p 204 (steady fields give zero displacement current); 8.3 Sources of electromagnetic waves, p 205 (accelerated charges radiate; the wave has the frequency of the oscillating charge); Summary p 212 and Points to Ponder p 213 (all em waves travel through vacuum with the same speed); Part II (leph204) Ch 12 Atoms, 12.4, p 297 (a charge moving in a circle is accelerated and, classically, radiates). Infrared passing through haze: scattering falls with wavelength (not in the rationalised text; the explanation states it)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "3bf13cad-51cc-46a8-8666-3394de0cb159",
+    "subject": "physics",
+    "unit": "Electromagnetic Waves",
+    "chapter": "Electromagnetic Waves",
+    "type": "single_mcq",
+    "stem": "A pulse of light carrying 9.0 J of energy falls normally on a plane mirror that reflects all of it. Taking c = 3.0 × 10^8 m s^-1, the momentum delivered to the mirror is",
+    "options": [
+      {
+        "key": "A",
+        "text": "3.0 × 10^-8 kg m s^-1"
+      },
+      {
+        "key": "B",
+        "text": "6.0 × 10^-8 kg m s^-1"
+      },
+      {
+        "key": "C",
+        "text": "1.0 × 10^-16 kg m s^-1"
+      },
+      {
+        "key": "D",
+        "text": "2.0 × 10^-16 kg m s^-1"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "Light is a stream of photons, and each photon of energy E = hν carries momentum p = hν/c = E/c. So radiation carrying total energy U carries momentum U/c in its direction of travel: here U/c = 9.0/(3.0 × 10^8) = 3.0 × 10^-8 kg m s^-1. A perfectly absorbing surface takes up all of this, so it receives U/c. A perfect reflector sends the light straight back with momentum U/c in the opposite direction, so the momentum of the light changes by U/c − (−U/c) = 2U/c, and by momentum conservation the mirror receives 2U/c = 2 × 3.0 × 10^-8 = 6.0 × 10^-8 kg m s^-1. The value 3.0 × 10^-8 is the answer for a perfect absorber, not a reflector; 1.0 × 10^-16 and 2.0 × 10^-16 divide the energy by c^2, which gives a mass (E = mc^2), not a momentum.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Physics Part II (leph203, Reprint 2026-27), Ch 11 Dual Nature of Radiation and Matter: 11.7 Particle nature of light: the photon, p 283 (each photon has energy E = hν and momentum p = hν/c; momentum is conserved in photon collisions). Radiation momentum U/c and the factor 2 for a reflector are not in the rationalised Ch 8 text; the explanation derives them",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "83606bcb-963a-4d6d-802c-96f5f58e4e09",
+    "subject": "physics",
+    "unit": "Optics",
+    "chapter": "Ray Optics & Optical Instruments",
+    "type": "single_mcq",
+    "stem": "A convex lens forms a sharp, real image of a distant tree on a wall. A strip of black paper is now stuck over the upper half of the lens, the rest of the arrangement being unchanged. The image on the wall now",
+    "options": [
+      {
+        "key": "A",
+        "text": "shows the whole tree, but dimmer"
+      },
+      {
+        "key": "B",
+        "text": "shows only the lower half of the tree"
+      },
+      {
+        "key": "C",
+        "text": "shows only the upper half of the tree"
+      },
+      {
+        "key": "D",
+        "text": "shows the whole tree, equally bright"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "Every point of the tree sends light to every part of the lens, and the rays through any part of the lens are brought to the same image point. With the upper half covered, the rays through the lower half still reach the image point of every part of the tree, so the image is complete, in the same place and still sharp. But only about half as much light now reaches it, so the whole image is less bright (about half the intensity). NCERT makes the same point for a concave mirror with half its surface covered: the image is of the whole object, only its intensity falls. A half image would mean that each half of the lens images only one half of the object, which is not how a lens forms an image; an equally bright image ignores the light the black paper stops.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Physics Part I (leph201, Reprint 2026-27), Ch 9 Ray Optics and Optical Instruments: Example 9.1, p 226 (half the reflecting surface of a concave mirror covered: image of the whole object, intensity low); 9.5 Refraction at spherical surfaces and by lenses (every ray from an object point through the lens meets at its image point)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "78f00fd5-039d-48be-b2dd-06ea32c09fb2",
+    "subject": "physics",
+    "unit": "Optics",
+    "chapter": "Ray Optics & Optical Instruments",
+    "type": "sequence_ordering",
+    "stem": "Arrange the following media in increasing order of their refractive index for visible light.\n(A) Diamond\n(B) Water\n(C) Air\n(D) Dense flint glass\n(E) Crown glass\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(C), (E), (B), (D), (A)"
+      },
+      {
+        "key": "B",
+        "text": "(C), (B), (E), (D), (A)"
+      },
+      {
+        "key": "C",
+        "text": "(C), (B), (D), (E), (A)"
+      },
+      {
+        "key": "D",
+        "text": "(C), (B), (E), (A), (D)"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "NCERT lists the refractive indices (Table 9.1) as water 1.33, crown glass 1.52, dense flint glass 1.62 and diamond 2.42. A gas is far less dense optically: the refractive index of air is about 1.0003, taken as 1 in calculations, and other gases such as carbon dioxide (about 1.0004) are also very close to 1, so any gas comes below every liquid and solid in the list. The increasing order is therefore air (1.0003) < water (1.33) < crown glass (1.52) < dense flint glass (1.62) < diamond (2.42), that is (C), (B), (E), (D), (A). Putting water above crown glass, or crown glass above dense flint glass, reverses the table values; diamond has the highest refractive index of the five (which is also why its critical angle, about 24.4°, is the smallest).",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (leph201, Reprint 2026-27), Ch 9 Ray Optics and Optical Instruments: Table 9.1, p 230 (water 1.33, crown glass 1.52, dense flint glass 1.62, diamond 2.42); refractive index of air taken as unity (Example 9.7, p 237). Gas values about 1.000 are not in the NCERT table; the explanation states them",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "8bae1cb1-fe26-4582-9739-485007128595",
+    "subject": "physics",
+    "unit": "Optics",
+    "chapter": "Wave Optics",
+    "type": "single_mcq",
+    "stem": "In a Young's double-slit experiment with two identical slits, the intensity at the centre of the screen is 0.48 W m^-2. One slit is now covered with an opaque card. The intensity at the centre of the screen becomes",
+    "options": [
+      {
+        "key": "A",
+        "text": "0.12 W m^-2"
+      },
+      {
+        "key": "B",
+        "text": "0.24 W m^-2"
+      },
+      {
+        "key": "C",
+        "text": "0.48 W m^-2"
+      },
+      {
+        "key": "D",
+        "text": "zero"
+      }
+    ],
+    "correct_key": "A",
+    "explanation": "At the centre of the screen the path difference from the two slits is zero, so the two waves arrive in phase and their amplitudes add: if each slit alone gives amplitude a and intensity I0, both together give amplitude 2a. Intensity is proportional to the square of the amplitude, so the central intensity with both slits open is (2a)^2/a^2 = 4 times I0, that is I = 4I0. Here 4I0 = 0.48 W m^-2, so I0 = 0.12 W m^-2. Covering one slit leaves only the other wave, so the centre now gets I0 = I/4 = 0.12 W m^-2. The same relation read the other way: if one slit alone gives intensity I0 at the centre, opening the second identical slit makes it 4I0. Halving to 0.24 W m^-2 adds intensities instead of amplitudes, which is right only for incoherent sources; keeping 0.48 W m^-2 ignores the light that is cut off; zero mistakes the loss of the interference pattern for darkness, although the open slit still lights the screen.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Physics Part II (leph202, Reprint 2026-27), Ch 10 Wave Optics: 10.4 Coherent and incoherent addition of waves, p 263 (I = 4I0, where I0 is the intensity produced by each one of the individual sources; incoherent sources: intensities add, p 265)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "b7a2f323-86db-4cdb-acb3-d279c1ffefdd",
+    "subject": "physics",
+    "unit": "Optics",
+    "chapter": "Ray Optics & Optical Instruments",
+    "type": "single_mcq",
+    "stem": "Light of frequency 6.0 × 10^14 Hz passes through a block of transparent plastic. Its wavelength measured inside the plastic is 330 nm. Taking c = 3.0 × 10^8 m s^-1, the refractive index of the plastic is about",
+    "options": [
+      {
+        "key": "A",
+        "text": "0.66"
+      },
+      {
+        "key": "B",
+        "text": "1.52"
+      },
+      {
+        "key": "C",
+        "text": "1.98"
+      },
+      {
+        "key": "D",
+        "text": "2.30"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "The frequency of light does not change when it enters a medium; its speed and wavelength do. The speed inside the plastic is v = νλ = 6.0 × 10^14 × 330 × 10^-9 = 1.98 × 10^8 m s^-1. The refractive index is the ratio of the speed of light in vacuum to that in the medium: n = c/v = (3.0 × 10^8)/(1.98 × 10^8) ≈ 1.52. Dividing the other way, v/c, gives 0.66, which is less than 1 and impossible for a material medium; 1.98 is the speed in units of 10^8 m s^-1, not the refractive index; 2.30 squares the ratio c/v.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "easy",
+    "ncert_ref": "NCERT Class 12 Physics Part II (leph202, Reprint 2026-27), Ch 10 Wave Optics: 10.3, p 259 (n = c/v; speed of light lower in the denser medium); Example 10.1, p 262 (frequency unchanged on refraction). Part I (leph201) Ch 9, 9.3 Refraction, p 229. Wave relation v = νλ",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "94a6fb7d-6b29-4e57-a5a5-a7c7610fcbc5",
+    "subject": "physics",
+    "unit": "Optics",
+    "chapter": "Ray Optics & Optical Instruments",
+    "type": "single_mcq",
+    "stem": "An object placed 18 cm in front of a concave mirror gives a real image. When the object is moved 12 cm farther away from the mirror, the real image becomes one-third of its earlier size. The focal length of the mirror is",
+    "options": [
+      {
+        "key": "A",
+        "text": "-36 cm"
+      },
+      {
+        "key": "B",
+        "text": "-24 cm"
+      },
+      {
+        "key": "C",
+        "text": "+12 cm"
+      },
+      {
+        "key": "D",
+        "text": "-12 cm"
+      }
+    ],
+    "correct_key": "D",
+    "explanation": "Using the Cartesian sign convention, the object distances are u1 = −18 cm and u2 = −30 cm, and the focal length f of a concave mirror is negative. From the mirror equation 1/v + 1/u = 1/f and the magnification m = −v/u, the magnification can be written m = f/(f − u). So m1 = f/(f + 18) and m2 = f/(f + 30). The new image is one-third the size of the old: m2 = m1/3, so 3/(f + 30) = 1/(f + 18), which gives 3f + 54 = f + 30, 2f = −24 and f = −12 cm. Check: m1 = −12/6 = −2 and m2 = −12/18 = −2/3, both real and inverted, and m2 is one-third of m1. Taking the new image as three times the old gives −36 cm; moving the object 12 cm towards the mirror (u2 = −6 cm) gives −24 cm; dropping the sign convention and taking u positive gives +12 cm, which would be a convex mirror.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part I (leph201, Reprint 2026-27), Ch 9 Ray Optics and Optical Instruments: 9.2.1 Sign convention, p 222; 9.2.3 The mirror equation, Eq. (9.7), p 224-225; magnification Eq. (9.9), p 226; Example 9.3, p 227; Summary, p 247 (f is negative for a concave mirror)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  },
+  {
+    "id": "ede9da50-f9f9-42dc-94d5-6ca964338f4a",
+    "subject": "physics",
+    "unit": "Electronic Devices",
+    "chapter": "Semiconductor Electronics",
+    "type": "single_mcq",
+    "stem": "The energy band gap of silicon is 1.1 eV. Taking h = 6.6 × 10^-34 J s, c = 3.0 × 10^8 m s^-1 and 1 eV = 1.6 × 10^-19 J, the longest wavelength of light that can create an electron-hole pair in pure silicon is about",
+    "options": [
+      {
+        "key": "A",
+        "text": "1.8 × 10^-6 m"
+      },
+      {
+        "key": "B",
+        "text": "3.8 × 10^-15 m"
+      },
+      {
+        "key": "C",
+        "text": "1.1 × 10^-6 m"
+      },
+      {
+        "key": "D",
+        "text": "5.6 × 10^-7 m"
+      }
+    ],
+    "correct_key": "C",
+    "explanation": "A photon creates an electron-hole pair when its energy lifts an electron from the valence band across the band gap into the conduction band, so it needs hc/λ ≥ Eg. The longest wavelength that can do this is λmax = hc/Eg. In joules, Eg = 1.1 × 1.6 × 10^-19 = 1.76 × 10^-19 J, so λmax = (6.6 × 10^-34 × 3.0 × 10^8)/(1.76 × 10^-19) = (1.98 × 10^-25)/(1.76 × 10^-19) ≈ 1.1 × 10^-6 m (about 1100 nm, in the near infrared). Light of longer wavelength has too little energy per photon. Converting 1.1 eV to joules without the factor 1.6 (as 1.1 × 10^-19 J) gives 1.8 × 10^-6 m; dropping c and using h/Eg gives 3.8 × 10^-15 m; asking each photon to supply Eg twice (once for the electron and once for the hole) halves the answer to 5.6 × 10^-7 m, but one photon of energy Eg makes the whole pair.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part II (leph206, Reprint 2026-27), Ch 14 Semiconductor Electronics: 14.2, p 326-327 (energy band gap; electrons crossing the gap leave holes); 14.4, p 330 and p 332 (band gap about 1.1 eV for silicon). Part II (leph203) Ch 11, p 283 (photon energy E = hν = hc/λ)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "repaired"
+  },
+  {
+    "id": "923b4590-8305-484d-a8bf-e2e4bec84874",
+    "subject": "physics",
+    "unit": "Electronic Devices",
+    "chapter": "Semiconductor Electronics",
+    "type": "match_the_following",
+    "stem": "A pure semiconductor crystal has 6.0 × 10^28 atoms m^-3, and its intrinsic carrier concentration is 3.0 × 10^16 m^-3. It is doped with a pentavalent impurity. Match List-I with List-II.\nList-I\n(A) Electron concentration for a doping of 2.5 ppm\n(B) Hole concentration for a doping of 2.5 ppm\n(C) Electron concentration for a doping of 6 ppm\n(D) Hole concentration for a doping of 6 ppm\nList-II\n(I) 2.5 × 10^9 m^-3\n(II) 1.5 × 10^23 m^-3\n(III) 6.0 × 10^9 m^-3\n(IV) 3.6 × 10^23 m^-3\nChoose the correct answer from the options given below:",
+    "options": [
+      {
+        "key": "A",
+        "text": "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)"
+      },
+      {
+        "key": "B",
+        "text": "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)"
+      },
+      {
+        "key": "C",
+        "text": "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)"
+      },
+      {
+        "key": "D",
+        "text": "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)"
+      }
+    ],
+    "correct_key": "B",
+    "explanation": "One ppm means one impurity atom per million host atoms. Each pentavalent atom donates one electron, and the donated electrons far outnumber the thermally generated ones, so ne ≈ ND. The holes follow from ne nh = ni^2, with ni^2 = (3.0 × 10^16)^2 = 9.0 × 10^32 m^-6. For 2.5 ppm: ND = 2.5 × 10^-6 × 6.0 × 10^28 = 1.5 × 10^23 m^-3, so ne = 1.5 × 10^23 m^-3 and nh = 9.0 × 10^32/1.5 × 10^23 = 6.0 × 10^9 m^-3. For 6 ppm: ND = 6 × 10^-6 × 6.0 × 10^28 = 3.6 × 10^23 m^-3, so ne = 3.6 × 10^23 m^-3 and nh = 9.0 × 10^32/3.6 × 10^23 = 2.5 × 10^9 m^-3. So (A)-(II), (B)-(III), (C)-(IV), (D)-(I). More doping gives more electrons and fewer holes; pairing the larger hole figure with the heavier doping reverses this, swapping the two doping levels mixes up 2.5 ppm and 6 ppm, and swapping electrons and holes treats the pentavalent impurity as an acceptor.",
+    "passage_text": null,
+    "set_id": null,
+    "difficulty_label": "medium",
+    "ncert_ref": "NCERT Class 12 Physics Part II (leph206, Reprint 2026-27), Ch 14 Semiconductor Electronics: 14.4 Extrinsic semiconductor, p 329-332 (doping of a few ppm; pentavalent donors give n-type, ne >> nh; ne nh = ni^2, Eq. 14.5, p 332); Example 14.2, p 332 (1 ppm pentavalent As in Si, electrons and holes)",
+    "source": "claude-authored-2026-11-23-w6",
+    "_verdict": "claude_audited",
+    "_expert": "ready"
+  }
+]

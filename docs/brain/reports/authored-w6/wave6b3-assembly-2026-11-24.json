@@ -1,0 +1,199 @@
+{
+ "kind": "authored_w6b3_assembly",
+ "source": "claude-authored-2026-11-23-w6",
+ "batch": 3,
+ "at": "2026-11-23T18:38:15.346Z",
+ "candidatesFile": "docs/brain/reports/authored-w6/wave6b3-candidates-final-2026-11-24.json",
+ "candidatesSha256": "2336b886646548a85a317784b66d0c1feabd62c52551ca5be4d505f429e517b0",
+ "inputs": [
+  {
+   "file": "tmp/1123-close/chemistry/audit.json",
+   "part": "all",
+   "batch": "chemistry__w6b3"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "part": "all",
+   "batch": "computer_science__w6b3"
+  },
+  {
+   "file": "tmp/1123-close/physics/part1/audit.json",
+   "part": "part1",
+   "batch": "physics__w6b3a"
+  },
+  {
+   "file": "tmp/1123-close/physics/part2/audit.json",
+   "part": "part2",
+   "batch": "physics__w6b3b"
+  },
+  {
+   "file": "tmp/1123-close/mathematics/a/audit.json",
+   "part": "a",
+   "batch": "mathematics__w6b3a"
+  },
+  {
+   "file": "tmp/1123-close/mathematics/b1/audit.json",
+   "part": "b1",
+   "batch": "mathematics__w6b3b"
+  },
+  {
+   "file": "tmp/1123-close/mathematics/b2/audit.json",
+   "part": "b2",
+   "batch": "mathematics__w6b3c"
+  }
+ ],
+ "rule": "bank results only (kind bank; where an audit gives no kind, a result with a row and no card) whose verdict is accept or repair AND covers is true; the row is results[].row. _verdict claude_audited; _expert ready (accept) or repaired (repair); no batch-1 or batch-2 id reused; one row per subject paper question.",
+ "questions": 92,
+ "problems": [],
+ "fieldChanges": [],
+ "notAssembled": [
+  {
+   "file": "tmp/1123-close/chemistry/audit.json",
+   "n": 1,
+   "kind": "card",
+   "verdict": "repair",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/chemistry/audit.json",
+   "n": 15,
+   "kind": "card",
+   "verdict": "repair",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/chemistry/audit.json",
+   "n": 18,
+   "kind": "card",
+   "verdict": "repair",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/chemistry/audit.json",
+   "n": 19,
+   "kind": "card",
+   "verdict": "repair",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 15,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 27,
+   "kind": "card",
+   "verdict": "repair",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 27,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 32,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 46,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 48,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 48,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 59,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 70,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 81,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/computer-science/audit.json",
+   "n": 81,
+   "kind": "card",
+   "verdict": "accept",
+   "why": "not a bank row (Key card: deck pipeline)"
+  },
+  {
+   "file": "tmp/1123-close/physics/part2/audit.json",
+   "n": 27,
+   "kind": "card",
+   "verdict": "repair",
+   "why": "not a bank row (Key card: deck pipeline)"
+  }
+ ],
+ "shapeNotes": [
+  "tmp/1123-close/chemistry/audit.json: result fields beside the row: draftCode, card, replacesDraftCard (kept in the gap map where useful: paperQ as paperNumber, coversReason, needs, teaches; never in the row)",
+  "tmp/1123-close/computer-science/audit.json: result fields beside the row: draftCode, card (kept in the gap map where useful: paperQ as paperNumber, coversReason, needs, teaches; never in the row)",
+  "tmp/1123-close/physics/part1/audit.json: result fields beside the row: coversReason, needs (kept in the gap map where useful: paperQ as paperNumber, coversReason, needs, teaches; never in the row)",
+  "tmp/1123-close/physics/part2/audit.json: result fields beside the row: draftCode, replacesDraftCard, card (kept in the gap map where useful: paperQ as paperNumber, coversReason, needs, teaches; never in the row)",
+  "tmp/1123-close/mathematics/b1/audit.json: result fields beside the row: coversReason, teaches (kept in the gap map where useful: paperQ as paperNumber, coversReason, needs, teaches; never in the row)",
+  "tmp/1123-close/mathematics/b2/audit.json: result fields beside the row: paperQ, coversReason, needs (kept in the gap map where useful: paperQ as paperNumber, coversReason, needs, teaches; never in the row)"
+ ],
+ "planHash": "f55f3c98952cb42aa5923d28ff0c0478efa07ec396f595ccd542f1f579e3365f",
+ "summary": {
+  "questions": 92,
+  "passageGroups": 0,
+  "bySubject": {
+   "chemistry": 6,
+   "computer_science": 8,
+   "physics": 26,
+   "mathematics": 52
+  },
+  "byType": {
+   "match_the_following": 11,
+   "statement_based": 17,
+   "sequence_ordering": 5,
+   "conceptual_mcq": 59
+  },
+  "byDifficulty": {
+   "easy": 23,
+   "medium": 64,
+   "hard": 5
+  },
+  "byExpertReview": {
+   "claude_audited": 92
+  },
+  "passageChildrenBySet": {},
+  "passageSetsBelowNtaMinimum": [],
+  "chapters": 41
+ }
+}

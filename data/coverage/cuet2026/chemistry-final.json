@@ -1,7 +1,7 @@
 {
  "subject": "chemistry",
- "snapshotDate": "2026-11-23",
- "checkedOn": "2026-11-23",
+ "snapshotDate": "2026-11-24",
+ "checkedOn": "2026-11-24",
  "questions": [
   {
    "n": 1,
@@ -18,12 +18,12 @@
    "n": 2,
    "chapter": "Haloalkanes & Haloarenes",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "6dcb8cfe-0adc-4195-98f4-5226d9f244e2",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The card names only dichloromethane; the keyed option says methylene chloride, and no served row or card links the two names (NCERT lech201 p187 heading, p162 table). Doubtful, so not covered."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 3,
@@ -216,12 +216,12 @@
    "n": 20,
    "chapter": "d- and f-Block Elements",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "cf4e8cf1-4dbf-4cdc-a71d-10f1a6ffc6a1",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A, C and D are taught, but no served item says which way the chromate/dichromate change goes with pH, so statement B cannot be judged (NCERT lech104 p106 equations)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 21,
@@ -282,12 +282,12 @@
    "n": 26,
    "chapter": "Coordination Compounds",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "b4803f7d-4e48-4a1f-9571-061c08ab4cbf",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The ligand order is served, but nothing served turns a stronger ligand into a shorter wavelength absorbed; NCERT teaches that step in Class 12 itself (lech105 p133 Table 5.3: [Co(CN)6]3- 310 nm vs [Co(NH3)6]3+ 475 nm; p140 exercise). Doubtful, so not covered."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 27,
@@ -425,12 +425,12 @@
    "n": 39,
    "chapter": "Biomolecules",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "a0bb9354-1682-425f-9aba-88bae69912e6",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Three pairs are taught, but tryptophan is never named or drawn in served material; the fourth pair comes only by elimination and a match item needs every pair (NCERT lech205 p291, Table 10.2)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 40,
@@ -458,12 +458,12 @@
    "n": 42,
    "chapter": "Electrochemistry",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "118c166c-8d63-4a53-9e2e-6fbd994b8dce",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served bank question computes dG° from E°cell and n; the formula alone does not cover a numerical (NCERT lech102 p40, Example 2.3)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 43,
@@ -524,12 +524,12 @@
    "n": 48,
    "chapter": "Alcohols, Phenols & Ethers",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "95b01a7e-77e9-48b7-b8ac-ecd89a97c9f6",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The card names a \"substituted benzal chloride\", but nothing served shows it as -CHCl2 or as the phenoxide; the options differ only there (NCERT lech202 p213 scheme; benzal chloride drawn at lech203 p233). Doubtful, so not covered."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 49,

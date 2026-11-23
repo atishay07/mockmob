@@ -3,9 +3,10 @@
   "subject": "computer_science",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-14T12:10:00.000Z",
+  "merged_at": "2026-11-23T18:50:19.173Z",
   "models": [
-    "claude-haiku-5-5"
+    "claude-haiku-5-5",
+    "claude-subagent-unrecorded"
   ],
   "calibration": {
     "status": "calibrated",
@@ -72,7 +73,7 @@
       "hedge_wording": 1
     },
     "mean_of_means": 6.09,
-    "admissible_before_row_checks": 217
+    "admissible_before_row_checks": 222
   },
   "questions": {
     "01a8e374-7e1a-416b-ac0f-193f15cf0f43": {
@@ -26583,6 +26584,466 @@
           "solver": "claude-haiku-5-5"
         }
       }
+    },
+    "6a46890c-13bd-4b83-8b37-939ca17ffa22": {
+      "question_id": "6a46890c-13bd-4b83-8b37-939ca17ffa22",
+      "batch": "authored-2026-10-14__computer_science__w6b3",
+      "chapter": "Sorting",
+      "key": "B",
+      "content_hash": "2acc9b746161822e2a1f24da29bf8253f3ab69a19d9f7ed721af4b41d018c2d8",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.sorting.bubble-sort-number-of-passes",
+          "flags": [],
+          "note": "NCERT n-1 passes line; 28 comparisons is a good distractor, 64 weak. Direct recall, fine for a mock.",
+          "scored_content_hash": "2acc9b746161822e2a1f24da29bf8253f3ab69a19d9f7ed721af4b41d018c2d8"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.sorting.bubble-sort-passes",
+          "flags": [],
+          "note": "NCERT n-1 passes rule; 28 (comparisons) and 8 are good distractors, 64 is a throwaway.",
+          "scored_content_hash": "2acc9b746161822e2a1f24da29bf8253f3ab69a19d9f7ed721af4b41d018c2d8"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "computer_science.sorting.bubble-sort-number-of-passes",
+        "computer_science.sorting.bubble-sort-passes"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "2acc9b746161822e2a1f24da29bf8253f3ab69a19d9f7ed721af4b41d018c2d8",
+        "final_content_hash": "2acc9b746161822e2a1f24da29bf8253f3ab69a19d9f7ed721af4b41d018c2d8",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "6ea07aa6-eb31-4f94-a5c1-f9761ea75103": {
+      "question_id": "6ea07aa6-eb31-4f94-a5c1-f9761ea75103",
+      "batch": "authored-2026-10-14__computer_science__w6b3",
+      "chapter": "Structured Query Language",
+      "key": "D",
+      "content_hash": "7390287094659a3772933bb0bb67d95894d3bfcdd2e68a497c7816005bccf943",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.structured-query-language.cartesian-product-degree-cardinality",
+          "flags": [],
+          "note": "Degree 5+3=8, cardinality 6x4=24; options are the four add/multiply combinations. Real-paper shape.",
+          "scored_content_hash": "7390287094659a3772933bb0bb67d95894d3bfcdd2e68a497c7816005bccf943"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.structured-query-language.cartesian-product-degree-cardinality",
+          "flags": [],
+          "note": "5+3=8, 6x4=24; three distractors cover every add/multiply swap. Correct, very routine.",
+          "scored_content_hash": "7390287094659a3772933bb0bb67d95894d3bfcdd2e68a497c7816005bccf943"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "computer_science.structured-query-language.cartesian-product-degree-cardinality",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "computer_science.structured-query-language.cartesian-product-degree-cardinality",
+        "computer_science.structured-query-language.cartesian-product-degree-cardinality"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "7390287094659a3772933bb0bb67d95894d3bfcdd2e68a497c7816005bccf943",
+        "final_content_hash": "7390287094659a3772933bb0bb67d95894d3bfcdd2e68a497c7816005bccf943",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "98649894-84d2-49e0-bb06-2526cc5bfc9b": {
+      "question_id": "98649894-84d2-49e0-bb06-2526cc5bfc9b",
+      "batch": "authored-2026-10-14__computer_science__w6b3",
+      "chapter": "Stack",
+      "key": "B",
+      "content_hash": "a331413cba503c57c8170a46cf033ab6562868f324ef50ee5f169d471751b08b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.stack.infix-to-postfix-conversion",
+          "flags": [],
+          "note": "Clean NCERT Algorithm 3.1 item; distractors are prefix form, precedence-without-brackets and operator swap. Trace verified.",
+          "scored_content_hash": "a331413cba503c57c8170a46cf033ab6562868f324ef50ee5f169d471751b08b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "computer_science.stack.infix-to-postfix-conversion",
+          "flags": [],
+          "note": "Trace gives M N - P Q + *; distractors are prefix form, ignored brackets and swapped operators: real student errors.",
+          "scored_content_hash": "a331413cba503c57c8170a46cf033ab6562868f324ef50ee5f169d471751b08b"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "computer_science.stack.infix-to-postfix-conversion",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "computer_science.stack.infix-to-postfix-conversion",
+        "computer_science.stack.infix-to-postfix-conversion"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "a331413cba503c57c8170a46cf033ab6562868f324ef50ee5f169d471751b08b",
+        "final_content_hash": "a331413cba503c57c8170a46cf033ab6562868f324ef50ee5f169d471751b08b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "be44d900-4cc9-4189-8dbb-fc7d09281db9": {
+      "question_id": "be44d900-4cc9-4189-8dbb-fc7d09281db9",
+      "batch": "authored-2026-10-14__computer_science__w6b3",
+      "chapter": "Understanding Data",
+      "key": "B",
+      "content_hash": "125dfbb621d643c710cf526cf964729be2fca8db0c85e065c8edb627d25613fc",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.understanding-data.median-robust-to-outliers",
+          "flags": [],
+          "note": "Median 4th of 7 = 360; mean 7110/7 about 1016 checks. Range option is a throwaway.",
+          "scored_content_hash": "125dfbb621d643c710cf526cf964729be2fca8db0c85e065c8edb627d25613fc"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "computer_science.understanding-data.median-with-outliers",
+          "flags": [],
+          "note": "Median 360 (4th of 7); mean 7110/7 = 1015.7. Range option is a throwaway since it is not central tendency.",
+          "scored_content_hash": "125dfbb621d643c710cf526cf964729be2fca8db0c85e065c8edb627d25613fc"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "computer_science.understanding-data.median-robust-to-outliers",
+        "computer_science.understanding-data.median-with-outliers"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "125dfbb621d643c710cf526cf964729be2fca8db0c85e065c8edb627d25613fc",
+        "final_content_hash": "125dfbb621d643c710cf526cf964729be2fca8db0c85e065c8edb627d25613fc",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "cf1843f6-eb22-40c8-b512-dbc85fba0ea9": {
+      "question_id": "cf1843f6-eb22-40c8-b512-dbc85fba0ea9",
+      "batch": "authored-2026-10-14__computer_science__w6b3",
+      "chapter": "Understanding Data",
+      "key": "C",
+      "content_hash": "73ec0f570928fe13741facd502579c65a510f1e9ca69f60477fe7adcf3052157",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "computer_science.understanding-data.standard-deviation-calculation",
+          "flags": [],
+          "note": "Mean 15, sum of squares 32, variance 4, SD 2; distractors variance, mean, range. Clean no-calculator numbers.",
+          "scored_content_hash": "73ec0f570928fe13741facd502579c65a510f1e9ca69f60477fe7adcf3052157"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "computer_science.understanding-data.standard-deviation-calculation",
+          "flags": [],
+          "note": "Mean 15, sum of squares 32, variance 4, SD 2 (NCERT divides by n; sample SD 2.14 is not offered). Distractors variance/mean/range.",
+          "scored_content_hash": "73ec0f570928fe13741facd502579c65a510f1e9ca69f60477fe7adcf3052157"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "computer_science.understanding-data.standard-deviation-calculation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "computer_science.understanding-data.standard-deviation-calculation",
+        "computer_science.understanding-data.standard-deviation-calculation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "73ec0f570928fe13741facd502579c65a510f1e9ca69f60477fe7adcf3052157",
+        "final_content_hash": "73ec0f570928fe13741facd502579c65a510f1e9ca69f60477fe7adcf3052157",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -26595,6 +27056,18 @@
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 5,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-11-23-w6": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-23T18:50:19.173Z",
+      "questions": 5,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-24",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

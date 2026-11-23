@@ -1,0 +1,54 @@
+{
+ "kind": "authored_w6_engine_check",
+ "label": "final",
+ "source": "claude-authored-2026-11-23-w6",
+ "at": "2026-11-23T18:50:18.114Z",
+ "engine": {
+  "root": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-1110-convert",
+  "file": "data/nta_engine.js",
+  "version": "nta-engine-2026.10.14-r5.2",
+  "sha256": "415e1098356ed99aee58f84ba00596369584f846494ed46b4a00078a6563a4c8",
+  "mtime": "2026-11-09T20:21:51.337Z",
+  "minScore": 8,
+  "minFit": 8
+ },
+ "method": "ntaEligibility (quality gate with the agent scores, content gates, CUET-fit gate) on every accepted wave-6 question with the committed agent and fit tables of the named checkout plus the wave-6 entries merged in memory (policy admit). Nothing in data/ is written. Rows are mapped like the wave-1 publisher (toQuestionRow); case-set items typed single_mcq are mapped as passage children.",
+ "candidatesSha256": "36aeeeeaeb9013e450320e57c7afbb6fa0cb9a2ffb5421a15b1b5c156896e16b",
+ "planned": 70,
+ "engineEligible": 70,
+ "engineIneligible": 0,
+ "engineIneligibleReasons": {},
+ "ineligibleByGate": {},
+ "bySubject": {
+  "chemistry": {
+   "planned": 6,
+   "eligible": 6,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "computer_science": {
+   "planned": 5,
+   "eligible": 5,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "mathematics": {
+   "planned": 39,
+   "eligible": 39,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "physics": {
+   "planned": 20,
+   "eligible": 20,
+   "ineligible": 0,
+   "reasons": {}
+  }
+ },
+ "passageSets": [],
+ "placementProblems": [],
+ "informational": {
+  "authoredTypeVersusEngineType": []
+ },
+ "refused": []
+}

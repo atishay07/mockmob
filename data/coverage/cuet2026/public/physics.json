@@ -6,27 +6,27 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "second shift",
- "snapshotDate": "2026-11-23",
- "snapshotDay": "23 November 2026",
+ "snapshotDate": "2026-11-24",
+ "snapshotDay": "24 November 2026",
  "firstDate": "2026-11-23",
  "firstDay": "23 November 2026",
  "final": true,
  "counts": {
   "total": 50,
-  "same": 0,
-  "newValues": 0,
-  "concept": 23,
-  "notYet": 27,
+  "same": 1,
+  "newValues": 15,
+  "concept": 27,
+  "notYet": 7,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 23,
+  "covered": 43,
   "counted": 50,
-  "pct": 46,
+  "pct": 86,
   "first": 23,
   "firstPct": 46,
   "addedCards": 0,
-  "addedQuestions": 0,
+  "addedQuestions": 20,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -35,37 +35,37 @@
   {
    "name": "Current Electricity",
    "asked": 5,
-   "covered": 1
+   "covered": 4
   },
   {
    "name": "Electromagnetic Waves",
    "asked": 5,
-   "covered": 1
+   "covered": 4
   },
   {
    "name": "Moving Charges & Magnetism",
    "asked": 5,
-   "covered": 3
+   "covered": 5
   },
   {
    "name": "Electric Charges & Fields",
    "asked": 4,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "Ray Optics & Optical Instruments",
    "asked": 4,
-   "covered": 0
+   "covered": 4
   },
   {
    "name": "Semiconductor Electronics",
    "asked": 4,
-   "covered": 2
+   "covered": 4
   },
   {
    "name": "Alternating Current",
    "asked": 3,
-   "covered": 1
+   "covered": 2
   },
   {
    "name": "Atoms",
@@ -80,12 +80,12 @@
   {
    "name": "Electromagnetic Induction",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Electrostatic Potential & Capacitance",
    "asked": 3,
-   "covered": 1
+   "covered": 2
   },
   {
    "name": "Nuclei",
@@ -95,12 +95,12 @@
   {
    "name": "Wave Optics",
    "asked": 3,
-   "covered": 0
+   "covered": 1
   },
   {
    "name": "Magnetism & Matter",
    "asked": 2,
-   "covered": 1
+   "covered": 2
   }
  ],
  "questions": [
@@ -223,11 +223,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "ee3406d3-0055-4602-935c-270823e4c3d0",
+    "chapter": "Electric Charges & Fields",
+    "stem": "Three small charged beads can slide freely along a smooth, straight insulating thread. The two outer beads each carry +16 nC and are 30 cm apart, and the third bead, of charge q, sits exactly midway between them. For all three beads to stay at rest, q must be:",
+    "passage": null,
+    "options": [
+     "−16 nC",
+     "−8 nC",
+     "−4 nC",
+     "+4 nC"
+    ],
+    "key": 2,
+    "explanation": "The middle bead is acted on by two equal charges at equal distances (15 cm each) on opposite sides, so the two forces on it cancel whatever q is. Each outer bead must also feel zero net force. An outer bead is repelled by the other outer bead, 30 cm away, with a force k(16 nC)²/(0.30 m)²; this must be cancelled by an equal attraction towards q, which is 15 cm away: k(16 nC)|q|/(0.15 m)². Equating the two, |q| = 16 nC × (0.15/0.30)² = 16 nC/4 = 4 nC. The force from q must pull the positive outer bead inwards, so q is negative: q = −4 nC (in general −Q/4 for equal end charges Q). A charge of +4 nC has the right size but would push both outer beads outwards; −8 nC comes from forgetting to square the distances (−Q/2), and −16 nC from taking both distances as equal (−Q).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 5,
@@ -287,11 +305,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "a73a2390-6cd9-4bcc-92cb-c84f80e5747b",
+    "chapter": "Electrostatic Potential & Capacitance",
+    "stem": "A student has four identical capacitors of 2 μF each. Joined in series they give an equivalent capacitance Cs; joined in parallel they give an equivalent capacitance Cp. The ratio Cs/Cp is:",
+    "passage": null,
+    "options": [
+     "4",
+     "1/4",
+     "16",
+     "1/16"
+    ],
+    "key": 3,
+    "explanation": "In series the reciprocals add: 1/Cs = 1/2 + 1/2 + 1/2 + 1/2 = 2 per μF, so Cs = 0.5 μF, which is C/n for n equal capacitors. In parallel the capacitances add: Cp = 4 × 2 μF = 8 μF, which is nC. So Cs/Cp = 0.5/8 = 1/16, that is 1/n² for n equal capacitors. The value 1/4 compares the series combination with a single capacitor (Cs/C) instead of with the parallel one; 16 is the ratio turned upside down (Cp/Cs); 4 compares the parallel combination with a single capacitor (Cp/C).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 7,
@@ -390,11 +426,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "bd9f24c9-5f9b-4820-9457-44be14354497",
+    "chapter": "Current Electricity",
+    "stem": "Identify the correct statements among the following.\n(A) A metal wire carrying a steady current has no net electric charge.\n(B) If the temperature of a metal wire rises while the electric field in it stays the same, the drift speed of its free electrons decreases.\n(C) The emf of a cell is the potential difference between its electrodes on open circuit and does not depend on the internal resistance of the cell.\n(D) The internal resistance of a dry cell is much lower than that of a common electrolytic cell.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (A), (B) and (C)",
+     "Only (B) and (C)",
+     "Only (A), (C) and (D)",
+     "Only (A) and (B)"
+    ],
+    "key": 0,
+    "explanation": "(A) is true: in a current-carrying metal wire the free electrons drift, but as much charge enters any part of the wire as leaves it, and the negative charge of the electrons is balanced by the positive charge of the metal ions, so the wire stays electrically neutral; a current-carrying wire is not a charged wire. (B) is true: as the temperature rises the electrons move faster and collide more often, so the average time τ between collisions decreases; since the drift velocity is vd = eEτ/m, at the same field E the drift speed decreases (the same fall in τ is why the resistivity of a metal rises with temperature). (C) is true: the emf ε is the potential difference between the positive and negative electrodes on open circuit, when no current flows; the internal resistance r only makes the terminal voltage smaller when a current I is drawn, V = ε − Ir. (D) is false: the internal resistance of dry cells is much higher than that of common electrolytic cells. The correct statements are (A), (B) and (C).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 11,
@@ -413,11 +467,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "ae59a8ac-3cf5-49ef-afa7-be504e1edca0",
+    "chapter": "Current Electricity",
+    "stem": "The resistance of a metal conductor at 47 °C is R. It is heated until its resistance becomes 1.25 R. If the temperature coefficient of resistance of the metal is 5.0 × 10^-4 K^-1, the final temperature of the conductor is:",
+    "passage": null,
+    "options": [
+     "500 K",
+     "547 K",
+     "820 K",
+     "2820 K"
+    ],
+    "key": 2,
+    "explanation": "Over a limited range the resistance varies as R_T = R_0[1 + α(T − T_0)], where R_0 is the resistance at T_0 = 47 °C = 320 K. Here R_T/R_0 = 1.25, so α(T − T_0) = 0.25 and the rise is T − T_0 = 0.25/(5.0 × 10^-4 K^-1) = 500 K. The final temperature is T = 320 K + 500 K = 820 K (that is, 547 °C). The value 500 K is only the rise in temperature; 547 K adds the rise to 47 written in degrees Celsius and then labels the result in kelvin; 2820 K uses 1.25 instead of 0.25 as the fractional increase (it forgets to subtract 1).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 12,
@@ -436,11 +508,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "0221d710-a478-4fc5-a397-51c66831fd63",
+    "chapter": "Current Electricity",
+    "stem": "In a Wheatstone bridge with arms P, Q, R and S, the arms P and Q are the ratio arms, R is a variable standard resistance and S is an unknown resistance. The galvanometer shows no deflection when R = 400 Ω. When P and Q are interchanged, the null deflection is obtained with R = 441 Ω. The value of S is:",
+    "passage": null,
+    "options": [
+     "1.05 Ω",
+     "41 Ω",
+     "420 Ω",
+     "841 Ω"
+    ],
+    "key": 2,
+    "explanation": "At balance P/Q = R/S. First balance: P/Q = 400/S, so S = 400 × Q/P. With P and Q interchanged: Q/P = 441/S, so S = 441 × P/Q. Multiplying the two results removes the unknown ratio: S² = 400 × 441, so S = 20 × 21 = 420 Ω (and P/Q = 400/420 = 20/21, two nearly equal arms). The value 1.05 Ω is the ratio Q/P = 21/20, which has no unit of resistance; 41 Ω is the difference and 841 Ω the sum of the two balancing readings.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 13,
@@ -616,11 +706,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "6a10c022-27e2-4ee4-b08b-03f4fcdac734",
+    "chapter": "Moving Charges & Magnetism",
+    "stem": "A solenoid 40 cm long is wound with 800 turns. The magnetic field well inside it, near its centre, is 6.28 × 10^-3 T. The current in the solenoid is: (μ0 = 4π × 10^-7 T m A^-1)",
+    "passage": null,
+    "options": [
+     "2.5 A",
+     "5.0 A",
+     "6.25 A",
+     "15.6 A"
+    ],
+    "key": 0,
+    "explanation": "Inside a long solenoid B = μ0 n I, where n is the number of turns per unit length: n = 800/0.40 m = 2000 per metre. So I = B/(μ0 n) = (6.28 × 10^-3)/(4π × 10^-7 × 2000) = (6.28 × 10^-3)/(2.512 × 10^-3) = 2.5 A. The value 5.0 A comes from using μ0 n I/2, the field at an end of the solenoid, instead of μ0 n I; 6.25 A from putting the total number of turns N in place of n; 15.6 A from multiplying N by the length instead of dividing by it.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 18,
@@ -639,11 +747,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "5bc9735c-eaac-4470-84c1-3d93089740c9",
+    "chapter": "Magnetism & Matter",
+    "stem": "A bar magnet of magnetic moment 4.0 A m² is pivoted at its centre and can turn freely in a horizontal plane in a uniform horizontal magnetic field of 0.30 T. It is held at rest with its axis at 60° to the field by a force F applied at right angles to its axis, 12 cm from the pivot. The magnitude of F is:",
+    "passage": null,
+    "options": [
+     "0.087 N",
+     "0.12 N",
+     "5.0 N",
+     "8.7 N"
+    ],
+    "key": 3,
+    "explanation": "The field exerts a torque τ = mB sin θ = 4.0 × 0.30 × sin 60° = 1.2 × 0.866 ≈ 1.04 N m, which tries to turn the magnet into line with the field. To hold the magnet at rest the applied force must give an equal and opposite torque about the pivot, F × 0.12 m = 1.04 N m, so F = 1.04/0.12 ≈ 8.7 N (exactly 5√3 N). The value 5.0 N comes from using cos 60° in place of sin 60°; 0.087 N from leaving the distance as 12 (in centimetres) instead of 0.12 m; 0.12 N from multiplying the torque by the distance instead of dividing by it.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 19,
@@ -662,11 +788,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "e1d200a2-f90b-488f-a4a1-61f1e268496e",
+    "chapter": "Moving Charges & Magnetism",
+    "stem": "A wire carrying a current of 6.0 A comes in along a straight line directed towards a point O, follows a circular arc of radius 2.0 cm centred on O through one quarter of a circle (90°), and leaves along a straight line directed away from O. The magnitude of the magnetic field at O is: (μ0 = 4π × 10^-7 T m A^-1)",
+    "passage": null,
+    "options": [
+     "4.7 × 10^-5 T",
+     "6.0 × 10^-5 T",
+     "1.4 × 10^-4 T",
+     "1.9 × 10^-4 T"
+    ],
+    "key": 0,
+    "explanation": "For every element of the two straight parts, dl lies along the line joining it to O, so dl × r = 0 and the straight parts add nothing to the field at O. Every element of the arc is at the same distance R from O and gives a field in the same direction, so an arc subtending an angle θ at O gives the fraction θ/2π of the field at the centre of a full circular loop. Full loop: μ0 I/(2R) = (4π × 10^-7 × 6.0)/(2 × 0.020) = 1.9 × 10^-4 T. A quarter of it is 4.7 × 10^-5 T. The value 1.9 × 10^-4 T is the field of a full loop; 1.4 × 10^-4 T takes the remaining three-quarters of the circle instead of the arc; 6.0 × 10^-5 T uses the formula μ0 I/(2πR) for a long straight wire.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 20,
@@ -817,11 +961,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "0a23e819-de4b-4c22-83e4-89ea94574653",
+    "chapter": "Alternating Current",
+    "stem": "A coil of negligible resistance and inductance 0.35 H is connected to a 154 V, 50 Hz a.c. supply. The rms current in the coil is: (take π = 22/7)",
+    "passage": null,
+    "options": [
+     "0.99 A",
+     "1.4 A",
+     "2.0 A",
+     "8.8 A"
+    ],
+    "key": 1,
+    "explanation": "The inductive reactance is X_L = ωL = 2πνL = 2 × (22/7) × 50 × 0.35 = 110 Ω. For a pure inductor the rms current is I = V/X_L = 154 V/110 Ω = 1.4 A (the supply voltage of 154 V is its rms value). The value 2.0 A is the peak current, √2 × 1.4 A; 0.99 A treats 154 V as a peak value and divides by √2 again; 8.8 A uses ν in place of ω = 2πν, giving X_L = 17.5 Ω.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 25,
@@ -840,11 +1002,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "e0336aca-26f0-46d6-bbc5-2177bccf48d3",
+    "chapter": "Electromagnetic Induction",
+    "stem": "A circular coil of mean diameter 14 cm is held with its plane perpendicular to a uniform magnetic field. The field is reduced steadily from 0.50 T to 0.10 T in 0.20 s, and an emf of 3.08 V is induced in the coil. The number of turns in the coil is: (take π = 22/7)",
+    "passage": null,
+    "options": [
+     "25",
+     "80",
+     "100",
+     "400"
+    ],
+    "key": 2,
+    "explanation": "The area of each turn is A = π(D/2)² = (22/7) × (0.07 m)² = 0.0154 m². The flux through each turn changes by A × ΔB = 0.0154 × (0.50 − 0.10) = 6.16 × 10^-3 Wb in 0.20 s, so the emf induced in one turn is 6.16 × 10^-3/0.20 = 0.0308 V. By Faraday's law the emf of N turns is ε = N dΦ/dt, so N = 3.08/0.0308 = 100. The value 25 comes from using the diameter as the radius (four times the area); 400 from using the final field 0.10 T instead of the change of 0.40 T; 80 from using the initial field 0.50 T instead of the change.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 26,
@@ -904,11 +1084,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "95586ea4-c72b-4d72-87e2-888f2f6e143b",
+    "chapter": "Electromagnetic Waves",
+    "stem": "A parallel-plate capacitor is being charged, and at one instant the conduction current in the connecting wires is 4.0 mA. The displacement current between the plates at that instant is",
+    "passage": null,
+    "options": [
+     "zero, whatever the source, since no charge crosses the gap",
+     "4.0 mA with an a.c. source, but zero with a battery",
+     "4.0 mA, with either an a.c. source or a battery",
+     "4.0 mA with a battery, but zero with an a.c. source"
+    ],
+    "key": 2,
+    "explanation": "No charge crosses the gap between the plates, so the conduction current there is zero. But the charge on the plates, and with it the electric field and its flux between them, changes at the rate set by the current in the wires, and this changing field is the displacement current, i_d = ε0 dΦE/dt = dq/dt = i. NCERT puts it this way: outside the plates there is only conduction current, i_c = i, and i_d = 0; inside the capacitor there is no conduction current, i_c = 0, and only displacement current, so i_d = i. The displacement current in the gap therefore equals the conduction current in the wires at every instant, 4.0 mA here. The kind of source does not matter. With an a.c. supply the field keeps changing and i_d keeps equal to i_c from moment to moment. With a battery (d.c.) the capacitor still charges through a current that dies away with time; while that current flows the field between the plates grows and i_d equals it, and once the capacitor is fully charged the field is steady and both currents are zero. So conduction current equals displacement current whether the source is a.c. or d.c. Saying it is zero forgets that displacement current needs no charge to cross the gap; zero with a battery forgets that a battery also changes the field while it charges the plates; zero with an a.c. source confuses the instantaneous value with an average over a cycle.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 28,
@@ -927,11 +1125,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "0f39713a-7e46-4375-b27e-f2ae37c125d9",
+    "chapter": "Electromagnetic Waves",
+    "stem": "Consider the following statements about electromagnetic waves.\n(A) Ultraviolet rays are preferred to infrared rays for photographing distant hills through haze.\n(B) Gamma rays and microwaves travel through vacuum at the same speed.\n(C) A charged particle going round a circle at constant speed emits no electromagnetic waves, since its speed does not change.\n(D) Once a battery has fully charged a capacitor, the displacement current between its plates is zero.\n(E) A charge oscillating with a certain frequency produces electromagnetic waves of that same frequency.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A), (B), (D) and (E) only",
+     "(B), (C), (D) and (E) only",
+     "(B), (C) and (E) only",
+     "(B), (D) and (E) only"
+    ],
+    "key": 3,
+    "explanation": "(A) is false. Haze is made of very fine particles (dust, smoke, tiny droplets), and such particles scatter short wavelengths much more strongly than long ones (for particles much smaller than the wavelength the scattering falls roughly as 1/λ^4). Infrared, whose wavelength is longer than that of visible light, is scattered much less and gets through haze and mist far better, so infrared, not ultraviolet, is used to see and photograph distant objects through haze and fog. Ultraviolet, of shorter wavelength than visible light, is scattered even more, so it is useless for this. (B) is true: all electromagnetic waves, whatever their frequency, travel through vacuum with the same speed c = 3 × 10^8 m/s; they differ only in wavelength and frequency. (C) is false: accelerated charges radiate electromagnetic waves, and a charge moving in a circle is accelerated all the time even at constant speed, because the direction of its velocity keeps changing (centripetal acceleration). This is why, by classical theory, an electron orbiting a nucleus should radiate and spiral inwards, as NCERT notes before the Bohr model. (D) is true: the displacement current is ε0 dΦE/dt. While the battery charges the capacitor the field between the plates grows and the displacement current equals the charging current; once the capacitor is fully charged the field is steady, so the displacement current is zero (and the conduction current is zero too). (E) is true: an oscillating charge is an accelerated charge; it sets up an oscillating electric field, which produces an oscillating magnetic field, and so on, and the frequency of the wave equals the frequency of oscillation of the charge. The true statements are (B), (D) and (E).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 29,
@@ -950,11 +1166,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "3bf13cad-51cc-46a8-8666-3394de0cb159",
+    "chapter": "Electromagnetic Waves",
+    "stem": "A pulse of light carrying 9.0 J of energy falls normally on a plane mirror that reflects all of it. Taking c = 3.0 × 10^8 m s^-1, the momentum delivered to the mirror is",
+    "passage": null,
+    "options": [
+     "3.0 × 10^-8 kg m s^-1",
+     "6.0 × 10^-8 kg m s^-1",
+     "1.0 × 10^-16 kg m s^-1",
+     "2.0 × 10^-16 kg m s^-1"
+    ],
+    "key": 1,
+    "explanation": "Light is a stream of photons, and each photon of energy E = hν carries momentum p = hν/c = E/c. So radiation carrying total energy U carries momentum U/c in its direction of travel: here U/c = 9.0/(3.0 × 10^8) = 3.0 × 10^-8 kg m s^-1. A perfectly absorbing surface takes up all of this, so it receives U/c. A perfect reflector sends the light straight back with momentum U/c in the opposite direction, so the momentum of the light changes by U/c − (−U/c) = 2U/c, and by momentum conservation the mirror receives 2U/c = 2 × 3.0 × 10^-8 = 6.0 × 10^-8 kg m s^-1. The value 3.0 × 10^-8 is the answer for a perfect absorber, not a reflector; 1.0 × 10^-16 and 2.0 × 10^-16 divide the energy by c^2, which gives a mass (E = mc^2), not a momentum.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 30,
@@ -996,11 +1230,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "83606bcb-963a-4d6d-802c-96f5f58e4e09",
+    "chapter": "Ray Optics & Optical Instruments",
+    "stem": "A convex lens forms a sharp, real image of a distant tree on a wall. A strip of black paper is now stuck over the upper half of the lens, the rest of the arrangement being unchanged. The image on the wall now",
+    "passage": null,
+    "options": [
+     "shows the whole tree, but dimmer",
+     "shows only the lower half of the tree",
+     "shows only the upper half of the tree",
+     "shows the whole tree, equally bright"
+    ],
+    "key": 0,
+    "explanation": "Every point of the tree sends light to every part of the lens, and the rays through any part of the lens are brought to the same image point. With the upper half covered, the rays through the lower half still reach the image point of every part of the tree, so the image is complete, in the same place and still sharp. But only about half as much light now reaches it, so the whole image is less bright (about half the intensity). NCERT makes the same point for a concave mirror with half its surface covered: the image is of the whole object, only its intensity falls. A half image would mean that each half of the lens images only one half of the object, which is not how a lens forms an image; an equally bright image ignores the light the black paper stops.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 32,
@@ -1019,11 +1271,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "78f00fd5-039d-48be-b2dd-06ea32c09fb2",
+    "chapter": "Ray Optics & Optical Instruments",
+    "stem": "Arrange the following media in increasing order of their refractive index for visible light.\n(A) Diamond\n(B) Water\n(C) Air\n(D) Dense flint glass\n(E) Crown glass\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(C), (E), (B), (D), (A)",
+     "(C), (B), (E), (D), (A)",
+     "(C), (B), (D), (E), (A)",
+     "(C), (B), (E), (A), (D)"
+    ],
+    "key": 1,
+    "explanation": "NCERT lists the refractive indices (Table 9.1) as water 1.33, crown glass 1.52, dense flint glass 1.62 and diamond 2.42. A gas is far less dense optically: the refractive index of air is about 1.0003, taken as 1 in calculations, and other gases such as carbon dioxide (about 1.0004) are also very close to 1, so any gas comes below every liquid and solid in the list. The increasing order is therefore air (1.0003) < water (1.33) < crown glass (1.52) < dense flint glass (1.62) < diamond (2.42), that is (C), (B), (E), (D), (A). Putting water above crown glass, or crown glass above dense flint glass, reverses the table values; diamond has the highest refractive index of the five (which is also why its critical angle, about 24.4°, is the smallest).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 33,
@@ -1065,11 +1335,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "8bae1cb1-fe26-4582-9739-485007128595",
+    "chapter": "Wave Optics",
+    "stem": "In a Young's double-slit experiment with two identical slits, the intensity at the centre of the screen is 0.48 W m^-2. One slit is now covered with an opaque card. The intensity at the centre of the screen becomes",
+    "passage": null,
+    "options": [
+     "0.12 W m^-2",
+     "0.24 W m^-2",
+     "0.48 W m^-2",
+     "zero"
+    ],
+    "key": 0,
+    "explanation": "At the centre of the screen the path difference from the two slits is zero, so the two waves arrive in phase and their amplitudes add: if each slit alone gives amplitude a and intensity I0, both together give amplitude 2a. Intensity is proportional to the square of the amplitude, so the central intensity with both slits open is (2a)^2/a^2 = 4 times I0, that is I = 4I0. Here 4I0 = 0.48 W m^-2, so I0 = 0.12 W m^-2. Covering one slit leaves only the other wave, so the centre now gets I0 = I/4 = 0.12 W m^-2. The same relation read the other way: if one slit alone gives intensity I0 at the centre, opening the second identical slit makes it 4I0. Halving to 0.24 W m^-2 adds intensities instead of amplitudes, which is right only for incoherent sources; keeping 0.48 W m^-2 ignores the light that is cut off; zero mistakes the loss of the interference pattern for darkness, although the open slit still lights the screen.",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 35,
@@ -1088,11 +1376,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "b7a2f323-86db-4cdb-acb3-d279c1ffefdd",
+    "chapter": "Ray Optics & Optical Instruments",
+    "stem": "Light of frequency 6.0 × 10^14 Hz passes through a block of transparent plastic. Its wavelength measured inside the plastic is 330 nm. Taking c = 3.0 × 10^8 m s^-1, the refractive index of the plastic is about",
+    "passage": null,
+    "options": [
+     "0.66",
+     "1.52",
+     "1.98",
+     "2.30"
+    ],
+    "key": 1,
+    "explanation": "The frequency of light does not change when it enters a medium; its speed and wavelength do. The speed inside the plastic is v = νλ = 6.0 × 10^14 × 330 × 10^-9 = 1.98 × 10^8 m s^-1. The refractive index is the ratio of the speed of light in vacuum to that in the medium: n = c/v = (3.0 × 10^8)/(1.98 × 10^8) ≈ 1.52. Dividing the other way, v/c, gives 0.66, which is less than 1 and impossible for a material medium; 1.98 is the speed in units of 10^8 m s^-1, not the refractive index; 2.30 squares the ratio c/v.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 36,
@@ -1134,11 +1440,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "94a6fb7d-6b29-4e57-a5a5-a7c7610fcbc5",
+    "chapter": "Ray Optics & Optical Instruments",
+    "stem": "An object placed 18 cm in front of a concave mirror gives a real image. When the object is moved 12 cm farther away from the mirror, the real image becomes one-third of its earlier size. The focal length of the mirror is",
+    "passage": null,
+    "options": [
+     "-36 cm",
+     "-24 cm",
+     "+12 cm",
+     "-12 cm"
+    ],
+    "key": 3,
+    "explanation": "Using the Cartesian sign convention, the object distances are u1 = −18 cm and u2 = −30 cm, and the focal length f of a concave mirror is negative. From the mirror equation 1/v + 1/u = 1/f and the magnification m = −v/u, the magnification can be written m = f/(f − u). So m1 = f/(f + 18) and m2 = f/(f + 30). The new image is one-third the size of the old: m2 = m1/3, so 3/(f + 30) = 1/(f + 18), which gives 3f + 54 = f + 30, 2f = −24 and f = −12 cm. Check: m1 = −12/6 = −2 and m2 = −12/18 = −2/3, both real and inverted, and m2 is one-third of m1. Taking the new image as three times the old gives −36 cm; moving the object 12 cm towards the mirror (u2 = −6 cm) gives −24 cm; dropping the sign convention and taking u positive gives +12 cm, which would be a convex mirror.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 38,
@@ -1412,11 +1736,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "ede9da50-f9f9-42dc-94d5-6ca964338f4a",
+    "chapter": "Semiconductor Electronics",
+    "stem": "The energy band gap of silicon is 1.1 eV. Taking h = 6.6 × 10^-34 J s, c = 3.0 × 10^8 m s^-1 and 1 eV = 1.6 × 10^-19 J, the longest wavelength of light that can create an electron-hole pair in pure silicon is about",
+    "passage": null,
+    "options": [
+     "1.8 × 10^-6 m",
+     "3.8 × 10^-15 m",
+     "1.1 × 10^-6 m",
+     "5.6 × 10^-7 m"
+    ],
+    "key": 2,
+    "explanation": "A photon creates an electron-hole pair when its energy lifts an electron from the valence band across the band gap into the conduction band, so it needs hc/λ ≥ Eg. The longest wavelength that can do this is λmax = hc/Eg. In joules, Eg = 1.1 × 1.6 × 10^-19 = 1.76 × 10^-19 J, so λmax = (6.6 × 10^-34 × 3.0 × 10^8)/(1.76 × 10^-19) = (1.98 × 10^-25)/(1.76 × 10^-19) ≈ 1.1 × 10^-6 m (about 1100 nm, in the near infrared). Light of longer wavelength has too little energy per photon. Converting 1.1 eV to joules without the factor 1.6 (as 1.1 × 10^-19 J) gives 1.8 × 10^-6 m; dropping c and using h/Eg gives 3.8 × 10^-15 m; asking each photon to supply Eg twice (once for the electron and once for the hole) halves the answer to 5.6 × 10^-7 m, but one photon of energy Eg makes the whole pair.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 46,
@@ -1510,11 +1852,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "923b4590-8305-484d-a8bf-e2e4bec84874",
+    "chapter": "Semiconductor Electronics",
+    "stem": "A pure semiconductor crystal has 6.0 × 10^28 atoms m^-3, and its intrinsic carrier concentration is 3.0 × 10^16 m^-3. It is doped with a pentavalent impurity. Match List-I with List-II.\nList-I\n(A) Electron concentration for a doping of 2.5 ppm\n(B) Hole concentration for a doping of 2.5 ppm\n(C) Electron concentration for a doping of 6 ppm\n(D) Hole concentration for a doping of 6 ppm\nList-II\n(I) 2.5 × 10^9 m^-3\n(II) 1.5 × 10^23 m^-3\n(III) 6.0 × 10^9 m^-3\n(IV) 3.6 × 10^23 m^-3\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+     "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+     "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)",
+     "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)"
+    ],
+    "key": 1,
+    "explanation": "One ppm means one impurity atom per million host atoms. Each pentavalent atom donates one electron, and the donated electrons far outnumber the thermally generated ones, so ne ≈ ND. The holes follow from ne nh = ni^2, with ni^2 = (3.0 × 10^16)^2 = 9.0 × 10^32 m^-6. For 2.5 ppm: ND = 2.5 × 10^-6 × 6.0 × 10^28 = 1.5 × 10^23 m^-3, so ne = 1.5 × 10^23 m^-3 and nh = 9.0 × 10^32/1.5 × 10^23 = 6.0 × 10^9 m^-3. For 6 ppm: ND = 6 × 10^-6 × 6.0 × 10^28 = 3.6 × 10^23 m^-3, so ne = 3.6 × 10^23 m^-3 and nh = 9.0 × 10^32/3.6 × 10^23 = 2.5 × 10^9 m^-3. So (A)-(II), (B)-(III), (C)-(IV), (D)-(I). More doping gives more electrons and fewer holes; pairing the larger hole figure with the heavier doping reverses this, swapping the two doping levels mixes up 2.5 ppm and 6 ppm, and swapping electrons and holes treats the pentavalent impurity as an acceptor.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 49,

@@ -1,7 +1,7 @@
 {
  "subject": "computer-science",
- "snapshotDate": "2026-11-23",
- "checkedOn": "2026-11-23",
+ "snapshotDate": "2026-11-24",
+ "checkedOn": "2026-11-24",
  "questions": [
   {
    "n": 1,
@@ -249,12 +249,12 @@
    "n": 23,
    "chapter": "Stack",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "98649894-84d2-49e0-bb06-2526cc5bfc9b",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served bank row converts an infix expression to postfix; the algorithm on cards alone does not cover a worked conversion."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 24,
@@ -326,12 +326,12 @@
    "n": 30,
    "chapter": "Sorting",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "6a46890c-13bd-4b83-8b37-939ca17ffa22",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row asks for or works the number of bubble sort passes; the n - 1 card is for selection sort."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 31,
@@ -370,23 +370,23 @@
    "n": 34,
    "chapter": "Understanding Data",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "cf1843f6-eb22-40c8-b512-dbc85fba0ea9",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served bank row computes a standard deviation; cards only describe it."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 35,
    "chapter": "Understanding Data",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "be44d900-4cc9-4189-8dbb-fc7d09281db9",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served material rules out the mean and the range but never says the median is the measure to use, which separates median from mode: elimination only."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 36,
@@ -579,12 +579,12 @@
    "n": 53,
    "chapter": "Database Query using SQL",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "6ea07aa6-eb31-4f94-a5c1-f9761ea75103",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Cards give the rule and a card example, but no served bank row computes a Cartesian product's degree; a card alone does not cover a numerical."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 54,

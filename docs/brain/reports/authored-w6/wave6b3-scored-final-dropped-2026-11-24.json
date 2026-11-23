@@ -1,0 +1,42 @@
+[
+  {
+    "id": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+    "subject": "computer_science",
+    "batch": "computer_science__w6b3",
+    "chapter": "Computer Networks",
+    "type": "sequence_ordering",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+    "subject": "computer_science",
+    "batch": "computer_science__w6b3",
+    "chapter": "Project Based Learning",
+    "type": "statement_based",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+    "subject": "mathematics",
+    "batch": "mathematics__w6b3b",
+    "chapter": "Integrals",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "355f0f52-18ac-4378-b9cc-0a8cd1b72a88",
+    "subject": "physics",
+    "batch": "physics__w6b3b",
+    "chapter": "Nuclei",
+    "type": "sequence_ordering",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6; j2_quality_6; fit_median_6"
+  }
+]

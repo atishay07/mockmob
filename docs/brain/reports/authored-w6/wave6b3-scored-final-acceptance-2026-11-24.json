@@ -1,0 +1,3493 @@
+{
+ "kind": "authored_w6_final_acceptance",
+ "source": "claude-authored-2026-11-23-w6",
+ "date": "2026-11-24",
+ "built_at": "2026-11-23T18:50:17.721Z",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "rule": {
+  "solversMatchingKeyAtLeast": 4,
+  "solversRequired": 5,
+  "qualityScoreAtLeast": 7,
+  "qualityFlagsAllowed": 0,
+  "qualityBlindAnswerMustEqualKey": true,
+  "fitMedianAtLeast": 8,
+  "fitFlaggedByFewerThan": 2,
+  "source": "docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md (acceptance rule), docs/brain/RUNBOOK-PUBLISH-AUTHORED-2026-10-14.md section 0"
+ },
+ "publish_rule": {
+  "qualityMeanAtLeast": 8,
+  "fitMedianAtLeast": 8
+ },
+ "inputs": {
+  "expert": "docs/brain/reports/authored-w6/expert-b3",
+  "resolve": "tmp/1123-close/integrate/scoring3/resolve",
+  "fresh": [
+   "tmp/1123-close/integrate/scoring3/reword"
+  ],
+  "raw": "tmp/1123-close/integrate/scoring3",
+  "first_pass_acceptance": "docs/brain/reports/authored-w6/wave6b3-acceptance-2026-11-24.json",
+  "expert_files": [],
+  "expert_conflicts": [],
+  "blind_resolve_files_present": 0,
+  "fresh_pass_ids": 0,
+  "fresh_pass_partial": []
+ },
+ "note": "Wave-6 final acceptance, built by scripts/authored-w2-accept.mjs --wave=w6b3 --mode=final. Hindi is not in any file (no fluent reviewer). Repairs are applied from the expert verdicts (scripts/lib/authored-w3-repair.mjs); the batch files are unchanged.",
+ "total": {
+  "written": 92,
+  "acceptedByJudgesAndSolvers": 88,
+  "accepted": 88,
+  "rejected": 4,
+  "rejectedByReason": {
+   "solvers": 0,
+   "quality_score": 1,
+   "quality_flag": 0,
+   "judge_blind_answer": 0,
+   "fit_median": 4,
+   "fit_flags": 0,
+   "verification_incomplete": 0,
+   "structural": 0,
+   "blind_text": 0,
+   "duplicate": 0,
+   "repaired_without_resolve": 0,
+   "resolve": 0,
+   "expert_verdict": 0,
+   "other": 0
+  }
+ },
+ "final": {
+  "note": "Publication set under the owner rule of 17 Oct 2026: accepted by the first-pass rule (or the fresh pass for reworded rows), expert verdict ready or repaired, repair applied, blind re-solve where the text a solver sees changed, quality mean of the two judges 8 or more and fit median 8 or more. Rows that pass everything but score a quality mean of 7 to 7.9 are held for a later decision.",
+  "publish_rule": {
+   "qualityMeanAtLeast": 8,
+   "fitMedianAtLeast": 8
+  },
+  "publish": 70,
+  "held_7_to_7_9": 18,
+  "dropped": 4,
+  "droppedByCategory": {
+   "not_accepted_by_the_rule": 4
+  },
+  "byVerdict": {
+   "ready": 45,
+   "repaired": 25
+  },
+  "reworded_with_fresh_pass": 0,
+  "blindResolveOnFinalText": 0,
+  "judgeBlindAnswerCarriedOver": [],
+  "bySubject": {
+   "chemistry": {
+    "drafted": 6,
+    "scored": 6,
+    "accepted_first_pass": 6,
+    "accepted_after_expert_and_resolve": 6,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 6
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 6,
+    "held_7_to_7_9": 0,
+    "dropped_or_not_accepted": 0
+   },
+   "computer_science": {
+    "drafted": 8,
+    "scored": 8,
+    "accepted_first_pass": 6,
+    "accepted_after_expert_and_resolve": 6,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 8
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 5,
+    "held_7_to_7_9": 1,
+    "dropped_or_not_accepted": 2
+   },
+   "mathematics": {
+    "drafted": 52,
+    "scored": 52,
+    "accepted_first_pass": 51,
+    "accepted_after_expert_and_resolve": 51,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 52
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 39,
+    "held_7_to_7_9": 12,
+    "dropped_or_not_accepted": 1
+   },
+   "physics": {
+    "drafted": 26,
+    "scored": 26,
+    "accepted_first_pass": 25,
+    "accepted_after_expert_and_resolve": 25,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 26
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 20,
+    "held_7_to_7_9": 5,
+    "dropped_or_not_accepted": 1
+   }
+  },
+  "problems": []
+ },
+ "files": {
+  "batches": 7,
+  "expectedResultFiles": 70,
+  "presentResultFiles": 70,
+  "missing": [],
+  "malformed": [],
+  "recordIssues": [],
+  "batchLevelProblems": [],
+  "unexpectedFiles": [],
+  "fitFlagsOutsideRubricList": {},
+  "sourceCandidates": {
+   "candidatesFile": "docs/brain/reports/authored-w6/wave6b3-candidates-final-2026-11-24.json",
+   "candidatesSha256": "2336b886646548a85a317784b66d0c1feabd62c52551ca5be4d505f429e517b0",
+   "candidatesInFile": 92,
+   "manifestState": "ok",
+   "problems": [],
+   "candidatesNotLaidOut": {},
+   "excludedSubjects": []
+  }
+ },
+ "questions": [
+  {
+   "id": "6dcb8cfe-0adc-4195-98f4-5226d9f244e2",
+   "subject": "chemistry",
+   "batch": "chemistry__w6b3",
+   "chapter": "Haloalkanes & Haloarenes",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    8,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "cf4e8cf1-4dbf-4cdc-a71d-10f1a6ffc6a1",
+   "subject": "chemistry",
+   "batch": "chemistry__w6b3",
+   "chapter": "d- and f-Block Elements",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    8,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "b4803f7d-4e48-4a1f-9571-061c08ab4cbf",
+   "subject": "chemistry",
+   "batch": "chemistry__w6b3",
+   "chapter": "Coordination Compounds",
+   "type": "sequence_ordering",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "a0bb9354-1682-425f-9aba-88bae69912e6",
+   "subject": "chemistry",
+   "batch": "chemistry__w6b3",
+   "chapter": "Biomolecules",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 4,
+    "answers": [
+     "A",
+     "D",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    6
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "118c166c-8d63-4a53-9e2e-6fbd994b8dce",
+   "subject": "chemistry",
+   "batch": "chemistry__w6b3",
+   "chapter": "Electrochemistry",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "95b01a7e-77e9-48b7-b8ac-ecd89a97c9f6",
+   "subject": "chemistry",
+   "batch": "chemistry__w6b3",
+   "chapter": "Alcohols, Phenols & Ethers",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Computer Networks",
+   "type": "sequence_ordering",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    8
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    6,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "98649894-84d2-49e0-bb06-2526cc5bfc9b",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Stack",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Queue",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "6a46890c-13bd-4b83-8b37-939ca17ffa22",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Sorting",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "cf1843f6-eb22-40c8-b512-dbc85fba0ea9",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Understanding Data",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "be44d900-4cc9-4189-8dbb-fc7d09281db9",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Understanding Data",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "6ea07aa6-eb31-4f94-a5c1-f9761ea75103",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Structured Query Language",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Project Based Learning",
+   "type": "statement_based",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    6,
+    7,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "042703b8-ea06-434c-b594-247954b00760",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Matrices",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    8
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "fdf5673c-1968-42e4-abde-754500ee367e",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Matrices",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    9,
+    9,
+    8
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Determinants",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    7,
+    8
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    6
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "24bb3f55-56dd-4570-8492-c3bce1369bf7",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Determinants",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "67910760-3c36-4917-9ca7-79fa4315f9c4",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Continuity & Differentiability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "416fed88-c2e1-4723-9f03-f85b5d78dc1e",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Integrals",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Differential Equations",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "fd8df5f2-406a-4a8e-99aa-be5af592e4d2",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Linear Programming",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "c7942f37-b18b-42d1-a098-414033a5fd48",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Relations & Functions",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    9
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "c1d0ea41-465a-44c0-8c9c-6b4fb2f20334",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Relations & Functions",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "011bdc0f-c488-4ed1-bd9c-66100095738d",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Matrices",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "078267c2-49be-4aa3-954c-b34fd352e5be",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Matrices",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "8d51bc35-edc6-40f3-ae71-2804b409c82c",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Determinants",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "9771f434-7ddd-4781-8943-33b7fa556226",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Determinants",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Determinants",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "7adf3fa9-f420-4272-a69a-bce650f0c663",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Continuity & Differentiability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    10,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Continuity & Differentiability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "145c823f-14d1-4d7d-bc81-5107510977c9",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Continuity & Differentiability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Integrals",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    6,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "e1b72304-b6c3-4a73-adaf-414b30351497",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Vector Algebra",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "00418d8d-46ad-4f4f-9b56-6231cd1c93f9",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Vector Algebra",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "015bdaee-c7bb-4789-ac68-9778bff9785f",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Vector Algebra",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "3fc288aa-a85e-4279-8aed-73f9d89b9e7b",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Vector Algebra",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Three Dimensional Geometry",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    7,
+    8
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    10
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "08bed2f1-75a5-490e-a080-f5217fd83ae8",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Three Dimensional Geometry",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    10,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "3b90d5df-32be-4379-8924-d94eadfd8161",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Three Dimensional Geometry",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "5f019747-db58-4357-bbbe-4964672afc91",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Linear Programming",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "5f8c6f5f-5e4a-4381-82e5-edbb509e2463",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Probability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "57b9fb51-2f98-4a1e-a928-b19edc7bbddb",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Probability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "7a7efe5b-85be-41b8-9e2b-1ca4184e47e9",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Probability",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "317a454e-ddae-4661-900e-a336ac3d0294",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Probability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "6045c1a6-9b49-426e-ad4e-922024c81a97",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Financial Mathematics",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "9878b056-c656-4856-a16d-d07a5559174b",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Financial Mathematics",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "5610ffb8-7ac5-44f3-809b-4ed68c4e9420",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Financial Mathematics",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    9,
+    10
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "2252c6b1-1287-4af3-9ffa-0e80e71b37a8",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Probability Distributions",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "064f7b67-0793-4a21-affa-3a9c6d65c3e4",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Probability Distributions",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "007d4d2b-b34d-4665-95a2-330a369e7ee0",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Probability Distributions",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "b370d2f9-ddf6-4109-8964-6e98fe47416f",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Continuity & Differentiability",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    10,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Differential Equations",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "dee791a1-239d-40dd-9522-b59c70abbc99",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Application of Derivatives",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    9,
+    10,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "f0cb4875-4e15-45cd-9b05-6e2d49d80535",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Application of Derivatives",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "40e95075-7697-4069-be1a-222caf71526a",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Inferential Statistics",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "a22433a4-e270-4fc9-beed-a818d33a06b3",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Time Based Data",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "6525eda7-fe41-427f-8b9c-d4786ec84c2b",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Matrices",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "7eb64d37-a4cd-414a-ad09-7c10cbd1f993",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Determinants",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "6c2f68da-8876-4b67-952a-e84167e91144",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Matrices",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    9,
+    9,
+    8
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "086521e1-2f7e-4453-ae3d-d235efa465da",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "b8734f7d-2dae-486c-8374-7db9334189ed",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    10,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "5213f563-e232-4248-b3b3-c4430f3eabc1",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    8
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "9f9b57bf-93aa-4bc6-a44f-b888fad054b7",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "59b0916c-0775-4cf9-9070-878e03330466",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "61d6cc6e-f5f9-4b8a-b424-7fcc20a8ad4a",
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "ee3406d3-0055-4602-935c-270823e4c3d0",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Electric Charges & Fields",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    9
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "a73a2390-6cd9-4bcc-92cb-c84f80e5747b",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Electrostatic Potential & Capacitance",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Current Electricity",
+   "type": "sequence_ordering",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    6,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "bd9f24c9-5f9b-4820-9457-44be14354497",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Current Electricity",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "ae59a8ac-3cf5-49ef-afa7-be504e1edca0",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Current Electricity",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    8,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "0221d710-a478-4fc5-a397-51c66831fd63",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Current Electricity",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 4,
+    "answers": [
+     "C",
+     "C",
+     "A",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    7
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "6a10c022-27e2-4ee4-b08b-03f4fcdac734",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "e1d200a2-f90b-488f-a4a1-61f1e268496e",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 4,
+    "answers": [
+     "A",
+     "A",
+     "B",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "5bc9735c-eaac-4470-84c1-3d93089740c9",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Magnetism & Matter",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "e0336aca-26f0-46d6-bbc5-2177bccf48d3",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Electromagnetic Induction",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "428fe23c-40f8-487d-a32e-9337e33732d4",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Alternating Current",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "0a23e819-de4b-4c22-83e4-89ea94574653",
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Alternating Current",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "95586ea4-c72b-4d72-87e2-888f2f6e143b",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Electromagnetic Waves",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    10,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "0f39713a-7e46-4375-b27e-f2ae37c125d9",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Electromagnetic Waves",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "3bf13cad-51cc-46a8-8666-3394de0cb159",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Electromagnetic Waves",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    7
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Electromagnetic Waves",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "83606bcb-963a-4d6d-802c-96f5f58e4e09",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "78f00fd5-039d-48be-b2dd-06ea32c09fb2",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "sequence_ordering",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 4,
+    "answers": [
+     "A",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "bc1541f4-9c6d-4072-9d30-9693617fee55",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Wave Optics",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    7,
+    8
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "8bae1cb1-fe26-4582-9739-485007128595",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Wave Optics",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "b7a2f323-86db-4cdb-acb3-d279c1ffefdd",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "4f0f2822-6c49-4610-8361-d666aa8d1296",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Wave Optics",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "94a6fb7d-6b29-4e57-a5a5-a7c7610fcbc5",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "355f0f52-18ac-4378-b9cc-0a8cd1b72a88",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Nuclei",
+   "type": "sequence_ordering",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j1_quality_6",
+    "j2_quality_6",
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    6,
+    6
+   ],
+   "quality_mean": 6,
+   "fit_scores": [
+    7,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "ede9da50-f9f9-42dc-94d5-6ca964338f4a",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "923b4590-8305-484d-a8bf-e2e4bec84874",
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Semiconductor Electronics",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  }
+ ]
+}

@@ -3,7 +3,7 @@
   "subject": "mathematics",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-17T04:38:05.858Z",
+  "merged_at": "2026-11-23T18:50:19.173Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -72,7 +72,7 @@
       "hedge_wording": 3
     },
     "mean_of_means": 6.01,
-    "admissible_before_row_checks": 255
+    "admissible_before_row_checks": 294
   },
   "questions": {
     "20cefb21-fbbb-4668-93d3-a5621732115f": {
@@ -27773,6 +27773,3594 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "00418d8d-46ad-4f4f-9b56-6231cd1c93f9": {
+      "question_id": "00418d8d-46ad-4f4f-9b56-6231cd1c93f9",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Vector Algebra",
+      "key": "C",
+      "content_hash": "83ad5bed9163239738ff55d07ac713be82ca59156d98047080c25e5cf5bc4d0b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.cross-product-perpendicularity",
+          "flags": [],
+          "note": "a x b = (x, -y, y-x); dot with c gives x^2 = yz. Correct; two distractors are arbitrary symmetric forms.",
+          "scored_content_hash": "83ad5bed9163239738ff55d07ac713be82ca59156d98047080c25e5cf5bc4d0b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.cross-product-perpendicularity",
+          "flags": [],
+          "note": "a x b = (x, -y, y-x); dot with c gives x^2 - yz = 0. Correct; two distractors only loosely tied to a slip.",
+          "scored_content_hash": "83ad5bed9163239738ff55d07ac713be82ca59156d98047080c25e5cf5bc4d0b"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.vector-algebra.cross-product-perpendicularity",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.vector-algebra.cross-product-perpendicularity",
+        "mathematics.vector-algebra.cross-product-perpendicularity"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "83ad5bed9163239738ff55d07ac713be82ca59156d98047080c25e5cf5bc4d0b",
+        "final_content_hash": "83ad5bed9163239738ff55d07ac713be82ca59156d98047080c25e5cf5bc4d0b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "007d4d2b-b34d-4665-95a2-330a369e7ee0": {
+      "question_id": "007d4d2b-b34d-4665-95a2-330a369e7ee0",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Probability Distributions",
+      "key": "C",
+      "content_hash": "379d4cb4d5e49fbab8e093e728c412128b42c72cc6cc30b289510a2d0db8a22e",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.probability-distributions.normal-distribution-properties",
+          "flags": [],
+          "note": "Correct: (D) is the 2-sigma range (about 95%), so false. Clean statement item.",
+          "scored_content_hash": "379d4cb4d5e49fbab8e093e728c412128b42c72cc6cc30b289510a2d0db8a22e"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.probability-distributions.normal-distribution-properties",
+          "flags": [],
+          "note": "40 to 64 is mean +/- 2 SD (about 95%), so (D) false; key correct and explanation accurate.",
+          "scored_content_hash": "379d4cb4d5e49fbab8e093e728c412128b42c72cc6cc30b289510a2d0db8a22e"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.probability-distributions.normal-distribution-properties",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.probability-distributions.normal-distribution-properties",
+        "mathematics.probability-distributions.normal-distribution-properties"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "379d4cb4d5e49fbab8e093e728c412128b42c72cc6cc30b289510a2d0db8a22e",
+        "final_content_hash": "379d4cb4d5e49fbab8e093e728c412128b42c72cc6cc30b289510a2d0db8a22e",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "011bdc0f-c488-4ed1-bd9c-66100095738d": {
+      "question_id": "011bdc0f-c488-4ed1-bd9c-66100095738d",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Matrices",
+      "key": "D",
+      "content_hash": "06cbc87daea5c95f42bee1eaf9d6a0c69f595fc28447b9afbb013557b5bb52fd",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.matrix-polynomial-equation",
+          "flags": [],
+          "note": "A^2 - 6A = -2I so lambda = 2. Verified; sign-slip distractor good, 8 and -8 rely on entrywise squaring.",
+          "scored_content_hash": "06cbc87daea5c95f42bee1eaf9d6a0c69f595fc28447b9afbb013557b5bb52fd"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.matrix-polynomial-equation",
+          "flags": [],
+          "note": "A^2 = [22 18; 12 10], A^2 - 6A = -2I, lambda = 2. Explanation arithmetic checked. Standard item.",
+          "scored_content_hash": "06cbc87daea5c95f42bee1eaf9d6a0c69f595fc28447b9afbb013557b5bb52fd"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.matrices.matrix-polynomial-equation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.matrices.matrix-polynomial-equation",
+        "mathematics.matrices.matrix-polynomial-equation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "06cbc87daea5c95f42bee1eaf9d6a0c69f595fc28447b9afbb013557b5bb52fd",
+        "final_content_hash": "06cbc87daea5c95f42bee1eaf9d6a0c69f595fc28447b9afbb013557b5bb52fd",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "015bdaee-c7bb-4789-ac68-9778bff9785f": {
+      "question_id": "015bdaee-c7bb-4789-ac68-9778bff9785f",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Vector Algebra",
+      "key": "B",
+      "content_hash": "5a36d9f3b5b8382246f9399d1b87b64a6db7a9d0bb811e5fca3cb1877fb5cbee",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.cross-product-magnitude-identity",
+          "flags": [],
+          "note": "2|a|^2 = 28; direct cross products 10 + 13 + 5 checked. Distractors 14, 42, 2sqrt14 each a real slip.",
+          "scored_content_hash": "5a36d9f3b5b8382246f9399d1b87b64a6db7a9d0bb811e5fca3cb1877fb5cbee"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.cross-product-magnitude",
+          "flags": [],
+          "note": "Sum = 2|a|^2 = 28; direct components 10 + 13 + 5 checked. Distractors 14, 42, 2sqrt14 each from a named slip. 9 earned.",
+          "scored_content_hash": "5a36d9f3b5b8382246f9399d1b87b64a6db7a9d0bb811e5fca3cb1877fb5cbee"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.vector-algebra.cross-product-magnitude-identity",
+        "mathematics.vector-algebra.cross-product-magnitude"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "5a36d9f3b5b8382246f9399d1b87b64a6db7a9d0bb811e5fca3cb1877fb5cbee",
+        "final_content_hash": "5a36d9f3b5b8382246f9399d1b87b64a6db7a9d0bb811e5fca3cb1877fb5cbee",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "042703b8-ea06-434c-b594-247954b00760": {
+      "question_id": "042703b8-ea06-434c-b594-247954b00760",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Matrices",
+      "key": "C",
+      "content_hash": "8a98112e1c03a5cb8d57b6252c32015329916479f9925ba3d85f5abb694f228a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.skew-symmetric-matrix-properties",
+          "flags": [],
+          "note": "M' = -M, odd-order skew-symmetric so |M| = 0. Correct; (B) diagonal is a throwaway statement.",
+          "scored_content_hash": "8a98112e1c03a5cb8d57b6252c32015329916479f9925ba3d85f5abb694f228a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.skew-symmetric-matrix-properties",
+          "flags": [],
+          "note": "M' = -M, odd-order skew-symmetric so |M| = 0; expansion in explanation checks. (B) diagonal is an easy eliminator.",
+          "scored_content_hash": "8a98112e1c03a5cb8d57b6252c32015329916479f9925ba3d85f5abb694f228a"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.matrices.skew-symmetric-matrix-properties",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.matrices.skew-symmetric-matrix-properties",
+        "mathematics.matrices.skew-symmetric-matrix-properties"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "8a98112e1c03a5cb8d57b6252c32015329916479f9925ba3d85f5abb694f228a",
+        "final_content_hash": "8a98112e1c03a5cb8d57b6252c32015329916479f9925ba3d85f5abb694f228a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "064f7b67-0793-4a21-affa-3a9c6d65c3e4": {
+      "question_id": "064f7b67-0793-4a21-affa-3a9c6d65c3e4",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Probability Distributions",
+      "key": "D",
+      "content_hash": "fe722e88ba79aa5feb0ccf306d056e9bb494d1efd7989e627d7e1f1321f5d654",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability-distributions.poisson-probability-ratio",
+          "flags": [],
+          "note": "m/4 = 5/2 gives m = 10; each distractor reproduces a real slip (factorials dropped, m/3, inverted ratio).",
+          "scored_content_hash": "fe722e88ba79aa5feb0ccf306d056e9bb494d1efd7989e627d7e1f1321f5d654"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability-distributions.poisson-probability-mean",
+          "flags": [],
+          "note": "m = 10 verified; distractors 2.5, 7.5 and 1.6 each reproduce from a named slip.",
+          "scored_content_hash": "fe722e88ba79aa5feb0ccf306d056e9bb494d1efd7989e627d7e1f1321f5d654"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.probability-distributions.poisson-probability-ratio",
+        "mathematics.probability-distributions.poisson-probability-mean"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "fe722e88ba79aa5feb0ccf306d056e9bb494d1efd7989e627d7e1f1321f5d654",
+        "final_content_hash": "fe722e88ba79aa5feb0ccf306d056e9bb494d1efd7989e627d7e1f1321f5d654",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "086521e1-2f7e-4453-ae3d-d235efa465da": {
+      "question_id": "086521e1-2f7e-4453-ae3d-d235efa465da",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "key": "A",
+      "content_hash": "3f3dbe88ab5638369e4efbf02cc7e46f0bc07fa6e60a2be0eda0628c3193de54",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.rules-of-inequalities",
+          "flags": [],
+          "note": "Correct; (D) with negative c is a fair trap. Clean.",
+          "scored_content_hash": "3f3dbe88ab5638369e4efbf02cc7e46f0bc07fa6e60a2be0eda0628c3193de54"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.numerical-inequality-rules",
+          "flags": [],
+          "note": "Only (B) false; key and worked examples in the explanation check out.",
+          "scored_content_hash": "3f3dbe88ab5638369e4efbf02cc7e46f0bc07fa6e60a2be0eda0628c3193de54"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.rules-of-inequalities",
+        "mathematics.numbers-quantification-and-numerical-applications.numerical-inequality-rules"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "3f3dbe88ab5638369e4efbf02cc7e46f0bc07fa6e60a2be0eda0628c3193de54",
+        "final_content_hash": "3f3dbe88ab5638369e4efbf02cc7e46f0bc07fa6e60a2be0eda0628c3193de54",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "08bed2f1-75a5-490e-a080-f5217fd83ae8": {
+      "question_id": "08bed2f1-75a5-490e-a080-f5217fd83ae8",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Three Dimensional Geometry",
+      "key": "B",
+      "content_hash": "9c01dd6837556ddc72b3800d8a0fa994353b26ca7eb3f3f5131b64e61b4c905c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.three-dimensional-geometry.perpendicular-lines-condition",
+          "flags": [],
+          "note": "Direction ratios (2,3,1) and (k,2,1): 2k + 7 = 0, k = -7/2. Clean; -3 trap (dropping z ratio) is good.",
+          "scored_content_hash": "9c01dd6837556ddc72b3800d8a0fa994353b26ca7eb3f3f5131b64e61b4c905c"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.three-dimensional-geometry.perpendicular-lines-condition",
+          "flags": [],
+          "note": "Direction ratios (2,3,1) and (k,2,1); 2k + 7 = 0, k = -7/2. Clean; distractors from dropping the z ratio and parallel condition.",
+          "scored_content_hash": "9c01dd6837556ddc72b3800d8a0fa994353b26ca7eb3f3f5131b64e61b4c905c"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.three-dimensional-geometry.perpendicular-lines-condition",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.perpendicular-lines-condition",
+        "mathematics.three-dimensional-geometry.perpendicular-lines-condition"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "9c01dd6837556ddc72b3800d8a0fa994353b26ca7eb3f3f5131b64e61b4c905c",
+        "final_content_hash": "9c01dd6837556ddc72b3800d8a0fa994353b26ca7eb3f3f5131b64e61b4c905c",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "145c823f-14d1-4d7d-bc81-5107510977c9": {
+      "question_id": "145c823f-14d1-4d7d-bc81-5107510977c9",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Continuity & Differentiability",
+      "key": "B",
+      "content_hash": "74c2b24f42b1043b41758dad9bcdef39146fb3fcd7d3952e8c3cbf13abcefbe5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.parametric-differentiation",
+          "flags": [],
+          "note": "dy/dx = 3(t^3+1/t^3)/(t+1/t) = 3 sqrt((y^2+4)/(x^2+4)); t>0 makes roots positive. Strong -4 trap; explanation checks.",
+          "scored_content_hash": "74c2b24f42b1043b41758dad9bcdef39146fb3fcd7d3952e8c3cbf13abcefbe5"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "mathematics.continuity-and-differentiability.parametric-differentiation",
+          "flags": [],
+          "note": "dy/dx = 3(t^3+1/t^3)/(t+1/t) = 3 sqrt((y^2+4)/(x^2+4)); option A is the sum-pair trap. C and D are weaker distractors.",
+          "scored_content_hash": "74c2b24f42b1043b41758dad9bcdef39146fb3fcd7d3952e8c3cbf13abcefbe5"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.continuity-and-differentiability.parametric-differentiation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "hard"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.parametric-differentiation",
+        "mathematics.continuity-and-differentiability.parametric-differentiation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "74c2b24f42b1043b41758dad9bcdef39146fb3fcd7d3952e8c3cbf13abcefbe5",
+        "final_content_hash": "74c2b24f42b1043b41758dad9bcdef39146fb3fcd7d3952e8c3cbf13abcefbe5",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "2252c6b1-1287-4af3-9ffa-0e80e71b37a8": {
+      "question_id": "2252c6b1-1287-4af3-9ffa-0e80e71b37a8",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Probability Distributions",
+      "key": "A",
+      "content_hash": "85e89960e45f29a173dbfcc361a014f886b70d561a102c8e4852de470e91d0ec",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability-distributions.binomial-mean-variance",
+          "flags": [],
+          "note": "All four entries verified (18, 20, 0.75, 2). Well-formed match list.",
+          "scored_content_hash": "85e89960e45f29a173dbfcc361a014f886b70d561a102c8e4852de470e91d0ec"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability-distributions.binomial-mean-variance",
+          "flags": [],
+          "note": "All four entries verified (18, 20, 0.75, 2); clean match layout.",
+          "scored_content_hash": "85e89960e45f29a173dbfcc361a014f886b70d561a102c8e4852de470e91d0ec"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.probability-distributions.binomial-mean-variance",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.probability-distributions.binomial-mean-variance",
+        "mathematics.probability-distributions.binomial-mean-variance"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "85e89960e45f29a173dbfcc361a014f886b70d561a102c8e4852de470e91d0ec",
+        "final_content_hash": "85e89960e45f29a173dbfcc361a014f886b70d561a102c8e4852de470e91d0ec",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "24bb3f55-56dd-4570-8492-c3bce1369bf7": {
+      "question_id": "24bb3f55-56dd-4570-8492-c3bce1369bf7",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Determinants",
+      "key": "B",
+      "content_hash": "ba43a91d21ab077ecb00e4036f90713f24ff3b582c10cd351fc1f8c6a0007c0b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.adjoint-determinant-scalar-multiple",
+          "flags": [],
+          "note": "|A|^2 = 49, |A| = +-7, |3A| = +-189; distractors from dropped sign, k^(n-1), k. Clean.",
+          "scored_content_hash": "ba43a91d21ab077ecb00e4036f90713f24ff3b582c10cd351fc1f8c6a0007c0b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.adjoint-determinant-scalar-multiple",
+          "flags": [],
+          "note": "|A|^2 = 49, |A| = +/-7, |3A| = 27|A| = +/-189; each distractor is one named slip (sign, k^(n-1), k). Real-paper quality.",
+          "scored_content_hash": "ba43a91d21ab077ecb00e4036f90713f24ff3b582c10cd351fc1f8c6a0007c0b"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.determinants.adjoint-determinant-scalar-multiple",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.determinants.adjoint-determinant-scalar-multiple",
+        "mathematics.determinants.adjoint-determinant-scalar-multiple"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "ba43a91d21ab077ecb00e4036f90713f24ff3b582c10cd351fc1f8c6a0007c0b",
+        "final_content_hash": "ba43a91d21ab077ecb00e4036f90713f24ff3b582c10cd351fc1f8c6a0007c0b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "317a454e-ddae-4661-900e-a336ac3d0294": {
+      "question_id": "317a454e-ddae-4661-900e-a336ac3d0294",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Probability",
+      "key": "D",
+      "content_hash": "13265cf746ed78178b9f5f0dae0c86e1af35690513d50131e919122fa1c61f7c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability.bayes-theorem",
+          "flags": [],
+          "note": "P(AN|SANJANA) = 2/6, P(AN|ANJALI) = 1/5, posterior 5/8. NCERT-style Bayes item; 12/19 and 2/3 traced to real slips.",
+          "scored_content_hash": "13265cf746ed78178b9f5f0dae0c86e1af35690513d50131e919122fa1c61f7c"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability.bayes-theorem",
+          "flags": [],
+          "note": "P(AN|SANJANA) = 2/6, P(AN|ANJALI) = 1/5, posterior 5/8. 12/19 and 2/3 distractors checked. Familiar exemplar shape.",
+          "scored_content_hash": "13265cf746ed78178b9f5f0dae0c86e1af35690513d50131e919122fa1c61f7c"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.probability.bayes-theorem",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.probability.bayes-theorem",
+        "mathematics.probability.bayes-theorem"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "13265cf746ed78178b9f5f0dae0c86e1af35690513d50131e919122fa1c61f7c",
+        "final_content_hash": "13265cf746ed78178b9f5f0dae0c86e1af35690513d50131e919122fa1c61f7c",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "3b90d5df-32be-4379-8924-d94eadfd8161": {
+      "question_id": "3b90d5df-32be-4379-8924-d94eadfd8161",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Three Dimensional Geometry",
+      "key": "C",
+      "content_hash": "f3b51ef3e0aa4414c786ef0ccd230b02f07a83ce2b31916b04d967253d68326b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.three-dimensional-geometry.distance-between-parallel-lines",
+          "flags": [],
+          "note": "Parallel, distinct, distance |(0,-3,-3)|/3 = sqrt2. Cross product and distance checked; statements test real distinctions.",
+          "scored_content_hash": "f3b51ef3e0aa4414c786ef0ccd230b02f07a83ce2b31916b04d967253d68326b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.three-dimensional-geometry.distance-between-parallel-lines",
+          "flags": [],
+          "note": "Parallel, distinct; b x (a2 - a1) = (0,-3,-3), length 3sqrt2, over |b| = 3 gives sqrt2. Explanation checked line by line. 9 earned.",
+          "scored_content_hash": "f3b51ef3e0aa4414c786ef0ccd230b02f07a83ce2b31916b04d967253d68326b"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.three-dimensional-geometry.distance-between-parallel-lines",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.distance-between-parallel-lines",
+        "mathematics.three-dimensional-geometry.distance-between-parallel-lines"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "f3b51ef3e0aa4414c786ef0ccd230b02f07a83ce2b31916b04d967253d68326b",
+        "final_content_hash": "f3b51ef3e0aa4414c786ef0ccd230b02f07a83ce2b31916b04d967253d68326b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "3fc288aa-a85e-4279-8aed-73f9d89b9e7b": {
+      "question_id": "3fc288aa-a85e-4279-8aed-73f9d89b9e7b",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Vector Algebra",
+      "key": "D",
+      "content_hash": "04494aef0ab701bfb785aa4ea3d1d70733e78b3f5107ac01179dc9274dffe4ad",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.unit-vector-perpendicular-two-vectors",
+          "flags": [],
+          "note": "|b x c| = 1/sqrt2 so a = +/-sqrt2 (b x c). NCERT-style item, exactly one defensible answer, plausible distractors.",
+          "scored_content_hash": "04494aef0ab701bfb785aa4ea3d1d70733e78b3f5107ac01179dc9274dffe4ad"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.unit-vector-perpendicular-to-two",
+          "flags": [],
+          "note": "|b x c| = 1/sqrt2, so a = +-sqrt2 (b x c). Correct; familiar exemplar item.",
+          "scored_content_hash": "04494aef0ab701bfb785aa4ea3d1d70733e78b3f5107ac01179dc9274dffe4ad"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.vector-algebra.unit-vector-perpendicular-two-vectors",
+        "mathematics.vector-algebra.unit-vector-perpendicular-to-two"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "04494aef0ab701bfb785aa4ea3d1d70733e78b3f5107ac01179dc9274dffe4ad",
+        "final_content_hash": "04494aef0ab701bfb785aa4ea3d1d70733e78b3f5107ac01179dc9274dffe4ad",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "416fed88-c2e1-4723-9f03-f85b5d78dc1e": {
+      "question_id": "416fed88-c2e1-4723-9f03-f85b5d78dc1e",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Integrals",
+      "key": "A",
+      "content_hash": "502204b893e174a19824b43292482d1ae7ae87052b0b93820f98f4fb2f9598f3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.integrals.definite-integral-functional-equation",
+          "flags": [],
+          "note": "f(x) = 2x - 1/x, integral 3 - ln 2. Correct; functional-equation step is outside NCERT drill but solvable. Label hard is one notch high.",
+          "scored_content_hash": "502204b893e174a19824b43292482d1ae7ae87052b0b93820f98f4fb2f9598f3"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.integrals.definite-integral-functional-equation",
+          "flags": [],
+          "note": "f(x) = 2x - 1/x, integral 3 - ln 2; distractors reproduce. Functional-equation step is more JEE than NCERT; labelled hard, I judge medium.",
+          "scored_content_hash": "502204b893e174a19824b43292482d1ae7ae87052b0b93820f98f4fb2f9598f3"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.integrals.definite-integral-functional-equation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.integrals.definite-integral-functional-equation",
+        "mathematics.integrals.definite-integral-functional-equation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "502204b893e174a19824b43292482d1ae7ae87052b0b93820f98f4fb2f9598f3",
+        "final_content_hash": "502204b893e174a19824b43292482d1ae7ae87052b0b93820f98f4fb2f9598f3",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5610ffb8-7ac5-44f3-809b-4ed68c4e9420": {
+      "question_id": "5610ffb8-7ac5-44f3-809b-4ed68c4e9420",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Financial Mathematics",
+      "key": "C",
+      "content_hash": "ca5d09dd2c71250ba2acdf557e30cadf76853c6df1530bd63269f11d6b0edf11",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.financial-mathematics.perpetuity-present-value",
+          "flags": [],
+          "note": "i = 1200/30000 = 4% per half-year, 8% p.a. verified; distractors from unconverted, halved and quadrupled rates.",
+          "scored_content_hash": "ca5d09dd2c71250ba2acdf557e30cadf76853c6df1530bd63269f11d6b0edf11"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.financial-mathematics.perpetuity-present-value",
+          "flags": [],
+          "note": "i = 1200/30000 = 4% per half-year, 8% p.a.; all three distractors are real conversion slips.",
+          "scored_content_hash": "ca5d09dd2c71250ba2acdf557e30cadf76853c6df1530bd63269f11d6b0edf11"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.financial-mathematics.perpetuity-present-value",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.financial-mathematics.perpetuity-present-value",
+        "mathematics.financial-mathematics.perpetuity-present-value"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "ca5d09dd2c71250ba2acdf557e30cadf76853c6df1530bd63269f11d6b0edf11",
+        "final_content_hash": "ca5d09dd2c71250ba2acdf557e30cadf76853c6df1530bd63269f11d6b0edf11",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "57b9fb51-2f98-4a1e-a928-b19edc7bbddb": {
+      "question_id": "57b9fb51-2f98-4a1e-a928-b19edc7bbddb",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Probability",
+      "key": "C",
+      "content_hash": "889ef9636004b5bd750dba547af9549f53455d3d727a4f77b62422d3a8540d45",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.probability.conditional-probability",
+          "flags": [],
+          "note": "(3/8 - 1/5)/(3/8) = 7/15. One-step item with good slip distractors (8/15, 7/40, 7/16 all checked).",
+          "scored_content_hash": "889ef9636004b5bd750dba547af9549f53455d3d727a4f77b62422d3a8540d45"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.probability.conditional-probability-complement",
+          "flags": [],
+          "note": "P(A' and B) = 7/40, over 3/8 gives 7/15. One-step item with sound distractors (8/15, 7/40, 7/16 all checked).",
+          "scored_content_hash": "889ef9636004b5bd750dba547af9549f53455d3d727a4f77b62422d3a8540d45"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.probability.conditional-probability",
+        "mathematics.probability.conditional-probability-complement"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "889ef9636004b5bd750dba547af9549f53455d3d727a4f77b62422d3a8540d45",
+        "final_content_hash": "889ef9636004b5bd750dba547af9549f53455d3d727a4f77b62422d3a8540d45",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "59b0916c-0775-4cf9-9070-878e03330466": {
+      "question_id": "59b0916c-0775-4cf9-9070-878e03330466",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "key": "A",
+      "content_hash": "0bebe79ad7a2c1052b275d37ae8a9c3ff0ca9ca722034a8af02962580c14b033",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.pipes-and-cisterns",
+          "flags": [],
+          "note": "T/6 - (T-3)/12 = 1 gives 9 min; all three distractors reproduce real misreadings of the drain timing.",
+          "scored_content_hash": "0bebe79ad7a2c1052b275d37ae8a9c3ff0ca9ca722034a8af02962580c14b033"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.pipes-and-cisterns",
+          "flags": [],
+          "note": "T = 9 min verified; 12, 6 and 7.5 each reproduce from a specific misreading of the drain timing.",
+          "scored_content_hash": "0bebe79ad7a2c1052b275d37ae8a9c3ff0ca9ca722034a8af02962580c14b033"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.pipes-and-cisterns",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.pipes-and-cisterns",
+        "mathematics.numbers-quantification-and-numerical-applications.pipes-and-cisterns"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "0bebe79ad7a2c1052b275d37ae8a9c3ff0ca9ca722034a8af02962580c14b033",
+        "final_content_hash": "0bebe79ad7a2c1052b275d37ae8a9c3ff0ca9ca722034a8af02962580c14b033",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5f8c6f5f-5e4a-4381-82e5-edbb509e2463": {
+      "question_id": "5f8c6f5f-5e4a-4381-82e5-edbb509e2463",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Probability",
+      "key": "A",
+      "content_hash": "a38f910812d0c6e749753aaba7f47c3f8c6866c5e8026325be045603240fbf71",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.probability.independent-events-probability",
+          "flags": [],
+          "note": "0.7 x 0.15 + 0.3 x 0.85 = 0.36 = 9/25. Correct; 9/20 is a weak distractor.",
+          "scored_content_hash": "a38f910812d0c6e749753aaba7f47c3f8c6866c5e8026325be045603240fbf71"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.probability.independent-events-contradiction",
+          "flags": [],
+          "note": "0.7 x 0.15 + 0.3 x 0.85 = 0.36 = 9/25. Classic NCERT shape; distractors are agreement, one case, and an additive slip.",
+          "scored_content_hash": "a38f910812d0c6e749753aaba7f47c3f8c6866c5e8026325be045603240fbf71"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.probability.independent-events-probability",
+        "mathematics.probability.independent-events-contradiction"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "a38f910812d0c6e749753aaba7f47c3f8c6866c5e8026325be045603240fbf71",
+        "final_content_hash": "a38f910812d0c6e749753aaba7f47c3f8c6866c5e8026325be045603240fbf71",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "6045c1a6-9b49-426e-ad4e-922024c81a97": {
+      "question_id": "6045c1a6-9b49-426e-ad4e-922024c81a97",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Financial Mathematics",
+      "key": "B",
+      "content_hash": "66da8d7eb3ea2fb2596cf6d415716c781c0b31c67c0a41d32e74b0b5eb368e94",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.financial-mathematics.effective-rate-of-interest",
+          "flags": [],
+          "note": "(1.02)^4 - 1 = 8.24% verified. 0.0824% is a throwaway distractor.",
+          "scored_content_hash": "66da8d7eb3ea2fb2596cf6d415716c781c0b31c67c0a41d32e74b0b5eb368e94"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.financial-mathematics.nominal-effective-rate-conversion",
+          "flags": [],
+          "note": "(1.02)^4 - 1 = 8.24% verified; 0.0824% is a throwaway distractor.",
+          "scored_content_hash": "66da8d7eb3ea2fb2596cf6d415716c781c0b31c67c0a41d32e74b0b5eb368e94"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.financial-mathematics.effective-rate-of-interest",
+        "mathematics.financial-mathematics.nominal-effective-rate-conversion"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "66da8d7eb3ea2fb2596cf6d415716c781c0b31c67c0a41d32e74b0b5eb368e94",
+        "final_content_hash": "66da8d7eb3ea2fb2596cf6d415716c781c0b31c67c0a41d32e74b0b5eb368e94",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "61d6cc6e-f5f9-4b8a-b424-7fcc20a8ad4a": {
+      "question_id": "61d6cc6e-f5f9-4b8a-b424-7fcc20a8ad4a",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "key": "D",
+      "content_hash": "6c3c221f0e4d8f0a2f68d38c216341b76ee86b3b49521bad15828d532bea6c69",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.races-and-games",
+          "flags": [],
+          "note": "160 m verified; 25 m distractor is weak.",
+          "scored_content_hash": "6c3c221f0e4d8f0a2f68d38c216341b76ee86b3b49521bad15828d532bea6c69"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.races-and-games",
+          "flags": [],
+          "note": "Q at 640 m when P finishes, 160 m behind; 25 m (time as distance) is a throwaway.",
+          "scored_content_hash": "6c3c221f0e4d8f0a2f68d38c216341b76ee86b3b49521bad15828d532bea6c69"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.races-and-games",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.races-and-games",
+        "mathematics.numbers-quantification-and-numerical-applications.races-and-games"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "6c3c221f0e4d8f0a2f68d38c216341b76ee86b3b49521bad15828d532bea6c69",
+        "final_content_hash": "6c3c221f0e4d8f0a2f68d38c216341b76ee86b3b49521bad15828d532bea6c69",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "6525eda7-fe41-427f-8b9c-d4786ec84c2b": {
+      "question_id": "6525eda7-fe41-427f-8b9c-d4786ec84c2b",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Matrices",
+      "key": "A",
+      "content_hash": "3dd9f4187042877b801c2b42afa5f793f4cf8d13934ec8852256976986c594e9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.matrices.properties-of-inverse",
+          "flags": [],
+          "note": "Correct: only (C) fails ((kA)^-1 = A^-1/k). Clean statement item.",
+          "scored_content_hash": "3dd9f4187042877b801c2b42afa5f793f4cf8d13934ec8852256976986c594e9"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.matrices.inverse-matrix-properties",
+          "flags": [],
+          "note": "(C) false since (kA)^-1 = (1/k)A^-1; other three true; explanation proofs correct.",
+          "scored_content_hash": "3dd9f4187042877b801c2b42afa5f793f4cf8d13934ec8852256976986c594e9"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.matrices.properties-of-inverse",
+        "mathematics.matrices.inverse-matrix-properties"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "3dd9f4187042877b801c2b42afa5f793f4cf8d13934ec8852256976986c594e9",
+        "final_content_hash": "3dd9f4187042877b801c2b42afa5f793f4cf8d13934ec8852256976986c594e9",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "67910760-3c36-4917-9ca7-79fa4315f9c4": {
+      "question_id": "67910760-3c36-4917-9ca7-79fa4315f9c4",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Continuity & Differentiability",
+      "key": "C",
+      "content_hash": "205ca19870ec43f9a36f336a0cd78d5f8f71ad5b674b37f3de665c2f4de9a9ab",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation",
+          "flags": [],
+          "note": "y'/y = 3/(1 - x^2) so value 0; distractor derivations in explanation check. Fair item.",
+          "scored_content_hash": "205ca19870ec43f9a36f336a0cd78d5f8f71ad5b674b37f3de665c2f4de9a9ab"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation",
+          "flags": [],
+          "note": "y'/y = 3/(1 - x^2), so the expression is 0; all three distractors reproduce from the stated slips. Clean.",
+          "scored_content_hash": "205ca19870ec43f9a36f336a0cd78d5f8f71ad5b674b37f3de665c2f4de9a9ab"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.logarithmic-differentiation",
+        "mathematics.continuity-and-differentiability.logarithmic-differentiation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "205ca19870ec43f9a36f336a0cd78d5f8f71ad5b674b37f3de665c2f4de9a9ab",
+        "final_content_hash": "205ca19870ec43f9a36f336a0cd78d5f8f71ad5b674b37f3de665c2f4de9a9ab",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "7a7efe5b-85be-41b8-9e2b-1ca4184e47e9": {
+      "question_id": "7a7efe5b-85be-41b8-9e2b-1ca4184e47e9",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Probability",
+      "key": "B",
+      "content_hash": "7d4c18c86926485a0054b45b4a4da74964f1af4840fc99b94ca9806cc9a437ea",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability.exactly-one-event-probability",
+          "flags": [],
+          "note": "P(A)+P(B) = 0.9, P(neither) = 0.3, complements sum 1.1, conditional 2/7. B and C true; explanation correct.",
+          "scored_content_hash": "7d4c18c86926485a0054b45b4a4da74964f1af4840fc99b94ca9806cc9a437ea"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.probability.exactly-one-event-probability",
+          "flags": [],
+          "note": "P(A)+P(B) = 0.9, P(union) = 0.7, so B and C true, D is 2/7. Each false statement built from a real slip. 9 earned.",
+          "scored_content_hash": "7d4c18c86926485a0054b45b4a4da74964f1af4840fc99b94ca9806cc9a437ea"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.probability.exactly-one-event-probability",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.probability.exactly-one-event-probability",
+        "mathematics.probability.exactly-one-event-probability"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "7d4c18c86926485a0054b45b4a4da74964f1af4840fc99b94ca9806cc9a437ea",
+        "final_content_hash": "7d4c18c86926485a0054b45b4a4da74964f1af4840fc99b94ca9806cc9a437ea",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "7adf3fa9-f420-4272-a69a-bce650f0c663": {
+      "question_id": "7adf3fa9-f420-4272-a69a-bce650f0c663",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Continuity & Differentiability",
+      "key": "A",
+      "content_hash": "667877ad207ae9c8eb5ded5f4de5dcd5327f2cf7f05f039ae2ef217d84e3b88f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.differentiability-piecewise-function",
+          "flags": [],
+          "note": "RHD = -1, LHD = -2k gives k = 1/2; continuity 6k = 3 agrees. Clean, distractors from the |x-4| sign slip.",
+          "scored_content_hash": "667877ad207ae9c8eb5ded5f4de5dcd5327f2cf7f05f039ae2ef217d84e3b88f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.differentiability-piecewise-function",
+          "flags": [],
+          "note": "LHD -2k = RHD -1, k = 1/2; continuity 6k = 3 agrees. Clean; distractors from sign and inversion slips.",
+          "scored_content_hash": "667877ad207ae9c8eb5ded5f4de5dcd5327f2cf7f05f039ae2ef217d84e3b88f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.continuity-and-differentiability.differentiability-piecewise-function",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.differentiability-piecewise-function",
+        "mathematics.continuity-and-differentiability.differentiability-piecewise-function"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "667877ad207ae9c8eb5ded5f4de5dcd5327f2cf7f05f039ae2ef217d84e3b88f",
+        "final_content_hash": "667877ad207ae9c8eb5ded5f4de5dcd5327f2cf7f05f039ae2ef217d84e3b88f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "7eb64d37-a4cd-414a-ad09-7c10cbd1f993": {
+      "question_id": "7eb64d37-a4cd-414a-ad09-7c10cbd1f993",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Determinants",
+      "key": "C",
+      "content_hash": "190f8c83f40a84dea62ab7bb4d795cf710ed0b853b5e174cc155a3848c1642d0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.adjoint-determinant-power",
+          "flags": [],
+          "note": "|A|^((n-1)^2) gives 256, 5, 1/512; |A^-1| = 4. All verified; distractors are swaps.",
+          "scored_content_hash": "190f8c83f40a84dea62ab7bb4d795cf710ed0b853b5e174cc155a3848c1642d0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.adjoint-determinant-power",
+          "flags": [],
+          "note": "|A|^((n-1)^2) gives 256, 5, 1/512; |A^-1| = 4. All verified.",
+          "scored_content_hash": "190f8c83f40a84dea62ab7bb4d795cf710ed0b853b5e174cc155a3848c1642d0"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.determinants.adjoint-determinant-power",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.determinants.adjoint-determinant-power",
+        "mathematics.determinants.adjoint-determinant-power"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "190f8c83f40a84dea62ab7bb4d795cf710ed0b853b5e174cc155a3848c1642d0",
+        "final_content_hash": "190f8c83f40a84dea62ab7bb4d795cf710ed0b853b5e174cc155a3848c1642d0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8d51bc35-edc6-40f3-ae71-2804b409c82c": {
+      "question_id": "8d51bc35-edc6-40f3-ae71-2804b409c82c",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Determinants",
+      "key": "B",
+      "content_hash": "abf23932782b88551ddf3f9449573da19c3aa1e02c41a56a131d0b48eab2ad76",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.area-of-triangle-determinant",
+          "flags": [],
+          "note": "Delta = 4 x (+/-2 x area), Delta^2 = 12a^4. Each distractor traced to a real slip (factor 4, factor 2, power of a); explanation arithmetic checks.",
+          "scored_content_hash": "abf23932782b88551ddf3f9449573da19c3aa1e02c41a56a131d0b48eab2ad76"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.area-of-triangle-determinant",
+          "flags": [],
+          "note": "Delta = 4 x (+-2 x sqrt3/4 a^2), Delta^2 = 12a^4. All three distractor derivations verified. 9 earned.",
+          "scored_content_hash": "abf23932782b88551ddf3f9449573da19c3aa1e02c41a56a131d0b48eab2ad76"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.determinants.area-of-triangle-determinant",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.determinants.area-of-triangle-determinant",
+        "mathematics.determinants.area-of-triangle-determinant"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "abf23932782b88551ddf3f9449573da19c3aa1e02c41a56a131d0b48eab2ad76",
+        "final_content_hash": "abf23932782b88551ddf3f9449573da19c3aa1e02c41a56a131d0b48eab2ad76",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9771f434-7ddd-4781-8943-33b7fa556226": {
+      "question_id": "9771f434-7ddd-4781-8943-33b7fa556226",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Determinants",
+      "key": "C",
+      "content_hash": "3cb12c812d634d894d56cb6bffa7d141071dbab56c71cb8f12275074b161de4d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.evaluating-third-order-determinant",
+          "flags": [],
+          "note": "det = xyz + 2(xy+yz+zx) so sum of reciprocals = -1/2. Verified; -1 distractor (1s version) is a good recall trap.",
+          "scored_content_hash": "3cb12c812d634d894d56cb6bffa7d141071dbab56c71cb8f12275074b161de4d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.determinant-expansion-symmetric-form",
+          "flags": [],
+          "note": "Det = xyz + 2(xy+yz+zx) = 0 gives sum of reciprocals -1/2. Expansion in explanation checked; -1 distractor from the 1s version is apt.",
+          "scored_content_hash": "3cb12c812d634d894d56cb6bffa7d141071dbab56c71cb8f12275074b161de4d"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.determinants.evaluating-third-order-determinant",
+        "mathematics.determinants.determinant-expansion-symmetric-form"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "3cb12c812d634d894d56cb6bffa7d141071dbab56c71cb8f12275074b161de4d",
+        "final_content_hash": "3cb12c812d634d894d56cb6bffa7d141071dbab56c71cb8f12275074b161de4d",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9f9b57bf-93aa-4bc6-a44f-b888fad054b7": {
+      "question_id": "9f9b57bf-93aa-4bc6-a44f-b888fad054b7",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "key": "B",
+      "content_hash": "b65598e0e68fddf553938352bc93e095ddabfd758f57cbfb800c57f50f3f8b33",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.boats-and-streams",
+          "flags": [],
+          "note": "s = 5 km/h verified; one-equation item, 7.5 distractor is weak.",
+          "scored_content_hash": "b65598e0e68fddf553938352bc93e095ddabfd758f57cbfb800c57f50f3f8b33"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.boats-and-streams",
+          "flags": [],
+          "note": "s = 5 km/h verified; 10 and 20 are the boat's own speeds, a fair trap.",
+          "scored_content_hash": "b65598e0e68fddf553938352bc93e095ddabfd758f57cbfb800c57f50f3f8b33"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.boats-and-streams",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.boats-and-streams",
+        "mathematics.numbers-quantification-and-numerical-applications.boats-and-streams"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "b65598e0e68fddf553938352bc93e095ddabfd758f57cbfb800c57f50f3f8b33",
+        "final_content_hash": "b65598e0e68fddf553938352bc93e095ddabfd758f57cbfb800c57f50f3f8b33",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a22433a4-e270-4fc9-beed-a818d33a06b3": {
+      "question_id": "a22433a4-e270-4fc9-beed-a818d33a06b3",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Time Based Data",
+      "key": "B",
+      "content_hash": "ec76d9f3dc7d7a390af61304f21cae36f7c65617e4f123b01b3894ab1e40492c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.time-based-data.time-series-components",
+          "flags": [],
+          "note": "Standard recall match; examples are textbook ones. Option D is a weak distractor.",
+          "scored_content_hash": "ec76d9f3dc7d7a390af61304f21cae36f7c65617e4f123b01b3894ab1e40492c"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.time-based-data.time-series-components",
+          "flags": [],
+          "note": "Standard recall match with clear examples; unique pairing.",
+          "scored_content_hash": "ec76d9f3dc7d7a390af61304f21cae36f7c65617e4f123b01b3894ab1e40492c"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.time-based-data.time-series-components",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.time-based-data.time-series-components",
+        "mathematics.time-based-data.time-series-components"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "ec76d9f3dc7d7a390af61304f21cae36f7c65617e4f123b01b3894ab1e40492c",
+        "final_content_hash": "ec76d9f3dc7d7a390af61304f21cae36f7c65617e4f123b01b3894ab1e40492c",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b370d2f9-ddf6-4109-8964-6e98fe47416f": {
+      "question_id": "b370d2f9-ddf6-4109-8964-6e98fe47416f",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Continuity & Differentiability",
+      "key": "C",
+      "content_hash": "82d3bd721ab3f3da7691e33f2ef1af060eef426330d7913f9f4c9192dee737bd",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.derivative-of-exponential-functions",
+          "flags": [],
+          "note": "Product rule with a^x log a verified; all distractors are genuine slips (chain factor, product of derivatives, power rule).",
+          "scored_content_hash": "82d3bd721ab3f3da7691e33f2ef1af060eef426330d7913f9f4c9192dee737bd"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.exponential-function-derivative",
+          "flags": [],
+          "note": "Product and chain rule verified; each distractor matches a common slip. Stem fixes log base, so no ambiguity.",
+          "scored_content_hash": "82d3bd721ab3f3da7691e33f2ef1af060eef426330d7913f9f4c9192dee737bd"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.derivative-of-exponential-functions",
+        "mathematics.continuity-and-differentiability.exponential-function-derivative"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "82d3bd721ab3f3da7691e33f2ef1af060eef426330d7913f9f4c9192dee737bd",
+        "final_content_hash": "82d3bd721ab3f3da7691e33f2ef1af060eef426330d7913f9f4c9192dee737bd",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b8734f7d-2dae-486c-8374-7db9334189ed": {
+      "question_id": "b8734f7d-2dae-486c-8374-7db9334189ed",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "key": "D",
+      "content_hash": "bb936bd42b51a1ae4b348ddb6fa3a3990f7200bb97a60cf0b20e776de7efba84",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.repeated-replacement-mixture",
+          "flags": [],
+          "note": "125 x (4/5)^3 = 64 verified; distractors from linear removal, two steps and the other oil.",
+          "scored_content_hash": "bb936bd42b51a1ae4b348ddb6fa3a3990f7200bb97a60cf0b20e776de7efba84"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.repeated-replacement-mixture",
+          "flags": [],
+          "note": "125 x (4/5)^3 = 64 verified; 50, 80 and 61 are real slips (no dilution, two rounds, groundnut amount).",
+          "scored_content_hash": "bb936bd42b51a1ae4b348ddb6fa3a3990f7200bb97a60cf0b20e776de7efba84"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.repeated-replacement-mixture",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.repeated-replacement-mixture",
+        "mathematics.numbers-quantification-and-numerical-applications.repeated-replacement-mixture"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "bb936bd42b51a1ae4b348ddb6fa3a3990f7200bb97a60cf0b20e776de7efba84",
+        "final_content_hash": "bb936bd42b51a1ae4b348ddb6fa3a3990f7200bb97a60cf0b20e776de7efba84",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c1d0ea41-465a-44c0-8c9c-6b4fb2f20334": {
+      "question_id": "c1d0ea41-465a-44c0-8c9c-6b4fb2f20334",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Relations & Functions",
+      "key": "B",
+      "content_hash": "fc9558f11c42d147d548b297af01c63676025a8cd4c510dc4edddbb7f5c6c933",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.relations-and-functions.one-one-onto-functions",
+          "flags": [],
+          "note": "(x1-x2)(x1+x2-1)=0 gives one-one on N; min value 5 so not onto. Correct, standard four-way option set.",
+          "scored_content_hash": "fc9558f11c42d147d548b297af01c63676025a8cd4c510dc4edddbb7f5c6c933"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.relations-and-functions.one-one-onto-test",
+          "flags": [],
+          "note": "f increasing on N (f(x+1)-f(x)=2x), least value 5, so one-one not onto. Many-one trap via f(0)=f(1) is a real student error. 9 earned.",
+          "scored_content_hash": "fc9558f11c42d147d548b297af01c63676025a8cd4c510dc4edddbb7f5c6c933"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.relations-and-functions.one-one-onto-functions",
+        "mathematics.relations-and-functions.one-one-onto-test"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "fc9558f11c42d147d548b297af01c63676025a8cd4c510dc4edddbb7f5c6c933",
+        "final_content_hash": "fc9558f11c42d147d548b297af01c63676025a8cd4c510dc4edddbb7f5c6c933",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c7942f37-b18b-42d1-a098-414033a5fd48": {
+      "question_id": "c7942f37-b18b-42d1-a098-414033a5fd48",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Relations & Functions",
+      "key": "C",
+      "content_hash": "b4f3ab6dc301bc962f38c5752e28637216ce175ccf189a4dfde50efffc74c227",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.relations-and-functions.relation-properties-domain-range",
+          "flags": [],
+          "note": "R = {(1,5),(2,10),(3,15),(4,20)}; B, C, D true. Clean statement item; (D) in every option so it does not discriminate.",
+          "scored_content_hash": "b4f3ab6dc301bc962f38c5752e28637216ce175ccf189a4dfde50efffc74c227"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.relations-and-functions.reflexive-symmetric-domain-range",
+          "flags": [],
+          "note": "R = {(1,5),(2,10),(3,15),(4,20)}; B, C, D true. Clean statement item, distractors from reflexive/symmetric slips.",
+          "scored_content_hash": "b4f3ab6dc301bc962f38c5752e28637216ce175ccf189a4dfde50efffc74c227"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.relations-and-functions.relation-properties-domain-range",
+        "mathematics.relations-and-functions.reflexive-symmetric-domain-range"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "b4f3ab6dc301bc962f38c5752e28637216ce175ccf189a4dfde50efffc74c227",
+        "final_content_hash": "b4f3ab6dc301bc962f38c5752e28637216ce175ccf189a4dfde50efffc74c227",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "dee791a1-239d-40dd-9522-b59c70abbc99": {
+      "question_id": "dee791a1-239d-40dd-9522-b59c70abbc99",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Application of Derivatives",
+      "key": "A",
+      "content_hash": "9a02928abc58331ceab6533b266f756208db8cc1173f9da8239ab87a77e42a4f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.marginal-revenue",
+          "flags": [],
+          "note": "MR = 300 - 8x - 3x^2 = 144 at x = 6; distractors are price, total revenue and p + dp/dx slips.",
+          "scored_content_hash": "9a02928abc58331ceab6533b266f756208db8cc1173f9da8239ab87a77e42a4f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.marginal-revenue",
+          "flags": [],
+          "note": "MR = 300 - 8x - 3x^2 = 144 at x = 6; distractors are price, total revenue and p + dp/dx slips.",
+          "scored_content_hash": "9a02928abc58331ceab6533b266f756208db8cc1173f9da8239ab87a77e42a4f"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.application-of-derivatives.marginal-revenue",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.marginal-revenue",
+        "mathematics.application-of-derivatives.marginal-revenue"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "9a02928abc58331ceab6533b266f756208db8cc1173f9da8239ab87a77e42a4f",
+        "final_content_hash": "9a02928abc58331ceab6533b266f756208db8cc1173f9da8239ab87a77e42a4f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "e1b72304-b6c3-4a73-adaf-414b30351497": {
+      "question_id": "e1b72304-b6c3-4a73-adaf-414b30351497",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Vector Algebra",
+      "key": "A",
+      "content_hash": "753f837cbe72e966fb3dba2847b4ac7000c641ef0f20773cbcddfda4f2229484",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.dot-cross-product-applications",
+          "flags": [],
+          "note": "|a.b| = 5, p = 6, lambda = 1, sum = 3. All four rows verified; clean match layout.",
+          "scored_content_hash": "753f837cbe72e966fb3dba2847b4ac7000c641ef0f20773cbcddfda4f2229484"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.vector-algebra.dot-cross-product-applications",
+          "flags": [],
+          "note": "|a.b| = 5, p = 6, lambda = 1, sum = 3; all checked. Sound four-row match; row (D) is near-trivial recall.",
+          "scored_content_hash": "753f837cbe72e966fb3dba2847b4ac7000c641ef0f20773cbcddfda4f2229484"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.vector-algebra.dot-cross-product-applications",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.vector-algebra.dot-cross-product-applications",
+        "mathematics.vector-algebra.dot-cross-product-applications"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "753f837cbe72e966fb3dba2847b4ac7000c641ef0f20773cbcddfda4f2229484",
+        "final_content_hash": "753f837cbe72e966fb3dba2847b4ac7000c641ef0f20773cbcddfda4f2229484",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "f0cb4875-4e15-45cd-9b05-6e2d49d80535": {
+      "question_id": "f0cb4875-4e15-45cd-9b05-6e2d49d80535",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Application of Derivatives",
+      "key": "D",
+      "content_hash": "56f3b14dfc5e3f6c29bd59838a7861cc6ca6868b5386b4eeafde748fc7e0d941",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.first-derivative-test-inflexion",
+          "flags": [],
+          "note": "f' = 3(x-2)^2, no sign change, inflexion at 2. Correct and clean; bare stem.",
+          "scored_content_hash": "56f3b14dfc5e3f6c29bd59838a7861cc6ca6868b5386b4eeafde748fc7e0d941"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.application-of-derivatives.first-derivative-test-inflexion",
+          "flags": [],
+          "note": "f'(x) = 3(x-2)^2, no sign change at 2; key and explanation (f(2) = 13) correct.",
+          "scored_content_hash": "56f3b14dfc5e3f6c29bd59838a7861cc6ca6868b5386b4eeafde748fc7e0d941"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.application-of-derivatives.first-derivative-test-inflexion",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.application-of-derivatives.first-derivative-test-inflexion",
+        "mathematics.application-of-derivatives.first-derivative-test-inflexion"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "56f3b14dfc5e3f6c29bd59838a7861cc6ca6868b5386b4eeafde748fc7e0d941",
+        "final_content_hash": "56f3b14dfc5e3f6c29bd59838a7861cc6ca6868b5386b4eeafde748fc7e0d941",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "fd8df5f2-406a-4a8e-99aa-be5af592e4d2": {
+      "question_id": "fd8df5f2-406a-4a8e-99aa-be5af592e4d2",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Linear Programming",
+      "key": "A",
+      "content_hash": "a9802ab851078d6808b4a6dd6313140ff190a7883bd7e1aeac379160d66066c0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.linear-programming.half-plane-of-linear-inequality",
+          "flags": [],
+          "note": "Origin gives 0 > -12; >= and > contain origin, strict excludes line. Correct; symmetric list makes it quick.",
+          "scored_content_hash": "a9802ab851078d6808b4a6dd6313140ff190a7883bd7e1aeac379160d66066c0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.linear-programming.half-plane-of-linear-inequality",
+          "flags": [],
+          "note": "Origin test 0 > -12 and solid/dotted boundary give II, IV, III, I. Well-built match; leans on Class XI graphing.",
+          "scored_content_hash": "a9802ab851078d6808b4a6dd6313140ff190a7883bd7e1aeac379160d66066c0"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.linear-programming.half-plane-of-linear-inequality",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.linear-programming.half-plane-of-linear-inequality",
+        "mathematics.linear-programming.half-plane-of-linear-inequality"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "a9802ab851078d6808b4a6dd6313140ff190a7883bd7e1aeac379160d66066c0",
+        "final_content_hash": "a9802ab851078d6808b4a6dd6313140ff190a7883bd7e1aeac379160d66066c0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "fdf5673c-1968-42e4-abde-754500ee367e": {
+      "question_id": "fdf5673c-1968-42e4-abde-754500ee367e",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Matrices",
+      "key": "B",
+      "content_hash": "adf7221a38d2a55dce9576eb50cebb038658f774f58aa312437047f53ba2f3b1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.matrices.idempotent-matrix-associativity",
+          "flags": [],
+          "note": "P^2 = P(QP) = (PQ)P = QP = P, likewise Q. Explanation's counterexample checks. Clean, real-paper shape.",
+          "scored_content_hash": "adf7221a38d2a55dce9576eb50cebb038658f774f58aa312437047f53ba2f3b1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.matrices.idempotent-matrix-products",
+          "flags": [],
+          "note": "P^2 = P(QP) = (PQ)P = P, likewise Q; the 2x2 counterexample in the explanation verifies. Classic item, distractors plausible.",
+          "scored_content_hash": "adf7221a38d2a55dce9576eb50cebb038658f774f58aa312437047f53ba2f3b1"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.matrices.idempotent-matrix-associativity",
+        "mathematics.matrices.idempotent-matrix-products"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "adf7221a38d2a55dce9576eb50cebb038658f774f58aa312437047f53ba2f3b1",
+        "final_content_hash": "adf7221a38d2a55dce9576eb50cebb038658f774f58aa312437047f53ba2f3b1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -27794,6 +31382,18 @@
       "questions": 51,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-10-17",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-11-23-w6": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-23T18:50:19.173Z",
+      "questions": 39,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-24",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,

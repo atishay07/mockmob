@@ -1,7 +1,7 @@
 {
  "subject": "physics",
- "snapshotDate": "2026-11-23",
- "checkedOn": "2026-11-23",
+ "snapshotDate": "2026-11-24",
+ "checkedOn": "2026-11-24",
  "questions": [
   {
    "n": 1,
@@ -40,12 +40,12 @@
    "n": 4,
    "chapter": "Electric Charges & Fields",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "ee3406d3-0055-4602-935c-270823e4c3d0",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served bank row balances Coulomb forces on an end charge to find the middle charge (1f8b603c only finds the field midway between equal charges); a card formula cannot cover a numerical."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 5,
@@ -62,12 +62,12 @@
    "n": 6,
    "chapter": "Electrostatic Potential & Capacitance",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "a73a2390-6cd9-4bcc-92cb-c84f80e5747b",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows find a series equivalent of two unequal capacitors (4649f077, 170d35fa) and say qualitatively that parallel raises capacitance (e8cc75d6); none computes a parallel combination or the series/parallel ratio."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 7,
@@ -106,34 +106,34 @@
    "n": 10,
    "chapter": "Current Electricity",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "bd9f24c9-5f9b-4820-9457-44be14354497",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "D is a card and B follows from cards (more frequent collisions at higher temperature; vd = eE tau/m), but nothing served says a current-carrying wire is neutral (A), which is what separates the key (B, D) from option 1 (A, B, D); emf independent of r is not stated either."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 11,
    "chapter": "Current Electricity",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "ae59a8ac-3cf5-49ef-afa7-be504e1edca0",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Cards give rho_T = rho_0[1 + alpha(T - T0)], but no served bank row solves it for a temperature."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 12,
    "chapter": "Current Electricity",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "0221d710-a478-4fc5-a397-51c66831fd63",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The only bridge row (22940911) is a metre-bridge balance for one unknown; no served row uses the interchange of P and Q."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 13,
@@ -183,34 +183,34 @@
    "n": 17,
    "chapter": "Moving Charges & Magnetism",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "6a10c022-27e2-4ee4-b08b-03f4fcdac734",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "ea2c1bf1 only asks which expression gives B in a solenoid; no served row works a solenoid numerical, let alone for the current."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 18,
    "chapter": "Magnetism & Matter",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "5bc9735c-eaac-4470-84c1-3d93089740c9",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row balances mB sin(theta) on a bar magnet against an applied force (80ca588c is work in rotating a dipole, f22c84ec a zero torque on a loop)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 19,
    "chapter": "Moving Charges & Magnetism",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "e1d200a2-f90b-488f-a4a1-61f1e268496e",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows give the field at the centre of a full loop only (4e338fa8); none takes a fraction of a loop or uses radial leads."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 20,
@@ -260,23 +260,23 @@
    "n": 24,
    "chapter": "Alternating Current",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "0a23e819-de4b-4c22-83e4-89ea94574653",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows compute a capacitive reactance (2be3fcb0), X_L from an impedance (03e23eee) and an inductor voltage from given reactances (d01eb790); none computes X_L = 2 pi f L and then the current."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 25,
    "chapter": "Electromagnetic Induction",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "e0336aca-26f0-46d6-bbc5-2177bccf48d3",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows find the emf from N, A and the field change (e6aaca54 for a square coil, 0eaa849e); none solves for the number of turns, a different unknown, or uses a circular coil of given diameter."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 26,
@@ -293,34 +293,34 @@
    "n": 27,
    "chapter": "Electromagnetic Waves",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "95586ea4-c72b-4d72-87e2-888f2f6e143b",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Cards define displacement current and total current = conduction + displacement (and that i_d is zero for steady fields); nothing served says i_d equals the conduction current, or that it does so for a d.c. as well as an a.c. source."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 28,
    "chapter": "Electromagnetic Waves",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "0f39713a-7e46-4375-b27e-f2ae37c125d9",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "A, B and D are taught (key-p-basic-difference; key-displacement-zero-steady with fact-capacitor-dc-current-zero; fact-accelerated-radiate), but nothing served says which radiation sees through haze, and C alone separates the key (A, B) from option 1 (A, B, C)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 29,
    "chapter": "Electromagnetic Waves",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "3bf13cad-51cc-46a8-8666-3394de0cb159",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Only the photon momentum p = h nu/c is served; nothing states the momentum delivered to a surface or its doubling on reflection (the rationalised NCERT chapter 8 has no momentum text)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 30,
@@ -337,23 +337,23 @@
    "n": 31,
    "chapter": "Ray Optics & Optical Instruments",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "83606bcb-963a-4d6d-802c-96f5f58e4e09",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The only served statement is NCERT Example 9.1 for a half-covered concave mirror; nothing states it for a lens. The principle transfers, but the stated fact is for a mirror: doubtful, so not covered."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 32,
    "chapter": "Ray Optics & Optical Instruments",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "78f00fd5-039d-48be-b2dd-06ea32c09fb2",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served card or row gives the refractive indices of these media (NCERT Table 9.1 has water, crown glass and diamond, but no card was made from it)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 33,
@@ -370,23 +370,23 @@
    "n": 34,
    "chapter": "Wave Optics",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "8bae1cb1-fe26-4582-9739-485007128595",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served material states the relation the key reads off: each slit alone gives I0 and both together give 4 I0 at the centre, so one slit gives I/4."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 35,
    "chapter": "Ray Optics & Optical Instruments",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "b7a2f323-86db-4cdb-acb3-d279c1ffefdd",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row finds a refractive index from the frequency and the wavelength in the medium (c88795fc uses a given speed ratio for an angle)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 36,
@@ -403,12 +403,12 @@
    "n": 37,
    "chapter": "Ray Optics & Optical Instruments",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "94a6fb7d-6b29-4e57-a5a5-a7c7610fcbc5",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row finds a mirror focal length from two magnifications; the mirror rows are qualitative and the numericals are lenses."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 38,
@@ -491,12 +491,12 @@
    "n": 45,
    "chapter": "Semiconductor Electronics",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "ede9da50-f9f9-42dc-94d5-6ca964338f4a",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "0375dea9 checks whether 450 nm photons exceed the silicon gap; no served row computes the longest wavelength from a band gap (different unknown)."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 46,
@@ -524,12 +524,12 @@
    "n": 48,
    "chapter": "Semiconductor Electronics",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "923b4590-8305-484d-a8bf-e2e4bec84874",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "fabdd431 finds n_h = n_i^2/n_e from a given n_e; no served row gets n_e from a ppm doping level, the first step of every pair."
+   "reason": "published bank question (wave 6 batch 3, 24 Nov 2026) uses the same formula and steps, or states every fact, that the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 49,

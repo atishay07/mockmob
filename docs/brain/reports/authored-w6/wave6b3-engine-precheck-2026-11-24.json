@@ -1,0 +1,34 @@
+{
+ "kind": "authored_w6b3_engine_precheck",
+ "source": "claude-authored-2026-11-23-w6",
+ "candidatesFile": "docs/brain/reports/authored-w6/wave6b3-candidates-final-2026-11-24.json",
+ "method": "ntaEligibility on the row planPublication writes, empty agent and fit tables; score and fit reasons are not listed, only the veto gate (content, wording, structure, answer guard).",
+ "problems": [],
+ "refused": [],
+ "bySubject": {
+  "chemistry": {
+   "planned": 6,
+   "clean": 6,
+   "refused": 0
+  },
+  "computer_science": {
+   "planned": 8,
+   "clean": 8,
+   "refused": 0
+  },
+  "physics": {
+   "planned": 26,
+   "clean": 26,
+   "refused": 0
+  },
+  "mathematics": {
+   "planned": 52,
+   "clean": 52,
+   "refused": 0
+  }
+ },
+ "reasons": {},
+ "planned": 92,
+ "engineRefused": 0,
+ "script": "tmp/1123-close/integrate/precheck-w6b3.mjs (precheck() of scripts/authored-w4-engine-precheck.mjs)"
+}
