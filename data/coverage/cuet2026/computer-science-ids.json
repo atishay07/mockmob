@@ -1,0 +1,1794 @@
+{
+ "paper": "cuet2026-computer-science",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 23 Nov 2026; ids read by OCR (RapidOCR; Q105, Q118, Q142, Q177 from the page images) and matched to NTA's 2026 final key (subject 308)",
+ "shifts": {
+  "24-05-2026 (First)": 85
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "questionId": "226895789463",
+   "page": 3,
+   "optionIds": {
+    "2268953061489": 1,
+    "2268953061490": 2,
+    "2268953061491": 3,
+    "2268953061492": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061491"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "questionId": "226895789464",
+   "page": 3,
+   "optionIds": {
+    "2268953061493": 1,
+    "2268953061494": 2,
+    "2268953061495": 3,
+    "2268953061496": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061496"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "questionId": "226895789465",
+   "page": 4,
+   "optionIds": {
+    "2268953061497": 1,
+    "2268953061498": 2,
+    "2268953061499": 3,
+    "2268953061500": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061499"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "questionId": "226895789466",
+   "page": 5,
+   "optionIds": {
+    "2268953061501": 1,
+    "2268953061502": 2,
+    "2268953061503": 3,
+    "2268953061504": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061503"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "questionId": "226895789467",
+   "page": 6,
+   "optionIds": {
+    "2268953061505": 1,
+    "2268953061506": 2,
+    "2268953061507": 3,
+    "2268953061508": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061505"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "questionId": "226895789468",
+   "page": 7,
+   "optionIds": {
+    "2268953061509": 1,
+    "2268953061510": 2,
+    "2268953061511": 3,
+    "2268953061512": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061509"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "questionId": "226895789469",
+   "page": 8,
+   "optionIds": {
+    "2268953061513": 1,
+    "2268953061514": 2,
+    "2268953061515": 3,
+    "2268953061516": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061514"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "questionId": "226895789470",
+   "page": 8,
+   "optionIds": {
+    "2268953061517": 1,
+    "2268953061518": 2,
+    "2268953061519": 3,
+    "2268953061520": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061519"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "questionId": "226895789471",
+   "page": 9,
+   "optionIds": {
+    "2268953061521": 1,
+    "2268953061522": 2,
+    "2268953061523": 3,
+    "2268953061524": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061523"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "questionId": "226895789472",
+   "page": 10,
+   "optionIds": {
+    "2268953061525": 1,
+    "2268953061526": 2,
+    "2268953061527": 3,
+    "2268953061528": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061526"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "questionId": "226895789473",
+   "page": 11,
+   "optionIds": {
+    "2268953061529": 1,
+    "2268953061530": 2,
+    "2268953061531": 3,
+    "2268953061532": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061531"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "questionId": "226895789474",
+   "page": 12,
+   "optionIds": {
+    "2268953061533": 1,
+    "2268953061534": 2,
+    "2268953061535": 3,
+    "2268953061536": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061534"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "questionId": "226895789475",
+   "page": 13,
+   "optionIds": {
+    "2268953061537": 1,
+    "2268953061538": 2,
+    "2268953061539": 3,
+    "2268953061540": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061540"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "questionId": "226895789476",
+   "page": 13,
+   "optionIds": {
+    "2268953061541": 1,
+    "2268953061542": 2,
+    "2268953061543": 3,
+    "2268953061544": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061541"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "questionId": "226895789477",
+   "page": 14,
+   "optionIds": {
+    "2268953061545": 1,
+    "2268953061546": 2,
+    "2268953061547": 3,
+    "2268953061548": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061547"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "questionId": "226895789478",
+   "page": 15,
+   "optionIds": {
+    "2268953061549": 1,
+    "2268953061550": 2,
+    "2268953061551": 3,
+    "2268953061552": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061549"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "questionId": "226895789479",
+   "page": 16,
+   "optionIds": {
+    "2268953061553": 1,
+    "2268953061554": 2,
+    "2268953061555": 3,
+    "2268953061556": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061553"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "questionId": "226895789480",
+   "page": 17,
+   "optionIds": {
+    "2268953061557": 1,
+    "2268953061558": 2,
+    "2268953061559": 3,
+    "2268953061560": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061557"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "questionId": "226895789481",
+   "page": 17,
+   "optionIds": {
+    "2268953061561": 1,
+    "2268953061562": 2,
+    "2268953061563": 3,
+    "2268953061564": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061561"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "questionId": "226895789482",
+   "page": 18,
+   "optionIds": {
+    "2268953061565": 1,
+    "2268953061566": 2,
+    "2268953061567": 3,
+    "2268953061568": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061568"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "questionId": "226895789483",
+   "page": 18,
+   "optionIds": {
+    "2268953061569": 1,
+    "2268953061570": 2,
+    "2268953061571": 3,
+    "2268953061572": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061569"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "questionId": "226895789484",
+   "page": 21,
+   "optionIds": {
+    "2268953061573": 1,
+    "2268953061574": 2,
+    "2268953061575": 3,
+    "2268953061576": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061573"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "questionId": "226895789485",
+   "page": 21,
+   "optionIds": {
+    "2268953061577": 1,
+    "2268953061578": 2,
+    "2268953061579": 3,
+    "2268953061580": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061577"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "questionId": "226895789486",
+   "page": 23,
+   "optionIds": {
+    "2268953061581": 1,
+    "2268953061582": 2,
+    "2268953061583": 3,
+    "2268953061584": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061581"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "questionId": "226895789487",
+   "page": 24,
+   "optionIds": {
+    "2268953061585": 1,
+    "2268953061586": 2,
+    "2268953061587": 3,
+    "2268953061588": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061585"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "questionId": "226895789488",
+   "page": 25,
+   "optionIds": {
+    "2268953061589": 1,
+    "2268953061590": 2,
+    "2268953061591": 3,
+    "2268953061592": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061590"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "questionId": "226895789489",
+   "page": 26,
+   "optionIds": {
+    "2268953061593": 1,
+    "2268953061594": 2,
+    "2268953061595": 3,
+    "2268953061596": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061595"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "questionId": "226895789490",
+   "page": 26,
+   "optionIds": {
+    "2268953061597": 1,
+    "2268953061598": 2,
+    "2268953061599": 3,
+    "2268953061600": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061600"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "questionId": "226895789491",
+   "page": 27,
+   "optionIds": {
+    "2268953061601": 1,
+    "2268953061602": 2,
+    "2268953061603": 3,
+    "2268953061604": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061602"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "questionId": "226895789492",
+   "page": 28,
+   "optionIds": {
+    "2268953061605": 1,
+    "2268953061606": 2,
+    "2268953061607": 3,
+    "2268953061608": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061605"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "questionId": "226895789493",
+   "page": 28,
+   "optionIds": {
+    "2268953061609": 1,
+    "2268953061610": 2,
+    "2268953061611": 3,
+    "2268953061612": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061610"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "questionId": "226895789494",
+   "page": 29,
+   "optionIds": {
+    "2268953061613": 1,
+    "2268953061614": 2,
+    "2268953061615": 3,
+    "2268953061616": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061613"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "questionId": "226895789495",
+   "page": 29,
+   "optionIds": {
+    "2268953061617": 1,
+    "2268953061618": 2,
+    "2268953061619": 3,
+    "2268953061620": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061617"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "questionId": "226895789496",
+   "page": 30,
+   "optionIds": {
+    "2268953061621": 1,
+    "2268953061622": 2,
+    "2268953061623": 3,
+    "2268953061624": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061622"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "questionId": "226895789497",
+   "page": 31,
+   "optionIds": {
+    "2268953061625": 1,
+    "2268953061626": 2,
+    "2268953061627": 3,
+    "2268953061628": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061625"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "questionId": "226895789498",
+   "page": 32,
+   "optionIds": {
+    "2268953061629": 1,
+    "2268953061630": 2,
+    "2268953061631": 3,
+    "2268953061632": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061629"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "questionId": "226895789499",
+   "page": 33,
+   "optionIds": {
+    "2268953061633": 1,
+    "2268953061634": 2,
+    "2268953061635": 3,
+    "2268953061636": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061636"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "questionId": "226895789500",
+   "page": 34,
+   "optionIds": {
+    "2268953061637": 1,
+    "2268953061638": 2,
+    "2268953061639": 3,
+    "2268953061640": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061638"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "questionId": "226895789501",
+   "page": 34,
+   "optionIds": {
+    "2268953061641": 1,
+    "2268953061642": 2,
+    "2268953061643": 3,
+    "2268953061644": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061643"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "questionId": "226895789502",
+   "page": 35,
+   "optionIds": {
+    "2268953061645": 1,
+    "2268953061646": 2,
+    "2268953061647": 3,
+    "2268953061648": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061646"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "questionId": "226895789503",
+   "page": 36,
+   "optionIds": {
+    "2268953061649": 1,
+    "2268953061650": 2,
+    "2268953061651": 3,
+    "2268953061652": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061651"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "questionId": "226895789504",
+   "page": 37,
+   "optionIds": {
+    "2268953061653": 1,
+    "2268953061654": 2,
+    "2268953061655": 3,
+    "2268953061656": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061655"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "questionId": "226895789505",
+   "page": 38,
+   "optionIds": {
+    "2268953061657": 1,
+    "2268953061658": 2,
+    "2268953061659": 3,
+    "2268953061660": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061660"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "questionId": "226895789506",
+   "page": 38,
+   "optionIds": {
+    "2268953061661": 1,
+    "2268953061662": 2,
+    "2268953061663": 3,
+    "2268953061664": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061661"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "questionId": "226895789507",
+   "page": 39,
+   "optionIds": {
+    "2268953061665": 1,
+    "2268953061666": 2,
+    "2268953061667": 3,
+    "2268953061668": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061665"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "questionId": "226895789508",
+   "page": 40,
+   "optionIds": {
+    "2268953061669": 1,
+    "2268953061670": 2,
+    "2268953061671": 3,
+    "2268953061672": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061672"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "questionId": "226895789509",
+   "page": 41,
+   "optionIds": {
+    "2268953061673": 1,
+    "2268953061674": 2,
+    "2268953061675": 3,
+    "2268953061676": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061675"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "questionId": "226895789510",
+   "page": 41,
+   "optionIds": {
+    "2268953061677": 1,
+    "2268953061678": 2,
+    "2268953061679": 3,
+    "2268953061680": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061678"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "questionId": "226895789511",
+   "page": 42,
+   "optionIds": {
+    "2268953061681": 1,
+    "2268953061682": 2,
+    "2268953061683": 3,
+    "2268953061684": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061682"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "questionId": "226895789512",
+   "page": 43,
+   "optionIds": {
+    "2268953061685": 1,
+    "2268953061686": 2,
+    "2268953061687": 3,
+    "2268953061688": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061688"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 51,
+   "paperNumber": 151,
+   "questionId": "226895789513",
+   "page": 44,
+   "optionIds": {
+    "2268953061689": 1,
+    "2268953061690": 2,
+    "2268953061691": 3,
+    "2268953061692": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061690"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 52,
+   "paperNumber": 152,
+   "questionId": "226895789514",
+   "page": 44,
+   "optionIds": {
+    "2268953061693": 1,
+    "2268953061694": 2,
+    "2268953061695": 3,
+    "2268953061696": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061695"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 53,
+   "paperNumber": 153,
+   "questionId": "226895789515",
+   "page": 45,
+   "optionIds": {
+    "2268953061697": 1,
+    "2268953061698": 2,
+    "2268953061699": 3,
+    "2268953061700": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061699"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 54,
+   "paperNumber": 154,
+   "questionId": "226895789516",
+   "page": 46,
+   "optionIds": {
+    "2268953061701": 1,
+    "2268953061702": 2,
+    "2268953061703": 3,
+    "2268953061704": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061704"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 55,
+   "paperNumber": 155,
+   "questionId": "226895789517",
+   "page": 46,
+   "optionIds": {
+    "2268953061705": 1,
+    "2268953061706": 2,
+    "2268953061707": 3,
+    "2268953061708": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061707"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 56,
+   "paperNumber": 156,
+   "questionId": "226895789518",
+   "page": 47,
+   "optionIds": {
+    "2268953061709": 1,
+    "2268953061710": 2,
+    "2268953061711": 3,
+    "2268953061712": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061709"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 57,
+   "paperNumber": 157,
+   "questionId": "226895789519",
+   "page": 48,
+   "optionIds": {
+    "2268953061713": 1,
+    "2268953061714": 2,
+    "2268953061715": 3,
+    "2268953061716": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061715"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 58,
+   "paperNumber": 158,
+   "questionId": "226895789520",
+   "page": 49,
+   "optionIds": {
+    "2268953061717": 1,
+    "2268953061718": 2,
+    "2268953061719": 3,
+    "2268953061720": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061717"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 59,
+   "paperNumber": 159,
+   "questionId": "226895789521",
+   "page": 49,
+   "optionIds": {
+    "2268953061721": 1,
+    "2268953061722": 2,
+    "2268953061723": 3,
+    "2268953061724": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061722"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 60,
+   "paperNumber": 160,
+   "questionId": "226895789522",
+   "page": 51,
+   "optionIds": {
+    "2268953061725": 1,
+    "2268953061726": 2,
+    "2268953061727": 3,
+    "2268953061728": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061725"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 61,
+   "paperNumber": 161,
+   "questionId": "226895789523",
+   "page": 51,
+   "optionIds": {
+    "2268953061729": 1,
+    "2268953061730": 2,
+    "2268953061731": 3,
+    "2268953061732": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061732"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 62,
+   "paperNumber": 162,
+   "questionId": "226895789524",
+   "page": 52,
+   "optionIds": {
+    "2268953061733": 1,
+    "2268953061734": 2,
+    "2268953061735": 3,
+    "2268953061736": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061734"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 63,
+   "paperNumber": 163,
+   "questionId": "226895789525",
+   "page": 52,
+   "optionIds": {
+    "2268953061737": 1,
+    "2268953061738": 2,
+    "2268953061739": 3,
+    "2268953061740": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061738"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 64,
+   "paperNumber": 164,
+   "questionId": "226895789526",
+   "page": 53,
+   "optionIds": {
+    "2268953061741": 1,
+    "2268953061742": 2,
+    "2268953061743": 3,
+    "2268953061744": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061741"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 65,
+   "paperNumber": 165,
+   "questionId": "226895789527",
+   "page": 54,
+   "optionIds": {
+    "2268953061745": 1,
+    "2268953061746": 2,
+    "2268953061747": 3,
+    "2268953061748": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061745"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 66,
+   "paperNumber": 166,
+   "questionId": "226895789528",
+   "page": 54,
+   "optionIds": {
+    "2268953061749": 1,
+    "2268953061750": 2,
+    "2268953061751": 3,
+    "2268953061752": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061750"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 67,
+   "paperNumber": 167,
+   "questionId": "226895789529",
+   "page": 55,
+   "optionIds": {
+    "2268953061753": 1,
+    "2268953061754": 2,
+    "2268953061755": 3,
+    "2268953061756": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061754"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 68,
+   "paperNumber": 168,
+   "questionId": "226895789530",
+   "page": 56,
+   "optionIds": {
+    "2268953061757": 1,
+    "2268953061758": 2,
+    "2268953061759": 3,
+    "2268953061760": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061759"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 69,
+   "paperNumber": 169,
+   "questionId": "226895789531",
+   "page": 56,
+   "optionIds": {
+    "2268953061761": 1,
+    "2268953061762": 2,
+    "2268953061763": 3,
+    "2268953061764": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061762"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 70,
+   "paperNumber": 170,
+   "questionId": "226895789532",
+   "page": 57,
+   "optionIds": {
+    "2268953061765": 1,
+    "2268953061766": 2,
+    "2268953061767": 3,
+    "2268953061768": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061767"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 71,
+   "paperNumber": 171,
+   "questionId": "226895789533",
+   "page": 57,
+   "optionIds": {
+    "2268953061769": 1,
+    "2268953061770": 2,
+    "2268953061771": 3,
+    "2268953061772": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061772"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 72,
+   "paperNumber": 172,
+   "questionId": "226895789534",
+   "page": 58,
+   "optionIds": {
+    "2268953061773": 1,
+    "2268953061774": 2,
+    "2268953061775": 3,
+    "2268953061776": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061775"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 73,
+   "paperNumber": 173,
+   "questionId": "226895789535",
+   "page": 59,
+   "optionIds": {
+    "2268953061777": 1,
+    "2268953061778": 2,
+    "2268953061779": 3,
+    "2268953061780": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061778"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 74,
+   "paperNumber": 174,
+   "questionId": "226895789536",
+   "page": 60,
+   "optionIds": {
+    "2268953061781": 1,
+    "2268953061782": 2,
+    "2268953061783": 3,
+    "2268953061784": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061782"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 75,
+   "paperNumber": 175,
+   "questionId": "226895789537",
+   "page": 60,
+   "optionIds": {
+    "2268953061785": 1,
+    "2268953061786": 2,
+    "2268953061787": 3,
+    "2268953061788": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061788"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 76,
+   "paperNumber": 176,
+   "questionId": "226895789538",
+   "page": 61,
+   "optionIds": {
+    "2268953061789": 1,
+    "2268953061790": 2,
+    "2268953061791": 3,
+    "2268953061792": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061790"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 77,
+   "paperNumber": 177,
+   "questionId": "226895789539",
+   "page": 62,
+   "optionIds": {
+    "2268953061793": 1,
+    "2268953061794": 2,
+    "2268953061795": 3,
+    "2268953061796": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061794"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 78,
+   "paperNumber": 178,
+   "questionId": "226895789540",
+   "page": 62,
+   "optionIds": {
+    "2268953061797": 1,
+    "2268953061798": 2,
+    "2268953061799": 3,
+    "2268953061800": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061799"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 79,
+   "paperNumber": 179,
+   "questionId": "226895789541",
+   "page": 63,
+   "optionIds": {
+    "2268953061801": 1,
+    "2268953061802": 2,
+    "2268953061803": 3,
+    "2268953061804": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061804"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 80,
+   "paperNumber": 180,
+   "questionId": "226895789542",
+   "page": 64,
+   "optionIds": {
+    "2268953061805": 1,
+    "2268953061806": 2,
+    "2268953061807": 3,
+    "2268953061808": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061808"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 81,
+   "paperNumber": 181,
+   "questionId": "226895789543",
+   "page": 65,
+   "optionIds": {
+    "2268953061809": 1,
+    "2268953061810": 2,
+    "2268953061811": 3,
+    "2268953061812": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061811"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 82,
+   "paperNumber": 182,
+   "questionId": "226895789544",
+   "page": 66,
+   "optionIds": {
+    "2268953061813": 1,
+    "2268953061814": 2,
+    "2268953061815": 3,
+    "2268953061816": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061816"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 83,
+   "paperNumber": 183,
+   "questionId": "226895789545",
+   "page": 66,
+   "optionIds": {
+    "2268953061817": 1,
+    "2268953061818": 2,
+    "2268953061819": 3,
+    "2268953061820": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061819"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 84,
+   "paperNumber": 184,
+   "questionId": "226895789546",
+   "page": 67,
+   "optionIds": {
+    "2268953061821": 1,
+    "2268953061822": 2,
+    "2268953061823": 3,
+    "2268953061824": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061822"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 85,
+   "paperNumber": 185,
+   "questionId": "226895789547",
+   "page": 67,
+   "optionIds": {
+    "2268953061825": 1,
+    "2268953061826": 2,
+    "2268953061827": 3,
+    "2268953061828": 4
+   },
+   "inKey": true,
+   "keySubject": "computer_science",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953061827"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  }
+ ]
+}

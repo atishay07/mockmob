@@ -1,0 +1,1435 @@
+{
+ "paper": "cuet2026-physics",
+ "subject": "physics",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "322",
+  "date": "2026-05-24",
+  "shift": "Second",
+  "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Physics, 43 PDF pages: a cover plus 42 numbered pages), https://docs.aglasem.com/view/7e11323c-c701-11f1-9d01-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/7e11323c-c701-11f1-9d01-0aa932765c8b/7e11323c-c701-11f1-9d01-0aa932765c8b.pdf (8,723,253 bytes, ETag b2a34fa16015dd704c0ff2517c5c3024, Last-Modified 13 Oct 2026), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 approval. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 322.",
+  "keySource": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 322 and the key option id is one of its four printed option ids. Printed question ids run consecutively (226895791657 for Q391 to 226895791706 for Q440) and option ids run consecutively, four per question."
+ },
+ "snapshotDate": "2026-11-23",
+ "bankRead": "One read-only read on 23 Nov 2026 with the repo read script (SELECT only; copy in tmp/1123-papers/physics/checkA/read_bank.mjs): 383 visible physics rows, of which 373 pass readablePracticeQuestions (equals the 373 in the stored inventory snapshot computed 22 Nov 2026 21:57 UTC; the 10 others are all Communication Systems, which is off the 2026 syllabus, and are not cited). The eligibility pass read the same rows again in chunks of 40 ids (SELECT only; tmp/1123-papers/physics/checkA/check_eligible_chunked.mjs). Served copy: tmp/1123-papers/physics/snap/served_rows.json and served_physics.json (eligibility output eligible.txt).",
+ "keyCardDeck": "data/keycards/decks/physics.json (v8, 1403 cards; key_card_suspended was not re-read, the earlier subjects had none suspended).",
+ "syllabusSource": "data/cuet_syllabus.js physics units (14 chapters: Electric Charges & Fields to Semiconductor Electronics; Communication Systems is RETIRED_CHAPTERS not_in_cuet_2026); every question sits on the 2026 syllabus (doubtful calls such as Q29 radiation momentum, Q41 spectral series and Q50 closest approach kept ON, the stricter reading).",
+ "checker": "A",
+ "method": "data/coverage/METHOD.md (STRICT rule; doubtful = not covered; Key cards count for theory; numericals need a served BANK row with the same formula, steps and unknown; an answer readable off a printed passage is skill: this paper has no passage). Facts written first: tmp/1123-papers/physics/checkA/A_facts_before_search.txt. Search: tmp/1123-papers/physics/checkA/s.mjs over the served copy and the deck, plus a full list of served stems (stems.txt); builder build_A.mjs checks every cited id.",
+ "eliminationNote": "Q16 is called covered partly by elimination: served material makes A and B false and D true, which leaves option 3 (C and D); C itself is taught only as \"an ammeter needs a small, a voltmeter a large resistance\", not as the ideal zero/infinite. Q2 D and Q21 rest on short inferences from the stated card (Gauss law is based on the inverse square law; the same flux links all N turns). Checker B should rule on Q2, Q16 and Q21 first. Q7 is NOT covered only because its one matching row (118066da) has a retracted wrong line in its working: repairing that explanation would make Q7 covered.",
+ "paperStructure": "One compulsory Physics section of 50 stand-alone MCQs (Q391-440), no comprehension passage; 24-05-2026 Second shift; NTA final key has 50 rows, none dropped.",
+ "counts": {
+  "covered": 23,
+  "not_covered": 27,
+  "skill": 0,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 50
+ },
+ "countsBySection": {
+  "Physics (Q391-440)": {
+   "covered": 23,
+   "not_covered": 27
+  }
+ },
+ "byType": {
+  "theory": {
+   "covered": 17,
+   "not_covered": 10,
+   "skill": 0,
+   "countable": 27
+  },
+  "numerical": {
+   "covered": 6,
+   "not_covered": 17,
+   "skill": 0,
+   "countable": 23
+  }
+ },
+ "coveredWithABankMatch": 19,
+ "byChapter": {
+  "Electric Charges & Fields": {
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Electrostatic Potential & Capacitance": {
+   "covered": 1,
+   "not_covered": 2
+  },
+  "Current Electricity": {
+   "covered": 1,
+   "not_covered": 4
+  },
+  "Moving Charges & Magnetism": {
+   "covered": 3,
+   "not_covered": 2
+  },
+  "Magnetism & Matter": {
+   "covered": 1,
+   "not_covered": 1
+  },
+  "Electromagnetic Induction": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Alternating Current": {
+   "covered": 1,
+   "not_covered": 2
+  },
+  "Electromagnetic Waves": {
+   "covered": 1,
+   "not_covered": 4
+  },
+  "Ray Optics & Optical Instruments": {
+   "covered": 0,
+   "not_covered": 3
+  },
+  "Wave Optics": {
+   "covered": 0,
+   "not_covered": 4
+  },
+  "Dual Nature of Radiation & Matter": {
+   "covered": 3,
+   "not_covered": 0
+  },
+  "Atoms": {
+   "covered": 3,
+   "not_covered": 0
+  },
+  "Nuclei": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Semiconductor Electronics": {
+   "covered": 2,
+   "not_covered": 2
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "questionId": "226895791657",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Electric Charges & Fields",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In a uniform field the forces +qE and -qE on a dipole cancel: net force zero (only a torque)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.fact-dipole-uniform-field",
+     "teaches": "net force on a dipole in a uniform field is zero; it feels a torque"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.formula-dipole-torque-vector",
+     "teaches": "in a uniform field a dipole has torque p x E but no net force"
+    }
+   ],
+   "best": "kc.physics.electric-charges-and-fields.fact-dipole-uniform-field",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card asks the same thing: the net force on a dipole in a uniform field is zero."
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "questionId": "226895791658",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Electric Charges & Fields",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A false: charge is quantised, q = ne, not any value",
+    "B: Gauss law holds for any closed surface and any charge distribution",
+    "C: a charge outside a closed surface gives zero net flux",
+    "D: Gauss law rests on the inverse-square dependence, so holds for any inverse-square field"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.def-quantisation-def",
+     "teaches": "charge is always an integral multiple of e"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.key-gauss-any-surface",
+     "teaches": "Gauss law is true for any closed surface, whatever its shape or size"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.key-gauss-zero-flux",
+     "teaches": "total flux is zero if no charge is enclosed"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.fact-gauss-q-inside-only",
+     "teaches": "q in Gauss law is only the charge inside S"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.key-gauss-inverse-square",
+     "teaches": "Gauss law is based on the inverse square dependence of Coulomb law"
+    },
+    {
+     "kind": "bank",
+     "id": "a220b850-43d7-4ab0-96da-2c99a7dbc1bc",
+     "teaches": "flux through a closed surface enclosing no net charge is zero: lines that enter leave"
+    }
+   ],
+   "best": "kc.physics.electric-charges-and-fields.def-quantisation-def",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards make charge quantised (A false), Gauss law true for any closed surface, flux zero with no charge enclosed (only enclosed charge counts) and Gauss law based on the inverse square law, so B, C and D."
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "questionId": "226895791659",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Electric Charges & Fields",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Infinite plane sheet: E = sigma/2 eps0, independent of r",
+    "infinite line charge: E proportional to 1/r",
+    "point charge: 1/r^2",
+    "short dipole: 1/r^3"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.formula-sheet-field",
+     "teaches": "infinite plane sheet E = sigma/2 eps0 (no r)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.formula-wire-field",
+     "teaches": "infinite line charge E = lambda/(2 pi eps0 r)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.fact-dipole-field-power-law",
+     "teaches": "dipole field 1/r^3 against 1/r^2 for a point charge"
+    }
+   ],
+   "best": "kc.physics.electric-charges-and-fields.formula-sheet-field",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the sheet field without r, the line-charge field as 1/r and contrast the dipole 1/r^3 with the point charge 1/r^2: all four pairs."
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "questionId": "226895791660",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Electric Charges & Fields",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Force on the end charge Q: kQQ/(2a)^2 + kqQ/a^2 = 0, so q = -Q/4"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.electric-charges-and-fields.formula-coulomb-magnitude",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "No served bank row solves for the charge that keeps a three-charge line in equilibrium (Coulomb force balance on an end charge); cards give Coulomb law only, which cannot cover a numerical."
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "questionId": "226895791661",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Electrostatic Potential & Capacitance",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Every element of the ring is at distance R from the centre: V = kQ/R = 1.8e7 V"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "86648d06-92c4-42c7-8444-6a801361903e",
+     "teaches": "potential at the centre of a uniformly charged ring = kQ/a, worked with numbers"
+    }
+   ],
+   "best": "86648d06-92c4-42c7-8444-6a801361903e",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row asks the potential at the centre of a charged ring with V = kQ/R, the same formula and steps with other numbers."
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "questionId": "226895791662",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Electrostatic Potential & Capacitance",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Three equal C in series: C/3; in parallel: 3C; ratio C1/C2 = 1/9"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "e8cc75d6-42eb-4699-994f-e4e346f7c249",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows combine two unequal capacitors in series for a voltage or an energy, and one states only that parallel raises and series lowers capacitance; none works out series and parallel values of equal capacitors and their ratio."
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "questionId": "226895791663",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Electrostatic Potential & Capacitance",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "q = CV kept when joined to an equal uncharged capacitor",
+    "common potential V/2",
+    "energy = 1/2 (2C)(V/2)^2 = 2e-6 J, half the initial"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "118066da-3ff7-47f8-9a9f-eb5ccd12fe70",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The one served row with the same steps (118066da, a charged capacitor shared with an equal uncharged one, energy halves) has a working that first writes a wrong line (2C*V0^2/4 = CV0^2/2) and then retracts it with \"oh wait check\"; a bank item with a wrong working does not count, so not covered. The row should be repaired."
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "questionId": "226895791664",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Current Electricity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "emf = work / charge",
+    "electric field = force / charge",
+    "current density = current / area",
+    "mobility = drift velocity / electric field"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.current-electricity.def-emf-def",
+     "teaches": "emf is the work done per unit charge by the source"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electric-charges-and-fields.def-electric-field-summary",
+     "teaches": "field = force on a test charge divided by the charge"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.current-electricity.def-current-density-def",
+     "teaches": "current per unit area I/A is current density"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.current-electricity.def-mobility-def",
+     "teaches": "mobility = drift velocity per unit electric field"
+    },
+    {
+     "kind": "bank",
+     "id": "f9f62398-f7f8-4747-8e15-f052f362870e",
+     "teaches": "matches conductivity, mobility, resistivity and drift velocity expressions"
+    }
+   ],
+   "best": "kc.physics.current-electricity.def-emf-def",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four cards give the four definitions in the match."
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "questionId": "226895791665",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Current Electricity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Resistivity: copper (1.7e-8) < iron (~1e-7) < carbon graphite (~3.5e-5) < rubber (1e13-1e16 ohm m)",
+    "so conductivity ascending: rubber, carbon, iron, copper"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.current-electricity.types-materials-by-resistivity",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards rank conductors, semiconductors and insulators and give the resistivity ranges of metals and semiconductors, but nothing served gives the resistivities of copper, iron, carbon and rubber (NCERT Table 3.1), so copper above iron and carbon between iron and rubber is not taught."
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "questionId": "226895791666",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Current Electricity",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A false: a current-carrying wire is electrically neutral",
+    "B true: higher temperature, more collisions, smaller tau, smaller drift velocity",
+    "C false: emf does not depend on internal resistance",
+    "D true: dry cells have much higher internal resistance than common electrolytic cells"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.current-electricity.key-dry-cell-internal-resistance",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards teach D (dry cells have much higher internal resistance) and B (more frequent collisions with temperature, vd = eE tau/m), but nothing served says a current-carrying wire is electrically neutral (A), which separates the key (B, D) from option A, B, D; nor that emf is independent of internal resistance."
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "questionId": "226895791667",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Current Electricity",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "R_T = R_0 [1 + alpha (T - T0)]",
+    "1.2 = 1 + 2e-4 dT, dT = 1000 K, T = 1300 K"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.current-electricity.formula-resistivity-temperature",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give rho_T = rho_0 [1 + alpha (T - T0)], but no served bank row solves a temperature-coefficient numerical (find the temperature for a given rise in resistance)."
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "questionId": "226895791668",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Current Electricity",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Balance P/Q = R/S; after swapping P and Q: Q/P = R'/S",
+    "multiply: S^2 = R R', S = sqrt(500 x 505) = 502.5 ohm"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "22940911-16a7-4f7e-be0f-515fa516f89f",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The only bridge row is a metre-bridge balance for one unknown (22940911); no served row uses the interchange of P and Q and S = sqrt(R R'), a different set of steps."
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "questionId": "226895791669",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Moving Charges & Magnetism",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "F = q v x B: v parallel to B gives zero force"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "c62678e0-eb15-4186-811e-45a6452e528e",
+     "teaches": "positive charge moving parallel to a uniform B: force zero (sin 0 = 0)"
+    }
+   ],
+   "best": "c62678e0-eb15-4186-811e-45a6452e528e",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row asks the same thing with the same answer."
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "questionId": "226895791670",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Magnetism & Matter",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A ferromagnetic (soft iron) core makes the field inside a solenoid larger"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.moving-charges-and-magnetism.kl-solenoid-soft-iron-core",
+     "teaches": "a large field is possible by inserting a soft iron core inside the solenoid"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.magnetism-and-matter.def-ferromagnetic",
+     "teaches": "ferromagnetic substances are strongly magnetised in an external field"
+    },
+    {
+     "kind": "bank",
+     "id": "030714f1-098d-40f2-9ca6-83d23d242c16",
+     "teaches": "a soft iron core in a solenoid increases the flux for a given current"
+    }
+   ],
+   "best": "kc.physics.moving-charges-and-magnetism.kl-solenoid-soft-iron-core",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card says a soft-iron core gives a large field inside the solenoid, and a bank row says the core increases the flux; soft iron is the ferromagnetic case."
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "questionId": "226895791671",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Moving Charges & Magnetism",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Orbiting electron: current I = e nu (charge per revolution x frequency)",
+    "m = I A = e nu pi r^2"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+     "teaches": "orbiting electron: I = e/T, m = I x pi r^2 = evr/2, with numbers"
+    }
+   ],
+   "best": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row finds the orbital magnetic moment of an electron by I = e/T and m = I pi r^2, the same formula and steps (it starts from the speed instead of the frequency)."
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "questionId": "226895791672",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Moving Charges & Magnetism",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A false: torque on a planar loop depends on its area, not its shape",
+    "B false: antiparallel currents repel",
+    "C true: ideal ammeter zero resistance, ideal voltmeter infinite",
+    "D true: galvanometer -> voltmeter with a high resistance in series"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "3ca388a2-e0f5-4d73-8690-6e347ed9c763",
+     "teaches": "torque NIAB sin theta depends only on the area of the loop, not its shape"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.moving-charges-and-magnetism.fact-parallel-currents-rule",
+     "teaches": "parallel currents attract, antiparallel currents repel"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.moving-charges-and-magnetism.diff-ammeter-vs-voltmeter-conversion",
+     "teaches": "ammeter: small shunt in parallel; voltmeter: large resistance in series"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.moving-charges-and-magnetism.fact-ammeter-negligible",
+     "teaches": "ammeter effect negligible when its resistance is small"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.moving-charges-and-magnetism.fact-voltmeter-series-resistance",
+     "teaches": "large resistance in series makes a voltmeter that draws very little current"
+    }
+   ],
+   "best": "3ca388a2-e0f5-4d73-8690-6e347ed9c763",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row says torque depends only on the area, a card makes antiparallel currents repel, and cards give the voltmeter conversion and why an ammeter must have small and a voltmeter large resistance; with A and B false, C and D is the only option left. C is taught only as small/large resistance, not as the ideal zero/infinite."
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "questionId": "226895791673",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Moving Charges & Magnetism",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "B = mu0 n I, n = 500/0.5 = 1000 per m",
+    "I = B/(mu0 n) = 2.0 A"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "ea2c1bf1-3705-45aa-99eb-5426e1f170d9",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Cards and a bank row give B = mu0 n I as an expression (ea2c1bf1 asks which expression gives B), but no served bank row solves a solenoid numerical for the current."
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "questionId": "226895791674",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Magnetism & Matter",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Torque on the magnet m B sin(theta) = 3 x 0.25 x 0.5 = 0.375 N m",
+    "balanced by F x 0.1 m, F = 3.75 N"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.magnetism-and-matter.formula-torque-on-dipole",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "No served bank row balances the torque m B sin(theta) on a bar magnet against an applied force; the nearest rows find work in rotating a dipole or the torque on a loop."
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "questionId": "226895791675",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Moving Charges & Magnetism",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Straight leads along radii give no field at O",
+    "three-quarter arc: B = (3/4) mu0 I / 2R = 1.57e-4 T"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "4e338fa8-83d5-427e-83be-2c4b18735148",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows give the field at the centre of a full loop (B = mu0 I/2R), but none takes a fraction of a loop or uses radial leads that add nothing; different steps."
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "questionId": "226895791676",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Electromagnetic Induction",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Mutual inductance depends on the coils' geometry, separation and relative orientation, not on the currents"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.electromagnetic-induction.fact-mutual-inductance-separation-orientation",
+     "teaches": "mutual inductance depends on separation and relative orientation"
+    },
+    {
+     "kind": "bank",
+     "id": "73a88abb-e91f-4ffa-bb4b-a1f74b551904",
+     "teaches": "mutual inductance depends on the geometry and relative orientation of the coils"
+    }
+   ],
+   "best": "kc.physics.electromagnetic-induction.fact-mutual-inductance-separation-orientation",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card and a bank row state the fact the key rests on."
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "questionId": "226895791677",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Electromagnetic Induction",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The same flux links every turn: flux linkage N Phi is proportional to N, so tripling the turns triples it"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.electromagnetic-induction.key-closely-wound-same-flux-all-turns",
+     "teaches": "for a closely wound coil of N turns the same flux is linked with all the turns"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.electromagnetic-induction.formula-self-inductance-flux-linkage",
+     "teaches": "flux linkage through a coil of N turns is N Phi"
+    }
+   ],
+   "best": "kc.physics.electromagnetic-induction.key-closely-wound-same-flux-all-turns",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards define the flux linked with a coil as N Phi with the same flux through every turn, so it triples with the turns."
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "questionId": "226895791678",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Alternating Current",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Steady d.c. (omega = 0): an inductor conducts (X_L = omega L = 0), a capacitor blocks after charging",
+    "an inductor does not have infinite resistance in d.c."
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.alternating-current.fact-capacitor-dc-current-zero",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards say current stops once a capacitor is charged on d.c. and that X_L is proportional to frequency, but nothing served says an inductor passes steady d.c. or has no infinite resistance in d.c.; reaching it needs the unstated step that d.c. means zero frequency."
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "questionId": "226895791679",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Alternating Current",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In a pure inductor the current lags the voltage by pi/2"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "c5f630eb-9163-4366-aad7-669bde8c8602",
+     "teaches": "in a purely inductive circuit the current lags the voltage by 90 degrees"
+    }
+   ],
+   "best": "c5f630eb-9163-4366-aad7-669bde8c8602",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row states the same fact."
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "questionId": "226895791680",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Alternating Current",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "X_L = 2 pi f L = 78.5 ohm",
+    "I_rms = V_rms / X_L = 2.8 A"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "2be3fcb0-30ce-427f-ae83-14e5d868f7d0",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows compute a capacitive reactance (2be3fcb0), an inductive reactance from an impedance (03e23eee) and an inductor voltage from given reactances (d01eb790), but none computes X_L = 2 pi f L and then I = V/X_L."
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "questionId": "226895791681",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Electromagnetic Induction",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "e = N A dB/dt with A = pi (0.01)^2 and dB/dt = 5000/4",
+    "N = e / (A dB/dt) = 28"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows compute the induced emf from N, A and the field change (e6aaca54, 0eaa849e); none solves Faraday's law for the number of turns, a different unknown."
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "questionId": "226895791682",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Electromagnetic Waves",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Photon energy E = h nu rises with frequency",
+    "frequency order: microwaves < infrared < ultraviolet < X-rays"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.electromagnetic-waves.steps-spectrum-increasing-wavelength",
+     "teaches": "gamma, X-rays, UV, visible, infrared, microwaves, radio in increasing wavelength"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.dual-nature-of-radiation-and-matter.formula-photon-energy-momentum",
+     "teaches": "photon energy E = h nu = hc/lambda"
+    },
+    {
+     "kind": "bank",
+     "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+     "teaches": "explanation lists radio, microwaves, infrared, visible, UV, X-rays, gamma by wavelength"
+    }
+   ],
+   "best": "kc.physics.electromagnetic-waves.steps-spectrum-increasing-wavelength",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards order the spectrum by wavelength and make photon energy hc/lambda, so energy rises from microwaves to X-rays."
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "questionId": "226895791683",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Electromagnetic Waves",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Conduction current in the wires equals the displacement current in the capacitor gap (current continuity, Ampere-Maxwell)",
+    "NTA key: the source may be a.c. or d.c."
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.electromagnetic-waves.formula-total-current-conduction-displacement",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards define displacement current and total current = conduction + displacement, and one says displacement current may be zero for steady fields; nothing served states that conduction current equals displacement current for an a.c. or a d.c. source."
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "questionId": "226895791684",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Electromagnetic Waves",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A: all em waves travel at the same speed in vacuum",
+    "B: a fully charged capacitor has no changing field, so no displacement current",
+    "C false: infrared, not ultraviolet, is used to see through haze and fog",
+    "D false: an accelerated (circling) charge radiates em waves"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.electromagnetic-waves.key-p-basic-difference",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give A (same speed in vacuum), B (displacement current from a time-varying field; current stops once a capacitor is charged) and D (accelerated charges radiate), but nothing served says which radiation sees through haze and fog, and C is what separates the key (A, B) from A, B, C."
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "questionId": "226895791685",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Electromagnetic Waves",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Momentum delivered by radiation of energy U: U/c if absorbed, 2U/c if perfectly reflected"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.dual-nature-of-radiation-and-matter.formula-photon-energy-momentum",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give a photon momentum p = h nu/c, but nothing served states the momentum delivered to a surface by radiation, or that perfect reflection doubles it to 2U/c."
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "questionId": "226895791686",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Electromagnetic Waves",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Intensity I = (1/2) c eps0 E0^2, so E0 ~ 4.3e8 V/m",
+    "B0 = E0 / c ~ 1.45 T"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "f4fd675c-bd08-4919-a9c5-28795d7c3e8a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row finds E0 from the intensity (f4fd675c) and another relates E0 = c B0 the other way round (011459c4), but no single served row goes from intensity to the magnetic amplitude; the two steps are split across rows."
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "questionId": "226895791687",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Ray Optics & Optical Instruments",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Covering half a lens still gives the whole image, with reduced intensity"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.ray-optics-and-optical-instruments.ex-half-covered-mirror",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The one card on this is about a concave mirror with half its surface covered (whole image, lower intensity); nothing served states it for a lens. The principle transfers, but the stated fact is for a mirror, so doubtful."
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "questionId": "226895791688",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Ray Optics & Optical Instruments",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Refractive indices: CO2 (~1.00045) < water (1.33) < crown glass (1.52) < diamond (2.42)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served card or row gives the refractive indices of carbon dioxide, water, crown glass and diamond (NCERT Table 9.1)."
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "questionId": "226895791689",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Wave Optics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Wider slit: more light, brighter maxima",
+    "one slit closed: interference disappears",
+    "wider source slit: pattern less sharp",
+    "lower frequency (longer lambda): fringe width lambda D/d increases"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.wave-optics.formula-bright-fringe-position",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the fringe positions x = n lambda D/d (so fringe width grows with wavelength) and the single-slit pattern, but nothing served says that widening the source slit blurs the fringes or that widening one slit raises the maximum intensity."
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "questionId": "226895791690",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Wave Optics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Two slits at the centre: 4 I0 = I",
+    "one slit closed: I0 = I/4"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "75299146-fa6b-4a36-a45e-8d012723a4ec",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row uses I = 4 I0 cos^2(phi/2) and notes the maximum 4 I0 at zero path difference (75299146), but it finds the two-source intensity from I0, the reverse unknown; doubtful, so not covered."
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "questionId": "226895791691",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Wave Optics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Frequency unchanged in the liquid: v = nu lambda = 2.25e8 m/s",
+    "n = c / v = 1.33"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "c88795fc-93b2-4e55-979a-126712390857",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A card says the frequency does not change on refraction, but no served bank row finds a refractive index from the frequency and the wavelength in a medium (v = nu lambda, n = c/v)."
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "questionId": "226895791692",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Wave Optics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Intensity proportional to slit width: I1/I2 = 4",
+    "amplitude ratio 2:1",
+    "Imax/Imin = (2+1)^2/(2-1)^2 = 9:1"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "0e2ae512-b283-4e41-80ef-31ef6ac18fd1",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row finds Imax/Imin = 9:1 from an intensity ratio 4:1 (0e2ae512), but the first step here, intensity proportional to slit width, is not taught by any served material, so the steps are not the same."
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "questionId": "226895791693",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Ray Optics & Optical Instruments",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Mirror magnification m = f/(f - u); u1 = -9 cm, u2 = -15 cm",
+    "m2 = m1/4: 4(f + 9) = f + 15, f = -7 cm"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "7b893dc7-e19a-4857-9764-d82a087378a3",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "No served bank row finds a mirror's focal length from the change in magnification when the object is moved; the mirror rows are qualitative."
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "questionId": "226895791694",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Dual Nature of Radiation & Matter",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Threshold wavelength lambda0 = hc/phi0: larger work function, shorter threshold wavelength",
+    "order by decreasing lambda0 = increasing phi: Cs, K, Na, Ca"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "664b7a77-53bc-4c82-889a-5731832693ac",
+     "teaches": "threshold wavelength = hc/phi"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.dual-nature-of-radiation-and-matter.formula-threshold-frequency-work-function",
+     "teaches": "greater work function, higher threshold frequency"
+    }
+   ],
+   "best": "664b7a77-53bc-4c82-889a-5731832693ac",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank explanation gives the threshold wavelength as hc/phi and a card says a greater work function needs a higher threshold frequency, so the order follows from the given work functions."
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "questionId": "226895791695",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Dual Nature of Radiation & Matter",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "de Broglie p = h/lambda for the electron; photon p = h/lambda",
+    "same wavelength, same momentum: 1:1"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.dual-nature-of-radiation-and-matter.formula-photon-energy-momentum",
+     "teaches": "photon momentum p = h nu/c = h/lambda"
+    },
+    {
+     "kind": "bank",
+     "id": "3b05fd92-2355-4441-968e-ae9c92367483",
+     "teaches": "de Broglie wavelength lambda = h/p for a particle"
+    }
+   ],
+   "best": "kc.physics.dual-nature-of-radiation-and-matter.formula-photon-energy-momentum",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A card gives the photon momentum h/lambda and a bank row the de Broglie lambda = h/p, so equal wavelengths mean equal momenta."
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "questionId": "226895791696",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Dual Nature of Radiation & Matter",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Photon energy E = hc/lambda = 3.3e-19 J",
+    "photons per second = P / E = 2e20"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "a8245687-1132-49a7-8ec4-306abf2aba8b",
+     "teaches": "lamp 3.3 W at 600 nm: E = hc/lambda, N = P/E"
+    }
+   ],
+   "best": "a8245687-1132-49a7-8ec4-306abf2aba8b",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row is the same sum (600 nm, h = 6.6e-34) with a different power."
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "questionId": "226895791697",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Atoms",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Lyman: lower level n1 = 1; Balmer n1 = 2; Paschen n1 = 3; Brackett n1 = 4 in R(1/n1^2 - 1/n2^2)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "3d3a5b97-0249-4275-9f58-5fd7ab90a3d3",
+     "teaches": "match: Lyman n = 1, Balmer n = 2, Paschen n = 3, Brackett n = 4 lower levels"
+    },
+    {
+     "kind": "bank",
+     "id": "0ac2e9bd-113f-4e47-bbb4-becf5cfbd80d",
+     "teaches": "Rydberg formula 1/lambda = R (1/2^2 - 1/3^2) for a Balmer line"
+    }
+   ],
+   "best": "3d3a5b97-0249-4275-9f58-5fd7ab90a3d3",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row matches the same four series to their lower levels; another shows the Rydberg form."
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "questionId": "226895791698",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 4,
+   "chapter": "Atoms",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Bohr's second postulate: angular momentum is an integral multiple of h/2 pi"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.atoms.def-postulate-2",
+     "teaches": "angular momentum is some integral multiple of h/2 pi"
+    },
+    {
+     "kind": "bank",
+     "id": "59c65a4c-9cea-4a76-bbe3-dde064917db4",
+     "teaches": "angular momentum is nh/2 pi"
+    }
+   ],
+   "best": "kc.physics.atoms.def-postulate-2",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states the postulate the question asks."
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "questionId": "226895791699",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Nuclei",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Binding energy per nucleon: 6Li (~5.3 MeV) < 4He (~7.07) < 14N (~7.48) < 12C (~7.68)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.physics.nuclei.fact-bepn-lower-light-heavy",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the shape of the binding-energy curve (lower for light nuclei, peak near A = 56) and a bank row gives 7.1 MeV for helium-4, but nothing served gives the values for lithium-6, nitrogen-14 and carbon-12, and the order (He-4 above Li-6, N-14 below C-12) does not follow from the general trend."
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "questionId": "226895791700",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Nuclei",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "R = R0 A^(1/3)",
+    "(4/32)^(1/3) = 1/2"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "a904ec90-8023-4df6-84c5-8fa146b1698a",
+     "teaches": "radius for mass number 8A is 2R from R = R0 A^(1/3)"
+    }
+   ],
+   "best": "a904ec90-8023-4df6-84c5-8fa146b1698a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row uses the same relation for the same mass-number ratio of 8, so the radius ratio is 1:2."
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "questionId": "226895791701",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Semiconductor Electronics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "lambda_max = hc / Eg = 1240 eV nm / 0.72 eV ~ 1.7e-6 m"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "0375dea9-b753-482a-9fef-3b2f6fb17818",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row checks whether 450 nm light (2.75 eV) exceeds the silicon gap (0375dea9), but none computes the longest wavelength from the band gap, lambda = hc/Eg."
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "questionId": "226895791702",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Semiconductor Electronics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Forward bias lowers the barrier and narrows the depletion layer"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+     "teaches": "forward bias narrows the depletion layer"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.semiconductor-electronics.diff-forward-reverse-barrier",
+     "teaches": "in forward bias the barrier is decreased"
+    }
+   ],
+   "best": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row states that forward bias narrows the depletion layer."
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "questionId": "226895791703",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 1,
+   "chapter": "Semiconductor Electronics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Donor energy level E_D lies slightly below the bottom of the conduction band"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.physics.semiconductor-electronics.fact-donor-energy-level",
+     "teaches": "donor level E_D is slightly below the bottom E_C of the conduction band"
+    }
+   ],
+   "best": "kc.physics.semiconductor-electronics.fact-donor-energy-level",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "questionId": "226895791704",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 3,
+   "chapter": "Semiconductor Electronics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "n_e ~ N_D = ppm x 5e28 m^-3 (1e23; 2.5e23)",
+    "n_e n_h = n_i^2, so n_h = 1e32 / n_e (1e9; 4e8)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "fabdd431-d76a-40f3-b6c3-1718f5b4a141",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row finds n_h = n_i^2 / n_e from a given n_e (fabdd431), but none gets n_e from a doping level in ppm (n_e ~ N_D), the first step of every pair in the match."
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "questionId": "226895791705",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Nuclei",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Energy per fission 200 MeV = 3.2e-11 J",
+    "fissions per second = P / E = 1000 / 3.2e-11 = 3.125e13"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "97690044-9d76-4aff-a84b-f9787fd3c100",
+     "teaches": "reactor 3.2 MW, 200 MeV per fission: rate = P/E"
+    }
+   ],
+   "best": "97690044-9d76-4aff-a84b-f9787fd3c100",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row is the same sum with a different power."
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "questionId": "226895791706",
+   "section": "Physics, one section (Q391-440)",
+   "ntaKey": 2,
+   "chapter": "Atoms",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "At closest approach K = k (2e)(Ze)/d",
+    "d = 2kZe^2/K = 4kZe^2/(m v^2), proportional to v^-2"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "eab7b9e0-c086-4422-8820-f49e7701fe40",
+     "teaches": "closest approach: K = (2e)(Ze)/(4 pi eps0 r0), r0 = 2Z e^2/(4 pi eps0 K)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.physics.atoms.formula-closest-approach",
+     "teaches": "d = 2Ze^2/(4 pi eps0 K)"
+    }
+   ],
+   "best": "eab7b9e0-c086-4422-8820-f49e7701fe40",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served bank row sets the kinetic energy equal to the potential energy at closest approach and finds d inversely proportional to K; with K = mv^2/2 that is v^-2."
+  }
+ ]
+}

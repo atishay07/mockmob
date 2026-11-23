@@ -1,0 +1,1879 @@
+{
+ "paper": "cuet2026-mathematics",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 23 Nov 2026; option ids read by OCR (RapidOCR), question ids by OCR for 43 and from the page image for 42, matched to NTA's 2026 final key (subject 319)",
+ "shifts": {
+  "24-05-2026 (Second)": 85
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 306,
+   "questionId": "226895791572",
+   "page": 3,
+   "optionIds": {
+    "2268953069709": 1,
+    "2268953069710": 2,
+    "2268953069711": 3,
+    "2268953069712": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069711"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 2,
+   "paperNumber": 307,
+   "questionId": "226895791573",
+   "page": 4,
+   "optionIds": {
+    "2268953069713": 1,
+    "2268953069714": 2,
+    "2268953069715": 3,
+    "2268953069716": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069713"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 3,
+   "paperNumber": 308,
+   "questionId": "226895791574",
+   "page": 5,
+   "optionIds": {
+    "2268953069717": 1,
+    "2268953069718": 2,
+    "2268953069719": 3,
+    "2268953069720": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069720"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 4,
+   "paperNumber": 309,
+   "questionId": "226895791575",
+   "page": 6,
+   "optionIds": {
+    "2268953069721": 1,
+    "2268953069722": 2,
+    "2268953069723": 3,
+    "2268953069724": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069724"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 5,
+   "paperNumber": 310,
+   "questionId": "226895791576",
+   "page": 6,
+   "optionIds": {
+    "2268953069725": 1,
+    "2268953069726": 2,
+    "2268953069727": 3,
+    "2268953069728": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069727"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 6,
+   "paperNumber": 311,
+   "questionId": "226895791577",
+   "page": 7,
+   "optionIds": {
+    "2268953069729": 1,
+    "2268953069730": 2,
+    "2268953069731": 3,
+    "2268953069732": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069732"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 7,
+   "paperNumber": 312,
+   "questionId": "226895791578",
+   "page": 8,
+   "optionIds": {
+    "2268953069733": 1,
+    "2268953069734": 2,
+    "2268953069735": 3,
+    "2268953069736": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069734"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 8,
+   "paperNumber": 313,
+   "questionId": "226895791579",
+   "page": 8,
+   "optionIds": {
+    "2268953069737": 1,
+    "2268953069738": 2,
+    "2268953069739": 3,
+    "2268953069740": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069739"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 9,
+   "paperNumber": 314,
+   "questionId": "226895791580",
+   "page": 9,
+   "optionIds": {
+    "2268953069741": 1,
+    "2268953069742": 2,
+    "2268953069743": 3,
+    "2268953069744": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069741"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 10,
+   "paperNumber": 315,
+   "questionId": "226895791581",
+   "page": 10,
+   "optionIds": {
+    "2268953069745": 1,
+    "2268953069746": 2,
+    "2268953069747": 3,
+    "2268953069748": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069746"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 11,
+   "paperNumber": 316,
+   "questionId": "226895791582",
+   "page": 11,
+   "optionIds": {
+    "2268953069749": 1,
+    "2268953069750": 2,
+    "2268953069751": 3,
+    "2268953069752": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069749"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 12,
+   "paperNumber": 317,
+   "questionId": "226895791583",
+   "page": 11,
+   "optionIds": {
+    "2268953069753": 1,
+    "2268953069754": 2,
+    "2268953069755": 3,
+    "2268953069756": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069756"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 13,
+   "paperNumber": 318,
+   "questionId": "226895791584",
+   "page": 12,
+   "optionIds": {
+    "2268953069757": 1,
+    "2268953069758": 2,
+    "2268953069759": 3,
+    "2268953069760": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069758"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 14,
+   "paperNumber": 319,
+   "questionId": "226895791585",
+   "page": 13,
+   "optionIds": {
+    "2268953069761": 1,
+    "2268953069762": 2,
+    "2268953069763": 3,
+    "2268953069764": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069764"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 15,
+   "paperNumber": 320,
+   "questionId": "226895791586",
+   "page": 14,
+   "optionIds": {
+    "2268953069765": 1,
+    "2268953069766": 2,
+    "2268953069767": 3,
+    "2268953069768": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069767"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 16,
+   "paperNumber": 321,
+   "questionId": "226895791587",
+   "page": 16,
+   "optionIds": {
+    "2268953069769": 1,
+    "2268953069770": 2,
+    "2268953069771": 3,
+    "2268953069772": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069772"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 17,
+   "paperNumber": 322,
+   "questionId": "226895791588",
+   "page": 17,
+   "optionIds": {
+    "2268953069773": 1,
+    "2268953069774": 2,
+    "2268953069775": 3,
+    "2268953069776": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069774"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 18,
+   "paperNumber": 323,
+   "questionId": "226895791589",
+   "page": 17,
+   "optionIds": {
+    "2268953069777": 1,
+    "2268953069778": 2,
+    "2268953069779": 3,
+    "2268953069780": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069777"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 19,
+   "paperNumber": 324,
+   "questionId": "226895791590",
+   "page": 18,
+   "optionIds": {
+    "2268953069781": 1,
+    "2268953069782": 2,
+    "2268953069783": 3,
+    "2268953069784": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069782"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 20,
+   "paperNumber": 325,
+   "questionId": "226895791591",
+   "page": 19,
+   "optionIds": {
+    "2268953069785": 1,
+    "2268953069786": 2,
+    "2268953069787": 3,
+    "2268953069788": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069786"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 21,
+   "paperNumber": 326,
+   "questionId": "226895791592",
+   "page": 20,
+   "optionIds": {
+    "2268953069789": 1,
+    "2268953069790": 2,
+    "2268953069791": 3,
+    "2268953069792": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069791"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 22,
+   "paperNumber": 327,
+   "questionId": "226895791593",
+   "page": 21,
+   "optionIds": {
+    "2268953069793": 1,
+    "2268953069794": 2,
+    "2268953069795": 3,
+    "2268953069796": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069795"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 23,
+   "paperNumber": 328,
+   "questionId": "226895791594",
+   "page": 21,
+   "optionIds": {
+    "2268953069797": 1,
+    "2268953069798": 2,
+    "2268953069799": 3,
+    "2268953069800": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069798"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 24,
+   "paperNumber": 329,
+   "questionId": "226895791595",
+   "page": 22,
+   "optionIds": {
+    "2268953069801": 1,
+    "2268953069802": 2,
+    "2268953069803": 3,
+    "2268953069804": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069804"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 25,
+   "paperNumber": 330,
+   "questionId": "226895791596",
+   "page": 23,
+   "optionIds": {
+    "2268953069805": 1,
+    "2268953069806": 2,
+    "2268953069807": 3,
+    "2268953069808": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069806"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 26,
+   "paperNumber": 331,
+   "questionId": "226895791597",
+   "page": 24,
+   "optionIds": {
+    "2268953069809": 1,
+    "2268953069810": 2,
+    "2268953069811": 3,
+    "2268953069812": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069811"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 27,
+   "paperNumber": 332,
+   "questionId": "226895791598",
+   "page": 25,
+   "optionIds": {
+    "2268953069813": 1,
+    "2268953069814": 2,
+    "2268953069815": 3,
+    "2268953069816": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069816"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 28,
+   "paperNumber": 333,
+   "questionId": "226895791599",
+   "page": 26,
+   "optionIds": {
+    "2268953069817": 1,
+    "2268953069818": 2,
+    "2268953069819": 3,
+    "2268953069820": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069819"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 29,
+   "paperNumber": 334,
+   "questionId": "226895791600",
+   "page": 26,
+   "optionIds": {
+    "2268953069821": 1,
+    "2268953069822": 2,
+    "2268953069823": 3,
+    "2268953069824": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069823"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 30,
+   "paperNumber": 335,
+   "questionId": "226895791601",
+   "page": 27,
+   "optionIds": {
+    "2268953069825": 1,
+    "2268953069826": 2,
+    "2268953069827": 3,
+    "2268953069828": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069827"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 31,
+   "paperNumber": 336,
+   "questionId": "226895791602",
+   "page": 28,
+   "optionIds": {
+    "2268953069829": 1,
+    "2268953069830": 2,
+    "2268953069831": 3,
+    "2268953069832": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069832"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 32,
+   "paperNumber": 337,
+   "questionId": "226895791603",
+   "page": 29,
+   "optionIds": {
+    "2268953069833": 1,
+    "2268953069834": 2,
+    "2268953069835": 3,
+    "2268953069836": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069834"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 33,
+   "paperNumber": 338,
+   "questionId": "226895791604",
+   "page": 30,
+   "optionIds": {
+    "2268953069837": 1,
+    "2268953069838": 2,
+    "2268953069839": 3,
+    "2268953069840": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069839"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 34,
+   "paperNumber": 339,
+   "questionId": "226895791605",
+   "page": 31,
+   "optionIds": {
+    "2268953069841": 1,
+    "2268953069842": 2,
+    "2268953069843": 3,
+    "2268953069844": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069843"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 35,
+   "paperNumber": 340,
+   "questionId": "226895791606",
+   "page": 32,
+   "optionIds": {
+    "2268953069845": 1,
+    "2268953069846": 2,
+    "2268953069847": 3,
+    "2268953069848": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069848"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 36,
+   "paperNumber": 341,
+   "questionId": "226895791607",
+   "page": 33,
+   "optionIds": {
+    "2268953069849": 1,
+    "2268953069850": 2,
+    "2268953069851": 3,
+    "2268953069852": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069850"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 37,
+   "paperNumber": 342,
+   "questionId": "226895791608",
+   "page": 34,
+   "optionIds": {
+    "2268953069853": 1,
+    "2268953069854": 2,
+    "2268953069855": 3,
+    "2268953069856": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069854"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 38,
+   "paperNumber": 343,
+   "questionId": "226895791609",
+   "page": 35,
+   "optionIds": {
+    "2268953069857": 1,
+    "2268953069858": 2,
+    "2268953069859": 3,
+    "2268953069860": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069858"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 39,
+   "paperNumber": 344,
+   "questionId": "226895791610",
+   "page": 36,
+   "optionIds": {
+    "2268953069861": 1,
+    "2268953069862": 2,
+    "2268953069863": 3,
+    "2268953069864": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069861"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 40,
+   "paperNumber": 345,
+   "questionId": "226895791611",
+   "page": 37,
+   "optionIds": {
+    "2268953069865": 1,
+    "2268953069866": 2,
+    "2268953069867": 3,
+    "2268953069868": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069865"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 41,
+   "paperNumber": 346,
+   "questionId": "226895791612",
+   "page": 38,
+   "optionIds": {
+    "2268953069869": 1,
+    "2268953069870": 2,
+    "2268953069871": 3,
+    "2268953069872": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069872"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 42,
+   "paperNumber": 347,
+   "questionId": "226895791613",
+   "page": 39,
+   "optionIds": {
+    "2268953069873": 1,
+    "2268953069874": 2,
+    "2268953069875": 3,
+    "2268953069876": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069873"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 43,
+   "paperNumber": 348,
+   "questionId": "226895791614",
+   "page": 39,
+   "optionIds": {
+    "2268953069877": 1,
+    "2268953069878": 2,
+    "2268953069879": 3,
+    "2268953069880": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069878"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 44,
+   "paperNumber": 349,
+   "questionId": "226895791615",
+   "page": 40,
+   "optionIds": {
+    "2268953069881": 1,
+    "2268953069882": 2,
+    "2268953069883": 3,
+    "2268953069884": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069884"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 45,
+   "paperNumber": 350,
+   "questionId": "226895791616",
+   "page": 41,
+   "optionIds": {
+    "2268953069885": 1,
+    "2268953069886": 2,
+    "2268953069887": 3,
+    "2268953069888": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069888"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 46,
+   "paperNumber": 351,
+   "questionId": "226895791617",
+   "page": 42,
+   "optionIds": {
+    "2268953069889": 1,
+    "2268953069890": 2,
+    "2268953069891": 3,
+    "2268953069892": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069890"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 47,
+   "paperNumber": 352,
+   "questionId": "226895791618",
+   "page": 43,
+   "optionIds": {
+    "2268953069893": 1,
+    "2268953069894": 2,
+    "2268953069895": 3,
+    "2268953069896": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069894"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 48,
+   "paperNumber": 353,
+   "questionId": "226895791619",
+   "page": 44,
+   "optionIds": {
+    "2268953069897": 1,
+    "2268953069898": 2,
+    "2268953069899": 3,
+    "2268953069900": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069898"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 49,
+   "paperNumber": 354,
+   "questionId": "226895791620",
+   "page": 45,
+   "optionIds": {
+    "2268953069901": 1,
+    "2268953069902": 2,
+    "2268953069903": 3,
+    "2268953069904": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069902"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 50,
+   "paperNumber": 355,
+   "questionId": "226895791621",
+   "page": 46,
+   "optionIds": {
+    "2268953069905": 1,
+    "2268953069906": 2,
+    "2268953069907": 3,
+    "2268953069908": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069905"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 51,
+   "paperNumber": 356,
+   "questionId": "226895791622",
+   "page": 47,
+   "optionIds": {
+    "2268953069909": 1,
+    "2268953069910": 2,
+    "2268953069911": 3,
+    "2268953069912": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069910"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 52,
+   "paperNumber": 357,
+   "questionId": "226895791623",
+   "page": 48,
+   "optionIds": {
+    "2268953069913": 1,
+    "2268953069914": 2,
+    "2268953069915": 3,
+    "2268953069916": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069914"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 53,
+   "paperNumber": 358,
+   "questionId": "226895791624",
+   "page": 49,
+   "optionIds": {
+    "2268953069917": 1,
+    "2268953069918": 2,
+    "2268953069919": 3,
+    "2268953069920": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069918"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 54,
+   "paperNumber": 359,
+   "questionId": "226895791625",
+   "page": 49,
+   "optionIds": {
+    "2268953069921": 1,
+    "2268953069922": 2,
+    "2268953069923": 3,
+    "2268953069924": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069923"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 55,
+   "paperNumber": 360,
+   "questionId": "226895791626",
+   "page": 50,
+   "optionIds": {
+    "2268953069925": 1,
+    "2268953069926": 2,
+    "2268953069927": 3,
+    "2268953069928": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069926"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 56,
+   "paperNumber": 361,
+   "questionId": "226895791627",
+   "page": 51,
+   "optionIds": {
+    "2268953069929": 1,
+    "2268953069930": 2,
+    "2268953069931": 3,
+    "2268953069932": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069930"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 57,
+   "paperNumber": 362,
+   "questionId": "226895791628",
+   "page": 52,
+   "optionIds": {
+    "2268953069933": 1,
+    "2268953069934": 2,
+    "2268953069935": 3,
+    "2268953069936": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069934"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 58,
+   "paperNumber": 363,
+   "questionId": "226895791629",
+   "page": 54,
+   "optionIds": {
+    "2268953069937": 1,
+    "2268953069938": 2,
+    "2268953069939": 3,
+    "2268953069940": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069939"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 59,
+   "paperNumber": 364,
+   "questionId": "226895791630",
+   "page": 55,
+   "optionIds": {
+    "2268953069941": 1,
+    "2268953069942": 2,
+    "2268953069943": 3,
+    "2268953069944": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069941"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 60,
+   "paperNumber": 365,
+   "questionId": "226895791631",
+   "page": 55,
+   "optionIds": {
+    "2268953069945": 1,
+    "2268953069946": 2,
+    "2268953069947": 3,
+    "2268953069948": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069946"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 61,
+   "paperNumber": 366,
+   "questionId": "226895791632",
+   "page": 56,
+   "optionIds": {
+    "2268953069949": 1,
+    "2268953069950": 2,
+    "2268953069951": 3,
+    "2268953069952": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069951"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 62,
+   "paperNumber": 367,
+   "questionId": "226895791633",
+   "page": 57,
+   "optionIds": {
+    "2268953069953": 1,
+    "2268953069954": 2,
+    "2268953069955": 3,
+    "2268953069956": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069955"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 63,
+   "paperNumber": 368,
+   "questionId": "226895791634",
+   "page": 57,
+   "optionIds": {
+    "2268953069957": 1,
+    "2268953069958": 2,
+    "2268953069959": 3,
+    "2268953069960": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069957"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 64,
+   "paperNumber": 369,
+   "questionId": "226895791635",
+   "page": 58,
+   "optionIds": {
+    "2268953069961": 1,
+    "2268953069962": 2,
+    "2268953069963": 3,
+    "2268953069964": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069963"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 65,
+   "paperNumber": 370,
+   "questionId": "226895791636",
+   "page": 59,
+   "optionIds": {
+    "2268953069965": 1,
+    "2268953069966": 2,
+    "2268953069967": 3,
+    "2268953069968": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069968"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 66,
+   "paperNumber": 371,
+   "questionId": "226895791637",
+   "page": 59,
+   "optionIds": {
+    "2268953069969": 1,
+    "2268953069970": 2,
+    "2268953069971": 3,
+    "2268953069972": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069971"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 67,
+   "paperNumber": 372,
+   "questionId": "226895791638",
+   "page": 60,
+   "optionIds": {
+    "2268953069973": 1,
+    "2268953069974": 2,
+    "2268953069975": 3,
+    "2268953069976": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069974"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 68,
+   "paperNumber": 373,
+   "questionId": "226895791639",
+   "page": 61,
+   "optionIds": {
+    "2268953069977": 1,
+    "2268953069978": 2,
+    "2268953069979": 3,
+    "2268953069980": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069979"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 69,
+   "paperNumber": 374,
+   "questionId": "226895791640",
+   "page": 62,
+   "optionIds": {
+    "2268953069981": 1,
+    "2268953069982": 2,
+    "2268953069983": 3,
+    "2268953069984": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069981"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 70,
+   "paperNumber": 375,
+   "questionId": "226895791641",
+   "page": 63,
+   "optionIds": {
+    "2268953069985": 1,
+    "2268953069986": 2,
+    "2268953069987": 3,
+    "2268953069988": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069987"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 71,
+   "paperNumber": 376,
+   "questionId": "226895791642",
+   "page": 63,
+   "optionIds": {
+    "2268953069989": 1,
+    "2268953069990": 2,
+    "2268953069991": 3,
+    "2268953069992": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069990"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 72,
+   "paperNumber": 377,
+   "questionId": "226895791643",
+   "page": 64,
+   "optionIds": {
+    "2268953069993": 1,
+    "2268953069994": 2,
+    "2268953069995": 3,
+    "2268953069996": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953069994"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 73,
+   "paperNumber": 378,
+   "questionId": "226895791644",
+   "page": 65,
+   "optionIds": {
+    "2268953069997": 1,
+    "2268953069998": 2,
+    "2268953069999": 3,
+    "2268953070000": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070000"
+   ],
+   "correctPosition": 4,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 74,
+   "paperNumber": 379,
+   "questionId": "226895791645",
+   "page": 66,
+   "optionIds": {
+    "2268953070001": 1,
+    "2268953070002": 2,
+    "2268953070003": 3,
+    "2268953070004": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070003"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 75,
+   "paperNumber": 380,
+   "questionId": "226895791646",
+   "page": 67,
+   "optionIds": {
+    "2268953070005": 1,
+    "2268953070006": 2,
+    "2268953070007": 3,
+    "2268953070008": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070007"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 76,
+   "paperNumber": 381,
+   "questionId": "226895791647",
+   "page": 68,
+   "optionIds": {
+    "2268953070009": 1,
+    "2268953070010": 2,
+    "2268953070011": 3,
+    "2268953070012": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070010"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 77,
+   "paperNumber": 382,
+   "questionId": "226895791648",
+   "page": 69,
+   "optionIds": {
+    "2268953070013": 1,
+    "2268953070014": 2,
+    "2268953070015": 3,
+    "2268953070016": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070014"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 78,
+   "paperNumber": 383,
+   "questionId": "226895791649",
+   "page": 70,
+   "optionIds": {
+    "2268953070017": 1,
+    "2268953070018": 2,
+    "2268953070019": 3,
+    "2268953070020": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070019"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 79,
+   "paperNumber": 384,
+   "questionId": "226895791650",
+   "page": 71,
+   "optionIds": {
+    "2268953070021": 1,
+    "2268953070022": 2,
+    "2268953070023": 3,
+    "2268953070024": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070023"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "page image (question id) + OCR (option ids)"
+  },
+  {
+   "n": 80,
+   "paperNumber": 385,
+   "questionId": "226895791651",
+   "page": 72,
+   "optionIds": {
+    "2268953070025": 1,
+    "2268953070026": 2,
+    "2268953070027": 3,
+    "2268953070028": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070025"
+   ],
+   "correctPosition": 1,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 81,
+   "paperNumber": 386,
+   "questionId": "226895791652",
+   "page": 73,
+   "optionIds": {
+    "2268953070029": 1,
+    "2268953070030": 2,
+    "2268953070031": 3,
+    "2268953070032": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070030"
+   ],
+   "correctPosition": 2,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 82,
+   "paperNumber": 387,
+   "questionId": "226895791653",
+   "page": 73,
+   "optionIds": {
+    "2268953070033": 1,
+    "2268953070034": 2,
+    "2268953070035": 3,
+    "2268953070036": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070035"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 83,
+   "paperNumber": 388,
+   "questionId": "226895791654",
+   "page": 74,
+   "optionIds": {
+    "2268953070037": 1,
+    "2268953070038": 2,
+    "2268953070039": 3,
+    "2268953070040": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070039"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 84,
+   "paperNumber": 389,
+   "questionId": "226895791655",
+   "page": 75,
+   "optionIds": {
+    "2268953070041": 1,
+    "2268953070042": 2,
+    "2268953070043": 3,
+    "2268953070044": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070043"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  },
+  {
+   "n": 85,
+   "paperNumber": 390,
+   "questionId": "226895791656",
+   "page": 75,
+   "optionIds": {
+    "2268953070045": 1,
+    "2268953070046": 2,
+    "2268953070047": 3,
+    "2268953070048": 4
+   },
+   "inKey": true,
+   "keySubject": "mathematics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070047"
+   ],
+   "correctPosition": 3,
+   "authenticated": true,
+   "idsReadBy": "OCR"
+  }
+ ]
+}

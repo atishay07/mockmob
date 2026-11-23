@@ -1,0 +1,1300 @@
+{
+ "paper": "cuet2026-physics",
+ "subject": "physics",
+ "subjectName": "Physics",
+ "subjectCode": "322",
+ "examDate": "2026-05-24",
+ "shift": "Second",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Physics, 43 PDF pages: a cover plus 42 numbered pages), https://docs.aglasem.com/view/7e11323c-c701-11f1-9d01-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/7e11323c-c701-11f1-9d01-0aa932765c8b/7e11323c-c701-11f1-9d01-0aa932765c8b.pdf (8,723,253 bytes, ETag b2a34fa16015dd704c0ff2517c5c3024, Last-Modified 13 Oct 2026), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 approval. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 322.",
+ "provenance": {
+  "viewUrl": "https://docs.aglasem.com/view/7e11323c-c701-11f1-9d01-0aa932765c8b",
+  "pdfUrl": "https://cdn.aglasem.com/aglasem-doc/7e11323c-c701-11f1-9d01-0aa932765c8b/7e11323c-c701-11f1-9d01-0aa932765c8b.pdf",
+  "downloadedOn": "2026-11-23",
+  "fileBytes": 8723253,
+  "etag": "b2a34fa16015dd704c0ff2517c5c3024",
+  "lastModified": "2026-10-13",
+  "localFile": "tmp/1123-papers/physics/pdf/cuet2026-physics.pdf",
+  "finalKey": "cuet-2026-final-keys.pdf (NTA CUET (UG) 2026 final answer key), subject 322, 26 shifts (24 x 50 rows, one 49, one 48); rows extracted to tmp/1123-papers/physics/work/keys-physics.json",
+  "shift": "24-05-2026 (Second)",
+  "questionsAuthenticated": 50
+ },
+ "structure": "Group 8 'Physics' (60 minutes, 250 marks), one mandatory section of 50 numbered questions (391 to 440), all stand-alone MCQs, each printed in English then Hindi. The header says 'Number of Questions: 50', 'to be attempted: 50' and 'Section Marks: 250'. No comprehension passage.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 322 and the key option id is one of its four printed option ids. Printed question ids run consecutively (226895791657 for Q391 to 226895791706 for Q440) and option ids run consecutively, four per question.",
+ "transcribedBy": "Subagent paper stage, 23 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed, read from the page images. Spelling and wording kept as printed (e.g. Q401 'At what temperature the resistance', Q412 'Identity the correct statement(s)', Q430 'Plank's constant', Q437 'valance band' in option 2, Q440 'distance of closet approach').",
+  "Notation: powers are written with ^ (10^-6, r^2), subscripts as plain characters (C1, μ0, ε0, n2), fractions with / ; Q439 prints the nucleus as a superscript 235 over a subscript 92 before U, written here as ^235_92U. Q433 prints the nuclides as '4He', '6Li', '14N', '12C' (mass number, then the symbol set low), kept as printed.",
+  "Page = the PDF page (pNN of the 43-page PDF; the printed footer is one lower) where the question's English option ids were read.",
+  "Match tables are written as rows 'List-I item | List-II item' in the order the paper prints them.",
+  "Q409 has a figure; it is described in words in the stem (three-quarter circular arc of radius 3 cm round O, with straight leads along two radii at 90 degrees).",
+  "Q407: the English stem gives the flux density as 2.52 x 10^-3 T; the Hindi copy prints 2.5 x 10^-3 T. The English is transcribed; NTA's key gives option 2 (2.0 A), which fits both (B = μ0 n I with n = 1000 per m gives 2.0 A).",
+  "Q424: the options print bare numbers (1/2, 1, 1/4, 1/3) without the factor I; kept as printed. NTA's key gives option 3 (1/4), i.e. I/4.",
+  "Q397: option 4 prints '6 × 10^6 J' (positive exponent) as printed.",
+  "Q438: the key gives option 3 (A-IV, B-III, C-II, D-I), which fits n_e = doping concentration and n_h = n_i^2 / n_e with the printed numbers.",
+  "OCR missed the English header line of 12 questions (395, 396, 401, 402, 419, 420, 422, 423, 429, 430, 432, 440); their question ids and option ids were read from the page images and checked against the Hindi copy, the consecutive id runs and the OCR option-id lines; they then authenticated like the rest.",
+  "Every key was read against NCERT physics and fits the English text as transcribed; none needed a note beyond those above.",
+  "The shift's key has 50 rows, all single-answer, none dropped. NTA's final key for subject 322 holds 26 shifts; this paper is the 24-05-2026 Second shift and all 50 question ids fall in that one shift.",
+  "OCR slips fixed: none needed in the final text, because the text was typed from the page images, not cleaned from OCR (the OCR draft dropped spaces and broke formulas, and was used only for ids)."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "keyRows": 50,
+  "ocrSlipsFixed": 0
+ },
+ "problems": [],
+ "passages": {},
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "questionId": "226895791657",
+   "page": 2,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "An electric dipole is placed in an external uniform electric field. The net electric force on the dipole",
+   "options": [
+    "is always zero",
+    "depends on the orientation of the dipole",
+    "can never be zero",
+    "depends on the dipole moment of the dipole"
+   ],
+   "optionIds": [
+    "2268953070049",
+    "2268953070050",
+    "2268953070051",
+    "2268953070052"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070049",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "questionId": "226895791658",
+   "page": 3,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Identify the correct statements from the following :\nA. The charge on a body can have any value greater than the charge on an electron or proton.\nB. Gauss's theorem is valid for a closed surface of any shape and for any general charge distribution.\nC. The net flux through a closed surface due to a charge lying outside the closed surface is zero.\nD. Gauss's theorem is applicable to any field which obeys the inverse square law\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and C only",
+    "A, B and D only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "optionIds": [
+    "2268953070053",
+    "2268953070054",
+    "2268953070055",
+    "2268953070056"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070056",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "questionId": "226895791659",
+   "page": 4,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. E is independent of r | I. For a point charge\nB. E is inversely proportional to r | II. For a short dipole\nC. E is inversely proportional to r^2 | III. For a uniform line charge\nD. E is inversely proportional to r^3 | IV. For a uniformly charged infinite plane sheet\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-I, D-II",
+    "A-IV, B-III, C-II, D-I",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953070057",
+    "2268953070058",
+    "2268953070059",
+    "2268953070060"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070058",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "questionId": "226895791660",
+   "page": 5,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A charge q is placed at the center of a line joining two equal positive charges Q. The system of the three charges will be in equilibrium, if q is equal to",
+   "options": [
+    "-Q/2",
+    "-Q/4",
+    "+Q/4",
+    "+Q/2"
+   ],
+   "optionIds": [
+    "2268953070061",
+    "2268953070062",
+    "2268953070063",
+    "2268953070064"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070062",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "questionId": "226895791661",
+   "page": 6,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A metal wire is bent in the shape of a circle of 10 cm radius. It is given a charge of 200 μC which spreads on it uniformly. The electric potential at its center is",
+   "options": [
+    "3 × 10^6 V",
+    "6 × 10^6 V",
+    "9 × 10^6 V",
+    "18 × 10^6 V"
+   ],
+   "optionIds": [
+    "2268953070065",
+    "2268953070066",
+    "2268953070067",
+    "2268953070068"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070068",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "questionId": "226895791662",
+   "page": 7,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Three capacitors of equal capacitance, when connected in series have net capacitance C1 and when connected in parallel have net capacitance C2. The ratio of C1 and C2 is",
+   "options": [
+    "1/3",
+    "3",
+    "1/9",
+    "9"
+   ],
+   "optionIds": [
+    "2268953070069",
+    "2268953070070",
+    "2268953070071",
+    "2268953070072"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070071",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "questionId": "226895791663",
+   "page": 7,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A 800 pF capacitor is charged by a 100 V battery. After some time, the battery is disconnected. The capacitor is then connected across another 800 pF capacitor. The electrostatic energy stored in the combination will be",
+   "options": [
+    "2 × 10^-6 J",
+    "3.8 × 10^-6 J",
+    "4.2 × 10^-6 J",
+    "6 × 10^6 J"
+   ],
+   "optionIds": [
+    "2268953070073",
+    "2268953070074",
+    "2268953070075",
+    "2268953070076"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070073",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "questionId": "226895791664",
+   "page": 8,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Quantity) | LIST-II (Formula)\nA. Electromotive force | I. Drift velocity / Electric field\nB. Electric field | II. Current / Area\nC. Current density | III. Electric force / Charge\nD. Charge mobility | IV. Work / Charge\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-II, D-I",
+    "A-IV, B-III, C-I, D-II",
+    "A-III, B-IV, C-II, D-I"
+   ],
+   "optionIds": [
+    "2268953070077",
+    "2268953070078",
+    "2268953070079",
+    "2268953070080"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070078",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "questionId": "226895791665",
+   "page": 9,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Arrange the following materials in the ascending order of their electrical conductivities.\nA. Rubber\nB. Iron\nC. Carbon\nD. Copper\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "D, B, C, A",
+    "A, C, B, D",
+    "C, A, B, D"
+   ],
+   "optionIds": [
+    "2268953070081",
+    "2268953070082",
+    "2268953070083",
+    "2268953070084"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070083",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "questionId": "226895791666",
+   "page": 10,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Identify the correct statements among the following:\nA. A current carrying wire is electrically charged.\nB. The drift velocity of electrons in a metallic wire will decrease if the temperature of the wire is increased.\nC. The emf of a cell depends on the internal resistance of the cell.\nD. The internal resistance of dry cells is much higher than the common electrolytic cells.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and D only",
+    "A and D only",
+    "B and D only",
+    "A, C and D only"
+   ],
+   "optionIds": [
+    "2268953070085",
+    "2268953070086",
+    "2268953070087",
+    "2268953070088"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070087",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "questionId": "226895791667",
+   "page": 11,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "At what temperature the resistance of a conductor becomes 20% more than its resistance at 27° C? (The value of the temperature coefficient of resistance of the conductor is 2.0 x 10^-4/K.)",
+   "options": [
+    "900 K",
+    "1100 K",
+    "1300 K",
+    "1450 K"
+   ],
+   "optionIds": [
+    "2268953070089",
+    "2268953070090",
+    "2268953070091",
+    "2268953070092"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070091",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "questionId": "226895791668",
+   "page": 12,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "In a Wheatstone bridge arrangement (P, Q, R and S), the resistors P and Q are nearly equal. The bridge is balanced when R = 500 Ω. On interchanging P and Q, the value of R for balancing is 505 Ω. The value of S will be:",
+   "options": [
+    "500 Ω",
+    "502.5 Ω",
+    "505 Ω",
+    "5 Ω"
+   ],
+   "optionIds": [
+    "2268953070093",
+    "2268953070094",
+    "2268953070095",
+    "2268953070096"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070094",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "questionId": "226895791669",
+   "page": 12,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A positive charge enters a magnetic field and travels parallel to the magnetic field. The charge experiences",
+   "options": [
+    "an upward force",
+    "a downward force",
+    "a force in the direction of magnetic field.",
+    "no force"
+   ],
+   "optionIds": [
+    "2268953070097",
+    "2268953070098",
+    "2268953070099",
+    "2268953070100"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070100",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "questionId": "226895791670",
+   "page": 13,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "If a ferromagnetic material is inserted in a current carrying solenoid, the magnetic field inside the solenoid",
+   "options": [
+    "increases",
+    "decreases",
+    "remains unchanged",
+    "becomes zero"
+   ],
+   "optionIds": [
+    "2268953070101",
+    "2268953070102",
+    "2268953070103",
+    "2268953070104"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070101",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "questionId": "226895791671",
+   "page": 14,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "An electron of charge 'e' moves in a circular orbit of radius r around a nucleus with a frequency ν. The magnetic moment associated with the orbital motion of the electron is",
+   "options": [
+    "π ν e r^2",
+    "π ν r^2 / e",
+    "π ν e / r",
+    "π e r^2 / ν"
+   ],
+   "optionIds": [
+    "2268953070105",
+    "2268953070106",
+    "2268953070107",
+    "2268953070108"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070105",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "questionId": "226895791672",
+   "page": 15,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Identify the correct statements among the following.\nA. The torque acting on a planar current loop in a magnetic field changes when its shape is changed without changing its area.\nB. Two parallel wires carrying currents in opposite directions attract each other.\nC. An ideal ammeter has zero resistance and an ideal voltmeter has infinite resistance.\nD. A galvanometer can be converted into a voltmeter by connecting a high resistance in series.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "C and D only",
+    "A and C only"
+   ],
+   "optionIds": [
+    "2268953070109",
+    "2268953070110",
+    "2268953070111",
+    "2268953070112"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070111",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "questionId": "226895791673",
+   "page": 16,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A 0.5 m long solenoid has 500 turns and has a flux density of 2.52 x 10^-3 T at its center. The current in the solenoid is (Given, μ0 = 4π × 10^-7 H/m )",
+   "options": [
+    "1.2 A",
+    "2.0 A",
+    "2.8 A",
+    "3.4 A"
+   ],
+   "optionIds": [
+    "2268953070113",
+    "2268953070114",
+    "2268953070115",
+    "2268953070116"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070114",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "questionId": "226895791674",
+   "page": 16,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A bar magnet of dipole moment 3 Am^2 rests with its centre on a frictionless point. A force F is applied at right angles to the axis of the magnet, 10 cm from the point. It is observed that an external magnetic field of 0.25 T is required to hold the magnet in equilibrium at an angle of 30° with the field. The value of F is:",
+   "options": [
+    "2.75 N",
+    "2.93 N",
+    "3.75 N",
+    "4.08 N"
+   ],
+   "optionIds": [
+    "2268953070117",
+    "2268953070118",
+    "2268953070119",
+    "2268953070120"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070119",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "questionId": "226895791675",
+   "page": 17,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A wire shown in figure carries a current of 10 A. The magnitude of the magnetic field at the centre O is: (Given: radius of the bent coil is 3 cm.)\n[Figure: the wire comes in along a straight line, goes round a circular arc of radius 3 cm centred on O, and leaves along a second straight line; both straight parts lie on lines through O (shown dashed to O) that are at 90° to each other, so the arc covers the remaining three-quarters (270°) of the circle.]",
+   "options": [
+    "1 × 10^-4 T",
+    "1.57 × 10^-3 T",
+    "1.57 × 10^-4 T",
+    "2.41 × 10^-5 T"
+   ],
+   "optionIds": [
+    "2268953070121",
+    "2268953070122",
+    "2268953070123",
+    "2268953070124"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070123",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "questionId": "226895791676",
+   "page": 18,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "The mutual inductance of a pair of coils placed close to each other depends upon",
+   "options": [
+    "The rate at which currents are changing in the two coils.",
+    "Relative position and orientation of the two coils",
+    "The materials of the wires of the coils",
+    "The current in the two coils"
+   ],
+   "optionIds": [
+    "2268953070125",
+    "2268953070126",
+    "2268953070127",
+    "2268953070128"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070126",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "questionId": "226895791677",
+   "page": 19,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "If the number of turns in a coil is tripled, the value of the magnetic flux linked with the coil:",
+   "options": [
+    "remains unchanged",
+    "becomes 1/3 times",
+    "is tripled",
+    "becomes 2/3 times"
+   ],
+   "optionIds": [
+    "2268953070129",
+    "2268953070130",
+    "2268953070131",
+    "2268953070132"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070131",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "questionId": "226895791678",
+   "page": 20,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Identity the correct statement(s) among the following.\nA. In a d.c. circuit, a capacitor can conduct but not an inductor.\nB. In a d.c. circuit, an inductor can conduct but not a capacitor.\nC. In a d.c. circuit, both the inductor and capacitor cannot conduct.\nD. An inductor has infinite resistance in a d.c. circuit.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and C only",
+    "B and D only",
+    "B only",
+    "A, C and D only"
+   ],
+   "optionIds": [
+    "2268953070133",
+    "2268953070134",
+    "2268953070135",
+    "2268953070136"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070135",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "questionId": "226895791679",
+   "page": 21,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "An a.c. voltage is applied to a pure inductor . The current in the inductor would be",
+   "options": [
+    "leading the voltage by π/2",
+    "lagging the voltage by π/2",
+    "leading the voltage by π/4",
+    "in phase with the voltage."
+   ],
+   "optionIds": [
+    "2268953070137",
+    "2268953070138",
+    "2268953070139",
+    "2268953070140"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070138",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "questionId": "226895791680",
+   "page": 21,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A pure inductor of 0.25 H is connected to a source of 220 V. If the frequency of the source is 50 Hz, then the rms current in the circuit will be.",
+   "options": [
+    "1.6 A",
+    "4.0 A",
+    "2.8 A",
+    "28 A"
+   ],
+   "optionIds": [
+    "2268953070141",
+    "2268953070142",
+    "2268953070143",
+    "2268953070144"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070143",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "questionId": "226895791681",
+   "page": 22,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A coil with an average diameter of 0.02 m is placed with its plane perpendicular to a magnetic field of 6000 T. The induced emf in the coil is 11 V, when the magnetic field is changed to 1000 T in 4 s. The number of turns in the coil is",
+   "options": [
+    "16",
+    "18",
+    "24",
+    "28"
+   ],
+   "optionIds": [
+    "2268953070145",
+    "2268953070146",
+    "2268953070147",
+    "2268953070148"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070148",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "questionId": "226895791682",
+   "page": 23,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Arrange the following electromagnetic waves in the ascending order of their energies.\nA. X-rays\nB. UV-rays\nC. Infrared rays\nD. Microwaves\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "B, C, D, A",
+    "D, B, A, C",
+    "D, C, B, A"
+   ],
+   "optionIds": [
+    "2268953070149",
+    "2268953070150",
+    "2268953070151",
+    "2268953070152"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070152",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "questionId": "226895791683",
+   "page": 24,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "The conduction current is same as displacement current in a circuit when the source is",
+   "options": [
+    "a.c. only",
+    "d.c. only",
+    "either a.c. or d.c.",
+    "neither d.c nor a.c."
+   ],
+   "optionIds": [
+    "2268953070153",
+    "2268953070154",
+    "2268953070155",
+    "2268953070156"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070155",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "questionId": "226895791684",
+   "page": 24,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Identify the correct statements among the following.\nA. All electromagnetic waves, irrespective of their frequencies, travel at the same speed through vacuum.\nB. A capacitor is fully charged by a d.c. source. When it is fully charged, the displacement current is zero.\nC. Ultraviolet radiation can be used for viewing objects through haze and fog.\nD. A moving charge in a circular orbit cannot produce electromagnetic waves.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B and C only",
+    "B and C only",
+    "A and B only",
+    "C and D only"
+   ],
+   "optionIds": [
+    "2268953070157",
+    "2268953070158",
+    "2268953070159",
+    "2268953070160"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070159",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "questionId": "226895791685",
+   "page": 25,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A radiation of energy E falls normally on a perfectly reflecting surface. The momentum transferred to the surface is",
+   "options": [
+    "2E/c",
+    "2E/c^2",
+    "E/c^2",
+    "E/c"
+   ],
+   "optionIds": [
+    "2268953070161",
+    "2268953070162",
+    "2268953070163",
+    "2268953070164"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070161",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "questionId": "226895791686",
+   "page": 26,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "The intensity of a laser beam is 2.5 x 10^14 W/m^2. The amplitude of the magnetic field in the beam is\n(Given, ε0 = 8.85 x 10^-12 C^2N^-1m^-2)",
+   "options": [
+    "~1.15 T",
+    "~1.45 T",
+    "~2.0 T",
+    "~3.25 T"
+   ],
+   "optionIds": [
+    "2268953070165",
+    "2268953070166",
+    "2268953070167",
+    "2268953070168"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070166",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "questionId": "226895791687",
+   "page": 27,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A real image is formed by a convex lens on the screen. If half of the lens is covered by an opaque object, then",
+   "options": [
+    "half image is not seen",
+    "full image of same intensity is seen",
+    "half image of same intensity is seen",
+    "full image of decreased intensity is seen"
+   ],
+   "optionIds": [
+    "2268953070169",
+    "2268953070170",
+    "2268953070171",
+    "2268953070172"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070172",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "questionId": "226895791688",
+   "page": 28,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Arrange the following substances/media in the increasing order of their refractive indices.\nA. Crown glass\nB. Water\nC. Diamond\nD. CO2\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "D, C, B, A",
+    "D, B, A, C",
+    "D, B, C, A"
+   ],
+   "optionIds": [
+    "2268953070173",
+    "2268953070174",
+    "2268953070175",
+    "2268953070176"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070175",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "questionId": "226895791689",
+   "page": 29,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Match the LIST-I with LIST-II (In the context of Young's double slit experiment)\nLIST-I | LIST-II\nA. The width of one slit is slightly increased. | I. The fringe width increases.\nB. One slit is closed. | II. Interference pattern becomes less sharp.\nC. The width of the source slit is increased. | III. Maximum intensity increases\nD. Light of smaller frequency is used. | IV. Interference pattern disappears\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-II, D-I",
+    "A-III, B-IV, C-II, D-I",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "optionIds": [
+    "2268953070177",
+    "2268953070178",
+    "2268953070179",
+    "2268953070180"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070179",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "questionId": "226895791690",
+   "page": 30,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "In a Young's double slit experiment, the intensity at the center of the screen is I . If one of the slits is closed, the intensity at the center of the screen now will be:",
+   "options": [
+    "1/2",
+    "1",
+    "1/4",
+    "1/3"
+   ],
+   "optionIds": [
+    "2268953070181",
+    "2268953070182",
+    "2268953070183",
+    "2268953070184"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070183",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "questionId": "226895791691",
+   "page": 30,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A ray of light of frequency 5 × 10^14 Hz is passed through a liquid. The wavelength of light measured inside the liquid is found to be 450 × 10^-9 m. The refractive index of the liquid is",
+   "options": [
+    "1.25",
+    "1.33",
+    "1.45",
+    "1.51"
+   ],
+   "optionIds": [
+    "2268953070185",
+    "2268953070186",
+    "2268953070187",
+    "2268953070188"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070186",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "questionId": "226895791692",
+   "page": 31,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "If the two slits in a Young's double slit experiment have their widths in the ratio 4:1, then the ratio of intensities at maxima and minima in the interference pattern will be",
+   "options": [
+    "16 : 3",
+    "16 : 1",
+    "25 : 9",
+    "9 : 1"
+   ],
+   "optionIds": [
+    "2268953070189",
+    "2268953070190",
+    "2268953070191",
+    "2268953070192"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070192",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "questionId": "226895791693",
+   "page": 32,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A concave mirror forms a real image of an object kept at a distance of 9 cm from it. If the object is taken away further from the mirror by 6 cm, the image size is reduced to (1/4)^th of its previous size. The focal length of the mirror is:",
+   "options": [
+    "-5 cm",
+    "-7 cm",
+    "15 cm",
+    "18 cm"
+   ],
+   "optionIds": [
+    "2268953070193",
+    "2268953070194",
+    "2268953070195",
+    "2268953070196"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070194",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "questionId": "226895791694",
+   "page": 32,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Arrange the following photosensitive metals (work function given in brackets) according to their threshold wavelengths in decreasing order of their values.\nA. K (Φ = 2.3 eV)\nB. Na (Φ = 2.75 eV)\nC. Cs (Φ = 2.14 eV)\nD. Ca (Φ = 3.2 eV)\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "D, C, B, A",
+    "C, A, D, B",
+    "C, A, B, D"
+   ],
+   "optionIds": [
+    "2268953070197",
+    "2268953070198",
+    "2268953070199",
+    "2268953070200"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070200",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "questionId": "226895791695",
+   "page": 33,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "An electron and a photon each have the same de-Broglie wavelength of 1.0 nm. The ratio of their linear momenta is",
+   "options": [
+    "1:1",
+    "1:2",
+    "2:1",
+    "4:9"
+   ],
+   "optionIds": [
+    "2268953070201",
+    "2268953070202",
+    "2268953070203",
+    "2268953070204"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070201",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "questionId": "226895791696",
+   "page": 34,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "A monochromatic source emitting light of 600 nm, has a power output of 66 W. The number of photons emitted by the source per second is (Given, Plank's constant h = 6.6 × 10^-34 Js)",
+   "options": [
+    "2 × 10^18",
+    "2 × 10^19",
+    "2 × 10^20",
+    "8 × 10^22"
+   ],
+   "optionIds": [
+    "2268953070205",
+    "2268953070206",
+    "2268953070207",
+    "2268953070208"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070207",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "questionId": "226895791697",
+   "page": 35,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Match the LIST-I with LIST-II (Symbols have their usual meaning)\nLIST-I (Spectral series of Hydrogen) | LIST-II (Wave Number)\nA. Lyman series | I. ν̄ = R [1/1^2 - 1/n2^2]\nB. Paschen series | II. ν̄ = R [1/2^2 - 1/n2^2]\nC. Balmer series | III. ν̄ = R [1/3^2 - 1/n2^2]\nD. Brackett series | IV. ν̄ = R [1/4^2 - 1/n2^2]\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-II, D-I",
+    "A-I, B-III, C-IV, D-II",
+    "A-I, B-III, C-II, D-IV"
+   ],
+   "optionIds": [
+    "2268953070209",
+    "2268953070210",
+    "2268953070211",
+    "2268953070212"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070212",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "questionId": "226895791698",
+   "page": 36,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "In Bohr's model of hydrogen atom, which of the following is an integral multiple of h/2π ?",
+   "options": [
+    "Kinetic energy of electron",
+    "Radius of an atom",
+    "Potential energy of electron",
+    "Angular momentum of electron"
+   ],
+   "optionIds": [
+    "2268953070213",
+    "2268953070214",
+    "2268953070215",
+    "2268953070216"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070216",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "questionId": "226895791699",
+   "page": 37,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Arrange the following elements in the increasing order of their binding energies per nucleon.\nA. 4He\nB. 6Li\nC. 14N\nD. 12C\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, A, C, D",
+    "B, A, D, C"
+   ],
+   "optionIds": [
+    "2268953070217",
+    "2268953070218",
+    "2268953070219",
+    "2268953070220"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070219",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "questionId": "226895791700",
+   "page": 38,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "If r1 and r2 are the radii of the atomic nuclei of mass number 4 and 32, respectively, then the ratio (r1/r2) is",
+   "options": [
+    "1:2",
+    "1:3",
+    "1: 4",
+    "1: 5"
+   ],
+   "optionIds": [
+    "2268953070221",
+    "2268953070222",
+    "2268953070223",
+    "2268953070224"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070221",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "questionId": "226895791701",
+   "page": 39,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "The maximum wavelength of electromagnetic radiation which can create a hole-electron pair in the semiconductor Ge is: (Given, the band gap of Ge is 0.72 eV)",
+   "options": [
+    "~1.1 x 10^-5 m",
+    "~1.4 x 10^-5 m",
+    "~1.7 x 10^-6 m",
+    "~2.6 x 10^-6 m"
+   ],
+   "optionIds": [
+    "2268953070225",
+    "2268953070226",
+    "2268953070227",
+    "2268953070228"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070227",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "questionId": "226895791702",
+   "page": 39,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "If the forward bias voltage in a diode is increased, the width of the depletion region",
+   "options": [
+    "increases",
+    "decreases",
+    "fluctuates",
+    "does not change"
+   ],
+   "optionIds": [
+    "2268953070229",
+    "2268953070230",
+    "2268953070231",
+    "2268953070232"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070230",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "questionId": "226895791703",
+   "page": 40,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "For a heavily doped n-type semi-conductor, donor level lies",
+   "options": [
+    "a little below the conduction band",
+    "a little above the valance band",
+    "a little inside the valence band",
+    "at the center of the band gap"
+   ],
+   "optionIds": [
+    "2268953070233",
+    "2268953070234",
+    "2268953070235",
+    "2268953070236"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070233",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "questionId": "226895791704",
+   "page": 41,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "Match List-I with List-II. Assume that the Si intrinsic semiconductor has 5 x 10^28 atoms/m^3. (Given: the intrinsic concentration of electrons in the semiconductor is 10^16 m^-3).\nLIST-I | LIST-II\nA. When it is doped with 2 ppm concentration of a pentavalent atom, ne is | I. 4.0 x 10^8 m^-3\nB. When it is doped with 2 ppm concentration of a pentavalent atom, nh is | II. 2.5 x 10^23 m^-3\nC. When it is doped with 5 ppm concentration of a pentavalent atom, ne is | III. 10^9 m^-3\nD. When it is doped with 5 ppm concentration of a pentavalent atom, nh is | IV. 10^23 m^-3\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-II, B-III, C-IV, D-I",
+    "A-IV, B-III, C-II, D-I",
+    "A-IV, B-II, C-III, D-I"
+   ],
+   "optionIds": [
+    "2268953070237",
+    "2268953070238",
+    "2268953070239",
+    "2268953070240"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070239",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "questionId": "226895791705",
+   "page": 42,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "If 200 MeV energy is released in the fission of a single nucleus of ^235_92U , how many fissions per second must occur to produce a power of 1 kW?",
+   "options": [
+    "6.250 × 10^15",
+    "3.125 × 10^13",
+    "4.251 × 10^13",
+    "2.155 × 10^14"
+   ],
+   "optionIds": [
+    "2268953070241",
+    "2268953070242",
+    "2268953070243",
+    "2268953070244"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070242",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "questionId": "226895791706",
+   "page": 43,
+   "section": "Physics, one section (Q391-440)",
+   "stem": "An alpha particle of energy (1/2) mv^2 bombards a heavy target nucleus of charge Ze. Then, the distance of closet approach for the alpha particle will be proportional to",
+   "options": [
+    "v^-1",
+    "v^-2",
+    "v^-4",
+    "(Ze)^-1"
+   ],
+   "optionIds": [
+    "2268953070245",
+    "2268953070246",
+    "2268953070247",
+    "2268953070248"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070246",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  }
+ ]
+}

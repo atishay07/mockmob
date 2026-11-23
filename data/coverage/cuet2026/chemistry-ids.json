@@ -1,0 +1,1059 @@
+{
+ "paper": "cuet2026-chemistry",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 23 Nov 2026; ids read by OCR (RapidOCR; Q682, Q709, Q711 from the page images) and matched to NTA's 2026 final key (subject 306)",
+ "shifts": {
+  "24-05-2026 (First)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 676,
+   "questionId": "226895790048",
+   "page": 3,
+   "optionIds": {
+    "2268953063789": 1,
+    "2268953063790": 2,
+    "2268953063791": 3,
+    "2268953063792": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063790"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 677,
+   "questionId": "226895790049",
+   "page": 3,
+   "optionIds": {
+    "2268953063793": 1,
+    "2268953063794": 2,
+    "2268953063795": 3,
+    "2268953063796": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063793"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 678,
+   "questionId": "226895790050",
+   "page": 4,
+   "optionIds": {
+    "2268953063797": 1,
+    "2268953063798": 2,
+    "2268953063799": 3,
+    "2268953063800": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063798"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 679,
+   "questionId": "226895790051",
+   "page": 5,
+   "optionIds": {
+    "2268953063801": 1,
+    "2268953063802": 2,
+    "2268953063803": 3,
+    "2268953063804": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063803"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 680,
+   "questionId": "226895790052",
+   "page": 6,
+   "optionIds": {
+    "2268953063805": 1,
+    "2268953063806": 2,
+    "2268953063807": 3,
+    "2268953063808": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063808"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 681,
+   "questionId": "226895790053",
+   "page": 7,
+   "optionIds": {
+    "2268953063809": 1,
+    "2268953063810": 2,
+    "2268953063811": 3,
+    "2268953063812": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063811"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 682,
+   "questionId": "226895790054",
+   "page": 8,
+   "optionIds": {
+    "2268953063813": 1,
+    "2268953063814": 2,
+    "2268953063815": 3,
+    "2268953063816": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063814"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 683,
+   "questionId": "226895790055",
+   "page": 9,
+   "optionIds": {
+    "2268953063817": 1,
+    "2268953063818": 2,
+    "2268953063819": 3,
+    "2268953063820": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063818"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 684,
+   "questionId": "226895790056",
+   "page": 11,
+   "optionIds": {
+    "2268953063821": 1,
+    "2268953063822": 2,
+    "2268953063823": 3,
+    "2268953063824": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063821"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 685,
+   "questionId": "226895790057",
+   "page": 11,
+   "optionIds": {
+    "2268953063825": 1,
+    "2268953063826": 2,
+    "2268953063827": 3,
+    "2268953063828": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063827"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 686,
+   "questionId": "226895790058",
+   "page": 12,
+   "optionIds": {
+    "2268953063829": 1,
+    "2268953063830": 2,
+    "2268953063831": 3,
+    "2268953063832": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063831"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 687,
+   "questionId": "226895790059",
+   "page": 13,
+   "optionIds": {
+    "2268953063833": 1,
+    "2268953063834": 2,
+    "2268953063835": 3,
+    "2268953063836": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063834"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 688,
+   "questionId": "226895790060",
+   "page": 13,
+   "optionIds": {
+    "2268953063837": 1,
+    "2268953063838": 2,
+    "2268953063839": 3,
+    "2268953063840": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063839"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 689,
+   "questionId": "226895790061",
+   "page": 14,
+   "optionIds": {
+    "2268953063841": 1,
+    "2268953063842": 2,
+    "2268953063843": 3,
+    "2268953063844": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063842"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 690,
+   "questionId": "226895790062",
+   "page": 15,
+   "optionIds": {
+    "2268953063845": 1,
+    "2268953063846": 2,
+    "2268953063847": 3,
+    "2268953063848": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063848"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 691,
+   "questionId": "226895790063",
+   "page": 16,
+   "optionIds": {
+    "2268953063849": 1,
+    "2268953063850": 2,
+    "2268953063851": 3,
+    "2268953063852": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063850"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 692,
+   "questionId": "226895790064",
+   "page": 17,
+   "optionIds": {
+    "2268953063853": 1,
+    "2268953063854": 2,
+    "2268953063855": 3,
+    "2268953063856": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063854"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 693,
+   "questionId": "226895790065",
+   "page": 17,
+   "optionIds": {
+    "2268953063857": 1,
+    "2268953063858": 2,
+    "2268953063859": 3,
+    "2268953063860": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063858"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 694,
+   "questionId": "226895790066",
+   "page": 18,
+   "optionIds": {
+    "2268953063861": 1,
+    "2268953063862": 2,
+    "2268953063863": 3,
+    "2268953063864": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063863"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 695,
+   "questionId": "226895790067",
+   "page": 18,
+   "optionIds": {
+    "2268953063865": 1,
+    "2268953063866": 2,
+    "2268953063867": 3,
+    "2268953063868": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063867"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 696,
+   "questionId": "226895790068",
+   "page": 19,
+   "optionIds": {
+    "2268953063869": 1,
+    "2268953063870": 2,
+    "2268953063871": 3,
+    "2268953063872": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063869"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 697,
+   "questionId": "226895790069",
+   "page": 20,
+   "optionIds": {
+    "2268953063873": 1,
+    "2268953063874": 2,
+    "2268953063875": 3,
+    "2268953063876": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063873"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 698,
+   "questionId": "226895790070",
+   "page": 20,
+   "optionIds": {
+    "2268953063877": 1,
+    "2268953063878": 2,
+    "2268953063879": 3,
+    "2268953063880": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063878"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 699,
+   "questionId": "226895790071",
+   "page": 21,
+   "optionIds": {
+    "2268953063881": 1,
+    "2268953063882": 2,
+    "2268953063883": 3,
+    "2268953063884": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063884"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 700,
+   "questionId": "226895790072",
+   "page": 22,
+   "optionIds": {
+    "2268953063885": 1,
+    "2268953063886": 2,
+    "2268953063887": 3,
+    "2268953063888": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063885"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 701,
+   "questionId": "226895790073",
+   "page": 23,
+   "optionIds": {
+    "2268953063889": 1,
+    "2268953063890": 2,
+    "2268953063891": 3,
+    "2268953063892": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063889"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 702,
+   "questionId": "226895790074",
+   "page": 24,
+   "optionIds": {
+    "2268953063893": 1,
+    "2268953063894": 2,
+    "2268953063895": 3,
+    "2268953063896": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063894"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 703,
+   "questionId": "226895790075",
+   "page": 26,
+   "optionIds": {
+    "2268953063897": 1,
+    "2268953063898": 2,
+    "2268953063899": 3,
+    "2268953063900": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063899"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 704,
+   "questionId": "226895790076",
+   "page": 26,
+   "optionIds": {
+    "2268953063901": 1,
+    "2268953063902": 2,
+    "2268953063903": 3,
+    "2268953063904": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063904"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 705,
+   "questionId": "226895790077",
+   "page": 27,
+   "optionIds": {
+    "2268953063905": 1,
+    "2268953063906": 2,
+    "2268953063907": 3,
+    "2268953063908": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063906"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 706,
+   "questionId": "226895790078",
+   "page": 28,
+   "optionIds": {
+    "2268953063909": 1,
+    "2268953063910": 2,
+    "2268953063911": 3,
+    "2268953063912": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063909"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 707,
+   "questionId": "226895790079",
+   "page": 29,
+   "optionIds": {
+    "2268953063913": 1,
+    "2268953063914": 2,
+    "2268953063915": 3,
+    "2268953063916": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063913"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 708,
+   "questionId": "226895790080",
+   "page": 30,
+   "optionIds": {
+    "2268953063917": 1,
+    "2268953063918": 2,
+    "2268953063919": 3,
+    "2268953063920": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063919"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 709,
+   "questionId": "226895790081",
+   "page": 31,
+   "optionIds": {
+    "2268953063921": 1,
+    "2268953063922": 2,
+    "2268953063923": 3,
+    "2268953063924": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063921"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 710,
+   "questionId": "226895790082",
+   "page": 32,
+   "optionIds": {
+    "2268953063925": 1,
+    "2268953063926": 2,
+    "2268953063927": 3,
+    "2268953063928": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063928"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 711,
+   "questionId": "226895790083",
+   "page": 33,
+   "optionIds": {
+    "2268953063929": 1,
+    "2268953063930": 2,
+    "2268953063931": 3,
+    "2268953063932": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063931"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 712,
+   "questionId": "226895790084",
+   "page": 33,
+   "optionIds": {
+    "2268953063933": 1,
+    "2268953063934": 2,
+    "2268953063935": 3,
+    "2268953063936": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063933"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 713,
+   "questionId": "226895790085",
+   "page": 34,
+   "optionIds": {
+    "2268953063937": 1,
+    "2268953063938": 2,
+    "2268953063939": 3,
+    "2268953063940": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063938"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 714,
+   "questionId": "226895790086",
+   "page": 35,
+   "optionIds": {
+    "2268953063941": 1,
+    "2268953063942": 2,
+    "2268953063943": 3,
+    "2268953063944": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063944"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 715,
+   "questionId": "226895790087",
+   "page": 37,
+   "optionIds": {
+    "2268953063945": 1,
+    "2268953063946": 2,
+    "2268953063947": 3,
+    "2268953063948": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063946"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 716,
+   "questionId": "226895790089",
+   "page": 38,
+   "optionIds": {
+    "2268953063949": 1,
+    "2268953063950": 2,
+    "2268953063951": 3,
+    "2268953063952": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063949"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 717,
+   "questionId": "226895790090",
+   "page": 39,
+   "optionIds": {
+    "2268953063953": 1,
+    "2268953063954": 2,
+    "2268953063955": 3,
+    "2268953063956": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063953"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 718,
+   "questionId": "226895790091",
+   "page": 39,
+   "optionIds": {
+    "2268953063957": 1,
+    "2268953063958": 2,
+    "2268953063959": 3,
+    "2268953063960": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063958"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 719,
+   "questionId": "226895790092",
+   "page": 40,
+   "optionIds": {
+    "2268953063961": 1,
+    "2268953063962": 2,
+    "2268953063963": 3,
+    "2268953063964": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063962"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 720,
+   "questionId": "226895790093",
+   "page": 40,
+   "optionIds": {
+    "2268953063965": 1,
+    "2268953063966": 2,
+    "2268953063967": 3,
+    "2268953063968": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063965"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 721,
+   "questionId": "226895790095",
+   "page": 43,
+   "optionIds": {
+    "2268953063969": 1,
+    "2268953063970": 2,
+    "2268953063971": 3,
+    "2268953063972": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063971"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 722,
+   "questionId": "226895790096",
+   "page": 44,
+   "optionIds": {
+    "2268953063973": 1,
+    "2268953063974": 2,
+    "2268953063975": 3,
+    "2268953063976": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063973"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 723,
+   "questionId": "226895790097",
+   "page": 45,
+   "optionIds": {
+    "2268953063977": 1,
+    "2268953063978": 2,
+    "2268953063979": 3,
+    "2268953063980": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063978"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 724,
+   "questionId": "226895790098",
+   "page": 46,
+   "optionIds": {
+    "2268953063981": 1,
+    "2268953063982": 2,
+    "2268953063983": 3,
+    "2268953063984": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063983"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 725,
+   "questionId": "226895790099",
+   "page": 46,
+   "optionIds": {
+    "2268953063985": 1,
+    "2268953063986": 2,
+    "2268953063987": 3,
+    "2268953063988": 4
+   },
+   "inKey": true,
+   "keySubject": "chemistry",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953063985"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  }
+ ]
+}

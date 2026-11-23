@@ -1,0 +1,1323 @@
+{
+ "paper": "cuet2026-chemistry",
+ "subject": "chemistry",
+ "subjectName": "Chemistry",
+ "subjectCode": "306",
+ "examDate": "2026-05-24",
+ "shift": "First",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Chemistry, 50 PDF pages: a cover plus 49 numbered pages), https://docs.aglasem.com/view/69514fee-c701-11f1-afe4-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/69514fee-c701-11f1-afe4-0aa932765c8b/69514fee-c701-11f1-afe4-0aa932765c8b.pdf (9,205,849 bytes, ETag 5d2856aad8b5e5e2a57a5a344ad8d9fc, Last-Modified 13 Oct 2026), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 request for the remaining subjects. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 306.",
+ "provenance": {
+  "viewUrl": "https://docs.aglasem.com/view/69514fee-c701-11f1-afe4-0aa932765c8b",
+  "pdfUrl": "https://cdn.aglasem.com/aglasem-doc/69514fee-c701-11f1-afe4-0aa932765c8b/69514fee-c701-11f1-afe4-0aa932765c8b.pdf",
+  "downloadedOn": "2026-11-23",
+  "fileBytes": 9205849,
+  "etag": "5d2856aad8b5e5e2a57a5a344ad8d9fc",
+  "lastModified": "2026-10-13",
+  "localFile": "tmp/1123-papers/chemistry/pdf/cuet2026-chemistry.pdf",
+  "finalKey": "cuet-2026-final-keys.pdf (NTA CUET (UG) 2026 final answer key), subject 306, 26 shifts x 50 rows; rows extracted to tmp/1123-papers/chemistry/work/keys-chemistry.json",
+  "shift": "24-05-2026 (First)",
+  "questionsAuthenticated": 50
+ },
+ "structure": "Group 13 'Chemistry' (60 minutes, 250 marks), one mandatory section of 50 numbered questions (676 to 725) printed in English then Hindi: sub-section 1 has 40 stand-alone MCQs (676-715), sub-section 2 is comprehension 226895790088 'Electrochemical cells' with 5 questions (716-720), sub-section 3 is comprehension 226895790094 'Alcohols, Phenols and Ethers' with 5 questions (721-725). The header says 'Number of Questions: 42', 'to be attempted: 42' and 'Section Marks: 250'; fifty questions are printed.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (First) final key for subject 306 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question.",
+ "transcribedBy": "Subagent paper stage, 23 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed, read from the page images. Spelling and wording kept as printed (e.g. Q686 'nucelophilic', Q693 'Manganeses (II)', Q699 'ligetes', Q712 'strutcurally', Q680 'are true', Q691 'is same').",
+  "Page = the PDF page (pNN of the 50-page PDF; the printed footer 'Page N of 49' is one lower) where the question's English option ids were read.",
+  "Match tables are written as rows 'List-I item | List-II item' in the order the paper prints them. Structures and reaction schemes are described in square brackets (the paper prints them as drawings); formulas are written inline (superscript charges as ^, e.g. MnO4^-).",
+  "Q714: List-II prints drawings; (I) is the dicarboxylic acid (saccharic acid), (II) tryptophan, (III) gluconic acid, (IV) fructose. NTA's key gives option 4, which fits those drawings.",
+  "Q709: option 1 prints 'H3PO4 , H2O' in step (ii) (the NCERT reagent for replacing the diazonium group by H is hypophosphorous acid, H3PO2); NTA's key gives option 1 and it is the only diazotise-reduce-oxidise sequence offered. Kept as printed and flagged for the coverage stage.",
+  "Q701: (C) is printed '[Co(F6)]3-' and (D) '[Co(C2O4)]3-' (no subscript 3 on the oxalate); kept as printed. NTA's key gives option 1 (A, B, D, C), which matches the spectrochemical series for the intended [Co(C2O4)3]3-.",
+  "Q723: no reagent is printed over the arrow (phenol to salicylaldehyde); NTA's key gives option 2 (the ortho-CHCl2 sodium phenoxide intermediate of the Reimer-Tiemann reaction).",
+  "Q695: NTA's key gives option 3 ((A) and (D) only); NCERT gives the Cr-O-Cr angle in the dichromate ion as 126 degrees and says dichromate is used to prepare many azo compounds.",
+  "Q682, Q709 and Q711: OCR missed their English header lines, so their question ids and option ids were read from the page images (p8, p31, p33) and cross-checked with the Hindi copies; they then authenticated like the rest.",
+  "Every other key was read against NCERT and fits the English text as transcribed.",
+  "The shift's key has 50 rows, all single-answer, none dropped. NTA's final key for subject 306 holds 26 shifts; this paper is the 24-05-2026 First shift and all 50 question ids fall in that one shift (the two comprehension parent ids 226895790088 and 226895790094 are not key rows)."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50,
+  "keyRows": 50,
+  "ocrSlipsFixed": 0
+ },
+ "problems": [],
+ "passages": {
+  "P1-226895790088": {
+   "questionId": "226895790088",
+   "questionNumbers": "716 to 720",
+   "title": "Electrochemical cells",
+   "page": 38,
+   "text": "Electrochemical cells\n\nWe can construct innumerable number of galvanic cells on the pattern of Daniell cell by taking combinations of different half-cells. Each half-cell consists of a metallic electrode dipped into an electrolyte. The two half-cells are connected by a metallic wire through a voltmeter and a switch externally. The electrolytes of the two half-cells are connected internally through a salt bridge. Sometimes, both the electrodes dip in the same electrolyte solution and in such cases we do not require a salt bridge.\n\nFor the cell\nNi(s) | Ni2+(aq) || Ag+(aq) | Ag\nThe cell reaction is Ni(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s).\n\nNernst equation relates the emf of the cell with standard emf and the concentration of reduced and oxidized species."
+  },
+  "P2-226895790094": {
+   "questionId": "226895790094",
+   "questionNumbers": "721 to 725",
+   "title": "Alcohols, Phenols and Ethers",
+   "page": 43,
+   "text": "Alcohols, Phenols and Ethers\n\nAlcohols and phenols are formed when a hydrogen atom in a hydrocarbon, aliphatic and aromatic respectively, is replaced by –OH group. These classes of compounds find wide applications in industry as well as in day-to-day life. For instance, have you ever noticed that ordinary spirit used for polishing wooden furniture is chiefly a compound containing hydroxyl group, ethanol. The sugar we eat, the cotton used for fabrics, the paper we use for writing, are all made up of compounds containing –OH groups. The common name of an alcohol is derived from the common name of the alkyl group and adding the word alcohol to it. For example, CH3OH is methyl alcohol. The simplest hydroxy derivative of benzene is phenol. It is its common name and also an accepted IUPAC name. As structure of phenol involves a benzene ring, in its substituted compounds the terms ortho (1,2-disubstituted), meta (1,3-disubstituted) and para (1,4-disubstituted) are often used in the common names.\n\nIn ethers, the four electron pairs, i.e., the two bond pairs and two lone pairs of electrons on oxygen are arranged approximately in a tetrahedral arrangement. The bond angle is slightly greater than the tetrahedral angle due to the repulsive interaction between the two bulky (–R) groups."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 676,
+   "questionId": "226895790048",
+   "page": 3,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Water movement from soil into plant roots and subsequently into upper portion of the plant is partly due to phenomenon of",
+   "options": [
+    "Edema",
+    "Osmosis",
+    "Reverse Osmosis",
+    "Evaporation"
+   ],
+   "optionIds": [
+    "2268953063789",
+    "2268953063790",
+    "2268953063791",
+    "2268953063792"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063790",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 2,
+   "paperNumber": 677,
+   "questionId": "226895790049",
+   "page": 3,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which of the following compound is used as paint remover?",
+   "options": [
+    "Methylene chloride",
+    "Iodoform",
+    "Chloroform",
+    "2,4-dinitrophenylhydrazine"
+   ],
+   "optionIds": [
+    "2268953063793",
+    "2268953063794",
+    "2268953063795",
+    "2268953063796"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063793",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 3,
+   "paperNumber": 678,
+   "questionId": "226895790050",
+   "page": 4,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "2-Bromopentane reacts with alcoholic KOH to form major product as:",
+   "options": [
+    "Pent-1-ene",
+    "Pent-2-ene",
+    "Pent-3-ene",
+    "Pent-1-ene and Pent-2-ene"
+   ],
+   "optionIds": [
+    "2268953063797",
+    "2268953063798",
+    "2268953063799",
+    "2268953063800"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063798",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 4,
+   "paperNumber": 679,
+   "questionId": "226895790051",
+   "page": 5,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which of the following salts would have the same value of the van't Hoff factor as that of Al(NO3)3 in aqueous solution?\nAssume complete dissociation of electrolytes.\n(A) K2SO4\n(B) KCl\n(C) Al2(SO4)3\n(D) K3[Fe(CN)6]\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) and (B) only",
+    "(B) and (C) only",
+    "(D) only",
+    "(C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953063801",
+    "2268953063802",
+    "2268953063803",
+    "2268953063804"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063803",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 5,
+   "paperNumber": 680,
+   "questionId": "226895790052",
+   "page": 6,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which of the following statements are true for the elevation of boiling point?\n(A) The boiling point of a solution is always higher than the boiling point of the pure solvent in which the solution is prepared.\n(B) The boiling point of a solution is always lower than the boiling point of the pure solvent in which the solution is prepared.\n(C) The elevation of boiling point is directly proportional to the molal concentration of the solute in solution.\n(D) Unit of Kb = K kg mol^-1\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953063805",
+    "2268953063806",
+    "2268953063807",
+    "2268953063808"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953063808",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 6,
+   "paperNumber": 681,
+   "questionId": "226895790053",
+   "page": 7,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Osmotic pressure | (I) Formation of bubbles of nitrogen in the blood\n(B) Anoxia | (II) Pressure applied on the solution side that just stops the flow of solvent\n(C) Bends | (III) Impermeable to impurities\n(D) Cellulose acetate | (IV) Low blood oxygen causes climbers to become weak\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (IV), (C) - (I), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953063809",
+    "2268953063810",
+    "2268953063811",
+    "2268953063812"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063811",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 7,
+   "paperNumber": 682,
+   "questionId": "226895790054",
+   "page": 8,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Match List-I with List-II\nList-I (Type of solution) | List-II (Example)\n(A) Ideal solution | (I) 95% by volume of ethanol\n(B) Positive deviation from Raoult's law | (II) Bromoethane and chloroethane\n(C) Negative deviation from Raoult's law | (III) Ethanol and acetone\n(D) Azeotrope | (IV) Phenol and aniline\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (IV), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953063813",
+    "2268953063814",
+    "2268953063815",
+    "2268953063816"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063814",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the header line)"
+  },
+  {
+   "n": 8,
+   "paperNumber": 683,
+   "questionId": "226895790055",
+   "page": 9,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Arrange the following compounds in increasing order towards nucleophilic substitution reaction .\n(A) [structure: chlorobenzene]\n(B) [structure: 2,4,6-trinitrochlorobenzene (Cl with NO2 at both ortho positions and the para position)]\n(C) [structure: 2,4-dinitrochlorobenzene (Cl with NO2 at one ortho position and the para position)]\n(D) [structure: 4-nitrochlorobenzene (Cl with NO2 at the para position)]\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A),(B),(C),(D)",
+    "(A),(D),(C) ,(B)",
+    "(D),(B),(C),(A)",
+    "(B),(A),(C),(D)"
+   ],
+   "optionIds": [
+    "2268953063817",
+    "2268953063818",
+    "2268953063819",
+    "2268953063820"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063818",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 9,
+   "paperNumber": 684,
+   "questionId": "226895790056",
+   "page": 11,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Chloroform oxidizes in the presence of light to",
+   "options": [
+    "Phosgene",
+    "Carbon tetrachloride",
+    "Freons",
+    "Methylene chloride"
+   ],
+   "optionIds": [
+    "2268953063821",
+    "2268953063822",
+    "2268953063823",
+    "2268953063824"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063821",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 10,
+   "paperNumber": 685,
+   "questionId": "226895790057",
+   "page": 11,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "The constant 'k' in a rate law expression of a reaction is",
+   "options": [
+    "is dependent on the concentration of reactants.",
+    "is dimensionless.",
+    "dependent on temperature.",
+    "called the Arrhenius constant."
+   ],
+   "optionIds": [
+    "2268953063825",
+    "2268953063826",
+    "2268953063827",
+    "2268953063828"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063827",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 11,
+   "paperNumber": 686,
+   "questionId": "226895790058",
+   "page": 12,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Match List-I with List -II\nList-I (Chemical Reactions) | List-II (Characteristic Feature )\n(A) Substitution nucleophilic unimolecular | (I) Anti- Markovnikov's product\n(B) Electrophilic addition of HX to unsymmetrical alkene | (II) Inversion\n(C) Substitution nucelophilic bimolecular | (III) Racemization\n(D) Hydroboration oxidation | (IV) Markovnikov's product\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953063829",
+    "2268953063830",
+    "2268953063831",
+    "2268953063832"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063831",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 12,
+   "paperNumber": 687,
+   "questionId": "226895790059",
+   "page": 13,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Hydrogenation of ethene represented by ,\nC2H4 (g) + H2 (g) → C2H6 (g)\nis an example of",
+   "options": [
+    "Second order reaction.",
+    "First order reaction.",
+    "Zero-order reaction.",
+    "Third Order reaction."
+   ],
+   "optionIds": [
+    "2268953063833",
+    "2268953063834",
+    "2268953063835",
+    "2268953063836"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063834",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 13,
+   "paperNumber": 688,
+   "questionId": "226895790060",
+   "page": 13,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Species that are formed in one step of reaction mechanism and used up in another step are called",
+   "options": [
+    "catalysts",
+    "inhibitors",
+    "intermediates",
+    "promotors"
+   ],
+   "optionIds": [
+    "2268953063837",
+    "2268953063838",
+    "2268953063839",
+    "2268953063840"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063839",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 14,
+   "paperNumber": 689,
+   "questionId": "226895790061",
+   "page": 14,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Choose the Incorrect statement from the following:",
+   "options": [
+    "Two series of f-block; lanthanoids and actinoids collectively consists of twenty eight elements.",
+    "All the lanthanoids are hard metals",
+    "Actinoid contraction is greater from element to element than lanthanoid contraction",
+    "Actinoids show a greater range of oxidation states than lanthanoids"
+   ],
+   "optionIds": [
+    "2268953063841",
+    "2268953063842",
+    "2268953063843",
+    "2268953063844"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063842",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 15,
+   "paperNumber": 690,
+   "questionId": "226895790062",
+   "page": 15,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Among the following, which are examples of first-order reactions?\n(A) 226/88 Ra → 4/2 He + 222/86 Rn\n(B) 2NH3 --(1130K, Pt catalyst)--> N2 (g) + 3H2 (g)\n(C) 2N2O5 (g) → 2N2O4 (g) + O2 (g)\n(D) C2H4 (g) + H2 → C2H6 (g)\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A) and (C) only",
+    "(B), (C) and (D) only",
+    "(A), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953063845",
+    "2268953063846",
+    "2268953063847",
+    "2268953063848"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953063848",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 16,
+   "paperNumber": 691,
+   "questionId": "226895790063",
+   "page": 16,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Arrange the following rate expressions (of hypothetical reactions) in the increasing arrangement of their order of reaction:\nAssume the concentrations of A and B in all the rate expressions is same.\n(A) Rate = k [A]^(1/2) [B]^(3/2)\n(B) Rate = k [A]^(1/2) [B]^(1/2)\n(C) Rate = k [A]^(3/2) [B]^(-1)\n(D) Rate = k [A]^2 [B]^1\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(C), (B), (A), (D)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953063849",
+    "2268953063850",
+    "2268953063851",
+    "2268953063852"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063850",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 17,
+   "paperNumber": 692,
+   "questionId": "226895790064",
+   "page": 17,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "The electronic configuration of Co3+ metal ion is........",
+   "options": [
+    "3d5 4s1",
+    "3d6 4s0",
+    "3d4 4s2",
+    "3d3 4s2 4p1"
+   ],
+   "optionIds": [
+    "2268953063853",
+    "2268953063854",
+    "2268953063855",
+    "2268953063856"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063854",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 18,
+   "paperNumber": 693,
+   "questionId": "226895790065",
+   "page": 17,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "When Manganeses (II) reacts with peroxodisulphate, the respective products obtained are:",
+   "options": [
+    "MnO4^2- only",
+    "MnO4^- and SO4^2-",
+    "MnO2 and S2O4^2-",
+    "MnO4^2- and SO4^2-"
+   ],
+   "optionIds": [
+    "2268953063857",
+    "2268953063858",
+    "2268953063859",
+    "2268953063860"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063858",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 19,
+   "paperNumber": 694,
+   "questionId": "226895790066",
+   "page": 18,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "The most stable oxidation state of titanium is",
+   "options": [
+    "Ti3+",
+    "Ti2+",
+    "Ti4+",
+    "Ti5+"
+   ],
+   "optionIds": [
+    "2268953063861",
+    "2268953063862",
+    "2268953063863",
+    "2268953063864"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063863",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 20,
+   "paperNumber": 695,
+   "questionId": "226895790067",
+   "page": 18,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Potassium dichromate (K2Cr2O7) is a strong oxidizing agent. Select the correct statements from the following:\n(A) It is used for preparation of many azo compounds.\n(B) With the decreasing pH of the solution, dichromates changes into chromates.\n(C) In acidified solution equivalent weight of dichromate is M/5\n(D) The bond angle between Cr-O-Cr is 126°.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A) and (D) only",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953063865",
+    "2268953063866",
+    "2268953063867",
+    "2268953063868"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063867",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 21,
+   "paperNumber": 696,
+   "questionId": "226895790068",
+   "page": 19,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which of the following is the correct IUPAC name for the [Pt(NH3)2Cl(NO2)] coordination compound?",
+   "options": [
+    "Diamminechloridonitrito-N-platinum(II)",
+    "Diamminechloridonitrido-N-platinum(III)",
+    "Diamminechloridonitrito-N-platinate(II)",
+    "Diamminechloridenitrido-N-platinum(II)"
+   ],
+   "optionIds": [
+    "2268953063869",
+    "2268953063870",
+    "2268953063871",
+    "2268953063872"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063869",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 22,
+   "paperNumber": 697,
+   "questionId": "226895790069",
+   "page": 20,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which one of the following compounds does not show geometrical isomerism?",
+   "options": [
+    "MnO4^-",
+    "[Fe(NH3)2(CN)4]^-",
+    "[CrCl2(ox)2]^3-",
+    "[CoCl2(en)2]"
+   ],
+   "optionIds": [
+    "2268953063873",
+    "2268953063874",
+    "2268953063875",
+    "2268953063876"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063873",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 23,
+   "paperNumber": 698,
+   "questionId": "226895790070",
+   "page": 20,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which of the following hybridisation is correct for [FeF6]^3-?",
+   "options": [
+    "sp3d2 with 1 unpaired electrons",
+    "sp3d2 with 5 unpaired electrons",
+    "d2sp3 with 1 unpaired electrons",
+    "d2sp3 with 5 unpaired electrons"
+   ],
+   "optionIds": [
+    "2268953063877",
+    "2268953063878",
+    "2268953063879",
+    "2268953063880"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063878",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 24,
+   "paperNumber": 699,
+   "questionId": "226895790071",
+   "page": 21,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) ion or molecule having two different donor atoms and either of the two ligetes in the complex | (I) central atom or ion\n(B) In a coordination entity, the atom/ion to which a fixed number of ions/groups are bound in a definite geometrical arrangement | (II) Chelate ligand\n(C) ion or molecule using its two or more donor atoms simultaneously to bind a single metal ion | (III) Ambidentate ligand\n(D) ion or molecule bound to the central atom/ion through two donor atoms | (IV) Didentate ligand\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)",
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (III), (B) - (I), (C) - (II), (D) - (IV)"
+   ],
+   "optionIds": [
+    "2268953063881",
+    "2268953063882",
+    "2268953063883",
+    "2268953063884"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953063884",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 25,
+   "paperNumber": 700,
+   "questionId": "226895790072",
+   "page": 22,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "In nucleophilic addition reaction of HCN to ethanal, the hybridisation of the carbonyl carbon in the final product is",
+   "options": [
+    "sp3",
+    "sp2",
+    "sp2d",
+    "spd2"
+   ],
+   "optionIds": [
+    "2268953063885",
+    "2268953063886",
+    "2268953063887",
+    "2268953063888"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063885",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 26,
+   "paperNumber": 701,
+   "questionId": "226895790073",
+   "page": 23,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Arrange the following complex ions in increasing order of their wavelength of light absorbed:\n(A) [Co(CN)6]^3-\n(B) [Co(NH3)6]^3+\n(C) [Co(F6)]^3-\n(D) [Co(C2O4)]^3-\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (D), (C)",
+    "(A), (D), (B), (C)",
+    "(D), (B), (A), (C)",
+    "(C), (D), (B), (A)"
+   ],
+   "optionIds": [
+    "2268953063889",
+    "2268953063890",
+    "2268953063891",
+    "2268953063892"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063889",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 27,
+   "paperNumber": 702,
+   "questionId": "226895790074",
+   "page": 24,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "The correct increasing order of acidity of the following molecules is\n(A) [structure: 4-nitrobenzoic acid (COOH with NO2 at the para position)]\n(B) [structure: 2,4-dinitrobenzoic acid (COOH with NO2 at one ortho position and the para position)]\n(C) [structure: benzoic acid]\n(D) [structure: 4-methoxybenzoic acid (COOH with OCH3 at the para position)]\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (A), (B)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953063893",
+    "2268953063894",
+    "2268953063895",
+    "2268953063896"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063894",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 28,
+   "paperNumber": 703,
+   "questionId": "226895790075",
+   "page": 26,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Conversion of carboxylic acid to hydrocarbon is carried out using",
+   "options": [
+    "KMnO4",
+    "LiAlH4 and ether",
+    "NaOH and CaO",
+    "B2H6 (Diborane)"
+   ],
+   "optionIds": [
+    "2268953063897",
+    "2268953063898",
+    "2268953063899",
+    "2268953063900"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063899",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 29,
+   "paperNumber": 704,
+   "questionId": "226895790076",
+   "page": 26,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Sodium benzoate finds applications in",
+   "options": [
+    "Perfumes",
+    "Nylon 6,6",
+    "Soaps and detergents",
+    "Food preservatives"
+   ],
+   "optionIds": [
+    "2268953063901",
+    "2268953063902",
+    "2268953063903",
+    "2268953063904"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953063904",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 30,
+   "paperNumber": 705,
+   "questionId": "226895790077",
+   "page": 27,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Iodoform reaction with sodium hypoiodite is used for detection of .",
+   "options": [
+    "CH3CO group",
+    "CH3CO and CH3CH(OH) groups",
+    "CH3O group",
+    "(CH3)3CO group"
+   ],
+   "optionIds": [
+    "2268953063905",
+    "2268953063906",
+    "2268953063907",
+    "2268953063908"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063906",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 31,
+   "paperNumber": 706,
+   "questionId": "226895790078",
+   "page": 28,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "The first step in conversion of aniline to 4-bromoaniline involves\n[scheme: aniline --?--> 4-bromoaniline]",
+   "options": [
+    "Acetylation of amino group",
+    "Formation of diazonium salt in the presence of NaNO2 and HCl.",
+    "Reaction with Bromine water at room temperature.",
+    "Reaction with Bromine in the presence of NaOH."
+   ],
+   "optionIds": [
+    "2268953063909",
+    "2268953063910",
+    "2268953063911",
+    "2268953063912"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063909",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 32,
+   "paperNumber": 707,
+   "questionId": "226895790079",
+   "page": 29,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which of the following reagents will bring out the following transformation ?\n[scheme: aniline --?--> chlorobenzene]\n(A) NaNO2/HCl and Cu/HCl\n(B) NaNO2/NaOH and Cu/HCl\n(C) NaNO2/HCl and Cu2Cl2/HCl\n(D) NaNO2/NaOH and Cu2Cl2/HCl\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953063913",
+    "2268953063914",
+    "2268953063915",
+    "2268953063916"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063913",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 33,
+   "paperNumber": 708,
+   "questionId": "226895790080",
+   "page": 30,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Amongst the following, the strongest base in the aqueous medium is :",
+   "options": [
+    "CH3NH2",
+    "NCCH2NH2",
+    "(CH3)2NH",
+    "C6H5NHCH3"
+   ],
+   "optionIds": [
+    "2268953063917",
+    "2268953063918",
+    "2268953063919",
+    "2268953063920"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063919",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 34,
+   "paperNumber": 709,
+   "questionId": "226895790081",
+   "page": 31,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Select the correct set of reagents required for conversion of the following chemical reactions\n[scheme: 3-bromo-4-methylaniline (NH2 on C1, Br on C3, CH3 on C4) --?--> 2-bromobenzoic acid (COOH with Br on the adjacent carbon)]",
+   "options": [
+    "(i). NaNO2/ HCl, 273-278 K (ii). H3PO4 , H2O (iii). KMnO4 and KOH",
+    "(i). NaNO2/HCl (ii). H3PO4 (iii). NaOH/H2O",
+    "(i). HNO3/H2SO4 (ii). H3PO4 (iii). KMnO4 and KOH",
+    "(i). NaNO2/HCl (ii). Sn/HCl (iii). KMnO4 and KOH"
+   ],
+   "optionIds": [
+    "2268953063921",
+    "2268953063922",
+    "2268953063923",
+    "2268953063924"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063921",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the header line)"
+  },
+  {
+   "n": 35,
+   "paperNumber": 710,
+   "questionId": "226895790082",
+   "page": 32,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "-OH group at which carbon center of glucose form a pyranose ring structure?\n[Fischer projection of D-glucose with carbons numbered: C1 CHO; C2 H-C-OH; C3 HO-C-H; C4 H-C-OH; C5 H-C-OH; C6 CH2OH]",
+   "options": [
+    "C6",
+    "C4",
+    "C3",
+    "C5"
+   ],
+   "optionIds": [
+    "2268953063925",
+    "2268953063926",
+    "2268953063927",
+    "2268953063928"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953063928",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 36,
+   "paperNumber": 711,
+   "questionId": "226895790083",
+   "page": 33,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Gabriel phthalimide synthesis of amines produces",
+   "options": [
+    "tertiary amines.",
+    "secondary amines.",
+    "primary amines.",
+    "aromatic secondary amines."
+   ],
+   "optionIds": [
+    "2268953063929",
+    "2268953063930",
+    "2268953063931",
+    "2268953063932"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063931",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the header line)"
+  },
+  {
+   "n": 37,
+   "paperNumber": 712,
+   "questionId": "226895790084",
+   "page": 33,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Peptide bond in proteins is strutcurally represented as",
+   "options": [
+    "-CO-NH-",
+    "-COO-NH-",
+    "-C-O-C-",
+    "-C-O-CO-"
+   ],
+   "optionIds": [
+    "2268953063933",
+    "2268953063934",
+    "2268953063935",
+    "2268953063936"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063933",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 38,
+   "paperNumber": 713,
+   "questionId": "226895790085",
+   "page": 34,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Fibrous protein is characterized by the presence of hydrogen and disulfide bonds. Examples of fibrous protein are\n(A) Keratin\n(B) Myosin\n(C) Insulin\n(D) Albumins\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A) and (B) only",
+    "(A), (B), (C) and (D)",
+    "(C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953063937",
+    "2268953063938",
+    "2268953063939",
+    "2268953063940"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063938",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 39,
+   "paperNumber": 714,
+   "questionId": "226895790086",
+   "page": 35,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Match List-I with List-II\nList-I (Name of the Compounds) | List-II (Chemical Structures)\n(A) Gluconic acid | (I) [Fischer projection: COOH at both ends, with H-C-OH, HO-C-H, H-C-OH, H-C-OH between them (saccharic acid)]\n(B) Fructose | (II) [structure: H2N-CH(CH2-indol-3-yl)-COOH (tryptophan)]\n(C) Tryptophan | (III) [Fischer projection: COOH at the top, H-C-OH, HO-C-H, H-C-OH, H-C-OH, CH2OH at the bottom (gluconic acid)]\n(D) Saccharic acid | (IV) [Fischer projection: CH2OH, C=O, HO-C-H, H-C-OH, H-C-OH, CH2OH (fructose)]\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953063941",
+    "2268953063942",
+    "2268953063943",
+    "2268953063944"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953063944",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 40,
+   "paperNumber": 715,
+   "questionId": "226895790087",
+   "page": 37,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "stem": "Which of the following gives the correct representation of zwitter ion of the given amino acid ?\n[Each option shows alanine, H2N-CH(CH3)-C(=O)-OH, with a double-headed arrow to a second form]",
+   "options": [
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H2N-CH(CH3)-C(=O)-OH",
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H3N+-CH(CH3)-C(=O)-O-",
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H2N-CH(CH3)-C(=O)-O-",
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H3N+-CH(CH3)-C(=O)-OH"
+   ],
+   "optionIds": [
+    "2268953063945",
+    "2268953063946",
+    "2268953063947",
+    "2268953063948"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063946",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 41,
+   "paperNumber": 716,
+   "questionId": "226895790089",
+   "page": 38,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "stem": "The Nernst equation for the given reaction\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s) ; is",
+   "options": [
+    "E_cell = E°_cell − (RT/2F) ln ([Ni2+]/[Ag+]^2)",
+    "E_cell = E°_cell − (RT/2F) ln ([Ni2+]/[Ag+])",
+    "E_cell = E°_cell − (RT/F) ln ([Ni2+]/[Ag+])",
+    "E_cell = E°_cell + (RT/F) ln ([Ni2+]/[Ag+])"
+   ],
+   "optionIds": [
+    "2268953063949",
+    "2268953063950",
+    "2268953063951",
+    "2268953063952"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063949",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895790088"
+  },
+  {
+   "n": 42,
+   "paperNumber": 717,
+   "questionId": "226895790090",
+   "page": 39,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "stem": "The standard electrode potential for the cell\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s)\nis 0.80 V. The standard Gibbs energy for the reaction is:",
+   "options": [
+    "-154.379 kJ mol^-1",
+    "154.379 kJ mol^-1",
+    "212.2 kJ mol^-1",
+    "-212.2 kJ mol^-1"
+   ],
+   "optionIds": [
+    "2268953063953",
+    "2268953063954",
+    "2268953063955",
+    "2268953063956"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063953",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895790088"
+  },
+  {
+   "n": 43,
+   "paperNumber": 718,
+   "questionId": "226895790091",
+   "page": 39,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "stem": "The relationship between the equilibrium constant of the reaction and the standard electrode potential of the cell in which that reaction takes place is given by",
+   "options": [
+    "E°_cell = (RT / (2.303 × nF)) log Kc",
+    "E°_cell = (2.303RT / nF) log Kc",
+    "E°_cell = (2.303RT / nF) ln Kc",
+    "E°_cell = 2.303RT ln Kc"
+   ],
+   "optionIds": [
+    "2268953063957",
+    "2268953063958",
+    "2268953063959",
+    "2268953063960"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063958",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895790088"
+  },
+  {
+   "n": 44,
+   "paperNumber": 719,
+   "questionId": "226895790092",
+   "page": 40,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "stem": "In the given cell,\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s)\nwhich of the given species is the reducing agent?",
+   "options": [
+    "Ni2+(aq)",
+    "Ni(s)",
+    "Ag+(aq)",
+    "Ag(s)"
+   ],
+   "optionIds": [
+    "2268953063961",
+    "2268953063962",
+    "2268953063963",
+    "2268953063964"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063962",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895790088"
+  },
+  {
+   "n": 45,
+   "paperNumber": 720,
+   "questionId": "226895790093",
+   "page": 40,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "stem": "Which of the following is the anodic half cell reaction?\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s)",
+   "options": [
+    "Ni(s) → Ni2+(aq) + 2e-",
+    "Ni2+(aq) + 2e- → Ni(s)",
+    "Ag+(aq) + e- → Ag(s)",
+    "Ag(s) → Ag+(aq) + e-"
+   ],
+   "optionIds": [
+    "2268953063965",
+    "2268953063966",
+    "2268953063967",
+    "2268953063968"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063965",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P1-226895790088"
+  },
+  {
+   "n": 46,
+   "paperNumber": 721,
+   "questionId": "226895790095",
+   "page": 43,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "stem": "What is the common name for the following structure given below?\n[structure: benzene-1,4-diol (two OH groups para to each other)]",
+   "options": [
+    "Resorcinol",
+    "Catechol",
+    "Hydroquinone",
+    "m-cresol"
+   ],
+   "optionIds": [
+    "2268953063969",
+    "2268953063970",
+    "2268953063971",
+    "2268953063972"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063971",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895790094"
+  },
+  {
+   "n": 47,
+   "paperNumber": 722,
+   "questionId": "226895790096",
+   "page": 44,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "stem": "The catalyst involved in the production of methanol through hydrogenation of carbon monoxide is",
+   "options": [
+    "ZnO-Cr2O3",
+    "ZnO/Pt",
+    "Anhyd.AlCl3",
+    "Anhyd.FeCl3"
+   ],
+   "optionIds": [
+    "2268953063973",
+    "2268953063974",
+    "2268953063975",
+    "2268953063976"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063973",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895790094"
+  },
+  {
+   "n": 48,
+   "paperNumber": 723,
+   "questionId": "226895790097",
+   "page": 45,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "stem": "Consider the following chemical reaction and identify the intermediate involved in the reaction.\n[scheme: phenol --> salicylaldehyde (2-hydroxybenzaldehyde); no reagent printed over the arrow]",
+   "options": [
+    "[structure: sodium phenoxide with CHO at the ortho position]",
+    "[structure: sodium phenoxide with CHCl2 at the ortho position]",
+    "[structure: phenol with CHCl2 at the ortho position]",
+    "[structure: sodium phenoxide with CH2Cl at the ortho position]"
+   ],
+   "optionIds": [
+    "2268953063977",
+    "2268953063978",
+    "2268953063979",
+    "2268953063980"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953063978",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895790094"
+  },
+  {
+   "n": 49,
+   "paperNumber": 724,
+   "questionId": "226895790098",
+   "page": 46,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "stem": "Consider the following chemical reaction and identify the final product(s)\n[scheme: phenol --dil. HNO3--> ?]\nThe final product(s) of the above reaction is",
+   "options": [
+    "[structure: 3-nitrophenol (m-nitrophenol)]",
+    "[structure: 2,4,6-trinitrophenol (picric acid)]",
+    "[structures: 2-nitrophenol and 4-nitrophenol (o- and p-nitrophenol)]",
+    "[structures: 2-nitrophenol and 3-nitrophenol (o- and m-nitrophenol)]"
+   ],
+   "optionIds": [
+    "2268953063981",
+    "2268953063982",
+    "2268953063983",
+    "2268953063984"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953063983",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895790094"
+  },
+  {
+   "n": 50,
+   "paperNumber": 725,
+   "questionId": "226895790099",
+   "page": 46,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "stem": "The final product for the following reaction is\nCH3CH2OH --(Cu, 573K)--> ?",
+   "options": [
+    "[structure: CH3-CHO (ethanal)]",
+    "[structure: CH3-CO-CH3 (propanone)]",
+    "[structure: H-CHO (methanal)]",
+    "[structure: CH3-CH2-CHO (propanal)]"
+   ],
+   "optionIds": [
+    "2268953063985",
+    "2268953063986",
+    "2268953063987",
+    "2268953063988"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953063985",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key",
+   "passage": "P2-226895790094"
+  }
+ ]
+}

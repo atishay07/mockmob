@@ -1,0 +1,2965 @@
+{
+ "paper": "cuet2026-computer-science",
+ "subject": "computer_science",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "308",
+  "date": "2026-05-24",
+  "shift": "First",
+  "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Computer Science Information Practices, 68 PDF pages: a cover plus 67 numbered pages), https://docs.aglasem.com/view/6b6deefe-c701-11f1-b09d-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/6b6deefe-c701-11f1-b09d-0aa932765c8b/6b6deefe-c701-11f1-b09d-0aa932765c8b.pdf (14,559,947 bytes, ETag d2ff65f9739ab26a5f9d6284d303cee3, Last-Modified 13 Oct 2026), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 request to download the papers for the remaining subjects. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 308.",
+  "keySource": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (First) final key for subject 308 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question."
+ },
+ "snapshotDate": "2026-11-23",
+ "bankRead": "One read-only read on 23 Nov 2026 (SELECT only) with tmp/1123-papers/computer-science/checkA/read_served.mjs (a copy of the mathematics checker's read script: the scratchpad read_bank.mjs filter and columns, then the repo's readablePracticeQuestions on the same rows in chunks of 40 ids): 387 visible computer_science rows, of which 347 pass readablePracticeQuestions (equals the 347 in the stored public_inventory_snapshot computed 22 Nov 2026 21:57 UTC). The 40 not served are the retired chapters Boolean Algebra 13, Interface Python with MySQL 6, Python Revision 11, Functions 10; none is cited. Served copy: tmp/1123-papers/computer-science/snap/served_rows.json and served_computer_science.json (eligibility per id in eligible.txt).",
+ "keyCardDeck": "data/keycards/decks/computer_science.json (v2, 1544 cards, covering A, B1 and B2 chapters; key_card_suspended was not re-read, the earlier subjects had none suspended).",
+ "syllabusSource": "data/cuet_syllabus.js computer_science units: Section A (Database Concepts, Structured Query Language, Computer Networks), B1 (Exception and File Handling, File Handling, Stack, Queue, Sorting, Searching, Understanding Data, Data Communication, Security Aspects), B2 (Database Query using SQL, Data Handling using Pandas, Plotting Data using Matplotlib, Introduction to Computer Networks, Societal Impacts, Project Based Learning); every question sits on the 2026 syllabus. Bank rows for IP SQL and IP networks are stored under the Section A chapter names, so searches ran across all chapters.",
+ "checker": "A",
+ "method": "data/coverage/METHOD.md (STRICT rule; doubtful = not covered; Key cards count for theory; a numerical, here also a worked trace or count, needs a served BANK row with the same steps). Facts written first: tmp/1123-papers/computer-science/checkA/A_facts_before_search.txt. Search: tmp/1123-papers/computer-science/checkA/s.mjs over the served copy and the deck; builder build_A.mjs checks every cited id is served or in the deck.",
+ "scope": "All 85 questions are checked against the one computer_science bank and deck (the bank and deck hold Section A, B1 Computer Science and B2 Informatics Practices material together). Each question keeps its paper section and a track field (A, B1, B2).",
+ "doubtNote": "Concept calls Checker B should rule on first: Q6 (OR read as \"either\" from a card that only says OR combines conditions), Q33 (tweets and video classed from a row that names images, audio and free text), Q62 and Q67 (code-step order where the cards teach the method and the rest is ordinary Python order), Q41 (COUNT(DISTINCT) answered with a row that counts distinct values through SELECT DISTINCT). Q48 and Q81 are reachable by elimination but are marked not covered because one pair is not taught.",
+ "paperStructure": "Group 3 Computer Science and Informatics Practices (308), 24-05-2026 First shift, Q101-185: Section A Common 15 (Q101-115, mandatory), Section B1 Computer Science 35 (Q116-150), Section B2 Informatics Practices 35 (Q151-185). A candidate answers A plus one of B1 or B2 (50 questions). No passages, so no item is skill.",
+ "counts": {
+  "covered": 69,
+  "not_covered": 16,
+  "skill": 0,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 85
+ },
+ "countsBySection": {
+  "A": {
+   "covered": 13,
+   "not_covered": 2,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 15
+  },
+  "B1": {
+   "covered": 26,
+   "not_covered": 9,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 35
+  },
+  "B2": {
+   "covered": 30,
+   "not_covered": 5,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 35
+  }
+ },
+ "countsByTrack": {
+  "A+B1 (Computer Science candidate, 50)": {
+   "covered": 39,
+   "not_covered": 11,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 50,
+   "percent": 78
+  },
+  "A+B2 (Informatics Practices candidate, 50)": {
+   "covered": 43,
+   "not_covered": 7,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 50,
+   "percent": 86
+  }
+ },
+ "byType": {
+  "theory": {
+   "covered": 62,
+   "not_covered": 12,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 74
+  },
+  "numerical": {
+   "covered": 7,
+   "not_covered": 4,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 11
+  }
+ },
+ "coveredWithABankMatch": 22,
+ "bestKindOfCovered": {
+  "bank": 15,
+  "card": 54
+ },
+ "byChapter": {
+  "Database Concepts": {
+   "section": "A",
+   "covered": 6,
+   "not_covered": 0
+  },
+  "Structured Query Language": {
+   "section": "A",
+   "covered": 8,
+   "not_covered": 0
+  },
+  "Computer Networks": {
+   "section": "A",
+   "covered": 6,
+   "not_covered": 2
+  },
+  "File Handling": {
+   "section": "B1",
+   "covered": 2,
+   "not_covered": 0
+  },
+  "Stack": {
+   "section": "B1",
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Exception and File Handling in Python": {
+   "section": "B1",
+   "covered": 2,
+   "not_covered": 0
+  },
+  "Queue": {
+   "section": "B1",
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Searching": {
+   "section": "B1",
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Sorting": {
+   "section": "B1",
+   "covered": 2,
+   "not_covered": 2
+  },
+  "Understanding Data": {
+   "section": "B1",
+   "covered": 1,
+   "not_covered": 2
+  },
+  "Data Communication": {
+   "section": "B1",
+   "covered": 1,
+   "not_covered": 1
+  },
+  "Security Aspects": {
+   "section": "B1",
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Database Query using SQL": {
+   "section": "B2",
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Project Based Learning": {
+   "section": "B2",
+   "covered": 3,
+   "not_covered": 1
+  },
+  "Data Handling using Pandas": {
+   "section": "B2",
+   "covered": 11,
+   "not_covered": 1
+  },
+  "Plotting Data using Matplotlib": {
+   "section": "B2",
+   "covered": 5,
+   "not_covered": 1
+  },
+  "Introduction to Computer Networks": {
+   "section": "B2",
+   "covered": 4,
+   "not_covered": 0
+  },
+  "Societal Impacts": {
+   "section": "B2",
+   "covered": 4,
+   "not_covered": 1
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "questionId": "226895789463",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 3,
+   "chapter": "Database Concepts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A key (foreign key referring to a primary key) enforces integrity and represents the relationship among tables"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-foreign-key",
+     "teaches": "A foreign key is used to represent the relationship between two relations. A foreign key is an attribute whose value is derived from the primary key of another relation."
+    },
+    {
+     "kind": "bank",
+     "id": "114392a2-8ea1-4806-a374-fc893de4c095",
+     "teaches": "referential integrity: a foreign key value must match an existing primary key in the parent table"
+    }
+   ],
+   "best": "kc.computer_science.database-concepts.def-foreign-key",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A Key card says a foreign key represents the relationship between two relations and a served row says referential integrity is enforced through the foreign key matching a primary key, so \"Key\" is taught; rows, tuples and columns are not constraints."
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "questionId": "226895789464",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 4,
+   "chapter": "Database Concepts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Primary key, candidate key and composite primary key uniquely identify tuples",
+    "A foreign key does not (its values repeat)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-primary-key",
+     "teaches": "Out of one or more candidate keys, the attribute chosen by the database designer to uniquely identify the tuples in a relation is called the primary key of that relation."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-candidate-key",
+     "teaches": "A relation can have one or more attributes that takes distinct values. Any of these attributes can be used to uniquely identify the tuples in the relation. Such attributes are called candidate keys as each of them are ca"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-composite-key",
+     "teaches": "If no single attribute in a relation is able to uniquely distinguish the tuples, then more than one attribute are taken together as primary key. Such primary key consisting of more than one attribute is called Composite "
+    },
+    {
+     "kind": "bank",
+     "id": "c6cb7256-468a-4069-bd30-510ebe424962",
+     "teaches": "a foreign key column repeats across rows, so it cannot be the primary key or a candidate key"
+    },
+    {
+     "kind": "bank",
+     "id": "a676e4c1-9ef0-4606-9c67-c0dfa89e7f93",
+     "teaches": "foreign key values repeat in their own table"
+    }
+   ],
+   "best": "c6cb7256-468a-4069-bd30-510ebe424962",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Cards define primary, candidate and composite primary keys as identifying tuples uniquely, and two served rows explain that foreign key values repeat, so (B), (C), (D) only."
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "questionId": "226895789465",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 3,
+   "chapter": "Database Concepts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Data dependency: changing a file's structure forces every program that reads it to change"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-data-dependency",
+     "teaches": "If the structure or format itself is changed, all the existing application programs accessing that file also need to be changed. Otherwise, the programs may not work correctly. This is data dependency."
+    }
+   ],
+   "best": "kc.computer_science.database-concepts.def-data-dependency",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card gives the stem's own NCERT sentence and names it data dependency."
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "questionId": "226895789466",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 3,
+   "chapter": "Database Concepts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Schema is the design (skeleton) of a database"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-schema",
+     "teaches": "Database Schema is the design of a database. It is the skeleton of the database that represents the structure (table names and their fields/columns), the type of data each column can hold, constraints on the data to be s"
+    }
+   ],
+   "best": "kc.computer_science.database-concepts.def-schema",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card says \"Database Schema is the design of a database\"."
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "questionId": "226895789467",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 1,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "SELECT * FROM table WHERE column = 'value' returns the rows whose column equals the value",
+    "WHERE needs a column and a relational operator; IN takes a list"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.def-where",
+     "teaches": "The WHERE clause is used to retrieve data that meet some specified conditions."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.def-in",
+     "teaches": "The IN operator compares a value with a set of values and returns true if the value belongs to that set."
+    },
+    {
+     "kind": "bank",
+     "id": "34148722-3b98-4ab7-a093-863880075b88",
+     "teaches": "WHERE Dept = 'Sales' keeps only the Sales rows of the table"
+    }
+   ],
+   "best": "34148722-3b98-4ab7-a093-863880075b88",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Cards define WHERE and IN, and a served row works a WHERE column = 'text' filter on a printed table; the other options are malformed SQL."
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "questionId": "226895789468",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 1,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "OR in a WHERE clause keeps rows that meet either condition (AND needs both)",
+    "Conditions go in WHERE, not IF; text values in quotes"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.key-logical-operators",
+     "teaches": "The logical operators AND, OR, and NOT are used to combine multiple conditions."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.def-where",
+     "teaches": "The WHERE clause is used to retrieve data that meet some specified conditions."
+    }
+   ],
+   "best": "kc.computer_science.structured-query-language.key-logical-operators",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards teach that AND, OR, NOT combine conditions in a WHERE clause; reading OR as \"either\" is the ordinary meaning of the word. Concept match only (no served row uses OR): Checker B should rule."
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "questionId": "226895789469",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 2,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "WHERE filters rows before grouping; HAVING filters groups after GROUP BY using aggregates"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "ad7558f0-8a58-4825-9239-25ff0a40d898",
+     "teaches": "works SELECT ... WHERE Salary > 45000 GROUP BY Dept HAVING COUNT(*) > 1, the same query shape"
+    },
+    {
+     "kind": "bank",
+     "id": "d7ea058b-6475-4c93-b139-16a3f96c04ce",
+     "teaches": "WHERE filters rows before grouping, HAVING filters groups after grouping"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-having",
+     "teaches": "HAVING Clause in SQL is used to specify conditions on the rows with GROUP BY clause."
+    }
+   ],
+   "best": "ad7558f0-8a58-4825-9239-25ff0a40d898",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row works exactly this shape (row condition in WHERE, COUNT condition in HAVING after GROUP BY), and another states the WHERE/HAVING rule."
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "questionId": "226895789470",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 3,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "DISTINCT removes duplicate rows",
+    "WHERE filters rows on a condition",
+    "GROUP BY groups rows",
+    "ORDER BY sorts ascending or descending"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.def-distinct",
+     "teaches": "The SELECT statement when combined with DISTINCT clause, returns records without repetition (distinct records)."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.def-where",
+     "teaches": "The WHERE clause is used to retrieve data that meet some specified conditions."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-group-by",
+     "teaches": "It groups the rows together that contain the same values in a specified column."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.def-order-by",
+     "teaches": "ORDER BY clause is used to display data in an ordered form with respect to a specified column."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.key-order-by-desc",
+     "teaches": "To display the records in descending order, the DESC (means descending) keyword needs to be written with that column."
+    }
+   ],
+   "best": "kc.computer_science.database-query-using-sql.def-group-by",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Each of the four clauses has a Key card giving the same use as List II."
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "questionId": "226895789471",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 3,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "SUM, COUNT, MAX are multiple row (aggregate) functions",
+    "LEFT is a single row (string) function"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.diff-single-vs-multiple-examples",
+     "teaches": "4. Math, String and Date functions are examples of single row functions. 4. Max(), Min(), Avg(), Sum(), Count() and Count(*) are examples of multiple row functions."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-left",
+     "teaches": "Returns N number of characters from the left side of the string."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-aggregate-multiple-row",
+     "teaches": "Aggregate functions are also called multiple row functions."
+    }
+   ],
+   "best": "kc.computer_science.database-query-using-sql.diff-single-vs-multiple-examples",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card lists Max(), Sum(), Count() as multiple row functions and string functions as single row; LEFT is taught as a string function."
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "questionId": "226895789472",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 2,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "1969 ARPANET between UCLA and SRI",
+    "1971 Roy Tomlinson, network messaging and the @ symbol",
+    "TCP/IP adopted as the ARPANET standard (1983)",
+    "1990 Berners-Lee at CERN: HTML, URL, WWW"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.fact-arpanet-first-message",
+     "teaches": "The first message was communicated between the University of California, Los Angeles (UCLA) and Stanford Research Institute (SRI)."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.fact-berners-lee",
+     "teaches": "Sir Tim Berners-Lee – a British computer scientist invented the revolutionary World Wide Web in 1990."
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.fact-arpanet-first-message",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give ARPANET UCLA-SRI and Berners-Lee 1990 only; nothing served dates Tomlinson's @ messaging or TCP/IP on ARPANET, so the middle of the sequence is not taught (NCERT CS XII ch 10 timeline figure)."
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "questionId": "226895789473",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 3,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "GROUP BY arranges identical values into groups, used with aggregate functions"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-group-by",
+     "teaches": "It groups the rows together that contain the same values in a specified column."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.kl-group-by-aggregates",
+     "teaches": "We can use the aggregate functions (COUNT, MAX, MIN, AVG and SUM) to work on the grouped values."
+    }
+   ],
+   "best": "kc.computer_science.database-query-using-sql.def-group-by",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards: GROUP BY groups rows with the same values, and aggregate functions (COUNT, MAX, MIN, AVG, SUM) work on the grouped values."
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "questionId": "226895789474",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 2,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Gateway = access point between an organisation's network and the Internet"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.key-gateway-access",
+     "teaches": "As the term “Gateway” suggests, it is a key access point that acts as a “gate” between an organisation's network and the outside world of the Internet"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-gateway",
+     "teaches": "Gateway serves as the entry and exit point of a network, as all data coming in or going out of a network must first pass through the gateway in order to use routing paths."
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.key-gateway-access",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card states the gateway is the key access point between an organisation's network and the outside Internet, the stem's words."
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "questionId": "226895789475",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 4,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Repeater: analog device that regenerates the weakened signal and puts it back on the cable"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-repeater",
+     "teaches": "A repeater is an analog device that works with signals on the cables to which it is connected. The weakened signal appearing on the cable is regenerated and put back on the cable by a repeater."
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.def-repeater",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card is the stem's NCERT sentence for a repeater."
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "questionId": "226895789476",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 1,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Switch sends to selected devices only",
+    "Repeater is an analog device working with signals on cables",
+    "Hub connects devices through wires",
+    "Ethernet card is a network adapter (Network Interface Card)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.fact-switch-working",
+     "teaches": "When data arrives, the switch extracts the destination address from the data packet and looks it up in a table to see where to send the packet. Thus, it sends signals to only selected devices instead of sending to all."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-repeater",
+     "teaches": "A repeater is an analog device that works with signals on the cables to which it is connected. The weakened signal appearing on the cable is regenerated and put back on the cable by a repeater."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-hub",
+     "teaches": "An Ethernet hub (Figure 10.11) is a network device used to connect different devices through wires. Data arriving on any of the lines are sent out on all the others."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-nic",
+     "teaches": "Ethernet card, also known as Network Interface Card (NIC card in short) is a network adapter used to set up a wired network."
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.fact-switch-working",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "All four List II descriptions are NCERT sentences on Key cards (switch, repeater, hub, Ethernet card as network adapter / interface card)."
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "questionId": "226895789477",
+   "section": "Section A Common (mandatory, Q101-115)",
+   "track": "A",
+   "ntaKey": 3,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "RJ-45 = Registered Jack-45, the 8-pin connector for Ethernet cable"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row or card mentions the RJ-45 connector (NCERT CS XII ch 10, network devices)."
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "questionId": "226895789478",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "File Handling",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Open the file in write mode first",
+    "writelines() writes a list of strings",
+    "close() after writing"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.file-handling.def-writelines",
+     "teaches": "writelines() method is used to write multiple strings to a file. We need to pass an iterable object like lists, tuple etc. containing strings to writelines() method."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.file-handling.kl-create-file-open",
+     "teaches": "To create a text file, we use the open() method and provide the filename and the mode."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.file-handling.fact-close-method",
+     "teaches": "Once we are done with the read/write operations on a file, it is a good practice to close the file. Python provides a close() method to do so."
+    },
+    {
+     "kind": "bank",
+     "id": "878d5b02-9662-4d31-a277-1ebabab86e23",
+     "teaches": "open in \"w\" mode, then writelines a list of strings"
+    }
+   ],
+   "best": "kc.computer_science.file-handling.def-writelines",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards teach open() with a mode, writelines() for a list of strings, and close() once writing is done; a served row shows open \"w\" then writelines on a list."
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "questionId": "226895789479",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Stack",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Stack follows LIFO"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.stack.def-lifo",
+     "teaches": "It thus follows the Last-In-First-out (LIFO) principle. That is, the element which was inserted last (the most recent element) will be the first one to be taken out from the stack."
+    },
+    {
+     "kind": "bank",
+     "id": "477324a6-30d8-4189-be50-aca2af2a17a9",
+     "teaches": "stack follows LIFO"
+    }
+   ],
+   "best": "kc.computer_science.stack.def-lifo",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: a stack follows the Last-In-First-Out principle."
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "questionId": "226895789480",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Exception and File Handling in Python",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "raise throws an exception"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.exception-and-file-handling-in-python.fact-raise-statement-use",
+     "teaches": "The raise statement can be used to throw an exception."
+    }
+   ],
+   "best": "kc.computer_science.exception-and-file-handling-in-python.fact-raise-statement-use",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: the raise statement can be used to throw an exception."
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "questionId": "226895789481",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Exception and File Handling in Python",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "One try block may have several except clauses"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.exception-and-file-handling-in-python.fact-multiple-except",
+     "teaches": "For handling such situations, we can have multiple except blocks for a single try block as shown in the Program 1-3."
+    }
+   ],
+   "best": "kc.computer_science.exception-and-file-handling-in-python.fact-multiple-except",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: we can have multiple except blocks for a single try block."
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "questionId": "226895789482",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 4,
+   "chapter": "File Handling",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "seek() positions the file object at a given position"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.file-handling.def-seek",
+     "teaches": "This method is used to position the file object at a particular position in a file."
+    },
+    {
+     "kind": "bank",
+     "id": "32d6b42f-eba1-48cf-bd45-b19ff29f98f7",
+     "teaches": "seek(10) moves the file pointer 10 bytes from the beginning; tell() gives the position"
+    }
+   ],
+   "best": "kc.computer_science.file-handling.def-seek",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: seek() positions the file object at a particular position in a file."
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "questionId": "226895789483",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Stack",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Trace push/pop on a stack: push 7, 5, 9, 11; pop removes 11; push 22",
+    "Read the stack from the top: 22, 9, 5, 7"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "8bda4bb8-ee12-4512-a182-2d215c1d9573",
+     "teaches": "traces push, push, push, pop, push, pop on an empty stack and reads the stack contents"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.stack.def-lifo",
+     "teaches": "It thus follows the Last-In-First-out (LIFO) principle. That is, the element which was inserted last (the most recent element) will be the first one to be taken out from the stack."
+    }
+   ],
+   "best": "8bda4bb8-ee12-4512-a182-2d215c1d9573",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row traces the same push/pop sequence type and reads off the stack, with other values."
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "questionId": "226895789484",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Stack",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "A Python list as a stack: append pushes, pop() removes and returns the last (top) element",
+    "append 40, pop twice gives 40 then 30, sum 70"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "3c233735-4d2a-49ad-8a53-b2cba9e6d979",
+     "teaches": "traces append/pop/append on a list used as a stack and reads the top"
+    },
+    {
+     "kind": "bank",
+     "id": "1aa2dc1c-b699-46d7-90e7-3aa7053b51d0",
+     "teaches": "pop() without an index removes and returns the last element, the top"
+    }
+   ],
+   "best": "3c233735-4d2a-49ad-8a53-b2cba9e6d979",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served rows trace append/pop on a list stack and state that pop() returns the top element; the same steps with other values."
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "questionId": "226895789485",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Stack",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Infix to postfix with brackets using the stack algorithm: (A + B) * (C - D) -> A B + C D - *"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.stack.steps-alg31-step-4",
+     "teaches": "Step 4: IF character is a left parenthesis THEN PUSH on the Stack ELSE IF character is a right parenthesis THEN POP the elements from the Stack and append to string postExp until the corresponding left parenthesis is pop"
+    },
+    {
+     "kind": "bank",
+     "id": "c51c6a09-3675-4bf4-b706-456e23edce19",
+     "teaches": "a stack is used for infix to postfix conversion (no conversion worked)"
+    }
+   ],
+   "best": "kc.computer_science.stack.steps-alg31-step-4",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the conversion algorithm, but no served bank row converts an infix expression to postfix; a card alone does not cover a worked conversion."
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "questionId": "226895789486",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Queue",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Trace FIFO enqueue/dequeue from an empty queue",
+    "Remaining after the sequence: 30, 40, 50, 60"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "33636d72-4374-4537-9069-890858e75d50",
+     "teaches": "traces enqueue/dequeue from an empty queue and lists the content front to rear"
+    },
+    {
+     "kind": "bank",
+     "id": "6d13d4fd-4412-4469-b16b-409ef1b79ca0",
+     "teaches": "traces enqueue/dequeue and finds the front"
+    }
+   ],
+   "best": "33636d72-4374-4537-9069-890858e75d50",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row traces the same kind of enqueue/dequeue sequence and lists the queue content, with other values."
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "questionId": "226895789487",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Queue",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Stack, queue and deque are linear data structures",
+    "A tree is not linear"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "fd007f5e-4de5-4f44-a498-133a45581610",
+     "teaches": "stacks and queues are linear data structures"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.queue.fact-deque-uses-list",
+     "teaches": "Like queue, deque is also an ordered linear list, hence we use list data type to create deque in our program."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.stack.def-linear-data-structure",
+     "teaches": "A data structure in which elements are organised in a sequence is called linear data structure."
+    }
+   ],
+   "best": "fd007f5e-4de5-4f44-a498-133a45581610",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served material makes stack, queue and deque linear, but nothing served says a tree is non-linear, and that is what separates the key from \"all four\"."
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "questionId": "226895789488",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Queue",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Deque allows insertion and deletion at both ends"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.queue.def-deque",
+     "teaches": "Deque (pronounced as \"deck\") is an arrangement in which addition and removal of element(s) can happen from any end, i.e. head/front or tail/rear."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.queue.fact-deque-double-ended",
+     "teaches": "It is also known as Double ended queue, because it permits insertion, deletion operations from any end."
+    }
+   ],
+   "best": "kc.computer_science.queue.def-deque",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: in a deque, addition and removal can happen from any end."
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "questionId": "226895789489",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 3,
+   "chapter": "Searching",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Applications of binary search: dictionary / telephone directory, minimum or maximum in a sorted list, routing tables, database indexing"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.searching.def-binary-search",
+     "teaches": "The binary search is a search technique that makes use of the ordering of elements in the list to quickly search a key."
+    }
+   ],
+   "best": "kc.computer_science.searching.def-binary-search",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Binary search is defined, but no served row or card lists its applications (NCERT CS XII ch 6, applications of binary search)."
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "questionId": "226895789490",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 4,
+   "chapter": "Searching",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "When the key is absent, linear search compares every element (the whole list)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.searching.key-linear-unsuccessful",
+     "teaches": "If no element matches the key and we have traversed the entire list, we declare the search is unsuccessful i.e., the key is not present in the list."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.searching.fact-linear-key-absent",
+     "teaches": "Thus, if the key is not present in the list, the linear search algorithm will have to make n comparisons. This again is a case where maximum work is done."
+    }
+   ],
+   "best": "kc.computer_science.searching.key-linear-unsuccessful",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards: if no element matches, the entire list has been traversed; an absent key takes n comparisons."
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "questionId": "226895789491",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Searching",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Worst case of linear search on n elements = n comparisons (10)"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "af2c23fa-f633-4d70-bd17-a16dc06cb331",
+     "teaches": "linear search needs n comparisons in the worst case: 8 for 8 elements, 64 for 64"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.searching.fact-linear-worst-case-last",
+     "teaches": "Thus, if the key to be searched is the last element in the list, the linear search algorithm will have to make n comparisons, where n is the number of elements in the list. This is in fact the maximum amount of work the "
+    }
+   ],
+   "best": "af2c23fa-f633-4d70-bd17-a16dc06cb331",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row works worst-case linear search comparisons = n for other list sizes."
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "questionId": "226895789492",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Sorting",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Bubble sort on n elements takes n - 1 passes (6 -> 5)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "06446446-570e-4393-a5a8-00170955ec4a",
+     "teaches": "mentions four full passes for five elements only while explaining a wrong option"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.sorting.kl-selection-n-1-passes",
+     "teaches": "To sort a list having n elements, the selection sort makes (n-1) number of passes through the list."
+    }
+   ],
+   "best": "06446446-570e-4393-a5a8-00170955ec4a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "No served row asks or states the number of bubble sort passes for n elements; the n - 1 card is for selection sort, and one row mentions four passes for five elements only in passing."
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "questionId": "226895789493",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Sorting",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Selection sort repeatedly selects the smallest element and puts it in place"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "5237c5d2-2fda-4d1c-a92b-e1f119cf4d64",
+     "teaches": "selection sort finds the smallest element of the unsorted part and places it next"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.sorting.kl-selection-find-smallest",
+     "teaches": "For arranging elements in ascending order, in the first pass, all the elements in the unsorted list are traversed to find the smallest element."
+    }
+   ],
+   "best": "5237c5d2-2fda-4d1c-a92b-e1f119cf4d64",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row asks the same question with the same answer."
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "questionId": "226895789494",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Sorting",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A nested loop (loop within a loop) has time complexity n^2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.sorting.fact-nested-and-single-loop",
+     "teaches": "If there is a nested loop and also a single loop, the time complexity will be estimated on the basis of the nested loop only."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.sorting.fact-linear-time",
+     "teaches": "Any algorithm that has a loop (usually 1 to n) will have the time complexity as n because the loop will execute the statement inside its body n number of times. Such algorithms are known as Linear time algorithms."
+    }
+   ],
+   "best": "kc.computer_science.sorting.fact-nested-and-single-loop",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give no loop = 1 and a single loop = n, and say a nested loop decides the estimate, but none states that a nested loop gives n^2."
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "questionId": "226895789495",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Understanding Data",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Tweets (free text) and videos are unstructured",
+    "Attendance marking and an account-opening form are structured (rows and columns)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "028fae3a-e7b2-4d6c-af5f-bf30a5aaff2c",
+     "teaches": "images, audio and free text are unstructured; a table with fixed columns is structured"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.understanding-data.def-unstructured",
+     "teaches": "In summary, data which are not in the traditional row and column structure is called unstructured data."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.understanding-data.def-structured",
+     "teaches": "Data which is organised and can be recorded in a well defined format is called structured data."
+    }
+   ],
+   "best": "028fae3a-e7b2-4d6c-af5f-bf30a5aaff2c",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row names images, audio and free text as unstructured and tabular records as structured; tweets are free text and video is images with audio. Concept match by classification, not by the same examples: Checker B should rule."
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "questionId": "226895789496",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Understanding Data",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Standard deviation of 7 values: mean 24.57, squared deviations, average, square root = about 3.2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.term-std-term",
+     "teaches": "Standard deviation is calculated as the square root of the variance."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.term-std-term",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "No served bank row computes a standard deviation; a card only says it is the square root of the variance."
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "questionId": "226895789497",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Understanding Data",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The median is not affected by outliers, so it suits data with an outlier better than the mean"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.understanding-data.term-mean-outliers",
+     "teaches": "Mean is not a suitable choice if there are outliers in the data."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.understanding-data.term-range-outlier",
+     "teaches": "As range is calculated based on the two extreme values, any outlier in the data badly influences the result."
+    }
+   ],
+   "best": "kc.computer_science.understanding-data.term-mean-outliers",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards say the mean and the range are badly affected by outliers, but nothing served says the median is the measure to use, which is what separates median from mode."
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "questionId": "226895789498",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Database Concepts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Schema = skeleton",
+    "Instance = snapshot",
+    "Data dictionary = catalog (meta-data)",
+    "Constraint = restriction on the type of data"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-schema",
+     "teaches": "Database Schema is the design of a database. It is the skeleton of the database that represents the structure (table names and their fields/columns), the type of data each column can hold, constraints on the data to be s"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-instance",
+     "teaches": "After loading data, the state or snapshot of the database at any given time is the database instance."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-metadata",
+     "teaches": "The database schema along with various constraints on the data is stored by DBMS in a database catalog or dictionary, called meta-data. A meta-data is data about the data."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-constraint",
+     "teaches": "Sometimes we put certain restrictions or limitations on the type of data that can be inserted in one or more columns of a table."
+    }
+   ],
+   "best": "kc.computer_science.database-concepts.def-instance",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "All four pairs are NCERT sentences on Key cards."
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "questionId": "226895789499",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 4,
+   "chapter": "Queue",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "IVRS waiting for a support person is a queue application"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.queue.ex-ivrs",
+     "teaches": "Sometimes on calling a customer service centre, the Interactive Voice Response System (IVRS) tells us to wait till a support person is available. Here the call is put into a queue of customers waiting to be serviced."
+    }
+   ],
+   "best": "kc.computer_science.queue.ex-ivrs",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card is the stem's own NCERT example and says it is a queue."
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "questionId": "226895789500",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Database Concepts",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Degree = number of attributes (5)",
+    "Cardinality = number of tuples (4)"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "11448e97-cc49-44a6-bdc2-8d2099a05f1d",
+     "teaches": "reads degree (columns) and cardinality (rows) of a table"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-degree",
+     "teaches": "The number of attributes in a relation is called the Degree of the relation. For example, relation GUARDIAN with four attributes is a relation of degree 4."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-concepts.def-cardinality",
+     "teaches": "The number of tuples in a relation is called the Cardinality of the relation. For example, the cardinality of relation GUARDIAN is 5 as there are 5 tuples in the table."
+    }
+   ],
+   "best": "11448e97-cc49-44a6-bdc2-8d2099a05f1d",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row counts degree and cardinality of a table, with other numbers."
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "questionId": "226895789501",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 3,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Clause order: SELECT DISTINCT column FROM table WHERE condition"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "1fe7b2d3-819c-4607-936f-00626e2ba7c7",
+     "teaches": "works SELECT DISTINCT Dept FROM EMP WHERE Salary > 40000, the same clause order"
+    },
+    {
+     "kind": "bank",
+     "id": "b007ca7b-ccf0-414e-b474-6bf5a98ee6af",
+     "teaches": "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY order"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.def-distinct",
+     "teaches": "The SELECT statement when combined with DISTINCT clause, returns records without repetition (distinct records)."
+    }
+   ],
+   "best": "1fe7b2d3-819c-4607-936f-00626e2ba7c7",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row uses SELECT DISTINCT col FROM table WHERE condition, and another teaches the clause order."
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "questionId": "226895789502",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Searching",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Binary search uses the ordering of elements to search quickly"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.searching.def-binary-search",
+     "teaches": "The binary search is a search technique that makes use of the ordering of elements in the list to quickly search a key."
+    }
+   ],
+   "best": "kc.computer_science.searching.def-binary-search",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card is the stem's NCERT definition of binary search."
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "questionId": "226895789503",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 3,
+   "chapter": "Structured Query Language",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "COUNT(DISTINCT customer_id) counts different values: C101, C102, C103 = 3"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "1fe7b2d3-819c-4607-936f-00626e2ba7c7",
+     "teaches": "counts the distinct values of a column in a printed table (3 departments)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.structured-query-language.ex-count-distinct",
+     "teaches": "SELECT COUNT(DISTINCT Model) FROM INVENTORY;"
+    }
+   ],
+   "best": "1fe7b2d3-819c-4607-936f-00626e2ba7c7",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row counts the distinct values of a column from a printed table, and a card shows COUNT(DISTINCT ...) counts the different values; same step, different query wording."
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "questionId": "226895789504",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 3,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "HTTP is the protocol used to transfer (format and transmit) web pages on the WWW"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-communication.def-http",
+     "teaches": "HTTP stands for HyperText Transfer Protocol. It is the primary protocol used to access the World Wide Web."
+    },
+    {
+     "kind": "bank",
+     "id": "59bb6703-5d17-400d-9e3e-62083c60ba1f",
+     "teaches": "HTTP transfers web pages between a browser and a web server"
+    }
+   ],
+   "best": "59bb6703-5d17-400d-9e3e-62083c60ba1f",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Card: HTTP is the primary protocol used to access the World Wide Web; a served row pairs HTTP with web pages, FTP with files."
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "questionId": "226895789505",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 4,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Star = central hub or switch",
+    "Bus = single backbone cable",
+    "Ring = unidirectional link",
+    "Hybrid (tree) = multiple branches"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-star",
+     "teaches": "In star topology, each communicating device is connected to a central networking device like a hub or a switch."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-bus",
+     "teaches": "In bus topology, a single backbone wire called bus is shared among the nodes, which makes it cheaper and easy to maintain."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.key-ring-direction",
+     "teaches": "The link in a ring topology is unidirectional. Thus, data can be transmitted in one direction only (clockwise or counterclockwise)."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-tree",
+     "teaches": "In tree or hybrid topology, there are multiple branches and each branch can have one or more basic topologies like star, ring and bus."
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.def-bus",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Each topology has a Key card stating the same characteristic as List II."
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "questionId": "226895789506",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A repeater regenerates weak signals"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-repeater",
+     "teaches": "A repeater is an analog device that works with signals on the cables to which it is connected. The weakened signal appearing on the cable is regenerated and put back on the cable by a repeater."
+    },
+    {
+     "kind": "bank",
+     "id": "60c9fee2-de37-45cb-b04c-edcbd198782b",
+     "teaches": "a repeater regenerates a weakened signal"
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.def-repeater",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card and a served row: a repeater regenerates the weakened signal."
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "questionId": "226895789507",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 1,
+   "chapter": "Data Communication",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Bandwidth is measured in hertz"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-communication.term-bandwidth-unit",
+     "teaches": "Bandwidth is measured in Hertz (Hz)."
+    }
+   ],
+   "best": "kc.computer_science.data-communication.term-bandwidth-unit",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: bandwidth is measured in Hertz (Hz)."
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "questionId": "226895789508",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 4,
+   "chapter": "Data Communication",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Radio waves: 3 KHz to 1 GHz"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-communication.fact-microwave-range",
+     "teaches": "Electromagnetic waves of frequency range 1GHz - 300GHz."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-communication.kl-spectrum-range",
+     "teaches": "Electromagnetic spectrum of frequency ranging from 3 KHz to 900 THz is available for wireless communication"
+    }
+   ],
+   "best": "kc.computer_science.data-communication.fact-microwave-range",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give microwaves 1-300 GHz and the whole wireless spectrum from 3 KHz, but never the radio-wave range itself; inferring it is not stated material."
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "questionId": "226895789509",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 3,
+   "chapter": "Sorting",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Bubble sort pass by pass on 8 7 13 1 -9 4: pass 1 (A), pass 2 (B), pass 3 (D), pass 4 (C)"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "dd2c0a43-67ff-4ae8-8155-3a9712c931b8",
+     "teaches": "traces bubble sort pass by pass and gives the list after the first and second passes"
+    },
+    {
+     "kind": "bank",
+     "id": "61efe78b-86db-4817-b0b2-b518f19ff28e",
+     "teaches": "traces the first bubble sort pass swap by swap"
+    }
+   ],
+   "best": "dd2c0a43-67ff-4ae8-8155-3a9712c931b8",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served rows trace bubble sort passes swap by swap on other lists; the same steps."
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "questionId": "226895789510",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Security Aspects",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Keylogger records keystrokes",
+    "Adware earns by pay per click",
+    "Spyware tracks usage and sells it to advertisers",
+    "Worm replicates on its own over a network"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.security-aspects.fact-adware-revenue",
+     "teaches": "Once an adware has infected a substantial number of computer systems, it generates revenue either by displaying advertisements or using \"pay per click\" mechanism to charge its clients against the number of clicks on thei"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.security-aspects.diff-worm-vs-virus-trigger",
+     "teaches": "Also, a virus needs human triggering for replication (i.e. when a user opens/executes the infected file), while a worm replicates on its own and can spread to other computers through the network."
+    },
+    {
+     "kind": "bank",
+     "id": "0c46aa90-0caf-4e35-80eb-52fb4683e211",
+     "teaches": "spyware secretly collects information about the user"
+    }
+   ],
+   "best": "kc.computer_science.security-aspects.fact-adware-revenue",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Adware, worm and spyware are taught (the adware card alone fixes the key by elimination), but nothing served describes a keylogger, and a match item needs every pair."
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "questionId": "226895789511",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 2,
+   "chapter": "Security Aspects",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A Trojan does not self-replicate or infect other files"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.security-aspects.fact-trojan-spread",
+     "teaches": "However, a Trojan does not self-replicate or infect other files, it spreads through user interaction such as opening an email attachment or downloading and executing a file from the Internet."
+    }
+   ],
+   "best": "kc.computer_science.security-aspects.fact-trojan-spread",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: a Trojan does not self-replicate or infect other files."
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "questionId": "226895789512",
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "track": "B1",
+   "ntaKey": 4,
+   "chapter": "Security Aspects",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A Trojan disguises itself as legitimate software"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "0c46aa90-0caf-4e35-80eb-52fb4683e211",
+     "teaches": "a Trojan horse disguises itself as useful software"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.security-aspects.fact-trojan-name",
+     "teaches": "Since the ancient Greeks could not infiltrate the city of Troy using traditional warfare methods, they gifted the king of Troy with a big wooden horse with hidden soldiers inside and eventually defeated them."
+    }
+   ],
+   "best": "0c46aa90-0caf-4e35-80eb-52fb4683e211",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row's explanation says a Trojan horse disguises itself as useful software."
+  },
+  {
+   "n": 51,
+   "paperNumber": 151,
+   "questionId": "226895789513",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Database Query using SQL",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "UNION combines rows of two tables, showing common rows once"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-union",
+     "teaches": "This operation is used to combine the selected rows of two tables at a time. If some rows are the same in both the tables, then the result of the Union operation will show those rows only once."
+    }
+   ],
+   "best": "kc.computer_science.database-query-using-sql.def-union",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: UNION combines the rows of two tables and shows rows that are the same only once."
+  },
+  {
+   "n": 52,
+   "paperNumber": 152,
+   "questionId": "226895789514",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Database Query using SQL",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "JOIN combines rows of two tables on a specified condition"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-join",
+     "teaches": "JOIN operation combines tuples from two tables on specified conditions. This is unlike cartesian product, which make all possible combinations of tuples."
+    }
+   ],
+   "best": "kc.computer_science.database-query-using-sql.def-join",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: JOIN combines tuples from two tables on specified conditions."
+  },
+  {
+   "n": 53,
+   "paperNumber": 153,
+   "questionId": "226895789515",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Database Query using SQL",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Degree of a Cartesian product = sum of the degrees (3 + 4 = 7)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.formula-cartesian-degree",
+     "teaches": "The degree of the resulting relation is calculated as the sum of the degrees of both the relations under consideration."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.fact-cartesian-dance-music",
+     "teaches": "Applying cartesian product on these two relations will result in a relation of degree 6 and cardinality 20"
+    }
+   ],
+   "best": "kc.computer_science.database-query-using-sql.formula-cartesian-degree",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the rule and a worked card example, but no served bank row computes the degree of a Cartesian product; a card alone does not cover a numerical."
+  },
+  {
+   "n": 54,
+   "paperNumber": 154,
+   "questionId": "226895789516",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 4,
+   "chapter": "Project Based Learning",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Steps: identification of project, defining a plan, fixing time frame and processing, guidance and monitoring, outcome"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.project-based-learning.steps-pbl-five-steps",
+     "teaches": "Identification of Project Defining a plan Fixing time frame and processing Guidance and monitoring Outcome of project"
+    }
+   ],
+   "best": "kc.computer_science.project-based-learning.steps-pbl-five-steps",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card lists the five steps in this order."
+  },
+  {
+   "n": 55,
+   "paperNumber": 155,
+   "questionId": "226895789517",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Database Query using SQL",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "COUNT(column) counts values ignoring NULL",
+    "AVG returns the average",
+    "COUNT(*) returns the number of records",
+    "ROUND rounds a number to a given position"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-count-column",
+     "teaches": "Returns the number of values in the specified column ignoring the NULL values."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-avg",
+     "teaches": "Returns the average of the values in the specified column."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-count-star",
+     "teaches": "Returns the number of records in a table."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.database-query-using-sql.def-round",
+     "teaches": "Rounds off number N to D number of decimal places."
+    }
+   ],
+   "best": "kc.computer_science.database-query-using-sql.def-count-column",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give COUNT(column), AVG, COUNT(*) in List II's words and ROUND as rounding to D decimal places, which is the paper's \"to a specified position\"."
+  },
+  {
+   "n": 56,
+   "paperNumber": 156,
+   "questionId": "226895789518",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 1,
+   "chapter": "Project Based Learning",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Teamwork: share ideas, participate in completing the project",
+    "Listen and follow agreed steps (not one's own)",
+    "Respect team members"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.project-based-learning.list-share-items",
+     "teaches": "Ideas images tools"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.project-based-learning.kl-participate-encouraged",
+     "teaches": "All the team members must be encouraged by each other to participate in completing the project and also in discussions in group meetings."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.project-based-learning.fact-listen-ideas",
+     "teaches": "It is necessary to understand the ideas of others while executing a job together. This can be achieved when the team members listen to each other in group meetings, and follow steps that are agreed upon."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.project-based-learning.fact-respect-views",
+     "teaches": "Not respecting the views of a particular member may cause problems and that particular team member may not give his best."
+    }
+   ],
+   "best": "kc.computer_science.project-based-learning.fact-listen-ideas",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards teach sharing ideas and participating, that team members follow steps that are agreed upon (so (A) is wrong), and that disrespect causes problems (so (C) is wrong)."
+  },
+  {
+   "n": 57,
+   "paperNumber": 157,
+   "questionId": "226895789519",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "df.isnull().any() gives True/False per column for missing values"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-any",
+     "teaches": "To check whether a column (attribute) has a missing value in the entire dataset, any() function is used. It returns True in case of missing value else returns False."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-isnull",
+     "teaches": "Pandas provide a function isnull() to check whether any value is missing or not in the DataFrame. This function checks all attributes and returns True in case that attribute has missing values, otherwise returns False."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.def-any",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: any() on isnull() returns True for a column with a missing value, else False."
+  },
+  {
+   "n": 58,
+   "paperNumber": 158,
+   "questionId": "226895789520",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 1,
+   "chapter": "Project Based Learning",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The project leader is identified in \"Defining a plan\""
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.project-based-learning.fact-plan-leader-count",
+     "teaches": "One project leader has to be identified."
+    }
+   ],
+   "best": "kc.computer_science.project-based-learning.fact-plan-leader-count",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: Step 2, defining a plan, identifies one project leader."
+  },
+  {
+   "n": 59,
+   "paperNumber": 159,
+   "questionId": "226895789521",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Pandas supports non-unique index values"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Nothing served says pandas index values may repeat (NCERT IP ch 2, Pandas vs NumPy points)."
+  },
+  {
+   "n": 60,
+   "paperNumber": 160,
+   "questionId": "226895789522",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 1,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "pip install pandas installs Pandas",
+    "A NumPy array needs homogeneous data",
+    "A DataFrame can hold different data types",
+    "A Series is a one-dimensional array of values"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.fact-install-pandas",
+     "teaches": "To install Pandas from command line, we need to type in: pip install pandas"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.diff-pandas-numpy-data-types",
+     "teaches": "A Numpy array requires homogeneous data, while a Pandas DataFrame can have different data types (float, int, string, datetime, etc.)."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-series",
+     "teaches": "A Series is a one-dimensional array containing a sequence of values of any data type (int, float, list, string, etc) which by default have numeric data labels starting from zero."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.diff-pandas-numpy-data-types",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards state all four pairs in List II's words."
+  },
+  {
+   "n": 61,
+   "paperNumber": 161,
+   "questionId": "226895789523",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 4,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "append(..., verify_integrity=True) raises an error on duplicate row labels"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.fact-df-append-verify-integrity",
+     "teaches": "The parameter verify_integrity of append() method may be set to True when we want to raise an error if the row labels are duplicate. By default, verify_integrity = False."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.fact-df-append-verify-integrity",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: set verify_integrity=True to raise an error if row labels are duplicate."
+  },
+  {
+   "n": 62,
+   "paperNumber": 162,
+   "questionId": "226895789524",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Import numpy and pandas, create the NumPy array, pass it to pd.Series, then print"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.fact-series-from-1d-array",
+     "teaches": "We can create a series from a one-dimensional (1D) NumPy array"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-series",
+     "teaches": "A Series is a one-dimensional array containing a sequence of values of any data type (int, float, list, string, etc) which by default have numeric data labels starting from zero."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.fact-series-from-1d-array",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A card teaches that a Series is created from a 1D NumPy array; imports first and print last is ordinary Python order. No served item shows this code: Checker B should rule."
+  },
+  {
+   "n": 63,
+   "paperNumber": 163,
+   "questionId": "226895789525",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "df.count(axis=1) gives the number of values in each row"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.kl-count-axis",
+     "teaches": "To count the rows we need to use the argument axis=1 as shown in the Program 3.5 below."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-count",
+     "teaches": "DataFrame.count() will display the total number of values for each column or row of a DataFrame."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.kl-count-axis",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards: count() gives the number of values per column or row, and axis=1 counts the rows."
+  },
+  {
+   "n": 64,
+   "paperNumber": 164,
+   "questionId": "226895789526",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 1,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "pivot_table() aggregates values of rows with duplicate entries; pivot() cannot reshape duplicates"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-pivot-table",
+     "teaches": "It works like a pivot function, but aggregates the values from rows with duplicate entries for the specified columns."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.fact-pivot-duplicate-error",
+     "teaches": "This is because duplicate data can’t be reshaped using pivot function."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.def-pivot-table",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: pivot_table works like pivot but aggregates values from rows with duplicate entries, the key's own words."
+  },
+  {
+   "n": 65,
+   "paperNumber": 165,
+   "questionId": "226895789527",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 1,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "count() displays the number of values for each column or row"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-count",
+     "teaches": "DataFrame.count() will display the total number of values for each column or row of a DataFrame."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.def-count",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card is the stem's sentence for DataFrame.count()."
+  },
+  {
+   "n": 66,
+   "paperNumber": 166,
+   "questionId": "226895789528",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "groupby splits data into groups on some criteria"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-groupby",
+     "teaches": "In pandas, DataFrame.GROUP BY() function is used to split the data into groups based on some criteria."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.def-groupby",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card states DataFrame.GROUP BY() splits the data into groups based on some criteria, in the paper's own spelling."
+  },
+  {
+   "n": 67,
+   "paperNumber": 167,
+   "questionId": "226895789529",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "import pandas, load the DataFrame, call df.count(), print the result"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.def-count",
+     "teaches": "DataFrame.count() will display the total number of values for each column or row of a DataFrame."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.kl-count-axis",
+     "teaches": "To count the rows we need to use the argument axis=1 as shown in the Program 3.5 below."
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.def-count",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards teach count() for values per row or column; import first, print last is ordinary Python order. Checker B should rule."
+  },
+  {
+   "n": 68,
+   "paperNumber": 168,
+   "questionId": "226895789530",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Slicing extracts a part of a Series"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.fact-series-slice-positional",
+     "teaches": "When we use positional indices for slicing, the value at the end index position is excluded, i.e., only (end - start) number of data values of the series are extracted."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.types-series-access-ways",
+     "teaches": "Indexing Slicing"
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.fact-series-slice-positional",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards name indexing and slicing as the two ways to access a series and say slicing extracts (end - start) values of the series."
+  },
+  {
+   "n": 69,
+   "paperNumber": 169,
+   "questionId": "226895789531",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Plotting Data using Matplotlib",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A box plot shows the statistical summary including quartiles"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.def-boxplot-def",
+     "teaches": "A Box Plot is the visual representation of the statistical summary of a given data set."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.def-quartiles-def",
+     "teaches": "Quartiles are the measures which divide the data into four equal parts, and each part contains an equal number of observations."
+    }
+   ],
+   "best": "kc.computer_science.plotting-data-using-matplotlib.def-boxplot-def",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: a box plot is the visual representation of the statistical summary of a data set."
+  },
+  {
+   "n": 70,
+   "paperNumber": 170,
+   "questionId": "226895789532",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Plotting Data using Matplotlib",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "explode = fraction of the radius by which each wedge is offset"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.fact-pie-function",
+     "teaches": "pie(x[, explode, labels, colors, autopct, ...])"
+    }
+   ],
+   "best": "kc.computer_science.plotting-data-using-matplotlib.fact-pie-function",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A card only lists explode as a pie() parameter; nothing served says what it does."
+  },
+  {
+   "n": 71,
+   "paperNumber": 171,
+   "questionId": "226895789533",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 4,
+   "chapter": "Plotting Data using Matplotlib",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Scatter plot shows how two variables are correlated",
+    "It uses dots",
+    "Categorical summaries are bar charts; proportions are pie charts"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.term-scatter-correlation",
+     "teaches": "Scatter plots are sometimes called correlation plots because they show how two variables are correlated."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.def-scatter-def",
+     "teaches": "A scatter chart is a two-dimensional data visualisation method that uses dots to represent the values obtained for two different variables --one plotted along the x-axis and the other plotted along the y-axis."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.kl-pie-use",
+     "teaches": "A pie plot is used to represent numerical data proportionally."
+    },
+    {
+     "kind": "bank",
+     "id": "5f1bfb37-5cda-4206-b0f5-d39099017941",
+     "teaches": "plt.bar makes bars for categories, plt.scatter individual markers"
+    }
+   ],
+   "best": "kc.computer_science.plotting-data-using-matplotlib.term-scatter-correlation",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards: scatter plots show how two variables are correlated, using dots; pie plots show proportions and a served row gives bars for categories, so (A) and (D) only."
+  },
+  {
+   "n": 72,
+   "paperNumber": 172,
+   "questionId": "226895789534",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Plotting Data using Matplotlib",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "xticks/yticks set user-defined axis markings",
+    "kind customises plot types",
+    "legend is shown by default associating colours with data",
+    "marker is a symbol representing a data value"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.fact-xticks-syntax",
+     "teaches": "We can substitute the ticks at x axis with a list of values of our choice by using plt.xticks(ticks,label) where ticks is a list of locations(locs) on x axis at which ticks should be placed, label is a list of items to p"
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.fact-pandas-kind-keyword",
+     "teaches": "The plot() method of Pandas accepts a considerable number of arguments that can be used to plot a variety of graphs. It allows customising different plot types by supplying the kind keyword arguments."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.fact-line-plot-legend-default",
+     "teaches": "Note that the legend is displayed by default associating the colours with the plotted data."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.def-marker-def",
+     "teaches": "A marker is any symbol that represents a data value in a line chart or a scatter plot."
+    }
+   ],
+   "best": "kc.computer_science.plotting-data-using-matplotlib.def-marker-def",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "All four List II descriptions are NCERT sentences on Key cards."
+  },
+  {
+   "n": 73,
+   "paperNumber": 173,
+   "questionId": "226895789535",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Plotting Data using Matplotlib",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "plt.savefig(filename) saves a figure"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.fact-savefig",
+     "teaches": "A figure can also be saved by using savefig() function. The name of the figure is passed to the function as parameter."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.fact-savefig-example",
+     "teaches": "plt.savefig('x.png')"
+    }
+   ],
+   "best": "kc.computer_science.plotting-data-using-matplotlib.fact-savefig",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards: savefig() saves a figure, e.g. plt.savefig('x.png')."
+  },
+  {
+   "n": 74,
+   "paperNumber": 174,
+   "questionId": "226895789536",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Plotting Data using Matplotlib",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Histogram column height = number of data points in that range"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.kl-histogram-height",
+     "teaches": "The height of each column in the histogram is then proportional to the number of data points its bin contains."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.plotting-data-using-matplotlib.def-histogram-def",
+     "teaches": "Histograms are column-charts, where each column represents a range of values, and the height of a column corresponds to how many values are in that range."
+    }
+   ],
+   "best": "kc.computer_science.plotting-data-using-matplotlib.kl-histogram-height",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards: the height of each column is proportional to the number of data points in its bin."
+  },
+  {
+   "n": 75,
+   "paperNumber": 175,
+   "questionId": "226895789537",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 4,
+   "chapter": "Introduction to Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Message broken into packets, packets sent, reassembled at the destination, then shown"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-communication.kl-tcp-packets",
+     "teaches": "TCP ensures that the message or data is broken into smaller chunks, called IP packets."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-communication.kl-tcp-reassembled",
+     "teaches": "When all the packets finally reach the destination machine, they are reassembled into the original message at the receiver's end."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.term-packets",
+     "teaches": "For communication, data in a network is divided into smaller chunks called packets."
+    }
+   ],
+   "best": "kc.computer_science.data-communication.kl-tcp-reassembled",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards: the message is broken into packets, and when all packets reach the destination they are reassembled into the original message."
+  },
+  {
+   "n": 76,
+   "paperNumber": 176,
+   "questionId": "226895789538",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Introduction to Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Cookies and site data sit in the Privacy and Security settings"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.introduction-to-computer-networks.kl-cookie-disable",
+     "teaches": "One can disable cookies by changing the Privacy and Security settings of our browser."
+    }
+   ],
+   "best": "kc.computer_science.introduction-to-computer-networks.kl-cookie-disable",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: cookies are disabled by changing the Privacy and Security settings of the browser."
+  },
+  {
+   "n": 77,
+   "paperNumber": 177,
+   "questionId": "226895789539",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Introduction to Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Bus topology: a single backbone wire shared among all nodes"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-bus",
+     "teaches": "In bus topology, a single backbone wire called bus is shared among the nodes, which makes it cheaper and easy to maintain."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.introduction-to-computer-networks.kl-bus-cheap",
+     "teaches": "In this topology, a single backbone wire called bus is shared among the nodes, which makes it cheaper and easy to maintain."
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.def-bus",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: in bus topology a single backbone wire called bus is shared among the nodes."
+  },
+  {
+   "n": 78,
+   "paperNumber": 178,
+   "questionId": "226895789540",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Project Based Learning",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A project specification states what the project must hold (A: item categories and id rules; C: population figures to collect); B and D are background statements"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Nothing served teaches what a project specification is or gives NCERT IP ch 7's example projects."
+  },
+  {
+   "n": 79,
+   "paperNumber": 179,
+   "questionId": "226895789541",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 4,
+   "chapter": "Introduction to Computer Networks",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Topology = arrangement of devices and links in a network"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.computer-networks.def-topology",
+     "teaches": "The arrangement of computers and other peripherals in a network is called its topology."
+    }
+   ],
+   "best": "kc.computer_science.computer-networks.def-topology",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: the arrangement of computers and other peripherals in a network is its topology."
+  },
+  {
+   "n": 80,
+   "paperNumber": 180,
+   "questionId": "226895789542",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 4,
+   "chapter": "Data Handling using Pandas",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "DataFrame.values gives a NumPy ndarray of all values without axes labels"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.data-handling-using-pandas.fact-df-attr-values",
+     "teaches": "to display a NumPy ndarray having all the values in the DataFrame, without the axes labels"
+    }
+   ],
+   "best": "kc.computer_science.data-handling-using-pandas.fact-df-attr-values",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card is the stem's sentence for the values attribute."
+  },
+  {
+   "n": 81,
+   "paperNumber": 181,
+   "questionId": "226895789543",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Societal Impacts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Credible: cautious while commenting",
+    "Secure: choose password wisely",
+    "Reliable: think before uploading",
+    "Ethical: no copyright violation"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.societal-impacts.kl-be-credible",
+     "teaches": "We should be cautious while making a comment, replying or writing an email or forum post as such acts decide our credibility over a period of time."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.societal-impacts.fact-ethical-copyright",
+     "teaches": "No copyright violation: we should not use copyrighted materials without the permission of the creator or owner."
+    },
+    {
+     "kind": "card",
+     "id": "kc.computer_science.societal-impacts.list-social-media-etiquettes",
+     "teaches": "Choose password wisely Know who you befriend Beware of fake information Think before you upload"
+    }
+   ],
+   "best": "kc.computer_science.societal-impacts.list-social-media-etiquettes",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards fix credibility (careful comments) and ethics (no copyright violation) and list the social media etiquettes, but never place \"choose password wisely\" under Be Secure or \"think before you upload\" under Be Reliable; a match needs every pair (the key is reachable by elimination)."
+  },
+  {
+   "n": 82,
+   "paperNumber": 182,
+   "questionId": "226895789544",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 4,
+   "chapter": "Societal Impacts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A license is a permission agreement between the creator and the user"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.societal-impacts.def-license",
+     "teaches": "A license is a type of contract or a permission agreement between the creator of an original work permitting someone to use their work, generally for some price"
+    }
+   ],
+   "best": "kc.computer_science.societal-impacts.def-license",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: a license is a permission agreement between the creator of an original work and someone using it."
+  },
+  {
+   "n": 83,
+   "paperNumber": 183,
+   "questionId": "226895789545",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Societal Impacts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Copyright infringement = using another's work without permission or without paying"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.societal-impacts.def-copyright-infringement",
+     "teaches": "Copyright infringement is when we use other person's work without obtaining their permission to use or we have not paid for it, if it is being sold."
+    }
+   ],
+   "best": "kc.computer_science.societal-impacts.def-copyright-infringement",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "The Key card is the stem's NCERT definition."
+  },
+  {
+   "n": 84,
+   "paperNumber": 184,
+   "questionId": "226895789546",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 2,
+   "chapter": "Societal Impacts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Cyberbullying: degrading online behaviour such as fake profiles and embarrassing posts meant to ridicule"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.societal-impacts.def-cyber-bullying",
+     "teaches": "any insulting, degrading or intimidating online behaviour like repeated posting of rumours, giving threats online, posting the victim's personal information, sexual harassment or comments aimed to publicly ridicule a vic"
+    },
+    {
+     "kind": "bank",
+     "id": "d4e642cd-1fbf-4b07-8e8e-0325a2f090ba",
+     "teaches": "cyberbullying is online harassment"
+    }
+   ],
+   "best": "kc.computer_science.societal-impacts.def-cyber-bullying",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: cyber bullying is insulting or degrading online behaviour including posts aimed to publicly ridicule a victim; phishing, blocking and hacking are other acts."
+  },
+  {
+   "n": 85,
+   "paperNumber": 185,
+   "questionId": "226895789547",
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "track": "B2",
+   "ntaKey": 3,
+   "chapter": "Societal Impacts",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "E-waste: reduce, reuse, recycle"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.computer_science.societal-impacts.types-three-rs",
+     "teaches": "reduce reuse recycle"
+    }
+   ],
+   "best": "kc.computer_science.societal-impacts.types-three-rs",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card: the e-waste methods are reduce, reuse, recycle."
+  }
+ ]
+}

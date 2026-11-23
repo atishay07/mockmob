@@ -1,0 +1,1762 @@
+{
+ "paper": "cuet2026-chemistry",
+ "subject": "chemistry",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "306",
+  "date": "2026-05-24",
+  "shift": "First",
+  "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Chemistry, 50 PDF pages: a cover plus 49 numbered pages), https://docs.aglasem.com/view/69514fee-c701-11f1-afe4-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/69514fee-c701-11f1-afe4-0aa932765c8b/69514fee-c701-11f1-afe4-0aa932765c8b.pdf (9,205,849 bytes, ETag 5d2856aad8b5e5e2a57a5a344ad8d9fc, Last-Modified 13 Oct 2026), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 request for the remaining subjects. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 306.",
+  "keySource": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (First) final key for subject 306 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question."
+ },
+ "snapshotDate": "2026-11-23",
+ "bankRead": "One read-only read on 23 Nov 2026 with the repo read script (SELECT only; copy in tmp/1123-papers/chemistry/checkA/read_bank.mjs): 466 visible chemistry rows, of which 395 pass readablePracticeQuestions (equals the 395 in the 22 Nov 21:57 UTC inventory snapshot; the 71 others, incl. all rows of the retired chapters, are visible but not eligible and are not cited). The eligibility pass read the same rows again in chunks of 40 ids (SELECT only; chunked copy in tmp/1123-papers/chemistry/checkA/check_eligible_chunked.mjs). Served copy: tmp/1123-papers/chemistry/snap/served_rows.json and served_chemistry.json (eligibility output eligible.txt).",
+ "keyCardDeck": "data/keycards/decks/chemistry.json (v3, 1411 cards, all ten 2026 chapters; key_card_suspended was not re-read, the earlier subjects had none suspended).",
+ "syllabusSource": "data/cuet_syllabus.js chemistry units (10 chapters: Solutions to Biomolecules; Solid State, Surface Chemistry, Isolation of Elements, p-Block, Polymers and Chemistry in Everyday Life are RETIRED_CHAPTERS); every question sits on the 2026 syllabus (Q2 and Q9 polyhalogen compounds, Q29 uses of carboxylic acids and Q47 commercial alcohols are all in the 2026-27 NCERT PDFs on disk).",
+ "checker": "A",
+ "method": "data/coverage/METHOD.md (STRICT rule; doubtful = not covered; Key cards count for theory; numericals need a served bank question with the same formula and steps; an answer readable off a printed passage is skill). Facts written first: tmp/1123-papers/chemistry/checkA/A_facts_before_search.txt. Search: tmp/1123-papers/chemistry/checkA/s.mjs over the served copy and the deck; builder build_A.mjs checks every cited id. NCERT locations of the gaps were checked with pdftotext on ncert-books/pdf/lech1xx and lech2xx (Reprint 2026-27).",
+ "eliminationNote": "Weaker covered calls for Checker B to rule on first: Q26 (spectrochemical order is carded; turning larger splitting into shorter wavelength uses Class 11 E = hc/lambda), Q27 (2,4-dinitrobenzoic acid placed by the carded \"more withdrawing groups, stronger acid\" rule, no served item names it), Q34 (paper prints H3PO4 where NCERT has H3PO2), Q4 (counted as theory: ion counting, the complex-ion step from a card), Q16 (one power is negative; the served row adds a fractional power). Strict not-covered calls: Q2 (methylene chloride = dichloromethane not stated), Q39 (tryptophan pair only by elimination in a match item), Q48 (phenoxide versus phenol form of the intermediate not shown), Q15 and Q20 (one statement of a multi-statement item not taught).",
+ "paperStructure": "One compulsory Chemistry paper of 50 questions (Q676-725): Sub-section 1 = 40 single questions (Q676-715), Sub-section 2 = comprehension \"Electrochemical cells\" (Ni/Ag cell) with 5 questions (Q716-720), Sub-section 3 = comprehension \"Alcohols, Phenols and Ethers\" with 5 questions (Q721-725). The printed header says 42 questions; the key has 50 rows for this shift (24-05-2026 First). No passage question can be answered from the passage text alone: P1 prints the cell and its reaction but not the Nernst form, the delta G or K relations, or which species is the reductant or the anode reaction; P2 prints general text only. So none is labelled skill. Two numericals: Q16 (order from rate laws) and Q42 (delta G° from E°).",
+ "counts": {
+  "covered": 41,
+  "not_covered": 9,
+  "skill": 0,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 50
+ },
+ "countsBySection": {
+  "subSection1": {
+   "not_covered": 7,
+   "covered": 33
+  },
+  "passage1": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "passage2": {
+   "covered": 4,
+   "not_covered": 1
+  }
+ },
+ "byType": {
+  "theory": {
+   "covered": 40,
+   "not_covered": 8,
+   "skill": 0,
+   "countable": 48
+  },
+  "numerical": {
+   "covered": 1,
+   "not_covered": 1,
+   "skill": 0,
+   "countable": 2
+  }
+ },
+ "coveredWithABankMatch": 27,
+ "byChapter": {
+  "Solutions": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "Haloalkanes & Haloarenes": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "Chemical Kinetics": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "d- and f-Block Elements": {
+   "covered": 2,
+   "not_covered": 3
+  },
+  "Coordination Compounds": {
+   "covered": 5,
+   "not_covered": 0
+  },
+  "Aldehydes, Ketones & Carboxylic Acids": {
+   "covered": 5,
+   "not_covered": 0
+  },
+  "Amines": {
+   "covered": 5,
+   "not_covered": 0
+  },
+  "Biomolecules": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "Electrochemistry": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "Alcohols, Phenols & Ethers": {
+   "covered": 4,
+   "not_covered": 1
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 676,
+   "questionId": "226895790048",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Solutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Water moves from the soil into plant roots and up the plant partly by osmosis"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.solutions.def-osmosis",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards define osmosis and give the raw-mango pickle example, but nothing served says that water movement from soil into roots and up the plant is due to osmosis, which is the one fact the item asks (NCERT lech101, 1.6.4, the edema paragraph)."
+  },
+  {
+   "n": 2,
+   "paperNumber": 677,
+   "questionId": "226895790049",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Haloalkanes & Haloarenes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Dichloromethane (common name methylene chloride, CH2Cl2) is used as a paint remover"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.haloalkanes-and-haloarenes.kl-dcm-uses",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A card says dichloromethane is used as a paint remover, but the options give only the common name \"methylene chloride\" and nothing served says that methylene chloride is dichloromethane (NCERT lech201 Table 6.1 and 6.7.1); doubtful, so not covered."
+  },
+  {
+   "n": 3,
+   "paperNumber": 678,
+   "questionId": "226895790050",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Haloalkanes & Haloarenes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Alcoholic KOH dehydrohalogenates haloalkanes",
+    "Zaitsev (Saytzeff) rule: the more substituted alkene is the major product, so 2-bromopentane gives pent-2-ene"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.haloalkanes-and-haloarenes.fact-zaitsev-2-bromopentane",
+     "teaches": "2-bromopentane gives pent-2-ene as the major product"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.haloalkanes-and-haloarenes.def-zaitsev-rule",
+     "teaches": "preferred alkene has more alkyl groups on the double-bond carbons"
+    },
+    {
+     "kind": "bank",
+     "id": "cf0089e7-356e-4131-b9de-ef4a94447c62",
+     "teaches": "2-bromobutane with alcoholic KOH gives but-2-ene by Saytzeff rule"
+    }
+   ],
+   "best": "kc.chemistry.haloalkanes-and-haloarenes.fact-zaitsev-2-bromopentane",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives pent-2-ene as the major product from 2-bromopentane, the same question and answer; a bank row does the same with 2-bromobutane."
+  },
+  {
+   "n": 4,
+   "paperNumber": 679,
+   "questionId": "226895790051",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Solutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "van't Hoff factor i = number of ions per formula unit on complete dissociation",
+    "Al(NO3)3 gives 4 ions; K2SO4 3; KCl 2; Al2(SO4)3 5",
+    "a complex ion such as [Fe(CN)6]3- stays whole, so K3[Fe(CN)6] gives 4 ions"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "922a8389-3d8b-4f4f-b688-0d8775bb41b1",
+     "teaches": "i counted as ions on complete dissociation: NaCl 2, CaCl2 3, Al2(SO4)3 5"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.diff-double-salt-vs-complex",
+     "teaches": "complex ions such as [Fe(CN)6]4- do not dissociate into simple ions"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.fact-vanthoff-table",
+     "teaches": "i close to 3 for K2SO4, 2 for KCl"
+    }
+   ],
+   "best": "922a8389-3d8b-4f4f-b688-0d8775bb41b1",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Counting ions, not a sum with figures: a bank row counts i for simple salts on complete dissociation the same way, and a card says the complex ion stays whole, so K3[Fe(CN)6] = 4 like Al(NO3)3."
+  },
+  {
+   "n": 5,
+   "paperNumber": 680,
+   "questionId": "226895790052",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 4,
+   "chapter": "Solutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Boiling point of a solution is always higher than that of the pure solvent (so B is false)",
+    "delta Tb = Kb m: elevation directly proportional to molality",
+    "unit of Kb is K kg mol^-1"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "445ae24f-2638-45b5-b4e4-eb5f0913d7f1",
+     "teaches": "assertion \"bp of a solution is always higher than pure solvent\" keyed true"
+    },
+    {
+     "kind": "bank",
+     "id": "58ed9f54-9b56-4d8c-bf6b-34c70577e0d1",
+     "teaches": "delta Tb = Kb m with Kb = 0.512 K kg mol^-1"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.def-kb",
+     "teaches": "Kb is the molal elevation constant"
+    }
+   ],
+   "best": "445ae24f-2638-45b5-b4e4-eb5f0913d7f1",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows state that the boiling point is always raised, that delta Tb = Kb m, and give Kb in K kg mol^-1, so all four statements can be judged."
+  },
+  {
+   "n": 6,
+   "paperNumber": 681,
+   "questionId": "226895790053",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Solutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Osmotic pressure = excess pressure on the solution side that just stops solvent flow",
+    "anoxia = low blood oxygen makes climbers weak",
+    "bends = nitrogen bubbles in the blood",
+    "cellulose acetate membrane is impermeable to impurities"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.def-osmotic-def",
+     "teaches": "excess pressure applied to the solution to stop passage of solvent"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.fact-anoxia-altitude",
+     "teaches": "low blood oxygen makes climbers weak: anoxia"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.fact-bends",
+     "teaches": "bubbles of nitrogen in the blood: bends"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.fact-cellulose-acetate",
+     "teaches": "cellulose acetate permeable to water, impermeable to impurities"
+    }
+   ],
+   "best": "kc.chemistry.solutions.def-osmotic-def",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four cards give the four pairs nearly in the paper words."
+  },
+  {
+   "n": 7,
+   "paperNumber": 682,
+   "questionId": "226895790054",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Solutions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ideal: bromoethane and chloroethane",
+    "positive deviation: ethanol and acetone",
+    "negative deviation: phenol and aniline",
+    "azeotrope: about 95% ethanol by volume (ethanol-water)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.list-ideal-examples",
+     "teaches": "bromoethane and chloroethane nearly ideal"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.ex-positive-ethanol",
+     "teaches": "ethanol + acetone positive deviation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.fact-phenol-aniline-negative-cause",
+     "teaches": "phenol and aniline negative deviation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.solutions.fact-ethanol-water",
+     "teaches": "fractional distillation gives about 95% by volume ethanol"
+    },
+    {
+     "kind": "bank",
+     "id": "540e8276-908a-4e07-8cce-df11b4ac8c24",
+     "teaches": "ethanol-water form a minimum-boiling azeotrope near 95% (assertion keyed true)"
+    }
+   ],
+   "best": "kc.chemistry.solutions.list-ideal-examples",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give each of the four pairs, and a bank row calls the 95% ethanol-water mixture an azeotrope."
+  },
+  {
+   "n": 8,
+   "paperNumber": 683,
+   "questionId": "226895790055",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Haloalkanes & Haloarenes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Nitro groups at ortho/para positions raise haloarene reactivity to nucleophilic substitution; more of them, more reactive: chlorobenzene < 4-nitro < 2,4-dinitro < 2,4,6-trinitro"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "3179f020-e8f9-48fe-8bc0-10a5a5382128",
+     "teaches": "orders chlorobenzene < 4-nitro < 2,4-dinitro < 2,4,6-trinitrochlorobenzene"
+    }
+   ],
+   "best": "3179f020-e8f9-48fe-8bc0-10a5a5382128",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served bank row asks the same ordering of the same four compounds."
+  },
+  {
+   "n": 9,
+   "paperNumber": 684,
+   "questionId": "226895790056",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Haloalkanes & Haloarenes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Chloroform is slowly oxidised by air in light to phosgene (carbonyl chloride)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "ab74ad4f-f6ae-41e8-a885-5c2c5c971a21",
+     "teaches": "chloroform oxidised in light and air to phosgene"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-chloroform-phosgene",
+     "teaches": "oxidised by air in light to carbonyl chloride, phosgene"
+    }
+   ],
+   "best": "ab74ad4f-f6ae-41e8-a885-5c2c5c971a21",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row and Key card are the same question and answer."
+  },
+  {
+   "n": 10,
+   "paperNumber": 685,
+   "questionId": "226895790057",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Chemical Kinetics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The rate constant depends on temperature (k = A e^-Ea/RT)",
+    "k has units that depend on the order (not dimensionless)",
+    "k is called the rate constant"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.chemical-kinetics.fact-arrhenius-conclusion",
+     "teaches": "raising temperature increases the rate constant exponentially"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.chemical-kinetics.fact-ten-degree-doubles",
+     "teaches": "rate constant nearly doubles for a 10 degree rise"
+    },
+    {
+     "kind": "bank",
+     "id": "ec353e7c-8841-45f0-bf71-78e51bdbc637",
+     "teaches": "units of k for zero to third order"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.chemical-kinetics.fact-k-rate-constant",
+     "teaches": "k is called the rate constant"
+    }
+   ],
+   "best": "kc.chemistry.chemical-kinetics.fact-arrhenius-conclusion",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards say the rate constant rises with temperature, and a bank row gives its units, so the keyed option is taught and two distractors are refuted."
+  },
+  {
+   "n": 11,
+   "paperNumber": 686,
+   "questionId": "226895790058",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Haloalkanes & Haloarenes",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "SN1 with optically active halides gives racemisation",
+    "HX adds to unsymmetrical alkenes by Markovnikov rule",
+    "SN2 gives inversion of configuration",
+    "hydroboration-oxidation gives the anti-Markovnikov product"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-sn1-racemisation",
+     "teaches": "SN1 accompanied by racemisation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-markovnikov-hx",
+     "teaches": "propene + HX: one product predominates per Markovnikov"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-sn2-inverted-product",
+     "teaches": "SN2 product has inverted configuration"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-hydroboration-anti-markovnikov",
+     "teaches": "hydroboration-oxidation: addition opposite to Markovnikov"
+    },
+    {
+     "kind": "bank",
+     "id": "93cc8af3-b5df-4175-9bbe-04e10152da00",
+     "teaches": "propene hydroboration-oxidation gives propan-1-ol, anti-Markovnikov"
+    }
+   ],
+   "best": "kc.chemistry.haloalkanes-and-haloarenes.kl-sn1-racemisation",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give all four pairs; a bank row backs the hydroboration pair."
+  },
+  {
+   "n": 12,
+   "paperNumber": 687,
+   "questionId": "226895790059",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Chemical Kinetics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Hydrogenation of ethene is a first order reaction"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.chemical-kinetics.ex-first-order-ethene",
+     "teaches": "hydrogenation of ethene is an example of first order reaction"
+    }
+   ],
+   "best": "kc.chemistry.chemical-kinetics.ex-first-order-ethene",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 13,
+   "paperNumber": 688,
+   "questionId": "226895790060",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Chemical Kinetics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A species formed in one step and used up in another (not in the overall equation) is an intermediate"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.chemical-kinetics.def-intermediate",
+     "teaches": "IO- is an intermediate: formed during the reaction but not in the overall balanced equation"
+    }
+   ],
+   "best": "kc.chemistry.chemical-kinetics.def-intermediate",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card defines an intermediate as a species formed during the reaction that is absent from the overall equation, the same idea in other words."
+  },
+  {
+   "n": 14,
+   "paperNumber": 689,
+   "questionId": "226895790061",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "d- and f-Block Elements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "All lanthanoids are silvery white SOFT metals, so \"all are hard\" is the incorrect statement",
+    "lanthanoids and actinoids: fourteen elements each",
+    "actinoid contraction greater from element to element",
+    "actinoids show a greater range of oxidation states"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.d-and-f-block-elements.fact-ln-appearance",
+     "teaches": "all the lanthanoids are silvery white soft metals"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.d-and-f-block-elements.def-lanthanoids-actinoids",
+     "teaches": "fourteen elements after La and fourteen after Ac"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.d-and-f-block-elements.fact-actinoid-contraction-greater",
+     "teaches": "contraction greater from element to element in actinoids"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.d-and-f-block-elements.fact-actinoid-range-states",
+     "teaches": "greater range of oxidation states in actinoids"
+    },
+    {
+     "kind": "bank",
+     "id": "a21ac371-e5c3-4c91-b039-a5a454eed047",
+     "teaches": "actinoids show a wider range of oxidation states"
+    }
+   ],
+   "best": "kc.chemistry.d-and-f-block-elements.fact-ln-appearance",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards state each of the four statements, and the soft-metal card makes the keyed one false."
+  },
+  {
+   "n": 15,
+   "paperNumber": 690,
+   "questionId": "226895790062",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 4,
+   "chapter": "Chemical Kinetics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Radioactive decay is first order",
+    "decomposition of N2O5 is first order",
+    "hydrogenation of ethene is first order",
+    "decomposition of NH3 on hot Pt (1130 K) is zero order"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.chemical-kinetics.ex-zero-order-ammonia",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards make radioactive decay and ethene hydrogenation first order and NH3 on hot platinum zero order, but nothing served says the decomposition of N2O5 is first order (NCERT lech103, 3.3.2, \"Decomposition of N2O5 and N2O are some more examples\"); a multi-statement item needs every part."
+  },
+  {
+   "n": 16,
+   "paperNumber": 691,
+   "questionId": "226895790063",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Chemical Kinetics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Overall order = sum of the powers in the rate law (fractional and negative allowed): (A) 2, (B) 1, (C) 1/2, (D) 3, so C < B < A < D"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "6b359ce9-6dc9-49a5-8ad2-fdecd273f239",
+     "teaches": "rate = k[A][B]^(3/2): overall order is the sum of powers, 5/2"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.chemical-kinetics.def-order-of-reaction",
+     "teaches": "sum of powers of the concentrations in the rate law is the order"
+    }
+   ],
+   "best": "6b359ce9-6dc9-49a5-8ad2-fdecd273f239",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served bank row finds the overall order by adding the powers, a fractional one included; the paper adds four such sums (one power is -1, the same addition)."
+  },
+  {
+   "n": 17,
+   "paperNumber": 692,
+   "questionId": "226895790064",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "d- and f-Block Elements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Co is 3d7 4s2; Co3+ loses the 4s electrons first and is 3d6"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.fact-co-nh3-6-config",
+     "teaches": "cobalt ion in +3 state has configuration 3d6"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.fact-d4-d6-pairing",
+     "teaches": "d6 (Fe2+, Co3+)"
+    }
+   ],
+   "best": "kc.chemistry.coordination-compounds.fact-co-nh3-6-config",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives Co3+ as 3d6, the keyed answer."
+  },
+  {
+   "n": 18,
+   "paperNumber": 693,
+   "questionId": "226895790065",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "d- and f-Block Elements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Peroxodisulphate oxidises manganese(II) to permanganate: 2Mn2+ + 5S2O8^2- + 8H2O -> 2MnO4- + 10SO4^2- + 16H+"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.d-and-f-block-elements.fact-permanganate-prep",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards cover permanganate preparation by fusion of MnO2 and its oxidising reactions, but nothing served gives the laboratory oxidation of Mn2+ by peroxodisulphate to permanganate and sulphate (NCERT lech104, 4.5, potassium permanganate)."
+  },
+  {
+   "n": 19,
+   "paperNumber": 694,
+   "questionId": "226895790066",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "d- and f-Block Elements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Titanium(IV) is more stable than Ti(III) or Ti(II)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.d-and-f-block-elements.fact-fewer-states-ends",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A card says Sc and Ti show few oxidation states, and bank rows treat Ti3+, but nothing served says Ti(IV) is the most stable state (NCERT lech104, 4.3.5: \"titanium (IV) is more stable than Ti(III) or Ti(II)\")."
+  },
+  {
+   "n": 20,
+   "paperNumber": 695,
+   "questionId": "226895790067",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "d- and f-Block Elements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "K2Cr2O7 is an oxidant for preparing many azo compounds (A true)",
+    "raising pH turns dichromate into chromate; lowering pH gives dichromate (B false)",
+    "in acid Cr2O7^2- takes 6 electrons, so equivalent weight M/6 (C false)",
+    "Cr-O-Cr bond angle is 126 degrees (D true)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.d-and-f-block-elements.fact-chromate-dichromate-ph",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give the azo-compound use and the 126 degree angle, and bank rows give 6 electrons per dichromate, but the card on pH says only that chromate and dichromate interconvert \"depending upon pH\", not which way, so statement B cannot be judged (NCERT lech104, 4.5, the two pH equations)."
+  },
+  {
+   "n": 21,
+   "paperNumber": 696,
+   "questionId": "226895790068",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Coordination Compounds",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ligands named alphabetically: ammine, chlorido, nitrito-N",
+    "a neutral complex is named like a cation: platinum, no -ate",
+    "oxidation state Pt: 0 = x + 0 - 1 - 1, so +2, shown as (II)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d",
+     "teaches": "names [Co(NH3)4Cl2]Cl: alphabetical ammine before chlorido, oxidation state from charge, no -ate for a cation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.kl-neutral-complex-named-as-cation",
+     "teaches": "neutral complex named like the complex cation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.fact-metal-name-in-cation",
+     "teaches": "Pt is called platinum in a cation"
+    },
+    {
+     "kind": "bank",
+     "id": "61040e90-c147-4b01-b1d9-1121140f8eb3",
+     "teaches": "NO2- bonded through N is nitrito-N"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.kl-oxidation-state-roman-numeral",
+     "teaches": "oxidation state in Roman numeral for a neutral entity too"
+    }
+   ],
+   "best": "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row names a similar complex by the same steps, and cards give the neutral-complex rule, platinum and nitrito-N."
+  },
+  {
+   "n": 22,
+   "paperNumber": 697,
+   "questionId": "226895790069",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Coordination Compounds",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Tetrahedral species show no geometrical isomerism; MnO4- is tetrahedral",
+    "[CoCl2(en)2], [CrCl2(ox)2]3- and [Fe(NH3)2(CN)4]- (MX2L4 type) have cis and trans forms"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.fact-tetrahedral-no-geometrical",
+     "teaches": "tetrahedral complexes do not show geometrical isomerism"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.d-and-f-block-elements.fact-manganate-tetrahedral",
+     "teaches": "manganate and permanganate ions are tetrahedral"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.fact-octahedral-mx2l4-cis-trans",
+     "teaches": "[MX2L4]: X cis or trans"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.ex-cis-crcl2ox2-chiral",
+     "teaches": "cis and trans [CrCl2(ox)2]3-"
+    },
+    {
+     "kind": "bank",
+     "id": "5423cc50-4ae2-487d-94b9-6da3cf15a6dd",
+     "teaches": "[Co(en)2Cl2]+ has geometrical (cis/trans) and optical isomers"
+    }
+   ],
+   "best": "kc.chemistry.coordination-compounds.fact-tetrahedral-no-geometrical",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards make permanganate tetrahedral and tetrahedral species free of geometrical isomers, and give cis/trans forms for the other three types."
+  },
+  {
+   "n": 23,
+   "paperNumber": 698,
+   "questionId": "226895790070",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Coordination Compounds",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "[FeF6]3-: Fe3+ d5 with weak-field F-, outer orbital sp3d2, 5 unpaired electrons"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.fact-fe-cn6-fef6",
+     "teaches": "[FeF6]3- has five unpaired electrons"
+    },
+    {
+     "kind": "bank",
+     "id": "0827f177-f401-4f25-a9dd-8ee4f2c8e1aa",
+     "teaches": "[FeF6]3- with weak field F- is an outer orbital sp3d2 complex"
+    }
+   ],
+   "best": "kc.chemistry.coordination-compounds.fact-fe-cn6-fef6",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card gives 5 unpaired electrons and a bank row gives sp3d2 for the same ion."
+  },
+  {
+   "n": 24,
+   "paperNumber": 699,
+   "questionId": "226895790071",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 4,
+   "chapter": "Coordination Compounds",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ambidentate: two different donor atoms, either ligates",
+    "central atom/ion: fixed number of groups bound in a definite geometry",
+    "chelate: two or more donor atoms bind one metal ion together",
+    "didentate: binds through two donor atoms"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.def-ambidentate",
+     "teaches": "two different donor atoms and either of the two ligates"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.def-central-atom-ion",
+     "teaches": "atom/ion to which a fixed number of ions/groups are bound in a definite geometrical arrangement"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.def-chelate-ligand",
+     "teaches": "uses two or more donor atoms simultaneously to bind a single metal ion"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.def-didentate",
+     "teaches": "binds through two donor atoms"
+    }
+   ],
+   "best": "kc.chemistry.coordination-compounds.def-ambidentate",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four cards carry the four List-I definitions in the paper words."
+  },
+  {
+   "n": 25,
+   "paperNumber": 700,
+   "questionId": "226895790072",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In nucleophilic addition the carbonyl carbon changes from sp2 to sp3",
+    "HCN with ethanal gives the cyanohydrin"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-sp2-to-sp3-alkoxide-intermediate",
+     "teaches": "hybridisation of carbon changes from sp2 to sp3 in nucleophilic addition"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-hcn-cyanohydrin",
+     "teaches": "aldehydes and ketones with HCN give cyanohydrins"
+    },
+    {
+     "kind": "bank",
+     "id": "47b26e05-f8b5-44e7-a499-1078b4ff6bdd",
+     "teaches": "HCN adds to ethanal to give CH3CH(OH)CN"
+    }
+   ],
+   "best": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-sp2-to-sp3-alkoxide-intermediate",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card says the carbonyl carbon becomes sp3 in nucleophilic addition, and a bank row shows the ethanal cyanohydrin."
+  },
+  {
+   "n": 26,
+   "paperNumber": 701,
+   "questionId": "226895790073",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Coordination Compounds",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Spectrochemical series: F- < C2O4^2- < NH3 < CN-",
+    "a stronger field gives a larger splitting, so higher energy and shorter wavelength is absorbed",
+    "so wavelength absorbed: [Co(CN)6]3- < [Co(NH3)6]3+ < [Co(ox)3]3- < [CoF6]3-"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.fact-spectrochemical-series",
+     "teaches": "F- < OH- < C2O4 2- < H2O < NH3 < en < CN-"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.coordination-compounds.def-spectrochemical-series-def",
+     "teaches": "series based on absorption of light by complexes"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.d-and-f-block-elements.fact-colour-origin",
+     "teaches": "energy of the d-d excitation corresponds to the frequency of light absorbed"
+    },
+    {
+     "kind": "bank",
+     "id": "cbf0066a-d14b-4553-92bf-9a194ea0b563",
+     "teaches": "ligands ordered by crystal field splitting (spectrochemical series)"
+    }
+   ],
+   "best": "kc.chemistry.coordination-compounds.fact-spectrochemical-series",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card gives the spectrochemical order and another says the excitation energy fixes the light absorbed; turning larger energy into shorter wavelength is Class 11 (E = hc/lambda). Weaker call."
+  },
+  {
+   "n": 27,
+   "paperNumber": 702,
+   "questionId": "226895790074",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Electron-withdrawing groups raise and electron-donating groups lower benzoic acid acidity; more withdrawing groups, stronger acid: 4-methoxy < benzoic < 4-nitro < 2,4-dinitro"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "b19fa8e5-08f3-47e4-8450-b40bc6631f53",
+     "teaches": "orders 4-methoxybenzoic < benzoic < 4-chloro < 4-nitrobenzoic acid"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.diff-ewg-vs-edg-effect",
+     "teaches": "EWG strengthens, EDG weakens the acid"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.list-acidity-order-cf3cooh-to-nc-ch2cooh",
+     "teaches": "CCl3COOH > CHCl2COOH: more withdrawing groups, stronger acid"
+    }
+   ],
+   "best": "b19fa8e5-08f3-47e4-8450-b40bc6631f53",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row orders methoxy, benzoic and nitro benzoic acids the same way, and a card shows more withdrawing groups give a stronger acid, which places 2,4-dinitro last. Weaker call: no served item names a dinitrobenzoic acid."
+  },
+  {
+   "n": 28,
+   "paperNumber": 703,
+   "questionId": "226895790075",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Sodium salts of carboxylic acids heated with soda-lime (NaOH + CaO) lose CO2 to give hydrocarbons (decarboxylation)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-decarboxylation-sodalime",
+     "teaches": "heated with sodalime (NaOH and CaO) they form hydrocarbons"
+    },
+    {
+     "kind": "bank",
+     "id": "9f114e98-a8ab-4a14-a9e6-2ddf5d0a2729",
+     "teaches": "sodium propanoate with soda lime gives ethane"
+    }
+   ],
+   "best": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-decarboxylation-sodalime",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card and a bank row give NaOH and CaO for acid to hydrocarbon."
+  },
+  {
+   "n": 29,
+   "paperNumber": 704,
+   "questionId": "226895790076",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 4,
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Sodium benzoate is used as a food preservative"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-benzoic-esters-sodium-benzoate",
+     "teaches": "sodium benzoate is used as a food preservative"
+    }
+   ],
+   "best": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-benzoic-esters-sodium-benzoate",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 30,
+   "paperNumber": 705,
+   "questionId": "226895790077",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The iodoform reaction with sodium hypoiodite detects CH3CO and CH3CH(OH) groups"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-iodoform-test-detects",
+     "teaches": "iodoform reaction with sodium hypoiodite detects CH3CO or CH3CH(OH) group"
+    },
+    {
+     "kind": "bank",
+     "id": "dd843b30-5c25-4981-bf97-9999d2f93904",
+     "teaches": "iodoform test given by compounds with CH3CO-"
+    }
+   ],
+   "best": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-iodoform-test-detects",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card carries the stem sentence word for word."
+  },
+  {
+   "n": 31,
+   "paperNumber": 706,
+   "questionId": "226895790078",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Amines",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "To get mono (para) bromination, the amino group is first protected by acetylation, then brominated, then hydrolysed; bromine water alone gives 2,4,6-tribromoaniline"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.steps-protect-amino",
+     "teaches": "acetylation, then the substitution, then hydrolysis"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.kl-bromination",
+     "teaches": "bromine water gives 2,4,6-tribromoaniline"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.kl-sum-acylation",
+     "teaches": "reactivity of aromatic amines controlled by acylation"
+    }
+   ],
+   "best": "kc.chemistry.amines.steps-protect-amino",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card gives acetylation as the first step in controlling aniline substitution, and another shows why bromine water fails."
+  },
+  {
+   "n": 32,
+   "paperNumber": 707,
+   "questionId": "226895790079",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Amines",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Diazotisation needs nitrous acid from NaNO2 and a mineral acid (HCl) at 273-278 K, not NaNO2/NaOH",
+    "Cl is introduced by Cu2Cl2/HCl (Sandmeyer) or copper powder with HCl (Gattermann)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.kl-nitrous-acid-prep",
+     "teaches": "nitrous acid prepared in situ from a mineral acid and sodium nitrite"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.fact-gattermann",
+     "teaches": "halogen acid and copper powder: Gattermann reaction"
+    },
+    {
+     "kind": "bank",
+     "id": "59a100d2-d92b-48ae-8b1c-773b76b35021",
+     "teaches": "benzenediazonium chloride with CuCl in HCl gives chlorobenzene"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.kl-diazo-prep-temp",
+     "teaches": "aniline + nitrous acid at 273-278 K gives benzenediazonium chloride"
+    }
+   ],
+   "best": "kc.chemistry.amines.kl-nitrous-acid-prep",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards and a bank row give NaNO2/HCl for diazotisation and both copper routes to chlorobenzene, which makes A and C right and the NaOH pairs wrong."
+  },
+  {
+   "n": 33,
+   "paperNumber": 708,
+   "questionId": "226895790080",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Amines",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In water, (CH3)2NH > CH3NH2 > (CH3)3N > NH3",
+    "electron-withdrawing groups (NC-CH2) and an aryl group (N-methylaniline) lower basicity"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.fact-aqueous-order-methyl",
+     "teaches": "(CH3)2NH > CH3NH2 > (CH3)3N > NH3 in water"
+    },
+    {
+     "kind": "bank",
+     "id": "2396af5b-5c64-487e-8240-9db833988d1c",
+     "teaches": "same methylamine order in aqueous solution"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.fact-aromatic-weaker",
+     "teaches": "aromatic amines weaker bases than ammonia"
+    },
+    {
+     "kind": "bank",
+     "id": "da52f107-3dfe-453a-aaaa-56cd5bb5a366",
+     "teaches": "electron-withdrawing groups decrease basic strength"
+    }
+   ],
+   "best": "kc.chemistry.amines.fact-aqueous-order-methyl",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card and bank row put dimethylamine above methylamine in water, and others lower the aryl and electron-withdrawing amines."
+  },
+  {
+   "n": 34,
+   "paperNumber": 709,
+   "questionId": "226895790081",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Amines",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "ArNH2 -> diazonium salt with NaNO2/HCl at 273-278 K",
+    "diazonium group replaced by H with hypophosphorous acid (H3PO2) and water",
+    "side-chain CH3 oxidised to COOH by alkaline KMnO4"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.kl-diazo-prep-temp",
+     "teaches": "diazotisation at 273-278 K"
+    },
+    {
+     "kind": "bank",
+     "id": "e1b109a0-6f9a-4ddc-936b-b09f985ba6e7",
+     "teaches": "H3PO2 and water replace the diazonium group by H"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.kl-replacement-h",
+     "teaches": "hypophosphorous acid reduces diazonium salts to arenes"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-alkylbenzenes-oxidation",
+     "teaches": "alkylbenzenes oxidised by KMnO4: whole side chain to COOH"
+    },
+    {
+     "kind": "bank",
+     "id": "5069f737-db90-4b0d-83ff-4c19643ca9a1",
+     "teaches": "alkaline KMnO4 oxidises a benzylic side chain to COOH"
+    }
+   ],
+   "best": "kc.chemistry.amines.kl-diazo-prep-temp",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Each of the three steps is taught. The paper prints H3PO4 in the keyed option where NCERT uses H3PO2; it is still the only diazotise-reduce-oxidise sequence. Weaker call."
+  },
+  {
+   "n": 35,
+   "paperNumber": 710,
+   "questionId": "226895790082",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 4,
+   "chapter": "Biomolecules",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The six-membered (pyranose) ring of glucose forms by the -OH at C5 adding to the CHO"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.biomolecules.fact-glucose-six-membered-ring",
+     "teaches": "glucose forms a six-membered ring in which -OH at C-5 is involved"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.biomolecules.term-pyranose",
+     "teaches": "six-membered cyclic structure is called pyranose"
+    }
+   ],
+   "best": "kc.chemistry.biomolecules.fact-glucose-six-membered-ring",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 36,
+   "paperNumber": 711,
+   "questionId": "226895790083",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 3,
+   "chapter": "Amines",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Gabriel phthalimide synthesis prepares primary amines"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.amines.kl-gabriel-use",
+     "teaches": "Gabriel synthesis is used for the preparation of primary amines"
+    }
+   ],
+   "best": "kc.chemistry.amines.kl-gabriel-use",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 37,
+   "paperNumber": 712,
+   "questionId": "226895790084",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 1,
+   "chapter": "Biomolecules",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The peptide bond is -CO-NH-"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.biomolecules.fact-peptide-bond-formation",
+     "teaches": "formation of a peptide bond -CO-NH-"
+    }
+   ],
+   "best": "kc.chemistry.biomolecules.fact-peptide-bond-formation",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card gives -CO-NH-."
+  },
+  {
+   "n": 38,
+   "paperNumber": 713,
+   "questionId": "226895790085",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Biomolecules",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Fibrous proteins: keratin and myosin",
+    "globular proteins: insulin and albumins"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.biomolecules.fact-fibrous-examples",
+     "teaches": "keratin and myosin are fibrous"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.biomolecules.fact-globular-examples",
+     "teaches": "insulin and albumins are globular"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.biomolecules.def-fibrous-proteins",
+     "teaches": "held by hydrogen and disulphide bonds"
+    }
+   ],
+   "best": "kc.chemistry.biomolecules.fact-fibrous-examples",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give keratin and myosin as fibrous and insulin and albumins as globular."
+  },
+  {
+   "n": 39,
+   "paperNumber": 714,
+   "questionId": "226895790086",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 4,
+   "chapter": "Biomolecules",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Gluconic acid: CHO oxidised to COOH, CH2OH kept (Br2 water)",
+    "saccharic acid: COOH at both ends (HNO3)",
+    "fructose: keto group at C2",
+    "tryptophan: amino acid with an indol-3-ylmethyl side chain"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.biomolecules.fact-glucose-bromine-water",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards give gluconic acid (bromine water), saccharic acid (dicarboxylic, nitric acid) and fructose (keto group at C2), but nothing served gives the structure of tryptophan; the fourth pair follows only by elimination and a match item needs every pair (NCERT lech205, 10.2, Table 10.1 of amino acids)."
+  },
+  {
+   "n": 40,
+   "paperNumber": 715,
+   "questionId": "226895790087",
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "ntaKey": 2,
+   "chapter": "Biomolecules",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "In water an amino acid exists as the zwitter ion H3N+-CHR-COO-"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "63dbe2f6-beff-4336-a8e9-435a3e28fe04",
+     "teaches": "glycine zwitterion H3N+-CH2-COO-"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.biomolecules.def-zwitter-ion",
+     "teaches": "carboxyl loses a proton and amino accepts one: zwitter ion"
+    }
+   ],
+   "best": "63dbe2f6-beff-4336-a8e9-435a3e28fe04",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row asks the zwitter-ion form of glycine; the paper asks it for alanine."
+  },
+  {
+   "n": 41,
+   "paperNumber": 716,
+   "questionId": "226895790089",
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "ntaKey": 1,
+   "chapter": "Electrochemistry",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ni(s) + 2Ag+ -> Ni2+ + 2Ag: n = 2",
+    "Ecell = E°cell - (RT/2F) ln([Ni2+]/[Ag+]^2)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "969ec6f8-7e52-48ce-9832-299e478417ce",
+     "teaches": "Ni|Ni2+||Ag+|Ag with n = 2 and Q = [Ni2+]/[Ag+]^2 in the Nernst equation"
+    }
+   ],
+   "best": "969ec6f8-7e52-48ce-9832-299e478417ce",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served bank row writes the Nernst equation for this same nickel-silver cell with n = 2 and the silver ion squared."
+  },
+  {
+   "n": 42,
+   "paperNumber": 717,
+   "questionId": "226895790090",
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "ntaKey": 1,
+   "chapter": "Electrochemistry",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "delta rG° = -nFE°cell",
+    "n = 2, F = 96487 C mol^-1, E° = 0.80 V: -2 x 96487 x 0.80 = -154,379 J = -154.379 kJ mol^-1"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "6f5a70c3-9d94-4bf6-912d-6c171d1d92e9",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row and a card give delta G° = -nFE°cell as a formula only, and another row gives delta G as data and asks for K; no served bank question computes delta rG° from E°cell and n, so the numerical is not covered (NCERT lech102, 2.4, Example 2.4 and Intext 2.5 style)."
+  },
+  {
+   "n": 43,
+   "paperNumber": 718,
+   "questionId": "226895790091",
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "ntaKey": 2,
+   "chapter": "Electrochemistry",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "E°cell = (2.303RT/nF) log Kc"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "ae5ce2d9-680e-4116-a7d7-aa32c7906d65",
+     "teaches": "E° = (0.0591/n) log Kc"
+    },
+    {
+     "kind": "bank",
+     "id": "8ed9bbe9-5c6f-4785-84d1-6d8d6625e7c6",
+     "teaches": "log K = nE°/0.059 with 2.303RT/F = 0.059 V"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.electrochemistry.fact-k-from-eo",
+     "teaches": "equilibrium constants can be calculated from E°"
+    }
+   ],
+   "best": "ae5ce2d9-680e-4116-a7d7-aa32c7906d65",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Two bank rows use E° = (2.303RT/nF) log Kc, written with 2.303RT/F = 0.059 V."
+  },
+  {
+   "n": 44,
+   "paperNumber": 719,
+   "questionId": "226895790092",
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "ntaKey": 2,
+   "chapter": "Electrochemistry",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ni(s) is oxidised to Ni2+, so Ni(s) is the reducing agent (lower electrode potential, Ni -0.25 V vs Ag +0.80 V)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.electrochemistry.fact-zn-negative-eo",
+     "teaches": "negative E°: zinc can reduce hydrogen ions (the metal oxidised acts as reductant)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.electrochemistry.fact-eo-trend",
+     "teaches": "lower in the series, greater reducing power"
+    },
+    {
+     "kind": "bank",
+     "id": "969ec6f8-7e52-48ce-9832-299e478417ce",
+     "teaches": "Ni2+/Ni -0.25 V, Ag+/Ag +0.80 V; Ni + 2Ag+ -> Ni2+ + 2Ag"
+    }
+   ],
+   "best": "kc.chemistry.electrochemistry.fact-zn-negative-eo",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards tie a lower electrode potential to reducing power and the metal that is oxidised to the reductant, and a bank row gives the two potentials for this cell."
+  },
+  {
+   "n": 45,
+   "paperNumber": 720,
+   "questionId": "226895790093",
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "ntaKey": 1,
+   "chapter": "Electrochemistry",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Oxidation occurs at the anode: Ni(s) -> Ni2+ + 2e-"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.electrochemistry.kl-anode",
+     "teaches": "the half-cell where oxidation takes place is the anode"
+    },
+    {
+     "kind": "bank",
+     "id": "599f0f43-7fdb-46ba-b5bd-86ef6273dc0d",
+     "teaches": "oxidation at the anode of a galvanic cell"
+    }
+   ],
+   "best": "kc.chemistry.electrochemistry.kl-anode",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card and bank row say oxidation is at the anode; Ni losing two electrons is the oxidation half."
+  },
+  {
+   "n": 46,
+   "paperNumber": 721,
+   "questionId": "226895790095",
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "ntaKey": 3,
+   "chapter": "Alcohols, Phenols & Ethers",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Benzene-1,4-diol is hydroquinone (quinol); 1,2 catechol; 1,3 resorcinol"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-hydroquinone",
+     "teaches": "hydroquinone (quinol) is benzene-1,4-diol"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-catechol",
+     "teaches": "catechol is benzene-1,2-diol"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-resorcinol",
+     "teaches": "resorcinol is benzene-1,3-diol"
+    }
+   ],
+   "best": "kc.chemistry.alcohols-phenols-and-ethers.fact-hydroquinone",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards name all three diols."
+  },
+  {
+   "n": 47,
+   "paperNumber": 722,
+   "questionId": "226895790096",
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "ntaKey": 1,
+   "chapter": "Alcohols, Phenols & Ethers",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Methanol is made by catalytic hydrogenation of CO over ZnO-Cr2O3"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-methanol-industrial",
+     "teaches": "methanol by catalytic hydrogenation of CO with ZnO-Cr2O3 catalyst"
+    }
+   ],
+   "best": "kc.chemistry.alcohols-phenols-and-ethers.kl-methanol-industrial",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card is the same question and answer."
+  },
+  {
+   "n": 48,
+   "paperNumber": 723,
+   "questionId": "226895790097",
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "ntaKey": 2,
+   "chapter": "Alcohols, Phenols & Ethers",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Reimer-Tiemann: phenol + CHCl3 + NaOH; the phenoxide is substituted at the ortho position by CHCl2",
+    "the intermediate is the o-(dichloromethyl) sodium phenoxide (a substituted benzal chloride), hydrolysed to salicylaldehyde"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.chemistry.alcohols-phenols-and-ethers.kl-reimer-tiemann-product",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A card says the intermediate is a \"substituted benzal chloride\" hydrolysed to salicylaldehyde, but nothing served shows it is the o-CHCl2 phenoxide rather than the phenol form (options 2 and 3 differ only there); doubtful, so not covered (NCERT lech202, 7.4.4, Reimer-Tiemann scheme)."
+  },
+  {
+   "n": 49,
+   "paperNumber": 724,
+   "questionId": "226895790098",
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "ntaKey": 3,
+   "chapter": "Alcohols, Phenols & Ethers",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Phenol with dilute HNO3 at low temperature gives a mixture of o- and p-nitrophenols"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-nitration-dilute-298",
+     "teaches": "dilute nitric acid at 298 K gives ortho and para nitrophenols"
+    },
+    {
+     "kind": "bank",
+     "id": "2e4f3189-8abb-4e28-8c5b-13da81ddcbed",
+     "teaches": "dilute nitric acid at low temperature: mixture of o- and p-nitrophenols"
+    },
+    {
+     "kind": "bank",
+     "id": "cffb2b09-16bf-433f-85d2-c21878bfadd4",
+     "teaches": "same statement keyed true"
+    }
+   ],
+   "best": "kc.chemistry.alcohols-phenols-and-ethers.kl-nitration-dilute-298",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card and bank rows give the same answer."
+  },
+  {
+   "n": 50,
+   "paperNumber": 725,
+   "questionId": "226895790099",
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "ntaKey": 1,
+   "chapter": "Alcohols, Phenols & Ethers",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Primary alcohol vapour over copper at 573 K is dehydrogenated to the aldehyde: ethanol gives ethanal"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-copper-573",
+     "teaches": "primary or secondary alcohol over copper at 573 K: dehydrogenation to aldehyde or ketone"
+    },
+    {
+     "kind": "card",
+     "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-dehydrogenation-of-alcohols",
+     "teaches": "alcohol vapours over Ag or Cu"
+    }
+   ],
+   "best": "kc.chemistry.alcohols-phenols-and-ethers.fact-copper-573",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Card says a primary alcohol over copper at 573 K gives an aldehyde; for ethanol that is ethanal."
+  }
+ ]
+}

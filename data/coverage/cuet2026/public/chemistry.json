@@ -1,0 +1,1785 @@
+{
+ "id": "chemistry",
+ "name": "Chemistry",
+ "stream": "science",
+ "code": "306",
+ "examDate": "2026-05-24",
+ "examDay": "24 May 2026",
+ "shift": "first shift",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
+ "firstDate": "2026-11-23",
+ "firstDay": "23 November 2026",
+ "final": true,
+ "counts": {
+  "total": 50,
+  "same": 0,
+  "newValues": 0,
+  "concept": 40,
+  "notYet": 10,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 40,
+  "counted": 50,
+  "pct": 80,
+  "first": 40,
+  "firstPct": 80,
+  "addedCards": 0,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 0,
+  "newValuesFirst": 0
+ },
+ "chapters": [
+  {
+   "name": "Alcohols, Phenols & Ethers",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Aldehydes, Ketones & Carboxylic Acids",
+   "asked": 5,
+   "covered": 5
+  },
+  {
+   "name": "Amines",
+   "asked": 5,
+   "covered": 5
+  },
+  {
+   "name": "Biomolecules",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Chemical Kinetics",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Coordination Compounds",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "d- and f-Block Elements",
+   "asked": 5,
+   "covered": 2
+  },
+  {
+   "name": "Electrochemistry",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Haloalkanes & Haloarenes",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Solutions",
+   "asked": 5,
+   "covered": 4
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 676,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Solutions",
+   "type": "theory",
+   "stem": "Water movement from soil into plant roots and subsequently into upper portion of the plant is partly due to phenomenon of",
+   "passage": null,
+   "options": [
+    "Edema",
+    "Osmosis",
+    "Reverse Osmosis",
+    "Evaporation"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 2,
+   "paperNumber": 677,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Haloalkanes & Haloarenes",
+   "type": "theory",
+   "stem": "Which of the following compound is used as paint remover?",
+   "passage": null,
+   "options": [
+    "Methylene chloride",
+    "Iodoform",
+    "Chloroform",
+    "2,4-dinitrophenylhydrazine"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 3,
+   "paperNumber": 678,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Haloalkanes & Haloarenes",
+   "type": "theory",
+   "stem": "2-Bromopentane reacts with alcoholic KOH to form major product as:",
+   "passage": null,
+   "options": [
+    "Pent-1-ene",
+    "Pent-2-ene",
+    "Pent-3-ene",
+    "Pent-1-ene and Pent-2-ene"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.haloalkanes-and-haloarenes.fact-zaitsev-2-bromopentane",
+    "chapter": "Haloalkanes & Haloarenes",
+    "front": "By Zaitsev's rule, what is the major product from 2-bromopentane in dehydrohalogenation?",
+    "back": "2-bromopentane gives pent-2-ene as the major product.",
+    "source": "NCERT, Chemistry Part 2, chapter 6, page 180",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 4,
+   "paperNumber": 679,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Solutions",
+   "type": "numerical",
+   "stem": "Which of the following salts would have the same value of the van't Hoff factor as that of Al(NO3)3 in aqueous solution?\nAssume complete dissociation of electrolytes.\n(A) K2SO4\n(B) KCl\n(C) Al2(SO4)3\n(D) K3[Fe(CN)6]\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) and (B) only",
+    "(B) and (C) only",
+    "(D) only",
+    "(C) and (D) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served bank row does the same ion count for i with other salts; cards make the complex ion stay whole, so K3[Fe(CN)6] = 4 = Al(NO3)3.",
+   "match": {
+    "kind": "question",
+    "id": "922a8389-3d8b-4f4f-b688-0d8775bb41b1",
+    "chapter": "Solutions",
+    "stem": "Arrange the following 0.1 M aqueous solutions in the increasing order of their boiling points:\n(A) CaCl₂\n(B) Glucose\n(C) Al₂(SO₄)₃\n(D) NaCl",
+    "passage": null,
+    "options": [
+     "(B), (A), (D), (C)",
+     "(C), (A), (D), (B)",
+     "(B), (D), (A), (C)",
+     "(D), (B), (A), (C)"
+    ],
+    "key": 2,
+    "explanation": "Elevation of boiling point is proportional to the number of particles in solution, i.e. to the van't Hoff factor i. Glucose does not dissociate (i = 1), NaCl gives 2 ions, CaCl₂ gives 3 ions and Al₂(SO₄)₃ gives 5 ions. The order is glucose < NaCl < CaCl₂ < Al₂(SO₄)₃, that is (B), (D), (A), (C).",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 5,
+   "paperNumber": 680,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Solutions",
+   "type": "theory",
+   "stem": "Which of the following statements are true for the elevation of boiling point?\n(A) The boiling point of a solution is always higher than the boiling point of the pure solvent in which the solution is prepared.\n(B) The boiling point of a solution is always lower than the boiling point of the pure solvent in which the solution is prepared.\n(C) The elevation of boiling point is directly proportional to the molal concentration of the solute in solution.\n(D) Unit of Kb = K kg mol^-1\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(B), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served rows state the raised boiling point, dTb = Kb m and give Kb in K kg mol^-1, so every statement can be judged.",
+   "match": {
+    "kind": "question",
+    "id": "445ae24f-2638-45b5-b4e4-eb5f0913d7f1",
+    "chapter": "Solutions",
+    "stem": "Assertion: The boiling point of a solution is always higher than that of the pure solvent. Reason: Boiling point elevation is a colligative property.",
+    "passage": null,
+    "options": [
+     "Both assertion and reason are true, and the reason is the correct explanation of the assertion.",
+     "Both assertion and reason are true, but the reason is not the correct explanation of the assertion.",
+     "Assertion is true, but the reason is false.",
+     "Assertion is false, but the reason is true."
+    ],
+    "key": 1,
+    "explanation": "The assertion is true, but the reason is a definition of boiling point elevation, not the explanation of why it occurs (which is due to vapor pressure lowering).",
+    "more": {
+     "cards": 1,
+     "questions": 3
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 681,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Solutions",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Osmotic pressure | (I) Formation of bubbles of nitrogen in the blood\n(B) Anoxia | (II) Pressure applied on the solution side that just stops the flow of solvent\n(C) Bends | (III) Impermeable to impurities\n(D) Cellulose acetate | (IV) Low blood oxygen causes climbers to become weak\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (IV), (C) - (I), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Four cards give the four pairs nearly in the paper words.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.solutions.def-osmotic-def",
+    "chapter": "Solutions",
+    "front": "Define the osmotic pressure of a solution.",
+    "back": "The osmotic pressure of a solution is the excess pressure that must be applied to a solution to prevent osmosis, i.e., to stop the passage of solvent molecules through a semipermeable membrane into the solution.",
+    "source": "NCERT, Chemistry Part 1, chapter 1, page 21",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 682,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Solutions",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Type of solution) | List-II (Example)\n(A) Ideal solution | (I) 95% by volume of ethanol\n(B) Positive deviation from Raoult's law | (II) Bromoethane and chloroethane\n(C) Negative deviation from Raoult's law | (III) Ethanol and acetone\n(D) Azeotrope | (IV) Phenol and aniline\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (II), (B) - (IV), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Each pair is carded; a bank row calls the ~95% ethanol-water mixture an azeotrope.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.solutions.list-ideal-examples",
+    "chapter": "Solutions",
+    "front": "Name the pairs NCERT gives as nearly ideal solutions.",
+    "back": "n-hexane and n-heptane\nbromoethane and chloroethane\nbenzene and toluene",
+    "source": "NCERT, Chemistry Part 1, chapter 1, page 13",
+    "more": {
+     "cards": 3,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 683,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Haloalkanes & Haloarenes",
+   "type": "theory",
+   "stem": "Arrange the following compounds in increasing order towards nucleophilic substitution reaction .\n(A) [structure: chlorobenzene]\n(B) [structure: 2,4,6-trinitrochlorobenzene (Cl with NO2 at both ortho positions and the para position)]\n(C) [structure: 2,4-dinitrochlorobenzene (Cl with NO2 at one ortho position and the para position)]\n(D) [structure: 4-nitrochlorobenzene (Cl with NO2 at the para position)]\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A),(B),(C),(D)",
+    "(A),(D),(C) ,(B)",
+    "(D),(B),(C),(A)",
+    "(B),(A),(C),(D)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served bank row asks the same ordering of the same four compounds.",
+   "match": {
+    "kind": "question",
+    "id": "3179f020-e8f9-48fe-8bc0-10a5a5382128",
+    "chapter": "Haloalkanes & Haloarenes",
+    "stem": "Arrange the following in increasing order of reactivity towards nucleophilic substitution with aqueous NaOH:\n(A) 2,4-Dinitrochlorobenzene  (B) Chlorobenzene  (C) 2,4,6-Trinitrochlorobenzene  (D) 4-Nitrochlorobenzene",
+    "passage": null,
+    "options": [
+     "(B), (A), (D), (C)",
+     "(C), (A), (D), (B)",
+     "(B), (D), (A), (C)",
+     "(D), (B), (A), (C)"
+    ],
+    "key": 2,
+    "explanation": "Electron-withdrawing nitro groups at the ortho and para positions stabilise the carbanion intermediate of nucleophilic substitution in haloarenes. Reactivity therefore increases with the number of such groups: chlorobenzene < 4-nitro < 2,4-dinitro < 2,4,6-trinitrochlorobenzene.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 684,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Haloalkanes & Haloarenes",
+   "type": "theory",
+   "stem": "Chloroform oxidizes in the presence of light to",
+   "passage": null,
+   "options": [
+    "Phosgene",
+    "Carbon tetrachloride",
+    "Freons",
+    "Methylene chloride"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row and Key card are the same question and answer.",
+   "match": {
+    "kind": "question",
+    "id": "ab74ad4f-f6ae-41e8-a885-5c2c5c971a21",
+    "chapter": "Haloalkanes & Haloarenes",
+    "stem": "Chloroform is stored in dark coloured, completely filled bottles because, in the presence of light and air, it is slowly oxidised to a poisonous gas. The gas is:",
+    "passage": null,
+    "options": [
+     "Phosgene (carbonyl chloride, COCl2)",
+     "Chloropicrin (trichloronitromethane)",
+     "Methyl chloride (chloromethane)",
+     "Carbon tetrachloride (tetrachloromethane)"
+    ],
+    "key": 0,
+    "explanation": "In the presence of light and air, chloroform is oxidised to the extremely poisonous gas carbonyl chloride (phosgene, COCl2). Storing it in dark, completely filled bottles keeps out light and air and so prevents this oxidation.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 685,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Chemical Kinetics",
+   "type": "theory",
+   "stem": "The constant 'k' in a rate law expression of a reaction is",
+   "passage": null,
+   "options": [
+    "is dependent on the concentration of reactants.",
+    "is dimensionless.",
+    "dependent on temperature.",
+    "called the Arrhenius constant."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards make k temperature-dependent; the units row and the Arrhenius-factor card refute two distractors.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.chemical-kinetics.fact-ten-degree-doubles",
+    "chapter": "Chemical Kinetics",
+    "front": "By what factor does the rate constant change for a rise in temperature of 10°?",
+    "back": "It has been found that for a chemical reaction with rise in temperature by 10°, the rate constant is nearly doubled.",
+    "source": "NCERT, Chemistry Part 1, chapter 3, page 78",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 686,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Haloalkanes & Haloarenes",
+   "type": "theory",
+   "stem": "Match List-I with List -II\nList-I (Chemical Reactions) | List-II (Characteristic Feature )\n(A) Substitution nucleophilic unimolecular | (I) Anti- Markovnikov's product\n(B) Electrophilic addition of HX to unsymmetrical alkene | (II) Inversion\n(C) Substitution nucelophilic bimolecular | (III) Racemization\n(D) Hydroboration oxidation | (IV) Markovnikov's product\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "All four pairs are taught by cards, with bank rows backing two.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-sn1-racemisation",
+    "chapter": "Haloalkanes & Haloarenes",
+    "front": "In case of optically active alkyl halides, SN1 reactions are accompanied by ____.",
+    "back": "In case of optically active alkyl halides, SN1 reactions are accompanied by racemisation.",
+    "source": "NCERT, Chemistry Part 2, chapter 6, page 179",
+    "more": {
+     "cards": 3,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 687,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Chemical Kinetics",
+   "type": "theory",
+   "stem": "Hydrogenation of ethene represented by ,\nC2H4 (g) + H2 (g) → C2H6 (g)\nis an example of",
+   "passage": null,
+   "options": [
+    "Second order reaction.",
+    "First order reaction.",
+    "Zero-order reaction.",
+    "Third Order reaction."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.chemical-kinetics.ex-first-order-ethene",
+    "chapter": "Chemical Kinetics",
+    "front": "Which hydrogenation reaction is an example of a first order reaction?",
+    "back": "Hydrogenation of ethene is an example of first order reaction.",
+    "source": "NCERT, Chemistry Part 1, chapter 3, page 73",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 688,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Chemical Kinetics",
+   "type": "theory",
+   "stem": "Species that are formed in one step of reaction mechanism and used up in another step are called",
+   "passage": null,
+   "options": [
+    "catalysts",
+    "inhibitors",
+    "intermediates",
+    "promotors"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Card defines an intermediate with NCERT's two-step example.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.chemical-kinetics.def-intermediate",
+    "chapter": "Chemical Kinetics",
+    "front": "What is an intermediate, as IO- in the iodide-catalysed decomposition of H2O2?",
+    "back": "Species IO- is called as an intermediate since it is formed during the course of the reaction but not in the overall balanced equation.",
+    "source": "NCERT, Chemistry Part 1, chapter 3, page 70",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 689,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "d- and f-Block Elements",
+   "type": "theory",
+   "stem": "Choose the Incorrect statement from the following:",
+   "passage": null,
+   "options": [
+    "Two series of f-block; lanthanoids and actinoids collectively consists of twenty eight elements.",
+    "All the lanthanoids are hard metals",
+    "Actinoid contraction is greater from element to element than lanthanoid contraction",
+    "Actinoids show a greater range of oxidation states than lanthanoids"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The soft-metal card makes the keyed statement false; the other three are carded as true.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.d-and-f-block-elements.fact-ln-appearance",
+    "chapter": "d- and f-Block Elements",
+    "front": "What are the lanthanoids like in appearance and how do they behave in air?",
+    "back": "All the lanthanoids are silvery white soft metals and tarnish rapidly in air.",
+    "source": "NCERT, Chemistry Part 1, chapter 4, page 110",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 690,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Chemical Kinetics",
+   "type": "theory",
+   "stem": "Among the following, which are examples of first-order reactions?\n(A) 226/88 Ra → 4/2 He + 222/86 Rn\n(B) 2NH3 --(1130K, Pt catalyst)--> N2 (g) + 3H2 (g)\n(C) 2N2O5 (g) → 2N2O4 (g) + O2 (g)\n(D) C2H4 (g) + H2 → C2H6 (g)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A) and (C) only",
+    "(B), (C) and (D) only",
+    "(A), (C) and (D) only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 16,
+   "paperNumber": 691,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Chemical Kinetics",
+   "type": "numerical",
+   "stem": "Arrange the following rate expressions (of hypothetical reactions) in the increasing arrangement of their order of reaction:\nAssume the concentrations of A and B in all the rate expressions is same.\n(A) Rate = k [A]^(1/2) [B]^(3/2)\n(B) Rate = k [A]^(1/2) [B]^(1/2)\n(C) Rate = k [A]^(3/2) [B]^(-1)\n(D) Rate = k [A]^2 [B]^1\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(C), (B), (A), (D)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served bank row sums the powers of a rate law with a fractional power; the paper does four such sums (one power -1).",
+   "match": {
+    "kind": "question",
+    "id": "6b359ce9-6dc9-49a5-8ad2-fdecd273f239",
+    "chapter": "Chemical Kinetics",
+    "stem": "For a reaction, the experimentally determined rate law is rate = k[A][B]^(3/2). The overall order of the reaction is:",
+    "passage": null,
+    "options": [
+     "3/2",
+     "2",
+     "5/2",
+     "3"
+    ],
+    "key": 2,
+    "explanation": "The overall order is the sum of the powers of the concentration terms in the rate law, here 1 + 3/2 = 5/2. Order is obtained only from experiment and can be a fraction or zero, unlike molecularity.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 17,
+   "paperNumber": 692,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "d- and f-Block Elements",
+   "type": "theory",
+   "stem": "The electronic configuration of Co3+ metal ion is........",
+   "passage": null,
+   "options": [
+    "3d5 4s1",
+    "3d6 4s0",
+    "3d4 4s2",
+    "3d3 4s2 4p1"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card gives Co3+ as 3d6, the keyed answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.coordination-compounds.fact-co-nh3-6-config",
+    "chapter": "Coordination Compounds",
+    "front": "Oxidation state and electronic configuration of cobalt in the diamagnetic octahedral [Co(NH3)6]3+?",
+    "back": "In the diamagnetic octahedral complex, [Co(NH3)6]3+, the cobalt ion is in +3 oxidation state and has the electronic configuration 3d6.",
+    "source": "NCERT, Chemistry Part 1, chapter 5, page 129",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 18,
+   "paperNumber": 693,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "d- and f-Block Elements",
+   "type": "theory",
+   "stem": "When Manganeses (II) reacts with peroxodisulphate, the respective products obtained are:",
+   "passage": null,
+   "options": [
+    "MnO4^2- only",
+    "MnO4^- and SO4^2-",
+    "MnO2 and S2O4^2-",
+    "MnO4^2- and SO4^2-"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 19,
+   "paperNumber": 694,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "d- and f-Block Elements",
+   "type": "theory",
+   "stem": "The most stable oxidation state of titanium is",
+   "passage": null,
+   "options": [
+    "Ti3+",
+    "Ti2+",
+    "Ti4+",
+    "Ti5+"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 20,
+   "paperNumber": 695,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "d- and f-Block Elements",
+   "type": "theory",
+   "stem": "Potassium dichromate (K2Cr2O7) is a strong oxidizing agent. Select the correct statements from the following:\n(A) It is used for preparation of many azo compounds.\n(B) With the decreasing pH of the solution, dichromates changes into chromates.\n(C) In acidified solution equivalent weight of dichromate is M/5\n(D) The bond angle between Cr-O-Cr is 126°.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A) and (D) only",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 21,
+   "paperNumber": 696,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Coordination Compounds",
+   "type": "theory",
+   "stem": "Which of the following is the correct IUPAC name for the [Pt(NH3)2Cl(NO2)] coordination compound?",
+   "passage": null,
+   "options": [
+    "Diamminechloridonitrito-N-platinum(II)",
+    "Diamminechloridonitrido-N-platinum(III)",
+    "Diamminechloridonitrito-N-platinate(II)",
+    "Diamminechloridenitrido-N-platinum(II)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Every naming rule the item needs is served, and a bank row applies the same steps to another complex.",
+   "match": {
+    "kind": "question",
+    "id": "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d",
+    "chapter": "Coordination Compounds",
+    "stem": "The IUPAC name of the complex [Co(NH3)4Cl2]Cl is:",
+    "passage": null,
+    "options": [
+     "dichloridotetraamminecobalt(III) chloride",
+     "tetraamminedichloridocobaltate(III) chloride",
+     "tetraamminedichloridocobalt(II) chloride",
+     "tetraamminedichloridocobalt(III) chloride"
+    ],
+    "key": 3,
+    "explanation": "Ligands are named in alphabetical order ignoring the numerical prefixes, so ammine comes before chlorido. With NH3 neutral, two Cl⁻ inside and a charge of +1 on the complex ion, x + 0 − 2 = +1 gives cobalt(III); a cationic complex takes no -ate ending. Starting with dichlorido follows the prefixes instead of the alphabet.",
+    "more": {
+     "cards": 5,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 697,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Coordination Compounds",
+   "type": "theory",
+   "stem": "Which one of the following compounds does not show geometrical isomerism?",
+   "passage": null,
+   "options": [
+    "MnO4^-",
+    "[Fe(NH3)2(CN)4]^-",
+    "[CrCl2(ox)2]^3-",
+    "[CoCl2(en)2]"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards make MnO4^- tetrahedral and tetrahedral species free of geometrical isomers; the other three are shown with cis/trans forms.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.coordination-compounds.fact-tetrahedral-no-geometrical",
+    "chapter": "Coordination Compounds",
+    "front": "Why is geometrical isomerism not possible in tetrahedral complexes with two different types of unidentate ligands?",
+    "back": "Tetrahedral complexes do not show geometrical isomerism because the relative positions of the unidentate ligands attached to the central metal atom are the same with respect to each other.",
+    "source": "NCERT, Chemistry Part 1, chapter 5, page 126",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 23,
+   "paperNumber": 698,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Coordination Compounds",
+   "type": "theory",
+   "stem": "Which of the following hybridisation is correct for [FeF6]^3-?",
+   "passage": null,
+   "options": [
+    "sp3d2 with 1 unpaired electrons",
+    "sp3d2 with 5 unpaired electrons",
+    "d2sp3 with 1 unpaired electrons",
+    "d2sp3 with 5 unpaired electrons"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Card gives 5 unpaired electrons and a bank row gives sp3d2 for the same ion.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.coordination-compounds.fact-fe-cn6-fef6",
+    "chapter": "Coordination Compounds",
+    "front": "Unpaired electrons in [Fe(CN)6]3– and [FeF6]3–?",
+    "back": "[Fe(CN)6]3– has magnetic moment of a single unpaired electron while [FeF6]3– has a paramagnetic moment of five unpaired electrons.",
+    "source": "NCERT, Chemistry Part 1, chapter 5, page 130",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 24,
+   "paperNumber": 699,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Coordination Compounds",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) ion or molecule having two different donor atoms and either of the two ligetes in the complex | (I) central atom or ion\n(B) In a coordination entity, the atom/ion to which a fixed number of ions/groups are bound in a definite geometrical arrangement | (II) Chelate ligand\n(C) ion or molecule using its two or more donor atoms simultaneously to bind a single metal ion | (III) Ambidentate ligand\n(D) ion or molecule bound to the central atom/ion through two donor atoms | (IV) Didentate ligand\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)",
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (III), (B) - (I), (C) - (II), (D) - (IV)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Four cards carry the four List-I definitions.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.coordination-compounds.def-ambidentate",
+    "chapter": "Coordination Compounds",
+    "front": "What is an ambidentate ligand?",
+    "back": "Ligand which has two different donor atoms and either of the two ligetes in the complex is called ambidentate ligand.",
+    "source": "NCERT, Chemistry Part 1, chapter 5, page 121",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 25,
+   "paperNumber": 700,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "type": "theory",
+   "stem": "In nucleophilic addition reaction of HCN to ethanal, the hybridisation of the carbonyl carbon in the final product is",
+   "passage": null,
+   "options": [
+    "sp3",
+    "sp2",
+    "sp2d",
+    "spd2"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Card states the sp2 -> sp3 change in nucleophilic addition; HCN to ethanal is served as an example.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-sp2-to-sp3-alkoxide-intermediate",
+    "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+    "front": "In nucleophilic addition, how does the hybridisation of carbonyl carbon change and what intermediate is produced?",
+    "back": "The hybridisation of carbon changes from sp2 to sp3 in this process, and a tetrahedral alkoxide intermediate is produced.",
+    "source": "NCERT, Chemistry Part 2, chapter 8, page 236",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 26,
+   "paperNumber": 701,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Coordination Compounds",
+   "type": "theory",
+   "stem": "Arrange the following complex ions in increasing order of their wavelength of light absorbed:\n(A) [Co(CN)6]^3-\n(B) [Co(NH3)6]^3+\n(C) [Co(F6)]^3-\n(D) [Co(C2O4)]^3-\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (D), (C)",
+    "(A), (D), (B), (C)",
+    "(D), (B), (A), (C)",
+    "(C), (D), (B), (A)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 27,
+   "paperNumber": 702,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "type": "theory",
+   "stem": "The correct increasing order of acidity of the following molecules is\n(A) [structure: 4-nitrobenzoic acid (COOH with NO2 at the para position)]\n(B) [structure: 2,4-dinitrobenzoic acid (COOH with NO2 at one ortho position and the para position)]\n(C) [structure: benzoic acid]\n(D) [structure: 4-methoxybenzoic acid (COOH with OCH3 at the para position)]\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (A), (B)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A bank row orders methoxy, benzoic and nitro acids the same way; served rows say acidity grows with the number of withdrawing groups, which puts the dinitro acid last.",
+   "match": {
+    "kind": "question",
+    "id": "b19fa8e5-08f3-47e4-8450-b40bc6631f53",
+    "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+    "stem": "Arrange the following in increasing order of acidic strength:\n(A) Benzoic acid\n(B) 4-Nitrobenzoic acid\n(C) 4-Methoxybenzoic acid\n(D) 4-Chlorobenzoic acid",
+    "passage": null,
+    "options": [
+     "(C), (A), (D), (B)",
+     "(A), (C), (D), (B)",
+     "(C), (A), (B), (D)",
+     "(B), (D), (A), (C)"
+    ],
+    "key": 0,
+    "explanation": "Electron-withdrawing groups stabilise the benzoate ion and raise acidity, while electron-donating groups destabilise it. The nitro group withdraws strongly, chlorine withdraws by its inductive effect more than it donates by resonance, and the methoxy group donates by resonance, so it is the weakest acid, even weaker than benzoic acid. Placing methoxy above benzoic acid because of its electronegative oxygen ignores that resonance donation.",
+    "more": {
+     "cards": 4,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 28,
+   "paperNumber": 703,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "type": "theory",
+   "stem": "Conversion of carboxylic acid to hydrocarbon is carried out using",
+   "passage": null,
+   "options": [
+    "KMnO4",
+    "LiAlH4 and ether",
+    "NaOH and CaO",
+    "B2H6 (Diborane)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card and bank row give NaOH and CaO.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-decarboxylation-sodalime",
+    "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+    "front": "Decarboxylation: how are hydrocarbons formed from sodium salts of carboxylic acids?",
+    "back": "Carboxylic acids lose carbon dioxide to form hydrocarbons when their sodium salts are heated with sodalime (NaOH and CaO in the ratio of 3 : 1). The reaction is known as decarboxylation.",
+    "source": "NCERT, Chemistry Part 2, chapter 8, page 253",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 704,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "type": "theory",
+   "stem": "Sodium benzoate finds applications in",
+   "passage": null,
+   "options": [
+    "Perfumes",
+    "Nylon 6,6",
+    "Soaps and detergents",
+    "Food preservatives"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-benzoic-esters-sodium-benzoate",
+    "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+    "front": "Esters of benzoic acid and sodium benzoate are used for what?",
+    "back": "Esters of benzoic acid are used in perfumery. Sodium benzoate is used as a food preservative.",
+    "source": "NCERT, Chemistry Part 2, chapter 8, page 254",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 705,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+   "type": "theory",
+   "stem": "Iodoform reaction with sodium hypoiodite is used for detection of .",
+   "passage": null,
+   "options": [
+    "CH3CO group",
+    "CH3CO and CH3CH(OH) groups",
+    "CH3O group",
+    "(CH3)3CO group"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card carries the stem sentence word for word.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.fact-iodoform-test-detects",
+    "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+    "front": "What is the iodoform reaction with sodium hypoiodite used to detect?",
+    "back": "Iodoform reaction with sodium hypoiodite is also used for detection of CH3CO group or CH3CH(OH) group which produces CH3CO group on oxidation.",
+    "source": "NCERT, Chemistry Part 2, chapter 8, page 240",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 706,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Amines",
+   "type": "theory",
+   "stem": "The first step in conversion of aniline to 4-bromoaniline involves\n[scheme: aniline --?--> 4-bromoaniline]",
+   "passage": null,
+   "options": [
+    "Acetylation of amino group",
+    "Formation of diazonium salt in the presence of NaNO2 and HCl.",
+    "Reaction with Bromine water at room temperature.",
+    "Reaction with Bromine in the presence of NaOH."
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Card gives acetylation as the first step in controlling aniline substitution.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.amines.steps-protect-amino",
+    "chapter": "Amines",
+    "front": "Controlling the activating effect of the amino group in aniline: steps in order",
+    "back": "acetylation with acetic anhydride\ncarrying out the desired substitution\nhydrolysis of the substituted amide to the substituted amine",
+    "source": "NCERT, Chemistry Part 2, chapter 9, page 272",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 707,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Amines",
+   "type": "theory",
+   "stem": "Which of the following reagents will bring out the following transformation ?\n[scheme: aniline --?--> chlorobenzene]\n(A) NaNO2/HCl and Cu/HCl\n(B) NaNO2/NaOH and Cu/HCl\n(C) NaNO2/HCl and Cu2Cl2/HCl\n(D) NaNO2/NaOH and Cu2Cl2/HCl\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served items make NaNO2/HCl the diazotising pair and give both copper routes to chlorobenzene.",
+   "match": {
+    "kind": "question",
+    "id": "59a100d2-d92b-48ae-8b1c-773b76b35021",
+    "chapter": "Amines",
+    "stem": "Benzenediazonium chloride is warmed with cuprous chloride dissolved in hydrochloric acid. The major organic product is:",
+    "passage": null,
+    "options": [
+     "Benzene",
+     "Phenol",
+     "Chlorobenzene",
+     "Benzonitrile"
+    ],
+    "key": 2,
+    "explanation": "This is the Sandmeyer reaction. Copper(I) chloride catalyses replacement of the diazonium group by chlorine, with N2 gas released, giving chlorobenzene. Benzonitrile needs CuCN, and benzene is obtained with hypophosphorous acid.",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 33,
+   "paperNumber": 708,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Amines",
+   "type": "theory",
+   "stem": "Amongst the following, the strongest base in the aqueous medium is :",
+   "passage": null,
+   "options": [
+    "CH3NH2",
+    "NCCH2NH2",
+    "(CH3)2NH",
+    "C6H5NHCH3"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Dimethylamine tops the aqueous order; the aryl and electron-withdrawing amines are taught to be weaker.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.amines.fact-aqueous-order-methyl",
+    "chapter": "Amines",
+    "front": "Basic strength order of methyl substituted amines and NH3 in aqueous solution?",
+    "back": "(CH3)2NH > CH3NH2 > (CH3)3N > NH3",
+    "source": "NCERT, Chemistry Part 2, chapter 9, page 269",
+    "more": {
+     "cards": 1,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 709,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Amines",
+   "type": "theory",
+   "stem": "Select the correct set of reagents required for conversion of the following chemical reactions\n[scheme: 3-bromo-4-methylaniline (NH2 on C1, Br on C3, CH3 on C4) --?--> 2-bromobenzoic acid (COOH with Br on the adjacent carbon)]",
+   "passage": null,
+   "options": [
+    "(i). NaNO2/ HCl, 273-278 K (ii). H3PO4 , H2O (iii). KMnO4 and KOH",
+    "(i). NaNO2/HCl (ii). H3PO4 (iii). NaOH/H2O",
+    "(i). HNO3/H2SO4 (ii). H3PO4 (iii). KMnO4 and KOH",
+    "(i). NaNO2/HCl (ii). Sn/HCl (iii). KMnO4 and KOH"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Each of the three steps is served; the keyed option is the only diazotise-reduce-oxidise sequence even with the printed H3PO4.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.amines.kl-replacement-h",
+    "chapter": "Amines",
+    "front": "Certain mild reducing agents like ____ reduce diazonium salts to arenes and themselves get oxidised to phosphorous acid and ethanal, respectively.",
+    "back": "Certain mild reducing agents like hypophosphorous acid (phosphinic acid) or ethanol reduce diazonium salts to arenes and themselves get oxidised to phosphorous acid and ethanal, respectively.",
+    "source": "NCERT, Chemistry Part 2, chapter 9, page 275",
+    "more": {
+     "cards": 2,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 710,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Biomolecules",
+   "type": "theory",
+   "stem": "-OH group at which carbon center of glucose form a pyranose ring structure?\n[Fischer projection of D-glucose with carbons numbered: C1 CHO; C2 H-C-OH; C3 HO-C-H; C4 H-C-OH; C5 H-C-OH; C6 CH2OH]",
+   "passage": null,
+   "options": [
+    "C6",
+    "C4",
+    "C3",
+    "C5"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.biomolecules.fact-glucose-six-membered-ring",
+    "chapter": "Biomolecules",
+    "front": "Which –OH group of glucose takes part in forming its six-membered ring?",
+    "back": "It was found that glucose forms a six-membered ring in which —OH at C-5 is involved in ring formation.",
+    "source": "NCERT, Chemistry Part 2, chapter 10, page 285",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 36,
+   "paperNumber": 711,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Amines",
+   "type": "theory",
+   "stem": "Gabriel phthalimide synthesis of amines produces",
+   "passage": null,
+   "options": [
+    "tertiary amines.",
+    "secondary amines.",
+    "primary amines.",
+    "aromatic secondary amines."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.amines.kl-gabriel-use",
+    "chapter": "Amines",
+    "front": "Gabriel synthesis is used for the preparation of ____.",
+    "back": "Gabriel synthesis is used for the preparation of primary amines.",
+    "source": "NCERT, Chemistry Part 2, chapter 9, page 264",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 712,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Biomolecules",
+   "type": "theory",
+   "stem": "Peptide bond in proteins is strutcurally represented as",
+   "passage": null,
+   "options": [
+    "-CO-NH-",
+    "-COO-NH-",
+    "-C-O-C-",
+    "-C-O-CO-"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card gives -CO-NH-.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.biomolecules.fact-peptide-bond-formation",
+    "chapter": "Biomolecules",
+    "front": "What is eliminated when two amino acids join, and what bond forms?",
+    "back": "This results in the elimination of a water molecule and formation of a peptide bond –CO–NH–.",
+    "source": "NCERT, Chemistry Part 2, chapter 10, page 292",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 713,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Biomolecules",
+   "type": "theory",
+   "stem": "Fibrous protein is characterized by the presence of hydrogen and disulfide bonds. Examples of fibrous protein are\n(A) Keratin\n(B) Myosin\n(C) Insulin\n(D) Albumins\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A) and (B) only",
+    "(A), (B), (C) and (D)",
+    "(C) and (D) only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards give keratin and myosin as fibrous and insulin and albumins as globular.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.biomolecules.fact-fibrous-examples",
+    "chapter": "Biomolecules",
+    "front": "Name two fibrous proteins and where each is present.",
+    "back": "Some common examples are keratin (present in hair, wool, silk) and myosin (present in muscles), etc.",
+    "source": "NCERT, Chemistry Part 2, chapter 10, page 292",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 714,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Biomolecules",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Name of the Compounds) | List-II (Chemical Structures)\n(A) Gluconic acid | (I) [Fischer projection: COOH at both ends, with H-C-OH, HO-C-H, H-C-OH, H-C-OH between them (saccharic acid)]\n(B) Fructose | (II) [structure: H2N-CH(CH2-indol-3-yl)-COOH (tryptophan)]\n(C) Tryptophan | (III) [Fischer projection: COOH at the top, H-C-OH, HO-C-H, H-C-OH, H-C-OH, CH2OH at the bottom (gluconic acid)]\n(D) Saccharic acid | (IV) [Fischer projection: CH2OH, C=O, HO-C-H, H-C-OH, H-C-OH, CH2OH (fructose)]\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 40,
+   "paperNumber": 715,
+   "section": "Chemistry, sub-section 1 (stand-alone MCQs, Q676-715)",
+   "chapter": "Biomolecules",
+   "type": "theory",
+   "stem": "Which of the following gives the correct representation of zwitter ion of the given amino acid ?\n[Each option shows alanine, H2N-CH(CH3)-C(=O)-OH, with a double-headed arrow to a second form]",
+   "passage": null,
+   "options": [
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H2N-CH(CH3)-C(=O)-OH",
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H3N+-CH(CH3)-C(=O)-O-",
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H2N-CH(CH3)-C(=O)-O-",
+    "H2N-CH(CH3)-C(=O)-OH ⟷ H3N+-CH(CH3)-C(=O)-OH"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A bank row asks the zwitter-ion form of glycine; the card defines it.",
+   "match": {
+    "kind": "question",
+    "id": "63dbe2f6-beff-4336-a8e9-435a3e28fe04",
+    "chapter": "Biomolecules",
+    "stem": "In aqueous solution at its isoelectric point, glycine exists mainly as which species?",
+    "passage": null,
+    "options": [
+     "H2N-CH2-COOH",
+     "H2N-CH2-COO-",
+     "H3N+-CH2-COO-",
+     "H3N+-CH2-COOH"
+    ],
+    "key": 2,
+    "explanation": "An amino acid exists as a zwitterion, carrying a protonated amino group and a deprotonated carboxylate group. At the isoelectric point the net charge is zero, and the dominant form of glycine is the zwitterion H3N+-CH2-COO-.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 716,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "chapter": "Electrochemistry",
+   "type": "theory",
+   "stem": "The Nernst equation for the given reaction\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s) ; is",
+   "passage": {
+    "title": "Electrochemical cells",
+    "text": "Electrochemical cells\n\nWe can construct innumerable number of galvanic cells on the pattern of Daniell cell by taking combinations of different half-cells. Each half-cell consists of a metallic electrode dipped into an electrolyte. The two half-cells are connected by a metallic wire through a voltmeter and a switch externally. The electrolytes of the two half-cells are connected internally through a salt bridge. Sometimes, both the electrodes dip in the same electrolyte solution and in such cases we do not require a salt bridge.\n\nFor the cell\nNi(s) | Ni2+(aq) || Ag+(aq) | Ag\nThe cell reaction is Ni(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s).\n\nNernst equation relates the emf of the cell with standard emf and the concentration of reduced and oxidized species."
+   },
+   "options": [
+    "E_cell = E°_cell − (RT/2F) ln ([Ni2+]/[Ag+]^2)",
+    "E_cell = E°_cell − (RT/2F) ln ([Ni2+]/[Ag+])",
+    "E_cell = E°_cell − (RT/F) ln ([Ni2+]/[Ag+])",
+    "E_cell = E°_cell + (RT/F) ln ([Ni2+]/[Ag+])"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served bank row writes the Nernst equation for this same cell with n = 2 and [Ag+] squared (in the 0.059 log form).",
+   "match": {
+    "kind": "question",
+    "id": "969ec6f8-7e52-48ce-9832-299e478417ce",
+    "chapter": "Electrochemistry",
+    "stem": "The standard electrode potentials of Ni²⁺/Ni and Ag⁺/Ag are −0.25 V and +0.80 V respectively. Using 2.303RT/F = 0.059 V at 298 K, the EMF of the cell Ni(s) | Ni²⁺ (1.0 M) || Ag⁺ (0.01 M) | Ag(s) is closest to:",
+    "passage": null,
+    "options": [
+     "1.17 V",
+     "0.93 V",
+     "0.99 V",
+     "0.81 V"
+    ],
+    "key": 1,
+    "explanation": "E°cell = 0.80 − (−0.25) = 1.05 V and n = 2. The reaction Ni + 2Ag⁺ → Ni²⁺ + 2Ag gives Q = [Ni²⁺]/[Ag⁺]² = 1.0/(0.01)² = 10⁴, so Ecell = 1.05 − (0.059/2) × 4 = 1.05 − 0.118 = 0.93 V. Leaving [Ag⁺] unsquared gives Q = 100 and 0.99 V, which ignores that two Ag⁺ ions appear in the balanced equation.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 717,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "chapter": "Electrochemistry",
+   "type": "numerical",
+   "stem": "The standard electrode potential for the cell\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s)\nis 0.80 V. The standard Gibbs energy for the reaction is:",
+   "passage": {
+    "title": "Electrochemical cells",
+    "text": "Electrochemical cells\n\nWe can construct innumerable number of galvanic cells on the pattern of Daniell cell by taking combinations of different half-cells. Each half-cell consists of a metallic electrode dipped into an electrolyte. The two half-cells are connected by a metallic wire through a voltmeter and a switch externally. The electrolytes of the two half-cells are connected internally through a salt bridge. Sometimes, both the electrodes dip in the same electrolyte solution and in such cases we do not require a salt bridge.\n\nFor the cell\nNi(s) | Ni2+(aq) || Ag+(aq) | Ag\nThe cell reaction is Ni(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s).\n\nNernst equation relates the emf of the cell with standard emf and the concentration of reduced and oxidized species."
+   },
+   "options": [
+    "-154.379 kJ mol^-1",
+    "154.379 kJ mol^-1",
+    "212.2 kJ mol^-1",
+    "-212.2 kJ mol^-1"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 43,
+   "paperNumber": 718,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "chapter": "Electrochemistry",
+   "type": "theory",
+   "stem": "The relationship between the equilibrium constant of the reaction and the standard electrode potential of the cell in which that reaction takes place is given by",
+   "passage": {
+    "title": "Electrochemical cells",
+    "text": "Electrochemical cells\n\nWe can construct innumerable number of galvanic cells on the pattern of Daniell cell by taking combinations of different half-cells. Each half-cell consists of a metallic electrode dipped into an electrolyte. The two half-cells are connected by a metallic wire through a voltmeter and a switch externally. The electrolytes of the two half-cells are connected internally through a salt bridge. Sometimes, both the electrodes dip in the same electrolyte solution and in such cases we do not require a salt bridge.\n\nFor the cell\nNi(s) | Ni2+(aq) || Ag+(aq) | Ag\nThe cell reaction is Ni(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s).\n\nNernst equation relates the emf of the cell with standard emf and the concentration of reduced and oxidized species."
+   },
+   "options": [
+    "E°_cell = (RT / (2.303 × nF)) log Kc",
+    "E°_cell = (2.303RT / nF) log Kc",
+    "E°_cell = (2.303RT / nF) ln Kc",
+    "E°_cell = 2.303RT ln Kc"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served rows give E° = (0.059/n) log Kc and 0.059 = 2.303RT/F, which is the keyed relation.",
+   "match": {
+    "kind": "question",
+    "id": "ae5ce2d9-680e-4116-a7d7-aa32c7906d65",
+    "chapter": "Electrochemistry",
+    "stem": "For the reaction 2Fe³⁺(aq) + 2I⁻(aq) → 2Fe²⁺(aq) + I₂(s), the E°cell is 0.24 V at 298 K. The standard Gibbs energy of the reaction is approximately -46.32 kJ/mol. What is the equilibrium constant (Kc) for the reaction?",
+    "passage": null,
+    "options": [
+     "10^8",
+     "10^16",
+     "10^4",
+     "10^12"
+    ],
+    "key": 0,
+    "explanation": "Using ΔrG° = -RT ln Kc or E° = (0.0591/n) log Kc. With n=2, 0.24 = (0.0591/2) log Kc => log Kc ≈ 8.12, so Kc ≈ 10^8.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 44,
+   "paperNumber": 719,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "chapter": "Electrochemistry",
+   "type": "theory",
+   "stem": "In the given cell,\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s)\nwhich of the given species is the reducing agent?",
+   "passage": {
+    "title": "Electrochemical cells",
+    "text": "Electrochemical cells\n\nWe can construct innumerable number of galvanic cells on the pattern of Daniell cell by taking combinations of different half-cells. Each half-cell consists of a metallic electrode dipped into an electrolyte. The two half-cells are connected by a metallic wire through a voltmeter and a switch externally. The electrolytes of the two half-cells are connected internally through a salt bridge. Sometimes, both the electrodes dip in the same electrolyte solution and in such cases we do not require a salt bridge.\n\nFor the cell\nNi(s) | Ni2+(aq) || Ag+(aq) | Ag\nThe cell reaction is Ni(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s).\n\nNernst equation relates the emf of the cell with standard emf and the concentration of reduced and oxidized species."
+   },
+   "options": [
+    "Ni2+(aq)",
+    "Ni(s)",
+    "Ag+(aq)",
+    "Ag(s)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served cards make the metal that is oxidised the reducing agent; Ni(s) goes to Ni2+ in this cell.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.electrochemistry.fact-zn-negative-eo",
+    "chapter": "Electrochemistry",
+    "front": "What does the negative standard electrode potential of Zn2+/Zn (-0.76 V) indicate?",
+    "back": "The negative value of the standard electrode potential in the second case indicates that hydrogen ions can oxidise zinc (or zinc can reduce hydrogen ions).",
+    "source": "NCERT, Chemistry Part 1, chapter 2, page 35",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 45,
+   "paperNumber": 720,
+   "section": "Chemistry, sub-section 2 (comprehension 226895790088, Q716-720)",
+   "chapter": "Electrochemistry",
+   "type": "theory",
+   "stem": "Which of the following is the anodic half cell reaction?\nNi(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s)",
+   "passage": {
+    "title": "Electrochemical cells",
+    "text": "Electrochemical cells\n\nWe can construct innumerable number of galvanic cells on the pattern of Daniell cell by taking combinations of different half-cells. Each half-cell consists of a metallic electrode dipped into an electrolyte. The two half-cells are connected by a metallic wire through a voltmeter and a switch externally. The electrolytes of the two half-cells are connected internally through a salt bridge. Sometimes, both the electrodes dip in the same electrolyte solution and in such cases we do not require a salt bridge.\n\nFor the cell\nNi(s) | Ni2+(aq) || Ag+(aq) | Ag\nThe cell reaction is Ni(s) + 2Ag+ (aq) → Ni2+(aq) + 2Ag(s).\n\nNernst equation relates the emf of the cell with standard emf and the concentration of reduced and oxidized species."
+   },
+   "options": [
+    "Ni(s) → Ni2+(aq) + 2e-",
+    "Ni2+(aq) + 2e- → Ni(s)",
+    "Ag+(aq) + e- → Ag(s)",
+    "Ag(s) → Ag+(aq) + e-"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Card and bank row put oxidation at the anode; Ni losing two electrons is that half.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.electrochemistry.kl-anode",
+    "chapter": "Electrochemistry",
+    "front": "In a galvanic cell, the half-cell in which oxidation takes place is called ____ and it has a negative potential with respect to the solution.",
+    "back": "In a galvanic cell, the half-cell in which oxidation takes place is called anode and it has a negative potential with respect to the solution.",
+    "source": "NCERT, Chemistry Part 1, chapter 2, page 33",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 46,
+   "paperNumber": 721,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "chapter": "Alcohols, Phenols & Ethers",
+   "type": "theory",
+   "stem": "What is the common name for the following structure given below?\n[structure: benzene-1,4-diol (two OH groups para to each other)]",
+   "passage": {
+    "title": "Alcohols, Phenols and Ethers",
+    "text": "Alcohols, Phenols and Ethers\n\nAlcohols and phenols are formed when a hydrogen atom in a hydrocarbon, aliphatic and aromatic respectively, is replaced by –OH group. These classes of compounds find wide applications in industry as well as in day-to-day life. For instance, have you ever noticed that ordinary spirit used for polishing wooden furniture is chiefly a compound containing hydroxyl group, ethanol. The sugar we eat, the cotton used for fabrics, the paper we use for writing, are all made up of compounds containing –OH groups. The common name of an alcohol is derived from the common name of the alkyl group and adding the word alcohol to it. For example, CH3OH is methyl alcohol. The simplest hydroxy derivative of benzene is phenol. It is its common name and also an accepted IUPAC name. As structure of phenol involves a benzene ring, in its substituted compounds the terms ortho (1,2-disubstituted), meta (1,3-disubstituted) and para (1,4-disubstituted) are often used in the common names.\n\nIn ethers, the four electron pairs, i.e., the two bond pairs and two lone pairs of electrons on oxygen are arranged approximately in a tetrahedral arrangement. The bond angle is slightly greater than the tetrahedral angle due to the repulsive interaction between the two bulky (–R) groups."
+   },
+   "options": [
+    "Resorcinol",
+    "Catechol",
+    "Hydroquinone",
+    "m-cresol"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards name all three diols.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-hydroquinone",
+    "chapter": "Alcohols, Phenols & Ethers",
+    "front": "IUPAC name of hydroquinone (quinol)?",
+    "back": "Benzene-1,4-diol",
+    "source": "NCERT, Chemistry Part 2, chapter 7, page 197",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 47,
+   "paperNumber": 722,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "chapter": "Alcohols, Phenols & Ethers",
+   "type": "theory",
+   "stem": "The catalyst involved in the production of methanol through hydrogenation of carbon monoxide is",
+   "passage": {
+    "title": "Alcohols, Phenols and Ethers",
+    "text": "Alcohols, Phenols and Ethers\n\nAlcohols and phenols are formed when a hydrogen atom in a hydrocarbon, aliphatic and aromatic respectively, is replaced by –OH group. These classes of compounds find wide applications in industry as well as in day-to-day life. For instance, have you ever noticed that ordinary spirit used for polishing wooden furniture is chiefly a compound containing hydroxyl group, ethanol. The sugar we eat, the cotton used for fabrics, the paper we use for writing, are all made up of compounds containing –OH groups. The common name of an alcohol is derived from the common name of the alkyl group and adding the word alcohol to it. For example, CH3OH is methyl alcohol. The simplest hydroxy derivative of benzene is phenol. It is its common name and also an accepted IUPAC name. As structure of phenol involves a benzene ring, in its substituted compounds the terms ortho (1,2-disubstituted), meta (1,3-disubstituted) and para (1,4-disubstituted) are often used in the common names.\n\nIn ethers, the four electron pairs, i.e., the two bond pairs and two lone pairs of electrons on oxygen are arranged approximately in a tetrahedral arrangement. The bond angle is slightly greater than the tetrahedral angle due to the repulsive interaction between the two bulky (–R) groups."
+   },
+   "options": [
+    "ZnO-Cr2O3",
+    "ZnO/Pt",
+    "Anhyd.AlCl3",
+    "Anhyd.FeCl3"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-methanol-industrial",
+    "chapter": "Alcohols, Phenols & Ethers",
+    "front": "Today, most of the methanol is produced by catalytic hydrogenation of ____ at high pressure and temperature and in the presence of ZnO–Cr2O3 catalyst.",
+    "back": "Today, most of the methanol is produced by catalytic hydrogenation of carbon monoxide at high pressure and temperature and in the presence of ZnO–Cr2O3 catalyst.",
+    "source": "NCERT, Chemistry Part 2, chapter 7, page 214",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 48,
+   "paperNumber": 723,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "chapter": "Alcohols, Phenols & Ethers",
+   "type": "theory",
+   "stem": "Consider the following chemical reaction and identify the intermediate involved in the reaction.\n[scheme: phenol --> salicylaldehyde (2-hydroxybenzaldehyde); no reagent printed over the arrow]",
+   "passage": {
+    "title": "Alcohols, Phenols and Ethers",
+    "text": "Alcohols, Phenols and Ethers\n\nAlcohols and phenols are formed when a hydrogen atom in a hydrocarbon, aliphatic and aromatic respectively, is replaced by –OH group. These classes of compounds find wide applications in industry as well as in day-to-day life. For instance, have you ever noticed that ordinary spirit used for polishing wooden furniture is chiefly a compound containing hydroxyl group, ethanol. The sugar we eat, the cotton used for fabrics, the paper we use for writing, are all made up of compounds containing –OH groups. The common name of an alcohol is derived from the common name of the alkyl group and adding the word alcohol to it. For example, CH3OH is methyl alcohol. The simplest hydroxy derivative of benzene is phenol. It is its common name and also an accepted IUPAC name. As structure of phenol involves a benzene ring, in its substituted compounds the terms ortho (1,2-disubstituted), meta (1,3-disubstituted) and para (1,4-disubstituted) are often used in the common names.\n\nIn ethers, the four electron pairs, i.e., the two bond pairs and two lone pairs of electrons on oxygen are arranged approximately in a tetrahedral arrangement. The bond angle is slightly greater than the tetrahedral angle due to the repulsive interaction between the two bulky (–R) groups."
+   },
+   "options": [
+    "[structure: sodium phenoxide with CHO at the ortho position]",
+    "[structure: sodium phenoxide with CHCl2 at the ortho position]",
+    "[structure: phenol with CHCl2 at the ortho position]",
+    "[structure: sodium phenoxide with CH2Cl at the ortho position]"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 49,
+   "paperNumber": 724,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "chapter": "Alcohols, Phenols & Ethers",
+   "type": "theory",
+   "stem": "Consider the following chemical reaction and identify the final product(s)\n[scheme: phenol --dil. HNO3--> ?]\nThe final product(s) of the above reaction is",
+   "passage": {
+    "title": "Alcohols, Phenols and Ethers",
+    "text": "Alcohols, Phenols and Ethers\n\nAlcohols and phenols are formed when a hydrogen atom in a hydrocarbon, aliphatic and aromatic respectively, is replaced by –OH group. These classes of compounds find wide applications in industry as well as in day-to-day life. For instance, have you ever noticed that ordinary spirit used for polishing wooden furniture is chiefly a compound containing hydroxyl group, ethanol. The sugar we eat, the cotton used for fabrics, the paper we use for writing, are all made up of compounds containing –OH groups. The common name of an alcohol is derived from the common name of the alkyl group and adding the word alcohol to it. For example, CH3OH is methyl alcohol. The simplest hydroxy derivative of benzene is phenol. It is its common name and also an accepted IUPAC name. As structure of phenol involves a benzene ring, in its substituted compounds the terms ortho (1,2-disubstituted), meta (1,3-disubstituted) and para (1,4-disubstituted) are often used in the common names.\n\nIn ethers, the four electron pairs, i.e., the two bond pairs and two lone pairs of electrons on oxygen are arranged approximately in a tetrahedral arrangement. The bond angle is slightly greater than the tetrahedral angle due to the repulsive interaction between the two bulky (–R) groups."
+   },
+   "options": [
+    "[structure: 3-nitrophenol (m-nitrophenol)]",
+    "[structure: 2,4,6-trinitrophenol (picric acid)]",
+    "[structures: 2-nitrophenol and 4-nitrophenol (o- and p-nitrophenol)]",
+    "[structures: 2-nitrophenol and 3-nitrophenol (o- and m-nitrophenol)]"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card and bank rows give the same answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-nitration-dilute-298",
+    "chapter": "Alcohols, Phenols & Ethers",
+    "front": "With dilute nitric acid at low temperature (____), phenol yields a mixture of ortho and para nitrophenols.",
+    "back": "With dilute nitric acid at low temperature (298 K), phenol yields a mixture of ortho and para nitrophenols.",
+    "source": "NCERT, Chemistry Part 2, chapter 7, page 211",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 50,
+   "paperNumber": 725,
+   "section": "Chemistry, sub-section 3 (comprehension 226895790094, Q721-725)",
+   "chapter": "Alcohols, Phenols & Ethers",
+   "type": "theory",
+   "stem": "The final product for the following reaction is\nCH3CH2OH --(Cu, 573K)--> ?",
+   "passage": {
+    "title": "Alcohols, Phenols and Ethers",
+    "text": "Alcohols, Phenols and Ethers\n\nAlcohols and phenols are formed when a hydrogen atom in a hydrocarbon, aliphatic and aromatic respectively, is replaced by –OH group. These classes of compounds find wide applications in industry as well as in day-to-day life. For instance, have you ever noticed that ordinary spirit used for polishing wooden furniture is chiefly a compound containing hydroxyl group, ethanol. The sugar we eat, the cotton used for fabrics, the paper we use for writing, are all made up of compounds containing –OH groups. The common name of an alcohol is derived from the common name of the alkyl group and adding the word alcohol to it. For example, CH3OH is methyl alcohol. The simplest hydroxy derivative of benzene is phenol. It is its common name and also an accepted IUPAC name. As structure of phenol involves a benzene ring, in its substituted compounds the terms ortho (1,2-disubstituted), meta (1,3-disubstituted) and para (1,4-disubstituted) are often used in the common names.\n\nIn ethers, the four electron pairs, i.e., the two bond pairs and two lone pairs of electrons on oxygen are arranged approximately in a tetrahedral arrangement. The bond angle is slightly greater than the tetrahedral angle due to the repulsive interaction between the two bulky (–R) groups."
+   },
+   "options": [
+    "[structure: CH3-CHO (ethanal)]",
+    "[structure: CH3-CO-CH3 (propanone)]",
+    "[structure: H-CHO (methanal)]",
+    "[structure: CH3-CH2-CHO (propanal)]"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Card says a primary alcohol over copper at 573 K gives an aldehyde; for ethanol that is ethanal.",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-copper-573",
+    "chapter": "Alcohols, Phenols & Ethers",
+    "front": "Vapours of primary or secondary alcohols over copper at 573 K: what forms; and what do tertiary alcohols undergo?",
+    "back": "dehydrogenation takes place and an aldehyde or a ketone is formed while tertiary alcohols undergo dehydration",
+    "source": "NCERT, Chemistry Part 2, chapter 7, page 210",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  }
+ ]
+}

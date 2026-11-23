@@ -1,0 +1,2649 @@
+{
+ "id": "mathematics",
+ "name": "Mathematics",
+ "stream": "commerce",
+ "code": "319",
+ "examDate": "2026-05-24",
+ "examDay": "24 May 2026",
+ "shift": "second shift",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
+ "firstDate": "2026-11-23",
+ "firstDay": "23 November 2026",
+ "final": false,
+ "counts": {
+  "total": 85,
+  "same": 0,
+  "newValues": 0,
+  "concept": 33,
+  "notYet": 52,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 33,
+  "counted": 85,
+  "pct": 39,
+  "first": 33,
+  "firstPct": 39,
+  "addedCards": 0,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 0,
+  "newValuesFirst": 0
+ },
+ "chapters": [
+  {
+   "name": "Application of Derivatives",
+   "asked": 8,
+   "covered": 6
+  },
+  {
+   "name": "Matrices",
+   "asked": 8,
+   "covered": 2
+  },
+  {
+   "name": "Determinants",
+   "asked": 7,
+   "covered": 1
+  },
+  {
+   "name": "Differential Equations",
+   "asked": 7,
+   "covered": 5
+  },
+  {
+   "name": "Financial Mathematics",
+   "asked": 6,
+   "covered": 3
+  },
+  {
+   "name": "Integrals",
+   "asked": 6,
+   "covered": 4
+  },
+  {
+   "name": "Numbers, Quantification and Numerical Applications",
+   "asked": 6,
+   "covered": 0
+  },
+  {
+   "name": "Continuity & Differentiability",
+   "asked": 5,
+   "covered": 0
+  },
+  {
+   "name": "Linear Programming",
+   "asked": 5,
+   "covered": 3
+  },
+  {
+   "name": "Probability",
+   "asked": 5,
+   "covered": 1
+  },
+  {
+   "name": "Probability Distributions",
+   "asked": 4,
+   "covered": 1
+  },
+  {
+   "name": "Vector Algebra",
+   "asked": 4,
+   "covered": 0
+  },
+  {
+   "name": "Application of Integrals",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Inferential Statistics",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Three Dimensional Geometry",
+   "asked": 3,
+   "covered": 0
+  },
+  {
+   "name": "Relations & Functions",
+   "asked": 2,
+   "covered": 0
+  },
+  {
+   "name": "Time Based Data",
+   "asked": 2,
+   "covered": 1
+  },
+  {
+   "name": "Inverse Trigonometric Functions",
+   "asked": 1,
+   "covered": 1
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 306,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Matrices",
+   "type": "numerical",
+   "stem": "A is any matrix, defined by A = [a_ij]_(3×3), where a_ij = |i − j|, then which of the following statements are true ?\nA. A is symmetric matrix.\nB. A is skew-symmetric matrix.\nC. A is diagonal matrix.\nD. A is non singular matrix.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and B only",
+    "B and C only",
+    "A and D only",
+    "B and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 2,
+   "paperNumber": 307,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Matrices",
+   "type": "numerical",
+   "stem": "If AB = A and BA = B, where A and B are square matrices of same order, then",
+   "passage": null,
+   "options": [
+    "B² = B, A² = A",
+    "B² ≠ B and A² = A",
+    "A² ≠ A, B² = B",
+    "A² ≠ A, B² ≠ B"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 3,
+   "paperNumber": 308,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Determinants",
+   "type": "numerical",
+   "stem": "If Δ = | 1  x  x² ; x²  1  x ; x  x²  1 | = (1 + ax³)^b, then which of the following statements are TRUE?\nA. a = −1 and b = 2\nB. x = 1 is a multiple root of Δ = 0\nC. x = 1 is a simple root of Δ = 0\nD. x = 3 is a simple root of Δ = 0\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and D only",
+    "A and C only",
+    "A, B and D only",
+    "A and B only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 4,
+   "paperNumber": 309,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Determinants",
+   "type": "numerical",
+   "stem": "If A is a square matrix of order 3 × 3, and |adj A| = 25, then the value of |2A| is",
+   "passage": null,
+   "options": [
+    "20",
+    "± 20",
+    "40",
+    "± 40"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 5,
+   "paperNumber": 310,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Continuity & Differentiability",
+   "type": "numerical",
+   "stem": "If y = √((1 − x)/(1 + x)), then the value of (1 − x²) dy/dx + y is",
+   "passage": null,
+   "options": [
+    "1/(1 + x)",
+    "−1/(1 + x)²",
+    "0",
+    "1"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 6,
+   "paperNumber": 311,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "The minimum value of e^x + e^(−x) is",
+   "passage": null,
+   "options": [
+    "−1",
+    "0",
+    "1",
+    "2"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row finds the minimum value of a function plus its reciprocal by the same two derivative tests.",
+   "match": {
+    "kind": "question",
+    "id": "386d01b7-740a-49ed-8930-68da67b0b8bc",
+    "chapter": "Application of Derivatives",
+    "stem": "The minimum value of x + 16/x for x > 0 is",
+    "passage": null,
+    "options": [
+     "4",
+     "16",
+     "32",
+     "8"
+    ],
+    "key": 3,
+    "explanation": "Let g(x) = x + 16/x. Then g′(x) = 1 − 16/x² = 0 gives x = 4 for x > 0, and g″(x) = 32/x³ > 0 there, so this is a minimum. Hence g(4) = 4 + 4 = 8.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 312,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "The function f(x) = x/(log x) is increasing in the interval\n(consider log_e x = log x)",
+   "passage": null,
+   "options": [
+    "(1, ∞)",
+    "(e, ∞)",
+    "(−∞, e)",
+    "(−∞, −1)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row finds the interval of increase of a log function from the sign of its derivative; the quotient rule is routine.",
+   "match": {
+    "kind": "question",
+    "id": "93acdf0c-24cc-46b2-864e-99207aceac5b",
+    "chapter": "Application of Derivatives",
+    "stem": "The function f(x) = x² − 2 log_e x, with domain x > 0, is strictly increasing on which of the following intervals?",
+    "passage": null,
+    "options": [
+     "(0, 1)",
+     "(1, ∞)",
+     "(0, ∞)",
+     "(0, e)"
+    ],
+    "key": 1,
+    "explanation": "f′(x) = 2x − 2/x = 2(x² − 1)/x. For x > 0 the sign of f′ is the sign of x² − 1, which is positive only when x > 1, so f increases on (1, ∞). On (0, 1) the derivative is negative, so that is where f decreases; (0, ∞) wrongly treats x² as the only term.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 313,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Integrals",
+   "type": "numerical",
+   "stem": "∫ e^x (log x + 1/x²) dx is equal to\n(consider log_e x = log x)",
+   "passage": null,
+   "options": [
+    "e^x log_e x + c : where c is an arbitrary constant",
+    "e^x (log_e x + 1/x) + c: where c is an arbitrary constant",
+    "e^x (log_e x − 1/x) + c: where c is an arbitrary constant",
+    "e^x · (1/x) + c : where c is an arbitrary constant"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row integrates an e^x[f + f'] integrand and checks it by differentiating the candidate, the same formula and steps.",
+   "match": {
+    "kind": "question",
+    "id": "2b6807ae-c16c-4267-b420-5722c0ed952d",
+    "chapter": "Integrals",
+    "stem": "∫ eˣ (1/x − 1/x²) dx is equal to (where C is the constant of integration)",
+    "passage": null,
+    "options": [
+     "−eˣ/x + C",
+     "eˣ/x² + C",
+     "eˣ/x + C",
+     "eˣ(x − 1)/x² + C"
+    ],
+    "key": 2,
+    "explanation": "Since d/dx (eˣ/x) = eˣ/x − eˣ/x², the integrand is exactly d/dx (eˣ/x). Hence the integral is eˣ/x + C. Option D equals the integrand itself, not its antiderivative.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 314,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Integrals",
+   "type": "numerical",
+   "stem": "If 2f(x) + f(1/x) = 1/x − 5, x ≠ 0, then ∫₁² f(x) dx is equal to:\n(consider log_e x = log x)",
+   "passage": null,
+   "options": [
+    "(1/6)[log 16 − 13]",
+    "(1/3)[log 8 − 13]",
+    "(1/3)[log 8 − 14]",
+    "[log 16 − 14]"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 10,
+   "paperNumber": 315,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Application of Integrals",
+   "type": "numerical",
+   "stem": "Area of the region bounded by the lines |x| + |y| = 1, x ≥ 0, y ≥ 0 is",
+   "passage": null,
+   "options": [
+    "1 square units",
+    "1/2 square units",
+    "2 square units",
+    "4 square units"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows find the area under a straight line between limits; removing the modulus in the first quadrant is routine.",
+   "match": {
+    "kind": "question",
+    "id": "d32a462b-08f5-4e22-a48a-d117e8d1b195",
+    "chapter": "Application of Integrals",
+    "stem": "Match List I (simple regions) with List II (their area as integrals).\nList I: (i) Rectangle of height c on [a,b], (ii) Triangle under y = kx from 0 to a, (iii) Constant function y=c on [0,a], (iv) Area under y=x on [0,1].\nList II: (P) ∫_a^b c dx, (Q) (1/2)ka^2, (R) ∫_0^a c dx, (S) 1/2.",
+    "passage": null,
+    "options": [
+     "(i–P, ii–Q, iii–R, iv–S)",
+     "(i–R, ii–Q, iii–P, iv–S)",
+     "(i–P, ii–S, iii–R, iv–Q)",
+     "(i–Q, ii–P, iii–R, iv–S)"
+    ],
+    "key": 0,
+    "explanation": "Rectangle area = ∫_a^b c dx (P); triangle area = (1/2)base*height = (1/2)ka^2 (Q); constant on [0,a] is ∫_0^a c dx (R); area under y=x on [0,1] is 1/2 (S).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 11,
+   "paperNumber": 316,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Differential Equations",
+   "type": "numerical",
+   "stem": "The order and degree of the differential equation √(1 + (dy/dx)²) = (d²y/dx²)^(1/3) are",
+   "passage": null,
+   "options": [
+    "order = 2, degree = 2",
+    "order = 2, degree = 1/3",
+    "order = 3, degree is not defined",
+    "order = 2, degree = 3"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 12,
+   "paperNumber": 317,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Differential Equations",
+   "type": "numerical",
+   "stem": "The solution of the differential equation dy/dx = x/y represents a family of",
+   "passage": null,
+   "options": [
+    "circles",
+    "ellipses",
+    "parabolas",
+    "hyperbolas"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row solves this exact equation to y^2 - x^2 = C; naming the curve a hyperbola is Class 11 knowledge.",
+   "match": {
+    "kind": "question",
+    "id": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+    "chapter": "Differential Equations",
+    "stem": "Consider the following statements:\n(A) Eliminating the constant A from y = Ax² gives the differential equation x(dy/dx) = 2y.\n(B) The equation dy/dx = (x² + y²)/(xy) is homogeneous.\n(C) The equation dy/dx = y/x has the solution y = x + C, where C is a constant.\n(D) Separating the variables in dy/dx = x/y leads to y² − x² = C.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (A), (B) and (C)",
+     "Only (B), (C) and (D)",
+     "Only (A) and (D)",
+     "Only (A), (B) and (D)"
+    ],
+    "key": 3,
+    "explanation": "From y = Ax², dy/dx = 2Ax = 2y/x, so x(dy/dx) = 2y and (A) is true. Scaling x and y by the same factor leaves (x² + y²)/(xy) unchanged, so (B) is true. Separating dy/y = dx/x gives y = Cx, not y = x + C, so (C) is false. Separating y dy = x dx gives y² = x² + 2K, which is y² − x² = C, so (D) is true.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 318,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Differential Equations",
+   "type": "numerical",
+   "stem": "The solution of initial value problem: dy/dx = e^(3x+4y); y(0) = −1/4 is",
+   "passage": null,
+   "options": [
+    "e^(−4y) + e^(3x) = 3e",
+    "3e^(−4y) + 4e^(3x) = 3e + 4",
+    "−4e^(−4y) + 3e^(3x) = 3e + 4",
+    "e^(−4y) − 3e^(3x) = 0"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows solve separable initial value problems by the same steps; splitting the exponential is routine.",
+   "match": {
+    "kind": "question",
+    "id": "cf6144bf-869b-479a-99de-b5a4fd2b9c0e",
+    "chapter": "Differential Equations",
+    "stem": "The solution of the differential equation dy/dx = 2xy, given that y = 3 when x = 0, is",
+    "passage": null,
+    "options": [
+     "y = 3e^(x²)",
+     "y = 3e^(2x)",
+     "y = e^(x²) + 3",
+     "y = 3e^(−x²)"
+    ],
+    "key": 0,
+    "explanation": "Separating the variables gives dy/y = 2x dx, so ln|y| = x² + C and y = Ae^(x²). The condition y = 3 at x = 0 gives A = 3, so y = 3e^(x²).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 319,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Probability",
+   "type": "numerical",
+   "stem": "Three coins are tossed, then\nMatch the LIST-I with LIST-II\nLIST-I | LIST-II\nA. Probability of occurrence of 3 heads or 3 tails | I. 1/8\nB. Probability of occurrence of at least two heads | II. 7/8\nC. Probability of occurrence of at most two heads | III. 1/2\nD. Probability of occurrence of no head | IV. 1/4\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-I, D-II",
+    "A-III, B-IV, C-II, D-I",
+    "A-IV, B-III, C-II, D-I"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row lists the distribution of heads in three tosses; each answer is a sum of those probabilities.",
+   "match": {
+    "kind": "question",
+    "id": "bd55de62-78a4-4620-83b3-6693e810e3f5",
+    "chapter": "Probability Distributions",
+    "stem": "A fair coin is tossed three times. Let X denote the number of heads obtained. The mean of X is",
+    "passage": null,
+    "options": [
+     "3/8",
+     "3/4",
+     "3/2",
+     "3"
+    ],
+    "key": 2,
+    "explanation": "X takes the values 0, 1, 2 and 3 with probabilities 1/8, 3/8, 3/8 and 1/8. The mean is Σ x P(X = x) = 0 + 3/8 + 6/8 + 3/8 = 12/8 = 3/2, which equals np = 3 × ½.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 320,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "chapter": "Linear Programming",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Inequality) | LIST-II (Solution Space)\nA. 2x + 3y ≥ 6 | I. half plane contains the origin, also points on the line 2x + 3y = 6\nB. 2x + 3y ≤ 6 | II. half plane contains the origin but not points on the line 2x + 3y = 6\nC. 2x + 3y > 6 | III. half plane not contains the origin but contains points on the line 2x + 3y = 6\nD. 2x + 3y < 6 | IV. half plane neither contains the origin nor contains points on the line 2x + 3y = 6\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-II, B-III, C-I, D-IV",
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-I, C-IV, D-II",
+    "A-II, B-IV, C-I, D-III"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 16,
+   "paperNumber": 321,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Relations & Functions",
+   "type": "numerical",
+   "stem": "Relation R in the set A = {1, 2, 3, 4, ......, 16} defined as R = {(x, y): 3x = y, x, y ∈ A}, then which of the following are correct ?\nA. domain of R = {1, 2, 3, 4, 5}.\nB. range of R = {3, 6, 9, 12, 15}.\nC. R is reflexive.\nD. R is not symmetric.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and B only",
+    "B and D only",
+    "A, B and C only",
+    "A, B and D only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 17,
+   "paperNumber": 322,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Relations & Functions",
+   "type": "numerical",
+   "stem": "A function f: N → N, (N: set of natural numbers) defined by f(x) = x² + x + 1 is",
+   "passage": null,
+   "options": [
+    "one-one and onto",
+    "one-one but not onto",
+    "many-one and onto",
+    "many-one but not onto"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 18,
+   "paperNumber": 323,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Inverse Trigonometric Functions",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Function) | LIST-II (Range (Principal value))\nA. tan⁻¹ x | I. [0, π] − {π/2}\nB. sec⁻¹ x | II. [−π/2, π/2]\nC. cosec⁻¹ x | III. [−π/2, π/2] − {0}\nD. sin⁻¹ x | IV. (−π/2, π/2)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-IV, B-I, C-III, D-II",
+    "A-II, B-III, C-I, D-IV",
+    "A-IV, B-III, C-I, D-II",
+    "A-II, B-IV, C-III, D-I"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Four Key cards state the four principal value branches.",
+   "match": {
+    "kind": "card",
+    "id": "kc.mathematics.inverse-trigonometric-functions.formula-sec-inverse-branch",
+    "chapter": "Inverse Trigonometric Functions",
+    "front": "Formula: domain and principal value branch (range) of sec⁻¹",
+    "back": "The branch with range [0, π] – { 2 π } is called the principal value branch of the function sec–1\nsec–1 : R – (–1,1) → [0, π] – { 2 π }",
+    "source": "NCERT, Mathematics Part 1, chapter 2, page 23",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 19,
+   "paperNumber": 324,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Matrices",
+   "type": "numerical",
+   "stem": "If A is square matrix such that A² = A, then (2I + A)⁴ − 65A is equal to (Where I is identity matrix)",
+   "passage": null,
+   "options": [
+    "8I",
+    "16I",
+    "16I + A",
+    "8I + A"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row is the same question type with (I + A)^3 - 7A.",
+   "match": {
+    "kind": "question",
+    "id": "cb4f1503-5165-4373-a4d4-037a199e073a",
+    "chapter": "Matrices",
+    "stem": "If A is a square matrix such that A² = A and I is the identity matrix of the same order, then (I + A)³ − 7A is equal to",
+    "passage": null,
+    "options": [
+     "I + 7A",
+     "the matrix A",
+     "0",
+     "I"
+    ],
+    "key": 3,
+    "explanation": "I and A commute, so (I + A)³ = I + 3A + 3A² + A³. Using A² = A repeatedly gives A³ = A, so the expansion becomes I + 3A + 3A + A = I + 7A. Subtracting 7A leaves I, and the option I + 7A is what a student gets by forgetting to subtract.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 20,
+   "paperNumber": 325,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Matrices",
+   "type": "numerical",
+   "stem": "If A = [2 3; 1 2], such that A² − 4A + λI = 0, where I is identity matrix of order 2, then 'λ' is equal to",
+   "passage": null,
+   "options": [
+    "−1",
+    "1",
+    "−2",
+    "2"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 21,
+   "paperNumber": 326,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Matrices",
+   "type": "numerical",
+   "stem": "If A = [a_ij]_(3×3), a_ij = { 0, i ≠ j ; i + j, i = j }, then which of the following statements are correct ?\nA. A is scalar matrix\nB. A is diagonal matrix\nC. A is unit matrix\nD. A is symmetric matrix\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "B and C only",
+    "A, B and C only",
+    "B and D only",
+    "C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 22,
+   "paperNumber": 327,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Determinants",
+   "type": "numerical",
+   "stem": "If A(x₁, y₁), B(x₂, y₂) and C(x₃, y₃) are the vertices of an equilateral triangle whose each side is equal to k, then the value of | x₁  y₁  2 ; x₂  y₂  2 ; x₃  y₃  2 |² is",
+   "passage": null,
+   "options": [
+    "3k²",
+    "4k²",
+    "3k⁴",
+    "4k⁴"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 23,
+   "paperNumber": 328,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Determinants",
+   "type": "numerical",
+   "stem": "If x, y, z are all different from zero and | 1 + x  1  1 ; 1  1 + y  1 ; 1  1  1 + z | = 0, then the value of x⁻¹ + y⁻¹ + z⁻¹ is",
+   "passage": null,
+   "options": [
+    "xyz",
+    "−1",
+    "1",
+    "0"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 24,
+   "paperNumber": 329,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Determinants",
+   "type": "numerical",
+   "stem": "If A = [1 0 0; 3 3 0; 5 2 −1], then\nMatch the LIST-I with LIST-II\nLIST-I | LIST-II\nA. |adj A| | I. 81\nB. |A| | II. −27\nC. |A adj A| | III. 9\nD. |adj (adj A)| | IV. −3\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-II, B-III, C-IV, D-I",
+    "A-I, B-IV, C-II, D-III",
+    "A-IV, B-III, C-II, D-I",
+    "A-III, B-IV, C-II, D-I"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 25,
+   "paperNumber": 330,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Continuity & Differentiability",
+   "type": "numerical",
+   "stem": "Function f(x) = { k(x² − 6x + 13) : x < 1 ; |x − 3| : x ≥ 1 } is differentiable at x = 1, then the value of k is",
+   "passage": null,
+   "options": [
+    "4",
+    "1/4",
+    "−1/4",
+    "−4"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 26,
+   "paperNumber": 331,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Continuity & Differentiability",
+   "type": "numerical",
+   "stem": "If y = x^x, x > 0 then y″(2) − 2y′(2) is equal to",
+   "passage": null,
+   "options": [
+    "8 log_e 2 − 2",
+    "4(log_e 2)² + 2",
+    "4(log_e 2)² − 2",
+    "4(log_e 2) + 2"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 27,
+   "paperNumber": 332,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Continuity & Differentiability",
+   "type": "numerical",
+   "stem": "If x = sec θ + cos θ, y = secⁿ θ + cosⁿ θ, then dy/dx is equal to",
+   "passage": null,
+   "options": [
+    "n²(y² + 4)/(x² + 4)",
+    "n²(y² − 4)/(x² − 4)",
+    "n(√((y² + 4)/(x² + 4)))",
+    "n(√((y² − 4)/(x² − 4)))"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 28,
+   "paperNumber": 333,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "If f(x) = (x − a)² + (x − b)² + (x − c)², then f(x) has minimum at x equal to:",
+   "passage": null,
+   "options": [
+    "3√(abc)",
+    "3abc",
+    "(a + b + c)/3",
+    "3/(1/a + 1/b + 1/c)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows locate a minimum by f' = 0 and f'' > 0; letters in place of numbers.",
+   "match": {
+    "kind": "question",
+    "id": "24da61f4-332d-4048-b169-1a2088c0f0e9",
+    "chapter": "Application of Derivatives",
+    "stem": "Let f(x) = x³ − 3x² − 9x + 5. Match List-I with List-II.\nList-I\n(A) x-coordinate of the point of local maximum of f\n(B) x-coordinate of the point of local minimum of f\n(C) Local maximum value of f\n(D) Local minimum value of f\nList-II\n(I) 10\n(II) −22\n(III) −1\n(IV) 3\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+     "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)",
+     "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+     "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    ],
+    "key": 3,
+    "explanation": "f'(x) = 3(x − 3)(x + 1) gives critical points x = −1 and x = 3. Since f''(x) = 6x − 6 is negative at x = −1 and positive at x = 3, x = −1 is the local maximum and x = 3 the local minimum. f(−1) = 10 and f(3) = −22, so the correct mapping is (A)-(III), (B)-(IV), (C)-(I), (D)-(II).",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 334,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "For the Function f(x) = tan x − 4x, x ∈ (0, π/2), which of the following statements are correct?\nA. f(x) is increasing in (0, π/3)\nB. f(x) is increasing in (π/3, π/2)\nC. f(x) is decreasing in (0, π/3)\nD. f(x) is decreasing in (π/3, π/2)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and B only",
+    "A and D only",
+    "B and C only",
+    "B and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows split the domain by the sign of f'; the same steps on a trigonometric function.",
+   "match": {
+    "kind": "question",
+    "id": "83193176-5484-442e-921d-adc71ffa1dde",
+    "chapter": "Application of Derivatives",
+    "stem": "The function f(x) = x³ − 6x² + 9x + 1 is strictly decreasing in the interval",
+    "passage": null,
+    "options": [
+     "(1, 3)",
+     "(−∞, 1) ∪ (3, ∞)",
+     "(−1, 3)",
+     "(3, ∞)"
+    ],
+    "key": 0,
+    "explanation": "f′(x) = 3x² − 12x + 9 = 3(x − 1)(x − 3), which is negative exactly when 1 < x < 3. So f is strictly decreasing on (1, 3). The set (−∞, 1) ∪ (3, ∞) is where f′ is positive, so f is increasing there.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 335,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "The difference between the greatest and least values of the function f(x) = sin 2x − x on [−π/2, π/2] is",
+   "passage": null,
+   "options": [
+    "π/2",
+    "−√3/2 + π/6",
+    "π",
+    "√3/2 − π/6"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows find absolute extrema on a closed interval by comparing critical and end points.",
+   "match": {
+    "kind": "question",
+    "id": "ed2b7448-3d0f-4e70-9e56-ba29ba3bc47a",
+    "chapter": "Application of Derivatives",
+    "stem": "The maximum value of f(x) = x³ − 3x on the interval [−2, 2] is",
+    "passage": null,
+    "options": [
+     "−2",
+     "0",
+     "2",
+     "4"
+    ],
+    "key": 2,
+    "explanation": "f'(x) = 3x² − 3 = 0 gives x = ±1. The values are f(−2) = −2, f(−1) = 2, f(1) = −2 and f(2) = 2, so the greatest value on [−2, 2] is 2, attained at x = −1 and x = 2. The value −2 is the minimum, not the maximum.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 31,
+   "paperNumber": 336,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Integrals",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Indefinite Integral) | LIST-II (Solution (where c is an arbitrary constant))\nA. ∫ √(16 − x²) dx | I. sin⁻¹(x/4) + c\nB. ∫ dx/√(16 − x²) | II. (x/2)√(16 − x²) + 8 sin⁻¹(x/4) + c\nC. ∫ dx/√(x² − 16) | III. (1/8) log |(4 + x)/(4 − x)| + c\nD. ∫ dx/(16 − x²) | IV. log |x + √(x² − 16)| + c\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-IV, C-III, D-II",
+    "A-II, B-I, C-III, D-IV",
+    "A-IV, B-II, C-III, D-I",
+    "A-II, B-I, C-IV, D-III"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Four Key cards state the four standard integrals; the item puts a = 4 into them.",
+   "match": {
+    "kind": "card",
+    "id": "kc.mathematics.integrals.formula-integral-root-a2-minus-x2",
+    "chapter": "Integrals",
+    "front": "Formula: ∫ √(a² − x²) dx (root of a squared minus x squared)",
+    "back": "a2 − x2 dx = x a2 − x2 + a2 sin −1 x + C 2 2 a",
+    "source": "NCERT, Mathematics Part II, chapter 7, page 290",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 337,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Integrals",
+   "type": "numerical",
+   "stem": "∫ from −π/2 to π/2 of cos x/(1 + e^x) dx =",
+   "passage": null,
+   "options": [
+    "0",
+    "1",
+    "−1",
+    "2"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row uses the same property and adds the two forms.",
+   "match": {
+    "kind": "question",
+    "id": "35f55f2c-9dff-4ee8-a977-d2268c091670",
+    "chapter": "Integrals",
+    "stem": "The value of ∫₀^(π/2) sin x / (sin x + cos x) dx is",
+    "passage": null,
+    "options": [
+     "π/8",
+     "π/2",
+     "π/4",
+     "1"
+    ],
+    "key": 2,
+    "explanation": "Let I be the integral. Substituting x → π/2 − x gives I = ∫₀^(π/2) cos x / (sin x + cos x) dx. Adding the two forms gives 2I = ∫₀^(π/2) 1 dx = π/2, so I = π/4.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 33,
+   "paperNumber": 338,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Integrals",
+   "type": "numerical",
+   "stem": "∫ dx/((x + 1)√(x² − 1)) is equal to:\n[c is an arbitrary constant]",
+   "passage": null,
+   "options": [
+    "√((x + 1)/(x − 1)) + c",
+    "√(x/(x − 1)) + c",
+    "√((x − 1)/(x + 1)) + c",
+    "√(x/(x + 1)) + c"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 34,
+   "paperNumber": 339,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Application of Integrals",
+   "type": "numerical",
+   "stem": "In the given figure, area of the shaded portion is equal to\n[Figure: x- and y-axes; the curve y = 3 cos x runs from (0, 3) down to (π/2, 0); the line y = 3 and the line x = π/2 are drawn; the shaded region lies above the curve y = 3 cos x, below y = 3 and to the left of x = π/2.]",
+   "passage": null,
+   "options": [
+    "3",
+    "3π/2",
+    "3(π/2 − 1)",
+    "3(π − 1)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows find the area between a horizontal line and a curve as the integral of upper minus lower.",
+   "match": {
+    "kind": "question",
+    "id": "3dc623cc-4185-4477-b025-b76d7938e6f1",
+    "chapter": "Application of Integrals",
+    "stem": "The area of the region bounded by the curve y = x² and the line y = 4, in square units, is",
+    "passage": null,
+    "options": [
+     "16/3",
+     "32/3",
+     "8/3",
+     "64/3"
+    ],
+    "key": 1,
+    "explanation": "The curve and the line meet at x = ±2, and the line lies above the parabola on [−2, 2]. The area is ∫ from −2 to 2 of (4 − x²) dx = [4x − x³/3] from −2 to 2 = 32/3. The value 16/3 is the area over only one half, from 0 to 2.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 35,
+   "paperNumber": 340,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Application of Integrals",
+   "type": "numerical",
+   "stem": "The area of the region bounded by the line y = 3x + 2, the x-axis and the ordinates x = −1 and x = 1 is:",
+   "passage": null,
+   "options": [
+    "25/6",
+    "4",
+    "0",
+    "13/3"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row splits the area where the curve changes sign and adds the absolute parts.",
+   "match": {
+    "kind": "question",
+    "id": "d724586b-c52b-43c1-b3b1-ea045c7d032f",
+    "chapter": "Application of Integrals",
+    "stem": "The area of the region bounded by y = x³, the x-axis and the ordinates x = −1 and x = 2 equals:",
+    "passage": null,
+    "options": [
+     "15/4",
+     "17/4",
+     "4",
+     "1/4"
+    ],
+    "key": 1,
+    "explanation": "The curve lies below the x-axis for −1 < x < 0 and above it for 0 < x < 2, so the two parts are added as positive areas: ∫ from −1 to 0 of |x³| dx = 1/4 and ∫ from 0 to 2 of x³ dx = 4, giving 17/4. The single integral from −1 to 2 gives 15/4, which lets the negative part cancel instead of adding.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 36,
+   "paperNumber": 341,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Differential Equations",
+   "type": "numerical",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Differential Equations) | LIST-II (Solutions [c is an arbitrary constant])\nA. x dy = y dx | I. y = e^x + c\nB. log(dy/dx) = x | II. y = c e^x\nC. (y dx − dy)/y = 0 | III. xy = c\nD. x dy + y dx = 0 | IV. y = cx\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-IV, B-II, C-I, D-III",
+    "A-IV, B-I, C-II, D-III",
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-I, C-II, D-IV"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "All four are variables separable with routine integrals; bank rows solve part A exactly and show the log-to-exponential step.",
+   "match": {
+    "kind": "question",
+    "id": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+    "chapter": "Differential Equations",
+    "stem": "Consider the following statements:\n(A) Eliminating the constant A from y = Ax² gives the differential equation x(dy/dx) = 2y.\n(B) The equation dy/dx = (x² + y²)/(xy) is homogeneous.\n(C) The equation dy/dx = y/x has the solution y = x + C, where C is a constant.\n(D) Separating the variables in dy/dx = x/y leads to y² − x² = C.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (A), (B) and (C)",
+     "Only (B), (C) and (D)",
+     "Only (A) and (D)",
+     "Only (A), (B) and (D)"
+    ],
+    "key": 3,
+    "explanation": "From y = Ax², dy/dx = 2Ax = 2y/x, so x(dy/dx) = 2y and (A) is true. Scaling x and y by the same factor leaves (x² + y²)/(xy) unchanged, so (B) is true. Separating dy/y = dx/x gives y = Cx, not y = x + C, so (C) is false. Separating y dy = x dx gives y² = x² + 2K, which is y² − x² = C, so (D) is true.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 342,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Differential Equations",
+   "type": "theory",
+   "stem": "The general solution of the differential equation of the type dy/dx + py = Q is:\n(where P and Q are functions of x only or constant)",
+   "passage": null,
+   "options": [
+    "y e^(∫p dy) = ∫(Q e^(∫p dy)) dy + c: (where c is an arbitrary constant)",
+    "y e^(∫p dx) = ∫(Q e^(∫p dx)) dx + c : (where c is an arbitrary constant)",
+    "x e^(∫p dy) = ∫(Q e^(∫p dy)) dy + c : (where c is an arbitrary constant)",
+    "x e^(∫p dy) = ∫(Q e^(∫p dx)) dx + c (where c is an arbitrary constant)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards give the integrating factor and the general solution; a bank row works the y(I.F.) = int Q(I.F.) dx form.",
+   "match": {
+    "kind": "card",
+    "id": "kc.mathematics.differential-equations.formula-linear-general-solution-in-x",
+    "chapter": "Differential Equations",
+    "front": "Formula: the general solution of dy/dx + Py = Q, written out with the integrating factor",
+    "back": "y = e−∫ P dx. Q.e ∫ P dx dx + C\nwhich is the general solution of the differential equation.",
+    "source": "NCERT, Mathematics, chapter 9, page 323",
+    "more": {
+     "cards": 1,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 343,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Vector Algebra",
+   "type": "numerical",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. If |a⃗| = √26, |b⃗| = 7 and |a⃗ × b⃗| = 35, then |a⃗ · b⃗| is equal to | I. 4\nB. If 2î − 3ĵ + 4k̂ and aî − 6ĵ + 8k̂ are collinear, then 'a' is equal to | II. 2\nC. If 2î + ĵ + k̂ and 2î − 4ĵ + λk̂ are perpendicular, then λ is equal to | III. 7\nD. (î × ĵ) · k̂ + (ĵ × k̂) · î is equal to | IV. 0\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-III, B-II, C-IV, D-I",
+    "A-III, B-I, C-IV, D-II",
+    "A-II, B-I, C-III, D-IV",
+    "A-I, B-IV, C-II, D-III"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 39,
+   "paperNumber": 344,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Vector Algebra",
+   "type": "numerical",
+   "stem": "If a⃗ = xî + xĵ + yk̂, b⃗ = î + k̂ and c⃗ = yî + yĵ + zk̂ are three vectors such that a⃗ × b⃗ ⊥ c⃗, then",
+   "passage": null,
+   "options": [
+    "y² = xz",
+    "x² = yz",
+    "z² = xy",
+    "xyz = 1"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 40,
+   "paperNumber": 345,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Vector Algebra",
+   "type": "numerical",
+   "stem": "If a⃗ is any vector, then the value of |a⃗ × î|² + |a⃗ × ĵ|² + |a⃗ × k̂|² is equal to",
+   "passage": null,
+   "options": [
+    "2|a⃗|²",
+    "|a⃗|²",
+    "4|a⃗|²",
+    "3|a⃗|²"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 41,
+   "paperNumber": 346,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Vector Algebra",
+   "type": "numerical",
+   "stem": "If a⃗, b⃗ and c⃗ are three unit vectors such that a⃗ · b⃗ = a⃗ · c⃗ = 0 and angle between b⃗ and c⃗ is π/6, then",
+   "passage": null,
+   "options": [
+    "a⃗ = b⃗ × c⃗",
+    "a⃗ = ±(b⃗ × c⃗)",
+    "a⃗ = 2(b⃗ × c⃗)",
+    "a⃗ = ±2(b⃗ × c⃗)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 42,
+   "paperNumber": 347,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Three Dimensional Geometry",
+   "type": "numerical",
+   "stem": "If α, β, γ are angles of inclinations of a line with x, y and z-axis respectively, then which of the following are correct?\nA. cos²α + cos²β + cos²γ = 1\nB. cos 2α + cos 2β + cos 2γ = −1\nC. sin²α + sin²β + sin²γ = −2\nD. cos²α + cos²β + cos²γ = 2\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and B only",
+    "A, B and C only",
+    "B and D only",
+    "A and D only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 43,
+   "paperNumber": 348,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Three Dimensional Geometry",
+   "type": "numerical",
+   "stem": "The lines x = py + q, z = ry + s and x = p′y + q′, z = r′y + s′ are perpendicular if",
+   "passage": null,
+   "options": [
+    "pp′ + rr′ = 0",
+    "pp′ + rr′ + 1 = 0",
+    "p/p′ = r/r′",
+    "pp′ = rr′"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 44,
+   "paperNumber": 349,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Three Dimensional Geometry",
+   "type": "numerical",
+   "stem": "Two lines L₁ and L₂ are given as L₁: r⃗ = (î + 2ĵ + 3k̂) + λ(2î + 3ĵ + 4k̂) and L₂: r⃗ = (2î + 4ĵ + 5k̂) + μ(4î + 6ĵ + 8k̂), where λ and μ are real parameters. Then which of the following statements are correct ?\nA. Shortest distance between line L₁ and L₂ is √(5/29).\nB. line L₁ and L₂ are parallel.\nC. line L₁ and L₂ are concurrent lines.\nD. line L₁ and L₂ are perpendicular.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "B and C only",
+    "C and D only",
+    "A and C only",
+    "A and B only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 45,
+   "paperNumber": 350,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Linear Programming",
+   "type": "numerical",
+   "stem": "The objective function of a LPP is given by z = ax + by, where a and b are constants. If minimum of z occurs at two points (50, 30) and (20, 40), then",
+   "passage": null,
+   "options": [
+    "3b = a",
+    "3b + a = 0",
+    "3a + b = 0",
+    "3a − b = 0"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row is the same question with other points.",
+   "match": {
+    "kind": "question",
+    "id": "defeb784-7aff-4d43-9292-362d8af7362a",
+    "chapter": "Linear Programming",
+    "stem": "The corner points of the feasible region determined by the system of linear constraints are (0, 3), (1, 1), and (3, 0). If Z = px + qy (p, q > 0), the condition on p and q so that the minimum of Z occurs at both (3, 0) and (1, 1) is:",
+    "passage": null,
+    "options": [
+     "p = 2q",
+     "p = q/2",
+     "p = 3q",
+     "q = 2p"
+    ],
+    "key": 1,
+    "explanation": "If the minimum occurs at two points, Z(3,0) = Z(1,1). So, 3p + 0q = p + q => 2p = q => p = q/2.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 46,
+   "paperNumber": 351,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Linear Programming",
+   "type": "numerical",
+   "stem": "In the linear programming problem:\nMinimize z = x + y, subject to the constraints:\nx + 3y ≤ 60, x + y ≥ 10, x ≤ y, x ≥ 0, y ≥ 0\nWhich of the following region in graph given below represents the feasible region of the above LPP?\n[Figure: in the first quadrant the lines x + y = 10 (through (10, 0) and (0, 10)), x + 3y = 60 (through (60, 0) and (0, 20)) and y = x are drawn; four regions are labelled A, B, C and D. B is the hatched region against the y-axis between (0, 10) and (0, 20), bounded by x + y = 10, y = x and x + 3y = 60; A is the dotted region below y = x between x + y = 10 and x + 3y = 60; C lies above x + 3y = 60 next to the y-axis; D is the grey region on the right of y = x.]",
+   "passage": null,
+   "options": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 47,
+   "paperNumber": 352,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Probability",
+   "type": "numerical",
+   "stem": "A speaks truth in 80% cases and B in 90% cases. The probability that they contradict each other in stating the same fact, is:",
+   "passage": null,
+   "options": [
+    "17/50",
+    "13/50",
+    "19/50",
+    "11/50"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 48,
+   "paperNumber": 353,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Probability",
+   "type": "numerical",
+   "stem": "If A and B are two events such that P(A) = 1/2, P(B) = 1/3 and P(A ∩ B) = 1/4, then P(A′/B) =",
+   "passage": null,
+   "options": [
+    "3/4",
+    "1/4",
+    "1/2",
+    "5/8"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 49,
+   "paperNumber": 354,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Probability",
+   "type": "numerical",
+   "stem": "The probability of the simultaneous occurrence of two events A and B is p. If the probability that exactly one of A and B occurs is q, then\nA. P(Ā) + P(B̄) = 2 + 2q − p\nB. P(Ā) + P(B̄) = 2 − 2p − q\nC. P(Ā ∩ B̄) = 1 − p − q\nD. P((A ∩ B)|(A ∪ B)) = p/(p + q)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, C and D only",
+    "B, C and D only",
+    "C and D only",
+    "B only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 50,
+   "paperNumber": 355,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "chapter": "Probability",
+   "type": "numerical",
+   "stem": "A letter is known to have come for 'RAVINDRA' or 'DEVINDRAN'. On the envelop just two consecutive letters 'RA' are visible. The probability that the letter has come for 'RAVINDRA' is:",
+   "passage": null,
+   "options": [
+    "16/23",
+    "7/11",
+    "4/11",
+    "7/23"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 51,
+   "paperNumber": 356,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Financial Mathematics",
+   "type": "numerical",
+   "stem": "The effective rate that is equivalent to a nominal rate of 6% per annum compounded semi-annually is",
+   "passage": null,
+   "options": [
+    "6%",
+    "6.09%",
+    "0.069%",
+    "9.06%"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 52,
+   "paperNumber": 357,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Financial Mathematics",
+   "type": "numerical",
+   "stem": "Assume an investment's starting value is ₹ 10,000 and it grows to ₹ 60,000 in 4 years, then the CAGR % of the investment is,\n[given : (6)^(1/4) = 1.565]",
+   "passage": null,
+   "options": [
+    "65%",
+    "56.5%",
+    "65.5%",
+    "55.6%"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row finds the CAGR as the n-th root of the growth multiple minus 1.",
+   "match": {
+    "kind": "question",
+    "id": "4413281e-b267-4c9e-b508-d943bdc632b7",
+    "chapter": "Financial Mathematics",
+    "stem": "The value of a fund grows by 25% in the first year and by 80% in the second year. Its compound annual growth rate (CAGR) over the two years is:",
+    "passage": null,
+    "options": [
+     "62.5%",
+     "125%",
+     "52.5%",
+     "50%"
+    ],
+    "key": 3,
+    "explanation": "Over two years the value is multiplied by 1.25 × 1.80 = 2.25. CAGR is the constant yearly rate that gives this growth: (1 + g)² = 2.25, so 1 + g = 1.5 and g = 50%. Check: 1.5 × 1.5 = 2.25. The average of 25% and 80% is 52.5%, and the total gain of 125% divided by 2 is 62.5%; neither is a compound rate.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 53,
+   "paperNumber": 358,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Financial Mathematics",
+   "type": "numerical",
+   "stem": "Vishal purchased a machine costing ₹ 50,000. The estimated useful life of the machine is 10 years with a scrap value of ₹ 5,000. The annual depreciation using linear method is,",
+   "passage": null,
+   "options": [
+    "₹ 45,000",
+    "₹ 4,500",
+    "₹ 3500",
+    "₹ 2500"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row computes straight-line depreciation by the same formula.",
+   "match": {
+    "kind": "question",
+    "id": "23fda7f6-04bb-43cf-8611-002db1847e7c",
+    "chapter": "Financial Mathematics",
+    "stem": "A machine bought for ₹ 1,80,000 has a residual value of ₹ 30,000 and a useful life of 5 years. Using the straight-line method, its book value at the end of 2 years is:",
+    "passage": null,
+    "options": [
+     "₹ 1,20,000",
+     "₹ 60,000",
+     "₹ 1,08,000",
+     "₹ 1,50,000"
+    ],
+    "key": 0,
+    "explanation": "Annual depreciation = (cost − residual value) ÷ useful life = (1,80,000 − 30,000) ÷ 5 = ₹ 30,000. After 2 years the total depreciation is ₹ 60,000, so the book value is 1,80,000 − 60,000 = ₹ 1,20,000. The figure ₹ 60,000 is only the depreciation charged so far, and ignoring the residual value gives ₹ 36,000 a year and a book value of 1,80,000 − 72,000 = ₹ 1,08,000.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 54,
+   "paperNumber": 359,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Financial Mathematics",
+   "type": "numerical",
+   "stem": "Vatsala takes a loan of ₹ 2,00,000 at an interest rate of 10% per annum for 5 years. Her EMI using flat rate method is,",
+   "passage": null,
+   "options": [
+    "₹ 20,000",
+    "₹ 1,666.6",
+    "₹ 5,000",
+    "₹ 15,000"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row is the same flat-rate EMI calculation with other figures.",
+   "match": {
+    "kind": "question",
+    "id": "73fd584b-e7ae-410e-9954-92afabb63682",
+    "chapter": "Financial Mathematics",
+    "stem": "A loan of ₹ 60,000 is taken at 10% per annum flat rate for 2 years and is repaid in equal monthly instalments. The EMI under the flat rate method is:",
+    "passage": null,
+    "options": [
+     "₹ 2,500",
+     "₹ 2,750",
+     "₹ 6,000",
+     "₹ 3,000"
+    ],
+    "key": 3,
+    "explanation": "Under the flat rate method interest is charged on the original principal for the whole period: 60,000 × 10% × 2 = ₹ 12,000. Total repayment = 60,000 + 12,000 = ₹ 72,000, and spreading it over 2 × 12 = 24 months gives 72,000 ÷ 24 = ₹ 3,000. The figure ₹ 2,500 is the principal alone divided by 24, leaving out the interest.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 55,
+   "paperNumber": 360,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Financial Mathematics",
+   "type": "theory",
+   "stem": "Face value of a bond is",
+   "passage": null,
+   "options": [
+    "the rate at which a bond yields interest",
+    "the price at which the bond is sold to buyers at the time of issue",
+    "the annual interest rate paid by the bond issuer to the bond holder",
+    "the discount rate which returns the market price of a bond without embedded optionality"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 56,
+   "paperNumber": 361,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Financial Mathematics",
+   "type": "numerical",
+   "stem": "At what rate of interest per annum will the present value of a perpetuity of ₹ 500 payble at the end of every 6 months be ₹ 10,000?",
+   "passage": null,
+   "options": [
+    "15%",
+    "10%",
+    "20%",
+    "25%"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 57,
+   "paperNumber": 362,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Probability Distributions",
+   "type": "numerical",
+   "stem": "Let X denote the number of hours a person drive during a randomly selected working day. The probability that X can take the value x_i has the following form, where k is some unknown constant.\nP(X = x_i) = { 0.2, if x_i = 0 ; k x_i, if x_i = 1 or 2 ; k(4 − x_i), if x_i = 3 ; 0, otherwise }\nMatch the LIST-I with LIST-II\nLIST-I | LIST-II\nA. The value of k | I. 1\nB. The probability that the person drive atleast two hours on a selected working day | II. 0.4\nC. The probability that the person drive atmost three hours on a selected working day | III. 0.2\nD. The probability that the person drive atmost one hour on a selected working day | IV. 0.6\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-IV, C-I, D-II",
+    "A-IV, B-II, C-III, D-I",
+    "A-IV, B-III, C-II, D-I"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row finds k from the probabilities summing to 1 and then adds probabilities.",
+   "match": {
+    "kind": "question",
+    "id": "903ed426-c63d-4b7b-9c74-bf91b1628735",
+    "chapter": "Probability",
+    "stem": "A random variable X takes the values 1, 2, 3 and 4 such that P(X = x) = kx for x = 1, 2, 3, 4, where k is a constant. The value of P(X > 2) is",
+    "passage": null,
+    "options": [
+     "0.7",
+     "0.3",
+     "0.4",
+     "0.9"
+    ],
+    "key": 0,
+    "explanation": "The probabilities sum to k(1 + 2 + 3 + 4) = 10k = 1, so k = 1/10. Then P(X > 2) = P(X = 3) + P(X = 4) = 0.3 + 0.4 = 0.7. The value 0.3 is P(X ≤ 2), and 0.9 is P(X ≥ 2).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 58,
+   "paperNumber": 363,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Probability Distributions",
+   "type": "numerical",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. In a binomial distribution, if n = 20, q = 0.75 then its mean is | I. 25\nB. An unbiased coin is tossed 4 times. The mean of the number of tails is | II. 5\nC. In a binomial distribution, mean is 5 and variance is 4, then the number of trials is | III. 0.5\nD. In a binomial distribution, if mean is 8 and variance is 4, then the probability of success is | IV. 2\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-III, B-IV, C-I, D-II",
+    "A-II, B-I, C-IV, D-III",
+    "A-II, B-IV, C-I, D-III",
+    "A-II, B-I, C-III, D-IV"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 59,
+   "paperNumber": 364,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Probability Distributions",
+   "type": "numerical",
+   "stem": "If X is a Poisson variate such that 4P(X = 2) = 3P(X = 1), then the mean of the distribution is equal to:",
+   "passage": null,
+   "options": [
+    "1.5",
+    "2",
+    "3",
+    "4"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 60,
+   "paperNumber": 365,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Probability Distributions",
+   "type": "theory",
+   "stem": "In a math aptitude test, students scores are found to be normally distributed having mean as 45 and standard deviation 5. What percent of students scored more than the mean score?",
+   "passage": null,
+   "options": [
+    "45%",
+    "50%",
+    "5%",
+    "60%"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 61,
+   "paperNumber": 366,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Continuity & Differentiability",
+   "type": "numerical",
+   "stem": "If y = e^(4x) (92)^x ; then dy/dx is equal to\n(log_e x = log x)",
+   "passage": null,
+   "options": [
+    "4x e^(4x) · 92^(x−1)",
+    "e^(4x) 92^(x−1) [368 + x]",
+    "e^(4x) (92)^x [4 + log 92]",
+    "e^(4x) 92^x log 92"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 62,
+   "paperNumber": 367,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Differential Equations",
+   "type": "numerical",
+   "stem": "The order and degree of the following differential equation :\ny = px + √(a²p² + b²), where p = dy/dx, are",
+   "passage": null,
+   "options": [
+    "Order = 2 : degree = 2",
+    "Order = 1 : degree = 1",
+    "Order = 1 : degree = 2",
+    "Order = 2 : degree = 1"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 63,
+   "paperNumber": 368,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "The demand function for a certain product is represented by the equation p = 150 + 12x − x², where x is the number of units demanded and p is the price per unit. The marginal revenue when 5 units are sold is",
+   "passage": null,
+   "options": [
+    "₹ 195",
+    "₹ 282",
+    "₹ 91",
+    "₹ 185"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 64,
+   "paperNumber": 369,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "The function f(x) = 4x³ − 18x² + 27x − 7 has:-",
+   "passage": null,
+   "options": [
+    "Maxima at x = 3/2",
+    "Minima at x = 3/2",
+    "Point of inflexion at x = 3/2",
+    "Maximum value of function is 156"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 65,
+   "paperNumber": 370,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Application of Derivatives",
+   "type": "numerical",
+   "stem": "The function f(x) = 2/x + 5, x ≠ 0 is",
+   "passage": null,
+   "options": [
+    "increasing function for x ∈ ℝ − {0}",
+    "increasing function for x ∈ (0, ∞)",
+    "neither increasing nor decreasing function for x ∈ (0, ∞)",
+    "decreasing function for x ∈ ℝ − {0}"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row takes the derivative of 1/x on R - {0} and reads its sign; the paper scales and shifts it.",
+   "match": {
+    "kind": "question",
+    "id": "ac6a6f98-94fa-4360-b0d4-66175ce8f866",
+    "chapter": "Application of Derivatives",
+    "stem": "Consider the following statements:\n(A) f(x) = x³ is strictly increasing on R.\n(B) f(x) = 1/x is increasing on its domain R − {0}.\n(C) f(x) = x² is strictly increasing on the interval (0, ∞).\n(D) f(x) = sin x is strictly increasing on the interval (0, π).\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A), (B) and (C) only",
+     "(A) and (C) only",
+     "(A) and (D) only",
+     "(B) and (D) only"
+    ],
+    "key": 1,
+    "explanation": "f'(x) = 3x² is positive except at x = 0, so x³ is strictly increasing on R and (A) is correct. The derivative 2x of x² is positive on (0, ∞), so (C) is correct. The derivative of 1/x is −1/x² < 0, so (B) is false, and cos x is negative on (π/2, π), so (D) is false.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 66,
+   "paperNumber": 371,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Integrals",
+   "type": "numerical",
+   "stem": "∫ (x + 1)e^x dx is equal to\n[C is an arbitrary constant]",
+   "passage": null,
+   "options": [
+    "(x + 1)e^x + C",
+    "e^x + C",
+    "xe^x + C",
+    "(x + 1) + C"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows integrate e^x[f + f'] and x e^x by the same formula and steps.",
+   "match": {
+    "kind": "question",
+    "id": "2b6807ae-c16c-4267-b420-5722c0ed952d",
+    "chapter": "Integrals",
+    "stem": "∫ eˣ (1/x − 1/x²) dx is equal to (where C is the constant of integration)",
+    "passage": null,
+    "options": [
+     "−eˣ/x + C",
+     "eˣ/x² + C",
+     "eˣ/x + C",
+     "eˣ(x − 1)/x² + C"
+    ],
+    "key": 2,
+    "explanation": "Since d/dx (eˣ/x) = eˣ/x − eˣ/x², the integrand is exactly d/dx (eˣ/x). Hence the integral is eˣ/x + C. Option D equals the integrand itself, not its antiderivative.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 67,
+   "paperNumber": 372,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Differential Equations",
+   "type": "numerical",
+   "stem": "Particular solution of the differential equation (x − 1) dy/dx = 2xy, when y(2) = 1 is:- (consider log_e x = log x)",
+   "passage": null,
+   "options": [
+    "log|y| + log(x − 1)² = 2x + 4",
+    "log|y| − log(x − 1)² = 2x − 4",
+    "log|y| + log(x − 1)² = 2x − 4",
+    "log|y| − log(x − 1)² = 2x + 4"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows solve separable initial value problems the same way; dividing 2x by x - 1 is routine algebra.",
+   "match": {
+    "kind": "question",
+    "id": "cf6144bf-869b-479a-99de-b5a4fd2b9c0e",
+    "chapter": "Differential Equations",
+    "stem": "The solution of the differential equation dy/dx = 2xy, given that y = 3 when x = 0, is",
+    "passage": null,
+    "options": [
+     "y = 3e^(x²)",
+     "y = 3e^(2x)",
+     "y = e^(x²) + 3",
+     "y = 3e^(−x²)"
+    ],
+    "key": 0,
+    "explanation": "Separating the variables gives dy/y = 2x dx, so ln|y| = x² + C and y = Ae^(x²). The condition y = 3 at x = 0 gives A = 3, so y = 3e^(x²).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 68,
+   "paperNumber": 373,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Linear Programming",
+   "type": "theory",
+   "stem": "Let R be the feasible region for a linear programming problem, and Let z = ax + by be the objective function. If the feasible region R is bounded then which of the following are true ?\nA. The maximum or minimum value of objective function may not exist.\nB. The objective function z has both a maximum and a minimum value on R.\nC. Maximum and minimum values lie in the unbounded region\nD. The objective function z = ax + by has both a maximum value and a minimum value and each of these values occurs at a corner point of R.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and B only",
+    "A and D only",
+    "B and D only",
+    "C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card states Theorem 2 in the words of statements B and D.",
+   "match": {
+    "kind": "card",
+    "id": "kc.mathematics.linear-programming.fact-theorem-2",
+    "chapter": "Linear Programming",
+    "front": "Theorem 2: what happens to the objective function if the feasible region R is bounded?",
+    "back": "the objective function Z has both a maximum and a minimum value on R and each of these occurs at a corner point (vertex) of R.",
+    "source": "NCERT, Mathematics Part II, chapter 12, page 398",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 69,
+   "paperNumber": 374,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Linear Programming",
+   "type": "numerical",
+   "stem": "Consider a LPP given by\nMaximize Z = 38x + 19y\nSubjected to 3x + 5y ≤ 15, 5x + 2y ≤ 10, and x, y ≥ 0\nThe optimum value of Z is,",
+   "passage": null,
+   "options": [
+    "85",
+    "190",
+    "240",
+    "57"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row is the same corner-point calculation with other figures.",
+   "match": {
+    "kind": "question",
+    "id": "fb49ae9d-67bf-43c2-a22c-892e32b2e08d",
+    "chapter": "Linear Programming",
+    "stem": "The maximum value of Z = 3x + 4y, subject to x + y ≤ 4, x + 3y ≤ 6, x ≥ 0 and y ≥ 0, is",
+    "passage": null,
+    "options": [
+     "8",
+     "12",
+     "16",
+     "13"
+    ],
+    "key": 3,
+    "explanation": "The corner points of the feasible region are (0, 0), (4, 0), (3, 1) and (0, 2), where (3, 1) is the intersection of x + y = 4 and x + 3y = 6. Z takes the values 0, 12, 13 and 8 at these points, so the maximum is 13 at (3, 1). The value 16 comes from (0, 4), which violates x + 3y ≤ 6.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 70,
+   "paperNumber": 375,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Inferential Statistics",
+   "type": "theory",
+   "stem": "Which of the following is/are true about parameter ?\nA. It is a characteristic of a sample.\nB. It is a characterstic of a population.\nC. It is a numerical value that is taken from the entire population, such as the population mean.\nD. It is the numerical value taken from a sample and calculated from the sample observations alone.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A only",
+    "B and D only",
+    "B and C only",
+    "A and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row separates statistics (from the sample) from parameters (of the population), which gives B and C and rules out A and D.",
+   "match": {
+    "kind": "question",
+    "id": "691312f0-4190-4917-b995-51cf5cc405ae",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "stem": "Which of the following is a sample statistic rather than a population parameter?",
+    "passage": null,
+    "options": [
+     "Sample mean (x̄)",
+     "Population mean (μ)",
+     "Population variance (σ²)",
+     "Population proportion (p)"
+    ],
+    "key": 0,
+    "explanation": "A sample mean is computed from observed data and is a statistic, while μ, σ², p denote population parameters.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 71,
+   "paperNumber": 376,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Inferential Statistics",
+   "type": "numerical",
+   "stem": "Consider a office having seating capacity of 58 employees and all of them are to be seated in such a way that an employee can sit on any available vacant seat . What will be the degree of freedom?",
+   "passage": null,
+   "options": [
+    "58",
+    "57",
+    "59",
+    "58.5"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 72,
+   "paperNumber": 377,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Inferential Statistics",
+   "type": "numerical",
+   "stem": "The following data are from a simple random sample: 3, 7, 4, 12, 4, 12. The point estimate of the population mean is,",
+   "passage": null,
+   "options": [
+    "42",
+    "7",
+    "24",
+    "6"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows estimate the population mean by the sample mean; the same calculation.",
+   "match": {
+    "kind": "question",
+    "id": "d542e90b-584b-420c-a7cc-d68f725a041d",
+    "chapter": "Inferential Statistics",
+    "stem": "For a sample from N(μ, σ^2) with known σ^2=1 and observations 1, 3, 5, the maximum likelihood estimate (MLE) of μ is:",
+    "passage": null,
+    "options": [
+     "3",
+     "1",
+     "5",
+     "0"
+    ],
+    "key": 0,
+    "explanation": "With known variance the MLE of μ is the sample mean: (1+3+5)/3 = 3.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 73,
+   "paperNumber": 378,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Time Based Data",
+   "type": "theory",
+   "stem": "The patterns and behavior of the data in any time series are based on which of the following components.\nA. Seasonal component\nB. Secular trend component\nC. Irregular component\nD. Cyclical component\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and B only",
+    "B and C only",
+    "B, C and D only",
+    "A, B, C and D"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 74,
+   "paperNumber": 379,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Time Based Data",
+   "type": "numerical",
+   "stem": "The number of wedding cards, in thousands, distributed in a certain city on each day for a week is given as follows:-\n21, 35, 19, 27, 32, 22, 12.\nThe three days moving averages will be:",
+   "passage": null,
+   "options": [
+    "25, 28, 26, 23, 21",
+    "25, 24, 23, 27, 26",
+    "25, 27, 26, 27, 22",
+    "24, 28, 26, 22, 25"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row states the 3-period moving average and works it with numbers (backwards); the forward computation adds no step.",
+   "match": {
+    "kind": "question",
+    "id": "c88a4ac5-7a46-41a8-98f4-ee80e8c09247",
+    "chapter": "Time Based Data",
+    "stem": "The first two values of a time series are 10 and 15. Its 3-year moving averages for the second and third years are 17 and 19. The fourth value of the series is:",
+    "passage": null,
+    "options": [
+     "16",
+     "19",
+     "21",
+     "26"
+    ],
+    "key": 0,
+    "explanation": "A 3-year moving average is the mean of three consecutive values. From the second average, 3 × 17 = 51 = 10 + 15 + third value, so the third value is 26. From the third average, 3 × 19 = 57 = 15 + 26 + fourth value, so the fourth value is 16. Adding 3 × (19 − 17) = 6 to the second value gives 21, which is wrong because the first value is the one that drops out of the window.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 75,
+   "paperNumber": 380,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Determinants",
+   "type": "numerical",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Matrix A) | LIST-II (|adj A|)\nA. A = [2 4; 1 3] | I. 1\nB. A = [5 2; 7 4] | II. 7\nC. A = [1 0; 0 1] | III. 2\nD. A = [6 1; 5 2] | IV. 6\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - IV, B - II, C - III, D - I",
+    "A - III, B - IV, C - I, D - II",
+    "A - III, B - IV, C - II, D - I"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank row applies |adj A| = |A|^(n-1) to find |adj A|; here n = 2 with four 2x2 determinants.",
+   "match": {
+    "kind": "question",
+    "id": "5590c1cd-39cf-4740-a079-6156673b0670",
+    "chapter": "Matrices",
+    "stem": "If A is a square matrix of order 3 such that |A| = 5, then the value of |adj(A)| is:",
+    "passage": null,
+    "options": [
+     "25",
+     "125",
+     "5",
+     "1"
+    ],
+    "key": 0,
+    "explanation": "Using the property |adj(A)| = |A|^(n-1), where n=3, we get 5^(3-1) = 5^2 = 25.",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 76,
+   "paperNumber": 381,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Matrices",
+   "type": "theory",
+   "stem": "For a given square matrix A of order n, if there exists another square matrix B of the same order n, such that AB = BA = I, then A is said to be invertible and B is called the inverse matrix of A.\nWhich of the following statements are not TRUE ?\nA. Inverse of a matrix, if it exists, is unique.\nB. For two invertible matrices of same order, say A and B, then (AB)⁻¹ = A⁻¹B⁻¹\nC. For an invertible matrix A, (A⁻¹)⁻¹ = A\nD. For an invertible matrix A, (Aᵀ)⁻¹ = Aᵀ\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and C only",
+    "B and D only",
+    "A, C and D only",
+    "A and D only"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 77,
+   "paperNumber": 382,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Determinants",
+   "type": "numerical",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. If A is a square matrix of order 3 such that |A| = 3, then |adj (adj A)| = | I. 16\nB. If A is a non-singular matrix and |A| = 1/16, then |A⁻¹| = | II. 512\nC. If A is a square matrix of order 4 such that |A| = 2, then |adj (adj A)| = | III. 9\nD. If A is a square matrix of order 2 such that |A| = 9, then |adj (adj A)| = | IV. 81\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A - IV, B - I, C - III, D - II",
+    "A - IV, B - I, C - II, D - III",
+    "A - I, B - IV, C - III, D - II",
+    "A - III, B - I, C - IV, D - II"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 78,
+   "paperNumber": 383,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Matrices",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. Row matrix | I. [1 0 0; 0 2 0; 0 0 3]\nB. Scalar matrix | II. [1; 2; 3]\nC. Column matrix | III. [1 2 3]\nD. Diagonal matrix | IV. [2 0 0; 0 2 0; 0 0 2]\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A - III, B - II, C - I, D - IV",
+    "A - III, B - II, C - IV, D - I",
+    "A - III, B - IV, C - II, D - I",
+    "A - III, B - I, C - IV, D - II"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Bank rows (and Key cards) define all four types; the item matches them to examples.",
+   "match": {
+    "kind": "question",
+    "id": "300047ea-3dc7-4cf4-bc6f-abcb00cd5b7f",
+    "chapter": "Matrices",
+    "stem": "Match List-I with List-II. List-I: (A) Scalar matrix (B) Skew-symmetric matrix (C) Row matrix (D) Column matrix. List-II: (I) Aᵀ = −A (II) Order 1 × n (III) Order m × 1 (IV) Diagonal matrix with all diagonal entries equal. Choose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)",
+     "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)",
+     "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)",
+     "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+    ],
+    "key": 2,
+    "explanation": "A scalar matrix is a diagonal matrix whose diagonal entries are all equal, a skew-symmetric matrix satisfies Aᵀ = −A, a row matrix has a single row so its order is 1 × n, and a column matrix has a single column so its order is m × 1. Swapping the row and column matrices is the usual slip, because both have only one line of entries.",
+    "more": {
+     "cards": 4,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 79,
+   "paperNumber": 384,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Matrices",
+   "type": "theory",
+   "stem": "The sum of two skew-symmetric matrices of the same order is a",
+   "passage": null,
+   "options": [
+    "symmetric matrix",
+    "zero matrix",
+    "skew-symmetric matrix",
+    "diagonal matrix"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 80,
+   "paperNumber": 385,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "theory",
+   "stem": "Which of the following properties are not correct for three real numbers a, b and c?\nA. If a > b and b > c, then a < c\nB. If a > b, and c < 0, then ac < bc\nC. If a > b, and c < 0, then a ÷ c < b ÷ c\nD. If a > b and c > 0, then a ÷ c < b ÷ c\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and D only",
+    "B, C and D only",
+    "A and B only",
+    "B and C only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 81,
+   "paperNumber": 386,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "numerical",
+   "stem": "A tin container contains 50 litres of cow milk. From this container 5 litres cow milk was taken out and replaced with soya milk. This process was repeated further two more times. How much cow milk is there in the container now?",
+   "passage": null,
+   "options": [
+    "364.5 litres",
+    "36.45 litres",
+    "3.645 litres",
+    "40 litres"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 82,
+   "paperNumber": 387,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "numerical",
+   "stem": "If 53 ≡ y (mod 6), then the possible values of y are:-",
+   "passage": null,
+   "options": [
+    "......... 64, 58, 52, 46, 40, ........",
+    "......... 70, 76, 81, 87, 93, 98, ........",
+    "......... 65, 59, 53, 47, 41, ........",
+    "......... 70, 76, 82, 88, 94, 97 ........"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 83,
+   "paperNumber": 388,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "numerical",
+   "stem": "A man can row a boat in still water at the rate of 17 km/hr. He finds that it takes him thrice as long to row upstream of a river as to row downstream of the same river. The speed of of the stream is,",
+   "passage": null,
+   "options": [
+    "15 km/hr",
+    "11.5 km/hr",
+    "8.5 km/hr",
+    "6 km/hr"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 84,
+   "paperNumber": 389,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "numerical",
+   "stem": "Two pipes A and B can fill a tank in 12 minutes and 15 minutes respectively while a third pipe C can empty the full tank in 20 minutes. All the three pipes are opened in the beginning but pipe C is closed 6 minutes before the tank is filled. In what time will the tank is full?",
+   "passage": null,
+   "options": [
+    "15 minutes",
+    "10 minutes",
+    "7 minutes",
+    "17 minutes"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 85,
+   "paperNumber": 390,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "type": "numerical",
+   "stem": "In a 700 m race, A reaches the finishing point in 30 seconds & B reaches in 35 seconds. By how much distance A beats B?",
+   "passage": null,
+   "options": [
+    "75 m",
+    "50 m",
+    "100 m",
+    "200 m"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-23T17:49:47.053Z",
+ "builtAt": "2026-11-23T18:02:03.912Z",
  "snapshotDate": "2026-11-23",
  "snapshotDay": "23 November 2026",
  "snapshotDates": [
@@ -92,6 +92,58 @@
    "firstDay": "20 November 2026",
    "addedCards": 11,
    "addedQuestions": 8,
+   "found": 0
+  },
+  {
+   "id": "chemistry",
+   "name": "Chemistry",
+   "stream": "science",
+   "examDate": "2026-05-24",
+   "examDay": "24 May 2026",
+   "shift": "first shift",
+   "total": 50,
+   "counted": 50,
+   "covered": 40,
+   "pct": 80,
+   "same": 0,
+   "newValues": 0,
+   "concept": 40,
+   "notYet": 10,
+   "skill": 0,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true,
+   "first": 40,
+   "firstPct": 80,
+   "firstDay": "23 November 2026",
+   "addedCards": 0,
+   "addedQuestions": 0,
+   "found": 0
+  },
+  {
+   "id": "computer-science",
+   "name": "Computer Science",
+   "stream": "science",
+   "examDate": "2026-05-24",
+   "examDay": "24 May 2026",
+   "shift": "first shift",
+   "total": 85,
+   "counted": 85,
+   "covered": 69,
+   "pct": 81,
+   "same": 0,
+   "newValues": 0,
+   "concept": 69,
+   "notYet": 16,
+   "skill": 0,
+   "offSyllabus": 0,
+   "dropped": 0,
+   "final": true,
+   "first": 69,
+   "firstPct": 81,
+   "firstDay": "23 November 2026",
+   "addedCards": 0,
+   "addedQuestions": 0,
    "found": 0
   },
   {
@@ -252,33 +304,33 @@
   }
  ],
  "total": {
-  "counted": 416,
-  "covered": 405,
+  "counted": 551,
+  "covered": 514,
   "same": 86,
   "newValues": 21,
-  "concept": 298,
-  "notYet": 11,
+  "concept": 407,
+  "notYet": 37,
   "skill": 39,
-  "pct": 97
+  "pct": 93
  },
  "firstCheck": {
   "from": "2026-11-20",
-  "to": "2026-11-22",
+  "to": "2026-11-23",
   "fromDay": "20 November 2026",
-  "toDay": "22 November 2026",
-  "covered": 288,
-  "counted": 416,
-  "pct": 69,
+  "toDay": "23 November 2026",
+  "covered": 397,
+  "counted": 551,
+  "pct": 72,
   "addedCards": 72,
   "addedQuestions": 43,
   "found": 2,
   "same": 67,
   "newValues": 4,
-  "questions": 455
+  "questions": 590
  },
  "chapters": {
-  "asked": 114,
-  "withPractice": 114,
+  "asked": 142,
+  "withPractice": 142,
   "minServed": 10,
   "rule": "A chapter has practice in MockMob when at least one of its questions is in MockMob, or MockMob serves at least 10 questions from it (the stored daily count of served questions per chapter).",
   "list": [
@@ -584,6 +636,230 @@
     "asked": 2,
     "covered": 2,
     "served": 27,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Alcohols, Phenols & Ethers",
+    "asked": 5,
+    "covered": 4,
+    "served": 35,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+    "asked": 5,
+    "covered": 5,
+    "served": 38,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Amines",
+    "asked": 5,
+    "covered": 5,
+    "served": 41,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Biomolecules",
+    "asked": 5,
+    "covered": 4,
+    "served": 29,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Chemical Kinetics",
+    "asked": 5,
+    "covered": 4,
+    "served": 39,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Coordination Compounds",
+    "asked": 5,
+    "covered": 4,
+    "served": 34,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "d- and f-Block Elements",
+    "asked": 5,
+    "covered": 2,
+    "served": 33,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Electrochemistry",
+    "asked": 5,
+    "covered": 4,
+    "served": 29,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Haloalkanes & Haloarenes",
+    "asked": 5,
+    "covered": 4,
+    "served": 28,
+    "practice": true
+   },
+   {
+    "subject": "chemistry",
+    "chapter": "Solutions",
+    "asked": 5,
+    "covered": 4,
+    "served": 89,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Data Handling using Pandas",
+    "asked": 12,
+    "covered": 11,
+    "served": 24,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Computer Networks",
+    "asked": 8,
+    "covered": 6,
+    "served": 26,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Structured Query Language",
+    "asked": 8,
+    "covered": 8,
+    "served": 39,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Database Concepts",
+    "asked": 6,
+    "covered": 6,
+    "served": 25,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Plotting Data using Matplotlib",
+    "asked": 6,
+    "covered": 5,
+    "served": 7,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Societal Impacts",
+    "asked": 5,
+    "covered": 4,
+    "served": 14,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Database Query using SQL",
+    "asked": 4,
+    "covered": 3,
+    "served": 0,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Introduction to Computer Networks",
+    "asked": 4,
+    "covered": 4,
+    "served": 0,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Project Based Learning",
+    "asked": 4,
+    "covered": 3,
+    "served": 9,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Queue",
+    "asked": 4,
+    "covered": 3,
+    "served": 28,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Searching",
+    "asked": 4,
+    "covered": 3,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Sorting",
+    "asked": 4,
+    "covered": 2,
+    "served": 20,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Stack",
+    "asked": 4,
+    "covered": 3,
+    "served": 10,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Security Aspects",
+    "asked": 3,
+    "covered": 2,
+    "served": 15,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Understanding Data",
+    "asked": 3,
+    "covered": 1,
+    "served": 16,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Data Communication",
+    "asked": 2,
+    "covered": 1,
+    "served": 28,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "Exception and File Handling in Python",
+    "asked": 2,
+    "covered": 2,
+    "served": 24,
+    "practice": true
+   },
+   {
+    "subject": "computer-science",
+    "chapter": "File Handling",
+    "asked": 2,
+    "covered": 2,
+    "served": 15,
     "practice": true
    },
    {
@@ -1198,22 +1474,18 @@
  },
  "skipped": [
   {
-   "id": "chemistry",
-   "why": "paper without both checks"
-  },
-  {
-   "id": "computer-science",
-   "why": "paper without both checks"
-  },
-  {
-   "id": "mathematics",
-   "why": "paper without both checks"
-  },
-  {
    "id": "physics",
    "why": "paper without both checks"
   }
  ],
- "held": [],
+ "held": [
+  {
+   "id": "mathematics",
+   "covered": 33,
+   "counted": 85,
+   "pct": 39,
+   "why": "no final check yet"
+  }
+ ],
  "showMinPct": 80
 }

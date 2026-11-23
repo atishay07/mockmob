@@ -1,0 +1,2177 @@
+{
+ "paper": "cuet2026-mathematics",
+ "subject": "mathematics",
+ "subjectName": "Mathematics / Applied Mathematics",
+ "subjectCode": "319",
+ "examDate": "2026-05-24",
+ "shift": "Second",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Mathematics, 76 PDF pages: a cover plus 75 numbered pages), https://docs.aglasem.com/view/7add6874-c701-11f1-ad78-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/7add6874-c701-11f1-ad78-0aa932765c8b/7add6874-c701-11f1-ad78-0aa932765c8b.pdf (15,153,474 bytes, ETag cb3d9d259b9af2255dfa763df01c9c99, Last-Modified 13 Oct 2026, sha256 2be9b1efde2ad95bc9f421d322dd3f2988c08750a2ed30404a6ea00212d25c4b), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 request ('download the papers for the subjects remaining'). English text transcribed from the page images (OCR used only for ids). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 319.",
+ "provenance": {
+  "viewUrl": "https://docs.aglasem.com/view/7add6874-c701-11f1-ad78-0aa932765c8b",
+  "pdfUrl": "https://cdn.aglasem.com/aglasem-doc/7add6874-c701-11f1-ad78-0aa932765c8b/7add6874-c701-11f1-ad78-0aa932765c8b.pdf",
+  "downloadedOn": "2026-11-23",
+  "fileBytes": 15153474,
+  "etag": "cb3d9d259b9af2255dfa763df01c9c99",
+  "lastModified": "2026-10-13",
+  "sha256": "2be9b1efde2ad95bc9f421d322dd3f2988c08750a2ed30404a6ea00212d25c4b",
+  "localFile": "tmp/1123-papers/mathematics/pdf/cuet2026-mathematics.pdf",
+  "finalKey": "cuet-2026-final-keys.pdf (NTA CUET (UG) 2026 final answer key), subject 319, 24 shifts (23 x 85 rows, 30-05-2026 First 84 rows); rows extracted to tmp/1123-papers/mathematics/work/keys-mathematics.json",
+  "shift": "24-05-2026 (Second)",
+  "questionsAuthenticated": 85
+ },
+ "structure": "Group 'Core Mathematics and Applied Mathematics' (group marks 250, 60 minutes): Section A Common, mandatory, 15 questions (306-320, 75 marks); Section B1: Mathematics, optional, 35 questions (321-355, 175 marks); Section B2: Applied Mathematics, optional, 35 questions (356-390, 175 marks). A candidate answers Section A plus one of B1 or B2 (50 questions). All 85 printed questions are in the shift's final key. Each question is printed in English, then in Hindi (same question id and option ids).",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 319 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question (2268953069709 to 2268953070048 across the 85 questions).",
+ "transcribedBy": "Subagent paper stage, 23 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed, read from the page images. Spelling and wording kept as printed (e.g. Q361 'payble', Q376 'a office', Q375 'characterstic', Q388 'The speed of of the stream', Q389 'will the tank is full', Q355 'envelop', Q362 'a person drive').",
+  "Math is written in plain Unicode: fractions as a/b, powers with ^ or superscripts, matrices row by row as [a b; c d], determinants as | ... ; ... |, vectors with an arrow (a⃗) and unit vectors î, ĵ, k̂.",
+  "Page = the PDF page (pNN of the 76-page PDF; the printed footer is one lower) where the question's English option ids end.",
+  "Match tables are written as rows 'List-I item | List-II item' in the order the paper prints them.",
+  "Q339 and Q351 carry figures; each is described in words inside the stem in square brackets.",
+  "Q342: the stem prints 'dy/dx + py = Q' with a small p but then says 'where P and Q are functions of x'; kept as printed. NTA's key is option 2 (y e^(∫p dx) = ∫(Q e^(∫p dx)) dx + c), the NCERT form.",
+  "Q370: NTA's key is option 4 ('decreasing function for x ∈ ℝ − {0}'). f′(x) = −2/x² < 0 on each of (−∞, 0) and (0, ∞), so f is decreasing on each interval; strictly it is not decreasing on their union (f(−1) = 3 < f(1) = 7). Option 4 is the only defensible option; kept as NTA's published key and flagged for the coverage stage.",
+  "Q385: the operator in statements C and D is printed as '÷'; with that reading NTA's key (option 1, A and D only are not correct) is right.",
+  "Every key was re-derived by working the question; all 85 agree with NTA's final key (Q370 as noted).",
+  "OCR (RapidOCR) read every option id but missed 42 of the 85 bold header lines; for those the question id was read from the page image and checked against the key (the key's option id must fall in the question's printed option-id block, and the ids run consecutively 226895791572 to 226895791656 in paper order). Where OCR did read the header (43 questions) it agrees with the visual read.",
+  "The shift's key has 85 rows, all single-answer, none dropped. NTA's final key for subject 319 holds 24 shifts; this paper is the 24-05-2026 Second shift and all 85 question ids fall in that one shift."
+ ],
+ "counts": {
+  "questions": 85,
+  "transcribed": 85,
+  "authenticated": 85,
+  "keyRows": 85,
+  "sectionA": 15,
+  "sectionB1": 35,
+  "sectionB2": 35,
+  "ocrSlipsFixed": 0
+ },
+ "problems": [],
+ "passages": {},
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 306,
+   "questionId": "226895791572",
+   "page": 3,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "A is any matrix, defined by A = [a_ij]_(3×3), where a_ij = |i − j|, then which of the following statements are true ?\nA. A is symmetric matrix.\nB. A is skew-symmetric matrix.\nC. A is diagonal matrix.\nD. A is non singular matrix.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and B only",
+    "B and C only",
+    "A and D only",
+    "B and D only"
+   ],
+   "optionIds": [
+    "2268953069709",
+    "2268953069710",
+    "2268953069711",
+    "2268953069712"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069711",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 2,
+   "paperNumber": 307,
+   "questionId": "226895791573",
+   "page": 4,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "If AB = A and BA = B, where A and B are square matrices of same order, then",
+   "options": [
+    "B² = B, A² = A",
+    "B² ≠ B and A² = A",
+    "A² ≠ A, B² = B",
+    "A² ≠ A, B² ≠ B"
+   ],
+   "optionIds": [
+    "2268953069713",
+    "2268953069714",
+    "2268953069715",
+    "2268953069716"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069713",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 3,
+   "paperNumber": 308,
+   "questionId": "226895791574",
+   "page": 5,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "If Δ = | 1  x  x² ; x²  1  x ; x  x²  1 | = (1 + ax³)^b, then which of the following statements are TRUE?\nA. a = −1 and b = 2\nB. x = 1 is a multiple root of Δ = 0\nC. x = 1 is a simple root of Δ = 0\nD. x = 3 is a simple root of Δ = 0\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and D only",
+    "A and C only",
+    "A, B and D only",
+    "A and B only"
+   ],
+   "optionIds": [
+    "2268953069717",
+    "2268953069718",
+    "2268953069719",
+    "2268953069720"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069720",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 4,
+   "paperNumber": 309,
+   "questionId": "226895791575",
+   "page": 6,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "If A is a square matrix of order 3 × 3, and |adj A| = 25, then the value of |2A| is",
+   "options": [
+    "20",
+    "± 20",
+    "40",
+    "± 40"
+   ],
+   "optionIds": [
+    "2268953069721",
+    "2268953069722",
+    "2268953069723",
+    "2268953069724"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069724",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 5,
+   "paperNumber": 310,
+   "questionId": "226895791576",
+   "page": 6,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "If y = √((1 − x)/(1 + x)), then the value of (1 − x²) dy/dx + y is",
+   "options": [
+    "1/(1 + x)",
+    "−1/(1 + x)²",
+    "0",
+    "1"
+   ],
+   "optionIds": [
+    "2268953069725",
+    "2268953069726",
+    "2268953069727",
+    "2268953069728"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069727",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 6,
+   "paperNumber": 311,
+   "questionId": "226895791577",
+   "page": 7,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "The minimum value of e^x + e^(−x) is",
+   "options": [
+    "−1",
+    "0",
+    "1",
+    "2"
+   ],
+   "optionIds": [
+    "2268953069729",
+    "2268953069730",
+    "2268953069731",
+    "2268953069732"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069732",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 7,
+   "paperNumber": 312,
+   "questionId": "226895791578",
+   "page": 8,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "The function f(x) = x/(log x) is increasing in the interval\n(consider log_e x = log x)",
+   "options": [
+    "(1, ∞)",
+    "(e, ∞)",
+    "(−∞, e)",
+    "(−∞, −1)"
+   ],
+   "optionIds": [
+    "2268953069733",
+    "2268953069734",
+    "2268953069735",
+    "2268953069736"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069734",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 8,
+   "paperNumber": 313,
+   "questionId": "226895791579",
+   "page": 8,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "∫ e^x (log x + 1/x²) dx is equal to\n(consider log_e x = log x)",
+   "options": [
+    "e^x log_e x + c : where c is an arbitrary constant",
+    "e^x (log_e x + 1/x) + c: where c is an arbitrary constant",
+    "e^x (log_e x − 1/x) + c: where c is an arbitrary constant",
+    "e^x · (1/x) + c : where c is an arbitrary constant"
+   ],
+   "optionIds": [
+    "2268953069737",
+    "2268953069738",
+    "2268953069739",
+    "2268953069740"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069739",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 9,
+   "paperNumber": 314,
+   "questionId": "226895791580",
+   "page": 9,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "If 2f(x) + f(1/x) = 1/x − 5, x ≠ 0, then ∫₁² f(x) dx is equal to:\n(consider log_e x = log x)",
+   "options": [
+    "(1/6)[log 16 − 13]",
+    "(1/3)[log 8 − 13]",
+    "(1/3)[log 8 − 14]",
+    "[log 16 − 14]"
+   ],
+   "optionIds": [
+    "2268953069741",
+    "2268953069742",
+    "2268953069743",
+    "2268953069744"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069741",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 10,
+   "paperNumber": 315,
+   "questionId": "226895791581",
+   "page": 10,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "Area of the region bounded by the lines |x| + |y| = 1, x ≥ 0, y ≥ 0 is",
+   "options": [
+    "1 square units",
+    "1/2 square units",
+    "2 square units",
+    "4 square units"
+   ],
+   "optionIds": [
+    "2268953069745",
+    "2268953069746",
+    "2268953069747",
+    "2268953069748"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069746",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 11,
+   "paperNumber": 316,
+   "questionId": "226895791582",
+   "page": 11,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "The order and degree of the differential equation √(1 + (dy/dx)²) = (d²y/dx²)^(1/3) are",
+   "options": [
+    "order = 2, degree = 2",
+    "order = 2, degree = 1/3",
+    "order = 3, degree is not defined",
+    "order = 2, degree = 3"
+   ],
+   "optionIds": [
+    "2268953069749",
+    "2268953069750",
+    "2268953069751",
+    "2268953069752"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069749",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 12,
+   "paperNumber": 317,
+   "questionId": "226895791583",
+   "page": 11,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "The solution of the differential equation dy/dx = x/y represents a family of",
+   "options": [
+    "circles",
+    "ellipses",
+    "parabolas",
+    "hyperbolas"
+   ],
+   "optionIds": [
+    "2268953069753",
+    "2268953069754",
+    "2268953069755",
+    "2268953069756"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069756",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 13,
+   "paperNumber": 318,
+   "questionId": "226895791584",
+   "page": 12,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "The solution of initial value problem: dy/dx = e^(3x+4y); y(0) = −1/4 is",
+   "options": [
+    "e^(−4y) + e^(3x) = 3e",
+    "3e^(−4y) + 4e^(3x) = 3e + 4",
+    "−4e^(−4y) + 3e^(3x) = 3e + 4",
+    "e^(−4y) − 3e^(3x) = 0"
+   ],
+   "optionIds": [
+    "2268953069757",
+    "2268953069758",
+    "2268953069759",
+    "2268953069760"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069758",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 14,
+   "paperNumber": 319,
+   "questionId": "226895791585",
+   "page": 13,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "Three coins are tossed, then\nMatch the LIST-I with LIST-II\nLIST-I | LIST-II\nA. Probability of occurrence of 3 heads or 3 tails | I. 1/8\nB. Probability of occurrence of at least two heads | II. 7/8\nC. Probability of occurrence of at most two heads | III. 1/2\nD. Probability of occurrence of no head | IV. 1/4\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-I, D-II",
+    "A-III, B-IV, C-II, D-I",
+    "A-IV, B-III, C-II, D-I"
+   ],
+   "optionIds": [
+    "2268953069761",
+    "2268953069762",
+    "2268953069763",
+    "2268953069764"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069764",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 15,
+   "paperNumber": 320,
+   "questionId": "226895791586",
+   "page": 14,
+   "section": "Section A Common (mandatory, Q306-320)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Inequality) | LIST-II (Solution Space)\nA. 2x + 3y ≥ 6 | I. half plane contains the origin, also points on the line 2x + 3y = 6\nB. 2x + 3y ≤ 6 | II. half plane contains the origin but not points on the line 2x + 3y = 6\nC. 2x + 3y > 6 | III. half plane not contains the origin but contains points on the line 2x + 3y = 6\nD. 2x + 3y < 6 | IV. half plane neither contains the origin nor contains points on the line 2x + 3y = 6\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-II, B-III, C-I, D-IV",
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-I, C-IV, D-II",
+    "A-II, B-IV, C-I, D-III"
+   ],
+   "optionIds": [
+    "2268953069765",
+    "2268953069766",
+    "2268953069767",
+    "2268953069768"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069767",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 16,
+   "paperNumber": 321,
+   "questionId": "226895791587",
+   "page": 16,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "Relation R in the set A = {1, 2, 3, 4, ......, 16} defined as R = {(x, y): 3x = y, x, y ∈ A}, then which of the following are correct ?\nA. domain of R = {1, 2, 3, 4, 5}.\nB. range of R = {3, 6, 9, 12, 15}.\nC. R is reflexive.\nD. R is not symmetric.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and B only",
+    "B and D only",
+    "A, B and C only",
+    "A, B and D only"
+   ],
+   "optionIds": [
+    "2268953069769",
+    "2268953069770",
+    "2268953069771",
+    "2268953069772"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069772",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 17,
+   "paperNumber": 322,
+   "questionId": "226895791588",
+   "page": 17,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "A function f: N → N, (N: set of natural numbers) defined by f(x) = x² + x + 1 is",
+   "options": [
+    "one-one and onto",
+    "one-one but not onto",
+    "many-one and onto",
+    "many-one but not onto"
+   ],
+   "optionIds": [
+    "2268953069773",
+    "2268953069774",
+    "2268953069775",
+    "2268953069776"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069774",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 18,
+   "paperNumber": 323,
+   "questionId": "226895791589",
+   "page": 17,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Function) | LIST-II (Range (Principal value))\nA. tan⁻¹ x | I. [0, π] − {π/2}\nB. sec⁻¹ x | II. [−π/2, π/2]\nC. cosec⁻¹ x | III. [−π/2, π/2] − {0}\nD. sin⁻¹ x | IV. (−π/2, π/2)\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-IV, B-I, C-III, D-II",
+    "A-II, B-III, C-I, D-IV",
+    "A-IV, B-III, C-I, D-II",
+    "A-II, B-IV, C-III, D-I"
+   ],
+   "optionIds": [
+    "2268953069777",
+    "2268953069778",
+    "2268953069779",
+    "2268953069780"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069777",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 19,
+   "paperNumber": 324,
+   "questionId": "226895791590",
+   "page": 18,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If A is square matrix such that A² = A, then (2I + A)⁴ − 65A is equal to (Where I is identity matrix)",
+   "options": [
+    "8I",
+    "16I",
+    "16I + A",
+    "8I + A"
+   ],
+   "optionIds": [
+    "2268953069781",
+    "2268953069782",
+    "2268953069783",
+    "2268953069784"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069782",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 20,
+   "paperNumber": 325,
+   "questionId": "226895791591",
+   "page": 19,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If A = [2 3; 1 2], such that A² − 4A + λI = 0, where I is identity matrix of order 2, then 'λ' is equal to",
+   "options": [
+    "−1",
+    "1",
+    "−2",
+    "2"
+   ],
+   "optionIds": [
+    "2268953069785",
+    "2268953069786",
+    "2268953069787",
+    "2268953069788"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069786",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 21,
+   "paperNumber": 326,
+   "questionId": "226895791592",
+   "page": 20,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If A = [a_ij]_(3×3), a_ij = { 0, i ≠ j ; i + j, i = j }, then which of the following statements are correct ?\nA. A is scalar matrix\nB. A is diagonal matrix\nC. A is unit matrix\nD. A is symmetric matrix\nChoose the correct answer from the options given below:",
+   "options": [
+    "B and C only",
+    "A, B and C only",
+    "B and D only",
+    "C and D only"
+   ],
+   "optionIds": [
+    "2268953069789",
+    "2268953069790",
+    "2268953069791",
+    "2268953069792"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069791",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 22,
+   "paperNumber": 327,
+   "questionId": "226895791593",
+   "page": 21,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If A(x₁, y₁), B(x₂, y₂) and C(x₃, y₃) are the vertices of an equilateral triangle whose each side is equal to k, then the value of | x₁  y₁  2 ; x₂  y₂  2 ; x₃  y₃  2 |² is",
+   "options": [
+    "3k²",
+    "4k²",
+    "3k⁴",
+    "4k⁴"
+   ],
+   "optionIds": [
+    "2268953069793",
+    "2268953069794",
+    "2268953069795",
+    "2268953069796"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069795",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 23,
+   "paperNumber": 328,
+   "questionId": "226895791594",
+   "page": 21,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If x, y, z are all different from zero and | 1 + x  1  1 ; 1  1 + y  1 ; 1  1  1 + z | = 0, then the value of x⁻¹ + y⁻¹ + z⁻¹ is",
+   "options": [
+    "xyz",
+    "−1",
+    "1",
+    "0"
+   ],
+   "optionIds": [
+    "2268953069797",
+    "2268953069798",
+    "2268953069799",
+    "2268953069800"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069798",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 24,
+   "paperNumber": 329,
+   "questionId": "226895791595",
+   "page": 22,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If A = [1 0 0; 3 3 0; 5 2 −1], then\nMatch the LIST-I with LIST-II\nLIST-I | LIST-II\nA. |adj A| | I. 81\nB. |A| | II. −27\nC. |A adj A| | III. 9\nD. |adj (adj A)| | IV. −3\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-II, B-III, C-IV, D-I",
+    "A-I, B-IV, C-II, D-III",
+    "A-IV, B-III, C-II, D-I",
+    "A-III, B-IV, C-II, D-I"
+   ],
+   "optionIds": [
+    "2268953069801",
+    "2268953069802",
+    "2268953069803",
+    "2268953069804"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069804",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 25,
+   "paperNumber": 330,
+   "questionId": "226895791596",
+   "page": 23,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "Function f(x) = { k(x² − 6x + 13) : x < 1 ; |x − 3| : x ≥ 1 } is differentiable at x = 1, then the value of k is",
+   "options": [
+    "4",
+    "1/4",
+    "−1/4",
+    "−4"
+   ],
+   "optionIds": [
+    "2268953069805",
+    "2268953069806",
+    "2268953069807",
+    "2268953069808"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069806",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 26,
+   "paperNumber": 331,
+   "questionId": "226895791597",
+   "page": 24,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If y = x^x, x > 0 then y″(2) − 2y′(2) is equal to",
+   "options": [
+    "8 log_e 2 − 2",
+    "4(log_e 2)² + 2",
+    "4(log_e 2)² − 2",
+    "4(log_e 2) + 2"
+   ],
+   "optionIds": [
+    "2268953069809",
+    "2268953069810",
+    "2268953069811",
+    "2268953069812"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069811",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 27,
+   "paperNumber": 332,
+   "questionId": "226895791598",
+   "page": 25,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If x = sec θ + cos θ, y = secⁿ θ + cosⁿ θ, then dy/dx is equal to",
+   "options": [
+    "n²(y² + 4)/(x² + 4)",
+    "n²(y² − 4)/(x² − 4)",
+    "n(√((y² + 4)/(x² + 4)))",
+    "n(√((y² − 4)/(x² − 4)))"
+   ],
+   "optionIds": [
+    "2268953069813",
+    "2268953069814",
+    "2268953069815",
+    "2268953069816"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069816",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 28,
+   "paperNumber": 333,
+   "questionId": "226895791599",
+   "page": 26,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If f(x) = (x − a)² + (x − b)² + (x − c)², then f(x) has minimum at x equal to:",
+   "options": [
+    "3√(abc)",
+    "3abc",
+    "(a + b + c)/3",
+    "3/(1/a + 1/b + 1/c)"
+   ],
+   "optionIds": [
+    "2268953069817",
+    "2268953069818",
+    "2268953069819",
+    "2268953069820"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069819",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 29,
+   "paperNumber": 334,
+   "questionId": "226895791600",
+   "page": 26,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "For the Function f(x) = tan x − 4x, x ∈ (0, π/2), which of the following statements are correct?\nA. f(x) is increasing in (0, π/3)\nB. f(x) is increasing in (π/3, π/2)\nC. f(x) is decreasing in (0, π/3)\nD. f(x) is decreasing in (π/3, π/2)\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and B only",
+    "A and D only",
+    "B and C only",
+    "B and D only"
+   ],
+   "optionIds": [
+    "2268953069821",
+    "2268953069822",
+    "2268953069823",
+    "2268953069824"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069823",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 30,
+   "paperNumber": 335,
+   "questionId": "226895791601",
+   "page": 27,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "The difference between the greatest and least values of the function f(x) = sin 2x − x on [−π/2, π/2] is",
+   "options": [
+    "π/2",
+    "−√3/2 + π/6",
+    "π",
+    "√3/2 − π/6"
+   ],
+   "optionIds": [
+    "2268953069825",
+    "2268953069826",
+    "2268953069827",
+    "2268953069828"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069827",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 31,
+   "paperNumber": 336,
+   "questionId": "226895791602",
+   "page": 28,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Indefinite Integral) | LIST-II (Solution (where c is an arbitrary constant))\nA. ∫ √(16 − x²) dx | I. sin⁻¹(x/4) + c\nB. ∫ dx/√(16 − x²) | II. (x/2)√(16 − x²) + 8 sin⁻¹(x/4) + c\nC. ∫ dx/√(x² − 16) | III. (1/8) log |(4 + x)/(4 − x)| + c\nD. ∫ dx/(16 − x²) | IV. log |x + √(x² − 16)| + c\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-I, B-IV, C-III, D-II",
+    "A-II, B-I, C-III, D-IV",
+    "A-IV, B-II, C-III, D-I",
+    "A-II, B-I, C-IV, D-III"
+   ],
+   "optionIds": [
+    "2268953069829",
+    "2268953069830",
+    "2268953069831",
+    "2268953069832"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069832",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 32,
+   "paperNumber": 337,
+   "questionId": "226895791603",
+   "page": 29,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "∫ from −π/2 to π/2 of cos x/(1 + e^x) dx =",
+   "options": [
+    "0",
+    "1",
+    "−1",
+    "2"
+   ],
+   "optionIds": [
+    "2268953069833",
+    "2268953069834",
+    "2268953069835",
+    "2268953069836"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069834",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 33,
+   "paperNumber": 338,
+   "questionId": "226895791604",
+   "page": 30,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "∫ dx/((x + 1)√(x² − 1)) is equal to:\n[c is an arbitrary constant]",
+   "options": [
+    "√((x + 1)/(x − 1)) + c",
+    "√(x/(x − 1)) + c",
+    "√((x − 1)/(x + 1)) + c",
+    "√(x/(x + 1)) + c"
+   ],
+   "optionIds": [
+    "2268953069837",
+    "2268953069838",
+    "2268953069839",
+    "2268953069840"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069839",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 34,
+   "paperNumber": 339,
+   "questionId": "226895791605",
+   "page": 31,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "In the given figure, area of the shaded portion is equal to\n[Figure: x- and y-axes; the curve y = 3 cos x runs from (0, 3) down to (π/2, 0); the line y = 3 and the line x = π/2 are drawn; the shaded region lies above the curve y = 3 cos x, below y = 3 and to the left of x = π/2.]",
+   "options": [
+    "3",
+    "3π/2",
+    "3(π/2 − 1)",
+    "3(π − 1)"
+   ],
+   "optionIds": [
+    "2268953069841",
+    "2268953069842",
+    "2268953069843",
+    "2268953069844"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069843",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 35,
+   "paperNumber": 340,
+   "questionId": "226895791606",
+   "page": 32,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "The area of the region bounded by the line y = 3x + 2, the x-axis and the ordinates x = −1 and x = 1 is:",
+   "options": [
+    "25/6",
+    "4",
+    "0",
+    "13/3"
+   ],
+   "optionIds": [
+    "2268953069845",
+    "2268953069846",
+    "2268953069847",
+    "2268953069848"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069848",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 36,
+   "paperNumber": 341,
+   "questionId": "226895791607",
+   "page": 33,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Differential Equations) | LIST-II (Solutions [c is an arbitrary constant])\nA. x dy = y dx | I. y = e^x + c\nB. log(dy/dx) = x | II. y = c e^x\nC. (y dx − dy)/y = 0 | III. xy = c\nD. x dy + y dx = 0 | IV. y = cx\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-IV, B-II, C-I, D-III",
+    "A-IV, B-I, C-II, D-III",
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-I, C-II, D-IV"
+   ],
+   "optionIds": [
+    "2268953069849",
+    "2268953069850",
+    "2268953069851",
+    "2268953069852"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069850",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 37,
+   "paperNumber": 342,
+   "questionId": "226895791608",
+   "page": 34,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "The general solution of the differential equation of the type dy/dx + py = Q is:\n(where P and Q are functions of x only or constant)",
+   "options": [
+    "y e^(∫p dy) = ∫(Q e^(∫p dy)) dy + c: (where c is an arbitrary constant)",
+    "y e^(∫p dx) = ∫(Q e^(∫p dx)) dx + c : (where c is an arbitrary constant)",
+    "x e^(∫p dy) = ∫(Q e^(∫p dy)) dy + c : (where c is an arbitrary constant)",
+    "x e^(∫p dy) = ∫(Q e^(∫p dx)) dx + c (where c is an arbitrary constant)"
+   ],
+   "optionIds": [
+    "2268953069853",
+    "2268953069854",
+    "2268953069855",
+    "2268953069856"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069854",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 38,
+   "paperNumber": 343,
+   "questionId": "226895791609",
+   "page": 35,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. If |a⃗| = √26, |b⃗| = 7 and |a⃗ × b⃗| = 35, then |a⃗ · b⃗| is equal to | I. 4\nB. If 2î − 3ĵ + 4k̂ and aî − 6ĵ + 8k̂ are collinear, then 'a' is equal to | II. 2\nC. If 2î + ĵ + k̂ and 2î − 4ĵ + λk̂ are perpendicular, then λ is equal to | III. 7\nD. (î × ĵ) · k̂ + (ĵ × k̂) · î is equal to | IV. 0\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-III, B-II, C-IV, D-I",
+    "A-III, B-I, C-IV, D-II",
+    "A-II, B-I, C-III, D-IV",
+    "A-I, B-IV, C-II, D-III"
+   ],
+   "optionIds": [
+    "2268953069857",
+    "2268953069858",
+    "2268953069859",
+    "2268953069860"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069858",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 39,
+   "paperNumber": 344,
+   "questionId": "226895791610",
+   "page": 36,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If a⃗ = xî + xĵ + yk̂, b⃗ = î + k̂ and c⃗ = yî + yĵ + zk̂ are three vectors such that a⃗ × b⃗ ⊥ c⃗, then",
+   "options": [
+    "y² = xz",
+    "x² = yz",
+    "z² = xy",
+    "xyz = 1"
+   ],
+   "optionIds": [
+    "2268953069861",
+    "2268953069862",
+    "2268953069863",
+    "2268953069864"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069861",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 40,
+   "paperNumber": 345,
+   "questionId": "226895791611",
+   "page": 37,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If a⃗ is any vector, then the value of |a⃗ × î|² + |a⃗ × ĵ|² + |a⃗ × k̂|² is equal to",
+   "options": [
+    "2|a⃗|²",
+    "|a⃗|²",
+    "4|a⃗|²",
+    "3|a⃗|²"
+   ],
+   "optionIds": [
+    "2268953069865",
+    "2268953069866",
+    "2268953069867",
+    "2268953069868"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069865",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 41,
+   "paperNumber": 346,
+   "questionId": "226895791612",
+   "page": 38,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If a⃗, b⃗ and c⃗ are three unit vectors such that a⃗ · b⃗ = a⃗ · c⃗ = 0 and angle between b⃗ and c⃗ is π/6, then",
+   "options": [
+    "a⃗ = b⃗ × c⃗",
+    "a⃗ = ±(b⃗ × c⃗)",
+    "a⃗ = 2(b⃗ × c⃗)",
+    "a⃗ = ±2(b⃗ × c⃗)"
+   ],
+   "optionIds": [
+    "2268953069869",
+    "2268953069870",
+    "2268953069871",
+    "2268953069872"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069872",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 42,
+   "paperNumber": 347,
+   "questionId": "226895791613",
+   "page": 39,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If α, β, γ are angles of inclinations of a line with x, y and z-axis respectively, then which of the following are correct?\nA. cos²α + cos²β + cos²γ = 1\nB. cos 2α + cos 2β + cos 2γ = −1\nC. sin²α + sin²β + sin²γ = −2\nD. cos²α + cos²β + cos²γ = 2\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and B only",
+    "A, B and C only",
+    "B and D only",
+    "A and D only"
+   ],
+   "optionIds": [
+    "2268953069873",
+    "2268953069874",
+    "2268953069875",
+    "2268953069876"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069873",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 43,
+   "paperNumber": 348,
+   "questionId": "226895791614",
+   "page": 39,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "The lines x = py + q, z = ry + s and x = p′y + q′, z = r′y + s′ are perpendicular if",
+   "options": [
+    "pp′ + rr′ = 0",
+    "pp′ + rr′ + 1 = 0",
+    "p/p′ = r/r′",
+    "pp′ = rr′"
+   ],
+   "optionIds": [
+    "2268953069877",
+    "2268953069878",
+    "2268953069879",
+    "2268953069880"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069878",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 44,
+   "paperNumber": 349,
+   "questionId": "226895791615",
+   "page": 40,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "Two lines L₁ and L₂ are given as L₁: r⃗ = (î + 2ĵ + 3k̂) + λ(2î + 3ĵ + 4k̂) and L₂: r⃗ = (2î + 4ĵ + 5k̂) + μ(4î + 6ĵ + 8k̂), where λ and μ are real parameters. Then which of the following statements are correct ?\nA. Shortest distance between line L₁ and L₂ is √(5/29).\nB. line L₁ and L₂ are parallel.\nC. line L₁ and L₂ are concurrent lines.\nD. line L₁ and L₂ are perpendicular.\nChoose the correct answer from the options given below:",
+   "options": [
+    "B and C only",
+    "C and D only",
+    "A and C only",
+    "A and B only"
+   ],
+   "optionIds": [
+    "2268953069881",
+    "2268953069882",
+    "2268953069883",
+    "2268953069884"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069884",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 45,
+   "paperNumber": 350,
+   "questionId": "226895791616",
+   "page": 41,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "The objective function of a LPP is given by z = ax + by, where a and b are constants. If minimum of z occurs at two points (50, 30) and (20, 40), then",
+   "options": [
+    "3b = a",
+    "3b + a = 0",
+    "3a + b = 0",
+    "3a − b = 0"
+   ],
+   "optionIds": [
+    "2268953069885",
+    "2268953069886",
+    "2268953069887",
+    "2268953069888"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069888",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 46,
+   "paperNumber": 351,
+   "questionId": "226895791617",
+   "page": 42,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "In the linear programming problem:\nMinimize z = x + y, subject to the constraints:\nx + 3y ≤ 60, x + y ≥ 10, x ≤ y, x ≥ 0, y ≥ 0\nWhich of the following region in graph given below represents the feasible region of the above LPP?\n[Figure: in the first quadrant the lines x + y = 10 (through (10, 0) and (0, 10)), x + 3y = 60 (through (60, 0) and (0, 20)) and y = x are drawn; four regions are labelled A, B, C and D. B is the hatched region against the y-axis between (0, 10) and (0, 20), bounded by x + y = 10, y = x and x + 3y = 60; A is the dotted region below y = x between x + y = 10 and x + 3y = 60; C lies above x + 3y = 60 next to the y-axis; D is the grey region on the right of y = x.]",
+   "options": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "optionIds": [
+    "2268953069889",
+    "2268953069890",
+    "2268953069891",
+    "2268953069892"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069890",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 47,
+   "paperNumber": 352,
+   "questionId": "226895791618",
+   "page": 43,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "A speaks truth in 80% cases and B in 90% cases. The probability that they contradict each other in stating the same fact, is:",
+   "options": [
+    "17/50",
+    "13/50",
+    "19/50",
+    "11/50"
+   ],
+   "optionIds": [
+    "2268953069893",
+    "2268953069894",
+    "2268953069895",
+    "2268953069896"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069894",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 48,
+   "paperNumber": 353,
+   "questionId": "226895791619",
+   "page": 44,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "If A and B are two events such that P(A) = 1/2, P(B) = 1/3 and P(A ∩ B) = 1/4, then P(A′/B) =",
+   "options": [
+    "3/4",
+    "1/4",
+    "1/2",
+    "5/8"
+   ],
+   "optionIds": [
+    "2268953069897",
+    "2268953069898",
+    "2268953069899",
+    "2268953069900"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069898",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 49,
+   "paperNumber": 354,
+   "questionId": "226895791620",
+   "page": 45,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "The probability of the simultaneous occurrence of two events A and B is p. If the probability that exactly one of A and B occurs is q, then\nA. P(Ā) + P(B̄) = 2 + 2q − p\nB. P(Ā) + P(B̄) = 2 − 2p − q\nC. P(Ā ∩ B̄) = 1 − p − q\nD. P((A ∩ B)|(A ∪ B)) = p/(p + q)\nChoose the correct answer from the options given below:",
+   "options": [
+    "A, C and D only",
+    "B, C and D only",
+    "C and D only",
+    "B only"
+   ],
+   "optionIds": [
+    "2268953069901",
+    "2268953069902",
+    "2268953069903",
+    "2268953069904"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069902",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 50,
+   "paperNumber": 355,
+   "questionId": "226895791621",
+   "page": 46,
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "stem": "A letter is known to have come for 'RAVINDRA' or 'DEVINDRAN'. On the envelop just two consecutive letters 'RA' are visible. The probability that the letter has come for 'RAVINDRA' is:",
+   "options": [
+    "16/23",
+    "7/11",
+    "4/11",
+    "7/23"
+   ],
+   "optionIds": [
+    "2268953069905",
+    "2268953069906",
+    "2268953069907",
+    "2268953069908"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069905",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 51,
+   "paperNumber": 356,
+   "questionId": "226895791622",
+   "page": 47,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The effective rate that is equivalent to a nominal rate of 6% per annum compounded semi-annually is",
+   "options": [
+    "6%",
+    "6.09%",
+    "0.069%",
+    "9.06%"
+   ],
+   "optionIds": [
+    "2268953069909",
+    "2268953069910",
+    "2268953069911",
+    "2268953069912"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069910",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 52,
+   "paperNumber": 357,
+   "questionId": "226895791623",
+   "page": 48,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Assume an investment's starting value is ₹ 10,000 and it grows to ₹ 60,000 in 4 years, then the CAGR % of the investment is,\n[given : (6)^(1/4) = 1.565]",
+   "options": [
+    "65%",
+    "56.5%",
+    "65.5%",
+    "55.6%"
+   ],
+   "optionIds": [
+    "2268953069913",
+    "2268953069914",
+    "2268953069915",
+    "2268953069916"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069914",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 53,
+   "paperNumber": 358,
+   "questionId": "226895791624",
+   "page": 49,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Vishal purchased a machine costing ₹ 50,000. The estimated useful life of the machine is 10 years with a scrap value of ₹ 5,000. The annual depreciation using linear method is,",
+   "options": [
+    "₹ 45,000",
+    "₹ 4,500",
+    "₹ 3500",
+    "₹ 2500"
+   ],
+   "optionIds": [
+    "2268953069917",
+    "2268953069918",
+    "2268953069919",
+    "2268953069920"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069918",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 54,
+   "paperNumber": 359,
+   "questionId": "226895791625",
+   "page": 49,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Vatsala takes a loan of ₹ 2,00,000 at an interest rate of 10% per annum for 5 years. Her EMI using flat rate method is,",
+   "options": [
+    "₹ 20,000",
+    "₹ 1,666.6",
+    "₹ 5,000",
+    "₹ 15,000"
+   ],
+   "optionIds": [
+    "2268953069921",
+    "2268953069922",
+    "2268953069923",
+    "2268953069924"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069923",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 55,
+   "paperNumber": 360,
+   "questionId": "226895791626",
+   "page": 50,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Face value of a bond is",
+   "options": [
+    "the rate at which a bond yields interest",
+    "the price at which the bond is sold to buyers at the time of issue",
+    "the annual interest rate paid by the bond issuer to the bond holder",
+    "the discount rate which returns the market price of a bond without embedded optionality"
+   ],
+   "optionIds": [
+    "2268953069925",
+    "2268953069926",
+    "2268953069927",
+    "2268953069928"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069926",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 56,
+   "paperNumber": 361,
+   "questionId": "226895791627",
+   "page": 51,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "At what rate of interest per annum will the present value of a perpetuity of ₹ 500 payble at the end of every 6 months be ₹ 10,000?",
+   "options": [
+    "15%",
+    "10%",
+    "20%",
+    "25%"
+   ],
+   "optionIds": [
+    "2268953069929",
+    "2268953069930",
+    "2268953069931",
+    "2268953069932"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069930",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 57,
+   "paperNumber": 362,
+   "questionId": "226895791628",
+   "page": 52,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Let X denote the number of hours a person drive during a randomly selected working day. The probability that X can take the value x_i has the following form, where k is some unknown constant.\nP(X = x_i) = { 0.2, if x_i = 0 ; k x_i, if x_i = 1 or 2 ; k(4 − x_i), if x_i = 3 ; 0, otherwise }\nMatch the LIST-I with LIST-II\nLIST-I | LIST-II\nA. The value of k | I. 1\nB. The probability that the person drive atleast two hours on a selected working day | II. 0.4\nC. The probability that the person drive atmost three hours on a selected working day | III. 0.2\nD. The probability that the person drive atmost one hour on a selected working day | IV. 0.6\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-III, B-II, C-I, D-IV",
+    "A-III, B-IV, C-I, D-II",
+    "A-IV, B-II, C-III, D-I",
+    "A-IV, B-III, C-II, D-I"
+   ],
+   "optionIds": [
+    "2268953069933",
+    "2268953069934",
+    "2268953069935",
+    "2268953069936"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069934",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 58,
+   "paperNumber": 363,
+   "questionId": "226895791629",
+   "page": 54,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. In a binomial distribution, if n = 20, q = 0.75 then its mean is | I. 25\nB. An unbiased coin is tossed 4 times. The mean of the number of tails is | II. 5\nC. In a binomial distribution, mean is 5 and variance is 4, then the number of trials is | III. 0.5\nD. In a binomial distribution, if mean is 8 and variance is 4, then the probability of success is | IV. 2\nChoose the correct answer from the options given below:",
+   "options": [
+    "A-III, B-IV, C-I, D-II",
+    "A-II, B-I, C-IV, D-III",
+    "A-II, B-IV, C-I, D-III",
+    "A-II, B-I, C-III, D-IV"
+   ],
+   "optionIds": [
+    "2268953069937",
+    "2268953069938",
+    "2268953069939",
+    "2268953069940"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069939",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 59,
+   "paperNumber": 364,
+   "questionId": "226895791630",
+   "page": 55,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "If X is a Poisson variate such that 4P(X = 2) = 3P(X = 1), then the mean of the distribution is equal to:",
+   "options": [
+    "1.5",
+    "2",
+    "3",
+    "4"
+   ],
+   "optionIds": [
+    "2268953069941",
+    "2268953069942",
+    "2268953069943",
+    "2268953069944"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069941",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 60,
+   "paperNumber": 365,
+   "questionId": "226895791631",
+   "page": 55,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "In a math aptitude test, students scores are found to be normally distributed having mean as 45 and standard deviation 5. What percent of students scored more than the mean score?",
+   "options": [
+    "45%",
+    "50%",
+    "5%",
+    "60%"
+   ],
+   "optionIds": [
+    "2268953069945",
+    "2268953069946",
+    "2268953069947",
+    "2268953069948"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069946",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 61,
+   "paperNumber": 366,
+   "questionId": "226895791632",
+   "page": 56,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "If y = e^(4x) (92)^x ; then dy/dx is equal to\n(log_e x = log x)",
+   "options": [
+    "4x e^(4x) · 92^(x−1)",
+    "e^(4x) 92^(x−1) [368 + x]",
+    "e^(4x) (92)^x [4 + log 92]",
+    "e^(4x) 92^x log 92"
+   ],
+   "optionIds": [
+    "2268953069949",
+    "2268953069950",
+    "2268953069951",
+    "2268953069952"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069951",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 62,
+   "paperNumber": 367,
+   "questionId": "226895791633",
+   "page": 57,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The order and degree of the following differential equation :\ny = px + √(a²p² + b²), where p = dy/dx, are",
+   "options": [
+    "Order = 2 : degree = 2",
+    "Order = 1 : degree = 1",
+    "Order = 1 : degree = 2",
+    "Order = 2 : degree = 1"
+   ],
+   "optionIds": [
+    "2268953069953",
+    "2268953069954",
+    "2268953069955",
+    "2268953069956"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069955",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 63,
+   "paperNumber": 368,
+   "questionId": "226895791634",
+   "page": 57,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The demand function for a certain product is represented by the equation p = 150 + 12x − x², where x is the number of units demanded and p is the price per unit. The marginal revenue when 5 units are sold is",
+   "options": [
+    "₹ 195",
+    "₹ 282",
+    "₹ 91",
+    "₹ 185"
+   ],
+   "optionIds": [
+    "2268953069957",
+    "2268953069958",
+    "2268953069959",
+    "2268953069960"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069957",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 64,
+   "paperNumber": 369,
+   "questionId": "226895791635",
+   "page": 58,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The function f(x) = 4x³ − 18x² + 27x − 7 has:-",
+   "options": [
+    "Maxima at x = 3/2",
+    "Minima at x = 3/2",
+    "Point of inflexion at x = 3/2",
+    "Maximum value of function is 156"
+   ],
+   "optionIds": [
+    "2268953069961",
+    "2268953069962",
+    "2268953069963",
+    "2268953069964"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069963",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 65,
+   "paperNumber": 370,
+   "questionId": "226895791636",
+   "page": 59,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The function f(x) = 2/x + 5, x ≠ 0 is",
+   "options": [
+    "increasing function for x ∈ ℝ − {0}",
+    "increasing function for x ∈ (0, ∞)",
+    "neither increasing nor decreasing function for x ∈ (0, ∞)",
+    "decreasing function for x ∈ ℝ − {0}"
+   ],
+   "optionIds": [
+    "2268953069965",
+    "2268953069966",
+    "2268953069967",
+    "2268953069968"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953069968",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 66,
+   "paperNumber": 371,
+   "questionId": "226895791637",
+   "page": 59,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "∫ (x + 1)e^x dx is equal to\n[C is an arbitrary constant]",
+   "options": [
+    "(x + 1)e^x + C",
+    "e^x + C",
+    "xe^x + C",
+    "(x + 1) + C"
+   ],
+   "optionIds": [
+    "2268953069969",
+    "2268953069970",
+    "2268953069971",
+    "2268953069972"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069971",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 67,
+   "paperNumber": 372,
+   "questionId": "226895791638",
+   "page": 60,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Particular solution of the differential equation (x − 1) dy/dx = 2xy, when y(2) = 1 is:- (consider log_e x = log x)",
+   "options": [
+    "log|y| + log(x − 1)² = 2x + 4",
+    "log|y| − log(x − 1)² = 2x − 4",
+    "log|y| + log(x − 1)² = 2x − 4",
+    "log|y| − log(x − 1)² = 2x + 4"
+   ],
+   "optionIds": [
+    "2268953069973",
+    "2268953069974",
+    "2268953069975",
+    "2268953069976"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069974",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 68,
+   "paperNumber": 373,
+   "questionId": "226895791639",
+   "page": 61,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Let R be the feasible region for a linear programming problem, and Let z = ax + by be the objective function. If the feasible region R is bounded then which of the following are true ?\nA. The maximum or minimum value of objective function may not exist.\nB. The objective function z has both a maximum and a minimum value on R.\nC. Maximum and minimum values lie in the unbounded region\nD. The objective function z = ax + by has both a maximum value and a minimum value and each of these values occurs at a corner point of R.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and B only",
+    "A and D only",
+    "B and D only",
+    "C and D only"
+   ],
+   "optionIds": [
+    "2268953069977",
+    "2268953069978",
+    "2268953069979",
+    "2268953069980"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069979",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 69,
+   "paperNumber": 374,
+   "questionId": "226895791640",
+   "page": 62,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Consider a LPP given by\nMaximize Z = 38x + 19y\nSubjected to 3x + 5y ≤ 15, 5x + 2y ≤ 10, and x, y ≥ 0\nThe optimum value of Z is,",
+   "options": [
+    "85",
+    "190",
+    "240",
+    "57"
+   ],
+   "optionIds": [
+    "2268953069981",
+    "2268953069982",
+    "2268953069983",
+    "2268953069984"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953069981",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 70,
+   "paperNumber": 375,
+   "questionId": "226895791641",
+   "page": 63,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Which of the following is/are true about parameter ?\nA. It is a characteristic of a sample.\nB. It is a characterstic of a population.\nC. It is a numerical value that is taken from the entire population, such as the population mean.\nD. It is the numerical value taken from a sample and calculated from the sample observations alone.\nChoose the correct answer from the options given below:",
+   "options": [
+    "A only",
+    "B and D only",
+    "B and C only",
+    "A and D only"
+   ],
+   "optionIds": [
+    "2268953069985",
+    "2268953069986",
+    "2268953069987",
+    "2268953069988"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953069987",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 71,
+   "paperNumber": 376,
+   "questionId": "226895791642",
+   "page": 63,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Consider a office having seating capacity of 58 employees and all of them are to be seated in such a way that an employee can sit on any available vacant seat . What will be the degree of freedom?",
+   "options": [
+    "58",
+    "57",
+    "59",
+    "58.5"
+   ],
+   "optionIds": [
+    "2268953069989",
+    "2268953069990",
+    "2268953069991",
+    "2268953069992"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069990",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 72,
+   "paperNumber": 377,
+   "questionId": "226895791643",
+   "page": 64,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The following data are from a simple random sample: 3, 7, 4, 12, 4, 12. The point estimate of the population mean is,",
+   "options": [
+    "42",
+    "7",
+    "24",
+    "6"
+   ],
+   "optionIds": [
+    "2268953069993",
+    "2268953069994",
+    "2268953069995",
+    "2268953069996"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953069994",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 73,
+   "paperNumber": 378,
+   "questionId": "226895791644",
+   "page": 65,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The patterns and behavior of the data in any time series are based on which of the following components.\nA. Seasonal component\nB. Secular trend component\nC. Irregular component\nD. Cyclical component\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and B only",
+    "B and C only",
+    "B, C and D only",
+    "A, B, C and D"
+   ],
+   "optionIds": [
+    "2268953069997",
+    "2268953069998",
+    "2268953069999",
+    "2268953070000"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953070000",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 74,
+   "paperNumber": 379,
+   "questionId": "226895791645",
+   "page": 66,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The number of wedding cards, in thousands, distributed in a certain city on each day for a week is given as follows:-\n21, 35, 19, 27, 32, 22, 12.\nThe three days moving averages will be:",
+   "options": [
+    "25, 28, 26, 23, 21",
+    "25, 24, 23, 27, 26",
+    "25, 27, 26, 27, 22",
+    "24, 28, 26, 22, 25"
+   ],
+   "optionIds": [
+    "2268953070001",
+    "2268953070002",
+    "2268953070003",
+    "2268953070004"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070003",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 75,
+   "paperNumber": 380,
+   "questionId": "226895791646",
+   "page": 67,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Matrix A) | LIST-II (|adj A|)\nA. A = [2 4; 1 3] | I. 1\nB. A = [5 2; 7 4] | II. 7\nC. A = [1 0; 0 1] | III. 2\nD. A = [6 1; 5 2] | IV. 6\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - I, B - II, C - III, D - IV",
+    "A - IV, B - II, C - III, D - I",
+    "A - III, B - IV, C - I, D - II",
+    "A - III, B - IV, C - II, D - I"
+   ],
+   "optionIds": [
+    "2268953070005",
+    "2268953070006",
+    "2268953070007",
+    "2268953070008"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070007",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 76,
+   "paperNumber": 381,
+   "questionId": "226895791647",
+   "page": 68,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "For a given square matrix A of order n, if there exists another square matrix B of the same order n, such that AB = BA = I, then A is said to be invertible and B is called the inverse matrix of A.\nWhich of the following statements are not TRUE ?\nA. Inverse of a matrix, if it exists, is unique.\nB. For two invertible matrices of same order, say A and B, then (AB)⁻¹ = A⁻¹B⁻¹\nC. For an invertible matrix A, (A⁻¹)⁻¹ = A\nD. For an invertible matrix A, (Aᵀ)⁻¹ = Aᵀ\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and C only",
+    "B and D only",
+    "A, C and D only",
+    "A and D only"
+   ],
+   "optionIds": [
+    "2268953070009",
+    "2268953070010",
+    "2268953070011",
+    "2268953070012"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070010",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 77,
+   "paperNumber": 382,
+   "questionId": "226895791648",
+   "page": 69,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. If A is a square matrix of order 3 such that |A| = 3, then |adj (adj A)| = | I. 16\nB. If A is a non-singular matrix and |A| = 1/16, then |A⁻¹| = | II. 512\nC. If A is a square matrix of order 4 such that |A| = 2, then |adj (adj A)| = | III. 9\nD. If A is a square matrix of order 2 such that |A| = 9, then |adj (adj A)| = | IV. 81\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - IV, B - I, C - III, D - II",
+    "A - IV, B - I, C - II, D - III",
+    "A - I, B - IV, C - III, D - II",
+    "A - III, B - I, C - IV, D - II"
+   ],
+   "optionIds": [
+    "2268953070013",
+    "2268953070014",
+    "2268953070015",
+    "2268953070016"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070014",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 78,
+   "paperNumber": 383,
+   "questionId": "226895791649",
+   "page": 70,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. Row matrix | I. [1 0 0; 0 2 0; 0 0 3]\nB. Scalar matrix | II. [1; 2; 3]\nC. Column matrix | III. [1 2 3]\nD. Diagonal matrix | IV. [2 0 0; 0 2 0; 0 0 2]\nChoose the correct answer from the options given below:",
+   "options": [
+    "A - III, B - II, C - I, D - IV",
+    "A - III, B - II, C - IV, D - I",
+    "A - III, B - IV, C - II, D - I",
+    "A - III, B - I, C - IV, D - II"
+   ],
+   "optionIds": [
+    "2268953070017",
+    "2268953070018",
+    "2268953070019",
+    "2268953070020"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070019",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 79,
+   "paperNumber": 384,
+   "questionId": "226895791650",
+   "page": 71,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "The sum of two skew-symmetric matrices of the same order is a",
+   "options": [
+    "symmetric matrix",
+    "zero matrix",
+    "skew-symmetric matrix",
+    "diagonal matrix"
+   ],
+   "optionIds": [
+    "2268953070021",
+    "2268953070022",
+    "2268953070023",
+    "2268953070024"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070023",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "question id read from the page image (OCR missed the bold header line); option ids by OCR; matched to key"
+  },
+  {
+   "n": 80,
+   "paperNumber": 385,
+   "questionId": "226895791651",
+   "page": 72,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Which of the following properties are not correct for three real numbers a, b and c?\nA. If a > b and b > c, then a < c\nB. If a > b, and c < 0, then ac < bc\nC. If a > b, and c < 0, then a ÷ c < b ÷ c\nD. If a > b and c > 0, then a ÷ c < b ÷ c\nChoose the correct answer from the options given below:",
+   "options": [
+    "A and D only",
+    "B, C and D only",
+    "A and B only",
+    "B and C only"
+   ],
+   "optionIds": [
+    "2268953070025",
+    "2268953070026",
+    "2268953070027",
+    "2268953070028"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953070025",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 81,
+   "paperNumber": 386,
+   "questionId": "226895791652",
+   "page": 73,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "A tin container contains 50 litres of cow milk. From this container 5 litres cow milk was taken out and replaced with soya milk. This process was repeated further two more times. How much cow milk is there in the container now?",
+   "options": [
+    "364.5 litres",
+    "36.45 litres",
+    "3.645 litres",
+    "40 litres"
+   ],
+   "optionIds": [
+    "2268953070029",
+    "2268953070030",
+    "2268953070031",
+    "2268953070032"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953070030",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 82,
+   "paperNumber": 387,
+   "questionId": "226895791653",
+   "page": 73,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "If 53 ≡ y (mod 6), then the possible values of y are:-",
+   "options": [
+    "......... 64, 58, 52, 46, 40, ........",
+    "......... 70, 76, 81, 87, 93, 98, ........",
+    "......... 65, 59, 53, 47, 41, ........",
+    "......... 70, 76, 82, 88, 94, 97 ........"
+   ],
+   "optionIds": [
+    "2268953070033",
+    "2268953070034",
+    "2268953070035",
+    "2268953070036"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070035",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 83,
+   "paperNumber": 388,
+   "questionId": "226895791654",
+   "page": 74,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "A man can row a boat in still water at the rate of 17 km/hr. He finds that it takes him thrice as long to row upstream of a river as to row downstream of the same river. The speed of of the stream is,",
+   "options": [
+    "15 km/hr",
+    "11.5 km/hr",
+    "8.5 km/hr",
+    "6 km/hr"
+   ],
+   "optionIds": [
+    "2268953070037",
+    "2268953070038",
+    "2268953070039",
+    "2268953070040"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070039",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 84,
+   "paperNumber": 389,
+   "questionId": "226895791655",
+   "page": 75,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "Two pipes A and B can fill a tank in 12 minutes and 15 minutes respectively while a third pipe C can empty the full tank in 20 minutes. All the three pipes are opened in the beginning but pipe C is closed 6 minutes before the tank is filled. In what time will the tank is full?",
+   "options": [
+    "15 minutes",
+    "10 minutes",
+    "7 minutes",
+    "17 minutes"
+   ],
+   "optionIds": [
+    "2268953070041",
+    "2268953070042",
+    "2268953070043",
+    "2268953070044"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070043",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  },
+  {
+   "n": 85,
+   "paperNumber": 390,
+   "questionId": "226895791656",
+   "page": 75,
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "stem": "In a 700 m race, A reaches the finishing point in 30 seconds & B reaches in 35 seconds. By how much distance A beats B?",
+   "options": [
+    "75 m",
+    "50 m",
+    "100 m",
+    "200 m"
+   ],
+   "optionIds": [
+    "2268953070045",
+    "2268953070046",
+    "2268953070047",
+    "2268953070048"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953070047",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR (header and option ids), matched to key; header also read from the page image"
+  }
+ ]
+}

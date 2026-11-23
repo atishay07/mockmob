@@ -1,0 +1,2940 @@
+{
+ "id": "computer-science",
+ "name": "Computer Science",
+ "stream": "science",
+ "code": "308",
+ "examDate": "2026-05-24",
+ "examDay": "24 May 2026",
+ "shift": "first shift",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
+ "firstDate": "2026-11-23",
+ "firstDay": "23 November 2026",
+ "final": true,
+ "counts": {
+  "total": 85,
+  "same": 0,
+  "newValues": 0,
+  "concept": 69,
+  "notYet": 16,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 69,
+  "counted": 85,
+  "pct": 81,
+  "first": 69,
+  "firstPct": 81,
+  "addedCards": 0,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 0,
+  "newValuesFirst": 0
+ },
+ "chapters": [
+  {
+   "name": "Data Handling using Pandas",
+   "asked": 12,
+   "covered": 11
+  },
+  {
+   "name": "Computer Networks",
+   "asked": 8,
+   "covered": 6
+  },
+  {
+   "name": "Structured Query Language",
+   "asked": 8,
+   "covered": 8
+  },
+  {
+   "name": "Database Concepts",
+   "asked": 6,
+   "covered": 6
+  },
+  {
+   "name": "Plotting Data using Matplotlib",
+   "asked": 6,
+   "covered": 5
+  },
+  {
+   "name": "Societal Impacts",
+   "asked": 5,
+   "covered": 4
+  },
+  {
+   "name": "Database Query using SQL",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Introduction to Computer Networks",
+   "asked": 4,
+   "covered": 4
+  },
+  {
+   "name": "Project Based Learning",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Queue",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Searching",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Sorting",
+   "asked": 4,
+   "covered": 2
+  },
+  {
+   "name": "Stack",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Security Aspects",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Understanding Data",
+   "asked": 3,
+   "covered": 1
+  },
+  {
+   "name": "Data Communication",
+   "asked": 2,
+   "covered": 1
+  },
+  {
+   "name": "Exception and File Handling in Python",
+   "asked": 2,
+   "covered": 2
+  },
+  {
+   "name": "File Handling",
+   "asked": 2,
+   "covered": 2
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Database Concepts",
+   "type": "theory",
+   "stem": "________ helps to enforce integrity and identify relationships among tables in a database.",
+   "passage": null,
+   "options": [
+    "Row",
+    "Tuple",
+    "Key",
+    "Column"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A card says a foreign key represents the relationship between two relations and served rows say referential integrity is kept through foreign key and primary key values, so \"Key\" is taught; row, tuple and column are not constraints.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-concepts.def-foreign-key",
+    "chapter": "Database Concepts",
+    "front": "What is a foreign key?",
+    "back": "A foreign key is used to represent the relationship between two relations. A foreign key is an attribute whose value is derived from the primary key of another relation.",
+    "source": "NCERT, Computer Science Part 2, chapter 8, page 125",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Database Concepts",
+   "type": "theory",
+   "stem": "Which of the following can uniquely identify the tuples of a relation in a database?\n(A) Foreign Key\n(B) Primary Key\n(C) Candidate Key\n(D) Composite Primary Key\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards make primary, candidate and composite primary keys identifiers of tuples, and served rows say foreign key values repeat, so (B), (C), (D) only.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-concepts.def-primary-key",
+    "chapter": "Database Concepts",
+    "front": "What is a primary key?",
+    "back": "Out of one or more candidate keys, the attribute chosen by the database designer to uniquely identify the tuples in a relation is called the primary key of that relation.",
+    "source": "NCERT, Computer Science Part 2, chapter 8, page 124",
+    "more": {
+     "cards": 2,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Database Concepts",
+   "type": "theory",
+   "stem": "Rama stores the data in a specific format or structure in a file. If the structure or format itself is changed, all the existing application programs accessing that file also need to be changed. Otherwise, the programs may not work correctly. What is this concept called?",
+   "passage": null,
+   "options": [
+    "Data Sharing",
+    "Data Inconsistency",
+    "Data Dependency",
+    "Data Isolation"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states the stem's description and names it data dependency.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-concepts.def-data-dependency",
+    "chapter": "Database Concepts",
+    "front": "What is data dependency in a file system?",
+    "back": "If the structure or format itself is changed, all the existing application programs accessing that file also need to be changed. Otherwise, the programs may not work correctly. This is data dependency.",
+    "source": "NCERT, Computer Science Part 2, chapter 8, page 115",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Database Concepts",
+   "type": "theory",
+   "stem": "_________ is known as design of database.",
+   "passage": null,
+   "options": [
+    "Constraints",
+    "Keys",
+    "Schema",
+    "Tuples"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card says the schema is the design of a database.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-concepts.def-schema",
+    "chapter": "Database Concepts",
+    "front": "What is a database schema?",
+    "back": "Database Schema is the design of a database. It is the skeleton of the database that represents the structure (table names and their fields/columns), the type of data each column can hold, constraints on the data to be stored (if any), and the relationships among the tables.",
+    "source": "NCERT, Computer Science Part 2, chapter 8, page 118",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Structured Query Language",
+   "type": "theory",
+   "stem": "STUDENT\nName | Class | DOB | Gender | City | Marks\nRohan | XI | 2008 | M | Delhi | 85\nPriya | XII | 2006 | F | Mumbai | 92\nAnkit | XI | 2007 | M | Delhi | 88\nNidhi | XII | 2006 | F | Mumbai | 90\nAarav | IX | 2009 | M | Kolkata | 78\nSimran | XI | 2007 | F | Chandigarh | 94\nRahul | XII | 2006 | M | Pune | 80\nFrom the above table 'STUDENT', which query will return all the students from class 'XI'?",
+   "passage": null,
+   "options": [
+    "SELECT * FROM STUDENT WHERE Class ='XI';",
+    "SELECT * FROM STUDENT WHERE LIKE 'XI';",
+    "SELECT Name, DOB FROM STUDENT WHERE Class >'XI';",
+    "SELECT * FROM STUDENT WHERE Class IN ='XI';"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards give the SELECT ... WHERE syntax and IN, and a served row works a WHERE column = 'text' filter; the other options are malformed SQL.",
+   "match": {
+    "kind": "question",
+    "id": "34148722-3b98-4ab7-a093-863880075b88",
+    "chapter": "Structured Query Language",
+    "stem": "The table EMP is given below.\nEmpid | Ename | Dept | Salary\n101 | Ravi | Sales | 45000\n102 | Meena | HR | 52000\n103 | Arjun | Sales | NULL\n104 | Kavya | IT | 61000\n105 | Imran | HR | 48000\nWhat is the output of the query: SELECT COUNT(*), COUNT(Salary) FROM EMP WHERE Dept = 'Sales';",
+    "passage": null,
+    "options": [
+     "(2, 1)",
+     "(2, 2)",
+     "(1, 1)",
+     "(1, 2)"
+    ],
+    "key": 0,
+    "explanation": "The WHERE clause keeps rows 101 (salary 45000) and 103 (salary NULL), so COUNT(*) returns 2. COUNT(Salary) counts only non-NULL values, so the NULL salary is not counted and the result is 1, giving (2, 1).",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Structured Query Language",
+   "type": "theory",
+   "stem": "Which Sql Statements correctly retrieves records from a 'Commodity' table where the Price is either above 1000 or the product Category is 'Sales'?",
+   "passage": null,
+   "options": [
+    "SELECT * FROM Commodity WHERE Price>1000 OR Category ='Sales';",
+    "SELECT * FROM Commodity WHERE Price>1000 AND Category ='Sales';",
+    "SELECT * FROM Commodity IF Price>1000 OR Category ='Sales';",
+    "SELECT * FROM Commodity WHERE Price>1000 || Category =Sales ;"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards teach the WHERE syntax and that OR combines conditions; that OR means \"either\" is the ordinary meaning of the word, not a separate syllabus fact. No served row uses OR, so concept only (A asked B to rule: B rules covered).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.structured-query-language.key-logical-operators",
+    "chapter": "Structured Query Language",
+    "front": "The ____ AND, OR, and NOT are used to combine multiple conditions.",
+    "back": "The logical operators AND, OR, and NOT are used to combine multiple conditions.",
+    "source": "NCERT, Computer Science - Class XII, chapter 9, page 148",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Structured Query Language",
+   "type": "theory",
+   "stem": "Which query correctly finds a category in the 'Commodity' table that has more than 5 products with a Price greater than 600?",
+   "passage": null,
+   "options": [
+    "SELECT category FROM Commodity GROUP BY category HAVING COUNT(*)>5 AND Price >600;",
+    "SELECT category FROM Commodity WHERE Price>600 GROUP BY category HAVING COUNT(*)>5;",
+    "SELECT category, COUNT(*) FROM Commodity GROUP BY Category HAVING Price>600 AND COUNT(*)>5;",
+    "SELECT category FROM Commodity GROUP BY HAVING COUNT(Price>600)>5;"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served rows work exactly this shape (row filter in WHERE, COUNT condition in HAVING after GROUP BY) and state the WHERE/HAVING rule.",
+   "match": {
+    "kind": "question",
+    "id": "ad7558f0-8a58-4825-9239-25ff0a40d898",
+    "chapter": "Structured Query Language",
+    "stem": "The table EMP is given below.\nEmpid | Ename | Dept | Salary\n101 | Ravi | Sales | 45000\n102 | Meena | HR | 52000\n103 | Arjun | Sales | NULL\n104 | Kavya | IT | 61000\n105 | Imran | HR | 48000\nWhat is the output of the query: SELECT Dept, SUM(Salary) FROM EMP WHERE Salary > 45000 GROUP BY Dept HAVING COUNT(*) > 1;",
+    "passage": null,
+    "options": [
+     "HR 100000 and IT 61000",
+     "IT 61000 only",
+     "Sales 45000 and HR 100000",
+     "HR 100000 only"
+    ],
+    "key": 3,
+    "explanation": "WHERE Salary > 45000 removes Ravi (45000) and the NULL row, leaving Meena (52000), Kavya (61000) and Imran (48000). GROUP BY forms HR with 52000 + 48000 = 100000 and IT with 61000. HAVING COUNT(*) > 1 keeps only HR, so the output is HR 100000.",
+    "more": {
+     "cards": 1,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Structured Query Language",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Retrieve all rows with duplicates removed | (I) GROUP BY\n(B) Filter rows based on condition | (II) ORDER BY\n(C) Aggregate data into groups | (III) DISTINCT\n(D) Sort rows in ascending or descending order | (IV) WHERE\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (IV), (B) - (III), (C) - (I), (D) - (II)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row matches WHERE, GROUP BY and ORDER BY to the same uses, and a card gives DISTINCT; every pair is taught.",
+   "match": {
+    "kind": "question",
+    "id": "d93a8509-6d68-4965-8501-b8678bb490de",
+    "chapter": "Understanding Data",
+    "stem": "Match List I (SQL clause) with List II (primary purpose):\nList I: 1. SELECT, 2. WHERE, 3. GROUP BY, 4. ORDER BY\nList II: P. Filter rows, Q. Choose columns, R. Aggregate groups, S. Sort result\nChoose the correct matching option.",
+    "passage": null,
+    "options": [
+     "1-Q, 2-P, 3-R, 4-S",
+     "1-P, 2-Q, 3-S, 4-R",
+     "1-Q, 2-R, 3-P, 4-S",
+     "1-S, 2-P, 3-Q, 4-R"
+    ],
+    "key": 0,
+    "explanation": "SELECT chooses columns, WHERE filters rows, GROUP BY aggregates groups, ORDER BY sorts the result.",
+    "more": {
+     "cards": 5,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Structured Query Language",
+   "type": "theory",
+   "stem": "Which of the following are multiple row functions?\n(A) Sum\n(B) Count\n(C) Left\n(D) Max\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A) and (D) only",
+    "(A), (B) and (D) only",
+    "(A) and (B) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card lists Max, Sum and Count as multiple row functions and string functions as single row; LEFT is taught as a string function.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-query-using-sql.diff-single-vs-multiple-examples",
+    "chapter": "Database Query using SQL",
+    "front": "Single row vs multiple row functions (in that order): the examples of each.",
+    "back": "4. Math, String and Date functions are examples of single row functions. 4. Max(), Min(), Avg(), Sum(), Count() and Count(*) are examples of multiple row functions.",
+    "source": "NCERT, Informatics Practices, chapter 1, page 12",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "Arrange the evolution of networking as per the development timeline:\n(A) The Berners – Lee at CERN developed HTML and URL, thus giving birth to World Wide Web (www).\n(B) TCP/IP introduced as standard protocol on ARPANET.\n(C) Roy Tomlinson develops network messaging or –mail symbol@ comes to mean \"at\".\n(D) ARPANET became functional by connecting UCLA and SRI.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (B), (A)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Structured Query Language",
+   "type": "theory",
+   "stem": "Which of the following statement is CORRECT about GROUP BY clause in SQL?",
+   "passage": null,
+   "options": [
+    "The GROUP BY clause is used to sort data in ascending or descending order.",
+    "GROUP BY allows you to aggregate data, but it cannot be used with aggregate functions like SUM, AVG or COUNT.",
+    "The GROUP BY clause is used to arrange identical data into groups often used with aggregate functions such as SUM, AVG or COUNT.",
+    "The GROUP BY clause merges the contents of two or more tables."
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards state both halves of the keyed statement.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-query-using-sql.def-group-by",
+    "chapter": "Database Query using SQL",
+    "front": "What does the GROUP BY clause do?",
+    "back": "It groups the rows together that contain the same values in a specified column.",
+    "source": "NCERT, Informatics Practices, chapter 1, page 14",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "A ______ is an access point between an organization's network and the outside world of the internet.",
+   "passage": null,
+   "options": [
+    "Switch",
+    "Gateway",
+    "Repeater",
+    "Modem"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the stem's sentence.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.key-gateway-access",
+    "chapter": "Computer Networks",
+    "front": "As the term “Gateway” suggests, it is a ____ that acts as a “gate” between an organisation's network and the outside world of the Internet",
+    "back": "As the term “Gateway” suggests, it is a key access point that acts as a “gate” between an organisation's network and the outside world of the Internet",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 190",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "An analog device which regenerates the weakened signal appearing on the cable and puts them back is known as ___________.",
+   "passage": null,
+   "options": [
+    "Switch",
+    "Modem",
+    "Bridge",
+    "Repeater"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the stem's NCERT sentence.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.def-repeater",
+    "chapter": "Computer Networks",
+    "front": "What is a repeater?",
+    "back": "A repeater is an analog device that works with signals on the cables to which it is connected. The weakened signal appearing on the cable is regenerated and put back on the cable by a repeater.",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 189",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Network Devices) | List-II (Description)\n(A) Switch | (I) Sends signals only to the selected devices instead of sending to all.\n(B) Repeater | (II) An analog device that works with signals on the cables to which it is connected.\n(C) Hub | (III) A network device used to connect different devices through wires.\n(D) Ethernet Card | (IV) A network adapter acts as an interface between the computer and the network.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "All four List II descriptions are NCERT sentences on Key cards.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.fact-switch-working",
+    "chapter": "Computer Networks",
+    "front": "How does a switch decide where to send data?",
+    "back": "When data arrives, the switch extracts the destination address from the data packet and looks it up in a table to see where to send the packet. Thus, it sends signals to only selected devices instead of sending to all.",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 189",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "The RJ in RJ-45 connector stands for :",
+   "passage": null,
+   "options": [
+    "Registered Joint",
+    "Routing Jack",
+    "Registered Jack",
+    "Ring Joint"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "File Handling",
+   "type": "theory",
+   "stem": "Arrange the following statements in the correct sequence in order to write multiple strings to a file.\n(A) myobj.close()\n(B) lines= [\"Hello everyone \\n\", \"writing  multiple strings into file\"]\n(C) myobj.writelines(lines)\n(D) myobj = open (\"myfile.txt\", 'w')\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(D), (B), (C), (A)",
+    "(C), (D), (B), (A)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards teach open with a mode, writelines() on a list and close() last, and served rows show the open-write and open-use-close order.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.file-handling.def-writelines",
+    "chapter": "File Handling",
+    "front": "What does the writelines() method do?",
+    "back": "writelines() method is used to write multiple strings to a file. We need to pass an iterable object like lists, tuple etc. containing strings to writelines() method.",
+    "source": "NCERT, Computer Science Class XII, chapter 2, page 36",
+    "more": {
+     "cards": 2,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Stack",
+   "type": "theory",
+   "stem": "Stack follows the ______________ principle.",
+   "passage": null,
+   "options": [
+    "Last-In-First-out",
+    "First-In-First-out",
+    "Enqueue - Dequeue",
+    "Last-In-Last-out"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card states LIFO.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.stack.def-lifo",
+    "chapter": "Stack",
+    "front": "What is the LIFO principle followed by a stack?",
+    "back": "It thus follows the Last-In-First-out (LIFO) principle. That is, the element which was inserted last (the most recent element) will be the first one to be taken out from the stack.",
+    "source": "NCERT, Computer Science - Class XII, chapter 3, page 40",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Exception and File Handling in Python",
+   "type": "theory",
+   "stem": "The 'raise' keyword in Python is used ____.",
+   "passage": null,
+   "options": [
+    "to throw an exception",
+    "to avoid an exception",
+    "to handle a keyword",
+    "to find an exception"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.exception-and-file-handling-in-python.fact-raise-statement-use",
+    "chapter": "Exception and File Handling in Python",
+    "front": "What can the raise statement be used for in Python?",
+    "back": "The raise statement can be used to throw an exception.",
+    "source": "NCERT, Computer Science - Class XII, chapter 1, page 5",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Exception and File Handling in Python",
+   "type": "theory",
+   "stem": "Which of the following statement is correct with respect to exception handling in python?",
+   "passage": null,
+   "options": [
+    "There can be multiple except clause associated with a single try block.",
+    "The finally clause cannot be used if there are more than one except clause present with a try block.",
+    "The raise statement is mandatory in a try block.",
+    "An except clause can exist without any try block."
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.exception-and-file-handling-in-python.fact-multiple-except",
+    "chapter": "Exception and File Handling in Python",
+    "front": "How is a single piece of code suspected of more than one type of error handled?",
+    "back": "For handling such situations, we can have multiple except blocks for a single try block as shown in the Program 1-3.",
+    "source": "NCERT, Computer Science - Class XII, chapter 1, page 11",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "File Handling",
+   "type": "theory",
+   "stem": "Which of the following methods is used to position a file object to a specific position in a file?",
+   "passage": null,
+   "options": [
+    "tell()",
+    "peep()",
+    "move()",
+    "seek()"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.file-handling.def-seek",
+    "chapter": "File Handling",
+    "front": "What does the seek() method do?",
+    "back": "This method is used to position the file object at a particular position in a file.",
+    "source": "NCERT, Computer Science Class XII, chapter 2, page 28",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Stack",
+   "type": "numerical",
+   "stem": "Consider an empty stack. What will the stack look like (starting from the top) after executing the following operations in sequence?\n1. push(7)\n2. push(5)\n3. push(9)\n4. push(11)\n5. pop()\n6. push (22)\n(A) 22\n(B) 9\n(C) 5\n(D) 7\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (B), (A)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row traces the same push/pop sequence type and reads the stack, with other values.",
+   "match": {
+    "kind": "question",
+    "id": "8bda4bb8-ee12-4512-a182-2d215c1d9573",
+    "chapter": "Stack",
+    "stem": "Start with an empty stack. Perform operations: push(5), push(3), push(8), pop(), push(2), pop(). What is the top element now?",
+    "passage": null,
+    "options": [
+     "5",
+     "3",
+     "2",
+     "8"
+    ],
+    "key": 1,
+    "explanation": "After operations the stack contains (bottom→top): 5,3 so top is 3.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Stack",
+   "type": "numerical",
+   "stem": "In the below stack operation, what will be the output value for the variable 'result'?\nresult = 0\nstack = [10,20,30]\nstack.append(40)\nresult +=stack.pop()\nresult +=stack.pop()",
+   "passage": null,
+   "options": [
+    "70",
+    "60",
+    "90",
+    "50"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served rows trace append/pop on a list stack and state that pop() returns the top; same steps, other values.",
+   "match": {
+    "kind": "question",
+    "id": "3c233735-4d2a-49ad-8a53-b2cba9e6d979",
+    "chapter": "Stack",
+    "stem": "The following Python code uses a list as a stack:\n\ns = []\ns.append(10)\ns.append(20)\ns.append(30)\ns.pop()\ns.append(40)\nprint(s[-1], len(s))\n\nWhat is the output?",
+    "passage": null,
+    "options": [
+     "40 3",
+     "30 3",
+     "40 4",
+     "20 2"
+    ],
+    "key": 0,
+    "explanation": "pop() without an index removes the last element, which is 30, so the list becomes [10, 20]. Then 40 is appended, making the list [10, 20, 40], so s[-1] is 40 and len(s) is 3.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Stack",
+   "type": "numerical",
+   "stem": "What will be the postfix equivalent of the expression (A + B)* (C - D)?",
+   "passage": null,
+   "options": [
+    "A B + C D - *",
+    "A B * C D + -",
+    "A B - C D * +",
+    "A B C * + D -"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Queue",
+   "type": "numerical",
+   "stem": "Which of the following elements will be present in a queue after the end of the following operation sequence? Assume the queue is empty initially.\nenqueue(10)\nenqueue(20)\nenqueue(30)\ndequeue()\nenqueue(40)\ndequeue()\nenqueue(50)\nenqueue(60)\n(A) 60\n(B) 30\n(C) 20\n(D) 50\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served rows trace the same kind of sequence and read the queue, with other values.",
+   "match": {
+    "kind": "question",
+    "id": "33636d72-4374-4537-9069-890858e75d50",
+    "chapter": "Queue",
+    "stem": "Start with an empty queue. Perform: enqueue(1), enqueue(2), enqueue(3), dequeue(), enqueue(4), enqueue(5), dequeue(). What is the queue content from front to rear?",
+    "passage": null,
+    "options": [
+     "3, 4, 5",
+     "1, 2, 3, 4, 5",
+     "2, 3, 4",
+     "4, 5, 3"
+    ],
+    "key": 0,
+    "explanation": "After the two dequeues the remaining elements enqueued in order are 3, then 4, then 5.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Queue",
+   "type": "theory",
+   "stem": "Which of the following is a linear data structure?\n(A) Deque\n(B) Queue\n(C) Stack\n(D) Tree\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Queue",
+   "type": "theory",
+   "stem": "Which of the following statements is true in the context of a Deque?",
+   "passage": null,
+   "options": [
+    "Insertion is done from front and deletion is done from rear.",
+    "Insertion and deletion can be done at both ends.",
+    "Insertion is done from front and deletion is done from front.",
+    "Insertion is done from rear and deletion is done from rear."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards state it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.queue.def-deque",
+    "chapter": "Queue",
+    "front": "What is a Deque?",
+    "back": "Deque (pronounced as \"deck\") is an arrangement in which addition and removal of element(s) can happen from any end, i.e. head/front or tail/rear.",
+    "source": "NCERT, Computer Science, chapter 4, page 59",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Searching",
+   "type": "theory",
+   "stem": "Which of the following are the applications of binary search?\n(A) Telephone Directory\n(B) Finding the element with a minimum or maximum value in a sorted list\n(C) Implementing routing tables\n(D) Indexing in database\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Searching",
+   "type": "theory",
+   "stem": "What happens even if a key is not present in the list during a linear search?",
+   "passage": null,
+   "options": [
+    "The algorithm stops mid way.",
+    "The algorithm skips elements.",
+    "The algorithm gives an error.",
+    "The algorithm searches through entire list."
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards state it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.searching.key-linear-unsuccessful",
+    "chapter": "Searching",
+    "front": "If no element matches the key and we have traversed the ____, we declare the search is unsuccessful i.e., the key is not present in the list.",
+    "back": "If no element matches the key and we have traversed the entire list, we declare the search is unsuccessful i.e., the key is not present in the list.",
+    "source": "NCERT, Computer Science, chapter 6, page 82",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Searching",
+   "type": "numerical",
+   "stem": "If a linear search is performed on 10 elements, how many comparisons will be needed in worst case?",
+   "passage": null,
+   "options": [
+    "1",
+    "10",
+    "9",
+    "11"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served rows work worst-case linear search = n for other sizes.",
+   "match": {
+    "kind": "question",
+    "id": "af2c23fa-f633-4d70-bd17-a16dc06cb331",
+    "chapter": "Searching",
+    "stem": "Arrange the following searches in increasing order of the number of comparisons they need in the worst case. Binary search is applied to a sorted list.\n(A) Linear search on a list of 64 elements\n(B) Binary search on a sorted list of 64 elements\n(C) Linear search on a list of 8 elements\n(D) Binary search on a sorted list of 8 elements",
+    "passage": null,
+    "options": [
+     "(B), (D), (C), (A)",
+     "(D), (C), (B), (A)",
+     "(D), (B), (C), (A)",
+     "(C), (D), (B), (A)"
+    ],
+    "key": 2,
+    "explanation": "Binary search needs at most floor(log2 n) + 1 comparisons in the worst case, which is 4 for 8 elements and 7 for 64. Linear search needs n comparisons in the worst case, which is 8 for the list of 8 and 64 for the list of 64. The increasing order is therefore (D), (B), (C), (A).",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Sorting",
+   "type": "numerical",
+   "stem": "How many passes are required to sort a list of 6 elements using bubble sort?",
+   "passage": null,
+   "options": [
+    "5",
+    "6",
+    "4",
+    "3"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Sorting",
+   "type": "theory",
+   "stem": "Which sorting algorithm involves repeatedly selecting the smallest element and placing it in its correct position?",
+   "passage": null,
+   "options": [
+    "Bubble Sort",
+    "Selection Sort",
+    "Insertion Sort",
+    "Quick Sort"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row asks the same thing.",
+   "match": {
+    "kind": "question",
+    "id": "5237c5d2-2fda-4d1c-a92b-e1f119cf4d64",
+    "chapter": "Sorting",
+    "stem": "Which sorting technique repeatedly finds the smallest element of the unsorted part of a list and places it at the next position of the sorted part?",
+    "passage": null,
+    "options": [
+     "Bubble sort",
+     "Insertion sort",
+     "Binary search",
+     "Selection sort"
+    ],
+    "key": 3,
+    "explanation": "Selection sort finds the minimum element of the unsorted part on each pass and swaps it into place, extending the sorted part from the left. Bubble sort swaps adjacent out-of-order pairs, insertion sort places each element into the sorted part, and binary search is a searching method.",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Sorting",
+   "type": "theory",
+   "stem": "A loop within a loop will have the time complexity as __________.",
+   "passage": null,
+   "options": [
+    "n^2",
+    "log(n)",
+    "n",
+    "n^3"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Understanding Data",
+   "type": "theory",
+   "stem": "Which of the following are examples of unstructured data?\n(A) Writing tweets\n(B) Recording a video\n(C) Marking attendance by the teacher\n(D) Filling a form for opening an account\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) and (B) only",
+    "(A), (B) and (C) only",
+    "(C) and (D) only",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row names free text, images and audio as unstructured and tabular records as structured; tweets are free text and video is images with sound. Concept match (A asked B to rule: B rules covered).",
+   "match": {
+    "kind": "question",
+    "id": "028fae3a-e7b2-4d6c-af5f-bf30a5aaff2c",
+    "chapter": "Understanding Data",
+    "stem": "Which of the following is an example of structured data?",
+    "passage": null,
+    "options": [
+     "A CSV file with columns name, age, city",
+     "A photograph stored as JPEG",
+     "A recorded audio interview",
+     "Free-form user comments in a single text field"
+    ],
+    "key": 0,
+    "explanation": "Structured data follows a fixed schema like CSV columns, whereas images, audio and free text are unstructured.",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Understanding Data",
+   "type": "numerical",
+   "stem": "Calculate the standard deviation of the given temperature below recorded for the 7 days of a week:\n24, 24, 21, 20, 26, 27, 30",
+   "passage": null,
+   "options": [
+    "24",
+    "3.2",
+    "24.57",
+    "11.95"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Understanding Data",
+   "type": "theory",
+   "stem": "Which measure of central tendency is better suited for dealing with an outlier?",
+   "passage": null,
+   "options": [
+    "Median",
+    "Mean",
+    "Mode",
+    "Range"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Database Concepts",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (KEY CONCEPTS IN DATABASE) | List-II (DESCRIPTION)\n(A) Database Schema | (I) Snapshot of the database\n(B) Database Instance | (II) Restriction on the type of data\n(C) Data Dictionary | (III) Skeleton of the database\n(D) Data Constraint | (IV) Database catalog\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "All four pairs are NCERT sentences on Key cards.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-concepts.def-schema",
+    "chapter": "Database Concepts",
+    "front": "What is a database schema?",
+    "back": "Database Schema is the design of a database. It is the skeleton of the database that represents the structure (table names and their fields/columns), the type of data each column can hold, constraints on the data to be stored (if any), and the relationships among the tables.",
+    "source": "NCERT, Computer Science Part 2, chapter 8, page 118",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Queue",
+   "type": "theory",
+   "stem": "Sometimes, on calling a customer service center, the Interactive Voice Response System (IVRS) tells us to wait till a support person is available. Which data structure this application is of?",
+   "passage": null,
+   "options": [
+    "Enqueue",
+    "Binary Tree",
+    "Stack",
+    "Queue"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the stem's own example.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.queue.ex-ivrs",
+    "chapter": "Queue",
+    "front": "On a customer service call, the Interactive Voice Response System (IVRS) tells us to wait for a support person. Which concept is this?",
+    "back": "Sometimes on calling a customer service centre, the Interactive Voice Response System (IVRS) tells us to wait till a support person is available. Here the call is put into a queue of customers waiting to be serviced.",
+    "source": "NCERT, Computer Science, chapter 4, page 54",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Database Concepts",
+   "type": "numerical",
+   "stem": "Calculate the degree and cardinality of the given relation below:\nID | Name | Email | Address | Phone No.\n001 | Ajay | ajay@abc.com | A1-Shakti Nagar, Bangalore | 55218936\n002 | Amit | amit@abc.com | C32- Indira Nagar, Lucknow | 45321789\n003 | Ashu | ashu@abc.com | 117/82 Patel Nagar, Delhi | 98567894\n004 | Ashok | ashok@abc.com | 249-250, Motinagar, Gujrat | 97698541",
+   "passage": null,
+   "options": [
+    "Degree = 4, Cardinality = 5",
+    "Degree = 5, Cardinality = 4",
+    "Degree = 5, Cardinality = 1",
+    "Degree = 4, Cardinality = 1"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row counts degree and cardinality of a table with other numbers.",
+   "match": {
+    "kind": "question",
+    "id": "11448e97-cc49-44a6-bdc2-8d2099a05f1d",
+    "chapter": "Database Concepts",
+    "stem": "A relational table has 5 columns and 8 rows. What are the degree and the cardinality of this table, respectively?",
+    "passage": null,
+    "options": [
+     "Degree 5, cardinality 8",
+     "Degree 8, cardinality 5",
+     "Degree 13, cardinality 40",
+     "Degree 40, cardinality 13"
+    ],
+    "key": 0,
+    "explanation": "Degree is the number of attributes (columns), which is 5 here. Cardinality is the number of tuples (rows), which is 8 here. Option B swaps the two terms, and options C and D combine the numbers by addition and multiplication instead of reading them directly.",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Structured Query Language",
+   "type": "theory",
+   "stem": "Suppose you want to select distinct salaries working in department 101 from the 'Employee' relation. What will be the correct order of writing the query?\n(A) FROM Employee\n(B) SELECT\n(C) WHERE\n(D) DISTINCT Salary\n(E) Dept_ID= 101\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D), (E)",
+    "(A), (C), (B), (D), (E)",
+    "(B), (D), (A), (C), (E)",
+    "(B), (E), (C), (D), (A)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row uses this exact query shape and another teaches the clause order.",
+   "match": {
+    "kind": "question",
+    "id": "1fe7b2d3-819c-4607-936f-00626e2ba7c7",
+    "chapter": "Structured Query Language",
+    "stem": "The table EMP is given below.\nEmpid | Ename | Dept | Salary\n101 | Ravi | Sales | 45000\n102 | Meena | HR | 52000\n103 | Arjun | Sales | NULL\n104 | Kavya | IT | 61000\n105 | Imran | HR | 48000\nHow many rows does the query SELECT DISTINCT Dept FROM EMP WHERE Salary > 40000; display?",
+    "passage": null,
+    "options": [
+     "2",
+     "4",
+     "3",
+     "5"
+    ],
+    "key": 2,
+    "explanation": "Rows with Salary above 40000 are Ravi (Sales), Meena (HR), Kavya (IT) and Imran (HR), so 4 rows remain before duplicates are removed. The NULL salary row is excluded because NULL > 40000 is not true. DISTINCT keeps one row per department, leaving Sales, HR and IT, which is 3 rows.",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Searching",
+   "type": "theory",
+   "stem": "___________ is a search technique that makes use of the ordering of elements in the list to quickly search for a key.",
+   "passage": null,
+   "options": [
+    "Linear Search",
+    "Binary Search",
+    "Hashing",
+    "Bubble Search"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the stem's definition.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.searching.def-binary-search",
+    "chapter": "Searching",
+    "front": "What is binary search?",
+    "back": "The binary search is a search technique that makes use of the ordering of elements in the list to quickly search a key.",
+    "source": "NCERT, Computer Science, chapter 6, page 85",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Structured Query Language",
+   "type": "numerical",
+   "stem": "Sales\nID | customer_id | order_date | total_amount\n1 | C101 | 2022-01-15 | 1000\n2 | C102 | 2022-02-20 | 500\n3 | C103 | 2022-03-10 | 800\n4 | C101 | 2022-04-05 | 600\nWhat is the result of the following query with respect to given relation 'Sales'?\nSELECT COUNT(DISTINCT customer_id) FROM Sales;",
+   "passage": null,
+   "options": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row counts the distinct values of a column from a printed table and cards show COUNT(DISTINCT) counts different values: the same step (A asked B to rule: B rules covered).",
+   "match": {
+    "kind": "question",
+    "id": "1fe7b2d3-819c-4607-936f-00626e2ba7c7",
+    "chapter": "Structured Query Language",
+    "stem": "The table EMP is given below.\nEmpid | Ename | Dept | Salary\n101 | Ravi | Sales | 45000\n102 | Meena | HR | 52000\n103 | Arjun | Sales | NULL\n104 | Kavya | IT | 61000\n105 | Imran | HR | 48000\nHow many rows does the query SELECT DISTINCT Dept FROM EMP WHERE Salary > 40000; display?",
+    "passage": null,
+    "options": [
+     "2",
+     "4",
+     "3",
+     "5"
+    ],
+    "key": 2,
+    "explanation": "Rows with Salary above 40000 are Ravi (Sales), Meena (HR), Kavya (IT) and Imran (HR), so 4 rows remain before duplicates are removed. The NULL salary row is excluded because NULL > 40000 is not true. DISTINCT keeps one row per department, leaving Sales, HR and IT, which is 3 rows.",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "Which protocol is used to format and transmit the information from the World Wide Web?",
+   "passage": null,
+   "options": [
+    "FTP",
+    "TCP",
+    "HTTP",
+    "DNS"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards and a served row tie HTTP to the WWW.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-communication.def-http",
+    "chapter": "Data Communication",
+    "front": "What is HTTP?",
+    "back": "HTTP stands for HyperText Transfer Protocol. It is the primary protocol used to access the World Wide Web.",
+    "source": "NCERT, Computer Science, chapter 11, page 217",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Topology) | List-II (Characteristics)\n(A) Star | (I) Single backbone cable\n(B) Bus | (II) Central hub or switch\n(C) Ring | (III) Unidirectional link\n(D) Hybrid | (IV) Multiple branches\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Each topology has a Key card stating the same characteristic.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.def-star",
+    "chapter": "Computer Networks",
+    "front": "What is star topology?",
+    "back": "In star topology, each communicating device is connected to a central networking device like a hub or a switch.",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 200",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Computer Networks",
+   "type": "theory",
+   "stem": "What describes the work of a repeater?",
+   "passage": null,
+   "options": [
+    "Regenerates weak signals",
+    "Resolves domain to IP address",
+    "Unique hardware address",
+    "Circuit switching"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card and a served row state it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.def-repeater",
+    "chapter": "Computer Networks",
+    "front": "What is a repeater?",
+    "back": "A repeater is an analog device that works with signals on the cables to which it is connected. The weakened signal appearing on the cable is regenerated and put back on the cable by a repeater.",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 189",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Data Communication",
+   "type": "theory",
+   "stem": "What is the measurment unit of bandwidth?",
+   "passage": null,
+   "options": [
+    "Hertz",
+    "Kilobytes",
+    "Milliseconds",
+    "Megabytes"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-communication.term-bandwidth-unit",
+    "chapter": "Data Communication",
+    "front": "Bandwidth is measured in ____ (Hz).",
+    "back": "Bandwidth is measured in Hertz (Hz).",
+    "source": "NCERT, Computer Science, chapter 11, page 205",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Data Communication",
+   "type": "theory",
+   "stem": "What is the range of frequency for radio waves?",
+   "passage": null,
+   "options": [
+    "3 KHz to 300 GHz",
+    "1 GHz to 10 Ghz",
+    "300 GHz to 400 Thz",
+    "3 KHz to 1 GHz"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Sorting",
+   "type": "numerical",
+   "stem": "Consider the following numList:\n8 | 7 | 13 | 1 | -9 | 4\nSequence the following output obtained after each pass of comparison using bubble sort.\n(A) 7 | 8 | 1 | -9 | 4 | 13\n(B) 7 | 1 | -9 | 4 | 8 | 13\n(C) -9 | 1 | 4 | 7 | 8 | 13\n(D) 1 | -9 | 4 | 7 | 8 | 13\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(B), (D), (C), (A)",
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served rows trace bubble sort passes on other lists: the same steps.",
+   "match": {
+    "kind": "question",
+    "id": "dd2c0a43-67ff-4ae8-8155-3a9712c931b8",
+    "chapter": "Sorting",
+    "stem": "The list [5, 1, 4, 2, 8] is to be sorted in ascending order using bubble sort. What is the content of the list after the first pass of the outer loop is completed?",
+    "passage": null,
+    "options": [
+     "[1, 5, 4, 2, 8]",
+     "[1, 2, 4, 5, 8]",
+     "[5, 1, 4, 2, 8]",
+     "[1, 4, 2, 5, 8]"
+    ],
+    "key": 3,
+    "explanation": "In the first pass, the 5 is swapped in turn with 1, then with 4, then with 2, and the comparison of 5 with 8 causes no swap. The result after the first pass is [1, 4, 2, 5, 8]. The list [1, 2, 4, 5, 8] is reached only after the second pass.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Security Aspects",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (Malware) | List-II (Threat)\n(A) Keylogger | (I) It generates revenue using \"pay per click\" mechanism to charge its clients against the number of clicks on their displayed ads.\n(B) Adware | (II) Makes the logs of daily keyboard usage and may send it to an external entity as well.\n(C) Spyware | (III) Standalone programs that are capable of replicating on their own and can spread to other computers through the network.\n(D) Worm | (IV) Usually tracks internet usage data and sells it to advertisers.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (II), (B) - (IV), (C)-(I), (D)-(III)",
+    "(A) - (II), (B) - (I), (C)-(IV), (D)-(III)",
+    "(A) - (I), (B) - (II), (C)-(IV), (D)-(III)",
+    "(A) - (III), (B) - (I), (C)-(IV), (D)-(II)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Security Aspects",
+   "type": "theory",
+   "stem": "Which statement is true about a Trojan?",
+   "passage": null,
+   "options": [
+    "It is not a malware.",
+    "It does not self-replicate or infect other files.",
+    "It cannot damage files.",
+    "It does not spreads through user interaction."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.security-aspects.fact-trojan-spread",
+    "chapter": "Security Aspects",
+    "front": "How does a Trojan spread, given that it does not self-replicate or infect other files?",
+    "back": "However, a Trojan does not self-replicate or infect other files, it spreads through user interaction such as opening an email attachment or downloading and executing a file from the Internet.",
+    "source": "NCERT, Computer Science, chapter 12, page 226",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "chapter": "Security Aspects",
+   "type": "theory",
+   "stem": "Which malware type disguises itself as legitimate software?",
+   "passage": null,
+   "options": [
+    "Spyware",
+    "Adware",
+    "Virus",
+    "Trojan"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A served row's explanation states it.",
+   "match": {
+    "kind": "question",
+    "id": "0c46aa90-0caf-4e35-80eb-52fb4683e211",
+    "chapter": "Security Aspects",
+    "stem": "Which type of malicious program copies itself and spreads from one computer to another across a network, without attaching itself to a host file?",
+    "passage": null,
+    "options": [
+     "Virus",
+     "Trojan horse",
+     "Spyware",
+     "Worm"
+    ],
+    "key": 3,
+    "explanation": "A worm copies itself and spreads across a network without needing a host file, unlike a virus, which attaches itself to a file or program. A Trojan horse disguises itself as useful software, and spyware secretly collects information about the user.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 51,
+   "paperNumber": 151,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Database Query using SQL",
+   "type": "theory",
+   "stem": "Which of the following operations can be performed with the UNION clause in SQL?",
+   "passage": null,
+   "options": [
+    "Fetch only common rows between two tables",
+    "Combine rows from two tables without duplicates",
+    "Combine rows from two tables allowing duplicates",
+    "Combine columns with duplicates"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-query-using-sql.def-union",
+    "chapter": "Database Query using SQL",
+    "front": "What is the UNION operation?",
+    "back": "This operation is used to combine the selected rows of two tables at a time. If some rows are the same in both the tables, then the result of the Union operation will show those rows only once.",
+    "source": "NCERT, Informatics Practices, chapter 1, page 16",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 52,
+   "paperNumber": 152,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Database Query using SQL",
+   "type": "theory",
+   "stem": "Which clause is used to combine rows from two tables that meet a condition?",
+   "passage": null,
+   "options": [
+    "UNION",
+    "INTERSECT",
+    "JOIN",
+    "MINUS"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-query-using-sql.def-join",
+    "chapter": "Database Query using SQL",
+    "front": "What is the JOIN operation?",
+    "back": "JOIN operation combines tuples from two tables on specified conditions. This is unlike cartesian product, which make all possible combinations of tuples.",
+    "source": "NCERT, Informatics Practices, chapter 1, page 20",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 53,
+   "paperNumber": 153,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Database Query using SQL",
+   "type": "numerical",
+   "stem": "What is the degree of the resulting table when performing a Cartesian product of two tables with degrees 3 and 4?",
+   "passage": null,
+   "options": [
+    "3",
+    "4",
+    "7",
+    "12"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 54,
+   "paperNumber": 154,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Project Based Learning",
+   "type": "theory",
+   "stem": "Sequence the following steps involved in Project Based Learning:\n(A) Fixing of a time frame and processing\n(B) Identification of a project\n(C) Defining a plan\n(D) Providing guidance and monitoring a project\n(E) Outcome of a project\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (E), (D)",
+    "(A), (B), (C), (D), (E)",
+    "(B), (A), (D), (C), (E)",
+    "(B), (C), (A), (D), (E)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card lists the steps in order.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.project-based-learning.steps-pbl-five-steps",
+    "chapter": "Project Based Learning",
+    "front": "Steps in project based learning (Figure 7.1), in order.",
+    "back": "Identification of Project\nDefining a plan\nFixing time frame and processing\nGuidance and monitoring\nOutcome of project",
+    "source": "NCERT, Informatics Practices, chapter 7, page 197",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 55,
+   "paperNumber": 155,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Database Query using SQL",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (AGGREGATE FUNCTIONS) | List-II (DESCRIPTION)\n(A) COUNT() | (I) Returns the average of the values in a specified column\n(B) AVG() | (II) Returns the number of records in a table\n(C) COUNT(*) | (III) Truncate numerical values to a specified position\n(D) ROUND() | (IV) Returns the number of values in a specified column, ignoring NULL values\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)",
+    "(A) - (IV), (B) - (I), (C) - (III), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards give three pairs in List II's words and ROUND as rounding to D decimal places, the paper's \"to a specified position\".",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.database-query-using-sql.def-count-column",
+    "chapter": "Database Query using SQL",
+    "front": "What does COUNT(column) return?",
+    "back": "Returns the number of values in the specified column ignoring the NULL values.",
+    "source": "NCERT, Informatics Practices, chapter 1, page 13",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 56,
+   "paperNumber": 156,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Project Based Learning",
+   "type": "theory",
+   "stem": "Which of the following are the components of successful teamwork?\n(A) Teams listen to each other and follow the steps of their own\n(B) Share ideas with others\n(C) Do not have respect for team members\n(D) Participate in completing the project\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B) and (D) only",
+    "(B), (C) and (D) only"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards teach every component; (A) contradicts \"steps that are agreed upon\" and (C) the respect card.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.project-based-learning.list-share-items",
+    "chapter": "Project Based Learning",
+    "front": "What needs to be shared with each other in order to perform a job?",
+    "back": "Ideas\nimages\ntools",
+    "source": "NCERT, Informatics Practices, chapter 7, page 198",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 57,
+   "paperNumber": 157,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "What will be the output of df.isnull().any()?",
+   "passage": null,
+   "options": [
+    "True if all columns contain null values",
+    "False if no missing values are present in any column",
+    "True or false for each column depending whether it contains missing values or not",
+    "A count for missing values in all columns"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards state it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.def-any",
+    "chapter": "Data Handling using Pandas",
+    "front": "Which function applied to isnull() output returns True if a column (attribute) has a missing value, else False?",
+    "back": "To check whether a column (attribute) has a missing value in the entire dataset, any() function is used. It returns True in case of missing value else returns False.",
+    "source": "NCERT, Informatics Practices, chapter 3, page 92",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 58,
+   "paperNumber": 158,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Project Based Learning",
+   "type": "theory",
+   "stem": "Identification of a project leader generally falls under which of the following steps of Project Based Learning?",
+   "passage": null,
+   "options": [
+    "Defining a plan",
+    "Fixing of a time frame and processing",
+    "Identification of a project",
+    "Providing guidance and monitoring a project"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.project-based-learning.fact-plan-leader-count",
+    "chapter": "Project Based Learning",
+    "front": "Step 2 of project based learning (Defining a plan): how many project leaders have to be identified?",
+    "back": "One project leader has to be identified.",
+    "source": "NCERT, Informatics Practices, chapter 7, page 196",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 59,
+   "paperNumber": 159,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "In data handling, pandas support _______ index values.",
+   "passage": null,
+   "options": [
+    "Unique",
+    "Non-unique",
+    "Homogeneous",
+    "NaN"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 60,
+   "paperNumber": 160,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) pip install pandas | (I) one-dimensional array containing a sequence of values\n(B) Numpy array | (II) can have different data types\n(C) Pandas DataFrame | (III) requires homogeneous data\n(D) Series | (IV) install Pandas library\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards state all four pairs.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.fact-install-pandas",
+    "chapter": "Data Handling using Pandas",
+    "front": "Which command do we type at the command line to install Pandas?",
+    "back": "To install Pandas from command line, we need to type in: pip install pandas",
+    "source": "NCERT, Informatics Practices - Class XII, chapter 2, page 28",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 61,
+   "paperNumber": 161,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "While appending two dataframes, if we want to raise error in case row labels are duplicate, we shall use which parameter of append() method?",
+   "passage": null,
+   "options": [
+    "ignore_index = False",
+    "row_index = False",
+    "in_place = True",
+    "verify_integrity = True"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.fact-df-append-verify-integrity",
+    "chapter": "Data Handling using Pandas",
+    "front": "In append(), what is the parameter verify_integrity used for?",
+    "back": "The parameter verify_integrity of append() method may be set to True when we want to raise an error if the row labels are duplicate. By default, verify_integrity = False.",
+    "source": "NCERT, Informatics Practices - Class XII, chapter 2, page 53",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 62,
+   "paperNumber": 162,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "Order the following steps to for creation of series from NumPy Arrays.\n(A) >>> import numpy as np\n(B) >>> array1 = np.array([1,2,3,4])\n(C) >>> import pandas as pd\n(D) >>> series3 = pd.Series(array1)\n(E) >>> print(series3)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (D), (C), (B), (E)",
+    "(A), (C), (B), (D), (E)",
+    "(B), (A), (D), (C), (E)",
+    "(C), (B), (D), (A), (E)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The card teaches the method; imports first and define-before-use are ordinary Python order, and only the keyed option obeys it (A asked B to rule: B rules covered).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.fact-series-from-1d-array",
+    "chapter": "Data Handling using Pandas",
+    "front": "From what kind of NumPy array can a Series be created?",
+    "back": "We can create a series from a one-dimensional (1D) NumPy array",
+    "source": "NCERT, Informatics Practices - Class XII, chapter 2, page 30",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 63,
+   "paperNumber": 163,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "What will be the output of the command df.count(axis = 1)?",
+   "passage": null,
+   "options": [
+    "The total number of row in a dataframe.",
+    "The total number of values in each row.",
+    "The total number of columns in each dataframe",
+    "The total number of NaN values in each row"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards state it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.kl-count-axis",
+    "chapter": "Data Handling using Pandas",
+    "front": "To count the rows we need to use the argument ____ as shown in the Program 3.5 below.",
+    "back": "To count the rows we need to use the argument axis=1 as shown in the Program 3.5 below.",
+    "source": "NCERT, Informatics Practices, chapter 3, page 69",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 64,
+   "paperNumber": 164,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "What does pivot_table( ) do in pandas that pivot( ) cannot?",
+   "passage": null,
+   "options": [
+    "It aggregates the values from rows with duplicate entries for the specified columns.",
+    "It does not allow duplicate data to be reshaped.",
+    "It merges multiple dataframes into one.",
+    "It converts NaN values to zero."
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the key's own words.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.def-pivot-table",
+    "chapter": "Data Handling using Pandas",
+    "front": "What is pivot_table() and how does it differ from pivot()?",
+    "back": "It works like a pivot function, but aggregates the values from rows with duplicate entries for the specified columns.",
+    "source": "NCERT, Informatics Practices, chapter 3, page 88",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 65,
+   "paperNumber": 165,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "_________ will display the total number of values for each column or row of a DataFrame.",
+   "passage": null,
+   "options": [
+    "count()",
+    "tail(n)",
+    "head(n)",
+    "max(n)"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the stem's sentence.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.def-count",
+    "chapter": "Data Handling using Pandas",
+    "front": "What does DataFrame.count() display?",
+    "back": "DataFrame.count() will display the total number of values for each column or row of a DataFrame.",
+    "source": "NCERT, Informatics Practices, chapter 3, page 69",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 66,
+   "paperNumber": 166,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "Which of the following functions are used to split the data into groups based on some criteria?",
+   "passage": null,
+   "options": [
+    "split()",
+    "GROUP BY()",
+    "first()",
+    "reset_index()"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it in the paper's spelling.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.def-groupby",
+    "chapter": "Data Handling using Pandas",
+    "front": "What is DataFrame.GROUP BY() used for?",
+    "back": "In pandas, DataFrame.GROUP BY() function is used to split the data into groups based on some criteria.",
+    "source": "NCERT, Informatics Practices, chapter 3, page 79",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 67,
+   "paperNumber": 167,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "Arrange the following steps to calculate the total number of values for each row of a DataFrame.\n(A) Load the DataFrame as 'df'\n(B) Use the df.count() method\n(C) Print the result\n(D) import pandas as pd\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(D), (C), (B), (A)",
+    "(D), (A), (B), (C)",
+    "(D), (C), (A), (B)",
+    "(C), (B), (D), (A)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards teach count() per row; import first and print last is ordinary Python order (A asked B to rule: B rules covered).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.def-count",
+    "chapter": "Data Handling using Pandas",
+    "front": "What does DataFrame.count() display?",
+    "back": "DataFrame.count() will display the total number of values for each column or row of a DataFrame.",
+    "source": "NCERT, Informatics Practices, chapter 3, page 69",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 68,
+   "paperNumber": 168,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "Extracting a part of a series can be done through ____________ .",
+   "passage": null,
+   "options": [
+    "Indexing",
+    "Subtracting",
+    "Slicing",
+    "Partitioning"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards say slicing extracts a run of a series's values.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.fact-series-slice-positional",
+    "chapter": "Data Handling using Pandas",
+    "front": "Slicing a series with positional indices: is the value at the end index position included?",
+    "back": "When we use positional indices for slicing, the value at the end index position is excluded, i.e., only (end - start) number of data values of the series are extracted.",
+    "source": "NCERT, Informatics Practices - Class XII, chapter 2, page 33",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 69,
+   "paperNumber": 169,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Plotting Data using Matplotlib",
+   "type": "theory",
+   "stem": "Which type of chart is most suitable for statistical summary, including quartiles?",
+   "passage": null,
+   "options": [
+    "Line Plot",
+    "Box Plot",
+    "Pie chart",
+    "Scatter Plot"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.plotting-data-using-matplotlib.def-boxplot-def",
+    "chapter": "Plotting Data using Matplotlib",
+    "front": "What is a box plot?",
+    "back": "A Box Plot is the visual representation of the statistical summary of a given data set.",
+    "source": "NCERT, Informatics Practices, chapter 4, page 126",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 70,
+   "paperNumber": 170,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Plotting Data using Matplotlib",
+   "type": "theory",
+   "stem": "What does the explode property in the pie chart do?",
+   "passage": null,
+   "options": [
+    "Adds border to the pie chart",
+    "Changes the chart color",
+    "Specifies the fraction of the radius with which to expand each slot",
+    "Rotates the chart clockwise"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 71,
+   "paperNumber": 171,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Plotting Data using Matplotlib",
+   "type": "theory",
+   "stem": "Which statements are true regarding the scatter plot?\n(A) Shows how two variables are correlated\n(B) Summarizes categorical data\n(C) Displays proportions as a whole\n(D) Uses dots to represent data\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(A) and (D) only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards give (A) and (D) and assign (B) and (C) to bar and pie charts.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.plotting-data-using-matplotlib.term-scatter-correlation",
+    "chapter": "Plotting Data using Matplotlib",
+    "front": "Scatter plots are sometimes called ____ plots because they show how two variables are correlated.",
+    "back": "Scatter plots are sometimes called correlation plots because they show how two variables are correlated.",
+    "source": "NCERT, Informatics Practices, chapter 4, page 124",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 72,
+   "paperNumber": 172,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Plotting Data using Matplotlib",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) xticks, yticks | (I) Sets the user defined markings for x and y-axis\n(B) kind | (II) Displayed by default associating the colours with the plotted data\n(C) legend | (III) A symbol representing data value\n(D) marker | (IV) Customizing different plot types\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (I), (B) - (IV), (C) - (II), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "All four pairs are NCERT sentences on Key cards.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.plotting-data-using-matplotlib.fact-xticks-syntax",
+    "chapter": "Plotting Data using Matplotlib",
+    "front": "How can we substitute the x-axis ticks with our own values (plt.xticks)?",
+    "back": "We can substitute the ticks at x axis with a list of values of our choice by using plt.xticks(ticks,label) where ticks is a list of locations(locs) on x axis at which ticks should be placed, label is a list of items to place at the given ticks.",
+    "source": "NCERT, Informatics Practices, chapter 4, page 115",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 73,
+   "paperNumber": 173,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Plotting Data using Matplotlib",
+   "type": "theory",
+   "stem": "How can you save a matplotlib figure to a file?",
+   "passage": null,
+   "options": [
+    "plt.savefile()",
+    "plt.savefig(filename)",
+    "plt.storefig(filename)",
+    "plt.save(filename)"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards state it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.plotting-data-using-matplotlib.fact-savefig",
+    "chapter": "Plotting Data using Matplotlib",
+    "front": "Which function saves a figure, and what is passed to it?",
+    "back": "A figure can also be saved by using savefig() function. The name of the figure is passed to the function as parameter.",
+    "source": "NCERT, Informatics Practices, chapter 4, page 108",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 74,
+   "paperNumber": 174,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Plotting Data using Matplotlib",
+   "type": "theory",
+   "stem": "Which of the following determines the height of each column in a histogram?",
+   "passage": null,
+   "options": [
+    "The number of intervals",
+    "The frequency of datapoints within the range",
+    "The x-axis values",
+    "The y-axis values"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key cards state it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.plotting-data-using-matplotlib.kl-histogram-height",
+    "chapter": "Plotting Data using Matplotlib",
+    "front": "The height of each column in the histogram is then ____ to the number of data points its bin contains.",
+    "back": "The height of each column in the histogram is then proportional to the number of data points its bin contains.",
+    "source": "NCERT, Informatics Practices, chapter 4, page 119",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 75,
+   "paperNumber": 175,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Introduction to Computer Networks",
+   "type": "theory",
+   "stem": "Arrange the following steps in sequence to transmit a message over the internet.\n(A) The message is displayed on a web page\n(B) Packets are reassembled at the destination\n(C) The message is disassembled as packets\n(D) Packets are transmitted over the network\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (C), (B), (D)",
+    "(B), (A), (D), (C)",
+    "(C), (D), (B), (A)"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards give the three network steps in order; display comes last.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-communication.def-packet-switching",
+    "chapter": "Data Communication",
+    "front": "Define packet switching.",
+    "back": "In packet switching, each information or message to be transmitted between sender and receiver is broken down into smaller pieces, called packets. These packets are then transmitted independently through the network. Different packets of the same message may take different routes depending on availability.",
+    "source": "NCERT, Computer Science, chapter 11, page 208",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 76,
+   "paperNumber": 176,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Introduction to Computer Networks",
+   "type": "theory",
+   "stem": "Which of the browser settings contains cookies and site data?",
+   "passage": null,
+   "options": [
+    "General Panel",
+    "Privacy and Security Panel",
+    "Home panel",
+    "Search Panel"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card places cookies in the Privacy and Security settings.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.introduction-to-computer-networks.kl-cookie-disable",
+    "chapter": "Introduction to Computer Networks",
+    "front": "One can disable cookies by changing the ____ settings of our browser.",
+    "back": "One can disable cookies by changing the Privacy and Security settings of our browser.",
+    "source": "NCERT, Informatics Practices, chapter 5, page 162",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 77,
+   "paperNumber": 177,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Introduction to Computer Networks",
+   "type": "theory",
+   "stem": "Which topology has a backbone wire that is shared among all nodes?",
+   "passage": null,
+   "options": [
+    "Ring",
+    "Bus",
+    "Star",
+    "Mesh"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.def-bus",
+    "chapter": "Computer Networks",
+    "front": "What is bus topology?",
+    "back": "In bus topology, a single backbone wire called bus is shared among the nodes, which makes it cheaper and easy to maintain.",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 200",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 78,
+   "paperNumber": 178,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Project Based Learning",
+   "type": "theory",
+   "stem": "Which of the following can be viewed as Project Specification?\n(A) Item Category is Book, then the Item Type can be either Academic or Non-Academic, and Item Id should be prefixed with a 'B'.\n(B) Teenagers spend a good amount of time on social networking sites, and it plays a vital role in their behaviour.\n(C) Total population, total male population and total female population aged 10 to 24 in India.\n(D) Realising the importance of Reduce, Reuse and Recycle, the Bookworm club every year organises a Book Donation Camp.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A), (C) and (D) only",
+    "(B), (C) and (D) only",
+    "(A) and (C) only",
+    "(B) and (D) only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 79,
+   "paperNumber": 179,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Introduction to Computer Networks",
+   "type": "theory",
+   "stem": "The physical organization of devices and connecting media in a network is called _______.",
+   "passage": null,
+   "options": [
+    "Web Server",
+    "Web page",
+    "WAN",
+    "Topology"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.def-topology",
+    "chapter": "Computer Networks",
+    "front": "Define network topology.",
+    "back": "The arrangement of computers and other peripherals in a network is called its topology.",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 191",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 80,
+   "paperNumber": 180,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Data Handling using Pandas",
+   "type": "theory",
+   "stem": "_______________ attribute name is used to display a NumPy ndarray having all the values in the DataFrame, without the axes labels.",
+   "passage": null,
+   "options": [
+    "DataFrame.columns",
+    "DataFrame.size",
+    "DataFrame.shape",
+    "DataFrame.values"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the stem's sentence.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.fact-df-attr-values",
+    "chapter": "Data Handling using Pandas",
+    "front": "What does the DataFrame attribute values display?",
+    "back": "to display a NumPy ndarray having all the values in the DataFrame, without the axes labels",
+    "source": "NCERT, Informatics Practices - Class XII, chapter 2, page 54",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 81,
+   "paperNumber": 181,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Societal Impacts",
+   "type": "theory",
+   "stem": "Match List-I with List-II\nList-I (ETIQUETTE) | List-II (DESCRIPTION)\n(A) Credibility | (I) Choose your password wisely.\n(B) Security | (II) Cautious while making comments.\n(C) Reliability | (III) No copyright violation.\n(D) Ethical | (IV) Think before you upload anything.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 82,
+   "paperNumber": 182,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Societal Impacts",
+   "type": "theory",
+   "stem": "A permission agreement between the creator and the party who wants to use the creator's work is called _______.",
+   "passage": null,
+   "options": [
+    "Trademark",
+    "Copyright",
+    "Patent",
+    "Licensing"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.societal-impacts.def-license",
+    "chapter": "Societal Impacts",
+    "front": "What is a license?",
+    "back": "A license is a type of contract or a permission agreement between the creator of an original work permitting someone to use their work, generally for some price",
+    "source": "NCERT, Informatics Practices, chapter 6, page 175",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 83,
+   "paperNumber": 183,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Societal Impacts",
+   "type": "theory",
+   "stem": "Using another person's work, without permission or without paying for it, if it is being sold is known as________.",
+   "passage": null,
+   "options": [
+    "Cyber crime",
+    "Fair use",
+    "Copyright infringement",
+    "Identity theft"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card is the stem's definition.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.societal-impacts.def-copyright-infringement",
+    "chapter": "Societal Impacts",
+    "front": "What is copyright infringement?",
+    "back": "Copyright infringement is when we use other person's work without obtaining their permission to use or we have not paid for it, if it is being sold.",
+    "source": "NCERT, Informatics Practices, chapter 6, page 176",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 84,
+   "paperNumber": 184,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Societal Impacts",
+   "type": "theory",
+   "stem": "Which of the following is an example of cyberbullying?",
+   "passage": null,
+   "options": [
+    "Sending phising links to known friends or aquaintance.",
+    "Creating fake profiles of your friends and uploading embarrassing pictures.",
+    "Blocking your friends from any communication with you.",
+    "Hacking in to your friends system and read his mails"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The card defines cyber bullying to include ridiculing a victim online; the other options are phishing, blocking and hacking.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.societal-impacts.def-cyber-bullying",
+    "chapter": "Societal Impacts",
+    "front": "What is cyber bullying?",
+    "back": "any insulting, degrading or intimidating online behaviour like repeated posting of rumours, giving threats online, posting the victim's personal information, sexual harassment or comments aimed to publicly ridicule a victim is termed as cyber bullying.",
+    "source": "NCERT, Informatics Practices, chapter 6, page 170",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 85,
+   "paperNumber": 185,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "chapter": "Societal Impacts",
+   "type": "theory",
+   "stem": "The 3 \"R\" of e-waste management leading to efficient disposal are:",
+   "passage": null,
+   "options": [
+    "Reduce, Reuse, Return",
+    "Retire, Reuse, Recycle",
+    "Recycle, Reuse, Reduce",
+    "Rescue, Reuse, Return"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The Key card states it.",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.societal-impacts.types-three-rs",
+    "chapter": "Societal Impacts",
+    "front": "Name the feasible methods of e-waste management.",
+    "back": "reduce\nreuse\nrecycle",
+    "source": "NCERT, Informatics Practices, chapter 6, page 185",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  }
+ ]
+}

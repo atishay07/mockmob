@@ -1,4 +1,19 @@
 {
+ "028fae3a-e7b2-4d6c-af5f-bf30a5aaff2c": {
+  "subject": "computer_science",
+  "chapter": "Understanding Data",
+  "stem": "Which of the following is an example of structured data?",
+  "passage": null,
+  "options": [
+   "A CSV file with columns name, age, city",
+   "A photograph stored as JPEG",
+   "A recorded audio interview",
+   "Free-form user comments in a single text field"
+  ],
+  "key": 0,
+  "explanation": "Structured data follows a fixed schema like CSV columns, whereas images, audio and free text are unstructured.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "02f290b1-4488-424e-8504-acb24df27176": {
   "subject": "geography",
   "chapter": "Secondary Activities",
@@ -59,6 +74,21 @@
   "explanation": "The stock taken over by the partner is settled through his capital account, so no cash comes in for it: 25% × 60,000 = 15,000 at book value, taken at 80% = 12,000. The remaining stock = 75% × 60,000 = 45,000 at book value. It was sold at a gain of 10%, so cash realised = 45,000 × 110% = 49,500. Adding the 12,000 taken over gives 61,500, applying the gain to the whole stock gives 66,000, and selling the remaining stock at book value gives 45,000.",
   "from": "read-only fetch 2026-11-22"
  },
+ "0c46aa90-0caf-4e35-80eb-52fb4683e211": {
+  "subject": "computer_science",
+  "chapter": "Security Aspects",
+  "stem": "Which type of malicious program copies itself and spreads from one computer to another across a network, without attaching itself to a host file?",
+  "passage": null,
+  "options": [
+   "Virus",
+   "Trojan horse",
+   "Spyware",
+   "Worm"
+  ],
+  "key": 3,
+  "explanation": "A worm copies itself and spreads across a network without needing a host file, unlike a virus, which attaches itself to a file or program. A Trojan horse disguises itself as useful software, and spyware secretly collects information about the user.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "0f03d599-563e-4491-9472-78f48dd5dc24": {
   "subject": "history",
   "chapter": "Through the Eyes of Travellers",
@@ -73,6 +103,21 @@
   "key": 3,
   "explanation": "Ibn Battuta reached Sind in 1333. Sultan Muhammad bin Tughlaq was impressed by his learning and appointed him qazi of Delhi, a post he held for several years.",
   "from": "saved read-only snapshot history/bank_history.json"
+ },
+ "11448e97-cc49-44a6-bdc2-8d2099a05f1d": {
+  "subject": "computer_science",
+  "chapter": "Database Concepts",
+  "stem": "A relational table has 5 columns and 8 rows. What are the degree and the cardinality of this table, respectively?",
+  "passage": null,
+  "options": [
+   "Degree 5, cardinality 8",
+   "Degree 8, cardinality 5",
+   "Degree 13, cardinality 40",
+   "Degree 40, cardinality 13"
+  ],
+  "key": 0,
+  "explanation": "Degree is the number of attributes (columns), which is 5 here. Cardinality is the number of tuples (rows), which is 8 here. Option B swaps the two terms, and options C and D combine the numbers by addition and multiplication instead of reading them directly.",
+  "from": "read-only fetch 2026-11-23"
  },
  "124e00d2-25e6-41a3-8351-283f4426bd07": {
   "subject": "economics",
@@ -89,6 +134,21 @@
   "explanation": "Price elasticity of demand = (% change in quantity demanded) / (% change in price), with both changes measured on the starting value. % change in quantity = (150 - 200) / 200 x 100 = -25%. % change in price = (60 - 50) / 50 x 100 = +20%. So eD = -25 / 20 = -1.25, and its absolute value is 1.25: demand is elastic. Taking the final values as the base gives 2.0, dividing the price change by the quantity change gives 0.8, and dividing the unit changes (50 / 10) gives 5.0.",
   "from": "read-only fetch 2026-11-22"
  },
+ "1fe7b2d3-819c-4607-936f-00626e2ba7c7": {
+  "subject": "computer_science",
+  "chapter": "Structured Query Language",
+  "stem": "The table EMP is given below.\nEmpid | Ename | Dept | Salary\n101 | Ravi | Sales | 45000\n102 | Meena | HR | 52000\n103 | Arjun | Sales | NULL\n104 | Kavya | IT | 61000\n105 | Imran | HR | 48000\nHow many rows does the query SELECT DISTINCT Dept FROM EMP WHERE Salary > 40000; display?",
+  "passage": null,
+  "options": [
+   "2",
+   "4",
+   "3",
+   "5"
+  ],
+  "key": 2,
+  "explanation": "Rows with Salary above 40000 are Ravi (Sales), Meena (HR), Kavya (IT) and Imran (HR), so 4 rows remain before duplicates are removed. The NULL salary row is excluded because NULL > 40000 is not true. DISTINCT keeps one row per department, leaving Sales, HR and IT, which is 3 rows.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "204e5691-057d-4b2a-b119-3cc545aec418": {
   "subject": "business_studies",
   "chapter": "Consumer Protection",
@@ -104,6 +164,36 @@
   "explanation": null,
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
  },
+ "23fda7f6-04bb-43cf-8611-002db1847e7c": {
+  "subject": "mathematics",
+  "chapter": "Financial Mathematics",
+  "stem": "A machine bought for ₹ 1,80,000 has a residual value of ₹ 30,000 and a useful life of 5 years. Using the straight-line method, its book value at the end of 2 years is:",
+  "passage": null,
+  "options": [
+   "₹ 1,20,000",
+   "₹ 60,000",
+   "₹ 1,08,000",
+   "₹ 1,50,000"
+  ],
+  "key": 0,
+  "explanation": "Annual depreciation = (cost − residual value) ÷ useful life = (1,80,000 − 30,000) ÷ 5 = ₹ 30,000. After 2 years the total depreciation is ₹ 60,000, so the book value is 1,80,000 − 60,000 = ₹ 1,20,000. The figure ₹ 60,000 is only the depreciation charged so far, and ignoring the residual value gives ₹ 36,000 a year and a book value of 1,80,000 − 72,000 = ₹ 1,08,000.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "24da61f4-332d-4048-b169-1a2088c0f0e9": {
+  "subject": "mathematics",
+  "chapter": "Application of Derivatives",
+  "stem": "Let f(x) = x³ − 3x² − 9x + 5. Match List-I with List-II.\nList-I\n(A) x-coordinate of the point of local maximum of f\n(B) x-coordinate of the point of local minimum of f\n(C) Local maximum value of f\n(D) Local minimum value of f\nList-II\n(I) 10\n(II) −22\n(III) −1\n(IV) 3\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+   "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)",
+   "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+   "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+  ],
+  "key": 3,
+  "explanation": "f'(x) = 3(x − 3)(x + 1) gives critical points x = −1 and x = 3. Since f''(x) = 6x − 6 is negative at x = −1 and positive at x = 3, x = −1 is the local maximum and x = 3 the local minimum. f(−1) = 10 and f(3) = −22, so the correct mapping is (A)-(III), (B)-(IV), (C)-(I), (D)-(II).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "29358098-a746-4bdd-b0fe-a83d09299237": {
   "subject": "geography",
   "chapter": "Mineral and Energy Resources",
@@ -117,6 +207,81 @@
   ],
   "key": 2,
   "explanation": "Bailadila is an iron ore range in Dantewada district (NCERT spells it Dantewara) of southern Chhattisgarh. NCERT says the Jharkhand belt 'further extends to Durg, Dantewara and Bailadila'; all three are in Chhattisgarh, and NCERT names Dalli and Rajhara, in the Durg area, among India's important iron ore mines. Chhattisgarh was carved out of Madhya Pradesh in 2000, so Bailadila is now in Chhattisgarh, not Madhya Pradesh; it is not in Karnataka or Maharashtra either. The other pairs are wrong: Noamundi (with Gua) is in Pashchimi Singhbhum, Jharkhand; Kudremukh is in Chikkamagaluru district, Karnataka; Gurumahisani is in Mayurbhanj district, Odisha.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "2b6807ae-c16c-4267-b420-5722c0ed952d": {
+  "subject": "mathematics",
+  "chapter": "Integrals",
+  "stem": "∫ eˣ (1/x − 1/x²) dx is equal to (where C is the constant of integration)",
+  "passage": null,
+  "options": [
+   "−eˣ/x + C",
+   "eˣ/x² + C",
+   "eˣ/x + C",
+   "eˣ(x − 1)/x² + C"
+  ],
+  "key": 2,
+  "explanation": "Since d/dx (eˣ/x) = eˣ/x − eˣ/x², the integrand is exactly d/dx (eˣ/x). Hence the integral is eˣ/x + C. Option D equals the integrand itself, not its antiderivative.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "300047ea-3dc7-4cf4-bc6f-abcb00cd5b7f": {
+  "subject": "mathematics",
+  "chapter": "Matrices",
+  "stem": "Match List-I with List-II. List-I: (A) Scalar matrix (B) Skew-symmetric matrix (C) Row matrix (D) Column matrix. List-II: (I) Aᵀ = −A (II) Order 1 × n (III) Order m × 1 (IV) Diagonal matrix with all diagonal entries equal. Choose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)",
+   "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)",
+   "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)",
+   "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+  ],
+  "key": 2,
+  "explanation": "A scalar matrix is a diagonal matrix whose diagonal entries are all equal, a skew-symmetric matrix satisfies Aᵀ = −A, a row matrix has a single row so its order is 1 × n, and a column matrix has a single column so its order is m × 1. Swapping the row and column matrices is the usual slip, because both have only one line of entries.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "3179f020-e8f9-48fe-8bc0-10a5a5382128": {
+  "subject": "chemistry",
+  "chapter": "Haloalkanes & Haloarenes",
+  "stem": "Arrange the following in increasing order of reactivity towards nucleophilic substitution with aqueous NaOH:\n(A) 2,4-Dinitrochlorobenzene  (B) Chlorobenzene  (C) 2,4,6-Trinitrochlorobenzene  (D) 4-Nitrochlorobenzene",
+  "passage": null,
+  "options": [
+   "(B), (A), (D), (C)",
+   "(C), (A), (D), (B)",
+   "(B), (D), (A), (C)",
+   "(D), (B), (A), (C)"
+  ],
+  "key": 2,
+  "explanation": "Electron-withdrawing nitro groups at the ortho and para positions stabilise the carbanion intermediate of nucleophilic substitution in haloarenes. Reactivity therefore increases with the number of such groups: chlorobenzene < 4-nitro < 2,4-dinitro < 2,4,6-trinitrochlorobenzene.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "33636d72-4374-4537-9069-890858e75d50": {
+  "subject": "computer_science",
+  "chapter": "Queue",
+  "stem": "Start with an empty queue. Perform: enqueue(1), enqueue(2), enqueue(3), dequeue(), enqueue(4), enqueue(5), dequeue(). What is the queue content from front to rear?",
+  "passage": null,
+  "options": [
+   "3, 4, 5",
+   "1, 2, 3, 4, 5",
+   "2, 3, 4",
+   "4, 5, 3"
+  ],
+  "key": 0,
+  "explanation": "After the two dequeues the remaining elements enqueued in order are 3, then 4, then 5.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "34148722-3b98-4ab7-a093-863880075b88": {
+  "subject": "computer_science",
+  "chapter": "Structured Query Language",
+  "stem": "The table EMP is given below.\nEmpid | Ename | Dept | Salary\n101 | Ravi | Sales | 45000\n102 | Meena | HR | 52000\n103 | Arjun | Sales | NULL\n104 | Kavya | IT | 61000\n105 | Imran | HR | 48000\nWhat is the output of the query: SELECT COUNT(*), COUNT(Salary) FROM EMP WHERE Dept = 'Sales';",
+  "passage": null,
+  "options": [
+   "(2, 1)",
+   "(2, 2)",
+   "(1, 1)",
+   "(1, 2)"
+  ],
+  "key": 0,
+  "explanation": "The WHERE clause keeps rows 101 (salary 45000) and 103 (salary NULL), so COUNT(*) returns 2. COUNT(Salary) counts only non-NULL values, so the NULL salary is not counted and the result is 1, giving (2, 1).",
   "from": "read-only fetch 2026-11-23"
  },
  "34e245ae-b9e4-4a51-aed4-23448fb29a87": {
@@ -148,6 +313,36 @@
   "key": 2,
   "explanation": "Performance standards are set for each functional area. Production uses quantity, quality, cost and individual job performance; marketing uses sales volume, sales expenses, advertising expenditure and the performance of individual sales persons; human resource management uses labour relations, labour turnover and labour absenteeism; and finance and accounting use capital expenditure, inventories, the flow of capital and liquidity. Labour turnover therefore belongs to human resource management, not to production.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "35f55f2c-9dff-4ee8-a977-d2268c091670": {
+  "subject": "mathematics",
+  "chapter": "Integrals",
+  "stem": "The value of ∫₀^(π/2) sin x / (sin x + cos x) dx is",
+  "passage": null,
+  "options": [
+   "π/8",
+   "π/2",
+   "π/4",
+   "1"
+  ],
+  "key": 2,
+  "explanation": "Let I be the integral. Substituting x → π/2 − x gives I = ∫₀^(π/2) cos x / (sin x + cos x) dx. Adding the two forms gives 2I = ∫₀^(π/2) 1 dx = π/2, so I = π/4.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "386d01b7-740a-49ed-8930-68da67b0b8bc": {
+  "subject": "mathematics",
+  "chapter": "Application of Derivatives",
+  "stem": "The minimum value of x + 16/x for x > 0 is",
+  "passage": null,
+  "options": [
+   "4",
+   "16",
+   "32",
+   "8"
+  ],
+  "key": 3,
+  "explanation": "Let g(x) = x + 16/x. Then g′(x) = 1 − 16/x² = 0 gives x = 4 for x > 0, and g″(x) = 32/x³ > 0 there, so this is a minimum. Hence g(4) = 4 + 4 = 8.",
+  "from": "read-only fetch 2026-11-23"
  },
  "3aa865f9-ec19-4667-9080-520e967b5b4c": {
   "subject": "sociology",
@@ -194,6 +389,36 @@
   "explanation": "Maslow's hierarchy rises from physiological needs (food, water, sleep, shelter), to safety needs (job security, a stable income, pension plans), social needs (affection, friendship, acceptance), esteem needs (self-respect, autonomy, status, recognition) and finally self-actualisation needs. Self-actualisation is the drive to become what one is capable of becoming, and it includes growth, self-fulfilment and the achievement of goals. It sits at the top, and a person turns to esteem only after the social needs below it are met.",
   "from": "read-only fetch 2026-11-22"
  },
+ "3c233735-4d2a-49ad-8a53-b2cba9e6d979": {
+  "subject": "computer_science",
+  "chapter": "Stack",
+  "stem": "The following Python code uses a list as a stack:\n\ns = []\ns.append(10)\ns.append(20)\ns.append(30)\ns.pop()\ns.append(40)\nprint(s[-1], len(s))\n\nWhat is the output?",
+  "passage": null,
+  "options": [
+   "40 3",
+   "30 3",
+   "40 4",
+   "20 2"
+  ],
+  "key": 0,
+  "explanation": "pop() without an index removes the last element, which is 30, so the list becomes [10, 20]. Then 40 is appended, making the list [10, 20, 40], so s[-1] is 40 and len(s) is 3.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "3dc623cc-4185-4477-b025-b76d7938e6f1": {
+  "subject": "mathematics",
+  "chapter": "Application of Integrals",
+  "stem": "The area of the region bounded by the curve y = x² and the line y = 4, in square units, is",
+  "passage": null,
+  "options": [
+   "16/3",
+   "32/3",
+   "8/3",
+   "64/3"
+  ],
+  "key": 1,
+  "explanation": "The curve and the line meet at x = ±2, and the line lies above the parabola on [−2, 2]. The area is ∫ from −2 to 2 of (4 − x²) dx = [4x − x³/3] from −2 to 2 = 32/3. The value 16/3 is the area over only one half, from 0 to 2.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "41872980-a987-49d2-8cd1-26271b83aa6d": {
   "subject": "history",
   "chapter": "Kings, Farmers & Towns",
@@ -223,6 +448,36 @@
   "key": 2,
   "explanation": "The amount payable in shares = purchase price − cash paid = 2,60,000 − 20,000 = 2,40,000. Issue price per share = face value + premium = 10 + 25% of 10 = 10 + 2.50 = ₹ 12.50. Number of shares = amount payable in shares ÷ issue price = 2,40,000 ÷ 12.50 = 19,200. Dividing by the face value of 10 gives 24,000, dividing the whole price by the issue price gives 20,800, and dividing the whole price by the face value gives 26,000.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "4413281e-b267-4c9e-b508-d943bdc632b7": {
+  "subject": "mathematics",
+  "chapter": "Financial Mathematics",
+  "stem": "The value of a fund grows by 25% in the first year and by 80% in the second year. Its compound annual growth rate (CAGR) over the two years is:",
+  "passage": null,
+  "options": [
+   "62.5%",
+   "125%",
+   "52.5%",
+   "50%"
+  ],
+  "key": 3,
+  "explanation": "Over two years the value is multiplied by 1.25 × 1.80 = 2.25. CAGR is the constant yearly rate that gives this growth: (1 + g)² = 2.25, so 1 + g = 1.5 and g = 50%. Check: 1.5 × 1.5 = 2.25. The average of 25% and 80% is 52.5%, and the total gain of 125% divided by 2 is 62.5%; neither is a compound rate.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "445ae24f-2638-45b5-b4e4-eb5f0913d7f1": {
+  "subject": "chemistry",
+  "chapter": "Solutions",
+  "stem": "Assertion: The boiling point of a solution is always higher than that of the pure solvent. Reason: Boiling point elevation is a colligative property.",
+  "passage": null,
+  "options": [
+   "Both assertion and reason are true, and the reason is the correct explanation of the assertion.",
+   "Both assertion and reason are true, but the reason is not the correct explanation of the assertion.",
+   "Assertion is true, but the reason is false.",
+   "Assertion is false, but the reason is true."
+  ],
+  "key": 1,
+  "explanation": "The assertion is true, but the reason is a definition of boiling point elevation, not the explanation of why it occurs (which is due to vapor pressure lowering).",
+  "from": "read-only fetch 2026-11-23"
  },
  "447d2a3e-1a7e-439d-9fd4-069683176986": {
   "subject": "biology",
@@ -269,6 +524,36 @@
   "explanation": "Statements I and III are correct. Soap operas are stories that are serialised and continuous: individual stories may come to an end and different characters appear and disappear, but the soap itself has no ending until it is taken off the air completely, and it presumes a history that the regular viewer knows, so I is correct. Hum Log (1984-85) was India's first long-running soap opera: some 156 episodes were broadcast in Hindi over 17 months. It used the entertainment-education strategy, intentionally placing educational content in an entertainment programme, and promoted social themes such as gender equality, small family size and national integration, so III is correct. Buniyaad came later, in 1986-87, so II is wrong. Hum Log's advertising promoted a new consumer product, Maggi 2-Minute noodles; advertisers began to line up to buy airtime, and the commercialisation of Doordarshan began, so IV is wrong. Where the genre and its name come from: soap operas began in the United States in the 1930s as daytime radio serials, many of them sponsored by soap manufacturers, which gave the genre its name. They went out in the daytime, when most listeners were housewives, so they were made for a mainly female audience, and women remain the main target audience of most soap operas.",
   "from": "read-only fetch 2026-11-23"
  },
+ "5237c5d2-2fda-4d1c-a92b-e1f119cf4d64": {
+  "subject": "computer_science",
+  "chapter": "Sorting",
+  "stem": "Which sorting technique repeatedly finds the smallest element of the unsorted part of a list and places it at the next position of the sorted part?",
+  "passage": null,
+  "options": [
+   "Bubble sort",
+   "Insertion sort",
+   "Binary search",
+   "Selection sort"
+  ],
+  "key": 3,
+  "explanation": "Selection sort finds the minimum element of the unsorted part on each pass and swaps it into place, extending the sorted part from the left. Bubble sort swaps adjacent out-of-order pairs, insertion sort places each element into the sorted part, and binary search is a searching method.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "5590c1cd-39cf-4740-a079-6156673b0670": {
+  "subject": "mathematics",
+  "chapter": "Matrices",
+  "stem": "If A is a square matrix of order 3 such that |A| = 5, then the value of |adj(A)| is:",
+  "passage": null,
+  "options": [
+   "25",
+   "125",
+   "5",
+   "1"
+  ],
+  "key": 0,
+  "explanation": "Using the property |adj(A)| = |A|^(n-1), where n=3, we get 5^(3-1) = 5^2 = 25.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "55e6c5a0-db6b-47d6-8901-71a9a8c983f5": {
   "subject": "accountancy",
   "chapter": "Accounting Ratios",
@@ -299,6 +584,21 @@
   "explanation": "The amount due to a retiring partner is made up of the credit balance of his capital account, the credit balance of his current account, his share of goodwill, reserves and the gain on revaluation, less any debit balance of his current account. So the current account balance is brought into his capital account first, and the capital account is settled afterwards. The full order is: (1) the Revaluation Account is prepared first, and its profit or loss is transferred to the capital accounts of all the partners; (2) the current account balances are closed into the capital accounts; (3) the retiring partner's capital account is settled, by payment or by transfer to his loan account; (4) the balance sheet of the reconstituted firm is prepared last. The current account is not left as a separate liability, and it does not go to the Revaluation Account, which deals only with changes in the values of assets and liabilities.",
   "from": "read-only fetch 2026-11-22"
  },
+ "59a100d2-d92b-48ae-8b1c-773b76b35021": {
+  "subject": "chemistry",
+  "chapter": "Amines",
+  "stem": "Benzenediazonium chloride is warmed with cuprous chloride dissolved in hydrochloric acid. The major organic product is:",
+  "passage": null,
+  "options": [
+   "Benzene",
+   "Phenol",
+   "Chlorobenzene",
+   "Benzonitrile"
+  ],
+  "key": 2,
+  "explanation": "This is the Sandmeyer reaction. Copper(I) chloride catalyses replacement of the diazonium group by chlorine, with N2 gas released, giving chlorobenzene. Benzonitrile needs CuCN, and benzene is obtained with hypophosphorous acid.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "5a9aecd3-212f-4efb-a84a-db6bed3a2177": {
   "subject": "geography",
   "chapter": "Transport & Communication",
@@ -327,6 +627,21 @@
   ],
   "key": 1,
   "explanation": "NCERT explains that the very large size of Indian Railways puts a lot of pressure on a centralised management system, and so the network has been divided into zones; its Table 7.2 lists 17 zones with their headquarters. The North Central zone is headquartered at Prayagraj in Uttar Pradesh; Gorakhpur, also in Uttar Pradesh, is the headquarters of the North Eastern zone, so (B) is false. The table gives Hajipur for the East Central zone; Hajipur, in Vaishali district across the Ganga from Patna, is in Bihar, and no other zone has its headquarters in that State. Kolkata, in West Bengal, is the headquarters of the Eastern zone, the South Eastern zone and the Metro Railway, so (D) is true. Hence (A), (C) and (D) are correct.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "63dbe2f6-beff-4336-a8e9-435a3e28fe04": {
+  "subject": "chemistry",
+  "chapter": "Biomolecules",
+  "stem": "In aqueous solution at its isoelectric point, glycine exists mainly as which species?",
+  "passage": null,
+  "options": [
+   "H2N-CH2-COOH",
+   "H2N-CH2-COO-",
+   "H3N+-CH2-COO-",
+   "H3N+-CH2-COOH"
+  ],
+  "key": 2,
+  "explanation": "An amino acid exists as a zwitterion, carrying a protonated amino group and a deprotonated carboxylate group. At the isoelectric point the net charge is zero, and the dominant form of glycine is the zwitterion H3N+-CH2-COO-.",
   "from": "read-only fetch 2026-11-23"
  },
  "659edc5d-f549-4be3-aa29-e8c23a2d9b3b": {
@@ -374,6 +689,21 @@
   "explanation": "NCERT's Figure 12.2 places producers (plants) at the first trophic level: phytoplankton, grass, trees. Herbivores, the primary consumers, are at the second: zooplankton, grasshopper and cow. Carnivores, the secondary consumers, are at the third: birds, fishes, wolf. Top carnivores, the tertiary consumers, are at the fourth: man, lion. So grass (first), grasshopper (second), wolf (third) and lion (fourth) give (C), (D), (A), (B). Putting the wolf before the grasshopper makes a carnivore the plant eater; starting with the grasshopper forgets that every grazing chain begins with a producer; and placing the lion below the wolf swaps the top carnivore with the secondary consumer. The diagram shows levels, not fixed species: a real animal can feed at more than one level, as a sparrow does when it eats seeds and also insects.",
   "from": "read-only fetch 2026-11-23"
  },
+ "691312f0-4190-4917-b995-51cf5cc405ae": {
+  "subject": "mathematics",
+  "chapter": "Numbers, Quantification and Numerical Applications",
+  "stem": "Which of the following is a sample statistic rather than a population parameter?",
+  "passage": null,
+  "options": [
+   "Sample mean (x̄)",
+   "Population mean (μ)",
+   "Population variance (σ²)",
+   "Population proportion (p)"
+  ],
+  "key": 0,
+  "explanation": "A sample mean is computed from observed data and is a statistic, while μ, σ², p denote population parameters.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "6a0c3146-b6d0-45b3-a9eb-f5dfaed0c1ec": {
   "subject": "geography",
   "chapter": "Transport & Communication",
@@ -388,6 +718,21 @@
   "key": 0,
   "explanation": "Kandla in Gujarat lies at about 23 degrees north, Mumbai at about 19 degrees north, Mangaluru at about 13 degrees north and Kochi at about 10 degrees north. The north-to-south order is therefore (B), (D), (A), (C).",
   "from": "saved read-only snapshot geography/bank_geography.json"
+ },
+ "6b359ce9-6dc9-49a5-8ad2-fdecd273f239": {
+  "subject": "chemistry",
+  "chapter": "Chemical Kinetics",
+  "stem": "For a reaction, the experimentally determined rate law is rate = k[A][B]^(3/2). The overall order of the reaction is:",
+  "passage": null,
+  "options": [
+   "3/2",
+   "2",
+   "5/2",
+   "3"
+  ],
+  "key": 2,
+  "explanation": "The overall order is the sum of the powers of the concentration terms in the rate law, here 1 + 3/2 = 5/2. Order is obtained only from experiment and can be a fraction or zero, unlike molecularity.",
+  "from": "read-only fetch 2026-11-23"
  },
  "6c960f04-5242-4f58-a6f0-60015f6bc800": {
   "subject": "history",
@@ -419,6 +764,21 @@
   "explanation": "Interest on capital is worked for the period each amount stayed in the firm, up to 31 March. Interest on the opening capital for 12 months = 3,00,000 × 6% = 18,000. Interest on the addition for 8 months (1 August to 31 March) = 60,000 × 6% × 8/12 = 2,400, which is added. Interest on the withdrawal for 3 months (1 January to 31 March) = 24,000 × 6% × 3/12 = 360, which is deducted because that capital was not in the firm for those months. Interest = 18,000 + 2,400 − 360 = 20,040. Charging interest for a full year on the net capital of 3,36,000 gives 20,160, ignoring the withdrawal gives 20,400, and adding the withdrawal instead of deducting it gives 20,760.",
   "from": "read-only fetch 2026-11-22"
  },
+ "73fd584b-e7ae-410e-9954-92afabb63682": {
+  "subject": "mathematics",
+  "chapter": "Financial Mathematics",
+  "stem": "A loan of ₹ 60,000 is taken at 10% per annum flat rate for 2 years and is repaid in equal monthly instalments. The EMI under the flat rate method is:",
+  "passage": null,
+  "options": [
+   "₹ 2,500",
+   "₹ 2,750",
+   "₹ 6,000",
+   "₹ 3,000"
+  ],
+  "key": 3,
+  "explanation": "Under the flat rate method interest is charged on the original principal for the whole period: 60,000 × 10% × 2 = ₹ 12,000. Total repayment = 60,000 + 12,000 = ₹ 72,000, and spreading it over 2 × 12 = 24 months gives 72,000 ÷ 24 = ₹ 3,000. The figure ₹ 2,500 is the principal alone divided by 24, leaving out the interest.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "7926bef3-599f-4cdb-9107-fbf0edba1d9a": {
   "subject": "accountancy",
   "chapter": "Goodwill Valuation",
@@ -433,6 +793,21 @@
   "key": 0,
   "explanation": "Work backwards from goodwill. Super profit = goodwill ÷ number of years' purchase = 90,000 ÷ 3 = 30,000. Normal profit = average profit − super profit = 1,50,000 − 30,000 = 1,20,000. Normal rate of return = normal profit ÷ capital employed × 100 = 1,20,000 ÷ 6,00,000 × 100 = 20%. Dividing the super profit by capital gives 5%, dividing goodwill by capital gives 15%, and treating the whole average profit as normal profit gives 25%.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "7ded8cb6-0906-4e49-84fa-82130df4cf14": {
+  "subject": "mathematics",
+  "chapter": "Differential Equations",
+  "stem": "Consider the following statements:\n(A) Eliminating the constant A from y = Ax² gives the differential equation x(dy/dx) = 2y.\n(B) The equation dy/dx = (x² + y²)/(xy) is homogeneous.\n(C) The equation dy/dx = y/x has the solution y = x + C, where C is a constant.\n(D) Separating the variables in dy/dx = x/y leads to y² − x² = C.\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "Only (A), (B) and (C)",
+   "Only (B), (C) and (D)",
+   "Only (A) and (D)",
+   "Only (A), (B) and (D)"
+  ],
+  "key": 3,
+  "explanation": "From y = Ax², dy/dx = 2Ax = 2y/x, so x(dy/dx) = 2y and (A) is true. Scaling x and y by the same factor leaves (x² + y²)/(xy) unchanged, so (B) is true. Separating dy/y = dx/x gives y = Cx, not y = x + C, so (C) is false. Separating y dy = x dx gives y² = x² + 2K, which is y² − x² = C, so (D) is true.",
+  "from": "read-only fetch 2026-11-23"
  },
  "8171062d-6e5e-418c-a453-08f9daedef4d": {
   "subject": "business_studies",
@@ -462,6 +837,21 @@
   ],
   "key": 1,
   "explanation": "DNA is a hydrophilic molecule, so it cannot pass through cell membranes on its own: (E) is false. Bacteria are first made competent with a specific concentration of a divalent cation such as calcium, which increases the efficiency with which DNA enters through pores in the cell wall (A). The cells are then incubated with the recombinant DNA on ice, placed briefly at 42 °C (the heat shock) and put back on ice (B). The shock is a short step at 42 °C, never boiling at 100 °C, which would kill the cells. Other ways in: micro-injection, directly into the nucleus of an animal cell (C); biolistics or the gene gun, in which plant cells are bombarded with high-velocity micro-particles of gold or tungsten coated with DNA; and 'disarmed pathogen' vectors, which transfer the recombinant DNA into the host when allowed to infect the cell (D). So (A), (B), (C) and (D) are correct.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "83193176-5484-442e-921d-adc71ffa1dde": {
+  "subject": "mathematics",
+  "chapter": "Application of Derivatives",
+  "stem": "The function f(x) = x³ − 6x² + 9x + 1 is strictly decreasing in the interval",
+  "passage": null,
+  "options": [
+   "(1, 3)",
+   "(−∞, 1) ∪ (3, ∞)",
+   "(−1, 3)",
+   "(3, ∞)"
+  ],
+  "key": 0,
+  "explanation": "f′(x) = 3x² − 12x + 9 = 3(x − 1)(x − 3), which is negative exactly when 1 < x < 3. So f is strictly decreasing on (1, 3). The set (−∞, 1) ∪ (3, ∞) is where f′ is positive, so f is increasing there.",
   "from": "read-only fetch 2026-11-23"
  },
  "83804f3c-cc09-4013-97ca-03894eef15a1": {
@@ -509,6 +899,36 @@
   "explanation": "For each asset, find new value − book value: Land and Building + 60,000, Machinery − 30,000, Stock − 12,000, Furniture + 8,000. Total increases = 60,000 + 8,000 = 68,000 and total decreases = 30,000 + 12,000 = 42,000. Net result = 68,000 − 42,000 = 26,000, a profit, which is credited to the Revaluation Account and shared among all the partners in the old ratio. Taking only the increases gives 68,000, taking only the decreases gives a loss of 42,000, and reversing the sign gives a loss of 26,000.",
   "from": "read-only fetch 2026-11-22"
  },
+ "8bda4bb8-ee12-4512-a182-2d215c1d9573": {
+  "subject": "computer_science",
+  "chapter": "Stack",
+  "stem": "Start with an empty stack. Perform operations: push(5), push(3), push(8), pop(), push(2), pop(). What is the top element now?",
+  "passage": null,
+  "options": [
+   "5",
+   "3",
+   "2",
+   "8"
+  ],
+  "key": 1,
+  "explanation": "After operations the stack contains (bottom→top): 5,3 so top is 3.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "903ed426-c63d-4b7b-9c74-bf91b1628735": {
+  "subject": "mathematics",
+  "chapter": "Probability",
+  "stem": "A random variable X takes the values 1, 2, 3 and 4 such that P(X = x) = kx for x = 1, 2, 3, 4, where k is a constant. The value of P(X > 2) is",
+  "passage": null,
+  "options": [
+   "0.7",
+   "0.3",
+   "0.4",
+   "0.9"
+  ],
+  "key": 0,
+  "explanation": "The probabilities sum to k(1 + 2 + 3 + 4) = 10k = 1, so k = 1/10. Then P(X > 2) = P(X = 3) + P(X = 4) = 0.3 + 0.4 = 0.7. The value 0.3 is P(X ≤ 2), and 0.9 is P(X ≥ 2).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "9072f8c9-4f32-4419-bbb5-a01a27ad71ae": {
   "subject": "economics",
   "chapter": "Income Determination",
@@ -523,6 +943,51 @@
   "key": 0,
   "explanation": "Multiplier = 1/(1 - MPC) = 1/0.4 = 2.5, so ΔY = 2.5 * 100 = 250.",
   "from": "saved read-only snapshot econB/bank_economics.json"
+ },
+ "922a8389-3d8b-4f4f-b688-0d8775bb41b1": {
+  "subject": "chemistry",
+  "chapter": "Solutions",
+  "stem": "Arrange the following 0.1 M aqueous solutions in the increasing order of their boiling points:\n(A) CaCl₂\n(B) Glucose\n(C) Al₂(SO₄)₃\n(D) NaCl",
+  "passage": null,
+  "options": [
+   "(B), (A), (D), (C)",
+   "(C), (A), (D), (B)",
+   "(B), (D), (A), (C)",
+   "(D), (B), (A), (C)"
+  ],
+  "key": 2,
+  "explanation": "Elevation of boiling point is proportional to the number of particles in solution, i.e. to the van't Hoff factor i. Glucose does not dissociate (i = 1), NaCl gives 2 ions, CaCl₂ gives 3 ions and Al₂(SO₄)₃ gives 5 ions. The order is glucose < NaCl < CaCl₂ < Al₂(SO₄)₃, that is (B), (D), (A), (C).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "93acdf0c-24cc-46b2-864e-99207aceac5b": {
+  "subject": "mathematics",
+  "chapter": "Application of Derivatives",
+  "stem": "The function f(x) = x² − 2 log_e x, with domain x > 0, is strictly increasing on which of the following intervals?",
+  "passage": null,
+  "options": [
+   "(0, 1)",
+   "(1, ∞)",
+   "(0, ∞)",
+   "(0, e)"
+  ],
+  "key": 1,
+  "explanation": "f′(x) = 2x − 2/x = 2(x² − 1)/x. For x > 0 the sign of f′ is the sign of x² − 1, which is positive only when x > 1, so f increases on (1, ∞). On (0, 1) the derivative is negative, so that is where f decreases; (0, ∞) wrongly treats x² as the only term.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "969ec6f8-7e52-48ce-9832-299e478417ce": {
+  "subject": "chemistry",
+  "chapter": "Electrochemistry",
+  "stem": "The standard electrode potentials of Ni²⁺/Ni and Ag⁺/Ag are −0.25 V and +0.80 V respectively. Using 2.303RT/F = 0.059 V at 298 K, the EMF of the cell Ni(s) | Ni²⁺ (1.0 M) || Ag⁺ (0.01 M) | Ag(s) is closest to:",
+  "passage": null,
+  "options": [
+   "1.17 V",
+   "0.93 V",
+   "0.99 V",
+   "0.81 V"
+  ],
+  "key": 1,
+  "explanation": "E°cell = 0.80 − (−0.25) = 1.05 V and n = 2. The reaction Ni + 2Ag⁺ → Ni²⁺ + 2Ag gives Q = [Ni²⁺]/[Ag⁺]² = 1.0/(0.01)² = 10⁴, so Ecell = 1.05 − (0.059/2) × 4 = 1.05 − 0.118 = 0.93 V. Leaving [Ag⁺] unsquared gives Q = 100 and 0.99 V, which ignores that two Ag⁺ ions appear in the balanced equation.",
+  "from": "read-only fetch 2026-11-23"
  },
  "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96": {
   "subject": "geography",
@@ -614,6 +1079,21 @@
   "explanation": "Capital structure denotes the proportionate mix of long-term funds (debt and equity) used to finance a firm.",
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
  },
+ "ab74ad4f-f6ae-41e8-a885-5c2c5c971a21": {
+  "subject": "chemistry",
+  "chapter": "Haloalkanes & Haloarenes",
+  "stem": "Chloroform is stored in dark coloured, completely filled bottles because, in the presence of light and air, it is slowly oxidised to a poisonous gas. The gas is:",
+  "passage": null,
+  "options": [
+   "Phosgene (carbonyl chloride, COCl2)",
+   "Chloropicrin (trichloronitromethane)",
+   "Methyl chloride (chloromethane)",
+   "Carbon tetrachloride (tetrachloromethane)"
+  ],
+  "key": 0,
+  "explanation": "In the presence of light and air, chloroform is oxidised to the extremely poisonous gas carbonyl chloride (phosgene, COCl2). Storing it in dark, completely filled bottles keeps out light and air and so prevents this oxidation.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "abdf4b59-09d0-4bcb-b230-d7a56eb5b5be": {
   "subject": "accountancy",
   "chapter": "Retirement & Death of Partner",
@@ -629,6 +1109,36 @@
   "explanation": "On the sales basis, the profit ratio of the last year is applied to the sales up to the date of death. Profit ratio on sales = profit ÷ sales = 1,20,000 ÷ 8,00,000 = 15%. Profit up to the date of death = 15% × 2,50,000 = 37,500. The profit of 2023-24 is not needed. The time basis would give 5/12 × 1,20,000 = 50,000, Y's own share (2/6) of the profit is 12,500, and 1,20,000 is the whole of last year's profit.",
   "from": "read-only fetch 2026-11-22"
  },
+ "ac6a6f98-94fa-4360-b0d4-66175ce8f866": {
+  "subject": "mathematics",
+  "chapter": "Application of Derivatives",
+  "stem": "Consider the following statements:\n(A) f(x) = x³ is strictly increasing on R.\n(B) f(x) = 1/x is increasing on its domain R − {0}.\n(C) f(x) = x² is strictly increasing on the interval (0, ∞).\n(D) f(x) = sin x is strictly increasing on the interval (0, π).\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A), (B) and (C) only",
+   "(A) and (C) only",
+   "(A) and (D) only",
+   "(B) and (D) only"
+  ],
+  "key": 1,
+  "explanation": "f'(x) = 3x² is positive except at x = 0, so x³ is strictly increasing on R and (A) is correct. The derivative 2x of x² is positive on (0, ∞), so (C) is correct. The derivative of 1/x is −1/x² < 0, so (B) is false, and cos x is negative on (π/2, π), so (D) is false.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "ad7558f0-8a58-4825-9239-25ff0a40d898": {
+  "subject": "computer_science",
+  "chapter": "Structured Query Language",
+  "stem": "The table EMP is given below.\nEmpid | Ename | Dept | Salary\n101 | Ravi | Sales | 45000\n102 | Meena | HR | 52000\n103 | Arjun | Sales | NULL\n104 | Kavya | IT | 61000\n105 | Imran | HR | 48000\nWhat is the output of the query: SELECT Dept, SUM(Salary) FROM EMP WHERE Salary > 45000 GROUP BY Dept HAVING COUNT(*) > 1;",
+  "passage": null,
+  "options": [
+   "HR 100000 and IT 61000",
+   "IT 61000 only",
+   "Sales 45000 and HR 100000",
+   "HR 100000 only"
+  ],
+  "key": 3,
+  "explanation": "WHERE Salary > 45000 removes Ravi (45000) and the NULL row, leaving Meena (52000), Kavya (61000) and Imran (48000). GROUP BY forms HR with 52000 + 48000 = 100000 and IT with 61000. HAVING COUNT(*) > 1 keeps only HR, so the output is HR 100000.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "ad7c29aa-6d1b-4e11-9598-4108289c6e04": {
   "subject": "accountancy",
   "chapter": "Debentures",
@@ -643,6 +1153,51 @@
   "key": 3,
   "explanation": "Issue price of a debenture = 100 − 12% of 100 = ₹ 88. Number of debentures = amount due ÷ issue price = 1,98,000 ÷ 88 = 2,250. Debentures A/c is credited at face value = 2,250 × 100 = 2,25,000. Discount on issue = 2,25,000 − 1,98,000 = 27,000, which is debited to Discount on Issue of Debentures A/c, while the vendor's account is debited with the 1,98,000 due to it. Crediting only 1,98,000 ignores the discount, debiting the vendor with the face value overstates what is due, and showing the 27,000 as Securities Premium treats a discount as a premium.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "ae5ce2d9-680e-4116-a7d7-aa32c7906d65": {
+  "subject": "chemistry",
+  "chapter": "Electrochemistry",
+  "stem": "For the reaction 2Fe³⁺(aq) + 2I⁻(aq) → 2Fe²⁺(aq) + I₂(s), the E°cell is 0.24 V at 298 K. The standard Gibbs energy of the reaction is approximately -46.32 kJ/mol. What is the equilibrium constant (Kc) for the reaction?",
+  "passage": null,
+  "options": [
+   "10^8",
+   "10^16",
+   "10^4",
+   "10^12"
+  ],
+  "key": 0,
+  "explanation": "Using ΔrG° = -RT ln Kc or E° = (0.0591/n) log Kc. With n=2, 0.24 = (0.0591/2) log Kc => log Kc ≈ 8.12, so Kc ≈ 10^8.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "af2c23fa-f633-4d70-bd17-a16dc06cb331": {
+  "subject": "computer_science",
+  "chapter": "Searching",
+  "stem": "Arrange the following searches in increasing order of the number of comparisons they need in the worst case. Binary search is applied to a sorted list.\n(A) Linear search on a list of 64 elements\n(B) Binary search on a sorted list of 64 elements\n(C) Linear search on a list of 8 elements\n(D) Binary search on a sorted list of 8 elements",
+  "passage": null,
+  "options": [
+   "(B), (D), (C), (A)",
+   "(D), (C), (B), (A)",
+   "(D), (B), (C), (A)",
+   "(C), (D), (B), (A)"
+  ],
+  "key": 2,
+  "explanation": "Binary search needs at most floor(log2 n) + 1 comparisons in the worst case, which is 4 for 8 elements and 7 for 64. Linear search needs n comparisons in the worst case, which is 8 for the list of 8 and 64 for the list of 64. The increasing order is therefore (D), (B), (C), (A).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "b19fa8e5-08f3-47e4-8450-b40bc6631f53": {
+  "subject": "chemistry",
+  "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+  "stem": "Arrange the following in increasing order of acidic strength:\n(A) Benzoic acid\n(B) 4-Nitrobenzoic acid\n(C) 4-Methoxybenzoic acid\n(D) 4-Chlorobenzoic acid",
+  "passage": null,
+  "options": [
+   "(C), (A), (D), (B)",
+   "(A), (C), (D), (B)",
+   "(C), (A), (B), (D)",
+   "(B), (D), (A), (C)"
+  ],
+  "key": 0,
+  "explanation": "Electron-withdrawing groups stabilise the benzoate ion and raise acidity, while electron-donating groups destabilise it. The nitro group withdraws strongly, chlorine withdraws by its inductive effect more than it donates by resonance, and the methoxy group donates by resonance, so it is the weakest acid, even weaker than benzoic acid. Placing methoxy above benzoic acid because of its electronegative oxygen ignores that resonance donation.",
+  "from": "read-only fetch 2026-11-23"
  },
  "b32a5ab7-1b3a-42e2-9baa-04674e4ec092": {
   "subject": "biology",
@@ -689,6 +1244,36 @@
   "explanation": "NCERT measures the level of urbanisation as the percentage of urban population to total population, and gives India's level in 2011 as 31.16 per cent, which it calls quite low in comparison to developed countries; so (A) and (B) are true. NCERT also states that at present 55 per cent of the world's population lives in cities, a share estimated to rise to 68 per cent by 2050; so (C) is true. On each country's own definition of urban, more than half of the world's people have lived in urban areas since about 2007, so in 2011 the world's level was already a little over 50 per cent, far above India's 31 per cent, and (D) is false. Hence (A), (B) and (C) are correct. The world's present level of urbanisation (55 per cent in NCERT, a little under 60 per cent in the early 2020s) therefore lies between 50 and 75 per cent: well above India's, but below highly urbanised regions such as Northern America (about 82 per cent).",
   "from": "read-only fetch 2026-11-23"
  },
+ "bd55de62-78a4-4620-83b3-6693e810e3f5": {
+  "subject": "mathematics",
+  "chapter": "Probability Distributions",
+  "stem": "A fair coin is tossed three times. Let X denote the number of heads obtained. The mean of X is",
+  "passage": null,
+  "options": [
+   "3/8",
+   "3/4",
+   "3/2",
+   "3"
+  ],
+  "key": 2,
+  "explanation": "X takes the values 0, 1, 2 and 3 with probabilities 1/8, 3/8, 3/8 and 1/8. The mean is Σ x P(X = x) = 0 + 3/8 + 6/8 + 3/8 = 12/8 = 3/2, which equals np = 3 × ½.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d": {
+  "subject": "chemistry",
+  "chapter": "Coordination Compounds",
+  "stem": "The IUPAC name of the complex [Co(NH3)4Cl2]Cl is:",
+  "passage": null,
+  "options": [
+   "dichloridotetraamminecobalt(III) chloride",
+   "tetraamminedichloridocobaltate(III) chloride",
+   "tetraamminedichloridocobalt(II) chloride",
+   "tetraamminedichloridocobalt(III) chloride"
+  ],
+  "key": 3,
+  "explanation": "Ligands are named in alphabetical order ignoring the numerical prefixes, so ammine comes before chlorido. With NH3 neutral, two Cl⁻ inside and a charge of +1 on the complex ion, x + 0 − 2 = +1 gives cobalt(III); a cationic complex takes no -ate ending. Starting with dichlorido follows the prefixes instead of the alphabet.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "c53a951d-2fd7-4ca8-9099-e78a8f067659": {
   "subject": "history",
   "chapter": "Peasants, Zamindars & the State",
@@ -703,6 +1288,36 @@
   "key": 1,
   "explanation": "Pahi-kashta were non-resident cultivators who belonged to another village but cultivated land elsewhere on a contractual basis. Khud-kashta were resident cultivators of their own village. Muzarian is a general term for peasants, and the qanungo was a keeper of revenue records.",
   "from": "saved read-only snapshot history/bank_history.json"
+ },
+ "c88a4ac5-7a46-41a8-98f4-ee80e8c09247": {
+  "subject": "mathematics",
+  "chapter": "Time Based Data",
+  "stem": "The first two values of a time series are 10 and 15. Its 3-year moving averages for the second and third years are 17 and 19. The fourth value of the series is:",
+  "passage": null,
+  "options": [
+   "16",
+   "19",
+   "21",
+   "26"
+  ],
+  "key": 0,
+  "explanation": "A 3-year moving average is the mean of three consecutive values. From the second average, 3 × 17 = 51 = 10 + 15 + third value, so the third value is 26. From the third average, 3 × 19 = 57 = 15 + 26 + fourth value, so the fourth value is 16. Adding 3 × (19 − 17) = 6 to the second value gives 21, which is wrong because the first value is the one that drops out of the window.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "cb4f1503-5165-4373-a4d4-037a199e073a": {
+  "subject": "mathematics",
+  "chapter": "Matrices",
+  "stem": "If A is a square matrix such that A² = A and I is the identity matrix of the same order, then (I + A)³ − 7A is equal to",
+  "passage": null,
+  "options": [
+   "I + 7A",
+   "the matrix A",
+   "0",
+   "I"
+  ],
+  "key": 3,
+  "explanation": "I and A commute, so (I + A)³ = I + 3A + 3A² + A³. Using A² = A repeatedly gives A³ = A, so the expansion becomes I + 3A + 3A + A = I + 7A. Subtracting 7A leaves I, and the option I + 7A is what a student gets by forgetting to subtract.",
+  "from": "read-only fetch 2026-11-23"
  },
  "cbf67f50-bc67-4520-97b8-7d981f4bb31a": {
   "subject": "psychology",
@@ -719,6 +1334,21 @@
   "explanation": "Gardner identified eight independent intelligences: linguistic, logical-mathematical, spatial, musical, bodily-kinaesthetic, interpersonal, intrapersonal and naturalistic. Componential intelligence belongs to Sternberg's triarchic theory.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
  },
+ "cf6144bf-869b-479a-99de-b5a4fd2b9c0e": {
+  "subject": "mathematics",
+  "chapter": "Differential Equations",
+  "stem": "The solution of the differential equation dy/dx = 2xy, given that y = 3 when x = 0, is",
+  "passage": null,
+  "options": [
+   "y = 3e^(x²)",
+   "y = 3e^(2x)",
+   "y = e^(x²) + 3",
+   "y = 3e^(−x²)"
+  ],
+  "key": 0,
+  "explanation": "Separating the variables gives dy/y = 2x dx, so ln|y| = x² + C and y = Ae^(x²). The condition y = 3 at x = 0 gives A = 3, so y = 3e^(x²).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025": {
   "subject": "business_studies",
   "chapter": "Financial Management",
@@ -734,6 +1364,36 @@
   "explanation": "EBIT-EPS analysis works in a fixed order: earnings before interest and taxes (EBIT), less interest on debt, gives earnings before tax (EBT), so (A) is true. Tax is charged on EBT, the profit left after interest, not on EBIT, so (B) is false. EBT less tax gives earnings after tax (EAT), so (C) is true, and EAT divided by the number of equity shares gives earnings per share (EPS), so (D) is true. The order of working is therefore EBIT, interest on debt, EBT, tax, EAT, EPS. Debt raises EPS only when the return on investment (EBIT ÷ total investment × 100) is higher than the rate of interest on debt: this is favourable financial leverage, and using more of the cheaper debt to raise EPS is called trading on equity. When the return on investment is lower than the interest rate, more debt lowers EPS (unfavourable financial leverage) and trading on equity is unadvisable, so (E) is false. The true statements are (A), (C) and (D).",
   "from": "read-only fetch 2026-11-23"
  },
+ "d32a462b-08f5-4e22-a48a-d117e8d1b195": {
+  "subject": "mathematics",
+  "chapter": "Application of Integrals",
+  "stem": "Match List I (simple regions) with List II (their area as integrals).\nList I: (i) Rectangle of height c on [a,b], (ii) Triangle under y = kx from 0 to a, (iii) Constant function y=c on [0,a], (iv) Area under y=x on [0,1].\nList II: (P) ∫_a^b c dx, (Q) (1/2)ka^2, (R) ∫_0^a c dx, (S) 1/2.",
+  "passage": null,
+  "options": [
+   "(i–P, ii–Q, iii–R, iv–S)",
+   "(i–R, ii–Q, iii–P, iv–S)",
+   "(i–P, ii–S, iii–R, iv–Q)",
+   "(i–Q, ii–P, iii–R, iv–S)"
+  ],
+  "key": 0,
+  "explanation": "Rectangle area = ∫_a^b c dx (P); triangle area = (1/2)base*height = (1/2)ka^2 (Q); constant on [0,a] is ∫_0^a c dx (R); area under y=x on [0,1] is 1/2 (S).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "d542e90b-584b-420c-a7cc-d68f725a041d": {
+  "subject": "mathematics",
+  "chapter": "Inferential Statistics",
+  "stem": "For a sample from N(μ, σ^2) with known σ^2=1 and observations 1, 3, 5, the maximum likelihood estimate (MLE) of μ is:",
+  "passage": null,
+  "options": [
+   "3",
+   "1",
+   "5",
+   "0"
+  ],
+  "key": 0,
+  "explanation": "With known variance the MLE of μ is the sample mean: (1+3+5)/3 = 3.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "d5df54d1-8059-4006-9057-e9be2f2502bb": {
   "subject": "business_studies",
   "chapter": "Financial Markets",
@@ -747,6 +1407,36 @@
   ],
   "key": 1,
   "explanation": "Before the reforms, Indian stock exchanges settled trades in account periods: every trade done over a week or a fortnight was settled together, shares delivered and money paid, on one day after the period closed, so (A) matches (II). Under rolling settlement, the trades of each day are settled on their own a fixed number of working days after the trade date (T+n), so (B) matches (I). Rolling settlement covered all shares on a T+5 basis by the end of 2001; the cycle was cut to T+3 in April 2002 and to T+2 from April 2003, and India completed the move to T+1 in January 2023. So T+3 and T+2 are rolling cycles that the reforms brought in, not the cycle they replaced. A Depository Participant, such as a bank or a broker, is the depository's agent: the investor opens and operates a demat account with it, so (C) matches (III). A depository such as NSDL or CDSL holds securities in electronic form and transfers them by book entry, and the investor reaches it only through a Depository Participant, so (D) matches (IV). The correct matching is (A)-(II), (B)-(I), (C)-(III), (D)-(IV).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "d724586b-c52b-43c1-b3b1-ea045c7d032f": {
+  "subject": "mathematics",
+  "chapter": "Application of Integrals",
+  "stem": "The area of the region bounded by y = x³, the x-axis and the ordinates x = −1 and x = 2 equals:",
+  "passage": null,
+  "options": [
+   "15/4",
+   "17/4",
+   "4",
+   "1/4"
+  ],
+  "key": 1,
+  "explanation": "The curve lies below the x-axis for −1 < x < 0 and above it for 0 < x < 2, so the two parts are added as positive areas: ∫ from −1 to 0 of |x³| dx = 1/4 and ∫ from 0 to 2 of x³ dx = 4, giving 17/4. The single integral from −1 to 2 gives 15/4, which lets the negative part cancel instead of adding.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "d93a8509-6d68-4965-8501-b8678bb490de": {
+  "subject": "computer_science",
+  "chapter": "Understanding Data",
+  "stem": "Match List I (SQL clause) with List II (primary purpose):\nList I: 1. SELECT, 2. WHERE, 3. GROUP BY, 4. ORDER BY\nList II: P. Filter rows, Q. Choose columns, R. Aggregate groups, S. Sort result\nChoose the correct matching option.",
+  "passage": null,
+  "options": [
+   "1-Q, 2-P, 3-R, 4-S",
+   "1-P, 2-Q, 3-S, 4-R",
+   "1-Q, 2-R, 3-P, 4-S",
+   "1-S, 2-P, 3-Q, 4-R"
+  ],
+  "key": 0,
+  "explanation": "SELECT chooses columns, WHERE filters rows, GROUP BY aggregates groups, ORDER BY sorts the result.",
   "from": "read-only fetch 2026-11-23"
  },
  "db2ce0f4-b7cd-43e1-829b-2bdcf680132d": {
@@ -778,6 +1468,36 @@
   "key": 1,
   "explanation": null,
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "dd2c0a43-67ff-4ae8-8155-3a9712c931b8": {
+  "subject": "computer_science",
+  "chapter": "Sorting",
+  "stem": "The list [5, 1, 4, 2, 8] is to be sorted in ascending order using bubble sort. What is the content of the list after the first pass of the outer loop is completed?",
+  "passage": null,
+  "options": [
+   "[1, 5, 4, 2, 8]",
+   "[1, 2, 4, 5, 8]",
+   "[5, 1, 4, 2, 8]",
+   "[1, 4, 2, 5, 8]"
+  ],
+  "key": 3,
+  "explanation": "In the first pass, the 5 is swapped in turn with 1, then with 4, then with 2, and the comparison of 5 with 8 causes no swap. The result after the first pass is [1, 4, 2, 5, 8]. The list [1, 2, 4, 5, 8] is reached only after the second pass.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "defeb784-7aff-4d43-9292-362d8af7362a": {
+  "subject": "mathematics",
+  "chapter": "Linear Programming",
+  "stem": "The corner points of the feasible region determined by the system of linear constraints are (0, 3), (1, 1), and (3, 0). If Z = px + qy (p, q > 0), the condition on p and q so that the minimum of Z occurs at both (3, 0) and (1, 1) is:",
+  "passage": null,
+  "options": [
+   "p = 2q",
+   "p = q/2",
+   "p = 3q",
+   "q = 2p"
+  ],
+  "key": 1,
+  "explanation": "If the minimum occurs at two points, Z(3,0) = Z(1,1). So, 3p + 0q = p + q => 2p = q => p = q/2.",
+  "from": "read-only fetch 2026-11-23"
  },
  "e507a240-c420-4b53-a27d-be8c70f5ccb5": {
   "subject": "geography",
@@ -839,6 +1559,21 @@
   "explanation": "Systematic desensitisation was developed by Joseph Wolpe and is based on classical conditioning and counterconditioning of anxiety with relaxation. Rogers founded client-centred therapy, Skinner operant conditioning and Beck cognitive therapy.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
  },
+ "ed2b7448-3d0f-4e70-9e56-ba29ba3bc47a": {
+  "subject": "mathematics",
+  "chapter": "Application of Derivatives",
+  "stem": "The maximum value of f(x) = x³ − 3x on the interval [−2, 2] is",
+  "passage": null,
+  "options": [
+   "−2",
+   "0",
+   "2",
+   "4"
+  ],
+  "key": 2,
+  "explanation": "f'(x) = 3x² − 3 = 0 gives x = ±1. The values are f(−2) = −2, f(−1) = 2, f(1) = −2 and f(2) = 2, so the greatest value on [−2, 2] is 2, attained at x = −1 and x = 2. The value −2 is the minimum, not the maximum.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "ed41d458-614b-4e23-8c9c-931b0cf5c2a6": {
   "subject": "accountancy",
   "chapter": "Share Capital",
@@ -882,6 +1617,21 @@
   ],
   "key": 2,
   "explanation": "After the 1996 election the BJP was the largest party, but Atal Bihari Vajpayee's government lasted only 13 days because it could not win a majority. The United Front, a coalition of the Janata Dal and several regional parties, backed by the Left and supported from outside by the Congress, then formed the government with H. D. Deve Gowda as Prime Minister (June 1996 to April 1997). When Congress president Sitaram Kesri withdrew that support, Deve Gowda lost a confidence vote, and the United Front chose I. K. Gujral of the Janata Dal, who had been External Affairs Minister. Gujral was Prime Minister from April 1997 to March 1998: the Congress withdrew support from his government too in November 1997, and he stayed on as caretaker Prime Minister until a new government took office after the 1998 election, when Vajpayee became Prime Minister of a BJP-led coalition in March 1998. V. P. Singh (National Front, 1989-90), Chandra Shekhar (1990-91) and P. V. Narasimha Rao (1991-96) were all Prime Ministers before the United Front.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "fb49ae9d-67bf-43c2-a22c-892e32b2e08d": {
+  "subject": "mathematics",
+  "chapter": "Linear Programming",
+  "stem": "The maximum value of Z = 3x + 4y, subject to x + y ≤ 4, x + 3y ≤ 6, x ≥ 0 and y ≥ 0, is",
+  "passage": null,
+  "options": [
+   "8",
+   "12",
+   "16",
+   "13"
+  ],
+  "key": 3,
+  "explanation": "The corner points of the feasible region are (0, 0), (4, 0), (3, 1) and (0, 2), where (3, 1) is the intersection of x + y = 4 and x + 3y = 6. Z takes the values 0, 12, 13 and 8 at these points, so the maximum is 13 at (3, 1). The value 16 comes from (0, 4), which violates x + 3y ≤ 6.",
   "from": "read-only fetch 2026-11-23"
  },
  "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d": {

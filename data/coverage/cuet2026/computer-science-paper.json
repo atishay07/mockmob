@@ -1,0 +1,2178 @@
+{
+ "paper": "cuet2026-computer-science",
+ "subject": "computer_science",
+ "subjectName": "Computer Science and Informatics Practices",
+ "subjectCode": "308",
+ "examDate": "2026-05-24",
+ "shift": "First",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Computer Science Information Practices, 68 PDF pages: a cover plus 67 numbered pages), https://docs.aglasem.com/view/6b6deefe-c701-11f1-b09d-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/6b6deefe-c701-11f1-b09d-0aa932765c8b/6b6deefe-c701-11f1-b09d-0aa932765c8b.pdf (14,559,947 bytes, ETag d2ff65f9739ab26a5f9d6284d303cee3, Last-Modified 13 Oct 2026), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 request to download the papers for the remaining subjects. English text transcribed from the page images (OCR used only for ids and as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 308.",
+ "provenance": {
+  "viewUrl": "https://docs.aglasem.com/view/6b6deefe-c701-11f1-b09d-0aa932765c8b",
+  "pdfUrl": "https://cdn.aglasem.com/aglasem-doc/6b6deefe-c701-11f1-b09d-0aa932765c8b/6b6deefe-c701-11f1-b09d-0aa932765c8b.pdf",
+  "downloadedOn": "2026-11-23",
+  "fileBytes": 14559947,
+  "etag": "d2ff65f9739ab26a5f9d6284d303cee3",
+  "lastModified": "2026-10-13",
+  "localFile": "tmp/1123-papers/computer-science/pdf/cuet2026-computer-science.pdf",
+  "finalKey": "cuet-2026-final-keys.pdf (NTA CUET (UG) 2026 final answer key), subject 308, 13 shifts x 85 rows; rows extracted to tmp/1123-papers/computer-science/work/keys-computer-science.json",
+  "shift": "24-05-2026 (First)",
+  "questionsAuthenticated": 85
+ },
+ "structure": "Group 3 'Computer Science and Informatics Practices' (60 minutes, group marks 250), numbered 101 to 185 and printed in English then Hindi: Section A Common (mandatory, 15 questions, 101-115, 75 marks), Section B1: Computer Science (optional, 35 questions, 116-150, 175 marks) and Section B2: Informatics Practices (optional, 35 questions, 151-185, 175 marks). A candidate answers Section A and one of B1 or B2 (50 questions). All 85 are single-answer MCQs with four options; no comprehension passages.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (First) final key for subject 308 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question.",
+ "transcribedBy": "Subagent paper stage, 23 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed, read from the page images. Spelling and wording kept as printed (e.g. Q106 'Which Sql Statements correctly retrieves', Q110 'The Berners – Lee' and 'or –mail symbol@', Q145 'measurment', Q149 option 4 'It does not spreads', Q162 'Order the following steps to for creation', Q184 'phising' and 'aquaintance', Q146 'Ghz' and 'Thz').",
+  "Page = the PDF page (pNN of the 68-page PDF; the printed footer 'Page N of 67' is one lower) where the question's header line was read; for most questions the English body starts at the top of the next page.",
+  "Tables (Q105 STUDENT, Q138 relation, Q141 Sales) and match lists are written as rows with ' | ' between cells, in the order the paper prints them. Q147's list and pass outputs are printed as boxed cells; they are written with ' | ' between cells (read at higher zoom: 8 7 13 1 -9 4; (A) 7 8 1 -9 4 13; (B) 7 1 -9 4 8 13; (C) -9 1 4 7 8 13; (D) 1 -9 4 7 8 13).",
+  "Q132 options 1 and 4 print superscripts (n squared, n cubed); written as 'n^2' and 'n^3'.",
+  "Q121: the six operations are printed as a numbered list 1 to 6 inside the stem, then the values (A) to (D); kept as printed.",
+  "Q105, Q118, Q142, Q177: OCR missed the English header line, so their question ids and option ids were read from the page images (pp. 6, 17, 37, 62) and each matches its Hindi copy; they then authenticated like the rest.",
+  "The paper has three sections: A Common (101-115, mandatory), B1 Computer Science (116-150) and B2 Informatics Practices (151-185); a candidate takes A plus one of B1 or B2. All 85 are transcribed and authenticated. Which sections MockMob's computer_science bank should be judged against is for the coverage stage to decide (B2 is the Informatics Practices syllabus: pandas, matplotlib, SQL functions, societal impacts, project-based learning).",
+  "Every key was read against the question as transcribed and fits it (e.g. Q124 queue ends 30, 40, 50, 60 so (A), (B), (D); Q134 population standard deviation of the seven readings is 3.2; Q146 NCERT gives radio waves 3 KHz to 1 GHz; Q147 bubble-sort passes are (A), (B), (D), (C)).",
+  "Keys to flag for the coverage stage (published key kept, not changed): Q166 keys 'GROUP BY()' for the pandas function that splits data into groups (pandas spells it groupby()); Q156 keys '(B) and (D) only' (statement (A) is half right); Q158 keys 'Defining a plan' for identifying a project leader; Q178 keys '(A) and (C) only' for project specifications; Q181's etiquette match follows NCERT IP's net-etiquette headings. These follow NCERT Informatics Practices wording and are kept as NTA published them.",
+  "The shift's key has 85 rows, all single-answer, none dropped. NTA's final key for subject 308 holds 13 shifts of 85 rows (two multiple-answer rows in other shifts); this paper is the 24-05-2026 First shift and all 85 question ids fall in that one shift.",
+  "OCR slips fixed: none needed in the final text, because the text was typed from the page images, not cleaned from OCR (the OCR draft ran words together and was used only for ids)."
+ ],
+ "counts": {
+  "questions": 85,
+  "transcribed": 85,
+  "authenticated": 85,
+  "keyRows": 85,
+  "ocrSlipsFixed": 0,
+  "bySection": {
+   "A": 15,
+   "B1": 35,
+   "B2": 35
+  }
+ },
+ "problems": [],
+ "passages": {},
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 101,
+   "questionId": "226895789463",
+   "page": 3,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "________ helps to enforce integrity and identify relationships among tables in a database.",
+   "options": [
+    "Row",
+    "Tuple",
+    "Key",
+    "Column"
+   ],
+   "optionIds": [
+    "2268953061489",
+    "2268953061490",
+    "2268953061491",
+    "2268953061492"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061491",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 2,
+   "paperNumber": 102,
+   "questionId": "226895789464",
+   "page": 3,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Which of the following can uniquely identify the tuples of a relation in a database?\n(A) Foreign Key\n(B) Primary Key\n(C) Candidate Key\n(D) Composite Primary Key\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061493",
+    "2268953061494",
+    "2268953061495",
+    "2268953061496"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061496",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 3,
+   "paperNumber": 103,
+   "questionId": "226895789465",
+   "page": 4,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Rama stores the data in a specific format or structure in a file. If the structure or format itself is changed, all the existing application programs accessing that file also need to be changed. Otherwise, the programs may not work correctly. What is this concept called?",
+   "options": [
+    "Data Sharing",
+    "Data Inconsistency",
+    "Data Dependency",
+    "Data Isolation"
+   ],
+   "optionIds": [
+    "2268953061497",
+    "2268953061498",
+    "2268953061499",
+    "2268953061500"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061499",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 4,
+   "paperNumber": 104,
+   "questionId": "226895789466",
+   "page": 5,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "_________ is known as design of database.",
+   "options": [
+    "Constraints",
+    "Keys",
+    "Schema",
+    "Tuples"
+   ],
+   "optionIds": [
+    "2268953061501",
+    "2268953061502",
+    "2268953061503",
+    "2268953061504"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061503",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 5,
+   "paperNumber": 105,
+   "questionId": "226895789467",
+   "page": 6,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "STUDENT\nName | Class | DOB | Gender | City | Marks\nRohan | XI | 2008 | M | Delhi | 85\nPriya | XII | 2006 | F | Mumbai | 92\nAnkit | XI | 2007 | M | Delhi | 88\nNidhi | XII | 2006 | F | Mumbai | 90\nAarav | IX | 2009 | M | Kolkata | 78\nSimran | XI | 2007 | F | Chandigarh | 94\nRahul | XII | 2006 | M | Pune | 80\nFrom the above table 'STUDENT', which query will return all the students from class 'XI'?",
+   "options": [
+    "SELECT * FROM STUDENT WHERE Class ='XI';",
+    "SELECT * FROM STUDENT WHERE LIKE 'XI';",
+    "SELECT Name, DOB FROM STUDENT WHERE Class >'XI';",
+    "SELECT * FROM STUDENT WHERE Class IN ='XI';"
+   ],
+   "optionIds": [
+    "2268953061505",
+    "2268953061506",
+    "2268953061507",
+    "2268953061508"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061505",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 6,
+   "paperNumber": 106,
+   "questionId": "226895789468",
+   "page": 7,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Which Sql Statements correctly retrieves records from a 'Commodity' table where the Price is either above 1000 or the product Category is 'Sales'?",
+   "options": [
+    "SELECT * FROM Commodity WHERE Price>1000 OR Category ='Sales';",
+    "SELECT * FROM Commodity WHERE Price>1000 AND Category ='Sales';",
+    "SELECT * FROM Commodity IF Price>1000 OR Category ='Sales';",
+    "SELECT * FROM Commodity WHERE Price>1000 || Category =Sales ;"
+   ],
+   "optionIds": [
+    "2268953061509",
+    "2268953061510",
+    "2268953061511",
+    "2268953061512"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061509",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 7,
+   "paperNumber": 107,
+   "questionId": "226895789469",
+   "page": 8,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Which query correctly finds a category in the 'Commodity' table that has more than 5 products with a Price greater than 600?",
+   "options": [
+    "SELECT category FROM Commodity GROUP BY category HAVING COUNT(*)>5 AND Price >600;",
+    "SELECT category FROM Commodity WHERE Price>600 GROUP BY category HAVING COUNT(*)>5;",
+    "SELECT category, COUNT(*) FROM Commodity GROUP BY Category HAVING Price>600 AND COUNT(*)>5;",
+    "SELECT category FROM Commodity GROUP BY HAVING COUNT(Price>600)>5;"
+   ],
+   "optionIds": [
+    "2268953061513",
+    "2268953061514",
+    "2268953061515",
+    "2268953061516"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061514",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 8,
+   "paperNumber": 108,
+   "questionId": "226895789470",
+   "page": 8,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Retrieve all rows with duplicates removed | (I) GROUP BY\n(B) Filter rows based on condition | (II) ORDER BY\n(C) Aggregate data into groups | (III) DISTINCT\n(D) Sort rows in ascending or descending order | (IV) WHERE\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (IV), (B) - (III), (C) - (I), (D) - (II)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953061517",
+    "2268953061518",
+    "2268953061519",
+    "2268953061520"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061519",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 9,
+   "paperNumber": 109,
+   "questionId": "226895789471",
+   "page": 9,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Which of the following are multiple row functions?\n(A) Sum\n(B) Count\n(C) Left\n(D) Max\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A) and (D) only",
+    "(A), (B) and (D) only",
+    "(A) and (B) only"
+   ],
+   "optionIds": [
+    "2268953061521",
+    "2268953061522",
+    "2268953061523",
+    "2268953061524"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061523",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 10,
+   "paperNumber": 110,
+   "questionId": "226895789472",
+   "page": 10,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Arrange the evolution of networking as per the development timeline:\n(A) The Berners – Lee at CERN developed HTML and URL, thus giving birth to World Wide Web (www).\n(B) TCP/IP introduced as standard protocol on ARPANET.\n(C) Roy Tomlinson develops network messaging or –mail symbol@ comes to mean \"at\".\n(D) ARPANET became functional by connecting UCLA and SRI.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (B), (A)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953061525",
+    "2268953061526",
+    "2268953061527",
+    "2268953061528"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061526",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 11,
+   "paperNumber": 111,
+   "questionId": "226895789473",
+   "page": 11,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Which of the following statement is CORRECT about GROUP BY clause in SQL?",
+   "options": [
+    "The GROUP BY clause is used to sort data in ascending or descending order.",
+    "GROUP BY allows you to aggregate data, but it cannot be used with aggregate functions like SUM, AVG or COUNT.",
+    "The GROUP BY clause is used to arrange identical data into groups often used with aggregate functions such as SUM, AVG or COUNT.",
+    "The GROUP BY clause merges the contents of two or more tables."
+   ],
+   "optionIds": [
+    "2268953061529",
+    "2268953061530",
+    "2268953061531",
+    "2268953061532"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061531",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 12,
+   "paperNumber": 112,
+   "questionId": "226895789474",
+   "page": 12,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "A ______ is an access point between an organization's network and the outside world of the internet.",
+   "options": [
+    "Switch",
+    "Gateway",
+    "Repeater",
+    "Modem"
+   ],
+   "optionIds": [
+    "2268953061533",
+    "2268953061534",
+    "2268953061535",
+    "2268953061536"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061534",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 13,
+   "paperNumber": 113,
+   "questionId": "226895789475",
+   "page": 13,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "An analog device which regenerates the weakened signal appearing on the cable and puts them back is known as ___________.",
+   "options": [
+    "Switch",
+    "Modem",
+    "Bridge",
+    "Repeater"
+   ],
+   "optionIds": [
+    "2268953061537",
+    "2268953061538",
+    "2268953061539",
+    "2268953061540"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061540",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 14,
+   "paperNumber": 114,
+   "questionId": "226895789476",
+   "page": 13,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "Match List-I with List-II\nList-I (Network Devices) | List-II (Description)\n(A) Switch | (I) Sends signals only to the selected devices instead of sending to all.\n(B) Repeater | (II) An analog device that works with signals on the cables to which it is connected.\n(C) Hub | (III) A network device used to connect different devices through wires.\n(D) Ethernet Card | (IV) A network adapter acts as an interface between the computer and the network.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953061541",
+    "2268953061542",
+    "2268953061543",
+    "2268953061544"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061541",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 15,
+   "paperNumber": 115,
+   "questionId": "226895789477",
+   "page": 14,
+   "section": "Section A Common (mandatory, Q101-115)",
+   "stem": "The RJ in RJ-45 connector stands for :",
+   "options": [
+    "Registered Joint",
+    "Routing Jack",
+    "Registered Jack",
+    "Ring Joint"
+   ],
+   "optionIds": [
+    "2268953061545",
+    "2268953061546",
+    "2268953061547",
+    "2268953061548"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061547",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 16,
+   "paperNumber": 116,
+   "questionId": "226895789478",
+   "page": 15,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Arrange the following statements in the correct sequence in order to write multiple strings to a file.\n(A) myobj.close()\n(B) lines= [\"Hello everyone \\n\", \"writing  multiple strings into file\"]\n(C) myobj.writelines(lines)\n(D) myobj = open (\"myfile.txt\", 'w')\nChoose the correct answer from the options given below:",
+   "options": [
+    "(D), (B), (C), (A)",
+    "(C), (D), (B), (A)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953061549",
+    "2268953061550",
+    "2268953061551",
+    "2268953061552"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061549",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 17,
+   "paperNumber": 117,
+   "questionId": "226895789479",
+   "page": 16,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Stack follows the ______________ principle.",
+   "options": [
+    "Last-In-First-out",
+    "First-In-First-out",
+    "Enqueue - Dequeue",
+    "Last-In-Last-out"
+   ],
+   "optionIds": [
+    "2268953061553",
+    "2268953061554",
+    "2268953061555",
+    "2268953061556"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061553",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 18,
+   "paperNumber": 118,
+   "questionId": "226895789480",
+   "page": 17,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "The 'raise' keyword in Python is used ____.",
+   "options": [
+    "to throw an exception",
+    "to avoid an exception",
+    "to handle a keyword",
+    "to find an exception"
+   ],
+   "optionIds": [
+    "2268953061557",
+    "2268953061558",
+    "2268953061559",
+    "2268953061560"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061557",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 19,
+   "paperNumber": 119,
+   "questionId": "226895789481",
+   "page": 17,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which of the following statement is correct with respect to exception handling in python?",
+   "options": [
+    "There can be multiple except clause associated with a single try block.",
+    "The finally clause cannot be used if there are more than one except clause present with a try block.",
+    "The raise statement is mandatory in a try block.",
+    "An except clause can exist without any try block."
+   ],
+   "optionIds": [
+    "2268953061561",
+    "2268953061562",
+    "2268953061563",
+    "2268953061564"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061561",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 20,
+   "paperNumber": 120,
+   "questionId": "226895789482",
+   "page": 18,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which of the following methods is used to position a file object to a specific position in a file?",
+   "options": [
+    "tell()",
+    "peep()",
+    "move()",
+    "seek()"
+   ],
+   "optionIds": [
+    "2268953061565",
+    "2268953061566",
+    "2268953061567",
+    "2268953061568"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061568",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 21,
+   "paperNumber": 121,
+   "questionId": "226895789483",
+   "page": 18,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Consider an empty stack. What will the stack look like (starting from the top) after executing the following operations in sequence?\n1. push(7)\n2. push(5)\n3. push(9)\n4. push(11)\n5. pop()\n6. push (22)\n(A) 22\n(B) 9\n(C) 5\n(D) 7\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (B), (A)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953061569",
+    "2268953061570",
+    "2268953061571",
+    "2268953061572"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061569",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 22,
+   "paperNumber": 122,
+   "questionId": "226895789484",
+   "page": 21,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "In the below stack operation, what will be the output value for the variable 'result'?\nresult = 0\nstack = [10,20,30]\nstack.append(40)\nresult +=stack.pop()\nresult +=stack.pop()",
+   "options": [
+    "70",
+    "60",
+    "90",
+    "50"
+   ],
+   "optionIds": [
+    "2268953061573",
+    "2268953061574",
+    "2268953061575",
+    "2268953061576"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061573",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 23,
+   "paperNumber": 123,
+   "questionId": "226895789485",
+   "page": 21,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "What will be the postfix equivalent of the expression (A + B)* (C - D)?",
+   "options": [
+    "A B + C D - *",
+    "A B * C D + -",
+    "A B - C D * +",
+    "A B C * + D -"
+   ],
+   "optionIds": [
+    "2268953061577",
+    "2268953061578",
+    "2268953061579",
+    "2268953061580"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061577",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 24,
+   "paperNumber": 124,
+   "questionId": "226895789486",
+   "page": 23,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which of the following elements will be present in a queue after the end of the following operation sequence? Assume the queue is empty initially.\nenqueue(10)\nenqueue(20)\nenqueue(30)\ndequeue()\nenqueue(40)\ndequeue()\nenqueue(50)\nenqueue(60)\n(A) 60\n(B) 30\n(C) 20\n(D) 50\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061581",
+    "2268953061582",
+    "2268953061583",
+    "2268953061584"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061581",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 25,
+   "paperNumber": 125,
+   "questionId": "226895789487",
+   "page": 24,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which of the following is a linear data structure?\n(A) Deque\n(B) Queue\n(C) Stack\n(D) Tree\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061585",
+    "2268953061586",
+    "2268953061587",
+    "2268953061588"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061585",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 26,
+   "paperNumber": 126,
+   "questionId": "226895789488",
+   "page": 25,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which of the following statements is true in the context of a Deque?",
+   "options": [
+    "Insertion is done from front and deletion is done from rear.",
+    "Insertion and deletion can be done at both ends.",
+    "Insertion is done from front and deletion is done from front.",
+    "Insertion is done from rear and deletion is done from rear."
+   ],
+   "optionIds": [
+    "2268953061589",
+    "2268953061590",
+    "2268953061591",
+    "2268953061592"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061590",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 27,
+   "paperNumber": 127,
+   "questionId": "226895789489",
+   "page": 26,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which of the following are the applications of binary search?\n(A) Telephone Directory\n(B) Finding the element with a minimum or maximum value in a sorted list\n(C) Implementing routing tables\n(D) Indexing in database\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061593",
+    "2268953061594",
+    "2268953061595",
+    "2268953061596"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061595",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 28,
+   "paperNumber": 128,
+   "questionId": "226895789490",
+   "page": 26,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "What happens even if a key is not present in the list during a linear search?",
+   "options": [
+    "The algorithm stops mid way.",
+    "The algorithm skips elements.",
+    "The algorithm gives an error.",
+    "The algorithm searches through entire list."
+   ],
+   "optionIds": [
+    "2268953061597",
+    "2268953061598",
+    "2268953061599",
+    "2268953061600"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061600",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 29,
+   "paperNumber": 129,
+   "questionId": "226895789491",
+   "page": 27,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "If a linear search is performed on 10 elements, how many comparisons will be needed in worst case?",
+   "options": [
+    "1",
+    "10",
+    "9",
+    "11"
+   ],
+   "optionIds": [
+    "2268953061601",
+    "2268953061602",
+    "2268953061603",
+    "2268953061604"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061602",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 30,
+   "paperNumber": 130,
+   "questionId": "226895789492",
+   "page": 28,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "How many passes are required to sort a list of 6 elements using bubble sort?",
+   "options": [
+    "5",
+    "6",
+    "4",
+    "3"
+   ],
+   "optionIds": [
+    "2268953061605",
+    "2268953061606",
+    "2268953061607",
+    "2268953061608"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061605",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 31,
+   "paperNumber": 131,
+   "questionId": "226895789493",
+   "page": 28,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which sorting algorithm involves repeatedly selecting the smallest element and placing it in its correct position?",
+   "options": [
+    "Bubble Sort",
+    "Selection Sort",
+    "Insertion Sort",
+    "Quick Sort"
+   ],
+   "optionIds": [
+    "2268953061609",
+    "2268953061610",
+    "2268953061611",
+    "2268953061612"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061610",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 32,
+   "paperNumber": 132,
+   "questionId": "226895789494",
+   "page": 29,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "A loop within a loop will have the time complexity as __________.",
+   "options": [
+    "n^2",
+    "log(n)",
+    "n",
+    "n^3"
+   ],
+   "optionIds": [
+    "2268953061613",
+    "2268953061614",
+    "2268953061615",
+    "2268953061616"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061613",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 33,
+   "paperNumber": 133,
+   "questionId": "226895789495",
+   "page": 29,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which of the following are examples of unstructured data?\n(A) Writing tweets\n(B) Recording a video\n(C) Marking attendance by the teacher\n(D) Filling a form for opening an account\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) and (B) only",
+    "(A), (B) and (C) only",
+    "(C) and (D) only",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061617",
+    "2268953061618",
+    "2268953061619",
+    "2268953061620"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061617",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 34,
+   "paperNumber": 134,
+   "questionId": "226895789496",
+   "page": 30,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Calculate the standard deviation of the given temperature below recorded for the 7 days of a week:\n24, 24, 21, 20, 26, 27, 30",
+   "options": [
+    "24",
+    "3.2",
+    "24.57",
+    "11.95"
+   ],
+   "optionIds": [
+    "2268953061621",
+    "2268953061622",
+    "2268953061623",
+    "2268953061624"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061622",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 35,
+   "paperNumber": 135,
+   "questionId": "226895789497",
+   "page": 31,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which measure of central tendency is better suited for dealing with an outlier?",
+   "options": [
+    "Median",
+    "Mean",
+    "Mode",
+    "Range"
+   ],
+   "optionIds": [
+    "2268953061625",
+    "2268953061626",
+    "2268953061627",
+    "2268953061628"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061625",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 36,
+   "paperNumber": 136,
+   "questionId": "226895789498",
+   "page": 32,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Match List-I with List-II\nList-I (KEY CONCEPTS IN DATABASE) | List-II (DESCRIPTION)\n(A) Database Schema | (I) Snapshot of the database\n(B) Database Instance | (II) Restriction on the type of data\n(C) Data Dictionary | (III) Skeleton of the database\n(D) Data Constraint | (IV) Database catalog\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953061629",
+    "2268953061630",
+    "2268953061631",
+    "2268953061632"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061629",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 37,
+   "paperNumber": 137,
+   "questionId": "226895789499",
+   "page": 33,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Sometimes, on calling a customer service center, the Interactive Voice Response System (IVRS) tells us to wait till a support person is available. Which data structure this application is of?",
+   "options": [
+    "Enqueue",
+    "Binary Tree",
+    "Stack",
+    "Queue"
+   ],
+   "optionIds": [
+    "2268953061633",
+    "2268953061634",
+    "2268953061635",
+    "2268953061636"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061636",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 38,
+   "paperNumber": 138,
+   "questionId": "226895789500",
+   "page": 34,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Calculate the degree and cardinality of the given relation below:\nID | Name | Email | Address | Phone No.\n001 | Ajay | ajay@abc.com | A1-Shakti Nagar, Bangalore | 55218936\n002 | Amit | amit@abc.com | C32- Indira Nagar, Lucknow | 45321789\n003 | Ashu | ashu@abc.com | 117/82 Patel Nagar, Delhi | 98567894\n004 | Ashok | ashok@abc.com | 249-250, Motinagar, Gujrat | 97698541",
+   "options": [
+    "Degree = 4, Cardinality = 5",
+    "Degree = 5, Cardinality = 4",
+    "Degree = 5, Cardinality = 1",
+    "Degree = 4, Cardinality = 1"
+   ],
+   "optionIds": [
+    "2268953061637",
+    "2268953061638",
+    "2268953061639",
+    "2268953061640"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061638",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 39,
+   "paperNumber": 139,
+   "questionId": "226895789501",
+   "page": 34,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Suppose you want to select distinct salaries working in department 101 from the 'Employee' relation. What will be the correct order of writing the query?\n(A) FROM Employee\n(B) SELECT\n(C) WHERE\n(D) DISTINCT Salary\n(E) Dept_ID= 101\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D), (E)",
+    "(A), (C), (B), (D), (E)",
+    "(B), (D), (A), (C), (E)",
+    "(B), (E), (C), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953061641",
+    "2268953061642",
+    "2268953061643",
+    "2268953061644"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061643",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 40,
+   "paperNumber": 140,
+   "questionId": "226895789502",
+   "page": 35,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "___________ is a search technique that makes use of the ordering of elements in the list to quickly search for a key.",
+   "options": [
+    "Linear Search",
+    "Binary Search",
+    "Hashing",
+    "Bubble Search"
+   ],
+   "optionIds": [
+    "2268953061645",
+    "2268953061646",
+    "2268953061647",
+    "2268953061648"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061646",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 41,
+   "paperNumber": 141,
+   "questionId": "226895789503",
+   "page": 36,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Sales\nID | customer_id | order_date | total_amount\n1 | C101 | 2022-01-15 | 1000\n2 | C102 | 2022-02-20 | 500\n3 | C103 | 2022-03-10 | 800\n4 | C101 | 2022-04-05 | 600\nWhat is the result of the following query with respect to given relation 'Sales'?\nSELECT COUNT(DISTINCT customer_id) FROM Sales;",
+   "options": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "optionIds": [
+    "2268953061649",
+    "2268953061650",
+    "2268953061651",
+    "2268953061652"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061651",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 42,
+   "paperNumber": 142,
+   "questionId": "226895789504",
+   "page": 37,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which protocol is used to format and transmit the information from the World Wide Web?",
+   "options": [
+    "FTP",
+    "TCP",
+    "HTTP",
+    "DNS"
+   ],
+   "optionIds": [
+    "2268953061653",
+    "2268953061654",
+    "2268953061655",
+    "2268953061656"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061655",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 43,
+   "paperNumber": 143,
+   "questionId": "226895789505",
+   "page": 38,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Match List-I with List-II\nList-I (Topology) | List-II (Characteristics)\n(A) Star | (I) Single backbone cable\n(B) Bus | (II) Central hub or switch\n(C) Ring | (III) Unidirectional link\n(D) Hybrid | (IV) Multiple branches\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)"
+   ],
+   "optionIds": [
+    "2268953061657",
+    "2268953061658",
+    "2268953061659",
+    "2268953061660"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061660",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 44,
+   "paperNumber": 144,
+   "questionId": "226895789506",
+   "page": 38,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "What describes the work of a repeater?",
+   "options": [
+    "Regenerates weak signals",
+    "Resolves domain to IP address",
+    "Unique hardware address",
+    "Circuit switching"
+   ],
+   "optionIds": [
+    "2268953061661",
+    "2268953061662",
+    "2268953061663",
+    "2268953061664"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061661",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 45,
+   "paperNumber": 145,
+   "questionId": "226895789507",
+   "page": 39,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "What is the measurment unit of bandwidth?",
+   "options": [
+    "Hertz",
+    "Kilobytes",
+    "Milliseconds",
+    "Megabytes"
+   ],
+   "optionIds": [
+    "2268953061665",
+    "2268953061666",
+    "2268953061667",
+    "2268953061668"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061665",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 46,
+   "paperNumber": 146,
+   "questionId": "226895789508",
+   "page": 40,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "What is the range of frequency for radio waves?",
+   "options": [
+    "3 KHz to 300 GHz",
+    "1 GHz to 10 Ghz",
+    "300 GHz to 400 Thz",
+    "3 KHz to 1 GHz"
+   ],
+   "optionIds": [
+    "2268953061669",
+    "2268953061670",
+    "2268953061671",
+    "2268953061672"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061672",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 47,
+   "paperNumber": 147,
+   "questionId": "226895789509",
+   "page": 41,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Consider the following numList:\n8 | 7 | 13 | 1 | -9 | 4\nSequence the following output obtained after each pass of comparison using bubble sort.\n(A) 7 | 8 | 1 | -9 | 4 | 13\n(B) 7 | 1 | -9 | 4 | 8 | 13\n(C) -9 | 1 | 4 | 7 | 8 | 13\n(D) 1 | -9 | 4 | 7 | 8 | 13\nChoose the correct answer from the options given below:",
+   "options": [
+    "(B), (D), (C), (A)",
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953061673",
+    "2268953061674",
+    "2268953061675",
+    "2268953061676"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061675",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 48,
+   "paperNumber": 148,
+   "questionId": "226895789510",
+   "page": 41,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Match List-I with List-II\nList-I (Malware) | List-II (Threat)\n(A) Keylogger | (I) It generates revenue using \"pay per click\" mechanism to charge its clients against the number of clicks on their displayed ads.\n(B) Adware | (II) Makes the logs of daily keyboard usage and may send it to an external entity as well.\n(C) Spyware | (III) Standalone programs that are capable of replicating on their own and can spread to other computers through the network.\n(D) Worm | (IV) Usually tracks internet usage data and sells it to advertisers.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (IV), (C)-(I), (D)-(III)",
+    "(A) - (II), (B) - (I), (C)-(IV), (D)-(III)",
+    "(A) - (I), (B) - (II), (C)-(IV), (D)-(III)",
+    "(A) - (III), (B) - (I), (C)-(IV), (D)-(II)"
+   ],
+   "optionIds": [
+    "2268953061677",
+    "2268953061678",
+    "2268953061679",
+    "2268953061680"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061678",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 49,
+   "paperNumber": 149,
+   "questionId": "226895789511",
+   "page": 42,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which statement is true about a Trojan?",
+   "options": [
+    "It is not a malware.",
+    "It does not self-replicate or infect other files.",
+    "It cannot damage files.",
+    "It does not spreads through user interaction."
+   ],
+   "optionIds": [
+    "2268953061681",
+    "2268953061682",
+    "2268953061683",
+    "2268953061684"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061682",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 50,
+   "paperNumber": 150,
+   "questionId": "226895789512",
+   "page": 43,
+   "section": "Section B1: Computer Science (optional, Q116-150)",
+   "stem": "Which malware type disguises itself as legitimate software?",
+   "options": [
+    "Spyware",
+    "Adware",
+    "Virus",
+    "Trojan"
+   ],
+   "optionIds": [
+    "2268953061685",
+    "2268953061686",
+    "2268953061687",
+    "2268953061688"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061688",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 51,
+   "paperNumber": 151,
+   "questionId": "226895789513",
+   "page": 44,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which of the following operations can be performed with the UNION clause in SQL?",
+   "options": [
+    "Fetch only common rows between two tables",
+    "Combine rows from two tables without duplicates",
+    "Combine rows from two tables allowing duplicates",
+    "Combine columns with duplicates"
+   ],
+   "optionIds": [
+    "2268953061689",
+    "2268953061690",
+    "2268953061691",
+    "2268953061692"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061690",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 52,
+   "paperNumber": 152,
+   "questionId": "226895789514",
+   "page": 44,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which clause is used to combine rows from two tables that meet a condition?",
+   "options": [
+    "UNION",
+    "INTERSECT",
+    "JOIN",
+    "MINUS"
+   ],
+   "optionIds": [
+    "2268953061693",
+    "2268953061694",
+    "2268953061695",
+    "2268953061696"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061695",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 53,
+   "paperNumber": 153,
+   "questionId": "226895789515",
+   "page": 45,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "What is the degree of the resulting table when performing a Cartesian product of two tables with degrees 3 and 4?",
+   "options": [
+    "3",
+    "4",
+    "7",
+    "12"
+   ],
+   "optionIds": [
+    "2268953061697",
+    "2268953061698",
+    "2268953061699",
+    "2268953061700"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061699",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 54,
+   "paperNumber": 154,
+   "questionId": "226895789516",
+   "page": 46,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Sequence the following steps involved in Project Based Learning:\n(A) Fixing of a time frame and processing\n(B) Identification of a project\n(C) Defining a plan\n(D) Providing guidance and monitoring a project\n(E) Outcome of a project\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (E), (D)",
+    "(A), (B), (C), (D), (E)",
+    "(B), (A), (D), (C), (E)",
+    "(B), (C), (A), (D), (E)"
+   ],
+   "optionIds": [
+    "2268953061701",
+    "2268953061702",
+    "2268953061703",
+    "2268953061704"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061704",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 55,
+   "paperNumber": 155,
+   "questionId": "226895789517",
+   "page": 46,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Match List-I with List-II\nList-I (AGGREGATE FUNCTIONS) | List-II (DESCRIPTION)\n(A) COUNT() | (I) Returns the average of the values in a specified column\n(B) AVG() | (II) Returns the number of records in a table\n(C) COUNT(*) | (III) Truncate numerical values to a specified position\n(D) ROUND() | (IV) Returns the number of values in a specified column, ignoring NULL values\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)",
+    "(A) - (IV), (B) - (I), (C) - (III), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953061705",
+    "2268953061706",
+    "2268953061707",
+    "2268953061708"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061707",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 56,
+   "paperNumber": 156,
+   "questionId": "226895789518",
+   "page": 47,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which of the following are the components of successful teamwork?\n(A) Teams listen to each other and follow the steps of their own\n(B) Share ideas with others\n(C) Do not have respect for team members\n(D) Participate in completing the project\nChoose the correct answer from the options given below:",
+   "options": [
+    "(B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B) and (D) only",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061709",
+    "2268953061710",
+    "2268953061711",
+    "2268953061712"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061709",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 57,
+   "paperNumber": 157,
+   "questionId": "226895789519",
+   "page": 48,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "What will be the output of df.isnull().any()?",
+   "options": [
+    "True if all columns contain null values",
+    "False if no missing values are present in any column",
+    "True or false for each column depending whether it contains missing values or not",
+    "A count for missing values in all columns"
+   ],
+   "optionIds": [
+    "2268953061713",
+    "2268953061714",
+    "2268953061715",
+    "2268953061716"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061715",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 58,
+   "paperNumber": 158,
+   "questionId": "226895789520",
+   "page": 49,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Identification of a project leader generally falls under which of the following steps of Project Based Learning?",
+   "options": [
+    "Defining a plan",
+    "Fixing of a time frame and processing",
+    "Identification of a project",
+    "Providing guidance and monitoring a project"
+   ],
+   "optionIds": [
+    "2268953061717",
+    "2268953061718",
+    "2268953061719",
+    "2268953061720"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061717",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 59,
+   "paperNumber": 159,
+   "questionId": "226895789521",
+   "page": 49,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "In data handling, pandas support _______ index values.",
+   "options": [
+    "Unique",
+    "Non-unique",
+    "Homogeneous",
+    "NaN"
+   ],
+   "optionIds": [
+    "2268953061721",
+    "2268953061722",
+    "2268953061723",
+    "2268953061724"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061722",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 60,
+   "paperNumber": 160,
+   "questionId": "226895789522",
+   "page": 51,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) pip install pandas | (I) one-dimensional array containing a sequence of values\n(B) Numpy array | (II) can have different data types\n(C) Pandas DataFrame | (III) requires homogeneous data\n(D) Series | (IV) install Pandas library\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953061725",
+    "2268953061726",
+    "2268953061727",
+    "2268953061728"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061725",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 61,
+   "paperNumber": 161,
+   "questionId": "226895789523",
+   "page": 51,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "While appending two dataframes, if we want to raise error in case row labels are duplicate, we shall use which parameter of append() method?",
+   "options": [
+    "ignore_index = False",
+    "row_index = False",
+    "in_place = True",
+    "verify_integrity = True"
+   ],
+   "optionIds": [
+    "2268953061729",
+    "2268953061730",
+    "2268953061731",
+    "2268953061732"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061732",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 62,
+   "paperNumber": 162,
+   "questionId": "226895789524",
+   "page": 52,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Order the following steps to for creation of series from NumPy Arrays.\n(A) >>> import numpy as np\n(B) >>> array1 = np.array([1,2,3,4])\n(C) >>> import pandas as pd\n(D) >>> series3 = pd.Series(array1)\n(E) >>> print(series3)\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (D), (C), (B), (E)",
+    "(A), (C), (B), (D), (E)",
+    "(B), (A), (D), (C), (E)",
+    "(C), (B), (D), (A), (E)"
+   ],
+   "optionIds": [
+    "2268953061733",
+    "2268953061734",
+    "2268953061735",
+    "2268953061736"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061734",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 63,
+   "paperNumber": 163,
+   "questionId": "226895789525",
+   "page": 52,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "What will be the output of the command df.count(axis = 1)?",
+   "options": [
+    "The total number of row in a dataframe.",
+    "The total number of values in each row.",
+    "The total number of columns in each dataframe",
+    "The total number of NaN values in each row"
+   ],
+   "optionIds": [
+    "2268953061737",
+    "2268953061738",
+    "2268953061739",
+    "2268953061740"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061738",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 64,
+   "paperNumber": 164,
+   "questionId": "226895789526",
+   "page": 53,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "What does pivot_table( ) do in pandas that pivot( ) cannot?",
+   "options": [
+    "It aggregates the values from rows with duplicate entries for the specified columns.",
+    "It does not allow duplicate data to be reshaped.",
+    "It merges multiple dataframes into one.",
+    "It converts NaN values to zero."
+   ],
+   "optionIds": [
+    "2268953061741",
+    "2268953061742",
+    "2268953061743",
+    "2268953061744"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061741",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 65,
+   "paperNumber": 165,
+   "questionId": "226895789527",
+   "page": 54,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "_________ will display the total number of values for each column or row of a DataFrame.",
+   "options": [
+    "count()",
+    "tail(n)",
+    "head(n)",
+    "max(n)"
+   ],
+   "optionIds": [
+    "2268953061745",
+    "2268953061746",
+    "2268953061747",
+    "2268953061748"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953061745",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 66,
+   "paperNumber": 166,
+   "questionId": "226895789528",
+   "page": 54,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which of the following functions are used to split the data into groups based on some criteria?",
+   "options": [
+    "split()",
+    "GROUP BY()",
+    "first()",
+    "reset_index()"
+   ],
+   "optionIds": [
+    "2268953061749",
+    "2268953061750",
+    "2268953061751",
+    "2268953061752"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061750",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 67,
+   "paperNumber": 167,
+   "questionId": "226895789529",
+   "page": 55,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Arrange the following steps to calculate the total number of values for each row of a DataFrame.\n(A) Load the DataFrame as 'df'\n(B) Use the df.count() method\n(C) Print the result\n(D) import pandas as pd\nChoose the correct answer from the options given below:",
+   "options": [
+    "(D), (C), (B), (A)",
+    "(D), (A), (B), (C)",
+    "(D), (C), (A), (B)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953061753",
+    "2268953061754",
+    "2268953061755",
+    "2268953061756"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061754",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 68,
+   "paperNumber": 168,
+   "questionId": "226895789530",
+   "page": 56,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Extracting a part of a series can be done through ____________ .",
+   "options": [
+    "Indexing",
+    "Subtracting",
+    "Slicing",
+    "Partitioning"
+   ],
+   "optionIds": [
+    "2268953061757",
+    "2268953061758",
+    "2268953061759",
+    "2268953061760"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061759",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 69,
+   "paperNumber": 169,
+   "questionId": "226895789531",
+   "page": 56,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which type of chart is most suitable for statistical summary, including quartiles?",
+   "options": [
+    "Line Plot",
+    "Box Plot",
+    "Pie chart",
+    "Scatter Plot"
+   ],
+   "optionIds": [
+    "2268953061761",
+    "2268953061762",
+    "2268953061763",
+    "2268953061764"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061762",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 70,
+   "paperNumber": 170,
+   "questionId": "226895789532",
+   "page": 57,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "What does the explode property in the pie chart do?",
+   "options": [
+    "Adds border to the pie chart",
+    "Changes the chart color",
+    "Specifies the fraction of the radius with which to expand each slot",
+    "Rotates the chart clockwise"
+   ],
+   "optionIds": [
+    "2268953061765",
+    "2268953061766",
+    "2268953061767",
+    "2268953061768"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061767",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 71,
+   "paperNumber": 171,
+   "questionId": "226895789533",
+   "page": 57,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which statements are true regarding the scatter plot?\n(A) Shows how two variables are correlated\n(B) Summarizes categorical data\n(C) Displays proportions as a whole\n(D) Uses dots to represent data\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(A) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061769",
+    "2268953061770",
+    "2268953061771",
+    "2268953061772"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061772",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 72,
+   "paperNumber": 172,
+   "questionId": "226895789534",
+   "page": 58,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) xticks, yticks | (I) Sets the user defined markings for x and y-axis\n(B) kind | (II) Displayed by default associating the colours with the plotted data\n(C) legend | (III) A symbol representing data value\n(D) marker | (IV) Customizing different plot types\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (I), (B) - (IV), (C) - (II), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953061773",
+    "2268953061774",
+    "2268953061775",
+    "2268953061776"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061775",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 73,
+   "paperNumber": 173,
+   "questionId": "226895789535",
+   "page": 59,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "How can you save a matplotlib figure to a file?",
+   "options": [
+    "plt.savefile()",
+    "plt.savefig(filename)",
+    "plt.storefig(filename)",
+    "plt.save(filename)"
+   ],
+   "optionIds": [
+    "2268953061777",
+    "2268953061778",
+    "2268953061779",
+    "2268953061780"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061778",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 74,
+   "paperNumber": 174,
+   "questionId": "226895789536",
+   "page": 60,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which of the following determines the height of each column in a histogram?",
+   "options": [
+    "The number of intervals",
+    "The frequency of datapoints within the range",
+    "The x-axis values",
+    "The y-axis values"
+   ],
+   "optionIds": [
+    "2268953061781",
+    "2268953061782",
+    "2268953061783",
+    "2268953061784"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061782",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 75,
+   "paperNumber": 175,
+   "questionId": "226895789537",
+   "page": 60,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Arrange the following steps in sequence to transmit a message over the internet.\n(A) The message is displayed on a web page\n(B) Packets are reassembled at the destination\n(C) The message is disassembled as packets\n(D) Packets are transmitted over the network\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (C), (B), (D)",
+    "(B), (A), (D), (C)",
+    "(C), (D), (B), (A)"
+   ],
+   "optionIds": [
+    "2268953061785",
+    "2268953061786",
+    "2268953061787",
+    "2268953061788"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061788",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 76,
+   "paperNumber": 176,
+   "questionId": "226895789538",
+   "page": 61,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which of the browser settings contains cookies and site data?",
+   "options": [
+    "General Panel",
+    "Privacy and Security Panel",
+    "Home panel",
+    "Search Panel"
+   ],
+   "optionIds": [
+    "2268953061789",
+    "2268953061790",
+    "2268953061791",
+    "2268953061792"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061790",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 77,
+   "paperNumber": 177,
+   "questionId": "226895789539",
+   "page": 62,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which topology has a backbone wire that is shared among all nodes?",
+   "options": [
+    "Ring",
+    "Bus",
+    "Star",
+    "Mesh"
+   ],
+   "optionIds": [
+    "2268953061793",
+    "2268953061794",
+    "2268953061795",
+    "2268953061796"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061794",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "page image (OCR missed the English header line)"
+  },
+  {
+   "n": 78,
+   "paperNumber": 178,
+   "questionId": "226895789540",
+   "page": 62,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which of the following can be viewed as Project Specification?\n(A) Item Category is Book, then the Item Type can be either Academic or Non-Academic, and Item Id should be prefixed with a 'B'.\n(B) Teenagers spend a good amount of time on social networking sites, and it plays a vital role in their behaviour.\n(C) Total population, total male population and total female population aged 10 to 24 in India.\n(D) Realising the importance of Reduce, Reuse and Recycle, the Bookworm club every year organises a Book Donation Camp.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (C) and (D) only",
+    "(B), (C) and (D) only",
+    "(A) and (C) only",
+    "(B) and (D) only"
+   ],
+   "optionIds": [
+    "2268953061797",
+    "2268953061798",
+    "2268953061799",
+    "2268953061800"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061799",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 79,
+   "paperNumber": 179,
+   "questionId": "226895789541",
+   "page": 63,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "The physical organization of devices and connecting media in a network is called _______.",
+   "options": [
+    "Web Server",
+    "Web page",
+    "WAN",
+    "Topology"
+   ],
+   "optionIds": [
+    "2268953061801",
+    "2268953061802",
+    "2268953061803",
+    "2268953061804"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061804",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 80,
+   "paperNumber": 180,
+   "questionId": "226895789542",
+   "page": 64,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "_______________ attribute name is used to display a NumPy ndarray having all the values in the DataFrame, without the axes labels.",
+   "options": [
+    "DataFrame.columns",
+    "DataFrame.size",
+    "DataFrame.shape",
+    "DataFrame.values"
+   ],
+   "optionIds": [
+    "2268953061805",
+    "2268953061806",
+    "2268953061807",
+    "2268953061808"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061808",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 81,
+   "paperNumber": 181,
+   "questionId": "226895789543",
+   "page": 65,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Match List-I with List-II\nList-I (ETIQUETTE) | List-II (DESCRIPTION)\n(A) Credibility | (I) Choose your password wisely.\n(B) Security | (II) Cautious while making comments.\n(C) Reliability | (III) No copyright violation.\n(D) Ethical | (IV) Think before you upload anything.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953061809",
+    "2268953061810",
+    "2268953061811",
+    "2268953061812"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061811",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 82,
+   "paperNumber": 182,
+   "questionId": "226895789544",
+   "page": 66,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "A permission agreement between the creator and the party who wants to use the creator's work is called _______.",
+   "options": [
+    "Trademark",
+    "Copyright",
+    "Patent",
+    "Licensing"
+   ],
+   "optionIds": [
+    "2268953061813",
+    "2268953061814",
+    "2268953061815",
+    "2268953061816"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953061816",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 83,
+   "paperNumber": 183,
+   "questionId": "226895789545",
+   "page": 66,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Using another person's work, without permission or without paying for it, if it is being sold is known as________.",
+   "options": [
+    "Cyber crime",
+    "Fair use",
+    "Copyright infringement",
+    "Identity theft"
+   ],
+   "optionIds": [
+    "2268953061817",
+    "2268953061818",
+    "2268953061819",
+    "2268953061820"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061819",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 84,
+   "paperNumber": 184,
+   "questionId": "226895789546",
+   "page": 67,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "Which of the following is an example of cyberbullying?",
+   "options": [
+    "Sending phising links to known friends or aquaintance.",
+    "Creating fake profiles of your friends and uploading embarrassing pictures.",
+    "Blocking your friends from any communication with you.",
+    "Hacking in to your friends system and read his mails"
+   ],
+   "optionIds": [
+    "2268953061821",
+    "2268953061822",
+    "2268953061823",
+    "2268953061824"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953061822",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 85,
+   "paperNumber": 185,
+   "questionId": "226895789547",
+   "page": 67,
+   "section": "Section B2: Informatics Practices (optional, Q151-185)",
+   "stem": "The 3 \"R\" of e-waste management leading to efficient disposal are:",
+   "options": [
+    "Reduce, Reuse, Return",
+    "Retire, Reuse, Recycle",
+    "Recycle, Reuse, Reduce",
+    "Rescue, Reuse, Return"
+   ],
+   "optionIds": [
+    "2268953061825",
+    "2268953061826",
+    "2268953061827",
+    "2268953061828"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953061827",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  }
+ ]
+}

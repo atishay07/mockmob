@@ -1,0 +1,1059 @@
+{
+ "paper": "cuet2026-physics",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 23 Nov 2026; ids read by OCR (RapidOCR; 12 questions' headers from the page images) and matched to NTA's 2026 final key (subject 322)",
+ "shifts": {
+  "24-05-2026 (Second)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "questionId": "226895791657",
+   "page": 2,
+   "optionIds": {
+    "2268953070049": 1,
+    "2268953070050": 2,
+    "2268953070051": 3,
+    "2268953070052": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070049"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "questionId": "226895791658",
+   "page": 3,
+   "optionIds": {
+    "2268953070053": 1,
+    "2268953070054": 2,
+    "2268953070055": 3,
+    "2268953070056": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070056"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "questionId": "226895791659",
+   "page": 4,
+   "optionIds": {
+    "2268953070057": 1,
+    "2268953070058": 2,
+    "2268953070059": 3,
+    "2268953070060": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070058"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "questionId": "226895791660",
+   "page": 5,
+   "optionIds": {
+    "2268953070061": 1,
+    "2268953070062": 2,
+    "2268953070063": 3,
+    "2268953070064": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070062"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "questionId": "226895791661",
+   "page": 6,
+   "optionIds": {
+    "2268953070065": 1,
+    "2268953070066": 2,
+    "2268953070067": 3,
+    "2268953070068": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070068"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "questionId": "226895791662",
+   "page": 7,
+   "optionIds": {
+    "2268953070069": 1,
+    "2268953070070": 2,
+    "2268953070071": 3,
+    "2268953070072": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070071"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "questionId": "226895791663",
+   "page": 7,
+   "optionIds": {
+    "2268953070073": 1,
+    "2268953070074": 2,
+    "2268953070075": 3,
+    "2268953070076": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070073"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "questionId": "226895791664",
+   "page": 8,
+   "optionIds": {
+    "2268953070077": 1,
+    "2268953070078": 2,
+    "2268953070079": 3,
+    "2268953070080": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070078"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "questionId": "226895791665",
+   "page": 9,
+   "optionIds": {
+    "2268953070081": 1,
+    "2268953070082": 2,
+    "2268953070083": 3,
+    "2268953070084": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070083"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "questionId": "226895791666",
+   "page": 10,
+   "optionIds": {
+    "2268953070085": 1,
+    "2268953070086": 2,
+    "2268953070087": 3,
+    "2268953070088": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070087"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "questionId": "226895791667",
+   "page": 11,
+   "optionIds": {
+    "2268953070089": 1,
+    "2268953070090": 2,
+    "2268953070091": 3,
+    "2268953070092": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070091"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "questionId": "226895791668",
+   "page": 12,
+   "optionIds": {
+    "2268953070093": 1,
+    "2268953070094": 2,
+    "2268953070095": 3,
+    "2268953070096": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070094"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "questionId": "226895791669",
+   "page": 12,
+   "optionIds": {
+    "2268953070097": 1,
+    "2268953070098": 2,
+    "2268953070099": 3,
+    "2268953070100": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070100"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "questionId": "226895791670",
+   "page": 13,
+   "optionIds": {
+    "2268953070101": 1,
+    "2268953070102": 2,
+    "2268953070103": 3,
+    "2268953070104": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070101"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "questionId": "226895791671",
+   "page": 14,
+   "optionIds": {
+    "2268953070105": 1,
+    "2268953070106": 2,
+    "2268953070107": 3,
+    "2268953070108": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070105"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "questionId": "226895791672",
+   "page": 15,
+   "optionIds": {
+    "2268953070109": 1,
+    "2268953070110": 2,
+    "2268953070111": 3,
+    "2268953070112": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070111"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "questionId": "226895791673",
+   "page": 16,
+   "optionIds": {
+    "2268953070113": 1,
+    "2268953070114": 2,
+    "2268953070115": 3,
+    "2268953070116": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070114"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "questionId": "226895791674",
+   "page": 16,
+   "optionIds": {
+    "2268953070117": 1,
+    "2268953070118": 2,
+    "2268953070119": 3,
+    "2268953070120": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070119"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "questionId": "226895791675",
+   "page": 17,
+   "optionIds": {
+    "2268953070121": 1,
+    "2268953070122": 2,
+    "2268953070123": 3,
+    "2268953070124": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070123"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "questionId": "226895791676",
+   "page": 18,
+   "optionIds": {
+    "2268953070125": 1,
+    "2268953070126": 2,
+    "2268953070127": 3,
+    "2268953070128": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070126"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "questionId": "226895791677",
+   "page": 19,
+   "optionIds": {
+    "2268953070129": 1,
+    "2268953070130": 2,
+    "2268953070131": 3,
+    "2268953070132": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070131"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "questionId": "226895791678",
+   "page": 20,
+   "optionIds": {
+    "2268953070133": 1,
+    "2268953070134": 2,
+    "2268953070135": 3,
+    "2268953070136": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070135"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "questionId": "226895791679",
+   "page": 21,
+   "optionIds": {
+    "2268953070137": 1,
+    "2268953070138": 2,
+    "2268953070139": 3,
+    "2268953070140": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070138"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "questionId": "226895791680",
+   "page": 21,
+   "optionIds": {
+    "2268953070141": 1,
+    "2268953070142": 2,
+    "2268953070143": 3,
+    "2268953070144": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070143"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "questionId": "226895791681",
+   "page": 22,
+   "optionIds": {
+    "2268953070145": 1,
+    "2268953070146": 2,
+    "2268953070147": 3,
+    "2268953070148": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070148"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "questionId": "226895791682",
+   "page": 23,
+   "optionIds": {
+    "2268953070149": 1,
+    "2268953070150": 2,
+    "2268953070151": 3,
+    "2268953070152": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070152"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "questionId": "226895791683",
+   "page": 24,
+   "optionIds": {
+    "2268953070153": 1,
+    "2268953070154": 2,
+    "2268953070155": 3,
+    "2268953070156": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070155"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "questionId": "226895791684",
+   "page": 24,
+   "optionIds": {
+    "2268953070157": 1,
+    "2268953070158": 2,
+    "2268953070159": 3,
+    "2268953070160": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070159"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "questionId": "226895791685",
+   "page": 25,
+   "optionIds": {
+    "2268953070161": 1,
+    "2268953070162": 2,
+    "2268953070163": 3,
+    "2268953070164": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070161"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "questionId": "226895791686",
+   "page": 26,
+   "optionIds": {
+    "2268953070165": 1,
+    "2268953070166": 2,
+    "2268953070167": 3,
+    "2268953070168": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070166"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "questionId": "226895791687",
+   "page": 27,
+   "optionIds": {
+    "2268953070169": 1,
+    "2268953070170": 2,
+    "2268953070171": 3,
+    "2268953070172": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070172"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "questionId": "226895791688",
+   "page": 28,
+   "optionIds": {
+    "2268953070173": 1,
+    "2268953070174": 2,
+    "2268953070175": 3,
+    "2268953070176": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070175"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "questionId": "226895791689",
+   "page": 29,
+   "optionIds": {
+    "2268953070177": 1,
+    "2268953070178": 2,
+    "2268953070179": 3,
+    "2268953070180": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070179"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "questionId": "226895791690",
+   "page": 30,
+   "optionIds": {
+    "2268953070181": 1,
+    "2268953070182": 2,
+    "2268953070183": 3,
+    "2268953070184": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070183"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "questionId": "226895791691",
+   "page": 30,
+   "optionIds": {
+    "2268953070185": 1,
+    "2268953070186": 2,
+    "2268953070187": 3,
+    "2268953070188": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070186"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "questionId": "226895791692",
+   "page": 31,
+   "optionIds": {
+    "2268953070189": 1,
+    "2268953070190": 2,
+    "2268953070191": 3,
+    "2268953070192": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070192"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "questionId": "226895791693",
+   "page": 32,
+   "optionIds": {
+    "2268953070193": 1,
+    "2268953070194": 2,
+    "2268953070195": 3,
+    "2268953070196": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070194"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "questionId": "226895791694",
+   "page": 32,
+   "optionIds": {
+    "2268953070197": 1,
+    "2268953070198": 2,
+    "2268953070199": 3,
+    "2268953070200": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070200"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "questionId": "226895791695",
+   "page": 33,
+   "optionIds": {
+    "2268953070201": 1,
+    "2268953070202": 2,
+    "2268953070203": 3,
+    "2268953070204": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070201"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "questionId": "226895791696",
+   "page": 34,
+   "optionIds": {
+    "2268953070205": 1,
+    "2268953070206": 2,
+    "2268953070207": 3,
+    "2268953070208": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070207"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "questionId": "226895791697",
+   "page": 35,
+   "optionIds": {
+    "2268953070209": 1,
+    "2268953070210": 2,
+    "2268953070211": 3,
+    "2268953070212": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070212"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "questionId": "226895791698",
+   "page": 36,
+   "optionIds": {
+    "2268953070213": 1,
+    "2268953070214": 2,
+    "2268953070215": 3,
+    "2268953070216": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070216"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "questionId": "226895791699",
+   "page": 37,
+   "optionIds": {
+    "2268953070217": 1,
+    "2268953070218": 2,
+    "2268953070219": 3,
+    "2268953070220": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070219"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "questionId": "226895791700",
+   "page": 38,
+   "optionIds": {
+    "2268953070221": 1,
+    "2268953070222": 2,
+    "2268953070223": 3,
+    "2268953070224": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070221"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "questionId": "226895791701",
+   "page": 39,
+   "optionIds": {
+    "2268953070225": 1,
+    "2268953070226": 2,
+    "2268953070227": 3,
+    "2268953070228": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070227"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "questionId": "226895791702",
+   "page": 39,
+   "optionIds": {
+    "2268953070229": 1,
+    "2268953070230": 2,
+    "2268953070231": 3,
+    "2268953070232": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070230"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "questionId": "226895791703",
+   "page": 40,
+   "optionIds": {
+    "2268953070233": 1,
+    "2268953070234": 2,
+    "2268953070235": 3,
+    "2268953070236": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070233"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "questionId": "226895791704",
+   "page": 41,
+   "optionIds": {
+    "2268953070237": 1,
+    "2268953070238": 2,
+    "2268953070239": 3,
+    "2268953070240": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070239"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "questionId": "226895791705",
+   "page": 42,
+   "optionIds": {
+    "2268953070241": 1,
+    "2268953070242": 2,
+    "2268953070243": 3,
+    "2268953070244": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070242"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "questionId": "226895791706",
+   "page": 43,
+   "optionIds": {
+    "2268953070245": 1,
+    "2268953070246": 2,
+    "2268953070247": 3,
+    "2268953070248": 4
+   },
+   "inKey": true,
+   "keySubject": "physics",
+   "shift": "24-05-2026 (Second)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953070246"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  }
+ ]
+}

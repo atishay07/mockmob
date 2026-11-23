@@ -1,0 +1,2470 @@
+{
+ "paper": "cuet2026-mathematics",
+ "subject": "mathematics",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "319",
+  "date": "2026-05-24",
+  "shift": "Second",
+  "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Mathematics, 76 PDF pages: a cover plus 75 numbered pages), https://docs.aglasem.com/view/7add6874-c701-11f1-ad78-0aa932765c8b, PDF https://cdn.aglasem.com/aglasem-doc/7add6874-c701-11f1-ad78-0aa932765c8b/7add6874-c701-11f1-ad78-0aa932765c8b.pdf (15,153,474 bytes, ETag cb3d9d259b9af2255dfa763df01c9c99, Last-Modified 13 Oct 2026, sha256 2be9b1efde2ad95bc9f421d322dd3f2988c08750a2ed30404a6ea00212d25c4b), downloaded 23 Nov 2026 under the owner's 23 Nov 2026 request ('download the papers for the subjects remaining'). English text transcribed from the page images (OCR used only for ids). Answers from NTA's CUET (UG) 2026 final answer key (option ids), subject 319.",
+  "keySource": "A question is authenticated when its printed NTA question id is in the 24-05-2026 (Second) final key for subject 319 and the key option id is one of its four printed option ids. Printed option ids are consecutive per question (2268953069709 to 2268953070048 across the 85 questions)."
+ },
+ "snapshotDate": "2026-11-23",
+ "bankRead": "One read-only read on 23 Nov 2026 (SELECT only) with tmp/1123-papers/mathematics/checkA/read_served.mjs, which joins the scratchpad read_bank.mjs (same filter and columns) and the chunked eligibility check (repo readablePracticeQuestions, 40 ids per request) in one run: 395 visible mathematics rows, all 395 pass readablePracticeQuestions (equals the 395 in the stored inventory snapshot computed 22 Nov 2026 21:57 UTC). Served copy: tmp/1123-papers/mathematics/snap/served_rows.json and served_mathematics.json (eligibility output eligible.txt, inventory_snapshot.json).",
+ "keyCardDeck": "data/keycards/decks/mathematics.json (v7, 548 cards; key_card_suspended was not re-read, the earlier subjects had none suspended). The deck has no cards for the five Applied Mathematics (B2) units and one for Probability Distributions; B2 items can be covered only by bank rows.",
+ "syllabusSource": "data/cuet_syllabus.js mathematics units (Section A1 common: Algebra, Calculus, Linear Programming, Probability Distributions; B1: Relations and Functions, Vectors and 3D, Probability; B2: Numbers and Quantification, Time Based Data, Inferential Statistics, Financial Mathematics). B2 calculus and matrix items are mapped to the NCERT chapter that teaches them. Every question sits on the 2026 syllabus; Q39 (scalar triple product reading) and Q15 (half-planes of linear inequalities) were doubtful calls kept ON, the stricter reading.",
+ "checker": "A",
+ "method": "data/coverage/METHOD.md (STRICT rule; doubtful = not covered; Key cards count for theory; a numerical needs a served BANK row with the same formula and steps). Type rule written before the search: an item whose answer is a computed value or needs working = numerical; a definition, property, standard result or formula statement = theory. Facts written first: tmp/1123-papers/mathematics/checkA/A_facts_before_search.txt. Search: checkA/s.mjs over the served copy and the deck (whole served bank dumped chapter by chapter in checkA/dump/ and read); builder build_A.mjs checks every cited id.",
+ "weakerCalls": "Covered with matchKind concept and a weaker call that Checker B should rule on first: Q10 (modulus removal added), Q36 (part B is direct integration only), Q46 (figure reading added to point testing), Q48 (two bank rows together give the two steps), Q67 (algebraic division before integrating), Q74 (bank row works the moving average backwards), Q76 (by elimination: A, B, C taught, D not).",
+ "bankRowFlag": "Bank row ddbac3ae-10d8-4219-a4d2-6841ebc45f66 (Differential Equations) keys a third-order equation containing sqrt(d2y/dx2) as degree not defined; the CUET 2026 key for Q11 and Q62 clears radicals and gives a degree. The row teaches the opposite of what the paper rewards and was not cited as a match.",
+ "paperStructure": "One paper of 85 questions, NTA group Core Mathematics and Applied Mathematics: Section A common, mandatory (Q306-320, n 1-15); Section B1 Mathematics (Q321-355, n 16-50); Section B2 Applied Mathematics (Q356-390, n 51-85). A candidate answers A plus one of B1 or B2 (50 questions). No passages, so no item is labelled skill.",
+ "counts": {
+  "covered": 36,
+  "not_covered": 49,
+  "skill": 0,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 85,
+  "percent": 42.4
+ },
+ "countsBySection": {
+  "A": {
+   "covered": 7,
+   "not_covered": 8,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 15,
+   "percent": 46.7
+  },
+  "B1": {
+   "covered": 14,
+   "not_covered": 21,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 35,
+   "percent": 40
+  },
+  "B2": {
+   "covered": 15,
+   "not_covered": 20,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 35,
+   "percent": 42.9
+  }
+ },
+ "countsByTrack": {
+  "A+B1": {
+   "covered": 21,
+   "not_covered": 29,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 50,
+   "percent": 42
+  },
+  "A+B2": {
+   "covered": 22,
+   "not_covered": 28,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 50,
+   "percent": 44
+  }
+ },
+ "byType": {
+  "theory": {
+   "covered": 7,
+   "not_covered": 6,
+   "skill": 0,
+   "countable": 13
+  },
+  "numerical": {
+   "covered": 29,
+   "not_covered": 43,
+   "skill": 0,
+   "countable": 72
+  }
+ },
+ "coveredWithABankMatch": 36,
+ "coveredBestKind": {
+  "bank": 30,
+  "card": 6
+ },
+ "byChapter": {
+  "Matrices": {
+   "covered": 3,
+   "not_covered": 5
+  },
+  "Determinants": {
+   "covered": 1,
+   "not_covered": 6
+  },
+  "Continuity & Differentiability": {
+   "covered": 0,
+   "not_covered": 5
+  },
+  "Application of Derivatives": {
+   "covered": 6,
+   "not_covered": 2
+  },
+  "Integrals": {
+   "covered": 4,
+   "not_covered": 2
+  },
+  "Application of Integrals": {
+   "covered": 3,
+   "not_covered": 0
+  },
+  "Differential Equations": {
+   "covered": 5,
+   "not_covered": 2
+  },
+  "Probability": {
+   "covered": 2,
+   "not_covered": 3
+  },
+  "Linear Programming": {
+   "covered": 4,
+   "not_covered": 1
+  },
+  "Relations & Functions": {
+   "covered": 0,
+   "not_covered": 2
+  },
+  "Inverse Trigonometric Functions": {
+   "covered": 1,
+   "not_covered": 0
+  },
+  "Vector Algebra": {
+   "covered": 0,
+   "not_covered": 4
+  },
+  "Three Dimensional Geometry": {
+   "covered": 0,
+   "not_covered": 3
+  },
+  "Financial Mathematics": {
+   "covered": 3,
+   "not_covered": 3
+  },
+  "Probability Distributions": {
+   "covered": 1,
+   "not_covered": 3
+  },
+  "Inferential Statistics": {
+   "covered": 2,
+   "not_covered": 1
+  },
+  "Time Based Data": {
+   "covered": 1,
+   "not_covered": 1
+  },
+  "Numbers, Quantification and Numerical Applications": {
+   "covered": 0,
+   "not_covered": 6
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 306,
+   "questionId": "226895791572",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 3,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Build A from a_ij = |i - j| (3x3)",
+    "A transpose = A, so symmetric; not skew-symmetric, not diagonal",
+    "expand the 3x3 determinant: |A| = 4, so non-singular"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.matrices.def-symmetric",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards define symmetric, skew-symmetric, diagonal and non-singular, but no served bank row builds a matrix from an element rule, tests it and expands a 3x3 determinant; a numerical needs that bank template."
+  },
+  {
+   "n": 2,
+   "paperNumber": 307,
+   "questionId": "226895791573",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 1,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "A^2 = (AB)A = A(BA) = AB = A",
+    "B^2 = (BA)B = B(AB) = BA = B (associativity)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "cb4f1503-5165-4373-a4d4-037a199e073a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "No served row derives idempotence from AB = A and BA = B; the nearest row only uses A^2 = A as a given."
+  },
+  {
+   "n": 3,
+   "paperNumber": 308,
+   "questionId": "226895791574",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 4,
+   "chapter": "Determinants",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Evaluate the cyclic determinant: (1 - x^3)^2",
+    "compare: a = -1, b = 2",
+    "x = 1 is a repeated root"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.determinants.formula-expansion-first-row",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "No served row evaluates a determinant with powers of x by row operations or expansion and reads off its roots."
+  },
+  {
+   "n": 4,
+   "paperNumber": 309,
+   "questionId": "226895791575",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 4,
+   "chapter": "Determinants",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "|adj A| = |A|^(n-1), so |A|^2 = 25 and |A| = +-5",
+    "|kA| = k^n |A|, so |2A| = +-40"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "5590c1cd-39cf-4740-a079-6156673b0670",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows use |adj A| = |A|^(n-1) in the forward direction (|adj A| from |A|) and |kA| = k^n|A|; none goes from |adj A| back to |A| with the two signs, which is the step that gives +-40. Reverse direction, so not covered."
+  },
+  {
+   "n": 5,
+   "paperNumber": 310,
+   "questionId": "226895791576",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 3,
+   "chapter": "Continuity & Differentiability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "y = sqrt((1 - x)/(1 + x)): log differentiation gives y'/y = -1/(1 - x^2)",
+    "so (1 - x^2)y' + y = 0"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "e02b71b5-7edf-4e03-8823-b802f699a479",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served log-differentiation row is for a variable power (x^sin x); no row differentiates the root of a quotient and rebuilds an expression in y."
+  },
+  {
+   "n": 6,
+   "paperNumber": 311,
+   "questionId": "226895791577",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 4,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f = e^x + e^-x: f' = 0 at x = 0",
+    "f'' > 0 there, so minimum value f(0) = 2"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "386d01b7-740a-49ed-8930-68da67b0b8bc",
+     "teaches": "minimum of x + 16/x by g' = 0 and g'' > 0, then the value"
+    }
+   ],
+   "best": "386d01b7-740a-49ed-8930-68da67b0b8bc",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row finds the minimum value of a function plus its reciprocal by the first and second derivative test, the same steps with a different function."
+  },
+  {
+   "n": 7,
+   "paperNumber": 312,
+   "questionId": "226895791578",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 2,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f = x/log x: f' = (log x - 1)/(log x)^2",
+    "f' > 0 for x > e: increasing on (e, inf)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "93acdf0c-24cc-46b2-864e-99207aceac5b",
+     "teaches": "finds the interval where a function with log x increases from the sign of f'"
+    }
+   ],
+   "best": "93acdf0c-24cc-46b2-864e-99207aceac5b",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row finds an interval of increase from the sign of the derivative of a log function; same steps, the quotient rule is the only change."
+  },
+  {
+   "n": 8,
+   "paperNumber": 313,
+   "questionId": "226895791579",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 3,
+   "chapter": "Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Integral of e^x[f(x) + f'(x)] = e^x f(x) + C",
+    "here f = log x - 1/x, f' = 1/x + 1/x^2"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "2b6807ae-c16c-4267-b420-5722c0ed952d",
+     "teaches": "integral of e^x(1/x - 1/x^2) = e^x/x by spotting f + f'"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.integrals.formula-exp-f-plus-fprime",
+     "teaches": "integral of e^x[f + f'] = e^x f + C"
+    }
+   ],
+   "best": "2b6807ae-c16c-4267-b420-5722c0ed952d",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row integrates e^x times (f + f') with f = 1/x; the paper uses f = log x - 1/x, same formula and steps."
+  },
+  {
+   "n": 9,
+   "paperNumber": 314,
+   "questionId": "226895791580",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 1,
+   "chapter": "Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Replace x by 1/x and solve the pair: f(x) = (2/x - x - 5)/3",
+    "integrate from 1 to 2: (1/6)(log 16 - 13)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row solves a functional equation for f(x) before integrating it."
+  },
+  {
+   "n": 10,
+   "paperNumber": 315,
+   "questionId": "226895791581",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 2,
+   "chapter": "Application of Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "For x, y >= 0, |x| + |y| = 1 is the line x + y = 1",
+    "area under it from 0 to 1 = 1/2 (a triangle)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "d32a462b-08f5-4e22-a48a-d117e8d1b195",
+     "teaches": "area of the triangle under a straight line from 0 is (1/2) base x height, area under y = x on [0, 1] = 1/2"
+    }
+   ],
+   "best": "d32a462b-08f5-4e22-a48a-d117e8d1b195",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row finds the area under a straight line on [0, 1] as a triangle; the paper adds only removing the modulus signs in the first quadrant. Weaker call."
+  },
+  {
+   "n": 11,
+   "paperNumber": 316,
+   "questionId": "226895791582",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 1,
+   "chapter": "Differential Equations",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Clear the radicals: (1 + (dy/dx)^2)^3 = (d^2y/dx^2)^2",
+    "order 2, degree 2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "aa1a4498-0bb6-4217-b803-bea0966cfca0",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows read order and degree from equations that are already polynomial in the derivatives; none clears a square root or a fractional power first. Row ddbac3ae even keys a square-root equation as degree not defined, which is the opposite of the convention this item uses."
+  },
+  {
+   "n": 12,
+   "paperNumber": 317,
+   "questionId": "226895791583",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 4,
+   "chapter": "Differential Equations",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Separate: y dy = x dx",
+    "integrate: y^2 - x^2 = C, a family of hyperbolas"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+     "teaches": "separating the variables in dy/dx = x/y leads to y^2 - x^2 = C"
+    }
+   ],
+   "best": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row solves this exact equation to y^2 - x^2 = C; naming the curve a hyperbola is the only added step."
+  },
+  {
+   "n": 13,
+   "paperNumber": 318,
+   "questionId": "226895791584",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 2,
+   "chapter": "Differential Equations",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "e^(3x+4y) = e^(3x) e^(4y); separate: e^(-4y) dy = e^(3x) dx",
+    "integrate and use y(0) = -1/4: 3e^(-4y) + 4e^(3x) = 3e + 4"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "cf6144bf-869b-479a-99de-b5a4fd2b9c0e",
+     "teaches": "separates dy/dx = 2xy, integrates and fixes the constant from the initial value"
+    },
+    {
+     "kind": "bank",
+     "id": "2a6c8576-fcef-4d2f-aa94-89ed19ccc690",
+     "teaches": "separable initial value problem with an exponential solution"
+    }
+   ],
+   "best": "cf6144bf-869b-479a-99de-b5a4fd2b9c0e",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows solve separable initial value problems by the same steps; splitting e^(3x+4y) into a product is the added step."
+  },
+  {
+   "n": 14,
+   "paperNumber": 319,
+   "questionId": "226895791585",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 4,
+   "chapter": "Probability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Three coins: 8 equally likely outcomes; number of heads 0, 1, 2, 3 with probabilities 1/8, 3/8, 3/8, 1/8",
+    "3H or 3T = 1/4; at least two heads = 1/2; at most two heads = 7/8; no head = 1/8"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "bd55de62-78a4-4620-83b3-6693e810e3f5",
+     "teaches": "a fair coin tossed three times: P(0, 1, 2, 3 heads) = 1/8, 3/8, 3/8, 1/8"
+    },
+    {
+     "kind": "bank",
+     "id": "903ed426-c63d-4b7b-9c74-bf91b1628735",
+     "teaches": "adds point probabilities to get P(X > 2) and P(X <= 2)"
+    }
+   ],
+   "best": "bd55de62-78a4-4620-83b3-6693e810e3f5",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row lists the distribution of heads in three tosses; each of the four answers is a sum of those probabilities, which the second row practises."
+  },
+  {
+   "n": 15,
+   "paperNumber": 320,
+   "questionId": "226895791586",
+   "section": "Section A Common (mandatory, Q306-320)",
+   "sectionId": "A",
+   "ntaKey": 3,
+   "chapter": "Linear Programming",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Test the origin: 0 vs 6",
+    ">= and <= include the boundary line; > and < exclude it",
+    "so A: not origin, with line; B: origin, with line; C: not origin, no line; D: origin, no line"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "d03046dd-c1e0-4e96-b1ce-06b13751f8ce",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row says <= and >= give half-planes including the boundary, but nothing served says a strict inequality leaves the line out or how to decide which side holds the origin; the match needs all four."
+  },
+  {
+   "n": 16,
+   "paperNumber": 321,
+   "questionId": "226895791587",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Relations & Functions",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "R = {(1,3),(2,6),(3,9),(4,12),(5,15)}",
+    "domain {1,2,3,4,5}; range {3,6,9,12,15}",
+    "not reflexive ((1,1) missing); not symmetric"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "811b55a8-290b-430f-9063-d8f7d0685384",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows test listed relations for reflexive and symmetric, but no served row lists a relation from a rule and gives its domain and range (statements A and B)."
+  },
+  {
+   "n": 17,
+   "paperNumber": 322,
+   "questionId": "226895791588",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Relations & Functions",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f(x) = x^2 + x + 1 on N: f(a) = f(b) gives a = b (one-one)",
+    "1 and 2 are not images, so not onto"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.relations-and-functions.formula-one-one-condition",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards define one-one and onto, but no served bank row tests a polynomial on N for both."
+  },
+  {
+   "n": 18,
+   "paperNumber": 323,
+   "questionId": "226895791589",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 1,
+   "chapter": "Inverse Trigonometric Functions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "tan^-1: (-pi/2, pi/2)",
+    "sec^-1: [0, pi] - {pi/2}",
+    "cosec^-1: [-pi/2, pi/2] - {0}",
+    "sin^-1: [-pi/2, pi/2]"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.mathematics.inverse-trigonometric-functions.formula-tan-inverse-branch",
+     "teaches": "principal value branch of tan^-1 is (-pi/2, pi/2)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.inverse-trigonometric-functions.formula-sec-inverse-branch",
+     "teaches": "sec^-1 range [0, pi] - {pi/2}"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.inverse-trigonometric-functions.formula-cosec-inverse-branch",
+     "teaches": "cosec^-1 range [-pi/2, pi/2] - {0}"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.inverse-trigonometric-functions.formula-sin-inverse-branch",
+     "teaches": "sin^-1 range [-pi/2, pi/2]"
+    },
+    {
+     "kind": "bank",
+     "id": "36f53402-2f4e-44ed-af04-8c9d857ddaf5",
+     "teaches": "principal ranges of arcsin, arccos, arctan"
+    }
+   ],
+   "best": "kc.mathematics.inverse-trigonometric-functions.formula-tan-inverse-branch",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four Key cards give the four principal value branches of the match."
+  },
+  {
+   "n": 19,
+   "paperNumber": 324,
+   "questionId": "226895791590",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "A^2 = A so A^k = A; I and A commute",
+    "(2I + A)^4 = 16I + 32A + 24A + 8A + A = 16I + 65A",
+    "subtract 65A: 16I"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "cb4f1503-5165-4373-a4d4-037a199e073a",
+     "teaches": "A^2 = A: (I + A)^3 = I + 7A by the binomial expansion, minus 7A gives I"
+    }
+   ],
+   "best": "cb4f1503-5165-4373-a4d4-037a199e073a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row is the same question with (I + A)^3 - 7A; the paper uses (2I + A)^4 - 65A."
+  },
+  {
+   "n": 20,
+   "paperNumber": 325,
+   "questionId": "226895791591",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "A^2 = [7 12; 4 7]",
+    "A^2 - 4A = -I",
+    "so lambda = 1"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "cb4f1503-5165-4373-a4d4-037a199e073a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "No served row solves a matrix polynomial equation A^2 + kA + lambda I = 0 for a constant."
+  },
+  {
+   "n": 21,
+   "paperNumber": 326,
+   "questionId": "226895791592",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "a_ii = 2i: A = diag(2, 4, 6)",
+    "diagonal and symmetric; not scalar (unequal entries), not the unit matrix"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.matrices.def-scalar",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Cards define diagonal, scalar, identity and symmetric matrices, but no served bank row builds a matrix from an element rule and classifies it; typed numerical before the search."
+  },
+  {
+   "n": 22,
+   "paperNumber": 327,
+   "questionId": "226895791593",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Determinants",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Area of a triangle = (1/2)|det[x y 1]|, so det^2 = 4 Delta^2",
+    "a column of 2s doubles it: 16 Delta^2",
+    "equilateral: Delta = (sqrt 3/4)k^2, so the value is 3k^4"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "594d2dea-02ed-4fe8-9ca6-684fab682261",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served area row applies the formula to three given vertices; none links the squared determinant to the area of an equilateral triangle."
+  },
+  {
+   "n": 23,
+   "paperNumber": 328,
+   "questionId": "226895791594",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Determinants",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "det[1+x 1 1; 1 1+y 1; 1 1 1+z] = xyz + xy + yz + zx = 0",
+    "divide by xyz: 1/x + 1/y + 1/z = -1"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row evaluates this kind of determinant."
+  },
+  {
+   "n": 24,
+   "paperNumber": 329,
+   "questionId": "226895791595",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Determinants",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Triangular: |A| = -3",
+    "|adj A| = |A|^2 = 9; |A adj A| = |A|^3 = -27",
+    "|adj(adj A)| = |A|^((n-1)^2) = 81"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "5590c1cd-39cf-4740-a079-6156673b0670",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The bank and a card give |adj A| = |A|^(n-1), but nothing served gives |A adj A| = |A|^n or |adj(adj A)| = |A|^((n-1)^2), and the match needs them."
+  },
+  {
+   "n": 25,
+   "paperNumber": 330,
+   "questionId": "226895791596",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Continuity & Differentiability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Continuity at 1: 8k = 2",
+    "LHD = k(2x - 6) = -4k, RHD of |x - 3| = -1",
+    "k = 1/4"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "1f21bc96-047d-452e-8b89-5739a31be9eb",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served rows find a constant from continuity or test |x| for differentiability; none finds a constant from equal left and right derivatives of a piecewise function."
+  },
+  {
+   "n": 26,
+   "paperNumber": 331,
+   "questionId": "226895791597",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Continuity & Differentiability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "y = x^x: y' = x^x(1 + log x)",
+    "y'' = x^x(1 + log x)^2 + x^(x-1)",
+    "at 2: 4(log 2)^2 - 2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "e02b71b5-7edf-4e03-8823-b802f699a479",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served row takes a first derivative of x^sin x by logarithms; none takes the second derivative of x^x."
+  },
+  {
+   "n": 27,
+   "paperNumber": 332,
+   "questionId": "226895791598",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Continuity & Differentiability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "dy/dx = (dy/dtheta)/(dx/dtheta)",
+    "x^2 - 4 = (sec - cos)^2, y^2 - 4 = (sec^n - cos^n)^2",
+    "dy/dx = n sqrt((y^2 - 4)/(x^2 - 4))"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "c0d61bdc-7072-4121-a1b0-be91ad4757b6",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A served row does parametric differentiation with x = t^2, y = t^3; none rewrites the result in x and y with a trigonometric identity, which is the step this item tests."
+  },
+  {
+   "n": 28,
+   "paperNumber": 333,
+   "questionId": "226895791599",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f' = 2[(x - a) + (x - b) + (x - c)] = 0 -> x = (a + b + c)/3",
+    "f'' = 6 > 0: minimum"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "386d01b7-740a-49ed-8930-68da67b0b8bc",
+     "teaches": "g' = 0 then g'' > 0 gives the minimum"
+    },
+    {
+     "kind": "bank",
+     "id": "d2371b4a-f9c6-4bfa-aa45-6ff3bf2fbad0",
+     "teaches": "critical points from f' = 0 and the second derivative test"
+    }
+   ],
+   "best": "386d01b7-740a-49ed-8930-68da67b0b8bc",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows locate a minimum by f' = 0 and f'' > 0; same steps with letters."
+  },
+  {
+   "n": 29,
+   "paperNumber": 334,
+   "questionId": "226895791600",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f' = sec^2 x - 4",
+    "negative on (0, pi/3), positive on (pi/3, pi/2)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "83193176-5484-442e-921d-adc71ffa1dde",
+     "teaches": "decreasing interval from the sign of f'"
+    },
+    {
+     "kind": "bank",
+     "id": "d2e35cc4-095c-4645-b925-826c87165dd1",
+     "teaches": "increasing intervals from the sign of f'"
+    }
+   ],
+   "best": "83193176-5484-442e-921d-adc71ffa1dde",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows split the domain by the sign of f' into increasing and decreasing parts; same steps on a trigonometric function."
+  },
+  {
+   "n": 30,
+   "paperNumber": 335,
+   "questionId": "226895791601",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f' = 2cos 2x - 1 = 0 at +-pi/6",
+    "compare f at +-pi/6 and at the end points +-pi/2",
+    "max pi/2, min -pi/2, difference pi"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "ed2b7448-3d0f-4e70-9e56-ba29ba3bc47a",
+     "teaches": "greatest and least values on a closed interval from critical points and end points"
+    },
+    {
+     "kind": "bank",
+     "id": "7d497a12-099b-42ab-a058-a8738afbe148",
+     "teaches": "maximum on a closed interval comparing critical point and end points"
+    }
+   ],
+   "best": "ed2b7448-3d0f-4e70-9e56-ba29ba3bc47a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows find absolute extrema on a closed interval by comparing critical points with end points; the paper asks the difference of the two."
+  },
+  {
+   "n": 31,
+   "paperNumber": 336,
+   "questionId": "226895791602",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Integrals",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "int sqrt(a^2 - x^2) = (x/2)sqrt(a^2 - x^2) + (a^2/2)sin^-1(x/a)",
+    "int 1/sqrt(a^2 - x^2) = sin^-1(x/a)",
+    "int 1/sqrt(x^2 - a^2) = log|x + sqrt(x^2 - a^2)|",
+    "int 1/(a^2 - x^2) = (1/2a)log|(a + x)/(a - x)|"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.mathematics.integrals.formula-integral-root-a2-minus-x2",
+     "teaches": "integral of sqrt(a^2 - x^2)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.integrals.formula-integral-dx-over-root-a2-minus-x2",
+     "teaches": "integral of 1/sqrt(a^2 - x^2) = sin^-1(x/a)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.integrals.formula-integral-dx-over-root-x2-minus-a2",
+     "teaches": "integral of 1/sqrt(x^2 - a^2) = log|x + sqrt(x^2 - a^2)|"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.integrals.formula-integral-dx-over-a2-minus-x2",
+     "teaches": "integral of 1/(a^2 - x^2) = (1/2a) log|(a + x)/(a - x)|"
+    },
+    {
+     "kind": "bank",
+     "id": "7edf4fcc-9c9d-4893-8ba3-0483573f2253",
+     "teaches": "int dx/sqrt(a^2 - x^2) = arcsin(x/a)"
+    }
+   ],
+   "best": "kc.mathematics.integrals.formula-integral-root-a2-minus-x2",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Four Key cards state the four standard integrals; the item puts a = 4 into them."
+  },
+  {
+   "n": 32,
+   "paperNumber": 337,
+   "questionId": "226895791603",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "int_a^b f(x) dx = int_a^b f(a + b - x) dx (here x -> -x)",
+    "add the two forms: 2I = int cos x dx = 2",
+    "I = 1"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "35f55f2c-9dff-4ee8-a977-d2268c091670",
+     "teaches": "substitutes x -> pi/2 - x, adds the two forms to get 2I = int 1 dx"
+    }
+   ],
+   "best": "35f55f2c-9dff-4ee8-a977-d2268c091670",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row uses the a + b - x property and adds the two forms of the integral, the same steps on a different integrand."
+  },
+  {
+   "n": 33,
+   "paperNumber": 338,
+   "questionId": "226895791604",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Substitute (x = sec t, or x + 1 = 1/t)",
+    "result sqrt((x - 1)/(x + 1)) + C"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.integrals.formula-change-of-variable",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "No served row integrates 1/((x + 1)sqrt(x^2 - 1)) or one like it by substitution."
+  },
+  {
+   "n": 34,
+   "paperNumber": 339,
+   "questionId": "226895791605",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 3,
+   "chapter": "Application of Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Area between y = 3 (above) and y = 3cos x (below) on [0, pi/2]",
+    "int (3 - 3cos x) dx = 3(pi/2 - 1)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "3dc623cc-4185-4477-b025-b76d7938e6f1",
+     "teaches": "area between the line y = 4 above and the parabola below: integral of (upper - lower)"
+    },
+    {
+     "kind": "bank",
+     "id": "650e43dc-3d1c-450d-a5af-397791d0e931",
+     "teaches": "area between two curves as the integral of their difference"
+    }
+   ],
+   "best": "3dc623cc-4185-4477-b025-b76d7938e6f1",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows find the area between a horizontal line and a curve as the integral of upper minus lower; a cosine curve here."
+  },
+  {
+   "n": 35,
+   "paperNumber": 340,
+   "questionId": "226895791606",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Application of Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "y = 3x + 2 is zero at x = -2/3, inside [-1, 1]",
+    "split there and add absolute values: 1/6 + 25/6 = 13/3"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "d724586b-c52b-43c1-b3b1-ea045c7d032f",
+     "teaches": "curve crosses the x-axis inside the interval: split, take |part| and add"
+    }
+   ],
+   "best": "d724586b-c52b-43c1-b3b1-ea045c7d032f",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row splits the area at the root and adds the absolute parts; same steps with a line in place of x^3."
+  },
+  {
+   "n": 36,
+   "paperNumber": 341,
+   "questionId": "226895791607",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Differential Equations",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "x dy = y dx: dy/y = dx/x -> y = cx",
+    "log(dy/dx) = x: dy/dx = e^x -> y = e^x + c",
+    "(y dx - dy)/y = 0: dy/y = dx -> y = ce^x",
+    "x dy + y dx = 0: dy/y = -dx/x -> xy = c"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+     "teaches": "separating dy/y = dx/x gives y = Cx"
+    },
+    {
+     "kind": "bank",
+     "id": "cf6144bf-869b-479a-99de-b5a4fd2b9c0e",
+     "teaches": "dy/y = 2x dx gives ln|y| = x^2 + C, y = Ae^(x^2)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.differential-equations.formula-separable-solution-form",
+     "teaches": "separated form integrates to H(y) = G(x) + C"
+    }
+   ],
+   "best": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "All four are variable separable; bank rows solve dy/y = dx/x to y = Cx and dy/y = g(x)dx to y = Ae^G(x), which give each pair. Weaker call for B (only direct integration of e^x)."
+  },
+  {
+   "n": 37,
+   "paperNumber": 342,
+   "questionId": "226895791608",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Differential Equations",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Linear DE dy/dx + Py = Q: I.F. = e^(int P dx)",
+    "solution y . I.F. = int (Q . I.F.) dx + C"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.mathematics.differential-equations.formula-linear-general-solution-in-x",
+     "teaches": "general solution of dy/dx + Py = Q with e^(int P dx)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.differential-equations.formula-integrating-factor-in-x",
+     "teaches": "I.F. = e^(int P dx)"
+    },
+    {
+     "kind": "bank",
+     "id": "067b976c-d835-49aa-a270-34c363c0f4c2",
+     "teaches": "linear dy/dx + P(x)y = Q(x) solved by the integrating factor e^(int P dx)"
+    }
+   ],
+   "best": "kc.mathematics.differential-equations.formula-linear-general-solution-in-x",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards give the integrating factor and the general solution of the linear equation (written as y = e^(-int P)[int Q e^(int P) dx + C], the same formula)."
+  },
+  {
+   "n": 38,
+   "paperNumber": 343,
+   "questionId": "226895791609",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Vector Algebra",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "|a.b|^2 + |a x b|^2 = |a|^2|b|^2: |a.b| = 7",
+    "collinear: components proportional, a = 4",
+    "perpendicular: dot product 0, lambda = 0",
+    "(i x j).k + (j x k).i = 1 + 1 = 2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "2bc0d9a5-09b2-4ef1-92ba-e425e6570f7c",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row states the Lagrange identity only as a true statement, and no served row works a collinearity ratio or the unit-vector products; a numerical match needs every part."
+  },
+  {
+   "n": 39,
+   "paperNumber": 344,
+   "questionId": "226895791610",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 1,
+   "chapter": "Vector Algebra",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "(a x b) . c = 0",
+    "compute a x b = (x, y - x, -x), dot with c: y^2 = xz"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "f713c81c-e0fe-4779-ad64-999e876ae57f",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served rows compute a parallelepiped volume as a determinant; none uses (a x b) . c = 0 to find a relation between unknowns."
+  },
+  {
+   "n": 40,
+   "paperNumber": 345,
+   "questionId": "226895791611",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 1,
+   "chapter": "Vector Algebra",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "|a x i|^2 = |a|^2 - (a . i)^2",
+    "sum over i, j, k: 3|a|^2 - |a|^2 = 2|a|^2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "2bc0d9a5-09b2-4ef1-92ba-e425e6570f7c",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row states the Lagrange identity as a fact; no row applies it and sums over the unit vectors."
+  },
+  {
+   "n": 41,
+   "paperNumber": 346,
+   "questionId": "226895791612",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Vector Algebra",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "a is perpendicular to b and c, so a is parallel to b x c",
+    "|b x c| = sin(pi/6) = 1/2",
+    "a = +-2(b x c)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "c8af2dc3-ec6e-43a1-b174-88e3969c1037",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "No served row finds a unit vector along b x c from the angle between b and c."
+  },
+  {
+   "n": 42,
+   "paperNumber": 347,
+   "questionId": "226895791613",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 1,
+   "chapter": "Three Dimensional Geometry",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "l^2 + m^2 + n^2 = 1",
+    "sum cos 2alpha = 2(1) - 3 = -1",
+    "sum sin^2 = 3 - 1 = 2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.three-dimensional-geometry.formula-dc-sum-of-squares",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A Key card gives l^2 + m^2 + n^2 = 1 (statement A), but no served bank row derives the cos 2alpha or sin^2 sums (statement B)."
+  },
+  {
+   "n": 43,
+   "paperNumber": 348,
+   "questionId": "226895791614",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Three Dimensional Geometry",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Rewrite as (x - q)/p = y/1 = (z - s)/r: direction ratios (p, 1, r) and (p', 1, r')",
+    "perpendicular: pp' + 1 + rr' = 0"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "c7a6e607-a11b-4015-981a-dd1b3e7188c9",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row applies a1a2 + b1b2 + c1c2 = 0 to lines already in symmetric form; none rewrites x = py + q, z = ry + s to read the direction ratios, which is the step that gives the + 1."
+  },
+  {
+   "n": 44,
+   "paperNumber": 349,
+   "questionId": "226895791615",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Three Dimensional Geometry",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Direction vectors (2,3,4) and (4,6,8) are proportional: parallel",
+    "distance = |b x (a2 - a1)|/|b| = sqrt(5/29)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.three-dimensional-geometry.formula-distance-parallel-lines",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A Key card gives the distance formula for parallel lines, but no served bank row computes it (the only shortest-distance row is for skew lines)."
+  },
+  {
+   "n": 45,
+   "paperNumber": 350,
+   "questionId": "226895791616",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 4,
+   "chapter": "Linear Programming",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Minimum at two points: z equal there",
+    "50a + 30b = 20a + 40b -> b = 3a"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "defeb784-7aff-4d43-9292-362d8af7362a",
+     "teaches": "minimum at two corner points: Z(3,0) = Z(1,1) gives the relation between p and q"
+    }
+   ],
+   "best": "defeb784-7aff-4d43-9292-362d8af7362a",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row is the same question with other points."
+  },
+  {
+   "n": 46,
+   "paperNumber": 351,
+   "questionId": "226895791617",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Linear Programming",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Feasible region = points satisfying every constraint",
+    "test each region: x + y >= 10, x + 3y <= 60, x <= y (above y = x), first quadrant: region B"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "9879a378-c4e8-4fc9-adb2-8bf56840dc45",
+     "teaches": "a point is feasible only if it satisfies every constraint; tests points against each"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.linear-programming.def-feasible-region",
+     "teaches": "common region of all constraints"
+    }
+   ],
+   "best": "9879a378-c4e8-4fc9-adb2-8bf56840dc45",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row teaches testing points against every constraint, which picks the region; the figure reading is added. Weaker call."
+  },
+  {
+   "n": 47,
+   "paperNumber": 352,
+   "questionId": "226895791618",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Probability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Independent: P(contradict) = P(A)P(B') + P(A')P(B)",
+    "= 0.8 x 0.1 + 0.2 x 0.9 = 13/50"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "bef93c5a-79c0-4741-bd76-ccb608b4c742",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "No served row finds the probability that exactly one of two independent events happens."
+  },
+  {
+   "n": 48,
+   "paperNumber": 353,
+   "questionId": "226895791619",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Probability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "P(A|B) = P(A n B)/P(B) = 3/4",
+    "P(A'|B) = 1 - P(A|B) = 1/4"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "0877e704-ae64-4c38-b077-cbce393bc52e",
+     "teaches": "works P(X = 2 | Y = 1) = P(both)/P(Y = 1) with numbers"
+    },
+    {
+     "kind": "bank",
+     "id": "efaab0cf-d395-48ee-969d-a8d242b8daa5",
+     "teaches": "P(A|B) = P(A n B)/P(B) and P(A|B) + P(A'|B) = 1"
+    }
+   ],
+   "best": "0877e704-ae64-4c38-b077-cbce393bc52e",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "One bank row works a conditional probability with numbers and another states P(A|B) + P(A'|B) = 1; together they are the two steps. Weaker call."
+  },
+  {
+   "n": 49,
+   "paperNumber": 354,
+   "questionId": "226895791620",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 2,
+   "chapter": "Probability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "P(exactly one) = P(A) + P(B) - 2p = q",
+    "P(A') + P(B') = 2 - 2p - q",
+    "P(A' n B') = 1 - P(A u B) = 1 - p - q",
+    "P(A n B | A u B) = p/(p + q)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "486a6797-2ae6-4d04-8af5-b74217dd1fdc",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served rows use the addition rule and conditional probability with numbers; none handles \"exactly one\" or a conditional on the union."
+  },
+  {
+   "n": 50,
+   "paperNumber": 355,
+   "questionId": "226895791621",
+   "section": "Section B1: Mathematics (optional, Q321-355)",
+   "sectionId": "B1",
+   "ntaKey": 1,
+   "chapter": "Probability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Priors 1/2 each",
+    "P(RA | RAVINDRA) = 2/7 (7 pairs, RA twice), P(RA | DEVINDRAN) = 1/8",
+    "Bayes: (2/7)/(2/7 + 1/8) = 16/23"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "fe67257f-25f9-46f8-911c-63ce57d6ed0c",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row applies Bayes with given likelihoods; nothing served shows finding the likelihoods by counting consecutive letter pairs, which is the step this item turns on."
+  },
+  {
+   "n": 51,
+   "paperNumber": 356,
+   "questionId": "226895791622",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Financial Mathematics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "r_eff = (1 + i/m)^m - 1",
+    "(1.03)^2 - 1 = 6.09%"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "1895b891-a563-4cd3-a7bc-c2e800d82e4e",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The only served row on effective rate is an assertion that it exceeds the nominal rate; none computes it."
+  },
+  {
+   "n": 52,
+   "paperNumber": 357,
+   "questionId": "226895791623",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Financial Mathematics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "CAGR = (end/start)^(1/n) - 1",
+    "6^(1/4) - 1 = 0.565 = 56.5%"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "4413281e-b267-4c9e-b508-d943bdc632b7",
+     "teaches": "CAGR: (1 + g)^2 = 2.25, g = 50%"
+    }
+   ],
+   "best": "4413281e-b267-4c9e-b508-d943bdc632b7",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row finds the CAGR as the n-th root of the growth factor minus 1; same formula."
+  },
+  {
+   "n": 53,
+   "paperNumber": 358,
+   "questionId": "226895791624",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Financial Mathematics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Straight-line depreciation = (cost - scrap)/useful life = 45,000/10 = 4,500"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "23fda7f6-04bb-43cf-8611-002db1847e7c",
+     "teaches": "annual depreciation = (cost - residual value)/useful life"
+    }
+   ],
+   "best": "23fda7f6-04bb-43cf-8611-002db1847e7c",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row computes the annual straight-line depreciation by the same formula (and then a book value)."
+  },
+  {
+   "n": 54,
+   "paperNumber": 359,
+   "questionId": "226895791625",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Financial Mathematics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Flat rate: interest = P r n = 1,00,000",
+    "EMI = (P + interest)/(12n) = 3,00,000/60 = 5,000"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "73fd584b-e7ae-410e-9954-92afabb63682",
+     "teaches": "flat-rate EMI = (principal + P r n)/(number of months)"
+    }
+   ],
+   "best": "73fd584b-e7ae-410e-9954-92afabb63682",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row is the same flat-rate EMI calculation with other figures."
+  },
+  {
+   "n": 55,
+   "paperNumber": 360,
+   "questionId": "226895791626",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Financial Mathematics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Face value (par value) of a bond is the price at which it is issued (NTA key option 2)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "Nothing served mentions bonds or their face value."
+  },
+  {
+   "n": 56,
+   "paperNumber": 361,
+   "questionId": "226895791627",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Financial Mathematics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Perpetuity PV = R/i, with i the rate per half-year",
+    "i = 500/10,000 = 5% per half-year = 10% per annum"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "692b21ba-8a97-4c40-a18b-7e596ef70759",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served perpetuity row finds the present value from the rate (annual payments); none finds the rate from the present value or handles half-yearly payments."
+  },
+  {
+   "n": 57,
+   "paperNumber": 362,
+   "questionId": "226895791628",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Probability Distributions",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Sum of probabilities = 1: 0.2 + k + 2k + k = 1 -> k = 0.2",
+    "P(X >= 2) = 0.6, P(X <= 3) = 1, P(X <= 1) = 0.4"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "903ed426-c63d-4b7b-9c74-bf91b1628735",
+     "teaches": "P(X = x) = kx: sum = 1 gives k, then P(X > 2) by adding"
+    }
+   ],
+   "best": "903ed426-c63d-4b7b-9c74-bf91b1628735",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row finds k from the probabilities summing to 1 and then adds probabilities, the same steps."
+  },
+  {
+   "n": 58,
+   "paperNumber": 363,
+   "questionId": "226895791629",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Probability Distributions",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Binomial mean np, variance npq",
+    "20 x 0.25 = 5; 4 x 1/2 = 2",
+    "mean 5, var 4: q = 4/5, p = 1/5, n = 25",
+    "mean 8, var 4: q = 1/2, p = 1/2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "7da4d02e-7b39-468a-8c49-74a862dd16b8",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row computes np and npq forward (parts A and B), but none recovers p and n from a given mean and variance (parts C and D)."
+  },
+  {
+   "n": 59,
+   "paperNumber": 364,
+   "questionId": "226895791630",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 1,
+   "chapter": "Probability Distributions",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Poisson P(X = r) = e^-m m^r / r!",
+    "4(m^2/2) = 3m -> m = 1.5"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "b0e6bcaf-f295-4a35-b480-e6dd158bc133",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Served Poisson rows use mean = variance; none uses the Poisson probability formula."
+  },
+  {
+   "n": 60,
+   "paperNumber": 365,
+   "questionId": "226895791631",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Probability Distributions",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The normal curve is symmetric about its mean, so 50% of scores lie above the mean"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "68fa91db-5fc7-494a-848d-e39d802d467d",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row gives the 68% within one standard deviation, but nothing served says the normal curve is symmetric about the mean or that half lies above it."
+  },
+  {
+   "n": 61,
+   "paperNumber": 366,
+   "questionId": "226895791632",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Continuity & Differentiability",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "d/dx(a^x) = a^x log a",
+    "product rule (or (92e^4)^x): e^4x 92^x (4 + log 92)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.continuity-and-differentiability.formula-derivative-of-a-to-x",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A Key card derives d(a^x)/dx = a^x log a, but no served bank row differentiates a^x or a product with it."
+  },
+  {
+   "n": 62,
+   "paperNumber": 367,
+   "questionId": "226895791633",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Differential Equations",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Square to clear the root: (y - px)^2 = a^2 p^2 + b^2",
+    "highest derivative dy/dx, power 2: order 1, degree 2"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "a79fd3eb-ec26-4118-a8eb-fc63962fce53",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows read order and degree from polynomial forms; none clears a square root first (and row ddbac3ae keys a root as degree not defined)."
+  },
+  {
+   "n": 63,
+   "paperNumber": 368,
+   "questionId": "226895791634",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 1,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "R(x) = p x = 150x + 12x^2 - x^3",
+    "MR = R'(x) = 150 + 24x - 3x^2; at x = 5: 195"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.application-of-derivatives.def-marginal-revenue",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A Key card defines marginal revenue as the rate of change of total revenue, but no served bank row computes marginal revenue from a demand function."
+  },
+  {
+   "n": 64,
+   "paperNumber": 369,
+   "questionId": "226895791635",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f' = 12x^2 - 36x + 27 = 3(2x - 3)^2 >= 0",
+    "f' does not change sign at 3/2 (f'' = 0 there): point of inflexion"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "kc.mathematics.application-of-derivatives.fact-first-derivative-test-inflection",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "A Key card says a point where f' does not change sign is a point of inflection, but no served bank row finds one by working."
+  },
+  {
+   "n": 65,
+   "paperNumber": 370,
+   "questionId": "226895791636",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 4,
+   "chapter": "Application of Derivatives",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "f = 2/x + 5: f' = -2/x^2 < 0 for every x != 0",
+    "decreasing (NTA key: on R - {0})"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "ac6a6f98-94fa-4360-b0d4-66175ce8f866",
+     "teaches": "the derivative of 1/x is -1/x^2 < 0, so 1/x is not increasing on R - {0}"
+    }
+   ],
+   "best": "ac6a6f98-94fa-4360-b0d4-66175ce8f866",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row differentiates 1/x to -1/x^2 < 0 on R - {0}; the paper scales and shifts it. (NTA key is decreasing on R - {0}, flagged at the paper stage.)"
+  },
+  {
+   "n": 66,
+   "paperNumber": 371,
+   "questionId": "226895791637",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Integrals",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "int (x + 1)e^x dx: e^x[f + f'] with f = x",
+    "= x e^x + C"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "2b6807ae-c16c-4267-b420-5722c0ed952d",
+     "teaches": "integral of e^x[f + f'] = e^x f + C with f = 1/x"
+    },
+    {
+     "kind": "bank",
+     "id": "303622fe-4aca-41f1-8344-f9ffda8c303c",
+     "teaches": "integral of x e^x by parts = e^x(x - 1) + C"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.integrals.formula-exp-f-plus-fprime",
+     "teaches": "e^x[f + f'] formula"
+    }
+   ],
+   "best": "2b6807ae-c16c-4267-b420-5722c0ed952d",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows integrate e^x[f + f'] and x e^x; same formula and steps."
+  },
+  {
+   "n": 67,
+   "paperNumber": 372,
+   "questionId": "226895791638",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Differential Equations",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Separate: dy/y = 2x/(x - 1) dx = (2 + 2/(x - 1)) dx",
+    "log|y| = 2x + 2 log|x - 1| + C; y(2) = 1 -> C = -4"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "cf6144bf-869b-479a-99de-b5a4fd2b9c0e",
+     "teaches": "separable equation dy/dx = 2xy with an initial value: separate, integrate, fix C"
+    },
+    {
+     "kind": "bank",
+     "id": "2a6c8576-fcef-4d2f-aa94-89ed19ccc690",
+     "teaches": "separable initial value problem"
+    }
+   ],
+   "best": "cf6144bf-869b-479a-99de-b5a4fd2b9c0e",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows solve separable initial value problems of the same kind; dividing 2x by (x - 1) before integrating is the added step. Weaker call."
+  },
+  {
+   "n": 68,
+   "paperNumber": 373,
+   "questionId": "226895791639",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Linear Programming",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Bounded feasible region: z has both a maximum and a minimum",
+    "each occurs at a corner point (Theorem 2)"
+   ],
+   "verdict": "covered",
+   "matchKind": "same",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.mathematics.linear-programming.fact-theorem-2",
+     "teaches": "bounded R: Z has both a maximum and a minimum value and each occurs at a corner point"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.linear-programming.fact-unbounded-remark",
+     "teaches": "only for an unbounded R may a maximum or minimum not exist"
+    },
+    {
+     "kind": "bank",
+     "id": "281d31ff-b8e5-493b-aba3-62e9ca484d91",
+     "teaches": "bounded region: the optimum occurs at a vertex"
+    }
+   ],
+   "best": "kc.mathematics.linear-programming.fact-theorem-2",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key card states Theorem 2 in the words of statements B and D."
+  },
+  {
+   "n": 69,
+   "paperNumber": 374,
+   "questionId": "226895791640",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 1,
+   "chapter": "Linear Programming",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Corner points (0,0), (2,0), (0,3) and the intersection (20/19, 45/19)",
+    "Z = 38x + 19y is largest, 85, at the intersection"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "fb49ae9d-67bf-43c2-a22c-892e32b2e08d",
+     "teaches": "corner points including the intersection of two constraint lines, Z evaluated at each, maximum at the intersection"
+    }
+   ],
+   "best": "fb49ae9d-67bf-43c2-a22c-892e32b2e08d",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row is the same corner-point calculation with other figures."
+  },
+  {
+   "n": 70,
+   "paperNumber": 375,
+   "questionId": "226895791641",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Inferential Statistics",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A parameter is a characteristic (numerical value) of the population, e.g. the population mean",
+    "a statistic is computed from a sample"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "691312f0-4190-4917-b995-51cf5cc405ae",
+     "teaches": "sample mean is a statistic computed from data; mu, sigma^2, p are population parameters"
+    }
+   ],
+   "best": "691312f0-4190-4917-b995-51cf5cc405ae",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row separates statistics (from the sample) from parameters (of the population, such as the population mean), which gives B and C and rules out A and D."
+  },
+  {
+   "n": 71,
+   "paperNumber": 376,
+   "questionId": "226895791642",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Inferential Statistics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Degrees of freedom = n - 1 = 57"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "23a5438b-200a-465f-b39e-aed23d8c2dae",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row uses 15 degrees of freedom for a sample of 16 without stating the rule; no row asks for degrees of freedom."
+  },
+  {
+   "n": 72,
+   "paperNumber": 377,
+   "questionId": "226895791643",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Inferential Statistics",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Point estimate of the population mean = sample mean = 42/6 = 7"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "d542e90b-584b-420c-a7cc-d68f725a041d",
+     "teaches": "the estimate of mu from observations 1, 3, 5 is the sample mean 3"
+    },
+    {
+     "kind": "bank",
+     "id": "955f973d-8375-4718-87df-59cdbdd6c418",
+     "teaches": "estimate of the Poisson mean is the sample mean"
+    }
+   ],
+   "best": "d542e90b-584b-420c-a7cc-d68f725a041d",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank rows estimate the population mean by the sample mean (named the MLE there); same calculation."
+  },
+  {
+   "n": 73,
+   "paperNumber": 378,
+   "questionId": "226895791644",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 4,
+   "chapter": "Time Based Data",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Components of a time series: secular trend, seasonal, cyclical, irregular (all four)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "b5e928f3-5ec9-4c93-8f55-111b63aff3a6",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Nothing served names the four components of a time series."
+  },
+  {
+   "n": 74,
+   "paperNumber": 379,
+   "questionId": "226895791645",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Time Based Data",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "3-period moving average = mean of three consecutive values",
+    "25, 27, 26, 27, 22"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "c88a4ac5-7a46-41a8-98f4-ee80e8c09247",
+     "teaches": "a 3-year moving average is the mean of three consecutive values (worked backwards to find a value)"
+    },
+    {
+     "kind": "bank",
+     "id": "b5e928f3-5ec9-4c93-8f55-111b63aff3a6",
+     "teaches": "moving average smooths short-term fluctuations"
+    }
+   ],
+   "best": "c88a4ac5-7a46-41a8-98f4-ee80e8c09247",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row states that a 3-period moving average is the mean of three consecutive values and works it with numbers, though in the reverse direction. Weaker call."
+  },
+  {
+   "n": 75,
+   "paperNumber": 380,
+   "questionId": "226895791646",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Determinants",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "|adj A| = |A|^(n-1); for n = 2, |adj A| = |A|",
+    "|A| = 2, 6, 1, 7"
+   ],
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "5590c1cd-39cf-4740-a079-6156673b0670",
+     "teaches": "|adj A| = |A|^(n-1), worked for n = 3"
+    },
+    {
+     "kind": "bank",
+     "id": "99b5a2ad-1566-4410-9866-b307767fba3f",
+     "teaches": "det of a 2x2 matrix = ad - bc"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.determinants.formula-determinant-of-adjoint",
+     "teaches": "|adj A| = |A|^(n-1)"
+    }
+   ],
+   "best": "5590c1cd-39cf-4740-a079-6156673b0670",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Bank row applies |adj A| = |A|^(n-1) to find |adj A|; the paper uses n = 2 with four 2x2 determinants."
+  },
+  {
+   "n": 76,
+   "paperNumber": 381,
+   "questionId": "226895791647",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Inverse, if it exists, is unique (A true)",
+    "(AB)^-1 = B^-1 A^-1, not A^-1 B^-1 (B not true)",
+    "(A^-1)^-1 = A (C true)",
+    "(A')^-1 = (A^-1)', not A' (D not true)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.mathematics.matrices.fact-thm3-unique",
+     "teaches": "inverse of a square matrix, if it exists, is unique"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.matrices.formula-inverse-of-product",
+     "teaches": "(AB)^-1 = B^-1 A^-1"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.determinants.formula-inverse-of-inverse",
+     "teaches": "(A^-1)^-1 = A"
+    },
+    {
+     "kind": "bank",
+     "id": "cc9487d4-5482-447d-a761-05d04563806f",
+     "teaches": "(AB)^-1 = B^-1 A^-1, inverses in reverse order"
+    }
+   ],
+   "best": "kc.mathematics.matrices.fact-thm3-unique",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "By elimination: cards make A and C true and B false, which leaves only option 2; nothing served states (A')^-1 = (A^-1)', so D itself is not taught. Weaker call."
+  },
+  {
+   "n": 77,
+   "paperNumber": 382,
+   "questionId": "226895791648",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Determinants",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "|adj(adj A)| = |A|^((n-1)^2): n = 3, |A| = 3 -> 81; n = 4, |A| = 2 -> 512; n = 2, |A| = 9 -> 9",
+    "|A^-1| = 1/|A| = 16"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "5590c1cd-39cf-4740-a079-6156673b0670",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row gives |A^-1| = 1/|A|, but nothing served gives |adj(adj A)| = |A|^((n-1)^2), which three of the four parts need."
+  },
+  {
+   "n": 78,
+   "paperNumber": 383,
+   "questionId": "226895791649",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Row matrix [1 2 3]; column matrix [1;2;3]",
+    "scalar matrix 2I (diagonal, equal entries); diagonal matrix diag(1,2,3)"
+   ],
+   "verdict": "covered",
+   "matchKind": "concept",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.mathematics.matrices.def-row",
+     "teaches": "row matrix has only one row"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.matrices.def-column",
+     "teaches": "column matrix has only one column"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.matrices.def-scalar",
+     "teaches": "diagonal matrix with equal diagonal elements"
+    },
+    {
+     "kind": "card",
+     "id": "kc.mathematics.matrices.def-diagonal",
+     "teaches": "all non-diagonal elements zero"
+    },
+    {
+     "kind": "bank",
+     "id": "300047ea-3dc7-4cf4-bc6f-abcb00cd5b7f",
+     "teaches": "scalar = diagonal with equal entries; row 1 x n; column m x 1"
+    }
+   ],
+   "best": "kc.mathematics.matrices.def-row",
+   "bestKind": "card",
+   "needs": [],
+   "reason": "Key cards define all four types; the item matches them to examples."
+  },
+  {
+   "n": 79,
+   "paperNumber": 384,
+   "questionId": "226895791650",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Matrices",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "(A + B)' = A' + B' = -A - B = -(A + B): the sum of two skew-symmetric matrices is skew-symmetric"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "af78c8e9-6838-4b92-b5be-25f1cb7c199c",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "Cards define skew-symmetric (A' = -A) and give (A + B)' = A' + B', and a bank row uses that for symmetric plus skew-symmetric, but nothing served states the result for two skew-symmetric matrices; doubtful, so not covered."
+  },
+  {
+   "n": 80,
+   "paperNumber": 385,
+   "questionId": "226895791651",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 1,
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Transitive: a > b, b > c -> a > c (A wrong)",
+    "multiply by c < 0 reverses: ac < bc (B right)",
+    "divide by c < 0 reverses: a/c < b/c (C right)",
+    "divide by c > 0 keeps: a/c > b/c (D wrong)"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "0e1790f3-7da1-462b-9088-8fd54ec251fd",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "A bank row gives statement B (multiplying by a negative reverses), but nothing served states transitivity or the rules for dividing by a positive or a negative number."
+  },
+  {
+   "n": 81,
+   "paperNumber": 386,
+   "questionId": "226895791652",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 2,
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Repeated replacement: left = initial x (1 - removed/total)^n",
+    "50 x (0.9)^3 = 36.45 litres"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": null,
+   "bestKind": null,
+   "needs": [],
+   "reason": "No served row on repeated removal and replacement."
+  },
+  {
+   "n": 82,
+   "paperNumber": 387,
+   "questionId": "226895791653",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "53 = y (mod 6): y = 53 + 6k",
+    "..., 41, 47, 53, 59, 65, ..."
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "1413fb21-57bd-4f2a-a970-c87ad9f10e22",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served modular row finds a remainder of a product; none lists the numbers congruent to a given one."
+  },
+  {
+   "n": 83,
+   "paperNumber": 388,
+   "questionId": "226895791654",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Time upstream = 3 x time downstream, so speed downstream = 3 x speed upstream",
+    "17 + s = 3(17 - s) -> s = 8.5"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "c6aed432-8bcf-47f4-838d-0fcf91e6b87f",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served boat row finds the stream speed from two given speeds; none uses a ratio of times."
+  },
+  {
+   "n": 84,
+   "paperNumber": 389,
+   "questionId": "226895791655",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "A and B run t min, C runs t - 6 min",
+    "t/12 + t/15 - (t - 6)/20 = 1 -> t = 7"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "61688b26-9f1d-4fe8-af95-fcb90ccff688",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served pipes row has all three pipes open throughout; none closes one early."
+  },
+  {
+   "n": 85,
+   "paperNumber": 390,
+   "questionId": "226895791656",
+   "section": "Section B2: Applied Mathematics (optional, Q356-390)",
+   "sectionId": "B2",
+   "ntaKey": 3,
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "B's speed = 700/35 = 20 m/s",
+    "in A's 30 s B runs 600 m: A wins by 100 m"
+   ],
+   "verdict": "not_covered",
+   "matchKind": null,
+   "matches": [],
+   "best": "80d1f709-f1db-4e6a-86d3-426cef7fa59c",
+   "bestKind": "bank",
+   "needs": [],
+   "reason": "The served race row combines two winning margins; none works from the finishing times."
+  }
+ ]
+}
