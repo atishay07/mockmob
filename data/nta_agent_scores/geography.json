@@ -3,9 +3,10 @@
   "subject": "geography",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-14T12:10:00.000Z",
+  "merged_at": "2026-11-23T14:13:59.543Z",
   "models": [
-    "claude-haiku-5-5"
+    "claude-haiku-5-5",
+    "claude-subagent-unrecorded"
   ],
   "calibration": {
     "status": "calibrated",
@@ -69,7 +70,7 @@
       "duplicate_options": 1
     },
     "mean_of_means": 6.63,
-    "admissible_before_row_checks": 139
+    "admissible_before_row_checks": 143
   },
   "questions": {
     "6114efa1-3b99-4a6a-ba1a-d68d0bf8c481": {
@@ -14720,6 +14721,374 @@
           "solver": "claude-haiku-5-5"
         }
       }
+    },
+    "02f290b1-4488-424e-8504-acb24df27176": {
+      "question_id": "02f290b1-4488-424e-8504-acb24df27176",
+      "batch": "authored-2026-10-14__geography__w6b1",
+      "chapter": "Secondary Activities",
+      "key": "B",
+      "content_hash": "9c8ea916473bb2f876e2ae50aead7154cc356e030d0090d8ca69f91d03f158f2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "geography.secondary-activities.high-tech-industry-technopolies",
+          "flags": [],
+          "note": "Key follows NCERT (Silicon Forest near Seattle). A and C are good NCERT reversals; D (Silicon Valley in Canada) is a throwaway.",
+          "scored_content_hash": "9c8ea916473bb2f876e2ae50aead7154cc356e030d0090d8ca69f91d03f158f2"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "geography.secondary-activities.technopolies-high-tech-industry",
+          "flags": [],
+          "note": "B is NCERT's line; A and C reverse NCERT's landscape and workforce lines. D (Canada) is a throwaway. Portland caveat in explanation is accurate.",
+          "scored_content_hash": "9c8ea916473bb2f876e2ae50aead7154cc356e030d0090d8ca69f91d03f158f2"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "geography.secondary-activities.high-tech-industry-technopolies",
+        "geography.secondary-activities.technopolies-high-tech-industry"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "9c8ea916473bb2f876e2ae50aead7154cc356e030d0090d8ca69f91d03f158f2",
+        "final_content_hash": "9c8ea916473bb2f876e2ae50aead7154cc356e030d0090d8ca69f91d03f158f2",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "29358098-a746-4bdd-b0fe-a83d09299237": {
+      "question_id": "29358098-a746-4bdd-b0fe-a83d09299237",
+      "batch": "authored-2026-10-14__geography__w6b1",
+      "chapter": "Mineral and Energy Resources",
+      "key": "C",
+      "content_hash": "9d6da82c84c7898c1cf5bb509c28fa25d82e284f17c8cc2e9be4cb697535a54c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "geography.mineral-and-energy-resources.iron-ore-mining-regions",
+          "flags": [],
+          "note": "NCERT iron ore belts; distractors swap Noamundi and Gurumahisani between Jharkhand and Odisha, a real student slip. Explanation's Karnataka/Maharashtra aside is padding.",
+          "scored_content_hash": "9d6da82c84c7898c1cf5bb509c28fa25d82e284f17c8cc2e9be4cb697535a54c"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "geography.mineral-and-energy-resources.iron-ore-mines-location",
+          "flags": [],
+          "note": "Each wrong pair swaps a real NCERT mine into a neighbouring iron-ore State (Noamundi/Gurumahisani crossed, Kudremukh to Goa); one clean key.",
+          "scored_content_hash": "9d6da82c84c7898c1cf5bb509c28fa25d82e284f17c8cc2e9be4cb697535a54c"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "geography.mineral-and-energy-resources.iron-ore-mining-regions",
+        "geography.mineral-and-energy-resources.iron-ore-mines-location"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "9d6da82c84c7898c1cf5bb509c28fa25d82e284f17c8cc2e9be4cb697535a54c",
+        "final_content_hash": "9d6da82c84c7898c1cf5bb509c28fa25d82e284f17c8cc2e9be4cb697535a54c",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96": {
+      "question_id": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96",
+      "batch": "authored-2026-10-14__geography__w6b1",
+      "chapter": "Mineral and Energy Resources",
+      "key": "B",
+      "content_hash": "d37c76c35b575a503d7c9ac59999bb2659624f8c9c1e0c91509f3fd3c2edd011",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "geography.mineral-and-energy-resources.oil-refinery-locations",
+          "flags": [],
+          "note": "Longitudes check (Digboi, Mathura, Panipat, Bathinda). Mathura/Panipat swap is a sound trap; option C is just the reverse order.",
+          "scored_content_hash": "d37c76c35b575a503d7c9ac59999bb2659624f8c9c1e0c91509f3fd3c2edd011"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "geography.mineral-and-energy-resources.oil-refineries-location",
+          "flags": [],
+          "note": "Longitudes check (Mathura 77.7, Panipat 77.0, Bathinda 75.0 E); the Mathura/Panipat swap is a fine but fair trap. Option D is weak.",
+          "scored_content_hash": "d37c76c35b575a503d7c9ac59999bb2659624f8c9c1e0c91509f3fd3c2edd011"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "geography.mineral-and-energy-resources.oil-refinery-locations",
+        "geography.mineral-and-energy-resources.oil-refineries-location"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "d37c76c35b575a503d7c9ac59999bb2659624f8c9c1e0c91509f3fd3c2edd011",
+        "final_content_hash": "d37c76c35b575a503d7c9ac59999bb2659624f8c9c1e0c91509f3fd3c2edd011",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "e507a240-c420-4b53-a27d-be8c70f5ccb5": {
+      "question_id": "e507a240-c420-4b53-a27d-be8c70f5ccb5",
+      "batch": "authored-2026-10-14__geography__w6b1",
+      "chapter": "Population — Distribution, Density, Growth",
+      "key": "C",
+      "content_hash": "4897ce037068894749166259a00fdf3df03bd2b0f4249cca90d3cea63b0b4ad0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+          "flags": [],
+          "note": "USA third on both NCERT Fig 2.1 and UN 2024; explanation ranks check. Russia is a throwaway distractor.",
+          "scored_content_hash": "4897ce037068894749166259a00fdf3df03bd2b0f4249cca90d3cea63b0b4ad0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+          "flags": [],
+          "note": "USA third holds on NCERT Fig 2.1 and current UN data; Russia is a throwaway. Explanation rankings check.",
+          "scored_content_hash": "4897ce037068894749166259a00fdf3df03bd2b0f4249cca90d3cea63b0b4ad0"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "geography.population-distribution-density-growth.most-populous-countries-ranking",
+        "geography.population-distribution-density-growth.most-populous-countries-ranking"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "4897ce037068894749166259a00fdf3df03bd2b0f4249cca90d3cea63b0b4ad0",
+        "final_content_hash": "4897ce037068894749166259a00fdf3df03bd2b0f4249cca90d3cea63b0b4ad0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -14732,6 +15101,18 @@
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 5,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-11-23-w6": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-23T14:13:59.543Z",
+      "questions": 4,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-23",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

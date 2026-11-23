@@ -6,8 +6,8 @@
  "examDate": "2026-05-15",
  "examDay": "15 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-22",
  "firstDay": "22 November 2026",
  "final": true,
@@ -15,18 +15,18 @@
   "total": 50,
   "same": 11,
   "newValues": 0,
-  "concept": 37,
-  "notYet": 2,
+  "concept": 38,
+  "notYet": 1,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 48,
+  "covered": 49,
   "counted": 50,
-  "pct": 96,
+  "pct": 98,
   "first": 40,
   "firstPct": 80,
   "addedCards": 8,
-  "addedQuestions": 0,
+  "addedQuestions": 1,
   "found": 0,
   "sameFirst": 10,
   "newValuesFirst": 0
@@ -35,7 +35,7 @@
   {
    "name": "Self & Personality",
    "asked": 10,
-   "covered": 9
+   "covered": 10
   },
   {
    "name": "Variations in Psychological Attributes",
@@ -705,11 +705,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "a5d5f294-fe07-4383-83d2-be0d6d59ac73",
+    "chapter": "Self & Personality",
+    "stem": "A school counsellor wants to study her students' personalities through indirect methods only: the stimulus should be relatively or fully unstructured, and the student should not be told the purpose of the assessment or how the responses will be scored. Which of the following could she use?\n(A) Minnesota Multiphasic Personality Inventory\n(B) Rosenzweig's Picture-Frustration Study\n(C) Eysenck Personality Questionnaire\n(D) Sentence Completion Test\n(E) Draw-a-Person Test\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A), (C) and (E) only",
+     "(A), (B) and (D) only",
+     "(B), (C), (D) and (E) only",
+     "(B), (D) and (E) only"
+    ],
+    "key": 3,
+    "explanation": "NCERT groups personality tests by method. Self-report measures, such as the Minnesota Multiphasic Personality Inventory (MMPI), the Eysenck Personality Questionnaire (EPQ) and Cattell's 16 PF, are fairly structured: the person reports her or his own feelings on each item, and the responses are accepted at face value, scored in quantitative terms and interpreted on the basis of norms. They are direct techniques, because the person clearly knows that her or his personality is being assessed. Projective techniques are the indirect methods: the stimulus is relatively or fully unstructured, the person is usually not told the purpose of the assessment or the method of scoring, and experts interpret the responses for unconscious motives and feelings. Rosenzweig's Picture-Frustration Study (what the frustrated person in a cartoon will say or do), the Sentence Completion Test (endings to incomplete sentences) and the Draw-a-Person Test are projective, as are the Rorschach Inkblot Test and the TAT. So the counsellor can use (B), (D) and (E); the MMPI (A) and the EPQ (C) are self-report measures.",
+    "more": {
+     "cards": 5,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 20,

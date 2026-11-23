@@ -6,8 +6,8 @@
  "examDate": "2026-05-20",
  "examDay": "20 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-20",
  "firstDay": "20 November 2026",
  "final": true,
@@ -15,18 +15,18 @@
   "total": 50,
   "same": 5,
   "newValues": 4,
-  "concept": 35,
-  "notYet": 5,
+  "concept": 39,
+  "notYet": 1,
   "skill": 1,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 44,
+  "covered": 48,
   "counted": 49,
-  "pct": 90,
+  "pct": 98,
   "first": 30,
   "firstPct": 61,
   "addedCards": 11,
-  "addedQuestions": 3,
+  "addedQuestions": 7,
   "found": 0,
   "sameFirst": 3,
   "newValuesFirst": 1
@@ -50,7 +50,7 @@
   {
    "name": "Financial Markets",
    "asked": 5,
-   "covered": 1
+   "covered": 5
   },
   {
    "name": "Organising",
@@ -624,11 +624,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "a15240a0-f48c-4343-8e00-183603543c47",
+    "chapter": "Financial Markets",
+    "stem": "Consider the following statements about Treasury Bills in India.\n(A) They are issued by the Reserve Bank of India on behalf of the Central Government.\n(B) They are issued at a price below their face value and repaid at par.\n(C) They mature after more than one year from the date of issue.\n(D) An investor can buy them for any amount he or she chooses, even Rs 5,000.\n(E) They are highly liquid and carry a negligible risk of default.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (B), (D) and (E) only",
+     "(A), (B), (C) and (E) only",
+     "(A), (B) and (E) only",
+     "(A), (C) and (E) only"
+    ],
+    "key": 2,
+    "explanation": "A Treasury Bill is an instrument of short-term borrowing by the Government of India. The Reserve Bank of India issues it on behalf of the Central Government to meet the Centre's short-term need for funds; State Governments do not issue Treasury Bills. So (A) is true. Treasury Bills are zero coupon instruments: they are sold at a price lower than the face value and repaid at par, and the difference is the investor's return, so (B) is true. They mature in less than one year (they are issued for 91, 182 and 364 days), which makes them money market instruments, so (C) is false. As the NCERT textbook states, they are available for a minimum amount of Rs 25,000 and in multiples of Rs 25,000, so (D) is false: a sum such as Rs 5,000 or Rs 15,000 cannot be put into them, whether the investor is an individual, a firm or a bank. Being short-term government paper, they are highly liquid and carry a negligible risk of default, so (E) is true. The true statements are (A), (B) and (E).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 17,
@@ -681,11 +699,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "e9b39e3c-100c-4d72-be16-548adc1748df",
+    "chapter": "Financial Markets",
+    "stem": "Consider the following activities.\n(A) Providing scope, within the provisions of law, for a controlled degree of speculation\n(B) Ensuring the safety of transactions through well-regulated membership and clearly defined dealings\n(C) Deciding, through its governing board, the price at which each listed share must be bought and sold\n(D) Channelling savings into their most productive uses through disinvestment and reinvestment\n(E) Creating a continuous market in which investors can convert their existing securities into cash\nWhich of these are functions of a stock exchange?",
+    "passage": null,
+    "options": [
+     "(A), (B), (D) and (E) only",
+     "(B), (D) and (E) only",
+     "(A), (B), (C) and (E) only",
+     "(A), (C), (D) and (E) only"
+    ],
+    "key": 0,
+    "explanation": "NCERT lists six functions of a stock exchange. (1) It provides liquidity and marketability to existing securities: it creates a continuous market in which investors can convert their securities into cash, which is (E). (2) It helps in the pricing of securities: prices are set by the forces of demand and supply on the exchange, not decided by its governing board, so (C) is not a function. (3) It ensures the safety of transactions: its membership is well regulated and its dealings follow a defined legal framework, so the investing public gets a safe and fair deal, which is (B). (4) It contributes to economic growth: through disinvestment and reinvestment, savings are channelled into their most productive investment avenues, leading to capital formation, which is (D). (5) It spreads the equity cult. (6) It provides scope for speculation within the provisions of law, in a restricted and controlled manner, because a certain degree of healthy speculation is needed for liquidity and price continuity in the market, which is (A). So a stock exchange does not try to put a complete stop to speculation; it allows healthy speculation under control. The functions are (A), (B), (D) and (E).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 19,
@@ -814,11 +850,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "83804f3c-cc09-4013-97ca-03894eef15a1",
+    "chapter": "Financial Markets",
+    "stem": "Rohan holds 300 shares of a company as paper certificates and wants to hold them in electronic form. Arrange the following steps in the order in which they take place.\n(A) The shares are credited to Rohan's demat account in electronic form.\n(B) Rohan fills in the account opening form of the chosen DP and gives documents such as his PAN card details and a photograph.\n(C) Rohan chooses a Depository Participant (DP), which may be a bank, a broker or a financial services company.\n(D) Rohan hands over the paper share certificates to the DP along with a dematerialisation request form.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(C), (D), (B), (A)",
+     "(B), (C), (D), (A)",
+     "(C), (B), (A), (D)",
+     "(C), (B), (D), (A)"
+    ],
+    "key": 3,
+    "explanation": "A demat account is opened with a Depository Participant, so the DP is chosen first (C). The DP's account opening form and the documents come next (B); NCERT names PAN card details, a photograph and a power of attorney. Certificates can be dematerialised only into an account that already exists, so the paper certificates are then handed to the DP with a dematerialisation request form (D). The DP sends the request on to the company's registrar, and once the certificates are verified the depository (NSDL or CDSL) credits the shares to the account in electronic form (A). The order is (C), (B), (D), (A). NCERT lists the working of a demat account in this order: a DP is identified; the account opening form and documentation are completed; the physical certificates are given to the DP with a dematerialisation request form; and when shares are applied for in a public offer, only the DP and demat account details need to be given, and the shares are credited to the demat account automatically on allotment.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 23,
@@ -1293,11 +1347,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "d5df54d1-8059-4006-9057-e9be2f2502bb",
+    "chapter": "Financial Markets",
+    "stem": "Match List I with List II.\nList I\n(A) Settlement cycle on Indian stock exchanges before the reforms\n(B) Rolling settlement\n(C) Depository Participant\n(D) Depository\nList II\n(I) The trades of each day are settled on their own, a fixed number of working days after the trade date\n(II) All the trades done over a week or a fortnight are settled together, on one day after that period closes\n(III) An agent of the depository, such as a bank or a broker, with whom an investor opens and operates a demat account\n(IV) An institution that holds securities in electronic form and transfers them by book entry, such as NSDL or CDSL\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+     "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+     "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+     "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    ],
+    "key": 1,
+    "explanation": "Before the reforms, Indian stock exchanges settled trades in account periods: every trade done over a week or a fortnight was settled together, shares delivered and money paid, on one day after the period closed, so (A) matches (II). Under rolling settlement, the trades of each day are settled on their own a fixed number of working days after the trade date (T+n), so (B) matches (I). Rolling settlement covered all shares on a T+5 basis by the end of 2001; the cycle was cut to T+3 in April 2002 and to T+2 from April 2003, and India completed the move to T+1 in January 2023. So T+3 and T+2 are rolling cycles that the reforms brought in, not the cycle they replaced. A Depository Participant, such as a bank or a broker, is the depository's agent: the investor opens and operates a demat account with it, so (C) matches (III). A depository such as NSDL or CDSL holds securities in electronic form and transfers them by book entry, and the investor reaches it only through a Depository Participant, so (D) matches (IV). The correct matching is (A)-(II), (B)-(I), (C)-(III), (D)-(IV).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 37,

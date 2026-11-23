@@ -6,8 +6,8 @@
  "examDate": "2026-05-20",
  "examDay": "20 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-22",
  "firstDay": "22 November 2026",
  "final": true,
@@ -15,18 +15,18 @@
   "total": 50,
   "same": 13,
   "newValues": 0,
-  "concept": 32,
-  "notYet": 5,
+  "concept": 35,
+  "notYet": 2,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 45,
+  "covered": 48,
   "counted": 50,
-  "pct": 90,
+  "pct": 96,
   "first": 37,
   "firstPct": 74,
   "addedCards": 6,
-  "addedQuestions": 0,
+  "addedQuestions": 3,
   "found": 2,
   "sameFirst": 10,
   "newValuesFirst": 0
@@ -40,12 +40,12 @@
   {
    "name": "Biotechnology Principles & Processes",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Human Health & Disease",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Human Reproduction",
@@ -85,7 +85,7 @@
   {
    "name": "Ecosystem",
    "asked": 2,
-   "covered": 1
+   "covered": 2
   },
   {
    "name": "Organisms & Populations",
@@ -150,11 +150,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "68269c81-6197-4788-9aa3-216209c5f515",
+    "chapter": "Ecosystem",
+    "stem": "In NCERT's diagram of trophic levels in an ecosystem, each organism below is shown at a different level. Arrange them from the first (lowest) trophic level to the highest.\n(A) Wolf\n(B) Lion\n(C) Grass\n(D) Grasshopper",
+    "passage": null,
+    "options": [
+     "(C), (A), (D), (B)",
+     "(D), (C), (A), (B)",
+     "(C), (D), (A), (B)",
+     "(C), (D), (B), (A)"
+    ],
+    "key": 2,
+    "explanation": "NCERT's Figure 12.2 places producers (plants) at the first trophic level: phytoplankton, grass, trees. Herbivores, the primary consumers, are at the second: zooplankton, grasshopper and cow. Carnivores, the secondary consumers, are at the third: birds, fishes, wolf. Top carnivores, the tertiary consumers, are at the fourth: man, lion. So grass (first), grasshopper (second), wolf (third) and lion (fourth) give (C), (D), (A), (B). Putting the wolf before the grasshopper makes a carnivore the plant eater; starting with the grasshopper forgets that every grazing chain begins with a producer; and placing the lion below the wolf swaps the top carnivore with the secondary consumer. The diagram shows levels, not fixed species: a real animal can feed at more than one level, as a sparrow does when it eats seeds and also insects.",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 3,
@@ -1148,11 +1166,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589",
+    "chapter": "Biotechnology Principles & Processes",
+    "stem": "Consider the following statements about getting recombinant DNA into host cells.\n(A) Bacterial cells are made competent by treating them with a specific concentration of a divalent cation such as calcium.\n(B) For the heat shock, cells kept on ice with the recombinant DNA are placed briefly at 42 °C and then put back on ice.\n(C) In micro-injection, recombinant DNA is injected directly into the nucleus of an animal cell.\n(D) 'Disarmed pathogen' vectors transfer the recombinant DNA into the host when they are allowed to infect the cell.\n(E) DNA is a hydrophobic molecule, so it passes through the cell membrane without any treatment.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (B) and (E) only",
+     "(A), (B), (C) and (D) only",
+     "(B), (C), (D) and (E) only",
+     "(A), (C) and (D) only"
+    ],
+    "key": 1,
+    "explanation": "DNA is a hydrophilic molecule, so it cannot pass through cell membranes on its own: (E) is false. Bacteria are first made competent with a specific concentration of a divalent cation such as calcium, which increases the efficiency with which DNA enters through pores in the cell wall (A). The cells are then incubated with the recombinant DNA on ice, placed briefly at 42 °C (the heat shock) and put back on ice (B). The shock is a short step at 42 °C, never boiling at 100 °C, which would kill the cells. Other ways in: micro-injection, directly into the nucleus of an animal cell (C); biolistics or the gene gun, in which plant cells are bombarded with high-velocity micro-particles of gold or tungsten coated with DNA; and 'disarmed pathogen' vectors, which transfer the recombinant DNA into the host when allowed to infect the cell (D). So (A), (B), (C) and (D) are correct.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 33,
@@ -1583,11 +1619,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092",
+    "chapter": "Human Health & Disease",
+    "stem": "Consider the following statements about plants that are sources of drugs.\n(A) Atropa belladonna and Datura are well-known plants with hallucinogenic properties.\n(B) Cocaine is obtained from Erythroxylum coca, and an excessive dose of it causes hallucinations.\n(C) Rauwolfia vomitoria is valued as a medicinal plant for its active chemical reserpine; it is not a hallucinogenic plant.\n(D) Natural cannabinoids are obtained from the latex of the poppy plant Papaver somniferum.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A) and (D) only",
+     "(B), (C) and (D) only",
+     "(A) and (B) only",
+     "(A), (B) and (C) only"
+    ],
+    "key": 3,
+    "explanation": "Atropa belladonna and Datura are well-known plants with hallucinogenic properties (A). Cocaine comes from the coca plant Erythroxylum coca; it has a potent stimulating action on the central nervous system, and an excessive dosage causes hallucinations (B). Rauwolfia is different: NCERT names Rauwolfia vomitoria as a medicinal plant whose active chemical is reserpine, and reserpine is used in medicine to lower blood pressure (it has also been used as a tranquilliser); Rauwolfia is not a hallucinogen (C). Natural cannabinoids come from the inflorescences of Cannabis sativa, while the latex of the poppy Papaver somniferum gives morphine, from which heroin is made, so (D) is false.",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 46,

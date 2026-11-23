@@ -1,4 +1,19 @@
 {
+ "02f290b1-4488-424e-8504-acb24df27176": {
+  "subject": "geography",
+  "chapter": "Secondary Activities",
+  "stem": "Which one of the following statements about technopolies is correct?",
+  "passage": null,
+  "options": [
+   "Their landscape is marked by massive assembly structures and large storage areas.",
+   "Silicon Forest, near Seattle, is a technopolis in the United States of America.",
+   "Blue-collar production workers greatly outnumber the white-collar specialists in them.",
+   "Silicon Valley and Silicon Forest are both technopolies in Canada."
+  ],
+  "key": 1,
+  "explanation": "Technopolies are high-tech industries that are regionally concentrated, self-sustained and highly specialised. NCERT's two examples are Silicon Valley near San Francisco and Silicon Forest near Seattle, and both are in the United States of America: San Francisco is in California, and Seattle is in Washington State, in the Pacific Northwest close to the Canadian border. The nickname Silicon Forest is most often used for the high-tech cluster around Portland, Oregon, the State just south of Washington, and that is in the USA too. So Silicon Forest is a technopolis of the USA, not of Canada. The landscape claim is wrong: the high-tech landscape has neatly spaced, low, modern office-plant-lab buildings rather than massive assembly structures and storage areas. The workforce claim is reversed: highly skilled white-collar specialists greatly outnumber the blue-collar production workers.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "02ffc58b-7ac4-41f7-8664-045d11c943fd": {
   "subject": "economics",
   "chapter": "Money & Banking",
@@ -88,6 +103,21 @@
   "key": 1,
   "explanation": null,
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "29358098-a746-4bdd-b0fe-a83d09299237": {
+  "subject": "geography",
+  "chapter": "Mineral and Energy Resources",
+  "stem": "Which iron ore mining area is correctly paired with the State in which it lies?",
+  "passage": null,
+  "options": [
+   "Noamundi - Odisha",
+   "Kudremukh - Goa",
+   "Bailadila - Chhattisgarh",
+   "Gurumahisani - Jharkhand"
+  ],
+  "key": 2,
+  "explanation": "Bailadila is an iron ore range in Dantewada district (NCERT spells it Dantewara) of southern Chhattisgarh. NCERT says the Jharkhand belt 'further extends to Durg, Dantewara and Bailadila'; all three are in Chhattisgarh, and NCERT names Dalli and Rajhara, in the Durg area, among India's important iron ore mines. Chhattisgarh was carved out of Madhya Pradesh in 2000, so Bailadila is now in Chhattisgarh, not Madhya Pradesh; it is not in Karnataka or Maharashtra either. The other pairs are wrong: Noamundi (with Gua) is in Pashchimi Singhbhum, Jharkhand; Kudremukh is in Chikkamagaluru district, Karnataka; Gurumahisani is in Mayurbhanj district, Odisha.",
+  "from": "read-only fetch 2026-11-23"
  },
  "34e245ae-b9e4-4a51-aed4-23448fb29a87": {
   "subject": "accountancy",
@@ -239,6 +269,21 @@
   "explanation": "Broad gauge (1,676 mm) carries most of the Indian Railways route length. Metre and narrow gauge cover much smaller shares, and dual gauge describes a track laid with two gauges rather than a separate gauge.",
   "from": "saved read-only snapshot geography/bank_geography.json"
  },
+ "659edc5d-f549-4be3-aa29-e8c23a2d9b3b": {
+  "subject": "economics",
+  "chapter": "Production & Costs",
+  "stem": "A farmer keeps the area of his land fixed and employs more and more workers on it, one at a time. Arrange the following in the order in which they happen to his total product (TP).\n(A) TP reaches its maximum.\n(B) TP rises at a diminishing rate.\n(C) TP falls.\n(D) TP rises at an increasing rate.",
+  "passage": null,
+  "options": [
+   "(B), (D), (A), (C)",
+   "(D), (B), (A), (C)",
+   "(D), (A), (B), (C)",
+   "(D), (B), (C), (A)"
+  ],
+  "key": 1,
+  "explanation": "This is the law of variable proportions, and it starts from one condition: one input (labour) is increased while the other inputs (land) are kept constant. Total product is the sum of the marginal products, and the marginal product (MP) of the variable input first rises and then falls. While MP is rising, each extra worker adds more than the one before, so TP rises at an increasing rate (D). Once MP starts to fall but is still positive, TP keeps rising, but at a diminishing rate (B). When MP falls to zero, the extra worker adds nothing and TP is at its maximum (A). If still more workers are crowded onto the land, MP becomes negative and TP falls (C). Example: with 1 to 8 workers TP is 6, 15, 27, 35, 40, 43, 43 and 39 quintals, so the MPs are 6, 9, 12, 8, 5, 3, 0 and -4: TP grows faster and faster up to the 3rd worker, more and more slowly from the 4th to the 6th, stays at its maximum of 43 when the 7th worker adds nothing, and falls with the 8th. So the order is (D), (B), (A), (C). (B), (D), (A), (C) puts the diminishing rate first, but MP rises before it falls; (D), (A), (B), (C) puts the maximum too early, since TP keeps rising as long as MP is positive; (D), (B), (C), (A) makes TP fall before it reaches its maximum, but TP can fall only after it has passed its maximum.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "66f791a5-a4e6-4377-afbe-4eef78e000c5": {
   "subject": "geography",
   "chapter": "Tertiary & Quaternary Activities",
@@ -254,6 +299,21 @@
   "explanation": "Statements (A) and (B) are correct, since tertiary activities are services and quaternary activities are knowledge-based. Statement (C) describes primary extraction, not tertiary activity, and statement (D) is false because quaternary activities are services, not primary activities.",
   "from": "saved read-only snapshot geography/bank_geography.json"
  },
+ "68269c81-6197-4788-9aa3-216209c5f515": {
+  "subject": "biology",
+  "chapter": "Ecosystem",
+  "stem": "In NCERT's diagram of trophic levels in an ecosystem, each organism below is shown at a different level. Arrange them from the first (lowest) trophic level to the highest.\n(A) Wolf\n(B) Lion\n(C) Grass\n(D) Grasshopper",
+  "passage": null,
+  "options": [
+   "(C), (A), (D), (B)",
+   "(D), (C), (A), (B)",
+   "(C), (D), (A), (B)",
+   "(C), (D), (B), (A)"
+  ],
+  "key": 2,
+  "explanation": "NCERT's Figure 12.2 places producers (plants) at the first trophic level: phytoplankton, grass, trees. Herbivores, the primary consumers, are at the second: zooplankton, grasshopper and cow. Carnivores, the secondary consumers, are at the third: birds, fishes, wolf. Top carnivores, the tertiary consumers, are at the fourth: man, lion. So grass (first), grasshopper (second), wolf (third) and lion (fourth) give (C), (D), (A), (B). Putting the wolf before the grasshopper makes a carnivore the plant eater; starting with the grasshopper forgets that every grazing chain begins with a producer; and placing the lion below the wolf swaps the top carnivore with the secondary consumer. The diagram shows levels, not fixed species: a real animal can feed at more than one level, as a sparrow does when it eats seeds and also insects.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "6a0c3146-b6d0-45b3-a9eb-f5dfaed0c1ec": {
   "subject": "geography",
   "chapter": "Transport & Communication",
@@ -268,6 +328,21 @@
   "key": 0,
   "explanation": "Kandla in Gujarat lies at about 23 degrees north, Mumbai at about 19 degrees north, Mangaluru at about 13 degrees north and Kochi at about 10 degrees north. The north-to-south order is therefore (B), (D), (A), (C).",
   "from": "saved read-only snapshot geography/bank_geography.json"
+ },
+ "6c960f04-5242-4f58-a6f0-60015f6bc800": {
+  "subject": "history",
+  "chapter": "An Imperial Capital — Vijayanagara",
+  "stem": "Match List-I (structures at Vijayanagara) with List-II (features).\nList-I\n(A) Hiriya canal\n(B) Vitthala temple\n(C) Lotus Mahal\n(D) Kamalapuram tank\nList-II\n(I) Built in the early fifteenth century to store rainwater; its water was also carried by a channel to the royal centre\n(II) A chariot street ran in a straight line from its gopuram\n(III) Drew water from a dam across the Tungabhadra to irrigate the valley between the sacred centre and the urban core\n(IV) Given its name by British travellers in the nineteenth century\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+   "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+   "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)",
+   "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+  ],
+  "key": 3,
+  "explanation": "Vijayanagara lay in one of the most arid zones of the peninsula, so elaborate arrangements were made to store rainwater. The most important tank, built in the early years of the fifteenth century, is now called the Kamalapuram tank: it irrigated nearby fields and its water was carried by a channel to the royal centre (D-I). The Hiriya canal, built apparently by the Sangama kings, drew water from a dam across the Tungabhadra and irrigated the valley between the sacred centre and the urban core (A-III). The Vitthala temple, dedicated to Vitthala, a form of Vishnu worshipped in Maharashtra, has several halls and a shrine designed as a chariot; like the other great temple complexes it had a chariot street running in a straight line from its gopuram, paved with stone slabs and lined with pillared pavilions where merchants set up shops. The Vitthala temple's own chariot street runs east from its main gopuram (B-II). The Lotus Mahal in the royal centre was so named by British travellers in the nineteenth century (C-IV). Two other royal-centre structures: the Mahanavami dibba was a massive platform, and the Hazara Rama temple was probably meant to be used only by the king and his family.",
+  "from": "read-only fetch 2026-11-23"
  },
  "70291c3b-d5ad-4b37-989e-2f7f88c6cba6": {
   "subject": "accountancy",
@@ -314,6 +389,36 @@
   "explanation": "In an offer for sale, securities are not issued directly to the public. The company sells them in bulk at an agreed price to intermediaries such as issuing houses or stock brokers, who then resell them to investors. In a public issue through a prospectus the company invites the public itself, in private placement the shares are allotted to institutional investors and a few selected individuals, and in a rights issue they are offered first to the existing shareholders.",
   "from": "read-only fetch 2026-11-22"
  },
+ "82592e64-9d6f-47d4-b9db-c7cd8a6f1589": {
+  "subject": "biology",
+  "chapter": "Biotechnology Principles & Processes",
+  "stem": "Consider the following statements about getting recombinant DNA into host cells.\n(A) Bacterial cells are made competent by treating them with a specific concentration of a divalent cation such as calcium.\n(B) For the heat shock, cells kept on ice with the recombinant DNA are placed briefly at 42 °C and then put back on ice.\n(C) In micro-injection, recombinant DNA is injected directly into the nucleus of an animal cell.\n(D) 'Disarmed pathogen' vectors transfer the recombinant DNA into the host when they are allowed to infect the cell.\n(E) DNA is a hydrophobic molecule, so it passes through the cell membrane without any treatment.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A), (B) and (E) only",
+   "(A), (B), (C) and (D) only",
+   "(B), (C), (D) and (E) only",
+   "(A), (C) and (D) only"
+  ],
+  "key": 1,
+  "explanation": "DNA is a hydrophilic molecule, so it cannot pass through cell membranes on its own: (E) is false. Bacteria are first made competent with a specific concentration of a divalent cation such as calcium, which increases the efficiency with which DNA enters through pores in the cell wall (A). The cells are then incubated with the recombinant DNA on ice, placed briefly at 42 °C (the heat shock) and put back on ice (B). The shock is a short step at 42 °C, never boiling at 100 °C, which would kill the cells. Other ways in: micro-injection, directly into the nucleus of an animal cell (C); biolistics or the gene gun, in which plant cells are bombarded with high-velocity micro-particles of gold or tungsten coated with DNA; and 'disarmed pathogen' vectors, which transfer the recombinant DNA into the host when allowed to infect the cell (D). So (A), (B), (C) and (D) are correct.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "83804f3c-cc09-4013-97ca-03894eef15a1": {
+  "subject": "business_studies",
+  "chapter": "Financial Markets",
+  "stem": "Rohan holds 300 shares of a company as paper certificates and wants to hold them in electronic form. Arrange the following steps in the order in which they take place.\n(A) The shares are credited to Rohan's demat account in electronic form.\n(B) Rohan fills in the account opening form of the chosen DP and gives documents such as his PAN card details and a photograph.\n(C) Rohan chooses a Depository Participant (DP), which may be a bank, a broker or a financial services company.\n(D) Rohan hands over the paper share certificates to the DP along with a dematerialisation request form.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(C), (D), (B), (A)",
+   "(B), (C), (D), (A)",
+   "(C), (B), (A), (D)",
+   "(C), (B), (D), (A)"
+  ],
+  "key": 3,
+  "explanation": "A demat account is opened with a Depository Participant, so the DP is chosen first (C). The DP's account opening form and the documents come next (B); NCERT names PAN card details, a photograph and a power of attorney. Certificates can be dematerialised only into an account that already exists, so the paper certificates are then handed to the DP with a dematerialisation request form (D). The DP sends the request on to the company's registrar, and once the certificates are verified the depository (NSDL or CDSL) credits the shares to the account in electronic form (A). The order is (C), (B), (D), (A). NCERT lists the working of a demat account in this order: a DP is identified; the account opening form and documentation are completed; the physical certificates are given to the DP with a dematerialisation request form; and when shares are applied for in a public offer, only the DP and demat account details need to be given, and the shares are credited to the demat account automatically on allotment.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "85d3bf13-325a-4f61-a44a-d5089498af88": {
   "subject": "psychology",
   "chapter": "Attitude & Social Cognition",
@@ -358,6 +463,51 @@
   "key": 0,
   "explanation": "Multiplier = 1/(1 - MPC) = 1/0.4 = 2.5, so ΔY = 2.5 * 100 = 250.",
   "from": "saved read-only snapshot econB/bank_economics.json"
+ },
+ "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96": {
+  "subject": "geography",
+  "chapter": "Mineral and Energy Resources",
+  "stem": "Arrange the following oil refineries of India from east to west.\n(A) Digboi\n(B) Mathura\n(C) Bathinda\n(D) Panipat",
+  "passage": null,
+  "options": [
+   "(A), (D), (B), (C)",
+   "(A), (B), (D), (C)",
+   "(C), (D), (B), (A)",
+   "(A), (B), (C), (D)"
+  ],
+  "key": 1,
+  "explanation": "Place each refinery by its State and rough longitude. Digboi is in Assam (about 95.6 degrees E), the easternmost; it is NCERT's example of a field-based refinery. Mathura is in western Uttar Pradesh (about 77.7 degrees E). Panipat is in Haryana, a little west of Mathura (about 77 degrees E). Bathinda is in Punjab (about 75 degrees E), the westernmost of the four. East to west: Digboi, Mathura, Panipat, Bathinda, that is (A), (B), (D), (C). Barauni in Bihar (about 86 degrees E), NCERT's example of a market-based refinery, lies between Digboi and Mathura; Asia's first cross-country pipeline ran to it from Naharkatiya in Assam. So from west to east the line runs Bathinda, Panipat, Mathura, Barauni, Digboi. The order (C), (D), (B), (A) is west to east, the reverse of what is asked.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "a15240a0-f48c-4343-8e00-183603543c47": {
+  "subject": "business_studies",
+  "chapter": "Financial Markets",
+  "stem": "Consider the following statements about Treasury Bills in India.\n(A) They are issued by the Reserve Bank of India on behalf of the Central Government.\n(B) They are issued at a price below their face value and repaid at par.\n(C) They mature after more than one year from the date of issue.\n(D) An investor can buy them for any amount he or she chooses, even Rs 5,000.\n(E) They are highly liquid and carry a negligible risk of default.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A), (B), (D) and (E) only",
+   "(A), (B), (C) and (E) only",
+   "(A), (B) and (E) only",
+   "(A), (C) and (E) only"
+  ],
+  "key": 2,
+  "explanation": "A Treasury Bill is an instrument of short-term borrowing by the Government of India. The Reserve Bank of India issues it on behalf of the Central Government to meet the Centre's short-term need for funds; State Governments do not issue Treasury Bills. So (A) is true. Treasury Bills are zero coupon instruments: they are sold at a price lower than the face value and repaid at par, and the difference is the investor's return, so (B) is true. They mature in less than one year (they are issued for 91, 182 and 364 days), which makes them money market instruments, so (C) is false. As the NCERT textbook states, they are available for a minimum amount of Rs 25,000 and in multiples of Rs 25,000, so (D) is false: a sum such as Rs 5,000 or Rs 15,000 cannot be put into them, whether the investor is an individual, a firm or a bank. Being short-term government paper, they are highly liquid and carry a negligible risk of default, so (E) is true. The true statements are (A), (B) and (E).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "a5d5f294-fe07-4383-83d2-be0d6d59ac73": {
+  "subject": "psychology",
+  "chapter": "Self & Personality",
+  "stem": "A school counsellor wants to study her students' personalities through indirect methods only: the stimulus should be relatively or fully unstructured, and the student should not be told the purpose of the assessment or how the responses will be scored. Which of the following could she use?\n(A) Minnesota Multiphasic Personality Inventory\n(B) Rosenzweig's Picture-Frustration Study\n(C) Eysenck Personality Questionnaire\n(D) Sentence Completion Test\n(E) Draw-a-Person Test\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A), (C) and (E) only",
+   "(A), (B) and (D) only",
+   "(B), (C), (D) and (E) only",
+   "(B), (D) and (E) only"
+  ],
+  "key": 3,
+  "explanation": "NCERT groups personality tests by method. Self-report measures, such as the Minnesota Multiphasic Personality Inventory (MMPI), the Eysenck Personality Questionnaire (EPQ) and Cattell's 16 PF, are fairly structured: the person reports her or his own feelings on each item, and the responses are accepted at face value, scored in quantitative terms and interpreted on the basis of norms. They are direct techniques, because the person clearly knows that her or his personality is being assessed. Projective techniques are the indirect methods: the stimulus is relatively or fully unstructured, the person is usually not told the purpose of the assessment or the method of scoring, and experts interpret the responses for unconscious motives and feelings. Rosenzweig's Picture-Frustration Study (what the frustrated person in a cartoon will say or do), the Sentence Completion Test (endings to incomplete sentences) and the Draw-a-Person Test are projective, as are the Rorschach Inkblot Test and the TAT. So the counsellor can use (B), (D) and (E); the MMPI (A) and the EPQ (C) are self-report measures.",
+  "from": "read-only fetch 2026-11-23"
  },
  "a5ed637f-209e-4a06-aa1c-f081ec422384": {
   "subject": "business_studies",
@@ -419,6 +569,21 @@
   "explanation": "Issue price of a debenture = 100 − 12% of 100 = ₹ 88. Number of debentures = amount due ÷ issue price = 1,98,000 ÷ 88 = 2,250. Debentures A/c is credited at face value = 2,250 × 100 = 2,25,000. Discount on issue = 2,25,000 − 1,98,000 = 27,000, which is debited to Discount on Issue of Debentures A/c, while the vendor's account is debited with the 1,98,000 due to it. Crediting only 1,98,000 ignores the discount, debiting the vendor with the face value overstates what is due, and showing the 27,000 as Securities Premium treats a discount as a premium.",
   "from": "read-only fetch 2026-11-22"
  },
+ "b32a5ab7-1b3a-42e2-9baa-04674e4ec092": {
+  "subject": "biology",
+  "chapter": "Human Health & Disease",
+  "stem": "Consider the following statements about plants that are sources of drugs.\n(A) Atropa belladonna and Datura are well-known plants with hallucinogenic properties.\n(B) Cocaine is obtained from Erythroxylum coca, and an excessive dose of it causes hallucinations.\n(C) Rauwolfia vomitoria is valued as a medicinal plant for its active chemical reserpine; it is not a hallucinogenic plant.\n(D) Natural cannabinoids are obtained from the latex of the poppy plant Papaver somniferum.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A) and (D) only",
+   "(B), (C) and (D) only",
+   "(A) and (B) only",
+   "(A), (B) and (C) only"
+  ],
+  "key": 3,
+  "explanation": "Atropa belladonna and Datura are well-known plants with hallucinogenic properties (A). Cocaine comes from the coca plant Erythroxylum coca; it has a potent stimulating action on the central nervous system, and an excessive dosage causes hallucinations (B). Rauwolfia is different: NCERT names Rauwolfia vomitoria as a medicinal plant whose active chemical is reserpine, and reserpine is used in medicine to lower blood pressure (it has also been used as a tranquilliser); Rauwolfia is not a hallucinogen (C). Natural cannabinoids come from the inflorescences of Cannabis sativa, while the latex of the poppy Papaver somniferum gives morphine, from which heroin is made, so (D) is false.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "c53a951d-2fd7-4ca8-9099-e78a8f067659": {
   "subject": "history",
   "chapter": "Peasants, Zamindars & the State",
@@ -448,6 +613,21 @@
   "key": 2,
   "explanation": "Gardner identified eight independent intelligences: linguistic, logical-mathematical, spatial, musical, bodily-kinaesthetic, interpersonal, intrapersonal and naturalistic. Componential intelligence belongs to Sternberg's triarchic theory.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
+ },
+ "d5df54d1-8059-4006-9057-e9be2f2502bb": {
+  "subject": "business_studies",
+  "chapter": "Financial Markets",
+  "stem": "Match List I with List II.\nList I\n(A) Settlement cycle on Indian stock exchanges before the reforms\n(B) Rolling settlement\n(C) Depository Participant\n(D) Depository\nList II\n(I) The trades of each day are settled on their own, a fixed number of working days after the trade date\n(II) All the trades done over a week or a fortnight are settled together, on one day after that period closes\n(III) An agent of the depository, such as a bank or a broker, with whom an investor opens and operates a demat account\n(IV) An institution that holds securities in electronic form and transfers them by book entry, such as NSDL or CDSL\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+   "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+   "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+   "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+  ],
+  "key": 1,
+  "explanation": "Before the reforms, Indian stock exchanges settled trades in account periods: every trade done over a week or a fortnight was settled together, shares delivered and money paid, on one day after the period closed, so (A) matches (II). Under rolling settlement, the trades of each day are settled on their own a fixed number of working days after the trade date (T+n), so (B) matches (I). Rolling settlement covered all shares on a T+5 basis by the end of 2001; the cycle was cut to T+3 in April 2002 and to T+2 from April 2003, and India completed the move to T+1 in January 2023. So T+3 and T+2 are rolling cycles that the reforms brought in, not the cycle they replaced. A Depository Participant, such as a bank or a broker, is the depository's agent: the investor opens and operates a demat account with it, so (C) matches (III). A depository such as NSDL or CDSL holds securities in electronic form and transfers them by book entry, and the investor reaches it only through a Depository Participant, so (D) matches (IV). The correct matching is (A)-(II), (B)-(I), (C)-(III), (D)-(IV).",
+  "from": "read-only fetch 2026-11-23"
  },
  "db2ce0f4-b7cd-43e1-829b-2bdcf680132d": {
   "subject": "economics",
@@ -479,6 +659,21 @@
   "explanation": null,
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
  },
+ "e507a240-c420-4b53-a27d-be8c70f5ccb5": {
+  "subject": "geography",
+  "chapter": "Population — Distribution, Density, Growth",
+  "stem": "India and China are the only two countries with more than a billion people each. Which country comes next in the world's population ranking?",
+  "passage": null,
+  "options": [
+   "Indonesia",
+   "Pakistan",
+   "United States of America",
+   "Russia"
+  ],
+  "key": 2,
+  "explanation": "By UN estimates for 2024, the United States of America is the third most populous country in the world, with about 345 million people, far behind India and China (about 1.4 billion each; India passed China in 2023). Indonesia (about 283 million) is fourth and Pakistan (about 251 million) fifth; Nigeria, Brazil and Bangladesh come next, and Russia (about 145 million) is ninth. NCERT's Fig. 2.1, drawn from older figures, shows China first and Brazil ahead of Pakistan, but it too puts the USA third. NCERT notes that the 10 most populous countries hold about 60 per cent of the world's people and that 6 of them are in Asia; the USA is the most populous country outside Asia.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "e8ef1d10-e1ce-4efd-9ff5-9d2d815c0595": {
   "subject": "economics",
   "chapter": "National Income & Related Aggregates",
@@ -493,6 +688,21 @@
   "key": 0,
   "explanation": "Real GDP is the output of the current year valued at the prices of the base year: real GDP of 2019 = quantity of 2019 x price of 2018 = 600 x 40 = Rs 24,000. Rs 33,000 (600 x 55) is the nominal GDP of 2019, because it uses current prices. Rs 20,000 (500 x 40) is the GDP of the base year itself, and Rs 27,500 (500 x 55) mixes the old quantity with the new price.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "e9b39e3c-100c-4d72-be16-548adc1748df": {
+  "subject": "business_studies",
+  "chapter": "Financial Markets",
+  "stem": "Consider the following activities.\n(A) Providing scope, within the provisions of law, for a controlled degree of speculation\n(B) Ensuring the safety of transactions through well-regulated membership and clearly defined dealings\n(C) Deciding, through its governing board, the price at which each listed share must be bought and sold\n(D) Channelling savings into their most productive uses through disinvestment and reinvestment\n(E) Creating a continuous market in which investors can convert their existing securities into cash\nWhich of these are functions of a stock exchange?",
+  "passage": null,
+  "options": [
+   "(A), (B), (D) and (E) only",
+   "(B), (D) and (E) only",
+   "(A), (B), (C) and (E) only",
+   "(A), (C), (D) and (E) only"
+  ],
+  "key": 0,
+  "explanation": "NCERT lists six functions of a stock exchange. (1) It provides liquidity and marketability to existing securities: it creates a continuous market in which investors can convert their securities into cash, which is (E). (2) It helps in the pricing of securities: prices are set by the forces of demand and supply on the exchange, not decided by its governing board, so (C) is not a function. (3) It ensures the safety of transactions: its membership is well regulated and its dealings follow a defined legal framework, so the investing public gets a safe and fair deal, which is (B). (4) It contributes to economic growth: through disinvestment and reinvestment, savings are channelled into their most productive investment avenues, leading to capital formation, which is (D). (5) It spreads the equity cult. (6) It provides scope for speculation within the provisions of law, in a restricted and controlled manner, because a certain degree of healthy speculation is needed for liquidity and price continuity in the market, which is (A). So a stock exchange does not try to put a complete stop to speculation; it allows healthy speculation under control. The functions are (A), (B), (D) and (E).",
+  "from": "read-only fetch 2026-11-23"
  },
  "e9cac0e5-90eb-4240-bdd4-a3f901a2e7e0": {
   "subject": "psychology",
@@ -538,6 +748,21 @@
   "key": 1,
   "explanation": "The Product Concept focuses on superior product quality and features.",
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "f9f235e3-5761-49ac-b1f7-8b7d31f956c3": {
+  "subject": "political_science",
+  "chapter": "Democratic Upsurge and Coalition Politics",
+  "stem": "The United Front government formed in 1996 had two Prime Ministers. After the Congress withdrew its outside support and H. D. Deve Gowda lost a confidence vote in April 1997, who became the second United Front Prime Minister?",
+  "passage": null,
+  "options": [
+   "Chandra Shekhar",
+   "Atal Bihari Vajpayee",
+   "I. K. Gujral",
+   "P. V. Narasimha Rao"
+  ],
+  "key": 2,
+  "explanation": "After the 1996 election the BJP was the largest party, but Atal Bihari Vajpayee's government lasted only 13 days because it could not win a majority. The United Front, a coalition of the Janata Dal and several regional parties, backed by the Left and supported from outside by the Congress, then formed the government with H. D. Deve Gowda as Prime Minister (June 1996 to April 1997). When Congress president Sitaram Kesri withdrew that support, Deve Gowda lost a confidence vote, and the United Front chose I. K. Gujral of the Janata Dal, who had been External Affairs Minister. Gujral was Prime Minister from April 1997 to March 1998: the Congress withdrew support from his government too in November 1997, and he stayed on as caretaker Prime Minister until a new government took office after the 1998 election, when Vajpayee became Prime Minister of a BJP-led coalition in March 1998. V. P. Singh (National Front, 1989-90), Chandra Shekhar (1990-91) and P. V. Narasimha Rao (1991-96) were all Prime Ministers before the United Front.",
+  "from": "read-only fetch 2026-11-23"
  },
  "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d": {
   "subject": "accountancy",

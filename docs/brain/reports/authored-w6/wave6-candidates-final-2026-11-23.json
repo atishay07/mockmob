@@ -1,0 +1,1052 @@
+[
+ {
+  "id": "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+  "subject": "accountancy",
+  "unit": "Reconstitution of a Partnership firm",
+  "chapter": "Goodwill Valuation",
+  "type": "single_mcq",
+  "stem": "A firm's capital employed is ₹ 2,50,000 and the normal rate of return is 8%. Each of its two partners is allowed a salary of ₹ 5,000 a year, not yet charged against the profits. Profits were ₹ 41,000 in 2022-23, ₹ 47,000 in 2023-24 and ₹ 50,000 in 2024-25. Goodwill is to be the smaller of two values: (i) 2 years' purchase of the average super profit of all three years; (ii) 3 years' purchase of the average super profit of the last two years. What is the goodwill?",
+  "options": [
+   {
+    "key": "A",
+    "text": "₹ 52,000"
+   },
+   {
+    "key": "B",
+    "text": "₹ 32,000"
+   },
+   {
+    "key": "C",
+    "text": "₹ 55,500"
+   },
+   {
+    "key": "D",
+    "text": "₹ 37,000"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Partners' salaries are a normal charge, so NCERT adds them to the normal return on capital (deducting them from each year's profit gives the same answer). Normal profit = 2,50,000 × 8% = 20,000, plus salaries 2 × 5,000 = 10,000, so 30,000. If a question gives a market rate of interest instead of a normal rate of return, NCERT (Illustration 13) uses it the same way: interest on capital at that rate, plus the partners' salaries, is the normal profit. Value (i): average profit of the three years = (41,000 + 47,000 + 50,000) ÷ 3 = 46,000; super profit = 46,000 − 30,000 = 16,000; goodwill = 16,000 × 2 = 32,000. Value (ii): average profit of the last two years = (47,000 + 50,000) ÷ 2 = 48,500; super profit = 48,500 − 30,000 = 18,500; goodwill = 18,500 × 3 = 55,500. The smaller value, ₹ 32,000, is the goodwill. Quick route: work with the average profit and take off the normal profit once; there is no need to find each year's super profit. Traps: 55,500 is the larger value; 52,000 leaves the salaries out (super profit 26,000 × 2); 37,000 puts 2 years' purchase on the two-year average (18,500 × 2).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "hard",
+  "ncert_ref": "NCERT Accountancy Part I (leac102), Ch 2 Admission of a Partner, 2.5.4.2 Super Profits Method, p. 60, and Illustration 13, pp. 61-62: partners' salary added to normal profit, goodwill = super profit × years' purchase",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "6011028f-e8bf-47c7-8d07-32352f7b04d8",
+  "subject": "accountancy",
+  "unit": "Reconstitution of a Partnership firm",
+  "chapter": "Goodwill Valuation",
+  "type": "single_mcq",
+  "stem": "Asha, Bilal and Chetan run a firm with ₹ 4,00,000 of capital; similar firms earn 10% on capital. Its profits were ₹ 90,000 (2022-23), ₹ 66,000 (2023-24) and ₹ 60,000 (2024-25), before a yearly salary of ₹ 4,000 to each of the three partners. On admitting a partner, their deed values goodwill at the lower of 2 years' purchase of the three-year average super profit and 3 years' purchase of the average super profit of 2023-24 and 2024-25. What value of goodwill does the deed give?",
+  "options": [
+   {
+    "key": "A",
+    "text": "₹ 40,000"
+   },
+   {
+    "key": "B",
+    "text": "₹ 64,000"
+   },
+   {
+    "key": "C",
+    "text": "₹ 33,000"
+   },
+   {
+    "key": "D",
+    "text": "₹ 22,000"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "Partners' salaries are a normal charge: add them to the normal return, as NCERT does (deducting them from each year's profit gives the same answer). Normal profit = 4,00,000 × 10% = 40,000, plus salaries 3 × 4,000 = 12,000, so 52,000. The 10% that similar firms earn is the normal rate of return; a question may give it as a market rate of interest instead, and NCERT (Illustration 13) uses that rate the same way. First value: three-year average profit = (90,000 + 66,000 + 60,000) ÷ 3 = 72,000; super profit = 72,000 − 52,000 = 20,000; goodwill = 20,000 × 2 = 40,000. Second value: average of the last two years = (66,000 + 60,000) ÷ 2 = 63,000; super profit = 63,000 − 52,000 = 11,000; goodwill = 11,000 × 3 = 33,000. The lower value, ₹ 33,000, is the goodwill: with profits falling, the recent-years basis gives less even at more years' purchase. Traps: 40,000 is the higher value; 64,000 forgets the salaries (super profit 32,000 × 2, the lower of 64,000 and 69,000); 22,000 swaps the multipliers (11,000 × 2).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "hard",
+  "ncert_ref": "NCERT Accountancy Part I (leac102), Ch 2 Admission of a Partner, 2.5.4.2 Super Profits Method, p. 60, and Illustration 13, pp. 61-62: partners' salary added to normal profit, goodwill = super profit × years' purchase",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "68269c81-6197-4788-9aa3-216209c5f515",
+  "subject": "biology",
+  "unit": "Ecology and Environment",
+  "chapter": "Ecosystem",
+  "type": "sequence_ordering",
+  "stem": "In NCERT's diagram of trophic levels in an ecosystem, each organism below is shown at a different level. Arrange them from the first (lowest) trophic level to the highest.\n(A) Wolf\n(B) Lion\n(C) Grass\n(D) Grasshopper",
+  "options": [
+   {
+    "key": "A",
+    "text": "(C), (A), (D), (B)"
+   },
+   {
+    "key": "B",
+    "text": "(D), (C), (A), (B)"
+   },
+   {
+    "key": "C",
+    "text": "(C), (D), (A), (B)"
+   },
+   {
+    "key": "D",
+    "text": "(C), (D), (B), (A)"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "NCERT's Figure 12.2 places producers (plants) at the first trophic level: phytoplankton, grass, trees. Herbivores, the primary consumers, are at the second: zooplankton, grasshopper and cow. Carnivores, the secondary consumers, are at the third: birds, fishes, wolf. Top carnivores, the tertiary consumers, are at the fourth: man, lion. So grass (first), grasshopper (second), wolf (third) and lion (fourth) give (C), (D), (A), (B). Putting the wolf before the grasshopper makes a carnivore the plant eater; starting with the grasshopper forgets that every grazing chain begins with a producer; and placing the lion below the wolf swaps the top carnivore with the secondary consumer. The diagram shows levels, not fixed species: a real animal can feed at more than one level, as a sparrow does when it eats seeds and also insects.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "easy",
+  "ncert_ref": "NCERT Class 12 Biology, Ch 12 Ecosystem, section 12.4 Energy Flow, p 210: trophic levels and Figure 12.2 Diagrammatic representation of trophic levels in an ecosystem (examples at each level); section 12.5 Ecological Pyramids, p 213: a species can occupy more than one trophic level (the sparrow)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589",
+  "subject": "biology",
+  "unit": "Biotechnology and its Applications",
+  "chapter": "Biotechnology Principles & Processes",
+  "type": "statement_based",
+  "stem": "Consider the following statements about getting recombinant DNA into host cells.\n(A) Bacterial cells are made competent by treating them with a specific concentration of a divalent cation such as calcium.\n(B) For the heat shock, cells kept on ice with the recombinant DNA are placed briefly at 42 °C and then put back on ice.\n(C) In micro-injection, recombinant DNA is injected directly into the nucleus of an animal cell.\n(D) 'Disarmed pathogen' vectors transfer the recombinant DNA into the host when they are allowed to infect the cell.\n(E) DNA is a hydrophobic molecule, so it passes through the cell membrane without any treatment.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (E) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B), (C) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(B), (C), (D) and (E) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (C) and (D) only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "DNA is a hydrophilic molecule, so it cannot pass through cell membranes on its own: (E) is false. Bacteria are first made competent with a specific concentration of a divalent cation such as calcium, which increases the efficiency with which DNA enters through pores in the cell wall (A). The cells are then incubated with the recombinant DNA on ice, placed briefly at 42 °C (the heat shock) and put back on ice (B). The shock is a short step at 42 °C, never boiling at 100 °C, which would kill the cells. Other ways in: micro-injection, directly into the nucleus of an animal cell (C); biolistics or the gene gun, in which plant cells are bombarded with high-velocity micro-particles of gold or tungsten coated with DNA; and 'disarmed pathogen' vectors, which transfer the recombinant DNA into the host when allowed to infect the cell (D). So (A), (B), (C) and (D) are correct.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Biology, Ch 9 Biotechnology: Principles and Processes, section 9.2.3 Competent Host (For Transformation with Recombinant DNA), pp 170-171: DNA is hydrophilic and competence via a divalent cation such as calcium (p 170); heat shock at 42 °C between incubations on ice, micro-injection, biolistics (gold or tungsten), disarmed pathogen vectors (p 171)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "94186aa1-fe0c-445b-a73b-122cd36ce46d",
+  "subject": "biology",
+  "unit": "Reproduction",
+  "chapter": "Human Reproduction",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the end of pregnancy in humans.\n(A) The signals for parturition originate from the fully developed foetus and the placenta.\n(B) Cortisol, estrogens and oxytocin are all part of the neuroendocrine mechanism that induces parturition.\n(C) Oxytocin acts on the uterine muscle and causes stronger uterine contractions.\n(D) Prolactin, released through the foetal ejection reflex, is the hormone that makes the uterus contract during labour.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "B",
+    "text": "(B) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (B), (C) and (D)"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B) and (C) only"
+   }
+  ],
+  "correct_key": "D",
+  "explanation": "The signals for parturition come from the fully developed foetus and the placenta (A). They cause mild uterine contractions, the foetal ejection reflex, which triggers the release of oxytocin from the maternal pituitary. Oxytocin acts on the uterine muscle and causes stronger contractions (C), which stimulate still more oxytocin, until the baby is expelled through the birth canal. NCERT sums it up: parturition is induced by a complex neuroendocrine mechanism involving cortisol, estrogens and oxytocin (B). Prolactin is not one of these hormones: it is the anterior pituitary hormone that regulates the growth of the mammary glands and the formation of milk in them. Its level does rise during pregnancy and the mammary glands start producing milk towards the end of pregnancy (lactation), but it does not induce labour or the foetal ejection reflex, so (D) is false.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Biology, Ch 2 Human Reproduction, hormone levels in pregnancy (p 37), section 2.7 Parturition and Lactation (p 38) and Summary (p 39); prolactin's role: NCERT Class 11 Biology, Ch 19 Chemical Coordination and Integration, the pituitary gland",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092",
+  "subject": "biology",
+  "unit": "Biology and Human Welfare",
+  "chapter": "Human Health & Disease",
+  "type": "statement_based",
+  "stem": "Consider the following statements about plants that are sources of drugs.\n(A) Atropa belladonna and Datura are well-known plants with hallucinogenic properties.\n(B) Cocaine is obtained from Erythroxylum coca, and an excessive dose of it causes hallucinations.\n(C) Rauwolfia vomitoria is valued as a medicinal plant for its active chemical reserpine; it is not a hallucinogenic plant.\n(D) Natural cannabinoids are obtained from the latex of the poppy plant Papaver somniferum.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A) and (D) only"
+   },
+   {
+    "key": "B",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(A) and (B) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B) and (C) only"
+   }
+  ],
+  "correct_key": "D",
+  "explanation": "Atropa belladonna and Datura are well-known plants with hallucinogenic properties (A). Cocaine comes from the coca plant Erythroxylum coca; it has a potent stimulating action on the central nervous system, and an excessive dosage causes hallucinations (B). Rauwolfia is different: NCERT names Rauwolfia vomitoria as a medicinal plant whose active chemical is reserpine, and reserpine is used in medicine to lower blood pressure (it has also been used as a tranquilliser); Rauwolfia is not a hallucinogen (C). Natural cannabinoids come from the inflorescences of Cannabis sativa, while the latex of the poppy Papaver somniferum gives morphine, from which heroin is made, so (D) is false.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease, section 7.5 Drugs and Alcohol Abuse (pp 142-143: opioids, morphine from poppy latex, cannabinoids, coca alkaloids, Atropa belladonna (printed 'belladona') and Datura); Ch 13 Biodiversity and Conservation, p 217: Rauwolfia vomitoria and reserpine",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "dbbd3e36-c506-48e6-a949-90a3b506cfe4",
+  "subject": "business_studies",
+  "unit": "Business Finance",
+  "chapter": "Financial Management",
+  "type": "single_mcq",
+  "stem": "Sunrise Foods Ltd. needs Rs 40 lakh for a new plant and expects earnings before interest and taxes (EBIT) of Rs 8 lakh a year. It raises Rs 20 lakh by issuing equity shares of Rs 10 each and the other Rs 20 lakh by issuing 10% debentures. The tax rate is 30%. What will its earnings per share (EPS) be?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Rs 1.80"
+   },
+   {
+    "key": "B",
+    "text": "Rs 2.10"
+   },
+   {
+    "key": "C",
+    "text": "Rs 2.80"
+   },
+   {
+    "key": "D",
+    "text": "Rs 3.00"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "EPS is worked out in a fixed order: start from EBIT, deduct the interest on debt to get earnings before taxes (EBT), deduct tax from EBT to get earnings after taxes (EAT), and divide EAT by the number of equity shares. Here the interest is 10% of Rs 20,00,000 = Rs 2,00,000, so EBT = Rs 8,00,000 - Rs 2,00,000 = Rs 6,00,000. Tax at 30% of EBT is Rs 1,80,000, so EAT = Rs 4,20,000. The company has Rs 20,00,000 / Rs 10 = 2,00,000 equity shares, so EPS = Rs 4,20,000 / 2,00,000 = Rs 2.10. Interest is deducted before tax because tax is charged on the profit left after interest: charging tax on the whole EBIT first and then deducting interest gives the wrong Rs 1.80, leaving out the interest gives Rs 2.80, and leaving out the tax gives Rs 3.00. Had the whole Rs 40 lakh come from 4,00,000 equity shares, EPS would be Rs 5,60,000 / 4,00,000 = Rs 1.40. The debt raises EPS because the return on investment (Rs 8 lakh / Rs 40 lakh = 20%) is higher than the 10% cost of debt: this is favourable financial leverage, and using cheaper debt to raise the EPS in this way is called trading on equity.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Business Studies Part 2 (lebs201, Reprint 2026-27), Ch 9 Financial Management, printed p.228: EBIT-EPS Analysis table (EBIT, Interest, EBT, Tax, EAT, No. of shares, EPS); pp.228-229: return on investment, favourable financial leverage, Trading on Equity",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "a15240a0-f48c-4343-8e00-183603543c47",
+  "subject": "business_studies",
+  "unit": "Financial Markets",
+  "chapter": "Financial Markets",
+  "type": "statement_based",
+  "stem": "Consider the following statements about Treasury Bills in India.\n(A) They are issued by the Reserve Bank of India on behalf of the Central Government.\n(B) They are issued at a price below their face value and repaid at par.\n(C) They mature after more than one year from the date of issue.\n(D) An investor can buy them for any amount he or she chooses, even Rs 5,000.\n(E) They are highly liquid and carry a negligible risk of default.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B), (D) and (E) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B), (C) and (E) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (B) and (E) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (C) and (E) only"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "A Treasury Bill is an instrument of short-term borrowing by the Government of India. The Reserve Bank of India issues it on behalf of the Central Government to meet the Centre's short-term need for funds; State Governments do not issue Treasury Bills. So (A) is true. Treasury Bills are zero coupon instruments: they are sold at a price lower than the face value and repaid at par, and the difference is the investor's return, so (B) is true. They mature in less than one year (they are issued for 91, 182 and 364 days), which makes them money market instruments, so (C) is false. As the NCERT textbook states, they are available for a minimum amount of Rs 25,000 and in multiples of Rs 25,000, so (D) is false: a sum such as Rs 5,000 or Rs 15,000 cannot be put into them, whether the investor is an individual, a firm or a bank. Being short-term government paper, they are highly liquid and carry a negligible risk of default, so (E) is true. The true statements are (A), (B) and (E).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Business Studies, Financial Markets: money market instruments, treasury bills; chapter text not in the 2026-27 print, fact from the last edition",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "e9b39e3c-100c-4d72-be16-548adc1748df",
+  "subject": "business_studies",
+  "unit": "Financial Markets",
+  "chapter": "Financial Markets",
+  "type": "statement_based",
+  "stem": "Consider the following activities.\n(A) Providing scope, within the provisions of law, for a controlled degree of speculation\n(B) Ensuring the safety of transactions through well-regulated membership and clearly defined dealings\n(C) Deciding, through its governing board, the price at which each listed share must be bought and sold\n(D) Channelling savings into their most productive uses through disinvestment and reinvestment\n(E) Creating a continuous market in which investors can convert their existing securities into cash\nWhich of these are functions of a stock exchange?",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B), (D) and (E) only"
+   },
+   {
+    "key": "B",
+    "text": "(B), (D) and (E) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (B), (C) and (E) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (C), (D) and (E) only"
+   }
+  ],
+  "correct_key": "A",
+  "explanation": "NCERT lists six functions of a stock exchange. (1) It provides liquidity and marketability to existing securities: it creates a continuous market in which investors can convert their securities into cash, which is (E). (2) It helps in the pricing of securities: prices are set by the forces of demand and supply on the exchange, not decided by its governing board, so (C) is not a function. (3) It ensures the safety of transactions: its membership is well regulated and its dealings follow a defined legal framework, so the investing public gets a safe and fair deal, which is (B). (4) It contributes to economic growth: through disinvestment and reinvestment, savings are channelled into their most productive investment avenues, leading to capital formation, which is (D). (5) It spreads the equity cult. (6) It provides scope for speculation within the provisions of law, in a restricted and controlled manner, because a certain degree of healthy speculation is needed for liquidity and price continuity in the market, which is (A). So a stock exchange does not try to put a complete stop to speculation; it allows healthy speculation under control. The functions are (A), (B), (D) and (E).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Business Studies, Financial Markets: functions of a stock exchange; chapter text not in the 2026-27 print, fact from the last edition",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "83804f3c-cc09-4013-97ca-03894eef15a1",
+  "subject": "business_studies",
+  "unit": "Financial Markets",
+  "chapter": "Financial Markets",
+  "type": "sequence_ordering",
+  "stem": "Rohan holds 300 shares of a company as paper certificates and wants to hold them in electronic form. Arrange the following steps in the order in which they take place.\n(A) The shares are credited to Rohan's demat account in electronic form.\n(B) Rohan fills in the account opening form of the chosen DP and gives documents such as his PAN card details and a photograph.\n(C) Rohan chooses a Depository Participant (DP), which may be a bank, a broker or a financial services company.\n(D) Rohan hands over the paper share certificates to the DP along with a dematerialisation request form.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(C), (D), (B), (A)"
+   },
+   {
+    "key": "B",
+    "text": "(B), (C), (D), (A)"
+   },
+   {
+    "key": "C",
+    "text": "(C), (B), (A), (D)"
+   },
+   {
+    "key": "D",
+    "text": "(C), (B), (D), (A)"
+   }
+  ],
+  "correct_key": "D",
+  "explanation": "A demat account is opened with a Depository Participant, so the DP is chosen first (C). The DP's account opening form and the documents come next (B); NCERT names PAN card details, a photograph and a power of attorney. Certificates can be dematerialised only into an account that already exists, so the paper certificates are then handed to the DP with a dematerialisation request form (D). The DP sends the request on to the company's registrar, and once the certificates are verified the depository (NSDL or CDSL) credits the shares to the account in electronic form (A). The order is (C), (B), (D), (A). NCERT lists the working of a demat account in this order: a DP is identified; the account opening form and documentation are completed; the physical certificates are given to the DP with a dematerialisation request form; and when shares are applied for in a public offer, only the DP and demat account details need to be given, and the shares are credited to the demat account automatically on allotment.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Business Studies, Financial Markets: depository system, working of the demat account; chapter text not in the 2026-27 print, fact from the last edition",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "d5df54d1-8059-4006-9057-e9be2f2502bb",
+  "subject": "business_studies",
+  "unit": "Financial Markets",
+  "chapter": "Financial Markets",
+  "type": "match_the_following",
+  "stem": "Match List I with List II.\nList I\n(A) Settlement cycle on Indian stock exchanges before the reforms\n(B) Rolling settlement\n(C) Depository Participant\n(D) Depository\nList II\n(I) The trades of each day are settled on their own, a fixed number of working days after the trade date\n(II) All the trades done over a week or a fortnight are settled together, on one day after that period closes\n(III) An agent of the depository, such as a bank or a broker, with whom an investor opens and operates a demat account\n(IV) An institution that holds securities in electronic form and transfers them by book entry, such as NSDL or CDSL\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+   },
+   {
+    "key": "B",
+    "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+   },
+   {
+    "key": "C",
+    "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+   },
+   {
+    "key": "D",
+    "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Before the reforms, Indian stock exchanges settled trades in account periods: every trade done over a week or a fortnight was settled together, shares delivered and money paid, on one day after the period closed, so (A) matches (II). Under rolling settlement, the trades of each day are settled on their own a fixed number of working days after the trade date (T+n), so (B) matches (I). Rolling settlement covered all shares on a T+5 basis by the end of 2001; the cycle was cut to T+3 in April 2002 and to T+2 from April 2003, and India completed the move to T+1 in January 2023. So T+3 and T+2 are rolling cycles that the reforms brought in, not the cycle they replaced. A Depository Participant, such as a bank or a broker, is the depository's agent: the investor opens and operates a demat account with it, so (C) matches (III). A depository such as NSDL or CDSL holds securities in electronic form and transfers them by book entry, and the investor reaches it only through a Depository Participant, so (D) matches (IV). The correct matching is (A)-(II), (B)-(I), (C)-(III), (D)-(IV).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Business Studies, Financial Markets: trading and settlement procedure (settlement cycle, rolling settlement), depository services (depository, depository participant); chapter text not in the 2026-27 print, fact from the last edition",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "659edc5d-f549-4be3-aa29-e8c23a2d9b3b",
+  "subject": "economics",
+  "unit": "Introductory Microeconomics",
+  "chapter": "Production & Costs",
+  "type": "sequence_ordering",
+  "stem": "A farmer keeps the area of his land fixed and employs more and more workers on it, one at a time. Arrange the following in the order in which they happen to his total product (TP).\n(A) TP reaches its maximum.\n(B) TP rises at a diminishing rate.\n(C) TP falls.\n(D) TP rises at an increasing rate.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(B), (D), (A), (C)"
+   },
+   {
+    "key": "B",
+    "text": "(D), (B), (A), (C)"
+   },
+   {
+    "key": "C",
+    "text": "(D), (A), (B), (C)"
+   },
+   {
+    "key": "D",
+    "text": "(D), (B), (C), (A)"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "This is the law of variable proportions, and it starts from one condition: one input (labour) is increased while the other inputs (land) are kept constant. Total product is the sum of the marginal products, and the marginal product (MP) of the variable input first rises and then falls. While MP is rising, each extra worker adds more than the one before, so TP rises at an increasing rate (D). Once MP starts to fall but is still positive, TP keeps rising, but at a diminishing rate (B). When MP falls to zero, the extra worker adds nothing and TP is at its maximum (A). If still more workers are crowded onto the land, MP becomes negative and TP falls (C). Example: with 1 to 8 workers TP is 6, 15, 27, 35, 40, 43, 43 and 39 quintals, so the MPs are 6, 9, 12, 8, 5, 3, 0 and -4: TP grows faster and faster up to the 3rd worker, more and more slowly from the 4th to the 6th, stays at its maximum of 43 when the 7th worker adds nothing, and falls with the 8th. So the order is (D), (B), (A), (C). (B), (D), (A), (C) puts the diminishing rate first, but MP rises before it falls; (D), (A), (B), (C) puts the maximum too early, since TP keeps rising as long as MP is positive; (D), (B), (C), (A) makes TP fall before it reaches its maximum, but TP can fall only after it has passed its maximum.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Introductory Microeconomics, Ch 3 Production and Costs, 3.3-3.5 (pp. 39-41): TP is the sum of MPs; MP first rises, then falls. TP at its maximum (MP zero) and falling (MP negative) go beyond the NCERT text.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "29358098-a746-4bdd-b0fe-a83d09299237",
+  "subject": "geography",
+  "unit": "Resources and Development",
+  "chapter": "Mineral and Energy Resources",
+  "type": "single_mcq",
+  "stem": "Which iron ore mining area is correctly paired with the State in which it lies?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Noamundi - Odisha"
+   },
+   {
+    "key": "B",
+    "text": "Kudremukh - Goa"
+   },
+   {
+    "key": "C",
+    "text": "Bailadila - Chhattisgarh"
+   },
+   {
+    "key": "D",
+    "text": "Gurumahisani - Jharkhand"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "Bailadila is an iron ore range in Dantewada district (NCERT spells it Dantewara) of southern Chhattisgarh. NCERT says the Jharkhand belt 'further extends to Durg, Dantewara and Bailadila'; all three are in Chhattisgarh, and NCERT names Dalli and Rajhara, in the Durg area, among India's important iron ore mines. Chhattisgarh was carved out of Madhya Pradesh in 2000, so Bailadila is now in Chhattisgarh, not Madhya Pradesh; it is not in Karnataka or Maharashtra either. The other pairs are wrong: Noamundi (with Gua) is in Pashchimi Singhbhum, Jharkhand; Kudremukh is in Chikkamagaluru district, Karnataka; Gurumahisani is in Mayurbhanj district, Odisha.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 India: People and Economy (legy205), Ch 5 Mineral and Energy Resources, Iron Ore, p. 55: Gurumahisani (Mayurbhanj, Odisha), Noamundi and Gua (Singhbhum, Jharkhand), belt to Durg, Dantewara, Bailadila; Kudremukh (Karnataka)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "e507a240-c420-4b53-a27d-be8c70f5ccb5",
+  "subject": "geography",
+  "unit": "People",
+  "chapter": "Population — Distribution, Density, Growth",
+  "type": "single_mcq",
+  "stem": "India and China are the only two countries with more than a billion people each. Which country comes next in the world's population ranking?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Indonesia"
+   },
+   {
+    "key": "B",
+    "text": "Pakistan"
+   },
+   {
+    "key": "C",
+    "text": "United States of America"
+   },
+   {
+    "key": "D",
+    "text": "Russia"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "By UN estimates for 2024, the United States of America is the third most populous country in the world, with about 345 million people, far behind India and China (about 1.4 billion each; India passed China in 2023). Indonesia (about 283 million) is fourth and Pakistan (about 251 million) fifth; Nigeria, Brazil and Bangladesh come next, and Russia (about 145 million) is ninth. NCERT's Fig. 2.1, drawn from older figures, shows China first and Brazil ahead of Pakistan, but it too puts the USA third. NCERT notes that the 10 most populous countries hold about 60 per cent of the world's people and that 6 of them are in Asia; the USA is the most populous country outside Asia.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "easy",
+  "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy102), Ch 2 The World Population: Distribution, Density and Growth, p. 7: 10 most populous countries hold about 60 per cent, 6 in Asia; Fig. 2.1 Most Populous Countries",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "c61ea703-a85a-4320-81a2-83d21e009da7",
+  "subject": "geography",
+  "unit": "Human Settlements",
+  "chapter": "Human Settlements",
+  "type": "single_mcq",
+  "stem": "Count as urban whatever each country's own census or government defines as urban, the way India's Census measures India's level of urbanisation. By this measure, roughly what share of the world's people live in urban areas today?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Less than one-third, close to India's level in 2011"
+   },
+   {
+    "key": "B",
+    "text": "Between one-third and one-half"
+   },
+   {
+    "key": "C",
+    "text": "More than half, but less than three-quarters"
+   },
+   {
+    "key": "D",
+    "text": "More than three-quarters"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "The level of urbanisation is the percentage of urban population to total population. Counted on each country's own definition of urban, more than half of the world's people have lived in urban areas since about 2007: the UN's World Urbanization Prospects (2018 revision) put the world's level at 55 per cent in 2018 and projected 68 per cent by 2050, and the World Bank's series on the same national definitions is a little under 60 per cent in the early 2020s. So the world's present level lies in the 50 to 75 per cent band. 'Less than one-third' fits India in 2011 (31.16 per cent, which NCERT calls quite low in comparison to developed countries), and 'more than three-quarters' fits highly urbanised regions such as Northern America (about 82 per cent in 2018), not the world as a whole. Figures from the UN's newer density-based method, the Degree of Urbanisation (endorsed by the UN Statistical Commission in 2020), sort people into cities, towns and rural areas instead, so they measure something different from the level asked here.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 India: People and Economy (legy202), Ch 2 Human Settlements, p. 18: level of urbanisation defined; India 31.16 per cent in 2011. World level: UN DESA, World Urbanization Prospects 2018 (not in NCERT)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "13edb7cc-941a-4c89-b542-4784a8987482",
+  "subject": "geography",
+  "unit": "People",
+  "chapter": "Population — Distribution, Density, Growth",
+  "type": "sequence_ordering",
+  "stem": "Arrange the following countries in increasing order of population, starting with the smallest.\n(A) Brazil\n(B) Mexico\n(C) Indonesia\n(D) Bangladesh",
+  "options": [
+   {
+    "key": "A",
+    "text": "(B), (D), (A), (C)"
+   },
+   {
+    "key": "B",
+    "text": "(D), (B), (A), (C)"
+   },
+   {
+    "key": "C",
+    "text": "(B), (A), (D), (C)"
+   },
+   {
+    "key": "D",
+    "text": "(C), (A), (D), (B)"
+   }
+  ],
+  "correct_key": "A",
+  "explanation": "Approximate populations (UN estimates for 2024): Mexico about 130 million, Bangladesh about 174 million, Brazil about 212 million, Indonesia about 283 million. Smallest to largest: Mexico, Bangladesh, Brazil, Indonesia, that is (B), (D), (A), (C). Bangladesh is a small country by area, but it has more people than Mexico; Brazil, the most populous country of South America, has more people than Bangladesh. China (about 1.4 billion) is far above all four, so from largest to smallest the order runs China, Indonesia, Brazil, Bangladesh, Mexico. The order (C), (A), (D), (B) is the same list in decreasing order, the reverse of what is asked.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy102), Ch 2 The World Population: Distribution, Density and Growth, p. 7: Fig. 2.1 Most Populous Countries (all five countries are among the ten shown)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96",
+  "subject": "geography",
+  "unit": "Resources and Development",
+  "chapter": "Mineral and Energy Resources",
+  "type": "sequence_ordering",
+  "stem": "Arrange the following oil refineries of India from east to west.\n(A) Digboi\n(B) Mathura\n(C) Bathinda\n(D) Panipat",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (D), (B), (C)"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B), (D), (C)"
+   },
+   {
+    "key": "C",
+    "text": "(C), (D), (B), (A)"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B), (C), (D)"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Place each refinery by its State and rough longitude. Digboi is in Assam (about 95.6 degrees E), the easternmost; it is NCERT's example of a field-based refinery. Mathura is in western Uttar Pradesh (about 77.7 degrees E). Panipat is in Haryana, a little west of Mathura (about 77 degrees E). Bathinda is in Punjab (about 75 degrees E), the westernmost of the four. East to west: Digboi, Mathura, Panipat, Bathinda, that is (A), (B), (D), (C). Barauni in Bihar (about 86 degrees E), NCERT's example of a market-based refinery, lies between Digboi and Mathura; Asia's first cross-country pipeline ran to it from Naharkatiya in Assam. So from west to east the line runs Bathinda, Panipat, Mathura, Barauni, Digboi. The order (C), (D), (B), (A) is west to east, the reverse of what is asked.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "hard",
+  "ncert_ref": "NCERT Class 12 India: People and Economy (legy205), Ch 5, Petroleum, p. 59: Digboi field-based, Barauni market-based refinery; Fig. 5.5 India - Oil Refineries map, p. 62; legy207 Ch 7, p. 82: Naharkatiya to Barauni refinery in Bihar",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "a67c8de0-4856-40bb-8fa0-6b55d97c79a0",
+  "subject": "geography",
+  "unit": "Transport, Communication and Trade",
+  "chapter": "Transport & Communication",
+  "type": "statement_based",
+  "stem": "NCERT's map of the world's major airports shows Montreal, Madrid, Bangkok and Perth. Consider the following statements about these airport cities.\n(A) Montreal is in Canada.\n(B) Madrid is in Portugal.\n(C) Bangkok is in Thailand.\n(D) Perth is on the west coast of Australia.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (C) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B), (C) and (D)"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Montreal is in Canada (Quebec); NCERT's Trans-Canadian railway also passes through it. Madrid is the capital of Spain, not Portugal (Portugal's capital is Lisbon), so (B) is wrong. Bangkok is the capital of Thailand and one of the nodal points where inter-continental air routes converge; it is also the proposed end of the Trans-Asiatic Railway. Perth is on the west coast of Australia, where the Australian trans-continental railway to Sydney begins. So (A), (C) and (D) are correct: Montreal - Canada, Madrid - Spain, Bangkok - Thailand, Perth - Australia.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "easy",
+  "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy107), Ch 7 Transport and Communication: Trans-Canadian (Montreal) and Australian (Perth) railways, pp. 59-60; Bangkok a nodal point of air routes, p. 66; Fig. 7.16 Major Airports, p. 67",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "02f290b1-4488-424e-8504-acb24df27176",
+  "subject": "geography",
+  "unit": "Human Activities",
+  "chapter": "Secondary Activities",
+  "type": "single_mcq",
+  "stem": "Which one of the following statements about technopolies is correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Their landscape is marked by massive assembly structures and large storage areas."
+   },
+   {
+    "key": "B",
+    "text": "Silicon Forest, near Seattle, is a technopolis in the United States of America."
+   },
+   {
+    "key": "C",
+    "text": "Blue-collar production workers greatly outnumber the white-collar specialists in them."
+   },
+   {
+    "key": "D",
+    "text": "Silicon Valley and Silicon Forest are both technopolies in Canada."
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Technopolies are high-tech industries that are regionally concentrated, self-sustained and highly specialised. NCERT's two examples are Silicon Valley near San Francisco and Silicon Forest near Seattle, and both are in the United States of America: San Francisco is in California, and Seattle is in Washington State, in the Pacific Northwest close to the Canadian border. The nickname Silicon Forest is most often used for the high-tech cluster around Portland, Oregon, the State just south of Washington, and that is in the USA too. So Silicon Forest is a technopolis of the USA, not of Canada. The landscape claim is wrong: the high-tech landscape has neatly spaced, low, modern office-plant-lab buildings rather than massive assembly structures and storage areas. The workforce claim is reversed: highly skilled white-collar specialists greatly outnumber the blue-collar production workers.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy105), Ch 5 Secondary Activities, High Technology Industry, pp. 42-43: workforce, landscape, technopolies, Silicon Valley near San Francisco and Silicon Forest near Seattle",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "6a44e907-1826-4514-bfc1-481e1ea1ef77",
+  "subject": "geography",
+  "unit": "Transport, Communication and Trade",
+  "chapter": "Transport & Communication",
+  "type": "single_mcq",
+  "stem": "Which railway zone is correctly paired with the State in which its headquarters city lies?",
+  "options": [
+   {
+    "key": "A",
+    "text": "North Eastern (Gorakhpur) - Bihar"
+   },
+   {
+    "key": "B",
+    "text": "East Central (Hajipur) - Bihar"
+   },
+   {
+    "key": "C",
+    "text": "East Coast (Bhubaneswar) - West Bengal"
+   },
+   {
+    "key": "D",
+    "text": "South Eastern (Kolkata) - Odisha"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "The East Central zone has its headquarters at Hajipur, in Vaishali district of Bihar, across the Ganga from Patna. Of the zones listed in NCERT's table of railway zones and headquarters, it is the only one with its headquarters in Bihar. The other pairs are wrong: North Eastern is headquartered at Gorakhpur in Uttar Pradesh; East Coast at Bhubaneswar in Odisha; South Eastern at Kolkata in West Bengal (Kolkata is also the headquarters of the Eastern zone and of the Metro Railway). North Central, another zone people confuse with these, is headquartered at Prayagraj in Uttar Pradesh.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 India: People and Economy (legy207), Ch 7 Transport and Communication, Table 7.2 Indian Railways: Railway Zones and Headquarters, p. 79",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "2c6066c9-95ff-42da-950e-18cac8163718",
+  "subject": "history",
+  "unit": "Themes in Indian History Part I",
+  "chapter": "Kings, Farmers & Towns",
+  "type": "statement_based",
+  "stem": "Consider the following statements about where some of the early states (mahajanapadas) of the sixth century BCE lay.\n(A) Gandhara, with its cities Taxila and Pushkalavati, lay in the north-west of the subcontinent.\n(B) Matsya lay south of Gandhara, next to Shurasena, whose capital was Mathura.\n(C) Avanti, with its capital at Ujjayini, lay further south than Matsya.\n(D) Ashmaka lay north of Avanti, in the middle Ganga valley.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "Only (A) and (C)"
+   },
+   {
+    "key": "B",
+    "text": "Only (B), (C) and (D)"
+   },
+   {
+    "key": "C",
+    "text": "Only (A), (B) and (C)"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B), (C) and (D)"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "NCERT's Map 1, 'Early states and their capitals', places these states as follows. Gandhara, with Taxila and Pushkalavati, is in the far north-west of the subcontinent; only Kamboja is marked further north. So (A) is correct. Matsya lies well south (and east) of Gandhara, next to Shurasena: it is marked just west, a little south-west, of Mathura, the capital of Shurasena, close to Kuru and Indraprastha. So (B) is correct. Avanti, with its capital Ujjayini, lies well south of Matsya, in the Malwa region of present-day Madhya Pradesh, so (C) is correct. Ashmaka is the southernmost state on the map, in the Deccan near the river Godavari, far south of Avanti and nowhere near the Ganga valley, so (D) is wrong. The answer therefore holds (A), (B) and (C) and leaves out (D). Read from north to south, these four states run: Gandhara, Matsya, Avanti, Ashmaka. The states crowded into the Ganga valley on the same map are others, such as Koshala, Kashi, Vatsa, Vajji, Magadha and Anga.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Themes in Indian History Part I, Ch 2 Kings, Farmers and Towns, section 2.1 The sixteen mahajanapadas (p29) and Map 1 Early states and their capitals (lehs102, printed p30)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "452056da-8fc1-454a-b129-810f881d7608",
+  "subject": "history",
+  "unit": "Themes in Indian History Part I",
+  "chapter": "Kinship, Caste & Class",
+  "type": "single_mcq",
+  "stem": "An early Sanskrit text lays down this rule of inheritance: once both the father and the mother have died, the brothers are to share the paternal property in equal parts, and the eldest brother receives an extra share over and above his equal part. Which text is it?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Ashtadhyayi of Panini"
+   },
+   {
+    "key": "B",
+    "text": "Manusmriti"
+   },
+   {
+    "key": "C",
+    "text": "Natyashastra of Bharata"
+   },
+   {
+    "key": "D",
+    "text": "Charaka Samhita"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "The rule is the Manusmriti's. Manu says that after the death of the father and the mother the brothers may divide the paternal estate equally among themselves, and that the eldest takes an additional share: one-twentieth of the estate and the best of the chattels, with smaller extra shares for the middle and the youngest sons (Manusmriti IX.104 and IX.112). The Manusmriti, compiled between c. 200 BCE and 200 CE, is the most important of the Dharmasutras and Dharmashastras, the Sanskrit texts in which Brahmanas laid down codes of social behaviour. NCERT's 2026-27 edition states the rule more generally: according to the smriti tradition, the paternal property was to be divided equally amongst the children after the death of the parents, with a special share for the eldest. It adds that women could keep the gifts they received at marriage as stridhana, which their children could inherit and over which the husband had no claim. The other three are also early Sanskrit texts on NCERT's timeline of major textual traditions, but on other subjects: the Ashtadhyayi of Panini (c. 500 BCE) is a work on Sanskrit grammar, the Charaka Samhita (c. 100 CE) is a work on medicine, and the Natyashastra of Bharata (c. 300 CE) is a work on dramaturgy.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Themes in Indian History Part I, Ch 3 Kinship, Caste and Class, section 4.1 Gendered access to property (lehs103 printed p68); section 2.3 Rules of marriage (p58: the Manusmriti, compiled c. 200 BCE-200 CE); Timeline 1 Major Textual Traditions (p79)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "6c960f04-5242-4f58-a6f0-60015f6bc800",
+  "subject": "history",
+  "unit": "Themes in Indian History Part II",
+  "chapter": "An Imperial Capital — Vijayanagara",
+  "type": "match_the_following",
+  "stem": "Match List-I (structures at Vijayanagara) with List-II (features).\nList-I\n(A) Hiriya canal\n(B) Vitthala temple\n(C) Lotus Mahal\n(D) Kamalapuram tank\nList-II\n(I) Built in the early fifteenth century to store rainwater; its water was also carried by a channel to the royal centre\n(II) A chariot street ran in a straight line from its gopuram\n(III) Drew water from a dam across the Tungabhadra to irrigate the valley between the sacred centre and the urban core\n(IV) Given its name by British travellers in the nineteenth century\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+   },
+   {
+    "key": "B",
+    "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+   },
+   {
+    "key": "C",
+    "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+   },
+   {
+    "key": "D",
+    "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+   }
+  ],
+  "correct_key": "D",
+  "explanation": "Vijayanagara lay in one of the most arid zones of the peninsula, so elaborate arrangements were made to store rainwater. The most important tank, built in the early years of the fifteenth century, is now called the Kamalapuram tank: it irrigated nearby fields and its water was carried by a channel to the royal centre (D-I). The Hiriya canal, built apparently by the Sangama kings, drew water from a dam across the Tungabhadra and irrigated the valley between the sacred centre and the urban core (A-III). The Vitthala temple, dedicated to Vitthala, a form of Vishnu worshipped in Maharashtra, has several halls and a shrine designed as a chariot; like the other great temple complexes it had a chariot street running in a straight line from its gopuram, paved with stone slabs and lined with pillared pavilions where merchants set up shops. The Vitthala temple's own chariot street runs east from its main gopuram (B-II). The Lotus Mahal in the royal centre was so named by British travellers in the nineteenth century (C-IV). Two other royal-centre structures: the Mahanavami dibba was a massive platform, and the Hazara Rama temple was probably meant to be used only by the king and his family.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Themes in Indian History Part II, Ch 7 An Imperial Capital: Vijayanagara, section 3.1 Water resources (lehs203 printed p177), 4.2 Other buildings in the royal centre (p181, p183), 4.1 The mahanavami dibba (p180), 5.2 Gopurams and mandapas (p185-188)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "348622de-cdf5-435b-a658-8b18520f9cf2",
+  "subject": "political_science",
+  "unit": "Contemporary World Politics",
+  "chapter": "International Organisations",
+  "type": "single_mcq",
+  "stem": "Five of the six principal organs of the United Nations are based at the UN Headquarters in New York; one has its seat in another country. Which of the following pairs of a principal organ and the city where it is based is correctly matched?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Security Council - Geneva"
+   },
+   {
+    "key": "B",
+    "text": "International Court of Justice - The Hague"
+   },
+   {
+    "key": "C",
+    "text": "General Assembly - Vienna"
+   },
+   {
+    "key": "D",
+    "text": "Trusteeship Council - Nairobi"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "The International Court of Justice (ICJ) is the principal judicial organ of the United Nations, and its seat is the Peace Palace in The Hague, Netherlands. It is the only one of the six principal organs that is not based at the UN Headquarters in New York. Its 15 judges are elected for nine-year terms by the General Assembly and the Security Council, and it settles legal disputes between states and gives advisory opinions. The General Assembly, the Security Council, the Economic and Social Council, the Trusteeship Council and the Secretariat are all based in New York (the Trusteeship Council suspended its work in 1994, when Palau, the last UN trust territory, became independent). Geneva hosts a UN office and bodies such as the World Health Organisation and the Human Rights Council, Vienna hosts the International Atomic Energy Agency, Nairobi hosts the UN Environment Programme, and Washington, DC hosts the IMF and the World Bank, but none of these cities is the seat of the ICJ.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "easy",
+  "ncert_ref": "NCERT Class 12 Contemporary World Politics, Ch 4 International Organisations (leps104): the principal organs of the UN, including the International Court of Justice (exercise 7, printed p.61). The ICJ's seat is not printed in the NCERT text; it is stated in the Statute of the International Court of Justice, Article 22(1).",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "f9f235e3-5761-49ac-b1f7-8b7d31f956c3",
+  "subject": "political_science",
+  "unit": "Politics in India Since Independence",
+  "chapter": "Democratic Upsurge and Coalition Politics",
+  "type": "single_mcq",
+  "stem": "The United Front government formed in 1996 had two Prime Ministers. After the Congress withdrew its outside support and H. D. Deve Gowda lost a confidence vote in April 1997, who became the second United Front Prime Minister?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Chandra Shekhar"
+   },
+   {
+    "key": "B",
+    "text": "Atal Bihari Vajpayee"
+   },
+   {
+    "key": "C",
+    "text": "I. K. Gujral"
+   },
+   {
+    "key": "D",
+    "text": "P. V. Narasimha Rao"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "After the 1996 election the BJP was the largest party, but Atal Bihari Vajpayee's government lasted only 13 days because it could not win a majority. The United Front, a coalition of the Janata Dal and several regional parties, backed by the Left and supported from outside by the Congress, then formed the government with H. D. Deve Gowda as Prime Minister (June 1996 to April 1997). When Congress president Sitaram Kesri withdrew that support, Deve Gowda lost a confidence vote, and the United Front chose I. K. Gujral of the Janata Dal, who had been External Affairs Minister. Gujral was Prime Minister from April 1997 to March 1998: the Congress withdrew support from his government too in November 1997, and he stayed on as caretaker Prime Minister until a new government took office after the 1998 election, when Vajpayee became Prime Minister of a BJP-led coalition in March 1998. V. P. Singh (National Front, 1989-90), Chandra Shekhar (1990-91) and P. V. Narasimha Rao (1991-96) were all Prime Ministers before the United Front.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Politics in India since Independence, Ch 8 Democratic Upsurge and Coalition Politics (leps208): the United Front government that came to power in 1996 (Janata Dal and several regional parties, supported by the Congress, with the Left continuing its support; printed p.141), Congress leader Sitaram Kesri withdrawing support from Deve Gowda's United Front government (cartoon caption), the National Front government led by V. P. Singh, and the United Front in 1996 and 1997 (printed p.142). Gujral's name and dates are not printed in the NCERT text; they are stated in the Prime Minister's Office list of former Prime Ministers.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "a5d5f294-fe07-4383-83d2-be0d6d59ac73",
+  "subject": "psychology",
+  "unit": "Self and Personality",
+  "chapter": "Self & Personality",
+  "type": "statement_based",
+  "stem": "A school counsellor wants to study her students' personalities through indirect methods only: the stimulus should be relatively or fully unstructured, and the student should not be told the purpose of the assessment or how the responses will be scored. Which of the following could she use?\n(A) Minnesota Multiphasic Personality Inventory\n(B) Rosenzweig's Picture-Frustration Study\n(C) Eysenck Personality Questionnaire\n(D) Sentence Completion Test\n(E) Draw-a-Person Test\nChoose the correct answer from the options given below:",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (C) and (E) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(B), (C), (D) and (E) only"
+   },
+   {
+    "key": "D",
+    "text": "(B), (D) and (E) only"
+   }
+  ],
+  "correct_key": "D",
+  "explanation": "NCERT groups personality tests by method. Self-report measures, such as the Minnesota Multiphasic Personality Inventory (MMPI), the Eysenck Personality Questionnaire (EPQ) and Cattell's 16 PF, are fairly structured: the person reports her or his own feelings on each item, and the responses are accepted at face value, scored in quantitative terms and interpreted on the basis of norms. They are direct techniques, because the person clearly knows that her or his personality is being assessed. Projective techniques are the indirect methods: the stimulus is relatively or fully unstructured, the person is usually not told the purpose of the assessment or the method of scoring, and experts interpret the responses for unconscious motives and feelings. Rosenzweig's Picture-Frustration Study (what the frustrated person in a cartoon will say or do), the Sentence Completion Test (endings to incomplete sentences) and the Draw-a-Person Test are projective, as are the Rorschach Inkblot Test and the TAT. So the counsellor can use (B), (D) and (E); the MMPI (A) and the EPQ (C) are self-report measures.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Psychology, Ch 2 Self and Personality, Assessment of Personality: Self-report Measures (MMPI and EPQ, p 42; 16 PF, p 43) and Projective Techniques (direct vs indirect methods, p 43; shared features, Rorschach Inkblot Test and TAT, p 44; Rosenzweig's P-F Study, Sentence Completion Test and Draw-a-Person Test, p 45)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "c74475c2-d1f6-44fa-a9fd-039158a516d9",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Structural Change",
+  "type": "single_mcq",
+  "stem": "A public-sector steel plant and its township are built in the middle of a cluster of farming villages. Some villages are cleared completely and the others lose part of their land. Within a few years, workers from outside rent rooms in the remaining villages, new houses go up for them, a market grows inside the village, and disputes arise between the old residents and the newcomers. In M.S.A. Rao's account of the urban impact on villages, which process has carried urban life into these villages themselves?",
+  "options": [
+   {
+    "key": "A",
+    "text": "The spread of mass media"
+   },
+   {
+    "key": "B",
+    "text": "Industrialisation"
+   },
+   {
+    "key": "C",
+    "text": "Out-migration to distant cities"
+   },
+   {
+    "key": "D",
+    "text": "Land reform laws"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "M.S.A. Rao described three kinds of urban impact on villages. In the first, many villagers work in far-off cities, send money home and build new houses in their natal villages, but the city itself stays far away. In the second, an industrial town (NCERT's example is Bhilai) comes up in the midst of villages: some villages are totally uprooted, the lands of others are partly acquired, and these receive an influx of immigrant workers, which stimulates a demand for houses and a market inside the village and creates problems of ordering relationships between the native residents and the immigrants. This is the case in the question: industrialisation physically transplants urban life into the rural setting, because the town, its workers and its market arrive in the village itself. The workers who move in are drawn by the plant; they are a result of the industrial town, not villagers leaving for distant cities. In the third, a growing metropolis absorbs nearby villages or takes their land for urban development. Mass media work differently: they bring images of urban life styles and patterns of consumption into villages, so urban norms and new aspirations spread, but the town does not arrive. Land reforms changed who owned the land, not the urban character of village life.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 1 Structural Change (lesy201), Box 1.7, printed p.11: M.S.A. Rao's three kinds of urban impact (industrial town like Bhilai, immigrant workers, houses and a market inside the village); NCERT Class 12 Indian Society, Ch 2 The Demographic Structure of the Indian Society (lesy102), printed p.30: mass media bring images of urban life styles into rural areas",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "76df8f59-a722-4020-9052-04a19f6e59bf",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Social Movements",
+  "type": "single_mcq",
+  "stem": "When the Chartists began their campaign in the 1830s, voting rights in Britain were limited to men who owned property. The Chartists gathered well over a million signatures for their People's Charter, and in the early twentieth century the suffragettes campaigned for votes for women, though their movement was violently crushed. What had these social movements finally won in Britain by 1928?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Seats in Parliament reserved for representatives of workers and of women"
+   },
+   {
+    "key": "B",
+    "text": "The abolition of the monarchy and a written republican constitution"
+   },
+   {
+    "key": "C",
+    "text": "Universal adult franchise: the vote for every adult, whatever their sex or property"
+   },
+   {
+    "key": "D",
+    "text": "A vote for men who owned land or houses, and for no one else"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "Universal adult franchise means the right of every adult to vote. In Britain voting rights were once limited to property-owning men. Chartism was a social movement for parliamentary representation in England: in 1839 more than 1.25 million people signed the People's Charter asking for universal male suffrage, voting by ballot and the right to stand for elections without owning property, and in 1842 the movement collected 3.25 million signatures. Only after World War I, in 1918, did all men over 21 get the vote, together with some women over 30 (married women, women owning houses and women university graduates). The suffragettes took up the cause of the vote for all adult women and were bitterly opposed. The Representation of the People (Equal Franchise) Act of 1928 finally gave all women over 21 the vote on the same terms as men, so universal adult suffrage in Britain was the outcome of these long social movements. NCERT tells this story in its box on the right to vote to show that rights we take for granted were won through the struggles of social movements. The movements did not win reserved seats, Britain is still a constitutional monarchy, and a vote limited to property-owning men is exactly what they fought against.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "easy",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 8 Social Movements (lesy208), Box 8.1 The Right to Vote, printed p.110: universal adult franchise, Chartism, the People's Charter (1839), the 1918 vote, the suffragettes; p.110 also: rights were made possible by the struggles of the past. The 1928 Equal Franchise Act is not printed in NCERT; it is the UK Representation of the People (Equal Franchise) Act 1928.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "5585095a-8513-4d37-b55f-528b861aaf83",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Structural Change",
+  "type": "statement_based",
+  "stem": "Consider the following statements about cities in colonial India.\nI. Coastal cities such as Mumbai, Kolkata and Chennai were favoured, because primary commodities could be easily exported and manufactured goods cheaply imported through them.\nII. Colonial cities were the prime link between the economic centre, or core, in Britain and the periphery in colonised India.\nIII. Bhopal was one of these colonial cities, developed by the British as a port to carry India's trade to Britain.\nIV. When the British took over Indian states, towns such as Thanjavur, Dhaka and Murshidabad lost their courts, and with them some of their artisans and court gentry.\nWhich statements are correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "I, II and III only"
+   },
+   {
+    "key": "B",
+    "text": "I, II and IV only"
+   },
+   {
+    "key": "C",
+    "text": "II, III and IV only"
+   },
+   {
+    "key": "D",
+    "text": "I, II, III and IV"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Statements I, II and IV are NCERT's account of colonial urbanisation. Cities had a key role in the economic system of empires, and coastal cities such as Mumbai (Bombay), Kolkata (Calcutta) and Chennai (Madras) were favoured, because primary commodities could be easily exported and manufactured goods cheaply imported through them: by 1900 over three-quarters of India's raw cotton was shipped through Bombay, Calcutta exported jute to Dundee, and Madras sent coffee, sugar, indigo dyes and cotton to Britain. These colonial cities were the prime link between the core in Britain and the periphery in colonised India. Statement III is false. Bhopal is an inland city in central India with no port. In the colonial period it was not a city built up by the British but the capital of the princely state of Bhopal, ruled by its own Nawabs and Begums (NCERT names Shahjehan Begum and her successor Sultan Jehan Begum), a state that kept some control over its internal affairs as long as it accepted British supremacy. So Bombay, Calcutta and Madras were cities of the colonial economic system NCERT describes, and Bhopal was not one of them. Statement IV is also NCERT: when the British took over Indian states, old court towns such as Thanjavur, Dhaka and Murshidabad lost their courts and with them some of their artisans and court gentry, while Surat and Masulipatnam declined and Bombay and Madras grew.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 1 Structural Change (lesy201), printed pp.7-8: decline of old urban centres; coastal colonial cities as the link between core and periphery. NCERT Class 12 Politics in India since Independence, Ch 1 Challenges of Nation Building (leps201), printed p.14: princely states controlled their internal affairs as long as they accepted British supremacy; printed p.16: the Nawab of Bhopal among the rulers of the princely states. NCERT Class 12 Themes in Indian History Part I, Ch 4 Thinkers, Beliefs and Buildings (lehs104), printed pp.82-83: the state of Bhopal and its rulers Shahjehan Begum and Sultan Jehan Begum.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "23a5ff01-d9f7-401e-b9bb-4eea3b901620",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Mass Media & Communications",
+  "type": "statement_based",
+  "stem": "Consider the following statements about soap operas.\nI. A soap opera is a serialised story: individual stories end and characters come and go, but the soap itself has no ending until it is taken off the air.\nII. The name comes from the soap manufacturers who sponsored many of the early daytime radio serials in the United States in the 1930s.\nIII. Those early serials, and most soap operas since, have been made mainly for women in the audience, especially women at home.\nIV. Hum Log (1984-85), India's first long-running soap opera, kept away from social themes and offered pure entertainment.\nWhich statements are correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "I and IV only"
+   },
+   {
+    "key": "B",
+    "text": "II, III and IV only"
+   },
+   {
+    "key": "C",
+    "text": "I, II and III only"
+   },
+   {
+    "key": "D",
+    "text": "I, II, III and IV"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "Statement I is NCERT's description of a soap opera: the story is serialised and continuous, individual stories end and characters appear and disappear, but the soap has no ending until it is taken off the air; the regular viewer knows its history and its characters. Statements II and III come from broadcasting history: soap operas began in the United States in the 1930s as daytime radio serials, many of them sponsored by soap manufacturers, which is where the name comes from. They went out in the daytime, when most listeners were housewives at home, so they were made for a mainly female audience, and the genre has kept women as its main audience ever since. So most soap operas are made chiefly for women viewers. Statement IV is false: NCERT says Hum Log, India's first long-running soap opera (156 episodes in Hindi over 17 months in 1984-85), used the entertainment-education strategy, deliberately placing educational content in an entertainment programme, and promoted social themes such as gender equality, small family size and national integration.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 7 Mass Media and Communications (lesy207): Box 7.13 Soap opera, printed p.104; Box 7.4 Hum Log, printed p.96. The origin of the name and the women audience are not printed in NCERT; they are standard broadcasting history.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ }
+]

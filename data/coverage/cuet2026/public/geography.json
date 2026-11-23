@@ -6,27 +6,27 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "second shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-22",
  "firstDay": "22 November 2026",
  "final": true,
  "counts": {
   "total": 50,
-  "same": 9,
+  "same": 10,
   "newValues": 1,
-  "concept": 25,
-  "notYet": 8,
+  "concept": 28,
+  "notYet": 4,
   "skill": 7,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 35,
+  "covered": 39,
   "counted": 43,
-  "pct": 81,
+  "pct": 91,
   "first": 26,
   "firstPct": 60,
   "addedCards": 9,
-  "addedQuestions": 0,
+  "addedQuestions": 4,
   "found": 0,
   "sameFirst": 5,
   "newValuesFirst": 1
@@ -40,7 +40,7 @@
   {
    "name": "Population — Distribution, Density, Growth",
    "asked": 5,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "India — People & Economy",
@@ -50,7 +50,7 @@
   {
    "name": "Mineral and Energy Resources",
    "asked": 4,
-   "covered": 2
+   "covered": 4
   },
   {
    "name": "Transport & Communication",
@@ -95,7 +95,7 @@
   {
    "name": "Secondary Activities",
    "asked": 1,
-   "covered": 0
+   "covered": 1
   },
   {
    "name": "Tertiary & Quaternary Activities",
@@ -364,11 +364,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "29358098-a746-4bdd-b0fe-a83d09299237",
+    "chapter": "Mineral and Energy Resources",
+    "stem": "Which iron ore mining area is correctly paired with the State in which it lies?",
+    "passage": null,
+    "options": [
+     "Noamundi - Odisha",
+     "Kudremukh - Goa",
+     "Bailadila - Chhattisgarh",
+     "Gurumahisani - Jharkhand"
+    ],
+    "key": 2,
+    "explanation": "Bailadila is an iron ore range in Dantewada district (NCERT spells it Dantewara) of southern Chhattisgarh. NCERT says the Jharkhand belt 'further extends to Durg, Dantewara and Bailadila'; all three are in Chhattisgarh, and NCERT names Dalli and Rajhara, in the Durg area, among India's important iron ore mines. Chhattisgarh was carved out of Madhya Pradesh in 2000, so Bailadila is now in Chhattisgarh, not Madhya Pradesh; it is not in Karnataka or Maharashtra either. The other pairs are wrong: Noamundi (with Gua) is in Pashchimi Singhbhum, Jharkhand; Kudremukh is in Chikkamagaluru district, Karnataka; Gurumahisani is in Mayurbhanj district, Odisha.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 9,
@@ -598,11 +616,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "e507a240-c420-4b53-a27d-be8c70f5ccb5",
+    "chapter": "Population — Distribution, Density, Growth",
+    "stem": "India and China are the only two countries with more than a billion people each. Which country comes next in the world's population ranking?",
+    "passage": null,
+    "options": [
+     "Indonesia",
+     "Pakistan",
+     "United States of America",
+     "Russia"
+    ],
+    "key": 2,
+    "explanation": "By UN estimates for 2024, the United States of America is the third most populous country in the world, with about 345 million people, far behind India and China (about 1.4 billion each; India passed China in 2023). Indonesia (about 283 million) is fourth and Pakistan (about 251 million) fifth; Nigeria, Brazil and Bangladesh come next, and Russia (about 145 million) is ninth. NCERT's Fig. 2.1, drawn from older figures, shows China first and Brazil ahead of Pakistan, but it too puts the USA third. NCERT notes that the 10 most populous countries hold about 60 per cent of the world's people and that 6 of them are in Asia; the USA is the most populous country outside Asia.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 16,
@@ -1014,11 +1050,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96",
+    "chapter": "Mineral and Energy Resources",
+    "stem": "Arrange the following oil refineries of India from east to west.\n(A) Digboi\n(B) Mathura\n(C) Bathinda\n(D) Panipat",
+    "passage": null,
+    "options": [
+     "(A), (D), (B), (C)",
+     "(A), (B), (D), (C)",
+     "(C), (D), (B), (A)",
+     "(A), (B), (C), (D)"
+    ],
+    "key": 1,
+    "explanation": "Place each refinery by its State and rough longitude. Digboi is in Assam (about 95.6 degrees E), the easternmost; it is NCERT's example of a field-based refinery. Mathura is in western Uttar Pradesh (about 77.7 degrees E). Panipat is in Haryana, a little west of Mathura (about 77 degrees E). Bathinda is in Punjab (about 75 degrees E), the westernmost of the four. East to west: Digboi, Mathura, Panipat, Bathinda, that is (A), (B), (D), (C). Barauni in Bihar (about 86 degrees E), NCERT's example of a market-based refinery, lies between Digboi and Mathura; Asia's first cross-country pipeline ran to it from Naharkatiya in Assam. So from west to east the line runs Bathinda, Panipat, Mathura, Barauni, Digboi. The order (C), (D), (B), (A) is west to east, the reverse of what is asked.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 29,
@@ -1541,11 +1595,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "02f290b1-4488-424e-8504-acb24df27176",
+    "chapter": "Secondary Activities",
+    "stem": "Which one of the following statements about technopolies is correct?",
+    "passage": null,
+    "options": [
+     "Their landscape is marked by massive assembly structures and large storage areas.",
+     "Silicon Forest, near Seattle, is a technopolis in the United States of America.",
+     "Blue-collar production workers greatly outnumber the white-collar specialists in them.",
+     "Silicon Valley and Silicon Forest are both technopolies in Canada."
+    ],
+    "key": 1,
+    "explanation": "Technopolies are high-tech industries that are regionally concentrated, self-sustained and highly specialised. NCERT's two examples are Silicon Valley near San Francisco and Silicon Forest near Seattle, and both are in the United States of America: San Francisco is in California, and Seattle is in Washington State, in the Pacific Northwest close to the Canadian border. The nickname Silicon Forest is most often used for the high-tech cluster around Portland, Oregon, the State just south of Washington, and that is in the USA too. So Silicon Forest is a technopolis of the USA, not of Canada. The landscape claim is wrong: the high-tech landscape has neatly spaced, low, modern office-plant-lab buildings rather than massive assembly structures and storage areas. The workforce claim is reversed: highly skilled white-collar specialists greatly outnumber the blue-collar production workers.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 46,

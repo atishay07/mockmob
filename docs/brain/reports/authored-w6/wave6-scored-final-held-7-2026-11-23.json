@@ -1,0 +1,624 @@
+{
+  "kind": "authored_w6_held_7_to_7_9",
+  "source": "claude-authored-2026-11-23-w6",
+  "date": "2026-11-23",
+  "built_at": "2026-11-23T14:13:58.066Z",
+  "rule": {
+    "qualityMeanAtLeast": 8,
+    "fitMedianAtLeast": 8
+  },
+  "note": "Questions that passed every gate (rule, expert verdict ready or repaired, repair applied, re-solve) but whose two quality judges average between 7 and 7.9. Held for a later owner decision: NOT in the publication set and NOT merged into any score table. Each item carries the candidate text and its full judge record, so it can be published with the same tooling.",
+  "count": 4,
+  "bySubject": {
+    "biology": 1,
+    "geography": 1,
+    "history": 1,
+    "political_science": 1
+  },
+  "items": [
+    {
+      "candidate": {
+        "id": "94186aa1-fe0c-445b-a73b-122cd36ce46d",
+        "subject": "biology",
+        "unit": "Reproduction",
+        "chapter": "Human Reproduction",
+        "type": "statement_based",
+        "stem": "Consider the following statements about the end of pregnancy in humans.\n(A) The signals for parturition originate from the fully developed foetus and the placenta.\n(B) Cortisol, estrogens and oxytocin are all part of the neuroendocrine mechanism that induces parturition.\n(C) Oxytocin acts on the uterine muscle and causes stronger uterine contractions.\n(D) Prolactin, released through the foetal ejection reflex, is the hormone that makes the uterus contract during labour.\nChoose the correct answer from the options given below.",
+        "options": [
+          {
+            "key": "A",
+            "text": "(A), (C) and (D) only"
+          },
+          {
+            "key": "B",
+            "text": "(B) and (D) only"
+          },
+          {
+            "key": "C",
+            "text": "(A), (B), (C) and (D)"
+          },
+          {
+            "key": "D",
+            "text": "(A), (B) and (C) only"
+          }
+        ],
+        "correct_key": "D",
+        "explanation": "The signals for parturition come from the fully developed foetus and the placenta (A). They cause mild uterine contractions, the foetal ejection reflex, which triggers the release of oxytocin from the maternal pituitary. Oxytocin acts on the uterine muscle and causes stronger contractions (C), which stimulate still more oxytocin, until the baby is expelled through the birth canal. NCERT sums it up: parturition is induced by a complex neuroendocrine mechanism involving cortisol, estrogens and oxytocin (B). Prolactin is not one of these hormones: it is the anterior pituitary hormone that regulates the growth of the mammary glands and the formation of milk in them. Its level does rise during pregnancy and the mammary glands start producing milk towards the end of pregnancy (lactation), but it does not induce labour or the foetal ejection reflex, so (D) is false.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Class 12 Biology, Ch 2 Human Reproduction, hormone levels in pregnancy (p 37), section 2.7 Parturition and Lactation (p 38) and Summary (p 39); prolactin's role: NCERT Class 11 Biology, Ch 19 Chemical Coordination and Integration, the pituitary gland",
+        "source": "claude-authored-2026-11-23-w6",
+        "_verdict": "claude_audited",
+        "_expert": "repaired"
+      },
+      "record": {
+        "subject": "biology",
+        "batch": "biology__w6b1",
+        "chapter": "Human Reproduction",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 7,
+            "blind_answer": "D",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "biology.human-reproduction.parturition-hormonal-control",
+            "flags": [],
+            "note": "Key right per NCERT summary (cortisol, estrogens, oxytocin). Weak option set: every distractor includes (D), so knowing prolactin is wrong alone gives the key.",
+            "on_final_text": null,
+            "batch": "biology__w6b1"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 8,
+            "blind_answer": "D",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "biology.human-reproduction.parturition-hormonal-control",
+            "flags": [],
+            "note": "B is NCERT's summary line (cortisol, estrogens, oxytocin); D's prolactin swap is a fair trap. Option B '(B) and (D) only' is weak.",
+            "on_final_text": null,
+            "batch": "biology__w6b1"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "Reproduction",
+            "chapter": "Human Reproduction",
+            "pyq_closeness": 0,
+            "ten_route": "cbt_staple",
+            "est_seconds": 74,
+            "fit_score": 10,
+            "fit_flags": [],
+            "note": "Parturition signals and oxytocin vs prolactin: an NCERT-line staple asked year after year.",
+            "on_final_text": null,
+            "batch": "biology__w6b1"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "Reproduction",
+            "chapter": "Human Reproduction",
+            "pyq_closeness": 0,
+            "ten_route": "cbt_staple",
+            "est_seconds": 74,
+            "fit_score": 10,
+            "fit_flags": [],
+            "note": "Parturition signals and oxytocin vs prolactin: asked year after year.",
+            "on_final_text": null,
+            "batch": "biology__w6b1"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "Reproduction",
+            "chapter": "Human Reproduction",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 74,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "NCERT parturition lines; but only option D excludes (D), so one fact (prolactin) decides the item.",
+            "on_final_text": null,
+            "batch": "biology__w6b1"
+          }
+        ]
+      },
+      "quality_scores": [
+        7,
+        8
+      ],
+      "quality_mean": 7.5,
+      "fit_scores": [
+        10,
+        10,
+        9
+      ],
+      "fit_median": 10,
+      "held_because": [
+        "quality_mean_7.5_below_8"
+      ]
+    },
+    {
+      "candidate": {
+        "id": "13edb7cc-941a-4c89-b542-4784a8987482",
+        "subject": "geography",
+        "unit": "People",
+        "chapter": "Population — Distribution, Density, Growth",
+        "type": "sequence_ordering",
+        "stem": "Arrange the following countries in increasing order of population, starting with the smallest.\n(A) Brazil\n(B) Mexico\n(C) Indonesia\n(D) Bangladesh",
+        "options": [
+          {
+            "key": "A",
+            "text": "(B), (D), (A), (C)"
+          },
+          {
+            "key": "B",
+            "text": "(D), (B), (A), (C)"
+          },
+          {
+            "key": "C",
+            "text": "(B), (A), (D), (C)"
+          },
+          {
+            "key": "D",
+            "text": "(C), (A), (D), (B)"
+          }
+        ],
+        "correct_key": "A",
+        "explanation": "Approximate populations (UN estimates for 2024): Mexico about 130 million, Bangladesh about 174 million, Brazil about 212 million, Indonesia about 283 million. Smallest to largest: Mexico, Bangladesh, Brazil, Indonesia, that is (B), (D), (A), (C). Bangladesh is a small country by area, but it has more people than Mexico; Brazil, the most populous country of South America, has more people than Bangladesh. China (about 1.4 billion) is far above all four, so from largest to smallest the order runs China, Indonesia, Brazil, Bangladesh, Mexico. The order (C), (A), (D), (B) is the same list in decreasing order, the reverse of what is asked.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy102), Ch 2 The World Population: Distribution, Density and Growth, p. 7: Fig. 2.1 Most Populous Countries (all five countries are among the ten shown)",
+        "source": "claude-authored-2026-11-23-w6",
+        "_verdict": "claude_audited",
+        "_expert": "repaired"
+      },
+      "record": {
+        "subject": "geography",
+        "batch": "geography__w6b1",
+        "chapter": "Population — Distribution, Density, Growth",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 7,
+            "blind_answer": "A",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+            "flags": [],
+            "note": "Order right on UN 2024 data. Mexico vs Bangladesh is a fair trap, but option D is just the reverse list and the item leans on current figures beyond NCERT's chart.",
+            "on_final_text": null,
+            "batch": "geography__w6b1"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 8,
+            "blind_answer": "A",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+            "flags": [],
+            "note": "Order Mexico<Bangladesh<Brazil<Indonesia holds on old and current data; distractors are adjacent swaps and the reverse order. Explanation's China line is padding.",
+            "on_final_text": null,
+            "batch": "geography__w6b1"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "sequence_ordering",
+            "passage_skill": null,
+            "unit": "People",
+            "chapter": "Population — Distribution, Density, Growth",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 55,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Ranking item fits the paper, but the Mexico-Bangladesh order leans on 2024 UN figures rather than the NCERT figure.",
+            "on_final_text": null,
+            "batch": "geography__w6b1"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "sequence_ordering",
+            "passage_skill": null,
+            "unit": "People",
+            "chapter": "Population — Distribution, Density, Growth",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 73,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Ranking hinges on Mexico vs Bangladesh populations, finer than NCERT figure recall.",
+            "on_final_text": null,
+            "batch": "geography__w6b1"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "sequence_ordering",
+            "passage_skill": null,
+            "unit": "People",
+            "chapter": "Population — Distribution, Density, Growth",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 55,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Mexico vs Bangladesh vs Brazil populations is fine-grained figure recall; (C),(A),(D),(B) is a throwaway reverse.",
+            "on_final_text": null,
+            "batch": "geography__w6b1"
+          }
+        ]
+      },
+      "quality_scores": [
+        7,
+        8
+      ],
+      "quality_mean": 7.5,
+      "fit_scores": [
+        8,
+        8,
+        8
+      ],
+      "fit_median": 8,
+      "held_because": [
+        "quality_mean_7.5_below_8"
+      ]
+    },
+    {
+      "candidate": {
+        "id": "452056da-8fc1-454a-b129-810f881d7608",
+        "subject": "history",
+        "unit": "Themes in Indian History Part I",
+        "chapter": "Kinship, Caste & Class",
+        "type": "single_mcq",
+        "stem": "An early Sanskrit text lays down this rule of inheritance: once both the father and the mother have died, the brothers are to share the paternal property in equal parts, and the eldest brother receives an extra share over and above his equal part. Which text is it?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Ashtadhyayi of Panini"
+          },
+          {
+            "key": "B",
+            "text": "Manusmriti"
+          },
+          {
+            "key": "C",
+            "text": "Natyashastra of Bharata"
+          },
+          {
+            "key": "D",
+            "text": "Charaka Samhita"
+          }
+        ],
+        "correct_key": "B",
+        "explanation": "The rule is the Manusmriti's. Manu says that after the death of the father and the mother the brothers may divide the paternal estate equally among themselves, and that the eldest takes an additional share: one-twentieth of the estate and the best of the chattels, with smaller extra shares for the middle and the youngest sons (Manusmriti IX.104 and IX.112). The Manusmriti, compiled between c. 200 BCE and 200 CE, is the most important of the Dharmasutras and Dharmashastras, the Sanskrit texts in which Brahmanas laid down codes of social behaviour. NCERT's 2026-27 edition states the rule more generally: according to the smriti tradition, the paternal property was to be divided equally amongst the children after the death of the parents, with a special share for the eldest. It adds that women could keep the gifts they received at marriage as stridhana, which their children could inherit and over which the husband had no claim. The other three are also early Sanskrit texts on NCERT's timeline of major textual traditions, but on other subjects: the Ashtadhyayi of Panini (c. 500 BCE) is a work on Sanskrit grammar, the Charaka Samhita (c. 100 CE) is a work on medicine, and the Natyashastra of Bharata (c. 300 CE) is a work on dramaturgy.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Themes in Indian History Part I, Ch 3 Kinship, Caste and Class, section 4.1 Gendered access to property (lehs103 printed p68); section 2.3 Rules of marriage (p58: the Manusmriti, compiled c. 200 BCE-200 CE); Timeline 1 Major Textual Traditions (p79)",
+        "source": "claude-authored-2026-11-23-w6",
+        "_verdict": "claude_audited",
+        "_expert": "repaired"
+      },
+      "record": {
+        "subject": "history",
+        "batch": "history__w6b1",
+        "chapter": "Kinship, Caste & Class",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 7,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "history.kinship-caste-and-class.inheritance-rules-manusmriti",
+            "flags": [],
+            "note": "Correct (Manu IX.104, IX.112). Distractors are grammar, drama and medicine texts, so the only law code wins by elimination.",
+            "on_final_text": null,
+            "batch": "history__w6b1"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "history.kinship-caste-and-class.manusmriti-inheritance-rules",
+            "flags": [],
+            "note": "Correct NCERT recall, but grammar, drama and medicine texts are off-topic distractors: any student who knows Manusmriti is a law code eliminates them at once.",
+            "on_final_text": null,
+            "batch": "history__w6b1"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Themes in Indian History Part I",
+            "chapter": "Kinship, Caste & Class",
+            "pyq_closeness": 0,
+            "ten_route": "board",
+            "est_seconds": 43,
+            "fit_score": 10,
+            "fit_flags": [],
+            "note": "Manusmriti's equal division with the eldest's extra share: a board-repeated text-to-rule item.",
+            "on_final_text": null,
+            "batch": "history__w6b1"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Themes in Indian History Part I",
+            "chapter": "Kinship, Caste & Class",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 43,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "Manusmriti inheritance rule with special share for eldest: direct NCERT recall.",
+            "on_final_text": null,
+            "batch": "history__w6b1"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Themes in Indian History Part I",
+            "chapter": "Kinship, Caste & Class",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 43,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "Text-to-content recall in CUET style; the other three texts are plainly non-legal, so Manusmriti is easy to guess.",
+            "on_final_text": null,
+            "batch": "history__w6b1"
+          }
+        ]
+      },
+      "quality_scores": [
+        7,
+        7
+      ],
+      "quality_mean": 7,
+      "fit_scores": [
+        10,
+        9,
+        9
+      ],
+      "fit_median": 9,
+      "held_because": [
+        "quality_mean_7_below_8"
+      ]
+    },
+    {
+      "candidate": {
+        "id": "348622de-cdf5-435b-a658-8b18520f9cf2",
+        "subject": "political_science",
+        "unit": "Contemporary World Politics",
+        "chapter": "International Organisations",
+        "type": "single_mcq",
+        "stem": "Five of the six principal organs of the United Nations are based at the UN Headquarters in New York; one has its seat in another country. Which of the following pairs of a principal organ and the city where it is based is correctly matched?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Security Council - Geneva"
+          },
+          {
+            "key": "B",
+            "text": "International Court of Justice - The Hague"
+          },
+          {
+            "key": "C",
+            "text": "General Assembly - Vienna"
+          },
+          {
+            "key": "D",
+            "text": "Trusteeship Council - Nairobi"
+          }
+        ],
+        "correct_key": "B",
+        "explanation": "The International Court of Justice (ICJ) is the principal judicial organ of the United Nations, and its seat is the Peace Palace in The Hague, Netherlands. It is the only one of the six principal organs that is not based at the UN Headquarters in New York. Its 15 judges are elected for nine-year terms by the General Assembly and the Security Council, and it settles legal disputes between states and gives advisory opinions. The General Assembly, the Security Council, the Economic and Social Council, the Trusteeship Council and the Secretariat are all based in New York (the Trusteeship Council suspended its work in 1994, when Palau, the last UN trust territory, became independent). Geneva hosts a UN office and bodies such as the World Health Organisation and the Human Rights Council, Vienna hosts the International Atomic Energy Agency, Nairobi hosts the UN Environment Programme, and Washington, DC hosts the IMF and the World Bank, but none of these cities is the seat of the ICJ.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "easy",
+        "ncert_ref": "NCERT Class 12 Contemporary World Politics, Ch 4 International Organisations (leps104): the principal organs of the UN, including the International Court of Justice (exercise 7, printed p.61). The ICJ's seat is not printed in the NCERT text; it is stated in the Statute of the International Court of Justice, Article 22(1).",
+        "source": "claude-authored-2026-11-23-w6",
+        "_verdict": "claude_audited",
+        "_expert": "repaired"
+      },
+      "record": {
+        "subject": "political_science",
+        "batch": "political_science__w6b1",
+        "chapter": "International Organisations",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 7,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "political_science.international-organisations.un-principal-organs",
+            "flags": [],
+            "note": "Key right (ICJ, The Hague). Stem's 'five of six in New York' over-signposts and the other pairs (GA in Vienna) are throwaways; seat is outside NCERT text.",
+            "on_final_text": null,
+            "batch": "political_science__w6b1"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "political_science.international-organisations.un-principal-organs-seats",
+            "flags": [],
+            "note": "Key right. Stem's 'five in New York, one elsewhere' signposts (-1), and pairing NY organs with Geneva/Vienna/Nairobi makes distractors weak. ICJ seat is not in the NCERT text.",
+            "on_final_text": null,
+            "batch": "political_science__w6b1"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Contemporary World Politics",
+            "chapter": "International Organisations",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 45,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "UN organ-to-seat pairing; the ICJ's seat is a common CBT fact though not printed in NCERT.",
+            "on_final_text": null,
+            "batch": "political_science__w6b1"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Contemporary World Politics",
+            "chapter": "International Organisations",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 45,
+            "fit_score": 9,
+            "fit_flags": [],
+            "note": "ICJ at The Hague: one-step recall on UN principal organs.",
+            "on_final_text": null,
+            "batch": "political_science__w6b1"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "single_mcq",
+            "passage_skill": null,
+            "unit": "Contemporary World Politics",
+            "chapter": "International Organisations",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 45,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "ICJ seat is not printed in NCERT and is general knowledge; other pairs are weak.",
+            "on_final_text": null,
+            "batch": "political_science__w6b1"
+          }
+        ]
+      },
+      "quality_scores": [
+        7,
+        7
+      ],
+      "quality_mean": 7,
+      "fit_scores": [
+        9,
+        9,
+        8
+      ],
+      "fit_median": 9,
+      "held_because": [
+        "quality_mean_7_below_8"
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
  "subject": "political-science",
- "snapshotDate": "2026-11-22",
- "checkedOn": "2026-11-22",
+ "snapshotDate": "2026-11-23",
+ "checkedOn": "2026-11-23",
  "questions": [
   {
    "n": 1,
@@ -546,12 +546,12 @@
    "n": 50,
    "chapter": "Democratic Upsurge and Coalition Politics",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": "569c3fe7-4460-4498-8feb-dc048df2fff9",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "f9f235e3-5761-49ac-b1f7-8b7d31f956c3",
    "bestKind": "bank",
    "needs": [],
-   "reason": "Nothing served names I. K. Gujral as United Front Prime Minister 1997-98; not in the NCERT text, so only a bank question can close it."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   }
  ]
 }

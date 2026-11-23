@@ -4,9 +4,10 @@
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
  "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
- "merged_at": "2026-10-14T07:09:44.767Z",
+ "merged_at": "2026-11-23T14:13:59.543Z",
  "models": [
-  "claude-haiku-5-5"
+  "claude-haiku-5-5",
+  "claude-subagent-unrecorded"
  ],
  "status": "complete",
  "measures": {
@@ -12966,6 +12967,115 @@
      "solver": "claude-haiku-5-5"
     }
    }
+  },
+  "6c960f04-5242-4f58-a6f0-60015f6bc800": {
+   "question_id": "6c960f04-5242-4f58-a6f0-60015f6bc800",
+   "batch": "authored-2026-10-14__history__w6b1",
+   "db_chapter": "An Imperial Capital — Vijayanagara",
+   "content_hash": "9aa45d269a9d39f5d6a8dbfeeb9ba8407d7b13e98913a999b076f97804877a08",
+   "engine_type_guess": "match_the_following",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part II",
+     "chapter": "An Imperial Capital — Vijayanagara",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Vijayanagara structure-to-feature match in NCERT wording; a heavily asked chapter.",
+     "scored_content_hash": "9aa45d269a9d39f5d6a8dbfeeb9ba8407d7b13e98913a999b076f97804877a08"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part II",
+     "chapter": "An Imperial Capital — Vijayanagara",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Vijayanagara structures to features: CUET-style match on a heavily asked chapter.",
+     "scored_content_hash": "9aa45d269a9d39f5d6a8dbfeeb9ba8407d7b13e98913a999b076f97804877a08"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part II",
+     "chapter": "An Imperial Capital — Vijayanagara",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Vijayanagara structure-to-feature match as the paper prints it; structure details are supporting facts.",
+     "scored_content_hash": "9aa45d269a9d39f5d6a8dbfeeb9ba8407d7b13e98913a999b076f97804877a08"
+    }
+   ],
+   "cuet_type": "match_the_following",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Themes in Indian History Part II",
+   "unit_votes": null,
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-11-23-w6",
+    "wave": 6,
+    "expert_verdict": null,
+    "expert_issue": null,
+    "authoring_verdict": "claude_audited",
+    "expert_reviewed_text": "not_reviewed",
+    "judged_text": "final",
+    "judged_content_hash": "9aa45d269a9d39f5d6a8dbfeeb9ba8407d7b13e98913a999b076f97804877a08",
+    "final_content_hash": "9aa45d269a9d39f5d6a8dbfeeb9ba8407d7b13e98913a999b076f97804877a08",
+    "hash_changed_by_repair": false,
+    "repaired_fields": [],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "D",
+      "D",
+      "D",
+      "D",
+      "D"
+     ],
+     "on": "final"
+    },
+    "blind_resolve_on_final_text": null,
+    "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-subagent-unrecorded",
+     "fit": "claude-subagent-unrecorded",
+     "solver": "claude-subagent-unrecorded"
+    }
+   }
   }
  },
  "authored": {
@@ -12980,6 +13090,19 @@
    "fit_pass_at_8": 81,
    "fit_pass_at_9": 58,
    "tens_capped_without_agreed_route": 1,
+   "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
+  },
+  "claude-authored-2026-11-23-w6": {
+   "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
+   "merged_at": "2026-11-23T14:13:59.543Z",
+   "questions": 1,
+   "judge_model": "claude-subagent-unrecorded",
+   "judge_date": "2026-11-23",
+   "repaired_text_policy": "admit",
+   "held_for_fresh_judge_pass": 0,
+   "fit_pass_at_8": 1,
+   "fit_pass_at_9": 1,
+   "tens_capped_without_agreed_route": 0,
    "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
   }
  }

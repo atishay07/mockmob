@@ -6,8 +6,8 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-22",
  "firstDay": "22 November 2026",
  "final": true,
@@ -15,18 +15,18 @@
   "total": 50,
   "same": 12,
   "newValues": 0,
-  "concept": 27,
-  "notYet": 2,
+  "concept": 28,
+  "notYet": 1,
   "skill": 9,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 39,
+  "covered": 40,
   "counted": 41,
-  "pct": 95,
+  "pct": 98,
   "first": 27,
   "firstPct": 66,
   "addedCards": 12,
-  "addedQuestions": 0,
+  "addedQuestions": 1,
   "found": 0,
   "sameFirst": 10,
   "newValuesFirst": 0
@@ -95,7 +95,7 @@
   {
    "name": "Democratic Upsurge and Coalition Politics",
    "asked": 2,
-   "covered": 1
+   "covered": 2
   },
   {
    "name": "Security in the Contemporary World",
@@ -1682,11 +1682,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "f9f235e3-5761-49ac-b1f7-8b7d31f956c3",
+    "chapter": "Democratic Upsurge and Coalition Politics",
+    "stem": "The United Front government formed in 1996 had two Prime Ministers. After the Congress withdrew its outside support and H. D. Deve Gowda lost a confidence vote in April 1997, who became the second United Front Prime Minister?",
+    "passage": null,
+    "options": [
+     "Chandra Shekhar",
+     "Atal Bihari Vajpayee",
+     "I. K. Gujral",
+     "P. V. Narasimha Rao"
+    ],
+    "key": 2,
+    "explanation": "After the 1996 election the BJP was the largest party, but Atal Bihari Vajpayee's government lasted only 13 days because it could not win a majority. The United Front, a coalition of the Janata Dal and several regional parties, backed by the Left and supported from outside by the Congress, then formed the government with H. D. Deve Gowda as Prime Minister (June 1996 to April 1997). When Congress president Sitaram Kesri withdrew that support, Deve Gowda lost a confidence vote, and the United Front chose I. K. Gujral of the Janata Dal, who had been External Affairs Minister. Gujral was Prime Minister from April 1997 to March 1998: the Congress withdrew support from his government too in November 1997, and he stayed on as caretaker Prime Minister until a new government took office after the 1998 election, when Vajpayee became Prime Minister of a BJP-led coalition in March 1998. V. P. Singh (National Front, 1989-90), Chandra Shekhar (1990-91) and P. V. Narasimha Rao (1991-96) were all Prime Ministers before the United Front.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   }
  ]
 }

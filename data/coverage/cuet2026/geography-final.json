@@ -1,7 +1,7 @@
 {
  "subject": "geography",
- "snapshotDate": "2026-11-22",
- "checkedOn": "2026-11-22",
+ "snapshotDate": "2026-11-23",
+ "checkedOn": "2026-11-23",
  "questions": [
   {
    "n": 1,
@@ -84,12 +84,12 @@
    "n": 8,
    "chapter": "Mineral and Energy Resources",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "29358098-a746-4bdd-b0fe-a83d09299237",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row or card names Bailadila; NCERT legy205 p55 names it without naming the state."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 9,
@@ -161,12 +161,12 @@
    "n": 15,
    "chapter": "Population — Distribution, Density, Growth",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "e507a240-c420-4b53-a27d-be8c70f5ccb5",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Material says India is second after China; nothing names the third (USA)."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 16,
@@ -304,12 +304,12 @@
    "n": 28,
    "chapter": "Mineral and Energy Resources",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Only Barauni appears (market-based refinery); no location for Bathinda, Panipat or Mathura."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 29,
@@ -491,12 +491,12 @@
    "n": 45,
    "chapter": "Secondary Activities",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "02f290b1-4488-424e-8504-acb24df27176",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Card says Silicon Forest is near Seattle and another lists Seattle among ports on the American side of the North Pacific route; the USA is never named, so the step is doubtful."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 46,

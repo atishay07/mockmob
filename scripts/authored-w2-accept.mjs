@@ -21,6 +21,10 @@
 //   laid out by scripts/authored-w5-scoring-layout.mjs) is wave 4's accept, check and final modes with wave-5 files. The final mode writes wave5-scored-final-*
 //   (never wave5-candidates-final-2026-11-22.json, the publisher's input list).
 //
+// --wave=w6 (23 Nov 2026, claude-authored-2026-11-23-w6: accountancy, biology, business_studies, economics, geography, history, political_science, psychology,
+//   sociology; batches <subject>__w6b<n> under tmp/1123-close/integrate/scoring, laid out by tmp/1123-close/integrate/scoring-layout-w6.mjs) is wave 5's accept,
+//   check and final modes with wave-6 files (wave6-scored-final-*; never wave6-candidates-final-2026-11-23.json).
+//
 // final   (14 Oct, after the expert pass, the rewords and the spot-check) the same acceptance, now also reading
 //           --expert=<dir>        expert verdicts (docs/brain/reports/authored-w2/expert/*.json, { verdicts: [{ id, verdict, why, repair }] })
 //           --asjudged=<file>     the candidates as the first acceptance judged them (wave2-candidates-asjudged-...json), so a repair after judging is recorded
@@ -63,6 +67,7 @@ export const W2_SOURCE = 'claude-authored-2026-10-14-w2';
 export const W3_SOURCE = 'claude-authored-2026-10-17-w3';
 export const W4_SOURCE = 'claude-authored-2026-10-17-w4';
 export const W5_SOURCE = 'claude-authored-2026-11-22-w5';
+export const W6_SOURCE = 'claude-authored-2026-11-23-w6';
 const SOLVERS = ['s1', 's2', 's3', 's4', 's5'];
 const QUALITY = ['j1', 'j2'];
 const FIT = ['h1', 'h2', 'h3'];
@@ -169,6 +174,33 @@ export const WAVE_CONFIGS = {
     acceptNote: 'Wave-1 acceptance rule applied to the wave-5 raw files (accountancy, business_studies, economics; the 44 rows of wave5-candidates-final-2026-11-22.json). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the audit marks of the assembled candidates file (_verdict claude_audited, _expert ready or repaired).',
     entriesNote: 'One record per question the wave-5 rule accepted (the acceptance rule and the duplicate screen; every question was authored by Claude, audited by an independent Claude pass, then solved blind by five solvers and judged by two quality and three CUET-fit judges), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w5 from the raw files under tmp/1122-coverage/scoring. Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
   },
+  // Wave 6 (23 Nov 2026, closing the open CUET 2026 questions): nine papers, 30 audited standalone rows laid out by tmp/1123-close/integrate/scoring-layout-w6.mjs
+  // under tmp/1123-close/integrate/scoring/<subject>/ (batches <subject>__w6b<n>, results in verify/). Wave 5's accept, check and final modes with wave-6 files.
+  // The duplicate screen reads wave 5's KEPT list (the 32 rows to be published), not its 44-row list: a wave-6 row may replace a held, never-published wave-5 row.
+  w6: {
+    id: 'w6', wave: 6, source: W6_SOURCE, label: 'wave6', kind: 'authored_w6', modelNote: 'the model of the subagents that produced the raw files is not recorded in them',
+    models: { quality: 'claude-subagent-unrecorded', fit: 'claude-subagent-unrecorded', solver: 'claude-subagent-unrecorded' }, finalMode: false,
+    raw: 'tmp/1123-close/integrate/scoring', out: 'docs/brain/reports/authored-w6', date: '2026-11-23',
+    files: (date) => ({ acceptance: `wave6-acceptance-${date}.json`, candidates: `wave6-candidates-scored-${date}.json`, entries: `wave6-score-entries-${date}.json` }),
+    finalFiles: (date) => ({ acceptanceFinal: `wave6-scored-final-acceptance-${date}.json`, candidatesFinal: `wave6-scored-final-candidates-${date}.json`, entriesFinal: `wave6-scored-final-score-entries-${date}.json`, dropped: `wave6-scored-final-dropped-${date}.json`, held: `wave6-scored-final-held-7-${date}.json` }),
+    engineFile: (label, date) => `wave6-engine-check-${label}-${date}.json`,
+    blindFields: ['stem', 'options', 'passage_text', 'type', 'subject'],
+    batchRe: /^(accountancy|biology|business_studies|economics|geography|history|political_science|psychology|sociology)__w6b\d+$/,
+    priorFiles: [
+      { from: 'wave2', file: 'docs/brain/reports/authored-w2/wave2-candidates-final-2026-10-14.json' },
+      { from: 'wave3', file: 'docs/brain/reports/authored-w3/wave3-candidates-final-2026-10-17.json' },
+      { from: 'wave4', file: 'docs/brain/reports/authored-w4/wave4-candidates-final-2026-10-17.json' },
+      { from: 'wave5', file: 'docs/brain/reports/authored-w5/wave5-candidates-kept-2026-11-22.json' },
+    ],
+    expert: null, asjudged: null, fresh: [], resolve: null, decisions: null, spotcheck: null, engineReasons: null,
+    sourceCandidates: 'docs/brain/reports/authored-w6/wave6-candidates-final-2026-11-23.json', manifest: 'tmp/1123-close/integrate/scoring/manifest.json',
+    resolvePrefix: 'rv-w6', carryBlindAnswers: false,
+    finalInputs: { expert: 'docs/brain/reports/authored-w6/expert', resolve: 'tmp/1123-close/integrate/scoring/resolve', fresh: ['tmp/1123-close/integrate/scoring/reword'] },
+    publishRule: { qualityMeanAtLeast: 8, fitMedianAtLeast: 8 },
+    batchLabel: '<subject>__w6b<n>',
+    acceptNote: 'Wave-1 acceptance rule applied to the wave-6 raw files (nine papers; the 30 rows of wave6-candidates-final-2026-11-23.json). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the audit marks of the assembled candidates file (_verdict claude_audited, _expert ready or repaired).',
+    entriesNote: 'One record per question the wave-6 rule accepted (the acceptance rule and the duplicate screen; every question was authored by Claude, audited by an independent Claude pass, then solved blind by five solvers and judged by two quality and three CUET-fit judges), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w6 from the raw files under tmp/1123-close/integrate/scoring. Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
+  },
 };
 const FILES = (date, cfg = WAVE_CONFIGS.w2) => ({
   ...cfg.files(date),
@@ -181,7 +213,7 @@ const FILES = (date, cfg = WAVE_CONFIGS.w2) => ({
 export function parseArgs(argv) {
   const waveArg = argv.map((arg) => arg.match(/^--wave=(.*)$/)).find(Boolean)?.[1] || 'w2';
   const cfg = WAVE_CONFIGS[waveArg];
-  if (!cfg) throw new Error(`unknown --wave=${waveArg} (w2, w3 or w4)`);
+  if (!cfg) throw new Error(`unknown --wave=${waveArg} (w2, w3 or w4)`); // the message is pinned by data/tests/authored_w4_accept.test.mjs; w5 and w6 also exist
   const out = {
     wave: cfg.id, cfg, mode: 'accept', raw: cfg.raw, out: cfg.out, root: path.resolve(HERE, '..'), date: cfg.date, label: 'working',
     wave1Final: 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json',
@@ -949,7 +981,7 @@ export async function runAccept(args, { write = true } = {}) {
     total, bySubject, files: filesSummary, sets: setChildren,
     questions: rows,
   };
-  if (cfg.id === 'w4' || cfg.id === 'w5') acceptance.qualityMeanDistribution = qualityMeanDistribution(rows);
+  if (cfg.id === 'w4' || cfg.id === 'w5' || cfg.id === 'w6') acceptance.qualityMeanDistribution = qualityMeanDistribution(rows);
   if (cfg.id === 'w2') acceptance.final_pass_inputs = {
     expert_files: extras.expert.files, expert_conflicts: extras.expert.conflicts, asjudged: rel(path.resolve(args.asjudged)), fresh: args.fresh,
     fresh_pass_ids: extras.rewordIds.size, fresh_pass_partial: extras.ctx.freshPartial, text_set_to_the_fresh_pass: overriddenText,

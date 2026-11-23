@@ -1,0 +1,106 @@
+{
+ "kind": "authored_publish_restore",
+ "version": "authored-publish-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "reason": "CUET 2026 coverage wave 6: 15 scored questions over nine papers",
+ "at": "2026-11-23T14:37:40.456Z",
+ "target": "isrxrxzjocewrdureyhp.supabase.co",
+ "planHash": "ba34ccfc6c0a62dd485e546ee89af8fe93e106519de2bd6a5e4f5f6801efeb9e",
+ "planFile": "docs/brain/reports/authored-publish/authored-publish-plan-2026-11-23T14-14-16-792Z.json",
+ "questionIds": [
+  "68269c81-6197-4788-9aa3-216209c5f515",
+  "82592e64-9d6f-47d4-b9db-c7cd8a6f1589",
+  "b32a5ab7-1b3a-42e2-9baa-04674e4ec092",
+  "a15240a0-f48c-4343-8e00-183603543c47",
+  "e9b39e3c-100c-4d72-be16-548adc1748df",
+  "83804f3c-cc09-4013-97ca-03894eef15a1",
+  "d5df54d1-8059-4006-9057-e9be2f2502bb",
+  "659edc5d-f549-4be3-aa29-e8c23a2d9b3b",
+  "29358098-a746-4bdd-b0fe-a83d09299237",
+  "e507a240-c420-4b53-a27d-be8c70f5ccb5",
+  "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96",
+  "02f290b1-4488-424e-8504-acb24df27176",
+  "6c960f04-5242-4f58-a6f0-60015f6bc800",
+  "f9f235e3-5761-49ac-b1f7-8b7d31f956c3",
+  "a5d5f294-fe07-4383-83d2-be0d6d59ac73"
+ ],
+ "groupIds": [],
+ "topUpGroupIds": [],
+ "rows": [
+  {
+   "id": "68269c81-6197-4788-9aa3-216209c5f515",
+   "subject": "biology",
+   "contentHash": "1504ba6531ca0dfe3cf2df4a8b9b35d5302dcf79a7b86a9fce186cfb91b6fdd1"
+  },
+  {
+   "id": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589",
+   "subject": "biology",
+   "contentHash": "09af34a9c1b5c556854ae303302a87d18a8702751308f9af8387041fee449c14"
+  },
+  {
+   "id": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092",
+   "subject": "biology",
+   "contentHash": "5bf37b25ed543966b5d4a0a3523e547648311f34ab2af09c3fa3520e1a12380b"
+  },
+  {
+   "id": "a15240a0-f48c-4343-8e00-183603543c47",
+   "subject": "business_studies",
+   "contentHash": "22312727b80b37afbc22cb55984050498b8a839ef0255e2a5a19c103d0267622"
+  },
+  {
+   "id": "e9b39e3c-100c-4d72-be16-548adc1748df",
+   "subject": "business_studies",
+   "contentHash": "693e6932de47960c3f5956e4ff35148b0b4d1328bdce2c834b2fb62ecc4097bf"
+  },
+  {
+   "id": "83804f3c-cc09-4013-97ca-03894eef15a1",
+   "subject": "business_studies",
+   "contentHash": "73cb907deaf8f27d5f4a9f9500c5f48649ea909f9703dc67288a66ff8e83b6a7"
+  },
+  {
+   "id": "d5df54d1-8059-4006-9057-e9be2f2502bb",
+   "subject": "business_studies",
+   "contentHash": "1819658869c9a3b341c485fe11b4bdd00f3fbe3a982bd7e5f7b9072ed5c2ae02"
+  },
+  {
+   "id": "659edc5d-f549-4be3-aa29-e8c23a2d9b3b",
+   "subject": "economics",
+   "contentHash": "05f75312a5eb0292c4e0ec69abcc6d912d27d03947417ce1c779269d78999ce2"
+  },
+  {
+   "id": "29358098-a746-4bdd-b0fe-a83d09299237",
+   "subject": "geography",
+   "contentHash": "9d6da82c84c7898c1cf5bb509c28fa25d82e284f17c8cc2e9be4cb697535a54c"
+  },
+  {
+   "id": "e507a240-c420-4b53-a27d-be8c70f5ccb5",
+   "subject": "geography",
+   "contentHash": "4897ce037068894749166259a00fdf3df03bd2b0f4249cca90d3cea63b0b4ad0"
+  },
+  {
+   "id": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96",
+   "subject": "geography",
+   "contentHash": "d37c76c35b575a503d7c9ac59999bb2659624f8c9c1e0c91509f3fd3c2edd011"
+  },
+  {
+   "id": "02f290b1-4488-424e-8504-acb24df27176",
+   "subject": "geography",
+   "contentHash": "9c8ea916473bb2f876e2ae50aead7154cc356e030d0090d8ca69f91d03f158f2"
+  },
+  {
+   "id": "6c960f04-5242-4f58-a6f0-60015f6bc800",
+   "subject": "history",
+   "contentHash": "9aa45d269a9d39f5d6a8dbfeeb9ba8407d7b13e98913a999b076f97804877a08"
+  },
+  {
+   "id": "f9f235e3-5761-49ac-b1f7-8b7d31f956c3",
+   "subject": "political_science",
+   "contentHash": "fd99ecf7ae123352c40f2c2349e2cd43a0a02982e95ac030276ec93bda17e307"
+  },
+  {
+   "id": "a5d5f294-fe07-4383-83d2-be0d6d59ac73",
+   "subject": "psychology",
+   "contentHash": "d1f9dddcdfffe12898006dd686d29e8209b3c0eaa66027efa11c9684b92634b0"
+  }
+ ]
+}

@@ -38,6 +38,7 @@ export const AUTHORED_SOURCE_W2 = 'claude-authored-2026-10-14-w2';
 export const AUTHORED_SOURCE_W3 = 'claude-authored-2026-10-17-w3';
 export const AUTHORED_SOURCE_W4 = 'claude-authored-2026-10-17-w4';
 export const AUTHORED_SOURCE_W5 = 'claude-authored-2026-11-22-w5';
+export const AUTHORED_SOURCE_W6 = 'claude-authored-2026-11-23-w6';
 export const AUTHORED_WAVE = 1;
 export const PUBLISH_VERSION = 'authored-publish-1';
 // What a wave is: its source key and the subjects it may hold. Wave 1 behaves exactly as it always did (an unknown source falls back to it).
@@ -56,9 +57,12 @@ export const WAVES = Object.freeze({
   // solved blind and judged by an independent Claude audit per subject (tmp/1122-coverage/authored/<subject>/audit.md); the same check as wave 4, so
   // the same row verdict (claude_audited). Like the wave-4 final list, every row must also carry the audit's own verdict, ready or repaired (`experts`).
   5: Object.freeze({ wave: 5, source: AUTHORED_SOURCE_W5, subjects: Object.freeze(['accountancy', 'business_studies', 'economics']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']), experts: Object.freeze(['ready', 'repaired']) }),
+  // Wave 6 (23 Nov 2026, closing the open CUET 2026 questions): nine papers, standalone items only (no sets). Every row was authored by Claude, then audited
+  // by an independent Claude pass per subject (tmp/1123-close/<subject>/audit.json, only accept and repair verdicts kept); the same rule as wave 5.
+  6: Object.freeze({ wave: 6, source: AUTHORED_SOURCE_W6, subjects: Object.freeze(['accountancy', 'biology', 'business_studies', 'economics', 'geography', 'history', 'political_science', 'psychology', 'sociology']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']), experts: Object.freeze(['ready', 'repaired']) }),
 });
 export const AUTHORED_SOURCES = Object.freeze(Object.values(WAVES).map((entry) => entry.source));
-/** Every subject any wave publishes (wave 1's six, then wave 2's additions, then wave 5's commerce papers). */
+/** Every subject any wave publishes (wave 1's six, then wave 2's additions, then wave 5's commerce papers). Wave 6 adds none: its nine are all here already. */
 export const AUTHORED_SUBJECTS = Object.freeze([...WAVES[1].subjects, 'biology', 'computer_science', 'general_test', 'geography', 'mathematics', 'physics', 'hindi', 'accountancy', 'business_studies', 'economics']);
 /** The wave definition of a source key, or of a candidate (its `source`); wave 1 when unknown. */
 export const waveOf = (sourceOrCandidate) => {

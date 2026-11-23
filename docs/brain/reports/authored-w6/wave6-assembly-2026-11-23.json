@@ -1,0 +1,434 @@
+{
+ "kind": "authored_w6_assembly",
+ "source": "claude-authored-2026-11-23-w6",
+ "at": "2026-11-23T14:00:01.386Z",
+ "candidatesFile": "docs/brain/reports/authored-w6/wave6-candidates-final-2026-11-23.json",
+ "candidatesSha256": "04f92b8d52d170bc752905207c765b791e1243986195844a6bf3e2094c6f2d8c",
+ "inputs": [
+  "tmp/1123-close/accountancy/audit.json",
+  "tmp/1123-close/biology/audit.json",
+  "tmp/1123-close/business-studies/audit.json",
+  "tmp/1123-close/economics/audit.json",
+  "tmp/1123-close/geography/audit.json",
+  "tmp/1123-close/history/audit.json",
+  "tmp/1123-close/political-science/audit.json",
+  "tmp/1123-close/psychology/audit.json",
+  "tmp/1123-close/sociology/audit.json"
+ ],
+ "rule": "results[] whose verdict is accept or repair; the row is results[].row (the audit's final text). _verdict claude_audited; _expert ready (accept) or repaired (repair); source set to the wave-6 key; servesGap, teaches, factSources, matchKind and replaces stay out of the row (servesGap = paperQuestion, matchKind and replaces are in the gap map).",
+ "questions": 30,
+ "problems": [],
+ "fieldChanges": [
+  {
+   "id": "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "6011028f-e8bf-47c7-8d07-32352f7b04d8",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "68269c81-6197-4788-9aa3-216209c5f515",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "94186aa1-fe0c-445b-a73b-122cd36ce46d",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "dbbd3e36-c506-48e6-a949-90a3b506cfe4",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "dbbd3e36-c506-48e6-a949-90a3b506cfe4",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "business-studies audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "dbbd3e36-c506-48e6-a949-90a3b506cfe4",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "business-studies audit.json verdict repair"
+  },
+  {
+   "id": "a15240a0-f48c-4343-8e00-183603543c47",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "a15240a0-f48c-4343-8e00-183603543c47",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "business-studies audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "a15240a0-f48c-4343-8e00-183603543c47",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "business-studies audit.json verdict repair"
+  },
+  {
+   "id": "e9b39e3c-100c-4d72-be16-548adc1748df",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "e9b39e3c-100c-4d72-be16-548adc1748df",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "business-studies audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "e9b39e3c-100c-4d72-be16-548adc1748df",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "business-studies audit.json verdict repair"
+  },
+  {
+   "id": "83804f3c-cc09-4013-97ca-03894eef15a1",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "83804f3c-cc09-4013-97ca-03894eef15a1",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "business-studies audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "83804f3c-cc09-4013-97ca-03894eef15a1",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "business-studies audit.json verdict repair"
+  },
+  {
+   "id": "d5df54d1-8059-4006-9057-e9be2f2502bb",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "d5df54d1-8059-4006-9057-e9be2f2502bb",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "business-studies audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "d5df54d1-8059-4006-9057-e9be2f2502bb",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "business-studies audit.json verdict repair"
+  },
+  {
+   "id": "659edc5d-f549-4be3-aa29-e8c23a2d9b3b",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "29358098-a746-4bdd-b0fe-a83d09299237",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "e507a240-c420-4b53-a27d-be8c70f5ccb5",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "c61ea703-a85a-4320-81a2-83d21e009da7",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "13edb7cc-941a-4c89-b542-4784a8987482",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "a67c8de0-4856-40bb-8fa0-6b55d97c79a0",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "02f290b1-4488-424e-8504-acb24df27176",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "6a44e907-1826-4514-bfc1-481e1ea1ef77",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "2c6066c9-95ff-42da-950e-18cac8163718",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "452056da-8fc1-454a-b129-810f881d7608",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "6c960f04-5242-4f58-a6f0-60015f6bc800",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "348622de-cdf5-435b-a658-8b18520f9cf2",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "f9f235e3-5761-49ac-b1f7-8b7d31f956c3",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "a5d5f294-fe07-4383-83d2-be0d6d59ac73",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "a5d5f294-fe07-4383-83d2-be0d6d59ac73",
+   "field": "_expert",
+   "from": "ready",
+   "to": "repaired",
+   "why": "psychology audit.json verdict repair"
+  },
+  {
+   "id": "c74475c2-d1f6-44fa-a9fd-039158a516d9",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "c74475c2-d1f6-44fa-a9fd-039158a516d9",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "sociology audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "c74475c2-d1f6-44fa-a9fd-039158a516d9",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "sociology audit.json verdict repair"
+  },
+  {
+   "id": "76df8f59-a722-4020-9052-04a19f6e59bf",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "76df8f59-a722-4020-9052-04a19f6e59bf",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "sociology audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "76df8f59-a722-4020-9052-04a19f6e59bf",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "sociology audit.json verdict repair"
+  },
+  {
+   "id": "5585095a-8513-4d37-b55f-528b861aaf83",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "5585095a-8513-4d37-b55f-528b861aaf83",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "sociology audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "5585095a-8513-4d37-b55f-528b861aaf83",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "sociology audit.json verdict repair"
+  },
+  {
+   "id": "23a5ff01-d9f7-401e-b9bb-4eea3b901620",
+   "field": "source",
+   "from": "claude-authored-2026-11-22-w5",
+   "to": "claude-authored-2026-11-23-w6",
+   "why": "wave 6 source key"
+  },
+  {
+   "id": "23a5ff01-d9f7-401e-b9bb-4eea3b901620",
+   "field": "_verdict",
+   "from": "author_drafted",
+   "to": "claude_audited",
+   "why": "sociology audit.json verdict repair: an independent Claude audit"
+  },
+  {
+   "id": "23a5ff01-d9f7-401e-b9bb-4eea3b901620",
+   "field": "_expert",
+   "from": "pending",
+   "to": "repaired",
+   "why": "sociology audit.json verdict repair"
+  }
+ ],
+ "notAssembled": [
+  {
+   "subject": "psychology",
+   "n": 24,
+   "verdict": "reject",
+   "why": "Does not truly teach what the paper's question needs; it only looks as if it does. The paper turns on one fact: that 'optimal stress always enhances immune functioning' is false. (1) The row's false s"
+  }
+ ],
+ "shapeNotes": [
+  "accountancy: top-level auditedOn (read, not used for the rows)",
+  "biology: top-level stage, date, leftOpen (read, not used for the rows)",
+  "business-studies: top-level stage, auditedOn (read, not used for the rows)",
+  "business-studies Q14: beside the row teaches (kept in the gap map where useful, never in the row)",
+  "business-studies Q16: beside the row teaches (kept in the gap map where useful, never in the row)",
+  "business-studies Q18: beside the row teaches (kept in the gap map where useful, never in the row)",
+  "business-studies Q22: beside the row teaches (kept in the gap map where useful, never in the row)",
+  "business-studies Q36: beside the row teaches (kept in the gap map where useful, never in the row)",
+  "economics Q6: beside the row replaces, matchKind (kept in the gap map where useful, never in the row)",
+  "geography: top-level stage, auditedOn, summary (read, not used for the rows)",
+  "geography Q8: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "geography Q15: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "geography Q22: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "geography Q26: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "geography Q28: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "geography Q39: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "geography Q45: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "geography Q50: beside the row matchKind, teaches (kept in the gap map where useful, never in the row)",
+  "history: top-level stage, auditedOn, auditor, summary (read, not used for the rows)",
+  "history Q8: beside the row id, teaches, factSources (kept in the gap map where useful, never in the row)",
+  "history Q14: beside the row id, teaches, factSources (kept in the gap map where useful, never in the row)",
+  "history Q27: beside the row id, teaches, factSources (kept in the gap map where useful, never in the row)",
+  "political-science: top-level stage, auditedOn, publishBlocker, checks, teachesFix (read, not used for the rows)",
+  "psychology: top-level stage, date (read, not used for the rows)",
+  "sociology: top-level stage, auditedOn, auditor, checkedAgainst, counts (read, not used for the rows)"
+ ],
+ "planHash": "599f70add983df8ae43142c4d7d32ab8cc7c7ff47f098292074498e900391c7f",
+ "summary": {
+  "questions": 30,
+  "passageGroups": 0,
+  "bySubject": {
+   "accountancy": 2,
+   "biology": 4,
+   "business_studies": 5,
+   "economics": 1,
+   "geography": 8,
+   "history": 3,
+   "political_science": 2,
+   "psychology": 1,
+   "sociology": 4
+  },
+  "byType": {
+   "conceptual_mcq": 13,
+   "sequence_ordering": 5,
+   "statement_based": 10,
+   "match_the_following": 2
+  },
+  "byDifficulty": {
+   "hard": 3,
+   "easy": 5,
+   "medium": 22
+  },
+  "byExpertReview": {
+   "claude_audited": 30
+  },
+  "passageChildrenBySet": {},
+  "passageSetsBelowNtaMinimum": [],
+  "chapters": 22
+ }
+}

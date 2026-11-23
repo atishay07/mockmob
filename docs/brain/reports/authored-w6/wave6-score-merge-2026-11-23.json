@@ -1,0 +1,80 @@
+{
+ "kind": "authored_scores_check",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "repairedTextPolicy": "admit",
+ "at": "2026-11-23T14:13:59.543Z",
+ "planned": 15,
+ "agentEntries": 15,
+ "hashChangedByRepair": 0,
+ "heldForFreshPass": 0,
+ "engineEligible": 15,
+ "engineIneligible": 0,
+ "engineIneligibleReasons": {},
+ "fitGate": {
+  "mirror": "scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)",
+  "minFit": 8,
+  "pass": 15,
+  "reasons": {},
+  "baseTablesMissing": []
+ },
+ "qualityAndFitBoth": 15,
+ "passageSets": {
+  "servable": 0,
+  "of": 0,
+  "blueprint": {
+   "passageWords": {
+    "min": 200,
+    "target": 280,
+    "max": 300
+   },
+   "minChildren": 4
+  },
+  "sets": []
+ },
+ "bySubject": {
+  "biology": {
+   "planned": 3,
+   "eligible": 3,
+   "fitPass": 3,
+   "both": 3
+  },
+  "business_studies": {
+   "planned": 4,
+   "eligible": 4,
+   "fitPass": 4,
+   "both": 4
+  },
+  "economics": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  },
+  "geography": {
+   "planned": 4,
+   "eligible": 4,
+   "fitPass": 4,
+   "both": 4
+  },
+  "history": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  },
+  "political_science": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  },
+  "psychology": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  }
+ },
+ "ineligible": []
+}

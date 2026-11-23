@@ -1,0 +1,112 @@
+[
+  {
+    "id": "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+    "subject": "accountancy",
+    "batch": "accountancy__w6b1",
+    "chapter": "Goodwill Valuation",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "6011028f-e8bf-47c7-8d07-32352f7b04d8",
+    "subject": "accountancy",
+    "batch": "accountancy__w6b1",
+    "chapter": "Goodwill Valuation",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "dbbd3e36-c506-48e6-a949-90a3b506cfe4",
+    "subject": "business_studies",
+    "batch": "business_studies__w6b1",
+    "chapter": "Financial Management",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_4; fit_flagged_by_two"
+  },
+  {
+    "id": "c61ea703-a85a-4320-81a2-83d21e009da7",
+    "subject": "geography",
+    "batch": "geography__w6b1",
+    "chapter": "Human Settlements",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_4; j1_flags_hedge_wording; j2_quality_5; j2_flags_hedge_wording; fit_median_4; fit_flagged_by_two"
+  },
+  {
+    "id": "a67c8de0-4856-40bb-8fa0-6b55d97c79a0",
+    "subject": "geography",
+    "batch": "geography__w6b1",
+    "chapter": "Transport & Communication",
+    "type": "statement_based",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6; fit_median_6"
+  },
+  {
+    "id": "6a44e907-1826-4514-bfc1-481e1ea1ef77",
+    "subject": "geography",
+    "batch": "geography__w6b1",
+    "chapter": "Transport & Communication",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "2c6066c9-95ff-42da-950e-18cac8163718",
+    "subject": "history",
+    "batch": "history__w6b1",
+    "chapter": "Kings, Farmers & Towns",
+    "type": "statement_based",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_7"
+  },
+  {
+    "id": "c74475c2-d1f6-44fa-a9fd-039158a516d9",
+    "subject": "sociology",
+    "batch": "sociology__w6b1",
+    "chapter": "Structural Change",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6"
+  },
+  {
+    "id": "76df8f59-a722-4020-9052-04a19f6e59bf",
+    "subject": "sociology",
+    "batch": "sociology__w6b1",
+    "chapter": "Social Movements",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6; j2_quality_6; fit_median_6"
+  },
+  {
+    "id": "5585095a-8513-4d37-b55f-528b861aaf83",
+    "subject": "sociology",
+    "batch": "sociology__w6b1",
+    "chapter": "Structural Change",
+    "type": "statement_based",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_6; j2_quality_6"
+  },
+  {
+    "id": "23a5ff01-d9f7-401e-b9bb-4eea3b901620",
+    "subject": "sociology",
+    "batch": "sociology__w6b1",
+    "chapter": "Mass Media & Communications",
+    "type": "statement_based",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j2_quality_6; fit_median_6"
+  }
+]

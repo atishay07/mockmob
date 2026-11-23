@@ -1,0 +1,72 @@
+{
+ "kind": "authored_w6_engine_check",
+ "label": "final",
+ "source": "claude-authored-2026-11-23-w6",
+ "at": "2026-11-23T14:13:58.503Z",
+ "engine": {
+  "root": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-1110-convert",
+  "file": "data/nta_engine.js",
+  "version": "nta-engine-2026.10.14-r5.2",
+  "sha256": "415e1098356ed99aee58f84ba00596369584f846494ed46b4a00078a6563a4c8",
+  "mtime": "2026-11-09T20:21:51.337Z",
+  "minScore": 8,
+  "minFit": 8
+ },
+ "method": "ntaEligibility (quality gate with the agent scores, content gates, CUET-fit gate) on every accepted wave-6 question with the committed agent and fit tables of the named checkout plus the wave-6 entries merged in memory (policy admit). Nothing in data/ is written. Rows are mapped like the wave-1 publisher (toQuestionRow); case-set items typed single_mcq are mapped as passage children.",
+ "candidatesSha256": "bcc5e7a4c4fb648293ea7bde77f5f05af38a3cf898fe941da2a1ea2340efb5f7",
+ "planned": 15,
+ "engineEligible": 15,
+ "engineIneligible": 0,
+ "engineIneligibleReasons": {},
+ "ineligibleByGate": {},
+ "bySubject": {
+  "biology": {
+   "planned": 3,
+   "eligible": 3,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "business_studies": {
+   "planned": 4,
+   "eligible": 4,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "economics": {
+   "planned": 1,
+   "eligible": 1,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "geography": {
+   "planned": 4,
+   "eligible": 4,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "history": {
+   "planned": 1,
+   "eligible": 1,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "political_science": {
+   "planned": 1,
+   "eligible": 1,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "psychology": {
+   "planned": 1,
+   "eligible": 1,
+   "ineligible": 0,
+   "reasons": {}
+  }
+ },
+ "passageSets": [],
+ "placementProblems": [],
+ "informational": {
+  "authoredTypeVersusEngineType": []
+ },
+ "refused": []
+}

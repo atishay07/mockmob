@@ -3,7 +3,7 @@
   "subject": "biology",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-17T04:38:05.858Z",
+  "merged_at": "2026-11-23T14:13:59.543Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -74,7 +74,7 @@
       "hedge_wording": 3
     },
     "mean_of_means": 6.38,
-    "admissible_before_row_checks": 270
+    "admissible_before_row_checks": 273
   },
   "questions": {
     "0fad5eeb-3be5-4439-bb2b-b719127d15e9": {
@@ -30688,6 +30688,282 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "68269c81-6197-4788-9aa3-216209c5f515": {
+      "question_id": "68269c81-6197-4788-9aa3-216209c5f515",
+      "batch": "authored-2026-10-14__biology__w6b1",
+      "chapter": "Ecosystem",
+      "key": "C",
+      "content_hash": "1504ba6531ca0dfe3cf2df4a8b9b35d5302dcf79a7b86a9fce186cfb91b6fdd1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.ecosystem.trophic-levels-food-chain",
+          "flags": [],
+          "note": "Matches NCERT Fig 12.2 levels. Fair recall sequence; option B (starting with a herbivore) is a throwaway.",
+          "scored_content_hash": "1504ba6531ca0dfe3cf2df4a8b9b35d5302dcf79a7b86a9fce186cfb91b6fdd1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.ecosystem.trophic-levels-order",
+          "flags": [],
+          "note": "Matches NCERT Fig 12.2 levels; the stem's NCERT reference removes wolf/lion ambiguity. Option B (grasshopper first) is a throwaway.",
+          "scored_content_hash": "1504ba6531ca0dfe3cf2df4a8b9b35d5302dcf79a7b86a9fce186cfb91b6fdd1"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.ecosystem.trophic-levels-food-chain",
+        "biology.ecosystem.trophic-levels-order"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "1504ba6531ca0dfe3cf2df4a8b9b35d5302dcf79a7b86a9fce186cfb91b6fdd1",
+        "final_content_hash": "1504ba6531ca0dfe3cf2df4a8b9b35d5302dcf79a7b86a9fce186cfb91b6fdd1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "82592e64-9d6f-47d4-b9db-c7cd8a6f1589": {
+      "question_id": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589",
+      "batch": "authored-2026-10-14__biology__w6b1",
+      "chapter": "Biotechnology Principles & Processes",
+      "key": "B",
+      "content_hash": "09af34a9c1b5c556854ae303302a87d18a8702751308f9af8387041fee449c14",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-principles-and-processes.methods-introducing-recombinant-dna",
+          "flags": [],
+          "note": "All four true statements are NCERT lines; (E) hydrophobic is the clear false one. Clean; knowing (E) and (B) settles it.",
+          "scored_content_hash": "09af34a9c1b5c556854ae303302a87d18a8702751308f9af8387041fee449c14"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-principles-and-processes.methods-introducing-recombinant-dna",
+          "flags": [],
+          "note": "All five statements track NCERT 9.2.3 lines; the hydrophobic trap is the classic slip; options are clean combinations. Explanation checked line by line.",
+          "scored_content_hash": "09af34a9c1b5c556854ae303302a87d18a8702751308f9af8387041fee449c14"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.biotechnology-principles-and-processes.methods-introducing-recombinant-dna",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-principles-and-processes.methods-introducing-recombinant-dna",
+        "biology.biotechnology-principles-and-processes.methods-introducing-recombinant-dna"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "09af34a9c1b5c556854ae303302a87d18a8702751308f9af8387041fee449c14",
+        "final_content_hash": "09af34a9c1b5c556854ae303302a87d18a8702751308f9af8387041fee449c14",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b32a5ab7-1b3a-42e2-9baa-04674e4ec092": {
+      "question_id": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092",
+      "batch": "authored-2026-10-14__biology__w6b1",
+      "chapter": "Human Health & Disease",
+      "key": "D",
+      "content_hash": "5bf37b25ed543966b5d4a0a3523e547648311f34ab2af09c3fa3520e1a12380b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.plant-sources-of-drugs",
+          "flags": [],
+          "note": "Correct NCERT facts; (D) cannabinoids from poppy is the false one. Statement (C) carries its own qualifier and leans on the Biodiversity chapter; otherwise clean.",
+          "scored_content_hash": "5bf37b25ed543966b5d4a0a3523e547648311f34ab2af09c3fa3520e1a12380b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.drug-yielding-plants",
+          "flags": [],
+          "note": "Facts correct (cannabinoids from Cannabis, morphine from poppy latex). Statement C borrows from the Biodiversity chapter and states its own conclusion, slightly un-NTA.",
+          "scored_content_hash": "5bf37b25ed543966b5d4a0a3523e547648311f34ab2af09c3fa3520e1a12380b"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.human-health-and-disease.plant-sources-of-drugs",
+        "biology.human-health-and-disease.drug-yielding-plants"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "5bf37b25ed543966b5d4a0a3523e547648311f34ab2af09c3fa3520e1a12380b",
+        "final_content_hash": "5bf37b25ed543966b5d4a0a3523e547648311f34ab2af09c3fa3520e1a12380b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -30709,6 +30985,18 @@
       "questions": 35,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-10-17",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-11-23-w6": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-23T14:13:59.543Z",
+      "questions": 3,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-23",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,

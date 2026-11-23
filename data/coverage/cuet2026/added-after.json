@@ -100,7 +100,20 @@
      "id": "kc.biology.principles-of-inheritance-and-variation.fact-autosomal-dominant-example"
     }
    ],
-   "addedQuestions": [],
+   "addedQuestions": [
+    {
+     "n": 2,
+     "id": "68269c81-6197-4788-9aa3-216209c5f515"
+    },
+    {
+     "n": 32,
+     "id": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589"
+    },
+    {
+     "n": 45,
+     "id": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092"
+    }
+   ],
    "found": [
     {
      "n": 8,
@@ -165,8 +178,24 @@
      "id": "8171062d-6e5e-418c-a453-08f9daedef4d"
     },
     {
+     "n": 16,
+     "id": "a15240a0-f48c-4343-8e00-183603543c47"
+    },
+    {
+     "n": 18,
+     "id": "e9b39e3c-100c-4d72-be16-548adc1748df"
+    },
+    {
+     "n": 22,
+     "id": "83804f3c-cc09-4013-97ca-03894eef15a1"
+    },
+    {
      "n": 30,
      "id": "3bca44a8-5095-4fdf-ace1-595621a862b2"
+    },
+    {
+     "n": 36,
+     "id": "d5df54d1-8059-4006-9057-e9be2f2502bb"
     },
     {
      "n": 38,
@@ -210,6 +239,10 @@
     {
      "n": 3,
      "id": "124e00d2-25e6-41a3-8351-283f4426bd07"
+    },
+    {
+     "n": 6,
+     "id": "659edc5d-f549-4be3-aa29-e8c23a2d9b3b"
     },
     {
      "n": 19,
@@ -265,7 +298,24 @@
      "id": "kc.geography.human-geography-nature-and-scope.fact-behavioural-interface"
     }
    ],
-   "addedQuestions": [],
+   "addedQuestions": [
+    {
+     "n": 8,
+     "id": "29358098-a746-4bdd-b0fe-a83d09299237"
+    },
+    {
+     "n": 15,
+     "id": "e507a240-c420-4b53-a27d-be8c70f5ccb5"
+    },
+    {
+     "n": 28,
+     "id": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96"
+    },
+    {
+     "n": 45,
+     "id": "02f290b1-4488-424e-8504-acb24df27176"
+    }
+   ],
    "found": []
   },
   "history": {
@@ -315,7 +365,12 @@
      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-salt-march-police-secret-reports"
     }
    ],
-   "addedQuestions": [],
+   "addedQuestions": [
+    {
+     "n": 27,
+     "id": "6c960f04-5242-4f58-a6f0-60015f6bc800"
+    }
+   ],
    "found": []
   },
   "political-science": {
@@ -369,7 +424,12 @@
      "id": "kc.political_science.regional-aspirations.fact-goa-state-1987"
     }
    ],
-   "addedQuestions": [],
+   "addedQuestions": [
+    {
+     "n": 50,
+     "id": "f9f235e3-5761-49ac-b1f7-8b7d31f956c3"
+    }
+   ],
    "found": []
   },
   "psychology": {
@@ -407,7 +467,12 @@
      "id": "kc.psychology.psychological-disorders.def-trichotillomania"
     }
    ],
-   "addedQuestions": [],
+   "addedQuestions": [
+    {
+     "n": 19,
+     "id": "a5d5f294-fe07-4383-83d2-be0d6d59ac73"
+    }
+   ],
    "found": []
   },
   "sociology": {

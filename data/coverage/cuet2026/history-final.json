@@ -1,7 +1,7 @@
 {
  "subject": "history",
- "snapshotDate": "2026-11-22",
- "checkedOn": "2026-11-22",
+ "snapshotDate": "2026-11-23",
+ "checkedOn": "2026-11-23",
  "questions": [
   {
    "n": 1,
@@ -293,12 +293,12 @@
    "n": 27,
    "chapter": "An Imperial Capital — Vijayanagara",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": "kc.history.an-imperial-capital-vijayanagara.fact-vijayanagara-rainwater-tank",
-   "bestKind": "card",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "6c960f04-5242-4f58-a6f0-60015f6bc800",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Half closed: new card fact-vijayanagara-rainwater-tank gives Kamalapuram tank = rainwater (B-I) and A-III, D-IV are served, but nothing served ties the Vitthala temple to chariot streets (fact-chariot-streets speaks of temple complexes in general); the strict rule needs every pair."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 28,

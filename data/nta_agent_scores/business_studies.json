@@ -3,7 +3,7 @@
   "subject": "business_studies",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-11-22T00:55:48.017Z",
+  "merged_at": "2026-11-23T14:13:59.543Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -73,7 +73,7 @@
       "duplicate_options": 1
     },
     "mean_of_means": 6.29,
-    "admissible_before_row_checks": 187
+    "admissible_before_row_checks": 191
   },
   "questions": {
     "058e3838e0aa7b6fd6e856e5f007874c": {
@@ -25946,6 +25946,374 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "83804f3c-cc09-4013-97ca-03894eef15a1": {
+      "question_id": "83804f3c-cc09-4013-97ca-03894eef15a1",
+      "batch": "authored-2026-10-14__business_studies__w6b1",
+      "chapter": "Financial Markets",
+      "key": "D",
+      "content_hash": "73cb907deaf8f27d5f4a9f9500c5f48649ea909f9703dc67288a66ff8e83b6a7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "business_studies.financial-markets.demat-account-process",
+          "flags": [],
+          "note": "Order matches NCERT's demat steps. Step (B)'s 'the chosen DP' signposts (C) before (B); options B and C are throwaways.",
+          "scored_content_hash": "73cb907deaf8f27d5f4a9f9500c5f48649ea909f9703dc67288a66ff8e83b6a7"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "business_studies.financial-markets.demat-account-process",
+          "flags": [],
+          "note": "Order follows NCERT's demat steps; option A (certificates before account opening) is the only real trap, B and C are weak.",
+          "scored_content_hash": "73cb907deaf8f27d5f4a9f9500c5f48649ea909f9703dc67288a66ff8e83b6a7"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "business_studies.financial-markets.demat-account-process",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "business_studies.financial-markets.demat-account-process",
+        "business_studies.financial-markets.demat-account-process"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "73cb907deaf8f27d5f4a9f9500c5f48649ea909f9703dc67288a66ff8e83b6a7",
+        "final_content_hash": "73cb907deaf8f27d5f4a9f9500c5f48649ea909f9703dc67288a66ff8e83b6a7",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a15240a0-f48c-4343-8e00-183603543c47": {
+      "question_id": "a15240a0-f48c-4343-8e00-183603543c47",
+      "batch": "authored-2026-10-14__business_studies__w6b1",
+      "chapter": "Financial Markets",
+      "key": "C",
+      "content_hash": "22312727b80b37afbc22cb55984050498b8a839ef0255e2a5a19c103d0267622",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "business_studies.financial-markets.treasury-bills-features",
+          "flags": [],
+          "note": "Matches NCERT: RBI for Centre, discount/par, under one year, Rs 25,000 minimum, liquid. (D) is a plain false; 'he or she chooses' slightly wordy.",
+          "scored_content_hash": "22312727b80b37afbc22cb55984050498b8a839ef0255e2a5a19c103d0267622"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "business_studies.financial-markets.treasury-bills-features",
+          "flags": [],
+          "note": "Statements match NCERT T-bill features (RBI issue, zero coupon, under 1 year, min Rs 25,000, negligible default risk); option combinations each test one slip.",
+          "scored_content_hash": "22312727b80b37afbc22cb55984050498b8a839ef0255e2a5a19c103d0267622"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "business_studies.financial-markets.treasury-bills-features",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "business_studies.financial-markets.treasury-bills-features",
+        "business_studies.financial-markets.treasury-bills-features"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "22312727b80b37afbc22cb55984050498b8a839ef0255e2a5a19c103d0267622",
+        "final_content_hash": "22312727b80b37afbc22cb55984050498b8a839ef0255e2a5a19c103d0267622",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d5df54d1-8059-4006-9057-e9be2f2502bb": {
+      "question_id": "d5df54d1-8059-4006-9057-e9be2f2502bb",
+      "batch": "authored-2026-10-14__business_studies__w6b1",
+      "chapter": "Financial Markets",
+      "key": "B",
+      "content_hash": "1819658869c9a3b341c485fe11b4bdd00f3fbe3a982bd7e5f7b9072ed5c2ae02",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "business_studies.financial-markets.rolling-settlement-and-depositories",
+          "flags": [],
+          "note": "Well-built match, options are the four combinations of two swaps. Settlement-date facts in explanation check. 'Before the reforms' is vague and the account-period detail goes beyond NCERT.",
+          "scored_content_hash": "1819658869c9a3b341c485fe11b4bdd00f3fbe3a982bd7e5f7b9072ed5c2ae02"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "business_studies.financial-markets.settlement-and-depository-terms",
+          "flags": [],
+          "note": "Key right; T+5/T+3/T+2/T+1 dates in explanation are accurate. Options reduce to two binary swaps, so the match is easier than it looks.",
+          "scored_content_hash": "1819658869c9a3b341c485fe11b4bdd00f3fbe3a982bd7e5f7b9072ed5c2ae02"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "business_studies.financial-markets.rolling-settlement-and-depositories",
+        "business_studies.financial-markets.settlement-and-depository-terms"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "1819658869c9a3b341c485fe11b4bdd00f3fbe3a982bd7e5f7b9072ed5c2ae02",
+        "final_content_hash": "1819658869c9a3b341c485fe11b4bdd00f3fbe3a982bd7e5f7b9072ed5c2ae02",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "e9b39e3c-100c-4d72-be16-548adc1748df": {
+      "question_id": "e9b39e3c-100c-4d72-be16-548adc1748df",
+      "batch": "authored-2026-10-14__business_studies__w6b1",
+      "chapter": "Financial Markets",
+      "key": "A",
+      "content_hash": "693e6932de47960c3f5956e4ff35148b0b4d1328bdce2c834b2fb62ecc4097bf",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "business_studies.financial-markets.stock-exchange-functions",
+          "flags": [],
+          "note": "NCERT's own function lines; (C) board-set prices is a sound trap and the A/B split tests the controlled-speculation function. Clean.",
+          "scored_content_hash": "693e6932de47960c3f5956e4ff35148b0b4d1328bdce2c834b2fb62ecc4097bf"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "business_studies.financial-markets.stock-exchange-functions",
+          "flags": [],
+          "note": "Matches NCERT's six functions; C (board fixes prices) is a good trap. Option D includes C and drops B, a fair but weaker distractor.",
+          "scored_content_hash": "693e6932de47960c3f5956e4ff35148b0b4d1328bdce2c834b2fb62ecc4097bf"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "business_studies.financial-markets.stock-exchange-functions",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "business_studies.financial-markets.stock-exchange-functions",
+        "business_studies.financial-markets.stock-exchange-functions"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "693e6932de47960c3f5956e4ff35148b0b4d1328bdce2c834b2fb62ecc4097bf",
+        "final_content_hash": "693e6932de47960c3f5956e4ff35148b0b4d1328bdce2c834b2fb62ecc4097bf",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -25955,6 +26323,18 @@
       "questions": 3,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-11-22",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-11-23-w6": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-23T14:13:59.543Z",
+      "questions": 4,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-23",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,

@@ -3,9 +3,10 @@
   "subject": "psychology",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-14T07:09:44.767Z",
+  "merged_at": "2026-11-23T14:13:59.543Z",
   "models": [
-    "claude-haiku-5-5"
+    "claude-haiku-5-5",
+    "claude-subagent-unrecorded"
   ],
   "calibration": {
     "status": "calibrated",
@@ -67,7 +68,7 @@
       "wrong_key": 1
     },
     "mean_of_means": 6.71,
-    "admissible_before_row_checks": 132
+    "admissible_before_row_checks": 133
   },
   "questions": {
     "5e5adec9-6f4d-4ac3-816f-542bda941869": {
@@ -12583,6 +12584,98 @@
           "solver": "claude-haiku-5-5"
         }
       }
+    },
+    "a5d5f294-fe07-4383-83d2-be0d6d59ac73": {
+      "question_id": "a5d5f294-fe07-4383-83d2-be0d6d59ac73",
+      "batch": "authored-2026-10-14__psychology__w6b1",
+      "chapter": "Self & Personality",
+      "key": "D",
+      "content_hash": "d1f9dddcdfffe12898006dd686d29e8209b3c0eaa66027efa11c9684b92634b0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.projective-vs-self-report-measures",
+          "flags": [],
+          "note": "All five tests named in NCERT; scenario applies NCERT's projective definition and options mix self-report with projective tests fairly. Clean.",
+          "scored_content_hash": "d1f9dddcdfffe12898006dd686d29e8209b3c0eaa66027efa11c9684b92634b0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "psychology.self-and-personality.projective-vs-self-report-measures",
+          "flags": [],
+          "note": "Case gives the projective criteria, student must classify five named tests; MMPI/EPQ traps and option C (adds EPQ) are fair. All tests named as NCERT names them.",
+          "scored_content_hash": "d1f9dddcdfffe12898006dd686d29e8209b3c0eaa66027efa11c9684b92634b0"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "psychology.self-and-personality.projective-vs-self-report-measures",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "psychology.self-and-personality.projective-vs-self-report-measures",
+        "psychology.self-and-personality.projective-vs-self-report-measures"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "d1f9dddcdfffe12898006dd686d29e8209b3c0eaa66027efa11c9684b92634b0",
+        "final_content_hash": "d1f9dddcdfffe12898006dd686d29e8209b3c0eaa66027efa11c9684b92634b0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -12592,6 +12685,18 @@
       "questions": 79,
       "judge_model": "claude-haiku-5-5",
       "judge_date": "2026-10-14",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-11-23-w6": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-11-23T14:13:59.543Z",
+      "questions": 1,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-11-23",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,

@@ -6,8 +6,8 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "second shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-22",
  "firstDay": "22 November 2026",
  "final": true,
@@ -15,18 +15,18 @@
   "total": 50,
   "same": 12,
   "newValues": 0,
-  "concept": 27,
-  "notYet": 3,
+  "concept": 28,
+  "notYet": 2,
   "skill": 8,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 39,
+  "covered": 40,
   "counted": 42,
-  "pct": 93,
+  "pct": 95,
   "first": 28,
   "firstPct": 67,
   "addedCards": 11,
-  "addedQuestions": 0,
+  "addedQuestions": 1,
   "found": 0,
   "sameFirst": 8,
   "newValuesFirst": 0
@@ -40,7 +40,7 @@
   {
    "name": "An Imperial Capital — Vijayanagara",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Peasants, Zamindars & the State",
@@ -975,11 +975,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "6c960f04-5242-4f58-a6f0-60015f6bc800",
+    "chapter": "An Imperial Capital — Vijayanagara",
+    "stem": "Match List-I (structures at Vijayanagara) with List-II (features).\nList-I\n(A) Hiriya canal\n(B) Vitthala temple\n(C) Lotus Mahal\n(D) Kamalapuram tank\nList-II\n(I) Built in the early fifteenth century to store rainwater; its water was also carried by a channel to the royal centre\n(II) A chariot street ran in a straight line from its gopuram\n(III) Drew water from a dam across the Tungabhadra to irrigate the valley between the sacred centre and the urban core\n(IV) Given its name by British travellers in the nineteenth century\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+     "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+     "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)",
+     "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+    ],
+    "key": 3,
+    "explanation": "Vijayanagara lay in one of the most arid zones of the peninsula, so elaborate arrangements were made to store rainwater. The most important tank, built in the early years of the fifteenth century, is now called the Kamalapuram tank: it irrigated nearby fields and its water was carried by a channel to the royal centre (D-I). The Hiriya canal, built apparently by the Sangama kings, drew water from a dam across the Tungabhadra and irrigated the valley between the sacred centre and the urban core (A-III). The Vitthala temple, dedicated to Vitthala, a form of Vishnu worshipped in Maharashtra, has several halls and a shrine designed as a chariot; like the other great temple complexes it had a chariot street running in a straight line from its gopuram, paved with stone slabs and lined with pillared pavilions where merchants set up shops. The Vitthala temple's own chariot street runs east from its main gopuram (B-II). The Lotus Mahal in the royal centre was so named by British travellers in the nineteenth century (C-IV). Two other royal-centre structures: the Mahanavami dibba was a massive platform, and the Hazara Rama temple was probably meant to be used only by the king and his family.",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 28,

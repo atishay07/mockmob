@@ -1,7 +1,7 @@
 {
  "subject": "biology",
- "snapshotDate": "2026-11-22",
- "checkedOn": "2026-11-22",
+ "snapshotDate": "2026-11-23",
+ "checkedOn": "2026-11-23",
  "questions": [
   {
    "n": 1,
@@ -18,12 +18,12 @@
    "n": 2,
    "chapter": "Ecosystem",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": "kc.biology.ecosystem.fact-trophic-levels-order",
-   "bestKind": "card",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "68269c81-6197-4788-9aa3-216209c5f515",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served material gives the levels in the abstract; nothing places man and lion at the fourth level or birds and wolves at the third (NCERT has these only as labels inside Figure 12.2)."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 3,
@@ -348,12 +348,12 @@
    "n": 32,
    "chapter": "Biotechnology Principles & Processes",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": "kc.biology.biotechnology-principles-and-processes.list-alien-dna-methods",
-   "bestKind": "card",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Statements A to C are taught; nothing served gives the heat-shock temperature, so statement D cannot be judged from served material and the item tests all four."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 33,
@@ -491,12 +491,12 @@
    "n": 45,
    "chapter": "Human Health & Disease",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": "kc.biology.human-health-and-disease.list-hallucinogenic-plants",
-   "bestKind": "card",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The three distractors are taught as hallucinogenic; nothing served says Rauwolfia is not, so the key is elimination only."
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 46,

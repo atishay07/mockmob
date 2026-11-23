@@ -6,8 +6,8 @@
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-20",
  "firstDay": "20 November 2026",
  "final": true,
@@ -15,18 +15,18 @@
   "total": 50,
   "same": 4,
   "newValues": 6,
-  "concept": 33,
-  "notYet": 2,
+  "concept": 34,
+  "notYet": 1,
   "skill": 5,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 43,
+  "covered": 44,
   "counted": 45,
-  "pct": 96,
+  "pct": 98,
   "first": 32,
   "firstPct": 71,
   "addedCards": 7,
-  "addedQuestions": 4,
+  "addedQuestions": 5,
   "found": 0,
   "sameFirst": 4,
   "newValuesFirst": 2
@@ -70,7 +70,7 @@
   {
    "name": "Production & Costs",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Economic Reforms Since 1991",
@@ -313,11 +313,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6, 23 Nov 2026) states what the paper question needs; accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "659edc5d-f549-4be3-aa29-e8c23a2d9b3b",
+    "chapter": "Production & Costs",
+    "stem": "A farmer keeps the area of his land fixed and employs more and more workers on it, one at a time. Arrange the following in the order in which they happen to his total product (TP).\n(A) TP reaches its maximum.\n(B) TP rises at a diminishing rate.\n(C) TP falls.\n(D) TP rises at an increasing rate.",
+    "passage": null,
+    "options": [
+     "(B), (D), (A), (C)",
+     "(D), (B), (A), (C)",
+     "(D), (A), (B), (C)",
+     "(D), (B), (C), (A)"
+    ],
+    "key": 1,
+    "explanation": "This is the law of variable proportions, and it starts from one condition: one input (labour) is increased while the other inputs (land) are kept constant. Total product is the sum of the marginal products, and the marginal product (MP) of the variable input first rises and then falls. While MP is rising, each extra worker adds more than the one before, so TP rises at an increasing rate (D). Once MP starts to fall but is still positive, TP keeps rising, but at a diminishing rate (B). When MP falls to zero, the extra worker adds nothing and TP is at its maximum (A). If still more workers are crowded onto the land, MP becomes negative and TP falls (C). Example: with 1 to 8 workers TP is 6, 15, 27, 35, 40, 43, 43 and 39 quintals, so the MPs are 6, 9, 12, 8, 5, 3, 0 and -4: TP grows faster and faster up to the 3rd worker, more and more slowly from the 4th to the 6th, stays at its maximum of 43 when the 7th worker adds nothing, and falls with the 8th. So the order is (D), (B), (A), (C). (B), (D), (A), (C) puts the diminishing rate first, but MP rises before it falls; (D), (A), (B), (C) puts the maximum too early, since TP keeps rising as long as MP is positive; (D), (B), (C), (A) makes TP fall before it reaches its maximum, but TP can fall only after it has passed its maximum.",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 7,

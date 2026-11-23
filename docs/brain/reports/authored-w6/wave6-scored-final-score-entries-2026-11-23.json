@@ -1,0 +1,1531 @@
+{
+ "kind": "authored_score_entries",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "wave": 6,
+ "built_at": "2026-11-23T14:13:58.066Z",
+ "date": "2026-11-23",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "models_note": "The raw judge files do not record the model; the model of the subagents that produced the raw files is not recorded in them.",
+ "note": "One record per question of the wave-6 publication set (quality mean 8 or more, fit median 8 or more), in the wave-1 entries format, built by scripts/authored-w2-accept.mjs --wave=w6 --mode=final from the raw files (tmp/1123-close/integrate/scoring), the expert verdicts, the blind re-solves and the fresh pass on the reworded rows. Tables are built from it by scripts/authored-scores-merge.mjs.",
+ "candidates_file": "docs/brain/reports/authored-w6/wave6-scored-final-candidates-2026-11-23.json",
+ "candidates_sha256": "bcc5e7a4c4fb648293ea7bde77f5f05af38a3cf898fe941da2a1ea2340efb5f7",
+ "fresh_passes": [
+  "tmp/1123-close/integrate/scoring/reword"
+ ],
+ "counts": {
+  "candidates": 15,
+  "entries": 15,
+  "problems": 0,
+  "repaired": 15,
+  "judgedTextDiffers": 0,
+  "judgedOnFinalTextByFreshPass": 0,
+  "blindResolveOnFinalText": 0
+ },
+ "entries": {
+  "68269c81-6197-4788-9aa3-216209c5f515": {
+   "subject": "biology",
+   "batch": "biology__w6b1",
+   "chapter": "Ecosystem",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "biology.ecosystem.trophic-levels-food-chain",
+     "flags": [],
+     "note": "Matches NCERT Fig 12.2 levels. Fair recall sequence; option B (starting with a herbivore) is a throwaway.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "biology.ecosystem.trophic-levels-order",
+     "flags": [],
+     "note": "Matches NCERT Fig 12.2 levels; the stem's NCERT reference removes wolf/lion ambiguity. Option B (grasshopper first) is a throwaway.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Ecology and Environment",
+     "chapter": "Ecosystem",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Trophic-level order is core, but the 'NCERT's diagram' framing and an artificial chain would be reworded by a setter.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Ecology and Environment",
+     "chapter": "Ecosystem",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Trophic level order from NCERT Fig 12.2; wolf-lion order is figure-specific, so no route.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Ecology and Environment",
+     "chapter": "Ecosystem",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 60,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Wolf third and lion fourth rests on NCERT Fig 12.2 specifics, not on a rule; the decisive pair (B vs D) is figure recall.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    }
+   ]
+  },
+  "82592e64-9d6f-47d4-b9db-c7cd8a6f1589": {
+   "subject": "biology",
+   "batch": "biology__w6b1",
+   "chapter": "Biotechnology Principles & Processes",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.biotechnology-principles-and-processes.methods-introducing-recombinant-dna",
+     "flags": [],
+     "note": "All four true statements are NCERT lines; (E) hydrophobic is the clear false one. Clean; knowing (E) and (B) settles it.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.biotechnology-principles-and-processes.methods-introducing-recombinant-dna",
+     "flags": [],
+     "note": "All five statements track NCERT 9.2.3 lines; the hydrophobic trap is the classic slip; options are clean combinations. Explanation checked line by line.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology Principles & Processes",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 104,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "NCERT-line statements on competent host; five long entries push reading past 90 s.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology Principles & Processes",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 104,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Five-statement competent-host item, 104 s; time keeps it at 8.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Biotechnology and its Applications",
+     "chapter": "Biotechnology Principles & Processes",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 86,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Competence by Ca2+, heat shock, micro-injection, disarmed pathogens: NCERT-line methods asked every year.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    }
+   ]
+  },
+  "b32a5ab7-1b3a-42e2-9baa-04674e4ec092": {
+   "subject": "biology",
+   "batch": "biology__w6b1",
+   "chapter": "Human Health & Disease",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.human-health-and-disease.plant-sources-of-drugs",
+     "flags": [],
+     "note": "Correct NCERT facts; (D) cannabinoids from poppy is the false one. Statement (C) carries its own qualifier and leans on the Biodiversity chapter; otherwise clean.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.human-health-and-disease.drug-yielding-plants",
+     "flags": [],
+     "note": "Facts correct (cannabinoids from Cannabis, morphine from poppy latex). Statement C borrows from the Biodiversity chapter and states its own conclusion, slightly un-NTA.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Biology and Human Welfare",
+     "chapter": "Human Health & Disease",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Drug-plant names are examinable detail; statement (C) mixes a Biodiversity fact with a negated clause, an odd shape.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Biology and Human Welfare",
+     "chapter": "Human Health & Disease",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "NCERT line recall on drug plants; Rauwolfia fact comes from the biodiversity chapter.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Biology and Human Welfare",
+     "chapter": "Human Health & Disease",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 74,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Statement (C) pulls Rauwolfia from Ch 13 and is phrased defensively; source-plant facts are supporting detail.",
+     "on_final_text": null,
+     "batch": "biology__w6b1"
+    }
+   ]
+  },
+  "a15240a0-f48c-4343-8e00-183603543c47": {
+   "subject": "business_studies",
+   "batch": "business_studies__w6b1",
+   "chapter": "Financial Markets",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-markets.treasury-bills-features",
+     "flags": [],
+     "note": "Matches NCERT: RBI for Centre, discount/par, under one year, Rs 25,000 minimum, liquid. (D) is a plain false; 'he or she chooses' slightly wordy.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-markets.treasury-bills-features",
+     "flags": [],
+     "note": "Statements match NCERT T-bill features (RBI issue, zero coupon, under 1 year, min Rs 25,000, negligible default risk); option combinations each test one slip.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 96,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Treasury Bill features are classic recall; five statements put it just over 90 s.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 96,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Five T-bill statements, 96 s; recall level fine, time keeps it at 8.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "T-bill features in NCERT terms; (D) hinges on the Rs 25,000 minimum, a figure-level detail, so no route.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ]
+  },
+  "e9b39e3c-100c-4d72-be16-548adc1748df": {
+   "subject": "business_studies",
+   "batch": "business_studies__w6b1",
+   "chapter": "Financial Markets",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-markets.stock-exchange-functions",
+     "flags": [],
+     "note": "NCERT's own function lines; (C) board-set prices is a sound trap and the A/B split tests the controlled-speculation function. Clean.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-markets.stock-exchange-functions",
+     "flags": [],
+     "note": "Matches NCERT's six functions; C (board fixes prices) is a good trap. Option D includes C and drops B, a fair but weaker distractor.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 95,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Functions of a stock exchange in NCERT words; five entries make it slightly long.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 95,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Five stock-exchange function statements, 95 s; NCERT recall, time caps at 8.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 77,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Functions of a stock exchange: a yearly staple; distractors test the speculation and price-fixing misconceptions.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ]
+  },
+  "83804f3c-cc09-4013-97ca-03894eef15a1": {
+   "subject": "business_studies",
+   "batch": "business_studies__w6b1",
+   "chapter": "Financial Markets",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "business_studies.financial-markets.demat-account-process",
+     "flags": [],
+     "note": "Order matches NCERT's demat steps. Step (B)'s 'the chosen DP' signposts (C) before (B); options B and C are throwaways.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "business_studies.financial-markets.demat-account-process",
+     "flags": [],
+     "note": "Order follows NCERT's demat steps; option A (certificates before account opening) is the only real trap, B and C are weak.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Demat account steps as a four-step sequence: the process-order item CUET prints; supporting idea, not central.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Demat opening steps as a Rohan scenario; procedural supporting detail, wordy.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 82,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Demat steps are a supporting process; Rohan scene-setting makes it wordier than real BS sequence items.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ]
+  },
+  "d5df54d1-8059-4006-9057-e9be2f2502bb": {
+   "subject": "business_studies",
+   "batch": "business_studies__w6b1",
+   "chapter": "Financial Markets",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-markets.rolling-settlement-and-depositories",
+     "flags": [],
+     "note": "Well-built match, options are the four combinations of two swaps. Settlement-date facts in explanation check. 'Before the reforms' is vague and the account-period detail goes beyond NCERT.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "business_studies.financial-markets.settlement-and-depository-terms",
+     "flags": [],
+     "note": "Key right; T+5/T+3/T+2/T+1 dates in explanation are accurate. Options reduce to two binary swaps, so the match is easier than it looks.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 86,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Valid match, but List-I (A) 'settlement cycle before the reforms' is clumsy and List-II entries are long definitions.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 86,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Settlement cycle and depository terms; long List-II descriptions, supporting detail.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Financial Markets",
+     "chapter": "Financial Markets",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 86,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "List-I (A) is an awkward phrase and List-II entries are long; settlement-cycle history is a peripheral element.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b1"
+    }
+   ]
+  },
+  "659edc5d-f549-4be3-aa29-e8c23a2d9b3b": {
+   "subject": "economics",
+   "batch": "economics__w6b1",
+   "chapter": "Production & Costs",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.production-and-costs.law-of-variable-proportions-tp-stages",
+     "flags": [],
+     "note": "Correct TP stages; worked TP/MP example checks. Standard item; option D (falls before maximum) is a throwaway.",
+     "on_final_text": null,
+     "batch": "economics__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "economics.production-and-costs.law-of-variable-proportions-tp-stages",
+     "flags": [],
+     "note": "Standard TP stages; explanation's worked table checks (MPs 6,9,12,8,5,3,0,-4). Option D (falls before maximum) is a throwaway; direct recall.",
+     "on_final_text": null,
+     "batch": "economics__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Production & Costs",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 66,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "TP phases under variable proportions: the key idea of the chapter as a clean sequence; distractors are real slips.",
+     "on_final_text": null,
+     "batch": "economics__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Production & Costs",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 66,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Stages of TP under variable proportions: the key idea of the production chapter.",
+     "on_final_text": null,
+     "batch": "economics__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Introductory Microeconomics",
+     "chapter": "Production & Costs",
+     "pyq_closeness": 0,
+     "ten_route": "key_aspect",
+     "est_seconds": 66,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Phases of TP under variable proportions: the essential idea of the chapter, in a clean sequence item.",
+     "on_final_text": null,
+     "batch": "economics__w6b1"
+    }
+   ]
+  },
+  "29358098-a746-4bdd-b0fe-a83d09299237": {
+   "subject": "geography",
+   "batch": "geography__w6b1",
+   "chapter": "Mineral and Energy Resources",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.mineral-and-energy-resources.iron-ore-mining-regions",
+     "flags": [],
+     "note": "NCERT iron ore belts; distractors swap Noamundi and Gurumahisani between Jharkhand and Odisha, a real student slip. Explanation's Karnataka/Maharashtra aside is padding.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.mineral-and-energy-resources.iron-ore-mines-location",
+     "flags": [],
+     "note": "Each wrong pair swaps a real NCERT mine into a neighbouring iron-ore State (Noamundi/Gurumahisani crossed, Kudremukh to Goa); one clean key.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Mineral and Energy Resources",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 34,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Mine-to-State pairing from NCERT's iron ore text; swapped-State distractors are the real confusions.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Mineral and Energy Resources",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 52,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Iron ore mine to State pairing from NCERT p.55; standard place-feature recall.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Mineral and Energy Resources",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 34,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "NCERT iron-ore mine-to-State recall; Noamundi/Gurumahisani swap is a real slip. Place fact, so no route.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ]
+  },
+  "e507a240-c420-4b53-a27d-be8c70f5ccb5": {
+   "subject": "geography",
+   "batch": "geography__w6b1",
+   "chapter": "Population — Distribution, Density, Growth",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+     "flags": [],
+     "note": "USA third on both NCERT Fig 2.1 and UN 2024; explanation ranks check. Russia is a throwaway distractor.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+     "flags": [],
+     "note": "USA third holds on NCERT Fig 2.1 and current UN data; Russia is a throwaway. Explanation rankings check.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 35,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Population ranking from NCERT Fig. 2.1 (USA third in old and new data); a short direct-recall item.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 35,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Third most populous country; NCERT Fig 2.1 agrees, preamble adds data newer than the text.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 35,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "USA third is general knowledge; Fig 2.1 ranking fact, so guessable without the chapter.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ]
+  },
+  "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96": {
+   "subject": "geography",
+   "batch": "geography__w6b1",
+   "chapter": "Mineral and Energy Resources",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "geography.mineral-and-energy-resources.oil-refinery-locations",
+     "flags": [],
+     "note": "Longitudes check (Digboi, Mathura, Panipat, Bathinda). Mathura/Panipat swap is a sound trap; option C is just the reverse order.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.mineral-and-energy-resources.oil-refineries-location",
+     "flags": [],
+     "note": "Longitudes check (Mathura 77.7, Panipat 77.0, Bathinda 75.0 E); the Mathura/Panipat swap is a fine but fair trap. Option D is weak.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Mineral and Energy Resources",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "East-west ranking is a CUET shape, but the key turns on Mathura vs Panipat, under one degree of longitude apart.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Mineral and Energy Resources",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Key turns on Mathura vs Panipat longitude (under 1 degree): fine-grained map recall.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Resources and Development",
+     "chapter": "Mineral and Energy Resources",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Valid geography ranking, but Mathura vs Panipat (under 1 degree apart) is a fine longitude call for a refinery list.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ]
+  },
+  "02f290b1-4488-424e-8504-acb24df27176": {
+   "subject": "geography",
+   "batch": "geography__w6b1",
+   "chapter": "Secondary Activities",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "geography.secondary-activities.high-tech-industry-technopolies",
+     "flags": [],
+     "note": "Key follows NCERT (Silicon Forest near Seattle). A and C are good NCERT reversals; D (Silicon Valley in Canada) is a throwaway.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "geography.secondary-activities.technopolies-high-tech-industry",
+     "flags": [],
+     "note": "B is NCERT's line; A and C reverse NCERT's landscape and workforce lines. D (Canada) is a throwaway. Portland caveat in explanation is accurate.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Secondary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 43,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Technopolies 'which statement is correct' straight from the NCERT high-tech section; standard CUET shape.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Secondary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 61,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Technopolies from NCERT high-tech industry text; distractors reverse real features.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Human Activities",
+     "chapter": "Secondary Activities",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 43,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "NCERT high-tech industry lines; A and C reverse NCERT, D is weak. Supporting idea, so no route.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ]
+  },
+  "6c960f04-5242-4f58-a6f0-60015f6bc800": {
+   "subject": "history",
+   "batch": "history__w6b1",
+   "chapter": "An Imperial Capital — Vijayanagara",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "history.an-imperial-capital-vijayanagara.water-resources-and-royal-buildings",
+     "flags": [],
+     "note": "Every List-II line is an NCERT fact; options are proper pairings and the canal/tank and temple/Lotus Mahal swaps are real confusions. Clean.",
+     "on_final_text": null,
+     "batch": "history__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "history.an-imperial-capital-vijayanagara.water-resources-and-structures",
+     "flags": [],
+     "note": "Four NCERT-precise features, clean List-I/II layout, and wrong options cross the canal/tank and temple/mahal pairs that students confuse. Explanation checks.",
+     "on_final_text": null,
+     "batch": "history__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part II",
+     "chapter": "An Imperial Capital — Vijayanagara",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Vijayanagara structure-to-feature match in NCERT wording; a heavily asked chapter.",
+     "on_final_text": null,
+     "batch": "history__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part II",
+     "chapter": "An Imperial Capital — Vijayanagara",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Vijayanagara structures to features: CUET-style match on a heavily asked chapter.",
+     "on_final_text": null,
+     "batch": "history__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part II",
+     "chapter": "An Imperial Capital — Vijayanagara",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 78,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Vijayanagara structure-to-feature match as the paper prints it; structure details are supporting facts.",
+     "on_final_text": null,
+     "batch": "history__w6b1"
+    }
+   ]
+  },
+  "f9f235e3-5761-49ac-b1f7-8b7d31f956c3": {
+   "subject": "political_science",
+   "batch": "political_science__w6b1",
+   "chapter": "Democratic Upsurge and Coalition Politics",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.democratic-upsurge-and-coalition-politics.united-front-governments",
+     "flags": [],
+     "note": "Correct (Gujral, April 1997); explanation dates check. Fair recall with plausible PM distractors; stem a little long.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.democratic-upsurge-and-coalition-politics.united-front-governments",
+     "flags": [],
+     "note": "Dates and sequence in explanation check (Gujral Apr 1997-Mar 1998). Fair recall item; distractors are real PMs of the era. Stem is a little long.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Politics in India Since Independence",
+     "chapter": "Democratic Upsurge and Coalition Politics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Leader recall on the United Front governments, the paper's usual type; Gujral's name is not printed in NCERT.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Politics in India Since Independence",
+     "chapter": "Democratic Upsurge and Coalition Politics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Gujral as second UF Prime Minister; name not printed in NCERT, so above direct recall.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Politics in India Since Independence",
+     "chapter": "Democratic Upsurge and Coalition Politics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 41,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Leader-and-event recall the paper asks; Gujral named outside NCERT print per ref, so a name fact, no route.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    }
+   ]
+  },
+  "a5d5f294-fe07-4383-83d2-be0d6d59ac73": {
+   "subject": "psychology",
+   "batch": "psychology__w6b1",
+   "chapter": "Self & Personality",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "psychology.self-and-personality.projective-vs-self-report-measures",
+     "flags": [],
+     "note": "All five tests named in NCERT; scenario applies NCERT's projective definition and options mix self-report with projective tests fairly. Clean.",
+     "on_final_text": null,
+     "batch": "psychology__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "psychology.self-and-personality.projective-vs-self-report-measures",
+     "flags": [],
+     "note": "Case gives the projective criteria, student must classify five named tests; MMPI/EPQ traps and option C (adds EPQ) are fair. All tests named as NCERT names them.",
+     "on_final_text": null,
+     "batch": "psychology__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Self and Personality",
+     "chapter": "Self & Personality",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 91,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Projective vs self-report tests is core; the counsellor preamble restating the definition and five entries make it wordy.",
+     "on_final_text": null,
+     "batch": "psychology__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Self and Personality",
+     "chapter": "Self & Personality",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 91,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Projective vs self-report tests, five entries, 91 s; time caps at 8.",
+     "on_final_text": null,
+     "batch": "psychology__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Self and Personality",
+     "chapter": "Self & Personality",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 73,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Projective vs self-report test identification: a test-to-technique staple; MMPI and EPQ are real traps.",
+     "on_final_text": null,
+     "batch": "psychology__w6b1"
+    }
+   ]
+  }
+ }
+}
