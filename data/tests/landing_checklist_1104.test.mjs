@@ -642,7 +642,12 @@ test('L-044 no Higgsfield or video scene is live on the landing; the scroll scen
   // place (heroFilmConfig.mjs, part of the landing's surface through HeroFilm).
   assert.ok(SURFACE.includes('src/components/landing/heroFilmConfig.mjs'), 'the film config is on the landing surface');
   assert.equal((code(sources(SURFACE)).match(/\/video\/hero-v5-\d+\.mp4/g) || []).length, 3, 'three film files, named once');
-  assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|TourDeck|HeroFilm/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot and the hero film');
+  // 23 Nov 2026 (owner LK427): the launch film has a place built for it (LaunchFilmKey), NOT live: its key is drawn hidden and
+  // shows only with /?film=1 until the owner's build switch is on, and its file is not fetched before a press.
+  assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|TourDeck|HeroFilm|LaunchFilmKey/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot, the hero film and the launch film\'s hidden player');
+  assert.match(read('src/components/landing/LaunchFilmKey.jsx'), /className="lf-key" hidden=\{!LAUNCH_FILM_ON\}/, 'the launch film\'s key is hidden for visitors');
+  assert.match(read('src/components/landing/launchFilm.mjs'), /export const LAUNCH_FILM_ON = process\.env\.NEXT_PUBLIC_LAUNCH_FILM === 'true';/, 'on only by the owner\'s switch');
+  assert.match(read('src/components/landing/LaunchFilmKey.jsx'), /preload="none"/);
   assert.match(PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<CollegeStrip')), /<HeroFilm \/>/, 'the film is in the hero');
   assert.equal((PAGE_CODE.match(/<HeroFilm\b/g) || []).length, 1);
 });

@@ -1,0 +1,23 @@
+/* The launch film's key and player (LaunchFilmKey.jsx; owner LK427, 23 Nov 2026). The key sits with the hero's quiet links;
+   the player is a native dialog over a dark surround, the film as large as the window allows at 16:9. */
+.mm.lp .lf-key {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer;
+  color: var(--ink); font: 650 1rem/1.3 var(--font-body); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--line-strong);
+  -webkit-tap-highlight-color: transparent;
+}
+.mm.lp .lf-key[hidden] { display: none; }
+.mm.lp .lf-key:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 3px; border-radius: 6px; }
+.mm.lp .lf-key__mark { flex: none; display: grid; place-items: center; width: 26px; height: 26px; padding-left: 2px; border-radius: 50%; background: var(--volt); color: var(--volt-ink, #17150f); box-shadow: inset 0 0 0 1px var(--volt-edge, #9db400); }
+@media (hover: hover) { .mm.lp .lf-key:hover { text-decoration-color: var(--ink-3); } }
+
+.lf-dialog { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; padding: 0; border: 0; background: #0b0a08; color: #f4f0e6; overflow: hidden; }
+.lf-dialog::backdrop { background: #0b0a08; }
+.lf-dialog[open] { display: grid; place-items: center; }
+.lf-dialog__box { position: relative; display: grid; place-items: center; width: 100%; height: 100%; padding: max(env(safe-area-inset-top, 0px), 8px) 0 max(env(safe-area-inset-bottom, 0px), 8px); pointer-events: none; }
+.lf-dialog__video { pointer-events: auto; display: block; width: min(100vw, calc((100dvh - 16px) * 16 / 9)); height: auto; max-height: calc(100dvh - 16px); aspect-ratio: 16 / 9; background: #000; }
+.lf-dialog__close {
+  pointer-events: auto; position: absolute; top: max(env(safe-area-inset-top, 0px), 10px); right: 10px; display: grid; place-items: center; width: 48px; height: 48px; padding: 0;
+  border: 0; border-radius: 50%; background: rgba(244, 240, 230, 0.14); color: #f4f0e6; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.lf-dialog__close:focus-visible { outline: 2px solid #d2f000; outline-offset: 2px; }
+@media (hover: hover) { .lf-dialog__close:hover { background: rgba(244, 240, 230, 0.24); } }

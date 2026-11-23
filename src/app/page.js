@@ -64,6 +64,7 @@ import { CloseActions } from '@/components/landing/CloseActions';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import AndroidAppNudge from '@/components/landing/AndroidAppNudge';
 import CoverageProof from '@/components/landing/CoverageProof';
+import LaunchFilmKey from '@/components/landing/LaunchFilmKey';
 import LabCinema from '@/components/landing/LabCinema';
 import CreatorReels from '@/components/landing/CreatorReels';
 import OnePlaceGate from '@/components/landing/OnePlaceGate';
@@ -166,7 +167,9 @@ const FEATURES = heroFeatures({ compass: SHOWCASE.programmes.length > 0, keyCard
 const PRICE_HOOK = heroPriceHook(OFFER, { from: BUILT });
 // The addresses a visitor arrives at from elsewhere (HashSettle): the FAQ, the one frame, and the frame's rows by their old
 // sections' names (page.js keeps an anchor for each; the frame opens that row).
-const HASH_IDS = ['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake', 'cuet-2026'];
+// 23 Nov 2026 (LK427): measured on a phone, /#compass stayed at the top of the page and /#pricing stopped a screen short (the
+// sections above are drawn as they near the window, so the browser's own jump lands on a guess). They settle here too.
+const HASH_IDS = ['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake', 'cuet-2026', 'compass', 'pricing', 'daily-and-sunday'];
 
 export default function LandingPage() {
   return (
@@ -235,6 +238,8 @@ export default function LandingPage() {
             {/* Round 11: the exam-day screen moved into the strip, so the tray holds the DU calculator alone. */}
             <div className="lp-hero__links">
               <Link href="/cuet-cutoff-calculator" prefetch={false} className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
+              {/* The launch film (owner LK427, 23 Nov 2026): hidden until he switches it on; /?film=1 shows it to him. */}
+              <LaunchFilmKey />
             </div>
           </div>
         </section>

@@ -118,7 +118,7 @@ test('the home page draws the new section and none of the four it replaces, in t
   // Arriving from elsewhere (the site bar's /#your-prep, the app's /#exam-experience): the page settles on them (a phone's own
   // jump was lost while the page grew), with the heading clear of the site bar.
   // 23 Nov 2026 (LK427): the CUET 2026 check's address settles too.
-  assert.match(PAGE, /const HASH_IDS = \['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake', 'cuet-2026'\];/);
+  assert.match(PAGE, /const HASH_IDS = \['faq', 'your-prep', 'exam-experience', 'key-cards', 'bring-a-mistake', 'cuet-2026', 'compass', 'pricing', 'daily-and-sunday'\];/);
   assert.match(PAGE, /<HashSettle ids=\{HASH_IDS\} \/>/);
   assert.match(CSS, /\.op-anchor \{ display: block; height: 0; overflow: hidden; scroll-margin-top: 76px; \}/);
   assert.match(CSS, /#your-prep\.op \{ scroll-margin-top: 48px; \}/);
