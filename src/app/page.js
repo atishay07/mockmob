@@ -10,6 +10,7 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import DailyFiveRow from '@/components/daily/DailyFiveRow';
+import DailyHow from '@/components/daily/DailyHow';
 import { COLLEGE_DAILY, PERSONAL_HEAD, STRIP_HEAD } from '@/components/daily/dailyStripCopy.mjs';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
@@ -319,6 +320,8 @@ export default function LandingPage() {
               <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[[dailyHead.mark, { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
               <p className="lp-sub">{dailyHead.sub}</p>
             </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
+            {/* How it works, as three small pictures (owner LK427, 23 Nov 2026): in the paragraph's place. */}
+            {COLLEGE_DAILY ? null : <DailyHow />}
             <DailyFiveRow where="home" />
           </div>
         </section></Later>

@@ -31,9 +31,25 @@ export const PERSONAL_HEAD = Object.freeze({
   // card's small print says so), so a guest is never told the five are their own mistakes.
   // 22 Nov 2026, later (owner LK367: "good enough, but still a bit confusing for a newcomer"): the line now speaks to the
   // newcomer first (what to do now, with no account), then says what the five become once there is a record to build from.
-  sub: 'New here? Play today’s five now, no sign-up. After you practise, your five are two questions you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.',
+  // 23 Nov 2026 (owner LK427: "fixing the UI and explanation"; the paragraph was a wall of text on a phone): the line says
+  // what it is and what to do now; how it works is three small pictures under the head (DAILY_HOW, DailyHow.jsx).
+  sub: 'Five questions a day. Play today’s now: free, no sign-up.',
   mark: 'your mistakes.',
 });
+/**
+ * How the Daily Five works, as three pictures with a few words each (owner LK427, 23 Nov 2026: a newcomer should get it in
+ * about three seconds, shown rather than written). Each is a product rule: a wrong answer anywhere is a `missed` candidate
+ * (src/lib/dailyFiveMine.mjs: "questions the student answered wrong before today"), two of the five places go to them
+ * (MINE_PLAN), and a whole five is a streak day (src/lib/server/streakDays.js). Nothing here says "until": a question that
+ * comes back and is answered right is marked fixed (fedLines), which the demo below shows.
+ */
+export const DAILY_HOW = Object.freeze([
+  Object.freeze({ id: 'miss', title: 'You get one wrong', line: 'in a mock or in practice' }),
+  Object.freeze({ id: 'back', title: 'It comes back', line: 'in your Daily Five' }),
+  Object.freeze({ id: 'streak', title: 'Your streak grows', line: 'when you finish all five' }),
+]);
+export const DAILY_HOW_LABEL = 'How the Daily Five works';
+
 export const STRIP_HEAD = Object.freeze({
   h2: 'Five a day. Play for your college.',
   // Only a signed-in five counts on the college board (a guest's is kept on the device alone): the line says so.

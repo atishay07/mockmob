@@ -40,6 +40,8 @@ import './cursor-demo.css';
 const MOVE_MS = 620;
 const DWELL_MS = 700;
 const PRESS_MS = 130;
+/** How long after a press the cursor stays before it lifts off, when a wait follows. */
+const LIFT_MS = 420;
 
 function reducedNow() {
   if (typeof window === 'undefined') return true;
@@ -201,17 +203,30 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
     };
 
     (async () => {
-      // Enter from the stage's lower right, already moving.
+      // Enter from the stage's lower right, already moving. The cursor shows only while it acts (23 Nov 2026, LK427: at rest
+      // it sat on the words of the screen, on the Daily Five's fifth row for the whole first beat): it comes in as its first
+      // move begins, and after a press that a wait follows it lifts off (LIFT_MS), like a finger leaving the glass. The
+      // script's clock is unchanged.
       const startX = stage.offsetWidth * 0.82;
       const startY = stage.offsetHeight * 0.9;
       place(startX, startY, 0);
       begun = performance.now();
       await hold(30, 1);
       if (stopped) return;
-      cursor.dataset.shown = 'true';
       await hold(190, 1);
       let beat = 0;
-      for (const step of steps) {
+      let lifting = 0;
+      const show = () => {
+        if (lifting) { window.clearTimeout(lifting); timers.delete(lifting); lifting = 0; }
+        cursor.dataset.shown = 'true';
+      };
+      const liftSoon = () => {
+        if (lifting) return;
+        lifting = window.setTimeout(() => { timers.delete(lifting); lifting = 0; delete cursor.dataset.shown; }, LIFT_MS);
+        timers.add(lifting);
+      };
+      for (let i = 0; i < steps.length; i += 1) {
+        const step = steps[i];
         if (stopped) return;
         if (typeof step.say === 'string') { sayRef.current?.(step.say, beat); beat += 1; }
         if ('focus' in step) focusOn(step.focus);
@@ -224,6 +239,7 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
         const el = step.target ? stage.querySelector(step.target) : null;
         if (!el) continue;
         stage.dataset.demoPhase = 'move';
+        show();
         const [x, y] = pointOf(el, step.at, step.reveal, step.snap);
         place(x, y, step.move ?? MOVE_MS);
         await hold(step.move ?? MOVE_MS, 1);
@@ -235,6 +251,8 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
           if (stopped) return;
           fire(el, step.pointer);
           if (step.settle) { const pane = stage.querySelector(step.settle); if (pane && pane.scrollTop) scrollPane(pane, 0); }
+          // Another tap right after keeps the cursor on the glass; a wait lifts it.
+          if (!steps[i + 1]?.target) liftSoon();
         }
         // A dwell waits for what the click started, so it gives up at most a quarter of its length.
         await hold(step.dwell ?? DWELL_MS, step.exact ? 1 : 0.75);

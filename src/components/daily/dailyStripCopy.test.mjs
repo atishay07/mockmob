@@ -196,11 +196,22 @@ test('the simpler Daily Five is the default: no college names unless the switch 
   assert.equal(PERSONAL_HEAD.h2, 'Five a day, built from your mistakes.');
   assert.ok(PERSONAL_HEAD.h2.endsWith(PERSONAL_HEAD.mark), 'the marked phrase is in the head');
   assert.equal(STRIP_HEAD.mark, 'your college.');
-  // Owner LK367 (22 Nov 2026): the newcomer first. A guest is told what to do now, and that the personal five come after practice.
-  assert.match(PERSONAL_HEAD.sub, /^New here\? Play today’s five now, no sign-up\. After you practise, /, 'a guest is not told the five are already built from their mistakes');
-  // 22 Nov 2026 (owner LK366: "the overall explanation is really weak about what exactly this is"): what the five are, in
-  // MINE_PLAN's numbers, and the streak rule (a whole five is a streak day).
-  assert.equal(PERSONAL_HEAD.sub, 'New here? Play today’s five now, no sign-up. After you practise, your five are two questions you got wrong, two from your weak chapters and one new. Finish all five and your streak grows by a day.');
+  // Owner LK427 (23 Nov 2026: "fixing the UI and explanation"): the paragraph became one short line (what it is, what to do
+  // now) and three small pictures (DAILY_HOW). A guest is still never told the five are already built from their mistakes.
+  assert.equal(PERSONAL_HEAD.sub, 'Five questions a day. Play today’s now: free, no sign-up.');
+  assert.ok(PERSONAL_HEAD.sub.length <= 60, 'one short line, not a paragraph');
+  const { DAILY_HOW, DAILY_HOW_LABEL } = await import('./dailyStripCopy.mjs');
+  assert.deepEqual(DAILY_HOW.map((s) => s.id), ['miss', 'back', 'streak']);
+  assert.deepEqual(DAILY_HOW.map((s) => s.title), ['You get one wrong', 'It comes back', 'Your streak grows']);
+  for (const step of DAILY_HOW) {
+    assert.ok(step.title.split(' ').length <= 4 && step.line.split(' ').length <= 6, `${step.id}: a few words, not a sentence`);
+    assert.doesNotMatch(`${step.title} ${step.line}`, /[—!]|until|always|guarantee|\p{Extended_Pictographic}/u, step.id);
+  }
+  assert.equal(DAILY_HOW_LABEL, 'How the Daily Five works');
+  const how = read('./DailyHow.jsx');
+  assert.doesNotMatch(how, /'use client'/, 'the pictures are still: no script');
+  assert.doesNotMatch(read('./daily-how.css'), /animation|transition/, 'nothing in them moves');
+  assert.match(read('../../app/page.js'), /\{COLLEGE_DAILY \? null : <DailyHow \/>\}\s*<DailyFiveRow where="home" \/>/, 'the pictures sit between the head and the card');
   const { MINE_PLAN } = await import('../../lib/dailyFiveMine.mjs');
   assert.deepEqual({ ...MINE_PLAN }, { missed: 2, weak: 2, subject: 1 }, 'the line says the plan');
   assert.doesNotMatch(PERSONAL_HEAD.sub, /same five|for everyone/);

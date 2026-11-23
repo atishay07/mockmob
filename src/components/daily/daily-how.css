@@ -1,0 +1,31 @@
+/* How the Daily Five works, as three small pictures (DailyHow.jsx; owner LK427, 23 Nov 2026). Three steps in one row with a
+   small arrow between them: a picture in the product's own marks, a few bold words, a few plain ones. Still: nothing moves. */
+.mm.lp .dhow {
+  list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.125rem; margin: 0 0 1.25rem; padding: 0;
+}
+.mm.lp .dhow__step { position: relative; display: grid; gap: 0.1875rem; align-content: start; justify-items: start; min-width: 0; }
+/* The arrow from the step before, in the gap. */
+.mm.lp .dhow__step + .dhow__step::before {
+  content: ''; position: absolute; left: -0.75rem; top: 0.6875rem; width: 7px; height: 7px;
+  border-top: 2px solid var(--ink-3); border-right: 2px solid var(--ink-3); transform: rotate(45deg);
+}
+.mm.lp .dhow__pic { display: flex; align-items: center; min-height: 30px; margin-bottom: 0.25rem; }
+.mm.lp .dhow__title { color: var(--ink); font: 800 1rem/1.15 var(--font-display); letter-spacing: -0.015em; text-wrap: balance; }
+.mm.lp .dhow__line { color: var(--ink-2); font: 500 0.875rem/1.3 var(--font-body); text-wrap: balance; }
+
+/* An answer bubble, as the Daily Five draws its five. */
+.mm.lp .dhow-bubble { flex: none; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1.75px var(--ink-3); color: var(--ink); }
+.mm.lp .dhow-bubble--wrong { width: 28px; height: 28px; color: var(--bad-text, #b0291f); box-shadow: inset 0 0 0 2px var(--bad-text, #b0291f); }
+.mm.lp .dhow-bubble--back { width: 22px; height: 22px; background: var(--volt); color: var(--volt-ink, #17150f); box-shadow: inset 0 0 0 1.5px var(--volt-edge, #9db400); }
+.mm.lp .dhow-five { display: inline-flex; align-items: center; gap: 4px; }
+/* The week: six days kept, today's square filled volt. */
+.mm.lp .dhow-week { display: inline-flex; align-items: center; gap: 3px; }
+.mm.lp .dhow-week span { width: 11px; height: 16px; border-radius: 3px; background: var(--ink); opacity: 0.82; }
+.mm.lp .dhow-week span.is-today { height: 24px; background: var(--volt); opacity: 1; box-shadow: inset 0 0 0 1.5px var(--volt-edge, #9db400); }
+
+@media (min-width: 700px) {
+  .mm.lp .dhow { max-width: 44rem; gap: 0 2.5rem; margin-bottom: 1.75rem; }
+  .mm.lp .dhow__step + .dhow__step::before { left: -1.5rem; }
+  .mm.lp .dhow__title { font-size: 1.1875rem; }
+  .mm.lp .dhow__line { font-size: 1rem; }
+}
