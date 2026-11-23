@@ -13,7 +13,7 @@ export const STATUS = Object.freeze({
   'new-values': Object.freeze({ label: 'Same question, new numbers', group: 'in', meaning: 'A MockMob question has the same type and steps, with different figures or names.' }),
   concept: Object.freeze({ label: 'Taught in MockMob', group: 'in', meaning: 'A MockMob question or Key card teaches every fact it tests, or the same formula and steps for a sum.' }),
   'not-yet': Object.freeze({ label: 'Not in MockMob yet', group: 'not', meaning: 'Nothing MockMob serves teaches all of it yet.' }),
-  skill: Object.freeze({ label: 'Reading skill, not counted', group: 'out', meaning: 'The answer can be read off a passage printed in the paper.' }),
+  skill: Object.freeze({ label: 'Answer is in the passage', group: 'out', meaning: 'The answer can be read off a passage printed in the paper.' }),
   'off-syllabus': Object.freeze({ label: 'Off the syllabus, not counted', group: 'out', meaning: 'It is not in the CUET 2026 syllabus.' }),
   dropped: Object.freeze({ label: 'Dropped by NTA, not counted', group: 'out', meaning: 'NTA dropped it from the final answer key.' }),
 });

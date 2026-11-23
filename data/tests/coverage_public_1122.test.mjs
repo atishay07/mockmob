@@ -119,12 +119,13 @@ test('a subject is in the summary only when its paper and both checks exist, and
   const complete = ids.filter((id) => existsSync(path.join(DIR, `${id}-A.json`)) && existsSync(path.join(DIR, `${id}-B.json`)));
   const skipped = new Set((summary.skipped || []).map((x) => x.id));
   for (const { s } of subjects) assert.ok(complete.includes(s.id), s.id);
-  // Owner LK368: a subject is drawn only with its final check done and at 80% or more; the others are listed under `held`.
+  // Owner LK368 set a bar of 80%; on 24 Nov 2026 he asked for Chemistry, Maths and Physics to be shown as they stand, so the
+  // bar is 0: a subject is drawn once its final check is done, at its true figure.
   const held = new Map((summary.held || []).map((x) => [x.id, x]));
-  assert.equal(summary.showMinPct, 80);
+  assert.equal(summary.showMinPct, 0);
   for (const id of complete) assert.ok(summary.subjects.some((s) => s.id === id) || skipped.has(id) || held.has(id), `${id} is shown, held or skipped`);
-  for (const s of summary.subjects) { assert.ok(s.final === true && s.pct >= 80, `${s.id} is shown at ${s.pct}%`); assert.ok(!held.has(s.id), s.id); }
-  for (const h of held.values()) assert.ok(h.why === 'no final check yet' || h.pct < 80, `${h.id} is held for a reason`);
+  for (const s of summary.subjects) { assert.ok(s.final === true && s.pct >= summary.showMinPct, `${s.id} is shown at ${s.pct}%`); assert.ok(!held.has(s.id), s.id); }
+  for (const h of held.values()) assert.ok(h.why === 'no final check yet' || h.pct < summary.showMinPct, `${h.id} is held for a reason`);
 });
 
 test("the README's three finals still hold while no final file exists", () => {

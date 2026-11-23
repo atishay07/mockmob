@@ -404,6 +404,36 @@
   "explanation": "pop() without an index removes the last element, which is 30, so the list becomes [10, 20]. Then 40 is appended, making the list [10, 20, 40], so s[-1] is 40 and len(s) is 3.",
   "from": "read-only fetch 2026-11-23"
  },
+ "3ca388a2-e0f5-4d73-8690-6e347ed9c763": {
+  "subject": "physics",
+  "chapter": "Magnetism & Matter",
+  "stem": "Read the statements and select the correct option. Statement I: The magnetic dipole moment of a current loop is given by m = NIA. Statement II: The net magnetic force on a current loop in a uniform magnetic field is zero. Statement III: The torque on a current loop in a uniform magnetic field is independent of the shape of the loop.",
+  "passage": null,
+  "options": [
+   "I and II only",
+   "II and III only",
+   "I and III only",
+   "I, II and III"
+  ],
+  "key": 3,
+  "explanation": "All three statements are correct. The dipole moment of a planar current loop is m = NIA, the net force on a loop in a uniform magnetic field is zero, and the torque NIAB sin θ depends only on the area of the loop, not on its shape.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "3d3a5b97-0249-4275-9f58-5fd7ab90a3d3": {
+  "subject": "physics",
+  "chapter": "Atoms",
+  "stem": "Match List-I with List-II. List-I: (A) Lyman series (B) Balmer series (C) Paschen series (D) Brackett series. List-II: (I) Lower level n = 4 (II) Lower level n = 3 (III) Lower level n = 1 (IV) Lower level n = 2. Choose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+   "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+   "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)",
+   "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+  ],
+  "key": 1,
+  "explanation": "The spectral series of hydrogen are named by the lower energy level the electron falls to. Lyman ends at n = 1, Balmer at n = 2, Paschen at n = 3 and Brackett at n = 4. The Lyman series is in the ultraviolet and the Balmer series is in the visible region.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "3dc623cc-4185-4477-b025-b76d7938e6f1": {
   "subject": "mathematics",
   "chapter": "Application of Integrals",
@@ -659,6 +689,21 @@
   "explanation": "This is the law of variable proportions, and it starts from one condition: one input (labour) is increased while the other inputs (land) are kept constant. Total product is the sum of the marginal products, and the marginal product (MP) of the variable input first rises and then falls. While MP is rising, each extra worker adds more than the one before, so TP rises at an increasing rate (D). Once MP starts to fall but is still positive, TP keeps rising, but at a diminishing rate (B). When MP falls to zero, the extra worker adds nothing and TP is at its maximum (A). If still more workers are crowded onto the land, MP becomes negative and TP falls (C). Example: with 1 to 8 workers TP is 6, 15, 27, 35, 40, 43, 43 and 39 quintals, so the MPs are 6, 9, 12, 8, 5, 3, 0 and -4: TP grows faster and faster up to the 3rd worker, more and more slowly from the 4th to the 6th, stays at its maximum of 43 when the 7th worker adds nothing, and falls with the 8th. So the order is (D), (B), (A), (C). (B), (D), (A), (C) puts the diminishing rate first, but MP rises before it falls; (D), (A), (B), (C) puts the maximum too early, since TP keeps rising as long as MP is positive; (D), (B), (C), (A) makes TP fall before it reaches its maximum, but TP can fall only after it has passed its maximum.",
   "from": "read-only fetch 2026-11-23"
  },
+ "664b7a77-53bc-4c82-889a-5731832693ac": {
+  "subject": "physics",
+  "chapter": "Dual Nature of Radiation & Matter",
+  "stem": "For a photosensitive metal, the stopping potential is V0 for light of wavelength λ and 3V0 for light of wavelength λ/2. The threshold wavelength of the metal is:",
+  "passage": null,
+  "options": [
+   "3λ",
+   "3λ/2",
+   "2λ",
+   "4λ/3"
+  ],
+  "key": 2,
+  "explanation": "Einstein’s equation gives eV0 = hc/λ − φ and 3eV0 = 2hc/λ − φ. Subtracting, hc/λ = 2eV0, so φ = hc/λ − eV0 = eV0 = hc/(2λ), and the threshold wavelength is hc/φ = 2λ. Reading the 3 : 1 ratio of stopping potentials as a ratio of wavelengths gives 3λ, which ignores the work function.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "66f791a5-a4e6-4377-afbe-4eef78e000c5": {
   "subject": "geography",
   "chapter": "Tertiary & Quaternary Activities",
@@ -779,6 +824,21 @@
   "explanation": "Under the flat rate method interest is charged on the original principal for the whole period: 60,000 × 10% × 2 = ₹ 12,000. Total repayment = 60,000 + 12,000 = ₹ 72,000, and spreading it over 2 × 12 = 24 months gives 72,000 ÷ 24 = ₹ 3,000. The figure ₹ 2,500 is the principal alone divided by 24, leaving out the interest.",
   "from": "read-only fetch 2026-11-23"
  },
+ "75bc29fb-5f94-405b-b6a4-9d121f46ff9e": {
+  "subject": "physics",
+  "chapter": "Semiconductor Electronics",
+  "stem": "Match List-I with List-II.\nList-I: (A) Silicon doped with arsenic (B) Silicon doped with indium (C) p-n junction under forward bias (D) p-n junction under reverse bias\nList-II: (I) Holes are the majority carriers (II) Narrow depletion layer and large current (III) Electrons are the majority carriers (IV) Wide depletion layer and very small current\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+   "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+   "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)",
+   "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+  ],
+  "key": 1,
+  "explanation": "Arsenic has five valence electrons and makes silicon n-type, with electrons as the majority carriers; indium has three and makes it p-type, with holes as the majority carriers. Forward bias narrows the depletion layer and gives a large current, whereas reverse bias widens it and gives only a very small current. Swapping the two dopants is the common slip.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "7926bef3-599f-4cdb-9107-fbf0edba1d9a": {
   "subject": "accountancy",
   "chapter": "Goodwill Valuation",
@@ -823,6 +883,21 @@
   "key": 1,
   "explanation": "In an offer for sale, securities are not issued directly to the public. The company sells them in bulk at an agreed price to intermediaries such as issuing houses or stock brokers, who then resell them to investors. In a public issue through a prospectus the company invites the public itself, in private placement the shares are allotted to institutional investors and a few selected individuals, and in a rights issue they are offered first to the existing shareholders.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "823433eb-4072-4493-833d-f53ea7ff8cf3": {
+  "subject": "physics",
+  "chapter": "Moving Charges & Magnetism",
+  "stem": "An electron moves in a circular orbit of radius 5.0 × 10^-11 m with a speed of 3.0 × 10^6 m/s. Take e = 1.6 × 10^-19 C. The magnetic moment due to this orbital motion is:",
+  "passage": null,
+  "options": [
+   "1.2 × 10^-23 A m²",
+   "2.4 × 10^-23 A m²",
+   "7.5 × 10^-23 A m²",
+   "4.8 × 10^-23 A m²"
+  ],
+  "key": 0,
+  "explanation": "One revolution takes T = 2πr/v, so the equivalent current is I = e/T = ev/(2πr). The magnetic moment is m = I × πr² = evr/2 = (1.6 × 10^-19)(3.0 × 10^6)(5.0 × 10^-11)/2 = 1.2 × 10^-23 A m². Leaving out the factor 1/2 gives 2.4 × 10^-23 A m², which is the value of evr, and 4.8 × 10^-23 doubles it.",
+  "from": "read-only fetch 2026-11-23"
  },
  "82592e64-9d6f-47d4-b9db-c7cd8a6f1589": {
   "subject": "biology",
@@ -883,6 +958,21 @@
   "key": 0,
   "explanation": "The belief is the cognitive component, the liking is the affective component and the regular jogging is the behavioural component of the attitude. This is the ABC (affective-behavioural-cognitive) model of attitudes.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
+ },
+ "86648d06-92c4-42c7-8444-6a801361903e": {
+  "subject": "physics",
+  "chapter": "Electrostatic Potential & Capacitance",
+  "stem": "A uniformly charged thin ring of radius 0.20 m carries total charge 2.0 μC. The electrostatic potential at the centre of the ring (take k = 9.0*10^9 SI) is:",
+  "passage": null,
+  "options": [
+   "9.0*10^4 V",
+   "4.5*10^4 V",
+   "1.8*10^5 V",
+   "0 V"
+  ],
+  "key": 0,
+  "explanation": "Potential at centre equals kQ/a = (9*10^9*2*10^-6)/0.20 = 9.0*10^4 V.",
+  "from": "read-only fetch 2026-11-23"
  },
  "86cc4648-e6d2-4854-b767-32d33a9cc06f": {
   "subject": "accountancy",
@@ -989,6 +1079,21 @@
   "explanation": "E°cell = 0.80 − (−0.25) = 1.05 V and n = 2. The reaction Ni + 2Ag⁺ → Ni²⁺ + 2Ag gives Q = [Ni²⁺]/[Ag⁺]² = 1.0/(0.01)² = 10⁴, so Ecell = 1.05 − (0.059/2) × 4 = 1.05 − 0.118 = 0.93 V. Leaving [Ag⁺] unsquared gives Q = 100 and 0.99 V, which ignores that two Ag⁺ ions appear in the balanced equation.",
   "from": "read-only fetch 2026-11-23"
  },
+ "97690044-9d76-4aff-a84b-f9787fd3c100": {
+  "subject": "physics",
+  "chapter": "Nuclei",
+  "stem": "A nuclear reactor delivers 3.2 MW of power from the fission of uranium, each fission releasing 200 MeV. Taking 1 MeV = 1.6 × 10^-13 J, the number of fissions per second is:",
+  "passage": null,
+  "options": [
+   "1.0 × 10^11",
+   "2.0 × 10^17",
+   "1.0 × 10^17",
+   "1.0 × 10^23"
+  ],
+  "key": 2,
+  "explanation": "The energy per fission is 200 × 1.6 × 10^-13 = 3.2 × 10^-11 J. The fission rate is P/E = 3.2 × 10^6 / 3.2 × 10^-11 = 1.0 × 10^17 per second. Treating the energy as 200 eV instead of 200 MeV (a factor of 10^6) would give 1.0 × 10^23.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96": {
   "subject": "geography",
   "chapter": "Mineral and Energy Resources",
@@ -1078,6 +1183,36 @@
   "key": 0,
   "explanation": "Capital structure denotes the proportionate mix of long-term funds (debt and equity) used to finance a firm.",
   "from": "saved read-only snapshot bstB/bank_business_studies.json"
+ },
+ "a8245687-1132-49a7-8ec4-306abf2aba8b": {
+  "subject": "physics",
+  "chapter": "Dual Nature of Radiation & Matter",
+  "stem": "A lamp radiates 3.3 W of monochromatic light of wavelength 600 nm. Taking h = 6.6 × 10^-34 J s and c = 3.0 × 10^8 m s^-1, the number of photons emitted per second is about:",
+  "passage": null,
+  "options": [
+   "1.0 × 10^20",
+   "3.3 × 10^19",
+   "1.0 × 10^17",
+   "1.0 × 10^19"
+  ],
+  "key": 3,
+  "explanation": "The energy of one photon is E = hc/λ = (6.6 × 10^-34 × 3.0 × 10^8)/(6.0 × 10^-7) = 3.3 × 10^-19 J. The number emitted per second is N = P/E = 3.3/(3.3 × 10^-19) = 1.0 × 10^19. Writing 600 nm as 6 × 10^-6 m instead of 6 × 10^-7 m gives 1.0 × 10^20.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "a904ec90-8023-4df6-84c5-8fa146b1698a": {
+  "subject": "physics",
+  "chapter": "Nuclei",
+  "stem": "If the radius of a nucleus with mass number A is R, what is the radius of a nucleus with mass number 8A according to the empirical relation R = R0 A^{1/3}?",
+  "passage": null,
+  "options": [
+   "2R",
+   "8R",
+   "4R",
+   "R/2"
+  ],
+  "key": 0,
+  "explanation": "Since radius ∝ A^{1/3}, scaling by factor 8 gives 8^{1/3}=2 so radius becomes 2R.",
+  "from": "read-only fetch 2026-11-23"
  },
  "ab74ad4f-f6ae-41e8-a885-5c2c5c971a21": {
   "subject": "chemistry",
@@ -1288,6 +1423,36 @@
   "key": 1,
   "explanation": "Pahi-kashta were non-resident cultivators who belonged to another village but cultivated land elsewhere on a contractual basis. Khud-kashta were resident cultivators of their own village. Muzarian is a general term for peasants, and the qanungo was a keeper of revenue records.",
   "from": "saved read-only snapshot history/bank_history.json"
+ },
+ "c5f630eb-9163-4366-aad7-669bde8c8602": {
+  "subject": "physics",
+  "chapter": "Alternating Current",
+  "stem": "Assertion: In a purely inductive AC circuit the current lags the voltage by 90°. Reason: The voltage across an inductor is proportional to the time rate of change of current (v = L di/dt).",
+  "passage": null,
+  "options": [
+   "Both assertion and reason are true and reason correctly explains the assertion",
+   "Both are true but reason does not correctly explain the assertion",
+   "Assertion is true but reason is false",
+   "Both are false"
+  ],
+  "key": 0,
+  "explanation": "v = L di/dt means voltage leads current by 90°, so the reason correctly explains the assertion.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "c62678e0-eb15-4186-811e-45a6452e528e": {
+  "subject": "physics",
+  "chapter": "Moving Charges & Magnetism",
+  "stem": "A positive charge moves with a velocity parallel to a uniform magnetic field. The magnetic force on the charge is:",
+  "passage": null,
+  "options": [
+   "Zero",
+   "Maximum and perpendicular to the field",
+   "Perpendicular to both the velocity and the field",
+   "Parallel to the field"
+  ],
+  "key": 0,
+  "explanation": "The magnetic force is F = q v × B. When v is parallel to B, the angle between them is 0° and sin 0° = 0, so the force is zero. The charge keeps moving undeflected along the field.",
+  "from": "read-only fetch 2026-11-23"
  },
  "c88a4ac5-7a46-41a8-98f4-ee80e8c09247": {
   "subject": "mathematics",
@@ -1559,6 +1724,21 @@
   "explanation": "Systematic desensitisation was developed by Joseph Wolpe and is based on classical conditioning and counterconditioning of anxiety with relaxation. Rogers founded client-centred therapy, Skinner operant conditioning and Beck cognitive therapy.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
  },
+ "eab7b9e0-c086-4422-8820-f49e7701fe40": {
+  "subject": "physics",
+  "chapter": "Atoms",
+  "stem": "An alpha particle of kinetic energy 7.2 MeV approaches a tin nucleus (atomic number 50) head-on. Taking e²/(4πε₀) = 1.44 MeV fm, the distance of closest approach is:",
+  "passage": null,
+  "options": [
+   "20 fm",
+   "10 fm",
+   "40 fm",
+   "5.0 fm"
+  ],
+  "key": 0,
+  "explanation": "At the closest approach all the kinetic energy has become electrostatic potential energy: K = (2e)(Ze)/(4πε₀r₀), so r₀ = 2Z × 1.44 MeV fm / K = (2 × 50 × 1.44)/7.2 = 20 fm. Leaving out the charge 2e of the alpha particle gives 10 fm.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "ed2b7448-3d0f-4e70-9e56-ba29ba3bc47a": {
   "subject": "mathematics",
   "chapter": "Application of Derivatives",
@@ -1632,6 +1812,21 @@
   ],
   "key": 3,
   "explanation": "The corner points of the feasible region are (0, 0), (4, 0), (3, 1) and (0, 2), where (3, 1) is the intersection of x + y = 4 and x + 3y = 6. Z takes the values 0, 12, 13 and 8 at these points, so the maximum is 13 at (3, 1). The value 16 comes from (0, 4), which violates x + 3y ≤ 6.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "fc6098bd-ef63-4d76-8a35-0568d11957ae": {
+  "subject": "physics",
+  "chapter": "Electromagnetic Waves",
+  "stem": "Arrange the following electromagnetic waves in order of increasing wavelength, shortest wavelength first.\n(A) Radio waves\n(B) Visible light\n(C) Gamma rays\n(D) Microwaves\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A), (B), (C), (D)",
+   "(A), (D), (B), (C)",
+   "(C), (D), (B), (A)",
+   "(C), (B), (D), (A)"
+  ],
+  "key": 3,
+  "explanation": "Wavelength decreases as frequency increases across the spectrum. Radio waves are the longest, then microwaves, infrared, visible light, ultraviolet, X-rays and gamma rays are the shortest. So increasing wavelength runs gamma rays, visible light, microwaves, radio waves.",
   "from": "read-only fetch 2026-11-23"
  },
  "ff48d8f7-d70a-4b78-a675-93cd2ad6bc5d": {

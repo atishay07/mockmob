@@ -77,7 +77,8 @@ test('every status maps to its words, and to one letter of the strip', () => {
   assert.equal(STATUS_WORDS['new-values'].label, 'Same question, new numbers');
   assert.equal(STATUS_WORDS.concept.label, 'Taught as a concept');
   assert.equal(STATUS_WORDS['not-yet'].label, 'Not in MockMob yet');
-  assert.match(STATUS_WORDS.skill.label, /not counted$/);
+  assert.equal(STATUS_WORDS.skill.label, 'Answer is in the passage');
+  assert.match(STATUS_WORDS.skill.line, /left out of the count\.$/);
   assert.deepEqual(['same', 'new-values', 'concept'].map(groupOf), ['in', 'in', 'in']);
   assert.equal(groupOf('not-yet'), 'not');
   assert.deepEqual(['skill', 'off-syllabus', 'dropped'].map(groupOf), ['out', 'out', 'out']);
@@ -152,7 +153,7 @@ test('a paper is fetched only when chosen: nine loaders, no paper in the page bu
   // Nothing plays by itself: no timer drives the choice, only taps and keys.
   assert.doesNotMatch(explorer, /setInterval|autoplay/i);
   // The model in the page stays small (one short string a paper).
-  assert.ok(JSON.stringify(coverageExplorer()).length < 6000);
+  assert.ok(JSON.stringify(coverageExplorer()).length < 9000); // thirteen papers since 24 Nov 2026
 });
 
 test('the words say what was checked: no hype, no prediction, no comparison with another company', () => {
@@ -205,7 +206,7 @@ test('the section sits right before pricing, keeps its address, and links each p
 // ---- Owner, 23 Nov 2026 evening: "way too much transparency and clutter ... how clean, aesthetic, and elegant" his reference
 // is. One figure, a strip that draws three things, and one quiet key to a short sheet.
 test('the strip and its legend draw three things: in MockMob, not yet, not counted', () => {
-  assert.deepEqual(LEGEND.map((item) => item.label), ['In MockMob', 'Not yet', 'Not counted']);
+  assert.deepEqual(LEGEND.map((item) => item.label), ['In MockMob', 'Not yet', 'Answer is in the passage']);
   assert.deepEqual(LEGEND[0].fields, ['same', 'newValues', 'concept']);
   for (const s of summary.subjects) {
     const legend = LEGEND.map((item) => item.fields.reduce((sum, f) => sum + (s[f] || 0), 0));
@@ -248,7 +249,7 @@ test('"How we counted" is one quiet key and a short sheet: what counts, what was
   assert.match(explorer, /\[\['before', model\.before\], \['now', model\.total\]\]/);
   assert.match(explorer, /useState\('now'\)/);
   assert.doesNotMatch(explorer, /data-since/);
-  assert.deepEqual(EXPLORER.view, { before: 'First check', now: 'Now, for CUET 2027' });
+  assert.deepEqual(EXPLORER.view, { before: 'Previously', now: 'Now, for CUET 2027' });
   assert.deepEqual(COVERAGE_MARKS, json('data/coverage/cuet2026/home/marks.json'));
   for (const s of summary.subjects) {
     const marks = COVERAGE_MARKS[s.id];

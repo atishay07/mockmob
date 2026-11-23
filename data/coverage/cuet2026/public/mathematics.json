@@ -1,7 +1,7 @@
 {
  "id": "mathematics",
  "name": "Mathematics",
- "stream": "commerce",
+ "stream": "science",
  "code": "319",
  "examDate": "2026-05-24",
  "examDay": "24 May 2026",
@@ -10,7 +10,7 @@
  "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-23",
  "firstDay": "23 November 2026",
- "final": false,
+ "final": true,
  "counts": {
   "total": 85,
   "same": 0,

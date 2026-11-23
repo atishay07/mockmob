@@ -52,7 +52,7 @@ const SUBJECTS = {
   accountancy: { name: 'Accountancy', stream: 'commerce' },
   'business-studies': { name: 'Business Studies', stream: 'commerce' },
   economics: { name: 'Economics', stream: 'commerce' },
-  mathematics: { name: 'Mathematics', stream: 'commerce' },
+  mathematics: { name: 'Mathematics', stream: 'science' }, // the owner, 24 Nov 2026: Maths sits in the Science tab
   'applied-mathematics': { name: 'Applied Mathematics', stream: 'commerce' },
   entrepreneurship: { name: 'Entrepreneurship', stream: 'commerce' },
   physics: { name: 'Physics', stream: 'science' },
@@ -413,7 +413,7 @@ async function fetchMissing(missing, needCounts, cache, servedChapters) {
 
 // ------------------------------------------------------------------------------------------------------------ main
 /** A subject is drawn on the site only at this percent or more (owner LK368). */
-const SHOW_MIN_PCT = 80;
+const SHOW_MIN_PCT = 0; // was 80 (LK368); the owner, 24 Nov 2026: "Just add the chemistry, maths, and physics also in the science section"
 async function main() {
   mkdirSync(OUT, { recursive: true });
   const found = subjectIds();

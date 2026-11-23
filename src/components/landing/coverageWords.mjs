@@ -18,7 +18,7 @@ export const STATUS_WORDS = Object.freeze({
   'new-values': Object.freeze({ label: 'Same question, new numbers', short: 'New numbers', group: 'in', line: 'MockMob has the same type and steps, with different figures.' }),
   concept: Object.freeze({ label: 'Taught as a concept', short: 'Taught', group: 'in', line: 'MockMob teaches what this question tests.' }),
   'not-yet': Object.freeze({ label: 'Not in MockMob yet', short: 'Not yet', group: 'not', line: 'Nothing in MockMob teaches all of this yet.' }),
-  skill: Object.freeze({ label: 'Reading skill, not counted', short: 'Not counted', group: 'out', line: 'The answer can be read off a passage printed in the paper.' }),
+  skill: Object.freeze({ label: 'Answer is in the passage', short: 'In the passage', group: 'out', line: 'The paper prints a passage, and the answer can be read straight from it. Nothing has to be learnt first, so it is left out of the count.' }),
   'off-syllabus': Object.freeze({ label: 'Off the syllabus, not counted', short: 'Not counted', group: 'out', line: 'It is not in the CUET 2026 syllabus.' }),
   dropped: Object.freeze({ label: 'Dropped by NTA, not counted', short: 'Not counted', group: 'out', line: 'NTA dropped it from the final answer key.' }),
 });
@@ -37,7 +37,7 @@ export function viewStrip(strip, marks, view) {
 export const LEGEND = Object.freeze([
   Object.freeze({ status: 'concept', label: 'In MockMob', fields: Object.freeze(['same', 'newValues', 'concept']) }),
   Object.freeze({ status: 'not-yet', label: 'Not yet', fields: Object.freeze(['notYet']) }),
-  Object.freeze({ status: 'skill', label: 'Not counted', fields: Object.freeze(['skill', 'offSyllabus', 'dropped']) }),
+  Object.freeze({ status: 'skill', label: 'Answer is in the passage', fields: Object.freeze(['skill', 'offSyllabus', 'dropped']) }),
 ]);
 
 /** The streams as the home page's tabs, in the owner's order (LK427). `pending` are subjects of the stream whose papers are
@@ -79,7 +79,7 @@ export const EXPLORER = Object.freeze({
   next: 'Next question',
   asked: 'CUET 2026 asked',
   ours: 'In MockMob',
-  notCounted: 'Why it is not counted',
+  notCounted: 'Answered from the passage',
   ntaKey: 'NTA’s answer',
   ntaKeys: 'NTA accepts either answer',
   ourKey: 'MockMob’s answer',
@@ -95,7 +95,7 @@ export const EXPLORER = Object.freeze({
   note: (sitting) => (sitting ? `This paper: ${sitting}.` : ''),
   // The two figures (owner, 23 Nov 2026): each key carries its own number.
   views: 'Which figure',
-  view: Object.freeze({ before: 'First check', now: 'Now, for CUET 2027' }),
+  view: Object.freeze({ before: 'Previously', now: 'Now, for CUET 2027' }),
   viewCount: (covered, of) => `${covered} of ${of} questions`,
 });
 

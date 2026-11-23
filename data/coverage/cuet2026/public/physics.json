@@ -1,0 +1,1602 @@
+{
+ "id": "physics",
+ "name": "Physics",
+ "stream": "science",
+ "code": "322",
+ "examDate": "2026-05-24",
+ "examDay": "24 May 2026",
+ "shift": "second shift",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
+ "firstDate": "2026-11-23",
+ "firstDay": "23 November 2026",
+ "final": true,
+ "counts": {
+  "total": 50,
+  "same": 0,
+  "newValues": 0,
+  "concept": 23,
+  "notYet": 27,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "covered": 23,
+  "counted": 50,
+  "pct": 46,
+  "first": 23,
+  "firstPct": 46,
+  "addedCards": 0,
+  "addedQuestions": 0,
+  "found": 0,
+  "sameFirst": 0,
+  "newValuesFirst": 0
+ },
+ "chapters": [
+  {
+   "name": "Current Electricity",
+   "asked": 5,
+   "covered": 1
+  },
+  {
+   "name": "Electromagnetic Waves",
+   "asked": 5,
+   "covered": 1
+  },
+  {
+   "name": "Moving Charges & Magnetism",
+   "asked": 5,
+   "covered": 3
+  },
+  {
+   "name": "Electric Charges & Fields",
+   "asked": 4,
+   "covered": 3
+  },
+  {
+   "name": "Ray Optics & Optical Instruments",
+   "asked": 4,
+   "covered": 0
+  },
+  {
+   "name": "Semiconductor Electronics",
+   "asked": 4,
+   "covered": 2
+  },
+  {
+   "name": "Alternating Current",
+   "asked": 3,
+   "covered": 1
+  },
+  {
+   "name": "Atoms",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Dual Nature of Radiation & Matter",
+   "asked": 3,
+   "covered": 3
+  },
+  {
+   "name": "Electromagnetic Induction",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Electrostatic Potential & Capacitance",
+   "asked": 3,
+   "covered": 1
+  },
+  {
+   "name": "Nuclei",
+   "asked": 3,
+   "covered": 2
+  },
+  {
+   "name": "Wave Optics",
+   "asked": 3,
+   "covered": 0
+  },
+  {
+   "name": "Magnetism & Matter",
+   "asked": 2,
+   "covered": 1
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electric Charges & Fields",
+   "type": "theory",
+   "stem": "An electric dipole is placed in an external uniform electric field. The net electric force on the dipole",
+   "passage": null,
+   "options": [
+    "is always zero",
+    "depends on the orientation of the dipole",
+    "can never be zero",
+    "depends on the dipole moment of the dipole"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card asks the same thing and gives the keyed answer: no net force in a uniform field.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.electric-charges-and-fields.fact-dipole-uniform-field",
+    "chapter": "Electric Charges & Fields",
+    "front": "What is the net force on a dipole in a uniform external field, and what does it experience instead?",
+    "back": "The net force on the dipole is zero, since E is uniform. However, the charges are separated, so the forces act at different points, resulting in a torque on the dipole.",
+    "source": "NCERT, Physics Part 1, chapter 1, page 27",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electric Charges & Fields",
+   "type": "theory",
+   "stem": "Identify the correct statements from the following :\nA. The charge on a body can have any value greater than the charge on an electron or proton.\nB. Gauss's theorem is valid for a closed surface of any shape and for any general charge distribution.\nC. The net flux through a closed surface due to a charge lying outside the closed surface is zero.\nD. Gauss's theorem is applicable to any field which obeys the inverse square law\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and C only",
+    "A, B and D only",
+    "A, B, C and D",
+    "B, C and D only"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Every statement is taught: quantisation makes A false; cards state B, C and the inverse-square basis of Gauss law (D). A being false alone already leaves only option 4.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.electric-charges-and-fields.def-quantisation-def",
+    "chapter": "Electric Charges & Fields",
+    "front": "What is quantisation of charge?",
+    "back": "The fact that electric charge is always an integral multiple of e is termed as quantisation of charge.",
+    "source": "NCERT, Physics Part 1, chapter 1, page 5",
+    "more": {
+     "cards": 5,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electric Charges & Fields",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I | LIST-II\nA. E is independent of r | I. For a point charge\nB. E is inversely proportional to r | II. For a short dipole\nC. E is inversely proportional to r^2 | III. For a uniform line charge\nD. E is inversely proportional to r^3 | IV. For a uniformly charged infinite plane sheet\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-I, D-II",
+    "A-IV, B-III, C-II, D-I",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Three cards give all four distance laws.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.electric-charges-and-fields.formula-sheet-field",
+    "chapter": "Electric Charges & Fields",
+    "front": "Formula: electric field of an infinite thin plane sheet of uniform surface charge density σ.",
+    "back": "Infinite thin plane sheet of uniform surface charge density s\nE = σ 2 ε0 nˆ\nwhere nˆ is a unit vector normal to the plane, outward on either side.",
+    "source": "NCERT, Physics Part 1, chapter 1, page 39",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electric Charges & Fields",
+   "type": "numerical",
+   "stem": "A charge q is placed at the center of a line joining two equal positive charges Q. The system of the three charges will be in equilibrium, if q is equal to",
+   "passage": null,
+   "options": [
+    "-Q/2",
+    "-Q/4",
+    "+Q/4",
+    "+Q/2"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electrostatic Potential & Capacitance",
+   "type": "numerical",
+   "stem": "A metal wire is bent in the shape of a circle of 10 cm radius. It is given a charge of 200 μC which spreads on it uniformly. The electric potential at its center is",
+   "passage": null,
+   "options": [
+    "3 × 10^6 V",
+    "6 × 10^6 V",
+    "9 × 10^6 V",
+    "18 × 10^6 V"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row is the same sum with other numbers.",
+   "match": {
+    "kind": "question",
+    "id": "86648d06-92c4-42c7-8444-6a801361903e",
+    "chapter": "Electrostatic Potential & Capacitance",
+    "stem": "A uniformly charged thin ring of radius 0.20 m carries total charge 2.0 μC. The electrostatic potential at the centre of the ring (take k = 9.0*10^9 SI) is:",
+    "passage": null,
+    "options": [
+     "9.0*10^4 V",
+     "4.5*10^4 V",
+     "1.8*10^5 V",
+     "0 V"
+    ],
+    "key": 0,
+    "explanation": "Potential at centre equals kQ/a = (9*10^9*2*10^-6)/0.20 = 9.0*10^4 V.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electrostatic Potential & Capacitance",
+   "type": "numerical",
+   "stem": "Three capacitors of equal capacitance, when connected in series have net capacitance C1 and when connected in parallel have net capacitance C2. The ratio of C1 and C2 is",
+   "passage": null,
+   "options": [
+    "1/3",
+    "3",
+    "1/9",
+    "9"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electrostatic Potential & Capacitance",
+   "type": "numerical",
+   "stem": "A 800 pF capacitor is charged by a 100 V battery. After some time, the battery is disconnected. The capacitor is then connected across another 800 pF capacitor. The electrostatic energy stored in the combination will be",
+   "passage": null,
+   "options": [
+    "2 × 10^-6 J",
+    "3.8 × 10^-6 J",
+    "4.2 × 10^-6 J",
+    "6 × 10^6 J"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Current Electricity",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II\nLIST-I (Quantity) | LIST-II (Formula)\nA. Electromotive force | I. Drift velocity / Electric field\nB. Electric field | II. Current / Area\nC. Current density | III. Electric force / Charge\nD. Charge mobility | IV. Work / Charge\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-II, D-I",
+    "A-IV, B-III, C-I, D-II",
+    "A-III, B-IV, C-II, D-I"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Four cards give the four definitions. A's extra citation f9f62398 is removed: its keyed option pairs mobility with n e tau/m, which is wrong.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.current-electricity.def-emf-def",
+    "chapter": "Current Electricity",
+    "front": "Define the electromotive force (emf) of a source.",
+    "back": "The work done per unit charge by the source in taking the charge from lower to higher potential energy (i.e., from one terminal of the source to the other) is called the electromotive force, or emf, of the source.",
+    "source": "NCERT, Physics Part I, chapter 3, page 102",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Current Electricity",
+   "type": "theory",
+   "stem": "Arrange the following materials in the ascending order of their electrical conductivities.\nA. Rubber\nB. Iron\nC. Carbon\nD. Copper\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "D, B, C, A",
+    "A, C, B, D",
+    "C, A, B, D"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Current Electricity",
+   "type": "theory",
+   "stem": "Identify the correct statements among the following:\nA. A current carrying wire is electrically charged.\nB. The drift velocity of electrons in a metallic wire will decrease if the temperature of the wire is increased.\nC. The emf of a cell depends on the internal resistance of the cell.\nD. The internal resistance of dry cells is much higher than the common electrolytic cells.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and D only",
+    "A and D only",
+    "B and D only",
+    "A, C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Current Electricity",
+   "type": "numerical",
+   "stem": "At what temperature the resistance of a conductor becomes 20% more than its resistance at 27° C? (The value of the temperature coefficient of resistance of the conductor is 2.0 x 10^-4/K.)",
+   "passage": null,
+   "options": [
+    "900 K",
+    "1100 K",
+    "1300 K",
+    "1450 K"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Current Electricity",
+   "type": "numerical",
+   "stem": "In a Wheatstone bridge arrangement (P, Q, R and S), the resistors P and Q are nearly equal. The bridge is balanced when R = 500 Ω. On interchanging P and Q, the value of R for balancing is 505 Ω. The value of S will be:",
+   "passage": null,
+   "options": [
+    "500 Ω",
+    "502.5 Ω",
+    "505 Ω",
+    "5 Ω"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "theory",
+   "stem": "A positive charge enters a magnetic field and travels parallel to the magnetic field. The charge experiences",
+   "passage": null,
+   "options": [
+    "an upward force",
+    "a downward force",
+    "a force in the direction of magnetic field.",
+    "no force"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row asks the same thing with the same answer.",
+   "match": {
+    "kind": "question",
+    "id": "c62678e0-eb15-4186-811e-45a6452e528e",
+    "chapter": "Moving Charges & Magnetism",
+    "stem": "A positive charge moves with a velocity parallel to a uniform magnetic field. The magnetic force on the charge is:",
+    "passage": null,
+    "options": [
+     "Zero",
+     "Maximum and perpendicular to the field",
+     "Perpendicular to both the velocity and the field",
+     "Parallel to the field"
+    ],
+    "key": 0,
+    "explanation": "The magnetic force is F = q v × B. When v is parallel to B, the angle between them is 0° and sin 0° = 0, so the force is zero. The charge keeps moving undeflected along the field.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Magnetism & Matter",
+   "type": "theory",
+   "stem": "If a ferromagnetic material is inserted in a current carrying solenoid, the magnetic field inside the solenoid",
+   "passage": null,
+   "options": [
+    "increases",
+    "decreases",
+    "remains unchanged",
+    "becomes zero"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards say a soft-iron core gives a large field in a solenoid and that soft iron is ferromagnetic; a bank row says the core increases the flux.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.moving-charges-and-magnetism.kl-solenoid-soft-iron-core",
+    "chapter": "Moving Charges & Magnetism",
+    "front": "We shall see in the next chapter that a large field is possible by inserting a ____ inside the solenoid.",
+    "back": "We shall see in the next chapter that a large field is possible by inserting a soft iron core inside the solenoid.",
+    "source": "NCERT, Physics Part I, chapter 4, page 122",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "numerical",
+   "stem": "An electron of charge 'e' moves in a circular orbit of radius r around a nucleus with a frequency ν. The magnetic moment associated with the orbital motion of the electron is",
+   "passage": null,
+   "options": [
+    "π ν e r^2",
+    "π ν r^2 / e",
+    "π ν e / r",
+    "π e r^2 / ν"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row finds the orbital moment with I = e/T and m = I pi r^2; the paper gives the frequency, so I = e nu is the same step one line earlier.",
+   "match": {
+    "kind": "question",
+    "id": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+    "chapter": "Moving Charges & Magnetism",
+    "stem": "An electron moves in a circular orbit of radius 5.0 × 10^-11 m with a speed of 3.0 × 10^6 m/s. Take e = 1.6 × 10^-19 C. The magnetic moment due to this orbital motion is:",
+    "passage": null,
+    "options": [
+     "1.2 × 10^-23 A m²",
+     "2.4 × 10^-23 A m²",
+     "7.5 × 10^-23 A m²",
+     "4.8 × 10^-23 A m²"
+    ],
+    "key": 0,
+    "explanation": "One revolution takes T = 2πr/v, so the equivalent current is I = e/T = ev/(2πr). The magnetic moment is m = I × πr² = evr/2 = (1.6 × 10^-19)(3.0 × 10^6)(5.0 × 10^-11)/2 = 1.2 × 10^-23 A m². Leaving out the factor 1/2 gives 2.4 × 10^-23 A m², which is the value of evr, and 4.8 × 10^-23 doubles it.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "theory",
+   "stem": "Identify the correct statements among the following.\nA. The torque acting on a planar current loop in a magnetic field changes when its shape is changed without changing its area.\nB. Two parallel wires carrying currents in opposite directions attract each other.\nC. An ideal ammeter has zero resistance and an ideal voltmeter has infinite resistance.\nD. A galvanometer can be converted into a voltmeter by connecting a high resistance in series.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and C only",
+    "B, C and D only",
+    "C and D only",
+    "A and C only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A, B and D, the statements that decide the key, are each stated by served material; C is printed in all four options, so it decides nothing.",
+   "match": {
+    "kind": "question",
+    "id": "3ca388a2-e0f5-4d73-8690-6e347ed9c763",
+    "chapter": "Magnetism & Matter",
+    "stem": "Read the statements and select the correct option. Statement I: The magnetic dipole moment of a current loop is given by m = NIA. Statement II: The net magnetic force on a current loop in a uniform magnetic field is zero. Statement III: The torque on a current loop in a uniform magnetic field is independent of the shape of the loop.",
+    "passage": null,
+    "options": [
+     "I and II only",
+     "II and III only",
+     "I and III only",
+     "I, II and III"
+    ],
+    "key": 3,
+    "explanation": "All three statements are correct. The dipole moment of a planar current loop is m = NIA, the net force on a loop in a uniform magnetic field is zero, and the torque NIAB sin θ depends only on the area of the loop, not on its shape.",
+    "more": {
+     "cards": 4,
+     "questions": 2
+    }
+   }
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "numerical",
+   "stem": "A 0.5 m long solenoid has 500 turns and has a flux density of 2.52 x 10^-3 T at its center. The current in the solenoid is (Given, μ0 = 4π × 10^-7 H/m )",
+   "passage": null,
+   "options": [
+    "1.2 A",
+    "2.0 A",
+    "2.8 A",
+    "3.4 A"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Magnetism & Matter",
+   "type": "numerical",
+   "stem": "A bar magnet of dipole moment 3 Am^2 rests with its centre on a frictionless point. A force F is applied at right angles to the axis of the magnet, 10 cm from the point. It is observed that an external magnetic field of 0.25 T is required to hold the magnet in equilibrium at an angle of 30° with the field. The value of F is:",
+   "passage": null,
+   "options": [
+    "2.75 N",
+    "2.93 N",
+    "3.75 N",
+    "4.08 N"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "numerical",
+   "stem": "A wire shown in figure carries a current of 10 A. The magnitude of the magnetic field at the centre O is: (Given: radius of the bent coil is 3 cm.)\n[Figure: the wire comes in along a straight line, goes round a circular arc of radius 3 cm centred on O, and leaves along a second straight line; both straight parts lie on lines through O (shown dashed to O) that are at 90° to each other, so the arc covers the remaining three-quarters (270°) of the circle.]",
+   "passage": null,
+   "options": [
+    "1 × 10^-4 T",
+    "1.57 × 10^-3 T",
+    "1.57 × 10^-4 T",
+    "2.41 × 10^-5 T"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Induction",
+   "type": "theory",
+   "stem": "The mutual inductance of a pair of coils placed close to each other depends upon",
+   "passage": null,
+   "options": [
+    "The rate at which currents are changing in the two coils.",
+    "Relative position and orientation of the two coils",
+    "The materials of the wires of the coils",
+    "The current in the two coils"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card and a bank row state the keyed fact.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.electromagnetic-induction.fact-mutual-inductance-separation-orientation",
+    "chapter": "Electromagnetic Induction",
+    "front": "On what two things does the mutual inductance of a pair of coils or solenoids depend?",
+    "back": "It is also important to know that the mutual inductance of a pair of coils, solenoids, etc., depends on their separation as well as their relative orientation.",
+    "source": "NCERT, Physics Part I, chapter 6, page 167",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Induction",
+   "type": "theory",
+   "stem": "If the number of turns in a coil is tripled, the value of the magnetic flux linked with the coil:",
+   "passage": null,
+   "options": [
+    "remains unchanged",
+    "becomes 1/3 times",
+    "is tripled",
+    "becomes 2/3 times"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards define the flux linked with an N-turn coil as N Phi with the same flux through each turn, so it triples with the turns.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.electromagnetic-induction.formula-mutual-inductance-flux-linkage",
+    "chapter": "Electromagnetic Induction",
+    "front": "Formula: flux linkage N1Φ1 of solenoid S1 due to current I2 in solenoid S2, which defines the mutual inductance M12",
+    "back": "When a current I 2 is set up through S2, it in turn sets up a magnetic flux through S1. Let us denote it by Φ1. The corresponding flux linkage with solenoid S 1 is\nN 1 Φ1 = MI 12 2\nM 12 is called the mutual inductance of solenoid S 1 with respect to solenoid S2. It is also referred to as the coefficient of mutual induction.",
+    "source": "NCERT, Physics Part I, chapter 6, page 166",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Alternating Current",
+   "type": "theory",
+   "stem": "Identity the correct statement(s) among the following.\nA. In a d.c. circuit, a capacitor can conduct but not an inductor.\nB. In a d.c. circuit, an inductor can conduct but not a capacitor.\nC. In a d.c. circuit, both the inductor and capacitor cannot conduct.\nD. An inductor has infinite resistance in a d.c. circuit.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A and C only",
+    "B and D only",
+    "B only",
+    "A, C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Alternating Current",
+   "type": "theory",
+   "stem": "An a.c. voltage is applied to a pure inductor . The current in the inductor would be",
+   "passage": null,
+   "options": [
+    "leading the voltage by π/2",
+    "lagging the voltage by π/2",
+    "leading the voltage by π/4",
+    "in phase with the voltage."
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row and a card state the keyed fact.",
+   "match": {
+    "kind": "question",
+    "id": "c5f630eb-9163-4366-aad7-669bde8c8602",
+    "chapter": "Alternating Current",
+    "stem": "Assertion: In a purely inductive AC circuit the current lags the voltage by 90°. Reason: The voltage across an inductor is proportional to the time rate of change of current (v = L di/dt).",
+    "passage": null,
+    "options": [
+     "Both assertion and reason are true and reason correctly explains the assertion",
+     "Both are true but reason does not correctly explain the assertion",
+     "Assertion is true but reason is false",
+     "Both are false"
+    ],
+    "key": 0,
+    "explanation": "v = L di/dt means voltage leads current by 90°, so the reason correctly explains the assertion.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Alternating Current",
+   "type": "numerical",
+   "stem": "A pure inductor of 0.25 H is connected to a source of 220 V. If the frequency of the source is 50 Hz, then the rms current in the circuit will be.",
+   "passage": null,
+   "options": [
+    "1.6 A",
+    "4.0 A",
+    "2.8 A",
+    "28 A"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Induction",
+   "type": "numerical",
+   "stem": "A coil with an average diameter of 0.02 m is placed with its plane perpendicular to a magnetic field of 6000 T. The induced emf in the coil is 11 V, when the magnetic field is changed to 1000 T in 4 s. The number of turns in the coil is",
+   "passage": null,
+   "options": [
+    "16",
+    "18",
+    "24",
+    "28"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Waves",
+   "type": "theory",
+   "stem": "Arrange the following electromagnetic waves in the ascending order of their energies.\nA. X-rays\nB. UV-rays\nC. Infrared rays\nD. Microwaves\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "B, C, D, A",
+    "D, B, A, C",
+    "D, C, B, A"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "The spectrum order and E = h nu are both served, so energy rises from microwaves to X-rays.",
+   "match": {
+    "kind": "question",
+    "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+    "chapter": "Electromagnetic Waves",
+    "stem": "Arrange the following electromagnetic waves in order of increasing wavelength, shortest wavelength first.\n(A) Radio waves\n(B) Visible light\n(C) Gamma rays\n(D) Microwaves\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A), (B), (C), (D)",
+     "(A), (D), (B), (C)",
+     "(C), (D), (B), (A)",
+     "(C), (B), (D), (A)"
+    ],
+    "key": 3,
+    "explanation": "Wavelength decreases as frequency increases across the spectrum. Radio waves are the longest, then microwaves, infrared, visible light, ultraviolet, X-rays and gamma rays are the shortest. So increasing wavelength runs gamma rays, visible light, microwaves, radio waves.",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Waves",
+   "type": "theory",
+   "stem": "The conduction current is same as displacement current in a circuit when the source is",
+   "passage": null,
+   "options": [
+    "a.c. only",
+    "d.c. only",
+    "either a.c. or d.c.",
+    "neither d.c nor a.c."
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Waves",
+   "type": "theory",
+   "stem": "Identify the correct statements among the following.\nA. All electromagnetic waves, irrespective of their frequencies, travel at the same speed through vacuum.\nB. A capacitor is fully charged by a d.c. source. When it is fully charged, the displacement current is zero.\nC. Ultraviolet radiation can be used for viewing objects through haze and fog.\nD. A moving charge in a circular orbit cannot produce electromagnetic waves.\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B and C only",
+    "B and C only",
+    "A and B only",
+    "C and D only"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Waves",
+   "type": "theory",
+   "stem": "A radiation of energy E falls normally on a perfectly reflecting surface. The momentum transferred to the surface is",
+   "passage": null,
+   "options": [
+    "2E/c",
+    "2E/c^2",
+    "E/c^2",
+    "E/c"
+   ],
+   "key": [
+    0
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Electromagnetic Waves",
+   "type": "numerical",
+   "stem": "The intensity of a laser beam is 2.5 x 10^14 W/m^2. The amplitude of the magnetic field in the beam is\n(Given, ε0 = 8.85 x 10^-12 C^2N^-1m^-2)",
+   "passage": null,
+   "options": [
+    "~1.15 T",
+    "~1.45 T",
+    "~2.0 T",
+    "~3.25 T"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "theory",
+   "stem": "A real image is formed by a convex lens on the screen. If half of the lens is covered by an opaque object, then",
+   "passage": null,
+   "options": [
+    "half image is not seen",
+    "full image of same intensity is seen",
+    "half image of same intensity is seen",
+    "full image of decreased intensity is seen"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "theory",
+   "stem": "Arrange the following substances/media in the increasing order of their refractive indices.\nA. Crown glass\nB. Water\nC. Diamond\nD. CO2\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "D, C, B, A",
+    "D, B, A, C",
+    "D, B, C, A"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Wave Optics",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II (In the context of Young's double slit experiment)\nLIST-I | LIST-II\nA. The width of one slit is slightly increased. | I. The fringe width increases.\nB. One slit is closed. | II. Interference pattern becomes less sharp.\nC. The width of the source slit is increased. | III. Maximum intensity increases\nD. Light of smaller frequency is used. | IV. Interference pattern disappears\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-II, D-I",
+    "A-III, B-IV, C-II, D-I",
+    "A-III, B-IV, C-I, D-II"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Wave Optics",
+   "type": "theory",
+   "stem": "In a Young's double slit experiment, the intensity at the center of the screen is I . If one of the slits is closed, the intensity at the center of the screen now will be:",
+   "passage": null,
+   "options": [
+    "1/2",
+    "1",
+    "1/4",
+    "1/3"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "numerical",
+   "stem": "A ray of light of frequency 5 × 10^14 Hz is passed through a liquid. The wavelength of light measured inside the liquid is found to be 450 × 10^-9 m. The refractive index of the liquid is",
+   "passage": null,
+   "options": [
+    "1.25",
+    "1.33",
+    "1.45",
+    "1.51"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Wave Optics",
+   "type": "numerical",
+   "stem": "If the two slits in a Young's double slit experiment have their widths in the ratio 4:1, then the ratio of intensities at maxima and minima in the interference pattern will be",
+   "passage": null,
+   "options": [
+    "16 : 3",
+    "16 : 1",
+    "25 : 9",
+    "9 : 1"
+   ],
+   "key": [
+    3
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Ray Optics & Optical Instruments",
+   "type": "numerical",
+   "stem": "A concave mirror forms a real image of an object kept at a distance of 9 cm from it. If the object is taken away further from the mirror by 6 cm, the image size is reduced to (1/4)^th of its previous size. The focal length of the mirror is:",
+   "passage": null,
+   "options": [
+    "-5 cm",
+    "-7 cm",
+    "15 cm",
+    "18 cm"
+   ],
+   "key": [
+    1
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Dual Nature of Radiation & Matter",
+   "type": "theory",
+   "stem": "Arrange the following photosensitive metals (work function given in brackets) according to their threshold wavelengths in decreasing order of their values.\nA. K (Φ = 2.3 eV)\nB. Na (Φ = 2.75 eV)\nC. Cs (Φ = 2.14 eV)\nD. Ca (Φ = 3.2 eV)\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "D, C, B, A",
+    "C, A, D, B",
+    "C, A, B, D"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "A bank explanation gives lambda0 = hc/phi and a card nu0 = phi0/h, so the order follows from the printed work functions.",
+   "match": {
+    "kind": "question",
+    "id": "664b7a77-53bc-4c82-889a-5731832693ac",
+    "chapter": "Dual Nature of Radiation & Matter",
+    "stem": "For a photosensitive metal, the stopping potential is V0 for light of wavelength λ and 3V0 for light of wavelength λ/2. The threshold wavelength of the metal is:",
+    "passage": null,
+    "options": [
+     "3λ",
+     "3λ/2",
+     "2λ",
+     "4λ/3"
+    ],
+    "key": 2,
+    "explanation": "Einstein’s equation gives eV0 = hc/λ − φ and 3eV0 = 2hc/λ − φ. Subtracting, hc/λ = 2eV0, so φ = hc/λ − eV0 = eV0 = hc/(2λ), and the threshold wavelength is hc/φ = 2λ. Reading the 3 : 1 ratio of stopping potentials as a ratio of wavelengths gives 3λ, which ignores the work function.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Dual Nature of Radiation & Matter",
+   "type": "theory",
+   "stem": "An electron and a photon each have the same de-Broglie wavelength of 1.0 nm. The ratio of their linear momenta is",
+   "passage": null,
+   "options": [
+    "1:1",
+    "1:2",
+    "2:1",
+    "4:9"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Cards give p = h/lambda for both, so the momenta are equal.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.dual-nature-of-radiation-and-matter.formula-photon-energy-momentum",
+    "chapter": "Dual Nature of Radiation & Matter",
+    "front": "Formula: energy E and momentum p of a photon of frequency ν and wavelength λ",
+    "back": "Each photon has energy E (=hν) and momentum p (= h ν/c), and speed c, the speed of light.\nAll photons of light of a particular frequency ν, or wavelength λ, have the same energy E (=hν = hc/λ) and momentum p (= hν/c= h/λ)",
+    "source": "NCERT, Physics Part 2, chapter 11, page 283",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Dual Nature of Radiation & Matter",
+   "type": "numerical",
+   "stem": "A monochromatic source emitting light of 600 nm, has a power output of 66 W. The number of photons emitted by the source per second is (Given, Plank's constant h = 6.6 × 10^-34 Js)",
+   "passage": null,
+   "options": [
+    "2 × 10^18",
+    "2 × 10^19",
+    "2 × 10^20",
+    "8 × 10^22"
+   ],
+   "key": [
+    2
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row is the same sum with a different power.",
+   "match": {
+    "kind": "question",
+    "id": "a8245687-1132-49a7-8ec4-306abf2aba8b",
+    "chapter": "Dual Nature of Radiation & Matter",
+    "stem": "A lamp radiates 3.3 W of monochromatic light of wavelength 600 nm. Taking h = 6.6 × 10^-34 J s and c = 3.0 × 10^8 m s^-1, the number of photons emitted per second is about:",
+    "passage": null,
+    "options": [
+     "1.0 × 10^20",
+     "3.3 × 10^19",
+     "1.0 × 10^17",
+     "1.0 × 10^19"
+    ],
+    "key": 3,
+    "explanation": "The energy of one photon is E = hc/λ = (6.6 × 10^-34 × 3.0 × 10^8)/(6.0 × 10^-7) = 3.3 × 10^-19 J. The number emitted per second is N = P/E = 3.3/(3.3 × 10^-19) = 1.0 × 10^19. Writing 600 nm as 6 × 10^-6 m instead of 6 × 10^-7 m gives 1.0 × 10^20.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Atoms",
+   "type": "theory",
+   "stem": "Match the LIST-I with LIST-II (Symbols have their usual meaning)\nLIST-I (Spectral series of Hydrogen) | LIST-II (Wave Number)\nA. Lyman series | I. ν̄ = R [1/1^2 - 1/n2^2]\nB. Paschen series | II. ν̄ = R [1/2^2 - 1/n2^2]\nC. Balmer series | III. ν̄ = R [1/3^2 - 1/n2^2]\nD. Brackett series | IV. ν̄ = R [1/4^2 - 1/n2^2]\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-IV, B-III, C-II, D-I",
+    "A-I, B-III, C-IV, D-II",
+    "A-I, B-III, C-II, D-IV"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row matches the same four series to their lower levels.",
+   "match": {
+    "kind": "question",
+    "id": "3d3a5b97-0249-4275-9f58-5fd7ab90a3d3",
+    "chapter": "Atoms",
+    "stem": "Match List-I with List-II. List-I: (A) Lyman series (B) Balmer series (C) Paschen series (D) Brackett series. List-II: (I) Lower level n = 4 (II) Lower level n = 3 (III) Lower level n = 1 (IV) Lower level n = 2. Choose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+     "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+     "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)",
+     "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+    ],
+    "key": 1,
+    "explanation": "The spectral series of hydrogen are named by the lower energy level the electron falls to. Lyman ends at n = 1, Balmer at n = 2, Paschen at n = 3 and Brackett at n = 4. The Lyman series is in the ultraviolet and the Balmer series is in the visible region.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Atoms",
+   "type": "theory",
+   "stem": "In Bohr's model of hydrogen atom, which of the following is an integral multiple of h/2π ?",
+   "passage": null,
+   "options": [
+    "Kinetic energy of electron",
+    "Radius of an atom",
+    "Potential energy of electron",
+    "Angular momentum of electron"
+   ],
+   "key": [
+    3
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card states the postulate asked.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.atoms.def-postulate-2",
+    "chapter": "Atoms",
+    "front": "State Bohr's second postulate.",
+    "back": "Bohr's second postulate defines these stable orbits. This postulate states that the electron revolves around the nucleus only in those orbits for which the angular momentum is some integral multiple of h/2π where h is the Planck's constant",
+    "source": "NCERT, Physics Part 2, chapter 12, page 299",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Nuclei",
+   "type": "theory",
+   "stem": "Arrange the following elements in the increasing order of their binding energies per nucleon.\nA. 4He\nB. 6Li\nC. 14N\nD. 12C\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A, B, C, D",
+    "A, B, D, C",
+    "B, A, C, D",
+    "B, A, D, C"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Nuclei",
+   "type": "numerical",
+   "stem": "If r1 and r2 are the radii of the atomic nuclei of mass number 4 and 32, respectively, then the ratio (r1/r2) is",
+   "passage": null,
+   "options": [
+    "1:2",
+    "1:3",
+    "1: 4",
+    "1: 5"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row is the same ratio sum (mass numbers 1:8 give radii 1:2).",
+   "match": {
+    "kind": "question",
+    "id": "a904ec90-8023-4df6-84c5-8fa146b1698a",
+    "chapter": "Nuclei",
+    "stem": "If the radius of a nucleus with mass number A is R, what is the radius of a nucleus with mass number 8A according to the empirical relation R = R0 A^{1/3}?",
+    "passage": null,
+    "options": [
+     "2R",
+     "8R",
+     "4R",
+     "R/2"
+    ],
+    "key": 0,
+    "explanation": "Since radius ∝ A^{1/3}, scaling by factor 8 gives 8^{1/3}=2 so radius becomes 2R.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Semiconductor Electronics",
+   "type": "numerical",
+   "stem": "The maximum wavelength of electromagnetic radiation which can create a hole-electron pair in the semiconductor Ge is: (Given, the band gap of Ge is 0.72 eV)",
+   "passage": null,
+   "options": [
+    "~1.1 x 10^-5 m",
+    "~1.4 x 10^-5 m",
+    "~1.7 x 10^-6 m",
+    "~2.6 x 10^-6 m"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Semiconductor Electronics",
+   "type": "theory",
+   "stem": "If the forward bias voltage in a diode is increased, the width of the depletion region",
+   "passage": null,
+   "options": [
+    "increases",
+    "decreases",
+    "fluctuates",
+    "does not change"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row states that forward bias narrows the depletion layer.",
+   "match": {
+    "kind": "question",
+    "id": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+    "chapter": "Semiconductor Electronics",
+    "stem": "Match List-I with List-II.\nList-I: (A) Silicon doped with arsenic (B) Silicon doped with indium (C) p-n junction under forward bias (D) p-n junction under reverse bias\nList-II: (I) Holes are the majority carriers (II) Narrow depletion layer and large current (III) Electrons are the majority carriers (IV) Wide depletion layer and very small current\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+     "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+     "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)",
+     "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    ],
+    "key": 1,
+    "explanation": "Arsenic has five valence electrons and makes silicon n-type, with electrons as the majority carriers; indium has three and makes it p-type, with holes as the majority carriers. Forward bias narrows the depletion layer and gives a large current, whereas reverse bias widens it and gives only a very small current. Swapping the two dopants is the common slip.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Semiconductor Electronics",
+   "type": "theory",
+   "stem": "For a heavily doped n-type semi-conductor, donor level lies",
+   "passage": null,
+   "options": [
+    "a little below the conduction band",
+    "a little above the valance band",
+    "a little inside the valence band",
+    "at the center of the band gap"
+   ],
+   "key": [
+    0
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Key card is the same question and answer.",
+   "match": {
+    "kind": "card",
+    "id": "kc.physics.semiconductor-electronics.fact-donor-energy-level",
+    "chapter": "Semiconductor Electronics",
+    "front": "n-type Si energy bands: where does the donor energy level lie relative to the bottom of the conduction band?",
+    "back": "the donor energy level ED is slightly below the bottom EC of the conduction band and electrons from this level move into the conduction band with very small supply of energy.",
+    "source": "NCERT, Physics Part 2, chapter 14, page 331",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Semiconductor Electronics",
+   "type": "numerical",
+   "stem": "Match List-I with List-II. Assume that the Si intrinsic semiconductor has 5 x 10^28 atoms/m^3. (Given: the intrinsic concentration of electrons in the semiconductor is 10^16 m^-3).\nLIST-I | LIST-II\nA. When it is doped with 2 ppm concentration of a pentavalent atom, ne is | I. 4.0 x 10^8 m^-3\nB. When it is doped with 2 ppm concentration of a pentavalent atom, nh is | II. 2.5 x 10^23 m^-3\nC. When it is doped with 5 ppm concentration of a pentavalent atom, ne is | III. 10^9 m^-3\nD. When it is doped with 5 ppm concentration of a pentavalent atom, nh is | IV. 10^23 m^-3\nChoose the correct answer from the options given below:",
+   "passage": null,
+   "options": [
+    "A-I, B-II, C-III, D-IV",
+    "A-II, B-III, C-IV, D-I",
+    "A-IV, B-III, C-II, D-I",
+    "A-IV, B-II, C-III, D-I"
+   ],
+   "key": [
+    2
+   ],
+   "status": "not-yet",
+   "first": false,
+   "since": null,
+   "reason": null,
+   "match": null
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Nuclei",
+   "type": "numerical",
+   "stem": "If 200 MeV energy is released in the fission of a single nucleus of ^235_92U , how many fissions per second must occur to produce a power of 1 kW?",
+   "passage": null,
+   "options": [
+    "6.250 × 10^15",
+    "3.125 × 10^13",
+    "4.251 × 10^13",
+    "2.155 × 10^14"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row is the same sum with a different power.",
+   "match": {
+    "kind": "question",
+    "id": "97690044-9d76-4aff-a84b-f9787fd3c100",
+    "chapter": "Nuclei",
+    "stem": "A nuclear reactor delivers 3.2 MW of power from the fission of uranium, each fission releasing 200 MeV. Taking 1 MeV = 1.6 × 10^-13 J, the number of fissions per second is:",
+    "passage": null,
+    "options": [
+     "1.0 × 10^11",
+     "2.0 × 10^17",
+     "1.0 × 10^17",
+     "1.0 × 10^23"
+    ],
+    "key": 2,
+    "explanation": "The energy per fission is 200 × 1.6 × 10^-13 = 3.2 × 10^-11 J. The fission rate is P/E = 3.2 × 10^6 / 3.2 × 10^-11 = 1.0 × 10^17 per second. Treating the energy as 200 eV instead of 200 MeV (a factor of 10^6) would give 1.0 × 10^23.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "section": "Physics, one section (Q391-440)",
+   "chapter": "Atoms",
+   "type": "numerical",
+   "stem": "An alpha particle of energy (1/2) mv^2 bombards a heavy target nucleus of charge Ze. Then, the distance of closet approach for the alpha particle will be proportional to",
+   "passage": null,
+   "options": [
+    "v^-1",
+    "v^-2",
+    "v^-4",
+    "(Ze)^-1"
+   ],
+   "key": [
+    1
+   ],
+   "status": "concept",
+   "first": true,
+   "since": null,
+   "reason": "Served bank row finds the closest approach from K with d inversely proportional to K; the stem gives K = mv^2/2, so d ~ v^-2.",
+   "match": {
+    "kind": "question",
+    "id": "eab7b9e0-c086-4422-8820-f49e7701fe40",
+    "chapter": "Atoms",
+    "stem": "An alpha particle of kinetic energy 7.2 MeV approaches a tin nucleus (atomic number 50) head-on. Taking e²/(4πε₀) = 1.44 MeV fm, the distance of closest approach is:",
+    "passage": null,
+    "options": [
+     "20 fm",
+     "10 fm",
+     "40 fm",
+     "5.0 fm"
+    ],
+    "key": 0,
+    "explanation": "At the closest approach all the kinetic energy has become electrostatic potential energy: K = (2e)(Ze)/(4πε₀r₀), so r₀ = 2Z × 1.44 MeV fm / K = (2 × 50 × 1.44)/7.2 = 20 fm. Leaving out the charge 2e of the alpha particle gives 10 fm.",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
+  }
+ ]
+}
