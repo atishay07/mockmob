@@ -2,10 +2,10 @@
   "subject": "computer_science",
   "chapters": {
     "computer_science.computer-networks": {
-      "published": 84,
+      "published": 85,
       "quarantined": 19,
       "byKind": {
-        "definition": 31,
+        "definition": 32,
         "term": 2,
         "key_line": 14,
         "fact": 28,
@@ -16,22 +16,22 @@
         "list": 1
       },
       "byImportance": {
-        "must": 23,
+        "must": 24,
         "good": 61
       },
       "coverage_note": null,
-      "mustShare": 0.27,
+      "mustShare": 0.28,
       "belowMinimum": false
     },
     "computer_science.data-communication": {
-      "published": 119,
+      "published": 120,
       "quarantined": 9,
       "byKind": {
         "definition": 37,
         "key_line": 30,
         "term": 4,
         "list": 8,
-        "fact": 24,
+        "fact": 25,
         "formula": 1,
         "example": 6,
         "types": 6,
@@ -39,15 +39,15 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 26,
+        "must": 27,
         "good": 93
       },
       "coverage_note": null,
-      "mustShare": 0.22,
+      "mustShare": 0.23,
       "belowMinimum": false
     },
     "computer_science.data-handling-using-pandas": {
-      "published": 210,
+      "published": 211,
       "quarantined": 16,
       "byKind": {
         "definition": 41,
@@ -55,13 +55,13 @@
         "types": 12,
         "term": 9,
         "key_line": 27,
-        "fact": 109,
+        "fact": 110,
         "difference": 3,
         "formula": 4,
         "steps": 1
       },
       "byImportance": {
-        "must": 58,
+        "must": 59,
         "good": 152
       },
       "coverage_note": null,
@@ -171,10 +171,10 @@
       "belowMinimum": false
     },
     "computer_science.plotting-data-using-matplotlib": {
-      "published": 79,
+      "published": 80,
       "quarantined": 10,
       "byKind": {
-        "definition": 16,
+        "definition": 17,
         "key_line": 12,
         "fact": 36,
         "list": 3,
@@ -185,11 +185,11 @@
         "formula": 1
       },
       "byImportance": {
-        "must": 23,
+        "must": 24,
         "good": 56
       },
       "coverage_note": null,
-      "mustShare": 0.29,
+      "mustShare": 0.3,
       "belowMinimum": false
     },
     "computer_science.project-based-learning": {
@@ -232,11 +232,11 @@
       "belowMinimum": false
     },
     "computer_science.searching": {
-      "published": 40,
+      "published": 42,
       "quarantined": 11,
       "byKind": {
         "definition": 9,
-        "fact": 19,
+        "fact": 21,
         "key_line": 5,
         "steps": 2,
         "list": 1,
@@ -246,19 +246,19 @@
         "types": 1
       },
       "byImportance": {
-        "must": 12,
+        "must": 14,
         "good": 28
       },
       "coverage_note": null,
-      "mustShare": 0.3,
+      "mustShare": 0.33,
       "belowMinimum": false
     },
     "computer_science.security-aspects": {
-      "published": 93,
+      "published": 95,
       "quarantined": 13,
       "byKind": {
-        "definition": 28,
-        "fact": 32,
+        "definition": 29,
+        "fact": 33,
         "key_line": 17,
         "list": 4,
         "difference": 5,
@@ -267,19 +267,19 @@
         "types": 1
       },
       "byImportance": {
-        "must": 21,
+        "must": 23,
         "good": 72
       },
       "coverage_note": null,
-      "mustShare": 0.23,
+      "mustShare": 0.24,
       "belowMinimum": false
     },
     "computer_science.societal-impacts": {
-      "published": 163,
+      "published": 165,
       "quarantined": 6,
       "byKind": {
         "definition": 42,
-        "fact": 55,
+        "fact": 57,
         "types": 7,
         "key_line": 32,
         "term": 7,
@@ -288,29 +288,29 @@
         "difference": 2
       },
       "byImportance": {
-        "must": 32,
+        "must": 34,
         "good": 131
       },
       "coverage_note": null,
-      "mustShare": 0.2,
+      "mustShare": 0.21,
       "belowMinimum": false
     },
     "computer_science.sorting": {
-      "published": 29,
+      "published": 30,
       "quarantined": 17,
       "byKind": {
         "key_line": 9,
-        "fact": 13,
+        "fact": 14,
         "types": 1,
         "definition": 4,
         "term": 2
       },
       "byImportance": {
-        "must": 6,
+        "must": 7,
         "good": 23
       },
       "coverage_note": null,
-      "mustShare": 0.21,
+      "mustShare": 0.23,
       "belowMinimum": false
     },
     "computer_science.stack": {

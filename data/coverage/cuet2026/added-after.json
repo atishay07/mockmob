@@ -213,7 +213,24 @@
    "found": []
   },
   "chemistry": {
-   "addedCards": [],
+   "addedCards": [
+    {
+     "n": 1,
+     "id": "kc.chemistry.solutions.fact-osmosis-plant-water"
+    },
+    {
+     "n": 15,
+     "id": "kc.chemistry.chemical-kinetics.fact-n2o5-n2o-first-order"
+    },
+    {
+     "n": 18,
+     "id": "kc.chemistry.d-and-f-block-elements.fact-mn2-peroxodisulphate"
+    },
+    {
+     "n": 19,
+     "id": "kc.chemistry.d-and-f-block-elements.fact-sc-ti-stability"
+    }
+   ],
    "addedQuestions": [
     {
      "n": 2,
@@ -243,7 +260,40 @@
    "found": []
   },
   "computer-science": {
-   "addedCards": [],
+   "addedCards": [
+    {
+     "n": 15,
+     "id": "kc.computer_science.computer-networks.def-rj45"
+    },
+    {
+     "n": 27,
+     "id": "kc.computer_science.searching.fact-binary-search-applications"
+    },
+    {
+     "n": 32,
+     "id": "kc.computer_science.sorting.fact-nested-loop-quadratic"
+    },
+    {
+     "n": 46,
+     "id": "kc.computer_science.data-communication.fact-radio-range"
+    },
+    {
+     "n": 48,
+     "id": "kc.computer_science.security-aspects.def-keylogger"
+    },
+    {
+     "n": 59,
+     "id": "kc.computer_science.data-handling-using-pandas.fact-non-unique-index"
+    },
+    {
+     "n": 70,
+     "id": "kc.computer_science.plotting-data-using-matplotlib.def-pie-explode"
+    },
+    {
+     "n": 81,
+     "id": "kc.computer_science.societal-impacts.fact-be-secure-password"
+    }
+   ],
    "addedQuestions": [
     {
      "n": 23,

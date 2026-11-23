@@ -13,19 +13,19 @@
  "final": true,
  "counts": {
   "total": 85,
-  "same": 0,
+  "same": 5,
   "newValues": 4,
-  "concept": 70,
-  "notYet": 11,
+  "concept": 73,
+  "notYet": 3,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 74,
+  "covered": 82,
   "counted": 85,
-  "pct": 87,
+  "pct": 96,
   "first": 69,
   "firstPct": 81,
-  "addedCards": 0,
+  "addedCards": 8,
   "addedQuestions": 5,
   "found": 0,
   "sameFirst": 0,
@@ -35,12 +35,12 @@
   {
    "name": "Data Handling using Pandas",
    "asked": 12,
-   "covered": 11
+   "covered": 12
   },
   {
    "name": "Computer Networks",
    "asked": 8,
-   "covered": 6
+   "covered": 7
   },
   {
    "name": "Structured Query Language",
@@ -55,12 +55,12 @@
   {
    "name": "Plotting Data using Matplotlib",
    "asked": 6,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "Societal Impacts",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Database Query using SQL",
@@ -85,12 +85,12 @@
   {
    "name": "Searching",
    "asked": 4,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "Sorting",
    "asked": 4,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "Stack",
@@ -100,7 +100,7 @@
   {
    "name": "Security Aspects",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Understanding Data",
@@ -110,7 +110,7 @@
   {
    "name": "Data Communication",
    "asked": 2,
-   "covered": 1
+   "covered": 2
   },
   {
    "name": "Exception and File Handling in Python",
@@ -627,11 +627,22 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card def-rj45 states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.computer-networks.def-rj45",
+    "chapter": "Computer Networks",
+    "front": "What is RJ 45, and with which cables is it used for networking?",
+    "back": "RJ 45 or Registered Jack-45 is an eight-pin connector (Figure 10.10) that is used exclusively with Ethernet cables for networking.",
+    "source": "NCERT, Computer Science (Class XII), chapter 10, page 188",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 16,
@@ -1041,11 +1052,22 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key cards fact-binary-search-applications and fact-modified-binary-search-applications state NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.searching.fact-binary-search-applications",
+    "chapter": "Searching",
+    "front": "What are the applications of binary search itself, apart from those of modified binary search?",
+    "back": "Binary search has numerous applications including – searching a dictionary or a telephone directory, finding the element with minimum value or maximum value in a sorted list, etc.",
+    "source": "NCERT, Computer Science, chapter 6, page 90",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 28,
@@ -1221,11 +1243,22 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card fact-nested-loop-quadratic states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.sorting.fact-nested-loop-quadratic",
+    "chapter": "Sorting",
+    "front": "What time complexity does a loop within a loop (nested loop) have, and what are such algorithms called?",
+    "back": "A loop within a loop (nested loop) will have the time complexity as n². Such algorithms are known as Quadratic time algorithms.",
+    "source": "NCERT, Computer Science - Class XII, chapter 5, page 78",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 33,
@@ -1728,11 +1761,22 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card fact-radio-range states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-communication.fact-radio-range",
+    "chapter": "Data Communication",
+    "front": "What is the frequency range of radio waves?",
+    "back": "Waves of frequency range 3 KHz - 1 GHz",
+    "source": "NCERT, Computer Science, chapter 11, page 213",
+    "more": {
+     "cards": 4,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 47,
@@ -1792,11 +1836,22 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key cards def-keylogger and fact-spyware-internet-usage state NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.security-aspects.def-keylogger",
+    "chapter": "Security Aspects",
+    "front": "What is a keylogger, and what does it do with the keys a user presses?",
+    "back": "A keylogger can either be malware or hardware. The main purpose of this malware is to record the keys pressed by a user on the keyboard. A keylogger makes logs of daily keyboard usage and may send it to an external entity as well.",
+    "source": "NCERT, Computer Science, chapter 12, page 227",
+    "more": {
+     "cards": 3,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 49,
@@ -2169,11 +2224,22 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card fact-non-unique-index states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.data-handling-using-pandas.fact-non-unique-index",
+    "chapter": "Data Handling using Pandas",
+    "front": "Does Pandas allow duplicate (non-unique) index values, and what happens if an operation that does not support duplicate index values is attempted?",
+    "back": "Pandas supports non-unique index values. If an operation that does not support duplicate index values is attempted, an exception will be raised at that time.",
+    "source": "NCERT, Informatics Practices - Class XII, chapter 2, page 57",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 60,
@@ -2532,11 +2598,22 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card def-pie-explode states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.plotting-data-using-matplotlib.def-pie-explode",
+    "chapter": "Plotting Data using Matplotlib",
+    "front": "When customising a pie chart, what does the explode property specify?",
+    "back": "Explode—it specifies the fraction of the radius with which to explode or expand each slot.",
+    "source": "NCERT, Informatics Practices, chapter 4, page 132",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 71,
@@ -2884,11 +2961,22 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key cards fact-be-secure-password and fact-be-reliable-upload state NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.computer_science.societal-impacts.fact-be-secure-password",
+    "chapter": "Societal Impacts",
+    "front": "Social media etiquettes: under which etiquette does 'Choose password wisely' come?",
+    "back": "Be Secure\nChoose password wisely: it is vital for social network users.",
+    "source": "NCERT, Informatics Practices, chapter 6, page 173",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 82,

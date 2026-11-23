@@ -1346,38 +1346,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.d-and-f-block-elements.fact-sc-ti-stability",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.d-and-f-block-elements",
-      "chapter": "d- and f-Block Elements",
-      "unit": "d- and f-Block Elements",
-      "kind": "fact",
-      "front": "Early in the 3d series, which is virtually unknown and which is more stable?",
-      "back": "Thus, early in the series scandium(II) is virtually unknown and titanium (IV) is more stable than Ti(III) or Ti(II).",
-      "quote": "Thus, early in the series scandium(II) is virtually unknown and titanium (IV) is more stable than Ti(III) or Ti(II).",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech104",
-        "chapterNo": 4,
-        "page": 97,
-        "section": "4.3.4 Oxidation States"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "oxidation-states"
-      ],
-      "order": 400,
-      "reasons": [
-        "review:not_important",
-        "review:not_unambiguous",
-        "review:front does not name Sc or Ti, so 'which is virtually unknown / more stable' has no single answer"
-      ]
-    },
-    {
       "id": "kc.chemistry.d-and-f-block-elements.ex-cr2-mn3",
       "v": 1,
       "subject": "chemistry",

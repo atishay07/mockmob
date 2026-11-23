@@ -1,7 +1,7 @@
 {
  "version": 1,
  "rule": "Per chapter, the top 25% of cards (at least 6, at most 40) by score = 3 x min(linked questions, 3) + kind weight + 1 for a Summary or Recap section; ties in book order",
- "built": "2026-11-22T01:48:31.441Z",
+ "built": "2026-11-23T19:43:10.146Z",
  "must": {
   "accountancy.accounting-ratios": [
    "kc.accountancy.accounting-ratios.def-a-ratio",
@@ -1183,6 +1183,7 @@
    "kc.chemistry.d-and-f-block-elements.fact-why-high-melting",
    "kc.chemistry.d-and-f-block-elements.fact-melting-point-trend",
    "kc.chemistry.d-and-f-block-elements.fact-atomisation-maxima",
+   "kc.chemistry.d-and-f-block-elements.fact-noble-high-atomisation",
    "kc.chemistry.d-and-f-block-elements.def-lanthanoid-contraction",
    "kc.chemistry.d-and-f-block-elements.def-ferromagnetic",
    "kc.chemistry.d-and-f-block-elements.def-complex-compounds",
@@ -1301,6 +1302,7 @@
    "kc.computer_science.computer-networks.def-wan",
    "kc.computer_science.computer-networks.def-modem",
    "kc.computer_science.computer-networks.def-nic",
+   "kc.computer_science.computer-networks.def-rj45",
    "kc.computer_science.computer-networks.def-repeater",
    "kc.computer_science.computer-networks.def-isp",
    "kc.computer_science.computer-networks.def-hub",
@@ -1509,7 +1511,6 @@
    "kc.computer_science.plotting-data-using-matplotlib.def-plt-alias",
    "kc.computer_science.plotting-data-using-matplotlib.def-figure-def",
    "kc.computer_science.plotting-data-using-matplotlib.list-figure-components",
-   "kc.computer_science.plotting-data-using-matplotlib.list-chart-presentation",
    "kc.computer_science.plotting-data-using-matplotlib.def-marker-def",
    "kc.computer_science.plotting-data-using-matplotlib.def-pandas-plot-wrapper",
    "kc.computer_science.plotting-data-using-matplotlib.formula-general-format-dataframe-plot",
@@ -1522,6 +1523,7 @@
    "kc.computer_science.plotting-data-using-matplotlib.def-whiskers-def",
    "kc.computer_science.plotting-data-using-matplotlib.def-outlier-def",
    "kc.computer_science.plotting-data-using-matplotlib.def-pie-def",
+   "kc.computer_science.plotting-data-using-matplotlib.def-pie-explode",
    "kc.computer_science.plotting-data-using-matplotlib.def-plot-def-summary",
    "kc.computer_science.plotting-data-using-matplotlib.list-plot-components-summary"
   ],
@@ -1553,6 +1555,7 @@
   ],
   "computer_science.searching": [
    "kc.computer_science.searching.def-searching",
+   "kc.computer_science.searching.steps-linear-search-algorithm",
    "kc.computer_science.searching.def-binary-search",
    "kc.computer_science.searching.def-hashing",
    "kc.computer_science.searching.def-hash-function",
@@ -1570,6 +1573,7 @@
    "kc.computer_science.security-aspects.def-virus",
    "kc.computer_science.security-aspects.def-worm",
    "kc.computer_science.security-aspects.def-adware",
+   "kc.computer_science.security-aspects.def-keylogger",
    "kc.computer_science.security-aspects.def-virus-signature",
    "kc.computer_science.security-aspects.def-antivirus",
    "kc.computer_science.security-aspects.def-sandbox-detection",
@@ -1586,8 +1590,7 @@
    "kc.computer_science.security-aspects.def-black-hat",
    "kc.computer_science.security-aspects.def-grey-hat",
    "kc.computer_science.security-aspects.def-dos",
-   "kc.computer_science.security-aspects.def-ddos",
-   "kc.computer_science.security-aspects.def-intrusion"
+   "kc.computer_science.security-aspects.def-ddos"
   ],
   "computer_science.societal-impacts": [
    "kc.computer_science.societal-impacts.def-digital-footprint",

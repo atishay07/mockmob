@@ -15,14 +15,14 @@
     "cards": 929
   },
   "chemistry": {
-    "version": 3,
-    "sha256": "b03a7408b81ef9c38ccb48bccad0cd0367670874d16dd109b66d581bd794741b",
-    "cards": 1411
+    "version": 5,
+    "sha256": "03a369ca2ab18aa80a7a724a1612efec5c92c38b77e00db076490b4c58396c25",
+    "cards": 1415
   },
   "computer_science": {
-    "version": 2,
-    "sha256": "860edae6b8e3e3c6f72096cef5a4532f5de1fba663dc55026f0e2e87f812fecf",
-    "cards": 1544
+    "version": 3,
+    "sha256": "7d269da790597bea0e9207f36236bf1d255e049c43989aabbeee4bb5c537c685",
+    "cards": 1555
   },
   "economics": {
     "version": 8,

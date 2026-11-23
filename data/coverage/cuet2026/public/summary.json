@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-23T18:51:27.255Z",
+ "builtAt": "2026-11-23T19:42:28.369Z",
  "snapshotDate": "2026-11-24",
  "snapshotDay": "24 November 2026",
  "snapshotDates": [
@@ -104,12 +104,12 @@
    "shift": "first shift",
    "total": 50,
    "counted": 50,
-   "covered": 46,
-   "pct": 92,
-   "same": 0,
+   "covered": 50,
+   "pct": 100,
+   "same": 3,
    "newValues": 1,
-   "concept": 45,
-   "notYet": 4,
+   "concept": 46,
+   "notYet": 0,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -117,7 +117,7 @@
    "first": 40,
    "firstPct": 80,
    "firstDay": "23 November 2026",
-   "addedCards": 0,
+   "addedCards": 4,
    "addedQuestions": 6,
    "found": 0
   },
@@ -130,12 +130,12 @@
    "shift": "first shift",
    "total": 85,
    "counted": 85,
-   "covered": 74,
-   "pct": 87,
-   "same": 0,
+   "covered": 82,
+   "pct": 96,
+   "same": 5,
    "newValues": 4,
-   "concept": 70,
-   "notYet": 11,
+   "concept": 73,
+   "notYet": 3,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -143,7 +143,7 @@
    "first": 69,
    "firstPct": 81,
    "firstDay": "23 November 2026",
-   "addedCards": 0,
+   "addedCards": 8,
    "addedQuestions": 5,
    "found": 0
   },
@@ -358,13 +358,13 @@
  ],
  "total": {
   "counted": 686,
-  "covered": 640,
-  "same": 87,
+  "covered": 652,
+  "same": 95,
   "newValues": 74,
-  "concept": 479,
-  "notYet": 46,
+  "concept": 483,
+  "notYet": 34,
   "skill": 39,
-  "pct": 93
+  "pct": 95
  },
  "firstCheck": {
   "from": "2026-11-20",
@@ -374,7 +374,7 @@
   "covered": 453,
   "counted": 686,
   "pct": 66,
-  "addedCards": 72,
+  "addedCards": 84,
   "addedQuestions": 113,
   "found": 2,
   "same": 67,
@@ -727,7 +727,7 @@
     "subject": "chemistry",
     "chapter": "Chemical Kinetics",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 39,
     "practice": true
    },
@@ -743,7 +743,7 @@
     "subject": "chemistry",
     "chapter": "d- and f-Block Elements",
     "asked": 5,
-    "covered": 3,
+    "covered": 5,
     "served": 33,
     "practice": true
    },
@@ -767,7 +767,7 @@
     "subject": "chemistry",
     "chapter": "Solutions",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 89,
     "practice": true
    },
@@ -775,7 +775,7 @@
     "subject": "computer-science",
     "chapter": "Data Handling using Pandas",
     "asked": 12,
-    "covered": 11,
+    "covered": 12,
     "served": 24,
     "practice": true
    },
@@ -783,7 +783,7 @@
     "subject": "computer-science",
     "chapter": "Computer Networks",
     "asked": 8,
-    "covered": 6,
+    "covered": 7,
     "served": 26,
     "practice": true
    },
@@ -807,7 +807,7 @@
     "subject": "computer-science",
     "chapter": "Plotting Data using Matplotlib",
     "asked": 6,
-    "covered": 5,
+    "covered": 6,
     "served": 7,
     "practice": true
    },
@@ -815,7 +815,7 @@
     "subject": "computer-science",
     "chapter": "Societal Impacts",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 14,
     "practice": true
    },
@@ -855,7 +855,7 @@
     "subject": "computer-science",
     "chapter": "Searching",
     "asked": 4,
-    "covered": 3,
+    "covered": 4,
     "served": 16,
     "practice": true
    },
@@ -863,7 +863,7 @@
     "subject": "computer-science",
     "chapter": "Sorting",
     "asked": 4,
-    "covered": 3,
+    "covered": 4,
     "served": 20,
     "practice": true
    },
@@ -879,7 +879,7 @@
     "subject": "computer-science",
     "chapter": "Security Aspects",
     "asked": 3,
-    "covered": 2,
+    "covered": 3,
     "served": 15,
     "practice": true
    },
@@ -895,7 +895,7 @@
     "subject": "computer-science",
     "chapter": "Data Communication",
     "asked": 2,
-    "covered": 1,
+    "covered": 2,
     "served": 28,
     "practice": true
    },

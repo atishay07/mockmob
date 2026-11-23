@@ -84,11 +84,11 @@
       "belowMinimum": false
     },
     "chemistry.chemical-kinetics": {
-      "published": 82,
+      "published": 83,
       "quarantined": 10,
       "byKind": {
         "definition": 19,
-        "fact": 36,
+        "fact": 37,
         "list": 2,
         "formula": 10,
         "key_line": 5,
@@ -98,11 +98,11 @@
         "term": 1
       },
       "byImportance": {
-        "must": 19,
+        "must": 20,
         "good": 63
       },
       "coverage_note": null,
-      "mustShare": 0.23,
+      "mustShare": 0.24,
       "belowMinimum": false
     },
     "chemistry.coordination-compounds": {
@@ -128,23 +128,23 @@
       "belowMinimum": false
     },
     "chemistry.d-and-f-block-elements": {
-      "published": 120,
-      "quarantined": 14,
+      "published": 122,
+      "quarantined": 13,
       "byKind": {
         "definition": 12,
         "types": 1,
         "key_line": 6,
-        "fact": 90,
+        "fact": 92,
         "formula": 1,
         "list": 4,
         "example": 6
       },
       "byImportance": {
-        "must": 30,
+        "must": 32,
         "good": 90
       },
       "coverage_note": null,
-      "mustShare": 0.25,
+      "mustShare": 0.26,
       "belowMinimum": false
     },
     "chemistry.electrochemistry": {
@@ -189,7 +189,7 @@
       "belowMinimum": false
     },
     "chemistry.solutions": {
-      "published": 105,
+      "published": 106,
       "quarantined": 8,
       "byKind": {
         "definition": 32,
@@ -198,11 +198,11 @@
         "list": 5,
         "term": 2,
         "formula": 5,
-        "fact": 32,
+        "fact": 33,
         "types": 2
       },
       "byImportance": {
-        "must": 28,
+        "must": 29,
         "good": 77
       },
       "coverage_note": null,

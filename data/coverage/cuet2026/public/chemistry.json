@@ -13,19 +13,19 @@
  "final": true,
  "counts": {
   "total": 50,
-  "same": 0,
+  "same": 3,
   "newValues": 1,
-  "concept": 45,
-  "notYet": 4,
+  "concept": 46,
+  "notYet": 0,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 46,
+  "covered": 50,
   "counted": 50,
-  "pct": 92,
+  "pct": 100,
   "first": 40,
   "firstPct": 80,
-  "addedCards": 0,
+  "addedCards": 4,
   "addedQuestions": 6,
   "found": 0,
   "sameFirst": 0,
@@ -55,7 +55,7 @@
   {
    "name": "Chemical Kinetics",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Coordination Compounds",
@@ -65,7 +65,7 @@
   {
    "name": "d- and f-Block Elements",
    "asked": 5,
-   "covered": 3
+   "covered": 5
   },
   {
    "name": "Electrochemistry",
@@ -80,7 +80,7 @@
   {
    "name": "Solutions",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   }
  ],
  "questions": [
@@ -101,11 +101,22 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card fact-osmosis-plant-water states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.solutions.fact-osmosis-plant-water",
+    "chapter": "Solutions",
+    "front": "Which process is partly responsible for water moving from the soil into plant roots and on to the upper parts of the plant?",
+    "back": "Water movement from soil into plant roots and subsequently into upper portion of the plant is partly due to osmosis.",
+    "source": "NCERT, Chemistry Part 1, chapter 1, page 23",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 2,
@@ -601,11 +612,22 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card fact-n2o5-n2o-first-order states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.chemical-kinetics.fact-n2o5-n2o-first-order",
+    "chapter": "Chemical Kinetics",
+    "front": "The decompositions of which two oxides of nitrogen does NCERT give as first order reactions?",
+    "back": "Decomposition of N2O5 and N2O are some more examples of first order reactions.",
+    "source": "NCERT, Chemistry Part 1, chapter 3, page 74",
+    "more": {
+     "cards": 3,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 16,
@@ -699,11 +721,22 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card fact-mn2-peroxodisulphate states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.d-and-f-block-elements.fact-mn2-peroxodisulphate",
+    "chapter": "d- and f-Block Elements",
+    "front": "In the laboratory, what does peroxodisulphate oxidise a manganese(II) salt to, and what is the balanced ionic equation?",
+    "back": "In the laboratory, a manganese (II) ion salt is oxidised by peroxodisulphate to permanganate. 2Mn2+ + 5S2O82− + 8H2O → 2MnO4− + 10SO42− + 16H+",
+    "source": "NCERT, Chemistry Part 1, chapter 4, page 107",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 19,
@@ -722,11 +755,22 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "same",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Key card fact-sc-ti-stability states NCERT's own sentence for this point (added 24 Nov 2026 after independent review).",
+   "match": {
+    "kind": "card",
+    "id": "kc.chemistry.d-and-f-block-elements.fact-sc-ti-stability",
+    "chapter": "d- and f-Block Elements",
+    "front": "Early in the 3d series, how common is scandium(II), and which oxidation state of titanium is the most stable?",
+    "back": "Thus, early in the series scandium(II) is virtually unknown and titanium (IV) is more stable than Ti(III) or Ti(II).",
+    "source": "NCERT, Chemistry Part 1, chapter 4, page 97",
+    "more": {
+     "cards": 1,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 20,

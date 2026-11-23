@@ -1,6 +1,6 @@
 {
   "subject": "chemistry",
-  "version": 3,
+  "version": 5,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -20262,6 +20262,33 @@
       "order": 540
     },
     {
+      "id": "kc.chemistry.chemical-kinetics.fact-n2o5-n2o-first-order",
+      "v": 1,
+      "subject": "chemistry",
+      "chapterKey": "chemistry.chemical-kinetics",
+      "chapter": "Chemical Kinetics",
+      "unit": "Chemical Kinetics",
+      "kind": "fact",
+      "front": "The decompositions of which two oxides of nitrogen does NCERT give as first order reactions?",
+      "back": "Decomposition of N2O5 and N2O are some more examples of first order reactions.",
+      "quote": "Decomposition of N2O5 and N2O are some more examples of first order reactions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Chemistry Part 1",
+        "code": "lech103",
+        "chapterNo": 3,
+        "page": 74,
+        "section": "3.3.2 First Order Reactions"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "first-order"
+      ],
+      "order": 545
+    },
+    {
       "id": "kc.chemistry.chemical-kinetics.def-half-life",
       "v": 1,
       "subject": "chemistry",
@@ -26834,6 +26861,33 @@
       "order": 390
     },
     {
+      "id": "kc.chemistry.d-and-f-block-elements.fact-sc-ti-stability",
+      "v": 2,
+      "subject": "chemistry",
+      "chapterKey": "chemistry.d-and-f-block-elements",
+      "chapter": "d- and f-Block Elements",
+      "unit": "d and f Block Elements",
+      "kind": "fact",
+      "front": "Early in the 3d series, how common is scandium(II), and which oxidation state of titanium is the most stable?",
+      "back": "Thus, early in the series scandium(II) is virtually unknown and titanium (IV) is more stable than Ti(III) or Ti(II).",
+      "quote": "Thus, early in the series scandium(II) is virtually unknown and titanium (IV) is more stable than Ti(III) or Ti(II).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Chemistry Part 1",
+        "code": "lech104",
+        "chapterNo": 4,
+        "page": 97,
+        "section": "4.3.4 Oxidation States"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "oxidation-states"
+      ],
+      "order": 400
+    },
+    {
       "id": "kc.chemistry.d-and-f-block-elements.fact-variability-by-unity",
       "v": 1,
       "subject": "chemistry",
@@ -28105,6 +28159,33 @@
         "permanganate"
       ],
       "order": 900
+    },
+    {
+      "id": "kc.chemistry.d-and-f-block-elements.fact-mn2-peroxodisulphate",
+      "v": 1,
+      "subject": "chemistry",
+      "chapterKey": "chemistry.d-and-f-block-elements",
+      "chapter": "d- and f-Block Elements",
+      "unit": "d and f Block Elements",
+      "kind": "fact",
+      "front": "In the laboratory, what does peroxodisulphate oxidise a manganese(II) salt to, and what is the balanced ionic equation?",
+      "back": "In the laboratory, a manganese (II) ion salt is oxidised by peroxodisulphate to permanganate. 2Mn2+ + 5S2O82− + 8H2O → 2MnO4− + 10SO42− + 16H+",
+      "quote": "In the laboratory, a manganese (II) ion salt is oxidised by peroxodisulphate to permanganate. 2Mn2+ + 5S2O82− + 8H2O → 2MnO4− + 10SO42− + 16H+",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Chemistry Part 1",
+        "code": "lech104",
+        "chapterNo": 4,
+        "page": 107,
+        "section": "Potassium permanganate KMnO4"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "permanganate"
+      ],
+      "order": 905
     },
     {
       "id": "kc.chemistry.d-and-f-block-elements.fact-permanganate-crystals",
@@ -38658,6 +38739,33 @@
         "osmosis"
       ],
       "order": 940
+    },
+    {
+      "id": "kc.chemistry.solutions.fact-osmosis-plant-water",
+      "v": 1,
+      "subject": "chemistry",
+      "chapterKey": "chemistry.solutions",
+      "chapter": "Solutions",
+      "unit": "Solutions",
+      "kind": "fact",
+      "front": "Which process is partly responsible for water moving from the soil into plant roots and on to the upper parts of the plant?",
+      "back": "Water movement from soil into plant roots and subsequently into upper portion of the plant is partly due to osmosis.",
+      "quote": "Water movement from soil into plant roots and subsequently into upper portion of the plant is partly due to osmosis.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Chemistry Part 1",
+        "code": "lech101",
+        "chapterNo": 1,
+        "page": 23,
+        "section": "1.6 Colligative Properties and Determination of Molar Mass"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "osmosis"
+      ],
+      "order": 955
     },
     {
       "id": "kc.chemistry.solutions.def-reverse-osmosis",

@@ -1,6 +1,6 @@
 {
   "subject": "computer_science",
-  "version": 2,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -720,6 +720,34 @@
         "nic"
       ],
       "order": 340
+    },
+    {
+      "id": "kc.computer_science.computer-networks.def-rj45",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.computer-networks",
+      "chapter": "Computer Networks",
+      "unit": "Section A",
+      "kind": "definition",
+      "front": "What is RJ 45, and with which cables is it used for networking?",
+      "back": "RJ 45 or Registered Jack-45 is an eight-pin connector (Figure 10.10) that is used exclusively with Ethernet cables for networking.",
+      "quote": "RJ 45 or Registered Jack-45 is an eight-pin connector (Figure 10.10) that is used exclusively with Ethernet cables for networking.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computer Science (Class XII)",
+        "code": "lecs110",
+        "chapterNo": 10,
+        "page": 188,
+        "section": "10.4.3 RJ45"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "rj45",
+        "network devices"
+      ],
+      "order": 345
     },
     {
       "id": "kc.computer_science.computer-networks.key-nic-mac",
@@ -4101,6 +4129,33 @@
         "electromagnetic spectrum"
       ],
       "order": 700
+    },
+    {
+      "id": "kc.computer_science.data-communication.fact-radio-range",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.data-communication",
+      "chapter": "Data Communication",
+      "unit": "Section B1: Computer Science",
+      "kind": "fact",
+      "front": "What is the frequency range of radio waves?",
+      "back": "Waves of frequency range 3 KHz - 1 GHz",
+      "quote": "Waves of frequency range 3 KHz - 1 GHz",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computer Science",
+        "code": "lecs111",
+        "chapterNo": 11,
+        "page": 213,
+        "section": "Table 11.1 Radio Waves"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "radio waves"
+      ],
+      "order": 705
     },
     {
       "id": "kc.computer_science.data-communication.fact-microwave-range",
@@ -11464,6 +11519,34 @@
       "asked": 0,
       "tags": [
         "csv"
+      ],
+      "order": 1190
+    },
+    {
+      "id": "kc.computer_science.data-handling-using-pandas.fact-non-unique-index",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.data-handling-using-pandas",
+      "chapter": "Data Handling using Pandas",
+      "unit": "Section B2: Informatics Practices",
+      "kind": "fact",
+      "front": "Does Pandas allow duplicate (non-unique) index values, and what happens if an operation that does not support duplicate index values is attempted?",
+      "back": "Pandas supports non-unique index values. If an operation that does not support duplicate index values is attempted, an exception will be raised at that time.",
+      "quote": "Pandas supports non-unique index values. If an operation that does not support duplicate index values is attempted, an exception will be raised at that time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Informatics Practices - Class XII",
+        "code": "leip102",
+        "chapterNo": 2,
+        "page": 57,
+        "section": "2.5 Pandas Series Vs NumPy ndarray"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "index",
+        "series"
       ],
       "order": 1190
     },
@@ -24863,6 +24946,34 @@
       "order": 830
     },
     {
+      "id": "kc.computer_science.plotting-data-using-matplotlib.def-pie-explode",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.plotting-data-using-matplotlib",
+      "chapter": "Plotting Data using Matplotlib",
+      "unit": "Section B2: Informatics Practices",
+      "kind": "definition",
+      "front": "When customising a pie chart, what does the explode property specify?",
+      "back": "Explode—it specifies the fraction of the radius with which to explode or expand each slot.",
+      "quote": "Explode—it specifies the fraction of the radius with which to explode or expand each slot.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Informatics Practices",
+        "code": "leip104",
+        "chapterNo": 4,
+        "page": 132,
+        "section": "Customisation of pie chart"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "pie chart",
+        "explode"
+      ],
+      "order": 835
+    },
+    {
       "id": "kc.computer_science.plotting-data-using-matplotlib.def-plot-def-summary",
       "v": 1,
       "subject": "computer_science",
@@ -28133,6 +28244,62 @@
       "order": 300
     },
     {
+      "id": "kc.computer_science.searching.fact-binary-search-applications",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.searching",
+      "chapter": "Searching",
+      "unit": "Section B1: Computer Science",
+      "kind": "fact",
+      "front": "What are the applications of binary search itself, apart from those of modified binary search?",
+      "back": "Binary search has numerous applications including – searching a dictionary or a telephone directory, finding the element with minimum value or maximum value in a sorted list, etc.",
+      "quote": "Binary search has numerous applications including – searching a dictionary or a telephone directory, finding the element with minimum value or maximum value in a sorted list, etc.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computer Science",
+        "code": "lecs106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "6.3.1 Applications of Binary Search"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "binary search",
+        "applications"
+      ],
+      "order": 305
+    },
+    {
+      "id": "kc.computer_science.searching.fact-modified-binary-search-applications",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.searching",
+      "chapter": "Searching",
+      "unit": "Section B1: Computer Science",
+      "kind": "fact",
+      "front": "Which far reaching applications do modified binary search techniques have?",
+      "back": "Modified binary search techniques have far reaching applications such as indexing in databases, implementing routing tables in routers, data compression code, etc.",
+      "quote": "Modified binary search techniques have far reaching applications such as indexing in databases, implementing routing tables in routers, data compression code, etc.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computer Science",
+        "code": "lecs106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "6.3.1 Applications of Binary Search"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "binary search",
+        "applications"
+      ],
+      "order": 306
+    },
+    {
       "id": "kc.computer_science.searching.def-hashing",
       "v": 1,
       "subject": "computer_science",
@@ -29026,6 +29193,34 @@
       "order": 190
     },
     {
+      "id": "kc.computer_science.security-aspects.fact-spyware-internet-usage",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.security-aspects",
+      "chapter": "Security Aspects",
+      "unit": "Section B1: Computer Science",
+      "kind": "fact",
+      "front": "What does spyware usually do with a user's internet usage data?",
+      "back": "Spyware usually tracks internet usage data and sells them to advertisers.",
+      "quote": "Spyware usually tracks internet usage data and sells them to advertisers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computer Science",
+        "code": "lecs112",
+        "chapterNo": 12,
+        "page": 226,
+        "section": "12.2.5 Spyware"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "spyware",
+        "malware"
+      ],
+      "order": 195
+    },
+    {
       "id": "kc.computer_science.security-aspects.def-adware",
       "v": 1,
       "subject": "computer_science",
@@ -29107,6 +29302,34 @@
         "adware"
       ],
       "order": 220
+    },
+    {
+      "id": "kc.computer_science.security-aspects.def-keylogger",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.security-aspects",
+      "chapter": "Security Aspects",
+      "unit": "Section B1: Computer Science",
+      "kind": "definition",
+      "front": "What is a keylogger, and what does it do with the keys a user presses?",
+      "back": "A keylogger can either be malware or hardware. The main purpose of this malware is to record the keys pressed by a user on the keyboard. A keylogger makes logs of daily keyboard usage and may send it to an external entity as well.",
+      "quote": "A keylogger can either be malware or hardware. The main purpose of this malware is to record the keys pressed by a user on the keyboard. A keylogger makes logs of daily keyboard usage and may send it to an external entity as well.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computer Science",
+        "code": "lecs112",
+        "chapterNo": 12,
+        "page": 227,
+        "section": "12.2.7 Keyloggers"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "keylogger",
+        "malware"
+      ],
+      "order": 230
     },
     {
       "id": "kc.computer_science.security-aspects.list-malware-modes",
@@ -31922,6 +32145,34 @@
       "order": 280
     },
     {
+      "id": "kc.computer_science.societal-impacts.fact-be-secure-password",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.societal-impacts",
+      "chapter": "Societal Impacts",
+      "unit": "Section B2: Informatics Practices",
+      "kind": "fact",
+      "front": "Social media etiquettes: under which etiquette does 'Choose password wisely' come?",
+      "back": "Be Secure\nChoose password wisely: it is vital for social network users.",
+      "quote": "Be Secure\nChoose password wisely: it is vital for social network users.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Informatics Practices",
+        "code": "leip106",
+        "chapterNo": 6,
+        "page": 173,
+        "section": "6.3.3 Social Media Etiquettes"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "social media etiquettes",
+        "password"
+      ],
+      "order": 285
+    },
+    {
       "id": "kc.computer_science.societal-impacts.kl-strong-password",
       "v": 1,
       "subject": "computer_science",
@@ -32032,6 +32283,34 @@
         "social media"
       ],
       "order": 320
+    },
+    {
+      "id": "kc.computer_science.societal-impacts.fact-be-reliable-upload",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.societal-impacts",
+      "chapter": "Societal Impacts",
+      "unit": "Section B2: Informatics Practices",
+      "kind": "fact",
+      "front": "Social media etiquettes: under which etiquette does 'Think before uploading' come?",
+      "back": "Be Reliable\nThink before uploading: we can upload almost anything on social network.",
+      "quote": "Be Reliable\nThink before uploading: we can upload almost anything on social network.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Informatics Practices",
+        "code": "leip106",
+        "chapterNo": 6,
+        "page": 173,
+        "section": "6.3.3 Social Media Etiquettes"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "social media etiquettes",
+        "uploading"
+      ],
+      "order": 325
     },
     {
       "id": "kc.computer_science.societal-impacts.fact-think-before-upload",
@@ -36331,6 +36610,34 @@
         "linear"
       ],
       "order": 390
+    },
+    {
+      "id": "kc.computer_science.sorting.fact-nested-loop-quadratic",
+      "v": 1,
+      "subject": "computer_science",
+      "chapterKey": "computer_science.sorting",
+      "chapter": "Sorting",
+      "unit": "Section B1: Computer Science",
+      "kind": "fact",
+      "front": "What time complexity does a loop within a loop (nested loop) have, and what are such algorithms called?",
+      "back": "A loop within a loop (nested loop) will have the time complexity as n². Such algorithms are known as Quadratic time algorithms.",
+      "quote": "A loop within a loop (nested loop) will have the time complexity as n². Such algorithms are known as Quadratic time algorithms.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computer Science - Class XII",
+        "code": "lecs105",
+        "chapterNo": 5,
+        "page": 78,
+        "section": "5.5 Time Complexity of Algorithms"
+      },
+      "importance": "must",
+      "asked": 1,
+      "tags": [
+        "time complexity",
+        "nested loop"
+      ],
+      "order": 400
     },
     {
       "id": "kc.computer_science.sorting.fact-nested-and-single-loop",
