@@ -8,6 +8,7 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { Info, X } from 'lucide-react';
+import { LogoMark } from '@/components/Logo';
 
 export default function CoverageHow({ how }) {
   const keyRef = useRef(null);
@@ -30,19 +31,25 @@ export default function CoverageHow({ how }) {
       <dialog ref={dialogRef} className="lp-ch" aria-labelledby="lp-ch-title" onClose={onClosed} onClick={(event) => { if (event.target === event.currentTarget) close(); }}>
         <div className="lp-ch__sheet">
           <header className="lp-ch__head">
-            <h3 className="lp-ch__title" id="lp-ch-title">{how.title}</h3>
+            <LogoMark height={24} className="lp-ch__logo" title="MockMob" />
             <button type="button" className="lp-ch__close" onClick={close} aria-label={how.close}><X size={22} strokeWidth={2.4} aria-hidden="true" /></button>
           </header>
           <div className="lp-ch__body">
+            <div className="lp-ch__intro">
+              <h3 className="lp-ch__title" id="lp-ch-title">{how.title}</h3>
+              <p className="lp-ch__lead">{how.lead}</p>
+            </div>
             {how.sections.map((section) => (
-              <section key={section.id} className="lp-ch__sec" aria-labelledby={`lp-ch-${section.id}`}>
-                <h4 className="lp-ch__h" id={`lp-ch-${section.id}`}>{section.head}</h4>
+              <section key={section.id} className="lp-ch__sec" aria-labelledby={section.head ? `lp-ch-${section.id}` : undefined} aria-label={section.head ? undefined : how.title}>
+                {section.head ? <h4 className="lp-ch__h" id={`lp-ch-${section.id}`}>{section.head}</h4> : null}
+                {section.lead ? <p className="lp-ch__lead">{section.lead}</p> : null}
                 <ul className="lp-ch__points">
-                  {section.points.map((point) => <li key={point}>{point}</li>)}
+                  {section.points.map((point) => <li key={point.lead}><b>{point.lead}</b> {point.text}</li>)}
                 </ul>
               </section>
             ))}
-            <p className="lp-ch__note">{how.note}</p>
+            <p className="lp-ch__claim"><b>{how.claim.lead}</b> {how.claim.text}</p>
+            <p className="lp-ch__note"><b>{how.note.lead}</b> {how.note.text}</p>
             <Link href={how.link.href} prefetch={false} className="mm-btn mm-btn--secondary lp-ch__link">{how.link.text}</Link>
           </div>
         </div>

@@ -185,7 +185,7 @@ test('the section sits right before pricing, keeps its address, and links each p
   assert.match(explorer, /href=\{subject\.href\}/);
   // The way to every paper is the sheet's own key ("Open all 9 papers"), under the figure.
   assert.match(read('src/components/landing/coverageWords.mjs'), /link: \{ href: COVERAGE_PATH,/);
-  assert.match(shell, /<CoverageHow key="how" how=\{howWeCounted\(\{ total: model\.total \}\)\} \/>/);
+  assert.match(shell, /<CoverageHow key="how" how=\{howWeCounted\(\{ total: model\.total, before: model\.before \}\)\} \/>/);
   const css = read('src/components/landing/coverage-proof.css');
   assert.doesNotMatch(css, /position:\s*(fixed|sticky)/);
   assert.doesNotMatch(css, /infinite/, 'nothing loops');
@@ -221,22 +221,23 @@ test('the strip and its legend draw three things: in MockMob, not yet, not count
   assert.match(read('src/components/landing/CoverageExplorer.jsx'), /<b>\{words\.label\}<\/b>/);
 });
 
-test('"How we counted" is one quiet key and a short sheet: what counts, what was checked, and that it is today\'s figure', () => {
+test('"How we counted" is one quiet key and a sheet built like his reference: logo, a question, bold lead-ins, the two figures, no prediction', () => {
   const model = coverageExplorer();
-  const how = howWeCounted({ total: model.total });
+  const how = howWeCounted({ total: model.total, before: model.before });
   assert.equal(how.button, 'How we counted');
-  assert.deepEqual(how.sections.map((s) => s.id), ['counts', 'checked']);
+  assert.equal(how.title, 'What does “in MockMob” mean?');
+  assert.deepEqual(how.sections.map((s) => s.id), ['counts', 'check']);
   assert.ok(how.sections.every((s) => s.points.length <= 3), 'short lists');
-  assert.equal(how.sections[1].points[0], `${summary.subjects.length} CUET 2026 papers, one shift of each subject. ${summary.total.counted} questions are counted.`);
-  assert.equal(how.note, 'We checked after the exam. Each figure is what MockMob taught when it was counted.');
+  assert.ok(how.sections.every((s) => s.points.every((p) => /:$/.test(p.lead) && p.text)), 'every point has a bold lead-in');
+  assert.deepEqual(how.sections[0].points.map((p) => p.lead), ['Theory questions:', 'Numerical questions:', 'Passage questions:']);
+  assert.equal(how.note.text, `We checked ${summary.subjects.length} CUET 2026 papers, one shift of each subject: ${summary.total.counted} questions in all. Previously, ${summary.firstCheck.covered} (${summary.firstCheck.pct}%) were in MockMob. Now ${summary.total.covered} (${summary.total.pct}%) are.`);
+  assert.match(how.claim.text, /It is not a prediction\.$/);
   assert.deepEqual(how.link, { href: COVERAGE_PATH, text: `Open all ${summary.subjects.length} papers` });
-  const words = [how.title, how.note, how.link.text, ...how.sections.flatMap((s) => [s.head, ...s.points])];
+  const words = [how.title, how.lead, how.claim.lead, how.claim.text, how.note.text, how.link.text, ...how.sections.flatMap((s) => [s.head || '', s.lead || '', ...s.points.flatMap((p) => [p.lead, p.text])])];
   for (const w of words) {
     assert.doesNotMatch(w, /[—!]|\p{Extended_Pictographic}/u, w);
     assert.doesNotMatch(w, /guarantee|came from MockMob|leaked|preparoo|highest in the market|73%/i, w);
-    // No claim about what MockMob held before the exam: the only tense is today's.
     assert.doesNotMatch(w, /2026 bank|before the exam|already covered|had covered|we had/i, w);
-    if (/predict/i.test(w)) assert.match(w, /It is not a prediction\.$/, w);
   }
   const sheet = read('src/components/landing/CoverageHow.jsx');
   assert.match(sheet, /^'use client'/);
@@ -249,7 +250,7 @@ test('"How we counted" is one quiet key and a short sheet: what counts, what was
   assert.match(explorer, /\[\['before', model\.before\], \['now', model\.total\]\]/);
   assert.match(explorer, /useState\('now'\)/);
   assert.doesNotMatch(explorer, /data-since/);
-  assert.deepEqual(EXPLORER.view, { before: 'Previously', now: 'Now, for CUET 2027' });
+  assert.deepEqual(EXPLORER.view, { before: 'Previously, for CUET 2026', now: 'Now, for CUET 2027' });
   assert.deepEqual(COVERAGE_MARKS, json('data/coverage/cuet2026/home/marks.json'));
   for (const s of summary.subjects) {
     const marks = COVERAGE_MARKS[s.id];

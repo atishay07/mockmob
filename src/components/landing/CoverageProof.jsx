@@ -23,7 +23,7 @@ export default function CoverageProof() {
           model={model}
           first={firstQ ? { subject: FIRST_PAPER.id, q: firstQ } : null}
           heading={<h2 key="heading" className="lp-h2" id="cov-title"><Marked text={C.h2} marks={[[C.mark, { mark: 'highlight', tone: 'volt' }]]} /></h2>}
-          how={<CoverageHow key="how" how={howWeCounted({ total: model.total })} />}
+          how={<CoverageHow key="how" how={howWeCounted({ total: model.total, before: model.before })} />}
         />
       </div>
     </section>

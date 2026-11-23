@@ -95,34 +95,41 @@ export const EXPLORER = Object.freeze({
   note: (sitting) => (sitting ? `This paper: ${sitting}.` : ''),
   // The two figures (owner, 23 Nov 2026): each key carries its own number.
   views: 'Which figure',
-  view: Object.freeze({ before: 'Previously', now: 'Now, for CUET 2027' }),
+  view: Object.freeze({ before: 'Previously, for CUET 2026', now: 'Now, for CUET 2027' }),
   viewCount: (covered, of) => `${covered} of ${of} questions`,
 });
 
-/** "How we counted": the short sheet behind the figure (owner, 23 Nov 2026: a button like his reference's, "showing their
- *  transparency and assumptions"; then, the same evening: keep it basic). What counts, what was checked, and one plain line
- *  on what the figure is. The numbers are passed in from the model. */
-export function howWeCounted({ total }) {
+/** "How we counted": the sheet behind the figure (owner, 23 Nov 2026: a button like his reference's, "showing their transparency
+ *  and assumptions"; 24 Nov 2026: built the way his reference is, with the logo, a question for a title, bold lead-ins and plain
+ *  English). What counts, how to check it, what the two figures are, and what the check does not claim. Numbers come from the model. */
+export function howWeCounted({ total, before = null }) {
+  const papers = `${total.papers} CUET 2026 ${total.papers === 1 ? 'paper' : 'papers'}`;
+  const was = before ? ` Previously, ${before.covered} (${before.pct}%) were in MockMob. Now ${total.covered} (${total.pct}%) are.` : ` ${total.covered} (${total.pct}%) are in MockMob.`;
   return {
     button: 'How we counted',
-    title: 'How we counted',
+    title: 'What does “in MockMob” mean?',
     close: 'Close',
+    lead: 'A CUET question is in MockMob when our practice questions, mocks or Key cards teach everything you need to answer it.',
     sections: [
       {
-        id: 'counts', head: 'What counts as taught', points: [
-          'A theory question counts when MockMob states every fact it tests, in a practice question or on a Key card.',
-          'A sum counts only when a MockMob question uses the same formula and the same steps. The numbers can differ.',
-          'Two separate checks read every question. It counts only when both found it.',
+        id: 'counts', points: [
+          { lead: 'Theory questions:', text: 'MockMob states every fact or idea the question tests, in a practice question or on a Key card.' },
+          { lead: 'Numerical questions:', text: 'A MockMob question uses the same formula and the same steps. Only the numbers are different.' },
+          { lead: 'Passage questions:', text: 'When the answer is printed in a passage in the paper, we show the question but do not count it.' },
         ],
       },
       {
-        id: 'checked', head: 'What we checked', points: [
-          `${total.papers} CUET 2026 ${total.papers === 1 ? 'paper' : 'papers'}, one shift of each subject. ${total.of} questions are counted.`,
-          'A question you can answer from a passage printed in the paper is shown and not counted.',
+        id: 'check', head: 'Check every match yourself',
+        lead: 'For each question we count, we show the MockMob question or Key card that teaches it. We also show the ones we do not cover yet.',
+        points: [
+          { lead: 'Open a paper:', text: 'Pick a subject to see its CUET 2026 paper question by question, next to what MockMob teaches.' },
+          { lead: 'Two checkers:', text: 'Two separate checkers went through every question. A question counts only when both agree it is taught.' },
+          { lead: 'The two figures:', text: '“Previously, for CUET 2026” is what MockMob taught when we first checked the papers. “Now, for CUET 2027” is what it teaches today, after we added what was missing.' },
         ],
       },
     ],
-    note: 'We checked after the exam. Each figure is what MockMob taught when it was counted.',
+    claim: { lead: 'We do not claim to predict CUET 2027 questions.', text: 'This check shows how much of a real CUET paper MockMob teaches. It is not a prediction.' },
+    note: { lead: 'Note:', text: `We checked ${papers}, one shift of each subject: ${total.of} questions in all.${was}` },
     link: { href: COVERAGE_PATH, text: `Open all ${total.papers} ${total.papers === 1 ? 'paper' : 'papers'}` },
   };
 }
