@@ -17,7 +17,7 @@ import { useOnScreen } from './DailyParts';
 import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
 import DailyStory from './DailyStory.jsx';
 import { DAILY_SAY, DAILY_STORY, STORY_WORDS } from './dailyStoryScript.mjs';
-import { COLLEGE_DAILY, DAILY_PRINT, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine } from './dailyStripCopy.mjs';
+import { COLLEGE_DAILY, DAILY_EG, DAILY_PRINT, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine } from './dailyStripCopy.mjs';
 import { DAILY_MINE_STORE, didLines, readMark } from './dailyMineUi.mjs';
 import './daily-row.css';
 
@@ -238,9 +238,9 @@ function HomeBlock() {
               beat's line, the demo screen drawn flat on the card, then today's facts in one quiet line beside the key. */}
           <div className="dwk-ticket__head">
             <h3 className="dwk-name" id="dwk-daily">Daily Five</h3>
-            <span className="dwk-example">{STORY_WORDS.example}</span>
           </div>
-          <DailyDemo />
+          {/* Owner LK428 (23 Nov 2026: after a pass of small fixes the page "shows nothing different"): what a visitor can do now
+              comes first (today's state, the one key, the small print), then the demo, set apart and named as an example. */}
           <div className="dwk-story__foot">
             {COLLEGE_DAILY ? <PlayingFor team={team} onOpen={() => setSheet(true)} /> : null}
             {/* The bubbles carry this device's state: shown once a question is answered (open, they would only repeat the 5). */}
@@ -251,6 +251,8 @@ function HomeBlock() {
             <Link href={daily.href} prefetch={false} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
             <p className="dwk-story__print">{DAILY_PRINT}</p>
           </div>
+          <p className="dwk-eg"><span className="dwk-example">{STORY_WORDS.example}</span><span>{DAILY_EG}</span></p>
+          <DailyDemo />
         </div>
         {COLLEGE_DAILY ? <div className="dwk-ticket__board">
           <CollegeBoard

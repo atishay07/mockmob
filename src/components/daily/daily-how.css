@@ -1,39 +1,53 @@
-/* How the Daily Five works, as three small pictures (DailyHow.jsx; owner LK427, 23 Nov 2026). Three steps in one row with a
-   small arrow between them: a picture in the product's own marks, a few bold words, a few plain ones. Still: nothing moves. */
+/* How the Daily Five works, as three pictures (DailyHow.jsx; owner LK427, 23 Nov 2026). First built as three small pictures in a
+   row, which he did not notice on his phone (LK428: "nothing ... shows as different"). Now one panel the width of the page: on a
+   phone three rows, each a large picture in the product's own marks beside a few large words; from 700 px three columns.
+   Still: nothing moves. */
 .mm.lp .dhow {
-  list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.125rem; margin: 0 0 1.25rem; padding: 0;
+  list-style: none; display: grid; margin: 0 0 1rem; padding: 0;
+  border: 1px solid var(--line); border-radius: 24px; background: var(--paper-raised); box-shadow: var(--sh-2);
 }
-.mm.lp .dhow__step { position: relative; display: grid; gap: 0.1875rem; align-content: start; justify-items: start; min-width: 0; }
-/* The arrow from the step before, in the gap. */
+.mm.lp .dhow__step {
+  position: relative; display: grid; grid-template-columns: 124px minmax(0, 1fr); column-gap: 1rem; row-gap: 0.1875rem; align-content: center;
+  min-width: 0; min-height: 96px; padding: 1rem 1.125rem;
+}
+.mm.lp .dhow__step + .dhow__step { border-top: 1px solid var(--line); }
+/* The step before leads to this one: a small arrow on the rule between them, under the pictures. */
 .mm.lp .dhow__step + .dhow__step::before {
-  content: ''; position: absolute; left: -0.75rem; top: 0.6875rem; width: 7px; height: 7px;
-  border-top: 2px solid var(--ink-3); border-right: 2px solid var(--ink-3); transform: rotate(45deg);
+  content: ''; position: absolute; left: calc(1.125rem + 62px - 7px); top: -8px; width: 12px; height: 12px;
+  border-right: 2.5px solid var(--ink-2); border-bottom: 2.5px solid var(--ink-2); background: var(--paper-raised); transform: rotate(45deg);
 }
-.mm.lp .dhow__pic { display: flex; align-items: center; min-height: 30px; margin-bottom: 0.25rem; }
-.mm.lp .dhow__title { color: var(--ink); font: 800 1rem/1.15 var(--font-display); letter-spacing: -0.015em; text-wrap: balance; }
-.mm.lp .dhow__line { color: var(--ink-2); font: 500 0.875rem/1.3 var(--font-body); text-wrap: balance; }
+.mm.lp .dhow__pic { grid-row: 1 / span 2; display: flex; align-items: center; justify-content: center; min-height: 60px; }
+.mm.lp .dhow__title { align-self: end; color: var(--ink); font: 800 1.375rem/1.1 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.mm.lp .dhow__line { align-self: start; color: var(--ink-2); font: 500 1rem/1.3 var(--font-body); text-wrap: balance; }
 
 /* An answer bubble, as the Daily Five draws its five. */
-.mm.lp .dhow-bubble { flex: none; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1.75px var(--ink-3); color: var(--ink); }
-.mm.lp .dhow-bubble--wrong { width: 28px; height: 28px; color: var(--bad-text, #b0291f); box-shadow: inset 0 0 0 2px var(--bad-text, #b0291f); }
-.mm.lp .dhow-bubble--back { width: 22px; height: 22px; background: var(--volt); color: var(--volt-ink, #17150f); box-shadow: inset 0 0 0 1.5px var(--volt-edge, #9db400); }
+.mm.lp .dhow-bubble { flex: none; display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--ink-3); color: var(--ink); }
+.mm.lp .dhow-bubble--wrong { width: 56px; height: 56px; color: var(--bad-text, #b0291f); box-shadow: inset 0 0 0 3px var(--bad-text, #b0291f); }
+.mm.lp .dhow-bubble--wrong svg { width: 28px; height: 28px; }
+.mm.lp .dhow-bubble--back { width: 32px; height: 32px; background: var(--volt); color: var(--volt-ink, #17150f); box-shadow: inset 0 0 0 2px var(--volt-edge, #9db400); }
+.mm.lp .dhow-bubble--back svg { width: 16px; height: 16px; }
 .mm.lp .dhow-five { display: inline-flex; align-items: center; gap: 4px; }
 /* The week: six days kept, today's square filled volt. */
-.mm.lp .dhow-week { display: inline-flex; align-items: center; gap: 3px; }
-.mm.lp .dhow-week span { width: 11px; height: 16px; border-radius: 3px; background: var(--ink); opacity: 0.82; }
-.mm.lp .dhow-week span.is-today { height: 24px; background: var(--volt); opacity: 1; box-shadow: inset 0 0 0 1.5px var(--volt-edge, #9db400); }
+.mm.lp .dhow-week { display: inline-flex; align-items: flex-end; gap: 4px; }
+.mm.lp .dhow-week span { width: 13px; height: 26px; border-radius: 4px; background: var(--ink); opacity: 0.82; }
+.mm.lp .dhow-week span.is-today { height: 40px; background: var(--volt); opacity: 1; box-shadow: inset 0 0 0 2px var(--volt-edge, #9db400); }
 
-/* A 360 px phone: the five bubbles are a little smaller, so they stay inside their step and clear the next arrow. */
 @media (max-width: 380px) {
-  .mm.lp .dhow-bubble { width: 14px; height: 14px; }
-  .mm.lp .dhow-bubble--wrong { width: 28px; height: 28px; }
-  .mm.lp .dhow-bubble--back { width: 20px; height: 20px; }
+  .mm.lp .dhow__step { grid-template-columns: 112px minmax(0, 1fr); column-gap: 0.75rem; padding-inline: 0.875rem; }
+  .mm.lp .dhow__step + .dhow__step::before { left: calc(0.875rem + 56px - 7px); }
+  .mm.lp .dhow-bubble { width: 17px; height: 17px; }
+  .mm.lp .dhow-bubble--wrong { width: 52px; height: 52px; }
+  .mm.lp .dhow-bubble--back { width: 28px; height: 28px; }
   .mm.lp .dhow-five { gap: 3px; }
-  .mm.lp .dhow-week span { width: 9px; }
+  .mm.lp .dhow-week span { width: 11px; }
+  .mm.lp .dhow__title { font-size: 1.25rem; }
 }
 @media (min-width: 700px) {
-  .mm.lp .dhow { max-width: 44rem; gap: 0 2.5rem; margin-bottom: 1.75rem; }
-  .mm.lp .dhow__step + .dhow__step::before { left: -1.5rem; }
-  .mm.lp .dhow__title { font-size: 1.1875rem; }
-  .mm.lp .dhow__line { font-size: 1rem; }
+  .mm.lp .dhow { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 1.25rem; }
+  .mm.lp .dhow__step { grid-template-columns: minmax(0, 1fr); justify-items: start; align-content: start; row-gap: 0.375rem; min-height: 0; padding: 1.5rem 1.75rem 1.625rem; }
+  .mm.lp .dhow__step + .dhow__step { border-top: 0; border-left: 1px solid var(--line); }
+  .mm.lp .dhow__step + .dhow__step::before { left: -8px; top: calc(1.5rem + 26px); transform: rotate(-45deg); }
+  .mm.lp .dhow__pic { grid-row: auto; justify-content: flex-start; min-height: 64px; margin-bottom: 0.5rem; }
+  .mm.lp .dhow__title { font-size: 1.625rem; }
+  .mm.lp .dhow__line { font-size: 1.0625rem; }
 }

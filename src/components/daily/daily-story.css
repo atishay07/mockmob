@@ -18,6 +18,8 @@
 .mm.lp .dwk-example {
   flex: none; padding: 5px 12px; border-radius: 999px; background: var(--ink); color: var(--paper); font: 750 0.9375rem/1.25 var(--font-body);
 }
+/* 23 Nov 2026 (LK428): the demo sits under the action, set apart by a rule and named: the mark and one line. */
+.mm.lp .dwk-eg { display: flex; align-items: center; gap: 10px; min-width: 0; margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-2); font: 600 0.9375rem/1.35 var(--font-body); text-wrap: pretty; }
 .mm.lp .dst-demo { display: grid; gap: 10px; min-width: 0; margin-top: 12px; }
 .mm.lp .dwk-story__stage { min-width: 0; }
 .mm.lp .dwk-story__foot { display: grid; min-width: 0; }
@@ -68,9 +70,10 @@
   .mm.lp .dwk-ticket[data-story]:not([data-board]) { grid-template-columns: minmax(0, 1fr); }
   .mm.lp .dwk-ticket[data-story] .dwk-ticket__play {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); grid-template-rows: auto auto 1fr;
-    grid-template-areas: 'head stage' 'say stage' 'foot stage'; column-gap: 44px; align-items: start;
+    grid-template-areas: 'head eg' 'say stage' 'foot stage'; column-gap: 44px; align-items: start;
   }
   .mm.lp .dwk-ticket[data-story] .dwk-ticket__head { grid-area: head; justify-content: flex-start; gap: 16px; }
+  .mm.lp .dwk-ticket[data-story] .dwk-eg { grid-area: eg; margin: 0; padding: 0 0 14px; border-top: 0; align-self: end; }
   .mm.lp .dwk-ticket[data-story] .dst-demo { display: contents; }
   .mm.lp .dwk-ticket[data-story] .dst-say { grid-area: say; margin-top: 22px; }
   .mm.lp .dwk-ticket[data-story] .dst-say__line { font-size: 1.625rem; max-width: 22ch; min-height: calc(3em * 1.28); }

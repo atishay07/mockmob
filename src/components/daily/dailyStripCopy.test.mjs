@@ -211,6 +211,10 @@ test('the simpler Daily Five is the default: no college names unless the switch 
   const how = read('./DailyHow.jsx');
   assert.doesNotMatch(how, /'use client'/, 'the pictures are still: no script');
   assert.doesNotMatch(read('./daily-how.css'), /animation|transition/, 'nothing in them moves');
+  // Owner LK428 (23 Nov 2026): three small pictures in a row went unnoticed on his phone. One panel, three rows, large words.
+  assert.match(read('./daily-how.css'), /\.dhow__title \{[^}]*font: 800 1\.375rem/, 'the steps are set large');
+  const { DAILY_EG } = await import('./dailyStripCopy.mjs');
+  assert.equal(DAILY_EG, 'What a five looks like once you have practised.');
   assert.match(read('../../app/page.js'), /\{COLLEGE_DAILY \? null : <DailyHow \/>\}\s*<DailyFiveRow where="home" \/>/, 'the pictures sit between the head and the card');
   const { MINE_PLAN } = await import('../../lib/dailyFiveMine.mjs');
   assert.deepEqual({ ...MINE_PLAN }, { missed: 2, weak: 2, subject: 1 }, 'the line says the plan');

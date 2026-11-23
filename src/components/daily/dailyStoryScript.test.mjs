@@ -110,9 +110,14 @@ test('the sample five obeys the real rules, and every word on it is the page own
   // The screen counts its own day's end from the click (a wrong pick by hand changes the lines honestly).
   assert.match(JSX, /const did = fedLines\(fedCounts\(fed\)\);/);
   assert.match(JSX, /i === 0 \? \(right \? 'fixed' : 'mistakes'\) : f/);
-  // It reads plainly as an example: the card's head row says so, beside "Daily Five" (one surface, no second title).
+  // It reads plainly as an example. Owner LK428 (23 Nov 2026): what a visitor can do now comes first (today's state, the key,
+  // the small print); the demo sits under it, set apart and named: the mark and one line right above the screen.
   assert.equal(STORY_WORDS.example, 'Example');
-  assert.match(ROW, /<h3 className="dwk-name" id="dwk-daily">Daily Five<\/h3>\s*<span className="dwk-example">\{STORY_WORDS\.example\}<\/span>/);
+  assert.match(ROW, /<p className="dwk-eg"><span className="dwk-example">\{STORY_WORDS\.example\}<\/span><span>\{DAILY_EG\}<\/span><\/p>\s*<DailyDemo \/>/);
+  const head = ROW.indexOf('<h3 className="dwk-name" id="dwk-daily">Daily Five</h3>');
+  const key = ROW.indexOf('<Link href={daily.href} prefetch={false} className="dwk-key"');
+  const demo = ROW.indexOf('<DailyDemo />');
+  assert.ok(head > 0 && key > head && demo > key, 'the head, then the key, then the example');
   assert.doesNotMatch(JSX, /dst-top|STORY_WORDS\.head|STORY_WORDS\.mix/, 'no second title or mix line on the screen');
 });
 

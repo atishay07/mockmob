@@ -49,6 +49,9 @@ export const DAILY_HOW = Object.freeze([
   Object.freeze({ id: 'streak', title: 'Your streak grows', line: 'when you finish all five' }),
 ]);
 export const DAILY_HOW_LABEL = 'How the Daily Five works';
+/** The line beside the card's "Example" mark, over the demo: the demo is a student's own five (2 missed, 2 weak, 1 new),
+ *  which an account gets after it has practised; a guest plays the shared five (owner LK428, 23 Nov 2026). */
+export const DAILY_EG = 'What a five looks like once you have practised.';
 
 export const STRIP_HEAD = Object.freeze({
   h2: 'Five a day. Play for your college.',
