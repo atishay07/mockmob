@@ -95,12 +95,12 @@
    "n": 9,
    "chapter": "Current Electricity",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Cards rank conductors, semiconductors and insulators only; nothing served places carbon between rubber and iron or copper above iron (the rationalised NCERT has no material table)."
+   "reason": "Paper Q9 needs the ascending order rubber < carbon < iron < copper. The explanation states every link with figures (copper about six times iron; iron a few hundred times graphite; hard rubber, 10^13 to 10^16 Ω m, far below all four) and then the paper's whole order in words: 'rubber < carbon < iron "
   },
   {
    "n": 10,
@@ -238,12 +238,12 @@
    "n": 22,
    "chapter": "Alternating Current",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "428fe23c-40f8-487d-a32e-9337e33732d4",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The capacitor half is taught (ex-lamp-capacitor-dc, fact-capacitor-dc-current-zero), but nothing served says an inductor passes steady d.c.; it needs the unstated step omega = 0 in X_L = omega L."
+   "reason": "Paper Q22's key is 'B only': in d.c. an inductor conducts but a capacitor does not; its A (capacitor conducts, inductor not), C (neither conducts) and D (inductor has infinite resistance) are false. The row states the inductor's d.c. limit (X_L = ωL = 0 at zero frequency, so it conducts like a wire:"
   },
   {
    "n": 23,
@@ -326,12 +326,12 @@
    "n": 30,
    "chapter": "Electromagnetic Waves",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "f4fd675c finds E0 from the intensity and 011459c4 relates E0 = cB0, but no single served row goes from intensity to the magnetic amplitude (different unknown)."
+   "reason": "MockMob question 2d62ff74 teaches this point."
   },
   {
    "n": 31,
@@ -359,12 +359,12 @@
    "n": 33,
    "chapter": "Wave Optics",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "bc1541f4-9c6d-4072-9d30-9693617fee55",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Cards give fringe positions n lambda D/d (D-I) and the single-slit pattern (B-IV, roughly), but nothing served says a wider slit raises the maximum intensity or a wider source slit blurs the fringes."
+   "reason": "MockMob question bc1541f4 teaches this point."
   },
   {
    "n": 34,
@@ -392,12 +392,12 @@
    "n": 36,
    "chapter": "Wave Optics",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "4f0f2822-6c49-4610-8361-d666aa8d1296",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "0e2ae512 starts from an intensity ratio 4:1 and gets 9:1, but the first step here, intensity proportional to slit width, is taught nowhere (taking amplitude ~ width gives the 25:9 distractor)."
+   "reason": "MockMob question 4f0f2822 teaches this point."
   },
   {
    "n": 37,

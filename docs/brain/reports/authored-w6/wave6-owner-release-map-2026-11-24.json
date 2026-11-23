@@ -1,0 +1,254 @@
+[
+ {
+  "id": "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "computer_science",
+  "n": 25,
+  "chapter": "Queue"
+ },
+ {
+  "id": "13edb7cc-941a-4c89-b542-4784a8987482",
+  "kind": "held-7",
+  "qual": [
+   7,
+   8
+  ],
+  "fit": 8,
+  "subject": "geography",
+  "n": 26,
+  "chapter": "Population — Distribution, Density, Growth"
+ },
+ {
+  "id": "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+  "kind": "held-7",
+  "qual": [
+   7,
+   8
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 3,
+  "chapter": "Determinants"
+ },
+ {
+  "id": "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+  "kind": "held-7",
+  "qual": [
+   8,
+   7
+  ],
+  "fit": 10,
+  "subject": "mathematics",
+  "n": 11,
+  "chapter": "Differential Equations"
+ },
+ {
+  "id": "078267c2-49be-4aa3-954c-b34fd352e5be",
+  "kind": "held-7",
+  "qual": [
+   8,
+   7
+  ],
+  "fit": 9,
+  "subject": "mathematics",
+  "n": 21,
+  "chapter": "Matrices"
+ },
+ {
+  "id": "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 24,
+  "chapter": "Determinants"
+ },
+ {
+  "id": "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 26,
+  "chapter": "Continuity & Differentiability"
+ },
+ {
+  "id": "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+  "kind": "held-7",
+  "qual": [
+   7,
+   8
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 42,
+  "chapter": "Three Dimensional Geometry"
+ },
+ {
+  "id": "5f019747-db58-4357-bbbe-4964672afc91",
+  "kind": "held-7",
+  "qual": [
+   8,
+   7
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 46,
+  "chapter": "Linear Programming"
+ },
+ {
+  "id": "9878b056-c656-4856-a16d-d07a5559174b",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 55,
+  "chapter": "Financial Mathematics"
+ },
+ {
+  "id": "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+  "kind": "held-7",
+  "qual": [
+   8,
+   7
+  ],
+  "fit": 10,
+  "subject": "mathematics",
+  "n": 62,
+  "chapter": "Differential Equations"
+ },
+ {
+  "id": "40e95075-7697-4069-be1a-222caf71526a",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 71,
+  "chapter": "Inferential Statistics"
+ },
+ {
+  "id": "6c2f68da-8876-4b67-952a-e84167e91144",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 9,
+  "subject": "mathematics",
+  "n": 79,
+  "chapter": "Matrices"
+ },
+ {
+  "id": "5213f563-e232-4248-b3b3-c4430f3eabc1",
+  "kind": "held-7",
+  "qual": [
+   7,
+   8
+  ],
+  "fit": 8,
+  "subject": "mathematics",
+  "n": 82,
+  "chapter": "Numbers, Quantification and Numerical Applications"
+ },
+ {
+  "id": "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "physics",
+  "n": 9,
+  "chapter": "Current Electricity"
+ },
+ {
+  "id": "428fe23c-40f8-487d-a32e-9337e33732d4",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "physics",
+  "n": 22,
+  "chapter": "Alternating Current"
+ },
+ {
+  "id": "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+  "kind": "held-7",
+  "qual": [
+   8,
+   7
+  ],
+  "fit": 8,
+  "subject": "physics",
+  "n": 30,
+  "chapter": "Electromagnetic Waves"
+ },
+ {
+  "id": "bc1541f4-9c6d-4072-9d30-9693617fee55",
+  "kind": "held-7",
+  "qual": [
+   7,
+   8
+  ],
+  "fit": 8,
+  "subject": "physics",
+  "n": 33,
+  "chapter": "Wave Optics"
+ },
+ {
+  "id": "4f0f2822-6c49-4610-8361-d666aa8d1296",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "physics",
+  "n": 36,
+  "chapter": "Wave Optics"
+ },
+ {
+  "id": "348622de-cdf5-435b-a658-8b18520f9cf2",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 9,
+  "subject": "political_science",
+  "n": 27,
+  "chapter": "International Organisations"
+ },
+ {
+  "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+  "kind": "held-7",
+  "qual": [
+   7,
+   7
+  ],
+  "fit": 8,
+  "subject": "sociology",
+  "n": 3,
+  "chapter": "Structural Change"
+ }
+]

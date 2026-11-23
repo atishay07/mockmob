@@ -29,12 +29,12 @@
    "n": 3,
    "chapter": "Determinants",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row evaluates this cyclic determinant or reads the multiplicity of its roots."
+   "reason": "MockMob question 5aa51434 teaches this point."
   },
   {
    "n": 4,
@@ -117,12 +117,12 @@
    "n": 11,
    "chapter": "Differential Equations",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows read order and degree only from polynomial forms; none clears a radical first, and row ddbac3ae teaches the opposite (degree not defined)."
+   "reason": "MockMob question bb7917d5 teaches this point."
   },
   {
    "n": 12,
@@ -227,12 +227,12 @@
    "n": 21,
    "chapter": "Matrices",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "078267c2-49be-4aa3-954c-b34fd352e5be",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Types are defined, but no served bank row builds a matrix from a piecewise element rule and classifies it."
+   "reason": "Paper Q21 builds A from aᵢⱼ = 0 (i ≠ j), i + j (i = j) and asks which of scalar, diagonal, unit, symmetric hold (diagonal and symmetric). Same steps (build the matrix from the piecewise rule, test each type) and the same unknown; the explanation states every fact the paper needs, including that this"
   },
   {
    "n": 22,
@@ -260,12 +260,12 @@
    "n": 24,
    "chapter": "Determinants",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows give |adj A| and the triangular determinant, but none uses |A adj A| = |A|^n or |adj(adj A)| = |A|^((n-1)^2)."
+   "reason": "Paper Q24 matches |adj A|, |A|, |A adj A|, |adj(adj A)| for a triangular 3 × 3 A. Same formulas (|A adj A| = |A|ⁿ, |adj A| = |A|ⁿ⁻¹, |adj(adj A)| = |A|^((n − 1)²)) and steps, same four unknowns, new matrix with |A| = −2."
   },
   {
    "n": 25,
@@ -282,12 +282,12 @@
    "n": 26,
    "chapter": "Continuity & Differentiability",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served row takes a first derivative by logarithms; none takes the second derivative of x^x."
+   "reason": "Paper Q26 asks y″(2) − 2y′(2) for y = xˣ. Same function, same steps (logarithmic differentiation, product rule for y″, evaluate) and the same kind of unknown, at x = e instead of 2."
   },
   {
    "n": 27,
@@ -458,12 +458,12 @@
    "n": 42,
    "chapter": "Three Dimensional Geometry",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "l^2 + m^2 + n^2 = 1 is stated in cards, but no served bank row derives the cos 2 or sin^2 sums."
+   "reason": "Paper Q42 asks which of Σcos² = 1, Σcos 2α = −1, Σsin² = −2, Σcos² = 2 hold for a line's direction angles. Same identities and steps (Σcos² = 1, so Σsin² = 2 and Σcos 2α = −1) and the same unknown."
   },
   {
    "n": 43,
@@ -502,12 +502,12 @@
    "n": 46,
    "chapter": "Linear Programming",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "5f019747-db58-4357-bbbe-4964672afc91",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served row picks a feasible point from a list; nothing served shades the half-planes of a system and picks the region in a graph, which is what this item asks."
+   "reason": "Paper Q46 asks which labelled region of a graph is the feasible region of x + 3y ≤ 60, x + y ≥ 10, x ≤ y, x, y ≥ 0. The row has the same constraint pattern (a ≤ line on the origin side, a ≥ line away from it, x ≤ y above y = x, first quadrant) and the same steps (shade each half-plane by a test poin"
   },
   {
    "n": 47,
@@ -601,12 +601,12 @@
    "n": 55,
    "chapter": "Financial Mathematics",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "9878b056-c656-4856-a16d-d07a5559174b",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Nothing served mentions bonds or their face value."
+   "reason": "Theory: paper Q360 needs one fact, the face value of a bond is the price at which it is sold to buyers when issued, and the three wrong options are the yield, the coupon rate and the yield to maturity; the row states all four definitions (list and explanation)."
   },
   {
    "n": 56,
@@ -678,12 +678,12 @@
    "n": 62,
    "chapter": "Differential Equations",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Served rows read order and degree from polynomial forms; none clears a square root first, and ddbac3ae teaches the opposite."
+   "reason": "Numerical: same unknowns (order and degree), same steps (find the highest derivative; isolate the square root, square, read the highest power of p) on the same equation form y = px + √(a^2p^2 + b^2) as paper Q367, with a = 4, b = 3."
   },
   {
    "n": 63,
@@ -777,12 +777,12 @@
    "n": 71,
    "chapter": "Inferential Statistics",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "40e95075-7697-4069-be1a-222caf71526a",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row asks for or states the degrees-of-freedom rule."
+   "reason": "Paper Q376 needs d.f. = n − 1 when n people fill n seats freely (the last choice is forced). After the repair the explanation states the rule d.f. = n − k and works that seating case with other figures; the stem's fixed-mean case is the same count."
   },
   {
    "n": 72,
@@ -865,12 +865,12 @@
    "n": 79,
    "chapter": "Matrices",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "6c2f68da-8876-4b67-952a-e84167e91144",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The result is one line from two cards, but nothing served states it; doubtful, so not covered."
+   "reason": "Theory: paper Q384 needs \"the sum of two skew-symmetric matrices of the same order is skew-symmetric\"; the explanation states that sentence and its proof."
   },
   {
    "n": 80,
@@ -898,12 +898,12 @@
    "n": 82,
    "chapter": "Numbers, Quantification and Numerical Applications",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "5213f563-e232-4248-b3b3-c4430f3eabc1",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The served row finds a remainder; none lists the numbers congruent to a given one."
+   "reason": "Numerical: same unknown (the values y with a ≡ y (mod m)), same step (y = a + km, a progression with difference m) as paper Q387; new figures."
   },
   {
    "n": 83,

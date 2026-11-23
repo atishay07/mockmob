@@ -14,19 +14,19 @@
  "counts": {
   "total": 85,
   "same": 0,
-  "newValues": 33,
-  "concept": 39,
-  "notYet": 13,
+  "newValues": 42,
+  "concept": 42,
+  "notYet": 1,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 72,
+  "covered": 84,
   "counted": 85,
-  "pct": 85,
+  "pct": 99,
   "first": 33,
   "firstPct": 39,
   "addedCards": 0,
-  "addedQuestions": 39,
+  "addedQuestions": 51,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -40,22 +40,22 @@
   {
    "name": "Matrices",
    "asked": 8,
-   "covered": 6
+   "covered": 8
   },
   {
    "name": "Determinants",
    "asked": 7,
-   "covered": 5
+   "covered": 7
   },
   {
    "name": "Differential Equations",
    "asked": 7,
-   "covered": 5
+   "covered": 7
   },
   {
    "name": "Financial Mathematics",
    "asked": 6,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "Integrals",
@@ -65,17 +65,17 @@
   {
    "name": "Numbers, Quantification and Numerical Applications",
    "asked": 6,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "Continuity & Differentiability",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Linear Programming",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Probability",
@@ -100,12 +100,12 @@
   {
    "name": "Inferential Statistics",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Three Dimensional Geometry",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Relations & Functions",
@@ -223,11 +223,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "MockMob question 5aa51434 teaches this point.",
+   "match": {
+    "kind": "question",
+    "id": "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+    "chapter": "Determinants",
+    "stem": "Let Δ be the determinant with rows (1, 2x, 4x²), (4x², 1, 2x) and (2x, 4x², 1). If Δ = (1 + ax³)ᵇ for every real x, consider the following statements:\n(A) a = 8 and b = 2\n(B) a = −8 and b = 2\n(C) x = 1/2 is a repeated root of Δ = 0.\n(D) x = −1/2 is a root of Δ = 0.\n(E) Δ ≥ 0 for every real x.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (D) and (E) only",
+     "(B), (C), (D) and (E) only",
+     "(B), (D) and (E) only",
+     "(B), (C) and (E) only"
+    ],
+    "key": 3,
+    "explanation": "Expand Δ along row 1. First term: 1 × (1 × 1 − 2x × 4x²) = 1 − 8x³. Second term: −2x × (4x² × 1 − 2x × 2x) = −2x × 0 = 0. Third term: 4x² × (4x² × 4x² − 1 × 2x) = 64x⁶ − 8x³. So Δ = 1 − 16x³ + 64x⁶ = (1 − 8x³)², which is (1 + ax³)ᵇ with a = −8 and b = 2: (B) is true, and (A), the sign slip, is false. Δ = 0 means 1 − 8x³ = 0, that is x³ = 1/8, whose only real solution is x = 1/2; because the factor 1 − 8x³ is squared, x = 1/2 is a repeated (double) root, that is, a multiple root and not a simple one, so (C) is true. At x = −1/2, 1 − 8x³ = 1 + 1 = 2 and Δ = 4, not 0, so (D) is false; −1/2 is the root a student gets from the wrong sign, (1 + 8x³)², or from solving 8x³ = −1; taking the cube root of 1/8 as ±1/2, as if it were a square root, wrongly adds (D) to the true statements. Δ is the square of a real number, so Δ ≥ 0 for every real x and (E) is true. The true statements are (B), (C) and (E).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 4,
@@ -533,11 +551,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "MockMob question bb7917d5 teaches this point.",
+   "match": {
+    "kind": "question",
+    "id": "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+    "chapter": "Differential Equations",
+    "stem": "A family of plane curves satisfies √(d²y/dx²) = ∛(1 + (dy/dx)²). Which pair gives the order and degree of this differential equation?",
+    "passage": null,
+    "options": [
+     "order 2, degree 1/2",
+     "order 1, degree 4",
+     "order 2, degree 4",
+     "order 2, degree 3"
+    ],
+    "key": 3,
+    "explanation": "The highest order derivative present is d²y/dx², so the order is 2. As written, d²y/dx² sits under a square root and the right side is a cube root, so the equation is not yet a polynomial in its derivatives. Both roots are removed by raising both sides to the power 6 (the LCM of 2 and 3): (d²y/dx²)³ = (1 + (dy/dx)²)². This is a polynomial equation in the derivatives, and the highest order derivative d²y/dx² appears in it with highest power 3, so the degree is 3. The degree, when defined, is a positive integer, so 1/2 (the power read off the equation before the roots are cleared) cannot be a degree. The power 4 belongs to dy/dx, which is not the highest order derivative; taking dy/dx as the highest derivative also gives the wrong order 1.",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 12,
@@ -918,11 +954,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q21 builds A from aᵢⱼ = 0 (i ≠ j), i + j (i = j) and asks which of scalar, diagonal, unit, symmetric hold (diagonal and symmetric). Same steps (build the matrix from the piecewise rule, test each type) and the same unknown; the explanation states every fact the paper needs, including that this",
+   "match": {
+    "kind": "question",
+    "id": "078267c2-49be-4aa3-954c-b34fd352e5be",
+    "chapter": "Matrices",
+    "stem": "A = [aᵢⱼ] is a 3 × 3 matrix with aᵢⱼ = 0 when i ≠ j and aᵢⱼ = 2i − 1 when i = j. Which of the following statements are correct?\n(A) A is a diagonal matrix.\n(B) A is a scalar matrix.\n(C) A is an identity matrix.\n(D) A is a symmetric matrix.\n(E) A is a skew-symmetric matrix.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (A) and (D)",
+     "Only (A), (B) and (D)",
+     "Only (A), (C) and (D)",
+     "Only (A), (D) and (E)"
+    ],
+    "key": 0,
+    "explanation": "The diagonal entries are a₁₁ = 2(1) − 1 = 1, a₂₂ = 2(2) − 1 = 3 and a₃₃ = 2(3) − 1 = 5, and every other entry is 0, so A = [1 0 0; 0 3 0; 0 0 5]. All non-diagonal entries are zero, so A is a diagonal matrix: (A) is true. A scalar matrix is a diagonal matrix whose diagonal entries are all equal; 1, 3 and 5 are not, so (B) is false (every scalar matrix is diagonal, but not every diagonal matrix is scalar). An identity matrix needs every diagonal entry equal to 1; only a₁₁ = 1, so (C) is false; checking a₁₁ alone is the slip that accepts it. Since aᵢⱼ = aⱼᵢ = 0 for i ≠ j, the transpose A′ equals A, so A is symmetric: (D) is true. A skew-symmetric matrix needs A′ = −A, which forces every diagonal entry to be 0; here they are 1, 3 and 5, so (E) is false (zero entries off the diagonal are not enough). The correct statements are (A) and (D).",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 22,
@@ -1023,11 +1077,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q24 matches |adj A|, |A|, |A adj A|, |adj(adj A)| for a triangular 3 × 3 A. Same formulas (|A adj A| = |A|ⁿ, |adj A| = |A|ⁿ⁻¹, |adj(adj A)| = |A|^((n − 1)²)) and steps, same four unknowns, new matrix with |A| = −2.",
+   "match": {
+    "kind": "question",
+    "id": "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+    "chapter": "Determinants",
+    "stem": "For the matrix A = [2 5 −3; 0 −1 4; 0 0 1], match List-I with List-II.\nList-I\n(A) |A|\n(B) |A (adj A)|\n(C) |adj A|\n(D) |adj (adj A)|\nList-II\n(I) 4\n(II) 16\n(III) −2\n(IV) −8\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+     "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+     "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+     "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+    ],
+    "key": 3,
+    "explanation": "Expanding along the first column, |A| = 2 × [(−1)(1) − (4)(0)] = −2: for this triangular matrix it is the product of the diagonal entries 2 × (−1) × 1. For a square matrix of order n, A (adj A) = |A| I, so |A (adj A)| = |A|ⁿ = (−2)³ = −8. Taking determinants of (adj A) A = |A| I gives |adj A| × |A| = |A|³, so |adj A| = |A|ⁿ⁻¹ = (−2)² = 4. The same rule applied to adj A gives |adj (adj A)| = |adj A|ⁿ⁻¹ = 4² = 16, which is |A| to the power (n − 1)² = 4. So (A) - (III), (B) - (IV), (C) - (I), (D) - (II). The other pairings mix up the three powers 3, 2 and 4: giving |A (adj A)| the power 2 and |adj A| the power 3, or swapping the powers 2 and 4, or swapping 3 and 4.",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 25,
@@ -1087,11 +1159,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q26 asks y″(2) − 2y′(2) for y = xˣ. Same function, same steps (logarithmic differentiation, product rule for y″, evaluate) and the same kind of unknown, at x = e instead of 2.",
+   "match": {
+    "kind": "question",
+    "id": "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+    "chapter": "Continuity & Differentiability",
+    "stem": "If y = xˣ, x > 0 (log denotes the natural logarithm), then y″(e) − 2y′(e) is equal to",
+    "passage": null,
+    "options": [
+     "0",
+     "eᵉ",
+     "eᵉ⁻¹",
+     "eᵉ⁺¹"
+    ],
+    "key": 2,
+    "explanation": "Take logarithms: log y = x log x, so (1/y) y′ = 1 + log x and y′ = xˣ(1 + log x). Differentiate this product: y″ = xˣ(1 + log x)(1 + log x) + xˣ × (1/x) = xˣ(1 + log x)² + xˣ⁻¹. At x = e, log e = 1: y′(e) = 2eᵉ and y″(e) = 4eᵉ + eᵉ⁻¹. So y″(e) − 2y′(e) = 4eᵉ + eᵉ⁻¹ − 4eᵉ = eᵉ⁻¹. Leaving out the derivative of (1 + log x) gives 0; taking that derivative as 1 instead of 1/x gives eᵉ; multiplying by x instead of dividing gives eᵉ⁺¹.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 27,
@@ -1693,11 +1783,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q42 asks which of Σcos² = 1, Σcos 2α = −1, Σsin² = −2, Σcos² = 2 hold for a line's direction angles. Same identities and steps (Σcos² = 1, so Σsin² = 2 and Σcos 2α = −1) and the same unknown.",
+   "match": {
+    "kind": "question",
+    "id": "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+    "chapter": "Three Dimensional Geometry",
+    "stem": "A line makes angles α, β and γ with the positive directions of the x-, y- and z-axes respectively. Which of the following statements are correct?\n(A) sin²α + sin²β + sin²γ = 2\n(B) cos 2α + cos 2β + cos 2γ = 1\n(C) (sin²α + sin²β + sin²γ) − (cos²α + cos²β + cos²γ) = 1\n(D) cos 2α + cos 2β + cos 2γ = −1\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (A), (C) and (D)",
+     "Only (A) and (D)",
+     "Only (A), (B) and (C)",
+     "Only (A) and (C)"
+    ],
+    "key": 0,
+    "explanation": "The direction cosines of the line are cos α, cos β and cos γ, and cos²α + cos²β + cos²γ = 1. Then sin²α + sin²β + sin²γ = 3 − (cos²α + cos²β + cos²γ) = 3 − 1 = 2, so (A) is true. The difference in (C) is 2 − 1 = 1, so (C) is true; subtracting in the wrong order, 1 − 2 = −1, is the slip that rejects it. Using cos 2θ = 2cos²θ − 1 for each angle, cos 2α + cos 2β + cos 2γ = 2(1) − 3 = −1, so (D) is true and (B) is false. Subtracting 1 once instead of three times gives +1 and accepts (B); writing cos 2θ = 2cos²θ, without the −1, gives 2 and rejects both (B) and (D). The correct statements are (A), (C) and (D).",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 43,
@@ -1839,11 +1947,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q46 asks which labelled region of a graph is the feasible region of x + 3y ≤ 60, x + y ≥ 10, x ≤ y, x, y ≥ 0. The row has the same constraint pattern (a ≤ line on the origin side, a ≥ line away from it, x ≤ y above y = x, first quadrant) and the same steps (shade each half-plane by a test poin",
+   "match": {
+    "kind": "question",
+    "id": "5f019747-db58-4357-bbbe-4964672afc91",
+    "chapter": "Linear Programming",
+    "stem": "For the linear programming problem: Maximise Z = 3x + 2y subject to x + 4y ≤ 40, x + y ≥ 8, x ≤ y, x ≥ 0, y ≥ 0, the feasible region is the region whose corner points are",
+    "passage": null,
+    "options": [
+     "(4, 4), (8, 0), (40, 0) and (8, 8)",
+     "(0, 0), (4, 4) and (0, 8)",
+     "(0, 0), (8, 8) and (0, 10)",
+     "(0, 8), (4, 4), (8, 8) and (0, 10)"
+    ],
+    "key": 3,
+    "explanation": "Shade each constraint. x + 4y ≤ 40: the side of the line through (40, 0) and (0, 10) that contains the origin. x + y ≥ 8: the side of the line through (8, 0) and (0, 8) away from the origin. x ≤ y: the side of the line y = x that contains (0, 1), that is, above it. x ≥ 0, y ≥ 0: the first quadrant. The common region is bounded by the y-axis, x + y = 8, y = x and x + 4y = 40. Its corners are (0, 8) on the y-axis, (4, 4) where x + y = 8 meets y = x, (8, 8) where x + 4y = 40 meets y = x (5x = 40), and (0, 10) where x + 4y = 40 meets the y-axis. Shading x ≤ y below the line y = x gives the region with corners (4, 4), (8, 0), (40, 0), (8, 8); shading x + y ≥ 8 towards the origin gives the triangle (0, 0), (4, 4), (0, 8); leaving out x + y ≥ 8 gives the triangle (0, 0), (8, 8), (0, 10).",
+    "more": {
+     "cards": 1,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 47,
@@ -2190,11 +2316,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Theory: paper Q360 needs one fact, the face value of a bond is the price at which it is sold to buyers when issued, and the three wrong options are the yield, the coupon rate and the yield to maturity; the row states all four definitions (list and explanation).",
+   "match": {
+    "kind": "question",
+    "id": "9878b056-c656-4856-a16d-d07a5559174b",
+    "chapter": "Financial Mathematics",
+    "stem": "Match List-I with List-II.\nList-I:\n(A) Face value of a bond\n(B) Coupon rate\n(C) Yield to maturity\n(D) Maturity date\nList-II:\n(I) The annual rate of interest the issuer pays to the bondholder, as a percentage of the face value\n(II) The date on which the bond is redeemed and the holder is repaid\n(III) The price at which buyers purchase the bond when it is first issued\n(IV) The discount rate at which the present value of all the payments of the bond equals its market price\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+     "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)",
+     "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+     "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    ],
+    "key": 3,
+    "explanation": "A bond is a debt instrument: the issuer borrows money and promises fixed interest payments and repayment on a set date. The face (par) value of a bond is the price at which buyers purchase it when it is first issued; the coupon is worked out on this amount, and unless another redemption value is stated, it is also the amount repaid at maturity. The coupon rate is the annual interest rate the issuer pays to the holder, applied to the face value, so the yearly coupon = coupon rate × face value. The yield to maturity is the overall annual return a buyer earns by holding the bond to maturity: the discount rate at which the present value of all the coupons and the redemption amount equals the bond’s market price. The maturity date is the date on which the bond is redeemed and the holder is repaid. Swapping the coupon rate and the yield to maturity is the usual slip: the coupon rate is fixed on the face value at issue, while the yield changes with the market price, and the two are equal only when the bond sells at its face value.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 56,
@@ -2459,11 +2603,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Numerical: same unknowns (order and degree), same steps (find the highest derivative; isolate the square root, square, read the highest power of p) on the same equation form y = px + √(a^2p^2 + b^2) as paper Q367, with a = 4, b = 3.",
+   "match": {
+    "kind": "question",
+    "id": "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+    "chapter": "Differential Equations",
+    "stem": "A family of straight lines satisfies the differential equation y = xp + √(16p² + 9), where p = dy/dx. The order and the degree of this equation are respectively:",
+    "passage": null,
+    "options": [
+     "1 and 2",
+     "1 and 1",
+     "2 and 2",
+     "2 and 1"
+    ],
+    "key": 0,
+    "explanation": "The only derivative present is dy/dx, so the order is 1. The degree is read only when the equation is a polynomial in its derivatives, and here p = dy/dx stands under a square root. Isolate the root and square: y − xp = √(16p² + 9) gives (y − xp)² = 16p² + 9, that is (x² − 16)p² − 2xyp + y² − 9 = 0. This is a polynomial in p whose highest power is 2, so the degree is 2. (Its general solution y = cx + √(16c² + 9) is the family of straight lines.) Reading the degree before the root is removed gives 1, the power of p outside the root; an order of 2 would need d²y/dx², which does not appear.",
+    "more": {
+     "cards": 0,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 63,
@@ -2803,11 +2965,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q376 needs d.f. = n − 1 when n people fill n seats freely (the last choice is forced). After the repair the explanation states the rule d.f. = n − k and works that seating case with other figures; the stem's fixed-mean case is the same count.",
+   "match": {
+    "kind": "question",
+    "id": "40e95075-7697-4069-be1a-222caf71526a",
+    "chapter": "Inferential Statistics",
+    "stem": "Twelve observations are to be recorded under the single condition that their mean is exactly 30. The number of degrees of freedom is:",
+    "passage": null,
+    "options": [
+     "12",
+     "11",
+     "13",
+     "10"
+    ],
+    "key": 1,
+    "explanation": "The degrees of freedom are the number of values that can be chosen freely once the restrictions are met: d.f. = n − k for n observations and k independent restrictions. A fixed mean of 30 fixes the total at 12 × 30 = 360, so once any 11 observations are chosen, the twelfth must make up the total. With one restriction, d.f. = 12 − 1 = 11, the same n − 1 used for a one-sample t-test. The same count applies whenever the last choice is forced: if 20 guests take the 20 chairs of a hall, each choosing any empty chair, the first 19 choose freely and the last must take the one chair left, so d.f. = 20 − 1 = 19. 12 ignores the restriction, 13 adds it instead of subtracting it, and 10 subtracts two restrictions when there is only one.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 72,
@@ -3113,11 +3293,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Theory: paper Q384 needs \"the sum of two skew-symmetric matrices of the same order is skew-symmetric\"; the explanation states that sentence and its proof.",
+   "match": {
+    "kind": "question",
+    "id": "6c2f68da-8876-4b67-952a-e84167e91144",
+    "chapter": "Matrices",
+    "stem": "P and Q are two skew-symmetric matrices, each of order 3. Which description fits the matrix 3P + Q?",
+    "passage": null,
+    "options": [
+     "a symmetric matrix",
+     "a skew-symmetric matrix",
+     "neither symmetric nor skew-symmetric in general",
+     "a diagonal matrix"
+    ],
+    "key": 1,
+    "explanation": "A matrix M is skew-symmetric when Mᵀ = −M. Using (X + Y)ᵀ = Xᵀ + Yᵀ and (kX)ᵀ = kXᵀ: (3P + Q)ᵀ = 3Pᵀ + Qᵀ = 3(−P) + (−Q) = −(3P + Q). So 3P + Q is skew-symmetric, and in the same way the sum P + Q of two skew-symmetric matrices of the same order is skew-symmetric. Neither symmetric nor skew-symmetric is what a symmetric matrix plus a skew-symmetric one gives in general, not two skew-symmetric ones. A skew-symmetric matrix has zeros on its diagonal, but its other entries need not be zero, so it need not be diagonal.",
+    "more": {
+     "cards": 2,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 80,
@@ -3218,11 +3416,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Numerical: same unknown (the values y with a ≡ y (mod m)), same step (y = a + km, a progression with difference m) as paper Q387; new figures.",
+   "match": {
+    "kind": "question",
+    "id": "5213f563-e232-4248-b3b3-c4430f3eabc1",
+    "chapter": "Numbers, Quantification and Numerical Applications",
+    "stem": "Which list consists only of values of y that satisfy 38 ≡ y (mod 7)?",
+    "passage": null,
+    "options": [
+     "..., 25, 32, 39, 46, 53, ...",
+     "..., 28, 35, 42, 49, 56, ...",
+     "..., 24, 31, 38, 45, 52, ...",
+     "..., 31, 38, 45, 51, 58, ..."
+    ],
+    "key": 2,
+    "explanation": "38 ≡ y (mod 7) means that 7 divides 38 − y, that is, y = 38 + 7k for some integer k. Adding and subtracting 7 from 38 gives ..., 24, 31, 38, 45, 52, ..., the numbers that leave remainder 3 on division by 7 (38 = 5 × 7 + 3). The list 25, 32, 39, ... leaves remainder 4: each term is one more than a correct value. The list 28, 35, 42, ... is the multiples of 7, which satisfy 0 ≡ y (mod 7), not 38 ≡ y (mod 7). The list ending 45, 51, 58 breaks the step of 7 after 45: 51 − 45 = 6, and 38 − 51 = −13 is not a multiple of 7.",
+    "more": {
+     "cards": 0,
+     "questions": 1
+    }
+   }
   },
   {
    "n": 83,

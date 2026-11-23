@@ -15,18 +15,18 @@
   "total": 50,
   "same": 10,
   "newValues": 1,
-  "concept": 30,
-  "notYet": 2,
+  "concept": 31,
+  "notYet": 1,
   "skill": 7,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 41,
+  "covered": 42,
   "counted": 43,
-  "pct": 95,
+  "pct": 98,
   "first": 26,
   "firstPct": 60,
   "addedCards": 9,
-  "addedQuestions": 6,
+  "addedQuestions": 7,
   "found": 0,
   "sameFirst": 5,
   "newValuesFirst": 1
@@ -40,7 +40,7 @@
   {
    "name": "Population — Distribution, Density, Growth",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "India — People & Economy",
@@ -1004,11 +1004,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "MockMob question 13edb7cc teaches this point.",
+   "match": {
+    "kind": "question",
+    "id": "13edb7cc-941a-4c89-b542-4784a8987482",
+    "chapter": "Population — Distribution, Density, Growth",
+    "stem": "Arrange the following countries in increasing order of population, starting with the smallest.\n(A) Brazil\n(B) Mexico\n(C) Indonesia\n(D) Bangladesh",
+    "passage": null,
+    "options": [
+     "(B), (D), (A), (C)",
+     "(D), (B), (A), (C)",
+     "(B), (A), (D), (C)",
+     "(C), (A), (D), (B)"
+    ],
+    "key": 0,
+    "explanation": "Approximate populations (UN estimates for 2024): Mexico about 130 million, Bangladesh about 174 million, Brazil about 212 million, Indonesia about 283 million. Smallest to largest: Mexico, Bangladesh, Brazil, Indonesia, that is (B), (D), (A), (C). Bangladesh is a small country by area, but it has more people than Mexico; Brazil, the most populous country of South America, has more people than Bangladesh. China (about 1.4 billion) is far above all four, so from largest to smallest the order runs China, Indonesia, Brazil, Bangladesh, Mexico. The order (C), (A), (D), (B) is the same list in decreasing order, the reverse of what is asked.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 27,

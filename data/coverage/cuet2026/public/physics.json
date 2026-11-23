@@ -14,19 +14,19 @@
  "counts": {
   "total": 50,
   "same": 1,
-  "newValues": 15,
-  "concept": 28,
-  "notYet": 6,
+  "newValues": 17,
+  "concept": 31,
+  "notYet": 1,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 44,
+  "covered": 49,
   "counted": 50,
-  "pct": 88,
+  "pct": 98,
   "first": 23,
   "firstPct": 46,
   "addedCards": 0,
-  "addedQuestions": 21,
+  "addedQuestions": 26,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -35,12 +35,12 @@
   {
    "name": "Current Electricity",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Electromagnetic Waves",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Moving Charges & Magnetism",
@@ -65,7 +65,7 @@
   {
    "name": "Alternating Current",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Atoms",
@@ -95,7 +95,7 @@
   {
    "name": "Wave Optics",
    "asked": 3,
-   "covered": 1
+   "covered": 3
   },
   {
    "name": "Magnetism & Matter",
@@ -421,11 +421,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q9 needs the ascending order rubber < carbon < iron < copper. The explanation states every link with figures (copper about six times iron; iron a few hundred times graphite; hard rubber, 10^13 to 10^16 Ω m, far below all four) and then the paper's whole order in words: 'rubber < carbon < iron",
+   "match": {
+    "kind": "question",
+    "id": "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+    "chapter": "Current Electricity",
+    "stem": "Arrange the following materials in decreasing order of their electrical conductivity at room temperature.\n(A) Graphite (carbon)\n(B) Copper\n(C) Pure silicon\n(D) Iron\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(D), (B), (A), (C)",
+     "(B), (D), (C), (A)",
+     "(B), (A), (D), (C)",
+     "(B), (D), (A), (C)"
+    ],
+    "key": 3,
+    "explanation": "Conductivity is the reciprocal of resistivity, so the order of conductivity is the reverse of the order of resistivity. Typical room-temperature resistivities are: copper 1.7 × 10^-8 Ω m, iron about 1.0 × 10^-7 Ω m, graphite (carbon) 3.5 × 10^-5 Ω m and pure silicon about 2.3 × 10^3 Ω m. Copper therefore conducts best, roughly six times better than iron; iron, a metal, conducts a few hundred times better than graphite; and graphite, although a non-metal, conducts far better than pure silicon, a semiconductor. The decreasing order is copper, iron, graphite, silicon. Insulators such as hard rubber (resistivity 10^13 to 10^16 Ω m) lie far below all four, so among rubber, carbon, iron and copper the conductivity rises in that order: rubber < carbon < iron < copper. Putting iron above copper, graphite above iron, or silicon above graphite are the usual slips.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 10,
@@ -915,11 +933,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q22's key is 'B only': in d.c. an inductor conducts but a capacitor does not; its A (capacitor conducts, inductor not), C (neither conducts) and D (inductor has infinite resistance) are false. The row states the inductor's d.c. limit (X_L = ωL = 0 at zero frequency, so it conducts like a wire:",
+   "match": {
+    "kind": "question",
+    "id": "428fe23c-40f8-487d-a32e-9337e33732d4",
+    "chapter": "Alternating Current",
+    "stem": "Identify the correct statements about an inductor of negligible resistance and a capacitor.\n(A) Once the current has become steady, the inductor in a d.c. circuit conducts like a plain connecting wire.\n(B) A capacitor connected to a steady d.c. source passes no current once it has been charged.\n(C) In a steady d.c. circuit the inductor blocks the current as if its resistance were infinite.\n(D) The reactance of the inductor increases when the frequency of the a.c. source is lowered.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "Only (B) and (C)",
+     "Only (A) and (B)",
+     "Only (A), (B) and (D)",
+     "Only (C) and (D)"
+    ],
+    "key": 1,
+    "explanation": "The inductive reactance is X_L = ωL = 2πνL, directly proportional to the frequency. Steady d.c. has zero frequency, so X_L = 0: once the current stops changing there is no induced emf (L di/dt = 0), and an inductor of negligible resistance behaves like a plain wire. So (A) is true and (C), an infinite resistance, is false. For a capacitor the reactance X_C = 1/(ωC) becomes infinite as the frequency goes to zero: when a d.c. source is connected the capacitor charges, and after charging no current flows (a lamp in series with it does not glow), so (B) is true. (D) is false: lowering the frequency lowers X_L = 2πνL. In d.c., then, the inductor conducts and the charged capacitor does not; the correct statements are (A) and (B).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 23,
@@ -1225,11 +1261,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "MockMob question 2d62ff74 teaches this point.",
+   "match": {
+    "kind": "question",
+    "id": "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+    "chapter": "Electromagnetic Waves",
+    "stem": "A focused laser beam has an average intensity of 3.0 × 10^13 W m^-2. The amplitude of the magnetic field in the beam is about\n(Take c = 3.0 × 10^8 m s^-1 and ε0 = 8.85 × 10^-12 C^2 N^-1 m^-2.)",
+    "passage": null,
+    "options": [
+     "0.25 T",
+     "0.35 T",
+     "0.50 T",
+     "0.71 T"
+    ],
+    "key": 2,
+    "explanation": "The average intensity of a plane electromagnetic wave is I = (1/2) c ε0 E0^2, where E0 is the amplitude of the electric field. So E0^2 = 2I/(c ε0) = (2 × 3.0 × 10^13)/(3.0 × 10^8 × 8.85 × 10^-12) = (6.0 × 10^13)/(2.655 × 10^-3) ≈ 2.26 × 10^16, and E0 ≈ 1.5 × 10^8 V m^-1. In a plane wave the field amplitudes are related by E0/B0 = c, so B0 = E0/c = (1.5 × 10^8)/(3.0 × 10^8) ≈ 0.50 T. (The same result comes in one line from B0 = √(2μ0 I/c).) Writing I = c ε0 E0^2, without the factor 1/2, gives E0 ≈ 1.06 × 10^8 V m^-1 and B0 ≈ 0.35 T; stopping at B0^2 ≈ 0.25 and forgetting the square root gives 0.25 T; treating the E0 found from the intensity as an rms value and multiplying by √2 gives 0.71 T.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 31,
@@ -1330,11 +1384,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "MockMob question bc1541f4 teaches this point.",
+   "match": {
+    "kind": "question",
+    "id": "bc1541f4-9c6d-4072-9d30-9693617fee55",
+    "chapter": "Wave Optics",
+    "stem": "Match List-I with List-II for a Young's double-slit set-up.\nList-I (Change made)\n(A) One of the two slits is covered with an opaque sheet\n(B) The single slit that lights the two slits is made wider\n(C) Green light is replaced by red light\n(D) One of the two slits is made slightly wider than the other\nList-II (Effect on the pattern)\n(I) Bright fringes become brighter and dark fringes are no longer fully dark\n(II) The fringes move farther apart\n(III) The fringes become less sharp\n(IV) The interference fringes disappear\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+     "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)",
+     "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+     "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+    ],
+    "key": 3,
+    "explanation": "(A)-(IV): interference needs two coherent waves. With one slit closed only one wave reaches the screen, so the interference pattern disappears; the screen shows just the broad single-slit diffraction pattern of the open slit. (B)-(III): a wider source slit acts like many point sources side by side; each gives a fringe pattern slightly shifted from the others, and their overlap blurs the fringes, so the pattern becomes less sharp (and with a wide enough source slit the fringes vanish). (C)-(II): the fringe spacing is β = λD/d; red light has a longer wavelength, that is a smaller frequency, than green light, so the fringes spread farther apart. Light of smaller frequency always gives wider fringes. (D)-(I): a wider slit lets through more light, so the two waves have unequal amplitudes a1 > a2. The maximum intensity, proportional to (a1 + a2)^2, increases, while the minimum, proportional to (a1 − a2)^2, is no longer zero, so the bright fringes get brighter and the dark ones are not fully dark. Swapping (A) and (B) confuses losing the pattern with blurring it; giving (B) brighter fringes or wider spacing mixes up the source slit with the two slits.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 34,
@@ -1435,11 +1507,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "MockMob question 4f0f2822 teaches this point.",
+   "match": {
+    "kind": "question",
+    "id": "4f0f2822-6c49-4610-8361-d666aa8d1296",
+    "chapter": "Wave Optics",
+    "stem": "In a double-slit interference arrangement, the two slits are 0.36 mm and 0.16 mm wide. The ratio of the intensity at the bright fringes to that at the dark fringes is",
+    "passage": null,
+    "options": [
+     "13 : 5",
+     "5 : 1",
+     "25 : 1",
+     "9 : 4"
+    ],
+    "key": 2,
+    "explanation": "In such problems the intensity of the light reaching the screen from each slit is taken to be proportional to the slit's width (a slit twice as wide lets through twice as much light). So the two waves have intensities in the ratio I1 : I2 = 0.36 : 0.16 = 9 : 4. Intensity is proportional to the square of the amplitude, so the amplitudes are in the ratio a1 : a2 = √9 : √4 = 3 : 2. At a bright fringe the two amplitudes add and at a dark fringe they subtract, so Imax : Imin = (a1 + a2)^2 : (a1 − a2)^2 = (3 + 2)^2 : (3 − 2)^2 = 25 : 1. The dark fringes are not completely dark because the two waves are unequal. Quoting 9 : 4 stops at the intensity ratio of the two slits; 5 : 1 forgets to square (a1 + a2)/(a1 − a2); 13 : 5 adds and subtracts the intensities, (9 + 4) : (9 − 4), instead of the amplitudes.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 37,

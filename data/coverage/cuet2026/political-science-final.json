@@ -293,12 +293,12 @@
    "n": 27,
    "chapter": "International Organisations",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "348622de-cdf5-435b-a658-8b18520f9cf2",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The ICJ seat (The Hague) is stated by no served row or card; it is not in the NCERT text on disk, so only a bank question can close it."
+   "reason": "MockMob question 348622de teaches this point."
   },
   {
    "n": 28,

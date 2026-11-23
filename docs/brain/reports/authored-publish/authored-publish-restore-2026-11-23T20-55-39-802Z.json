@@ -1,0 +1,142 @@
+{
+ "kind": "authored_publish_restore",
+ "version": "authored-publish-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "reason": "CUET 2026 coverage, owner release (owner said Run it, 24 Nov 2026): 21 held wave-6 questions (every gate passed, quality mean 7 to 7.9)",
+ "at": "2026-11-23T20:55:39.800Z",
+ "target": "isrxrxzjocewrdureyhp.supabase.co",
+ "planHash": "29a02a369919acc2379742b47d60a09cf96028d18921bd3108b243ab489f9c0f",
+ "planFile": "docs/brain/reports/authored-publish/authored-publish-plan-2026-11-23T20-49-47-982Z.json",
+ "questionIds": [
+  "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+  "13edb7cc-941a-4c89-b542-4784a8987482",
+  "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+  "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+  "078267c2-49be-4aa3-954c-b34fd352e5be",
+  "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+  "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+  "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+  "5f019747-db58-4357-bbbe-4964672afc91",
+  "9878b056-c656-4856-a16d-d07a5559174b",
+  "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+  "40e95075-7697-4069-be1a-222caf71526a",
+  "6c2f68da-8876-4b67-952a-e84167e91144",
+  "5213f563-e232-4248-b3b3-c4430f3eabc1",
+  "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+  "428fe23c-40f8-487d-a32e-9337e33732d4",
+  "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+  "bc1541f4-9c6d-4072-9d30-9693617fee55",
+  "4f0f2822-6c49-4610-8361-d666aa8d1296",
+  "348622de-cdf5-435b-a658-8b18520f9cf2",
+  "797c5327-4952-47c1-b811-43f8e00faeb0"
+ ],
+ "groupIds": [],
+ "topUpGroupIds": [],
+ "rows": [
+  {
+   "id": "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+   "subject": "computer_science",
+   "contentHash": "55860cd1c8c223ba747143695cfb4a0b5141dd9ee5d4c503a2ffd39e82ab2d5c"
+  },
+  {
+   "id": "13edb7cc-941a-4c89-b542-4784a8987482",
+   "subject": "geography",
+   "contentHash": "c592bf804c8fb8f498d5f692fabc0e9bac678bc19f2f4802f186204d6423676e"
+  },
+  {
+   "id": "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+   "subject": "mathematics",
+   "contentHash": "5c612cd05793c57362cd33215501cbe1e24d9e06d18caa5a1df1c0b44bfe4380"
+  },
+  {
+   "id": "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+   "subject": "mathematics",
+   "contentHash": "f65a040a13c031d2e1282b64362e9be031951ebe5648b9afc26d7820b141b9f1"
+  },
+  {
+   "id": "078267c2-49be-4aa3-954c-b34fd352e5be",
+   "subject": "mathematics",
+   "contentHash": "861f2f25310294078e9b4bdf8b5fa6f507d132b559b33804215988f5aa143bea"
+  },
+  {
+   "id": "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+   "subject": "mathematics",
+   "contentHash": "677ea84154d28c1c068deefda0968c4e1c16102fa145e074e811b6b403ae8e01"
+  },
+  {
+   "id": "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+   "subject": "mathematics",
+   "contentHash": "362427ba9b028e4d1eff7e73635024539901be425770aae524a163a0a352a61a"
+  },
+  {
+   "id": "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+   "subject": "mathematics",
+   "contentHash": "adc5df9a921c42caddaaa1d03c9ad6b71ee35944b282c8e0be9ea49b1263e26d"
+  },
+  {
+   "id": "5f019747-db58-4357-bbbe-4964672afc91",
+   "subject": "mathematics",
+   "contentHash": "efcae27e30cca9be91abc3c29c372117d0634a9ad6f9c6701f1694e67af24522"
+  },
+  {
+   "id": "9878b056-c656-4856-a16d-d07a5559174b",
+   "subject": "mathematics",
+   "contentHash": "186b713ae6559161d1fb543b008c4e0323a62183a4a1420fc700b740f5e164ec"
+  },
+  {
+   "id": "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+   "subject": "mathematics",
+   "contentHash": "799a77d59dba1da628916393b4513c20bb377444f922e1852ea69c7c202d3062"
+  },
+  {
+   "id": "40e95075-7697-4069-be1a-222caf71526a",
+   "subject": "mathematics",
+   "contentHash": "91045814085a7f08bf3bfe79c57eae538222ce284b061f100fe062396733a51f"
+  },
+  {
+   "id": "6c2f68da-8876-4b67-952a-e84167e91144",
+   "subject": "mathematics",
+   "contentHash": "e660bb5ee8387b649caedb687c82fd1c6e5bf80964d5fbfe14a4088e6e002a57"
+  },
+  {
+   "id": "5213f563-e232-4248-b3b3-c4430f3eabc1",
+   "subject": "mathematics",
+   "contentHash": "56ad356fa925acc3886a78ab2d5a2d3fe49250d9d16d01d13db1b724fff80aa3"
+  },
+  {
+   "id": "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+   "subject": "physics",
+   "contentHash": "a4240ecb7c08d19c38c2bdf5a56585f8986ac374b084b9fb33d0d34a07a44dd8"
+  },
+  {
+   "id": "428fe23c-40f8-487d-a32e-9337e33732d4",
+   "subject": "physics",
+   "contentHash": "d2fe55995484289a4d61b34a270bf0bfe41a8b28bc58471fb7f8b9050911fa93"
+  },
+  {
+   "id": "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+   "subject": "physics",
+   "contentHash": "ee69e57c2a5d8cd3520d9aaab7eb6251d8c2b62e5e8991deb1d9aa9b03bacdb9"
+  },
+  {
+   "id": "bc1541f4-9c6d-4072-9d30-9693617fee55",
+   "subject": "physics",
+   "contentHash": "dba74e672fcf0947878977bc4f89bcd1aae5df4e6b3c416a78b379b7d1641e34"
+  },
+  {
+   "id": "4f0f2822-6c49-4610-8361-d666aa8d1296",
+   "subject": "physics",
+   "contentHash": "532179fe6d87f56dd3788f29e680518ba9b270e2ba90f5302340da16c9c51278"
+  },
+  {
+   "id": "348622de-cdf5-435b-a658-8b18520f9cf2",
+   "subject": "political_science",
+   "contentHash": "933aee5fa0fad0660351080e5822610c6487826d2910db2654d9b176d372725a"
+  },
+  {
+   "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+   "subject": "sociology",
+   "contentHash": "dec13f2b4bfadfebdf65ceec7d800b731ce634c62a7a7e52ad077fd76beb8dab"
+  }
+ ]
+}

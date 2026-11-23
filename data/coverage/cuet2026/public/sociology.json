@@ -15,18 +15,18 @@
   "total": 50,
   "same": 5,
   "newValues": 0,
-  "concept": 32,
-  "notYet": 4,
+  "concept": 33,
+  "notYet": 3,
   "skill": 9,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 37,
+  "covered": 38,
   "counted": 41,
-  "pct": 90,
+  "pct": 93,
   "first": 30,
   "firstPct": 73,
   "addedCards": 5,
-  "addedQuestions": 2,
+  "addedQuestions": 3,
   "found": 0,
   "sameFirst": 5,
   "newValuesFirst": 0
@@ -70,7 +70,7 @@
   {
    "name": "Structural Change",
    "asked": 3,
-   "covered": 0
+   "covered": 1
   },
   {
    "name": "Change & Development in Industrial Society",
@@ -174,11 +174,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "The paper keys industrialisation as what physically transplants urban life into a rural setting. The explanation says so outright: the industrial-town case is the one in which urban life is physically transplanted, because industrialisation brings the town's workers, their demand for housing and a m",
+   "match": {
+    "kind": "question",
+    "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+    "chapter": "Structural Change",
+    "stem": "Match List-I (how a village is linked to urban life) with List-II (the urban impact on the village).\nList-I\n(A) Villages such as Madhopur, many of whose people work in far-off cities like Bombay and Calcutta\n(B) Villages around Bhilai\n(C) Villages on the fringe of a growing metropolis\n(D) Remote villages reached by mass media\nList-II\n(I) Images of urban life styles and patterns of consumption, which create new desires and aspirations\n(II) Money sent home regularly, and new houses built by emigrants in their natal villages\n(III) A few villages are absorbed completely, and only the land of many others is used for urban development\n(IV) An influx of immigrant workers, which creates a demand for houses and a market inside the village\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)",
+     "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+     "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+     "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    ],
+    "key": 2,
+    "explanation": "M.S.A. Rao showed that the urban impact on a village depends on the kind of link the village has with a city, and he described three situations; mass media are a further channel, described in NCERT's chapter on the demographic structure. Rao's first situation is the village from which many people have sought work in far-off cities, leaving their families behind. In Madhopur, a village in north central India, 77 of 298 households have migrants, a little less than half of them in Bombay and Calcutta; about 75 per cent of the migrants send money home regularly, and most visit the village. Overseas emigrants from Gujarat villages have built fashionable houses in their natal villages and invested in land and industry. The city stays far away, but its money comes home, so (A) matches (II). When an industrial town like Bhilai comes up in the midst of villages, some villages are totally uprooted and the lands of others are partially acquired; these receive an influx of immigrant workers, which stimulates a demand for houses and a market inside the village and creates problems of ordering relationships between the native residents and the immigrants, so (B) matches (IV). This is the case in which urban life is physically transplanted into the rural setting: industrialisation brings the town's workers, their demand for housing and a market into the village itself. The growth of a metropolitan city is Rao's third situation: a few villages are totally absorbed in its expansion, while only the land of many others, excluding the inhabited area, is used for urban development, so (C) matches (III). Mass media and communication bring images of urban life styles and patterns of consumption into rural areas, so urban norms become known even in remote villages and create new desires and aspirations, but nothing urban arrives in person, so (D) matches (I). The correct matching is (A)-(II), (B)-(IV), (C)-(III), (D)-(I). Two traps: the immigrant workers around Bhilai come because of the industrial town, so they are not the out-migration of Madhopur, where villagers leave; and both the industrial town and the metropolis take village land, but in Rao's account it is the industrial town that brings an influx of immigrant workers, with their demand for houses and a market, inside the village.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 4,

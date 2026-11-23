@@ -4,7 +4,7 @@
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
  "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
- "merged_at": "2026-11-23T18:50:19.173Z",
+ "merged_at": "2026-11-23T20:49:45.571Z",
  "models": [
   "claude-haiku-5-5",
   "claude-subagent-unrecorded"
@@ -19509,6 +19509,115 @@
      "solver": "claude-subagent-unrecorded"
     }
    }
+  },
+  "d61b4a9f-c19b-46f6-b623-871cd4549a7a": {
+   "question_id": "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+   "batch": "authored-2026-10-14__computer_science__w6b3",
+   "db_chapter": "Queue",
+   "content_hash": "55860cd1c8c223ba747143695cfb4a0b5141dd9ee5d4c503a2ffd39e82ab2d5c",
+   "engine_type_guess": "statement_based",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-24",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Queue",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Linear vs non-linear classification is a supporting idea; (D) carries a self-evidently wrong reason.",
+     "scored_content_hash": "55860cd1c8c223ba747143695cfb4a0b5141dd9ee5d4c503a2ffd39e82ab2d5c"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-24",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Queue",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Linear vs non-linear structures: a supporting idea; the 114-word statement set is wordier than real items.",
+     "scored_content_hash": "55860cd1c8c223ba747143695cfb4a0b5141dd9ee5d4c503a2ffd39e82ab2d5c"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-24",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Queue",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Linear vs non-linear classification is supporting; knowing a stack is linear alone rejects (D) and leaves only option B.",
+     "scored_content_hash": "55860cd1c8c223ba747143695cfb4a0b5141dd9ee5d4c503a2ffd39e82ab2d5c"
+    }
+   ],
+   "cuet_type": "statement_based",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Section B1: Computer Science",
+   "unit_votes": null,
+   "chapter": "Queue",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-11-23-w6",
+    "wave": 6,
+    "expert_verdict": null,
+    "expert_issue": null,
+    "authoring_verdict": "claude_audited",
+    "expert_reviewed_text": "not_reviewed",
+    "judged_text": "final",
+    "judged_content_hash": "55860cd1c8c223ba747143695cfb4a0b5141dd9ee5d4c503a2ffd39e82ab2d5c",
+    "final_content_hash": "55860cd1c8c223ba747143695cfb4a0b5141dd9ee5d4c503a2ffd39e82ab2d5c",
+    "hash_changed_by_repair": false,
+    "repaired_fields": [],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "B",
+      "B",
+      "B",
+      "B",
+      "B"
+     ],
+     "on": "final"
+    },
+    "blind_resolve_on_final_text": null,
+    "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-subagent-unrecorded",
+     "fit": "claude-subagent-unrecorded",
+     "solver": "claude-subagent-unrecorded"
+    }
+   }
   }
  },
  "authored": {
@@ -19527,16 +19636,32 @@
   },
   "claude-authored-2026-11-23-w6": {
    "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
-   "merged_at": "2026-11-23T18:50:19.173Z",
-   "questions": 5,
+   "merged_at": "2026-11-23T20:49:45.571Z",
+   "questions": 6,
    "judge_model": "claude-subagent-unrecorded",
    "judge_date": "2026-11-24",
    "repaired_text_policy": "admit",
    "held_for_fresh_judge_pass": 0,
-   "fit_pass_at_8": 5,
-   "fit_pass_at_9": 3,
+   "fit_pass_at_8": 1,
+   "fit_pass_at_9": 0,
    "tens_capped_without_agreed_route": 0,
-   "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
+   "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+   "batch_questions": 1,
+   "earlier_batches": [
+    {
+     "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
+     "merged_at": "2026-11-23T18:50:19.173Z",
+     "questions": 5,
+     "judge_model": "claude-subagent-unrecorded",
+     "judge_date": "2026-11-24",
+     "repaired_text_policy": "admit",
+     "held_for_fresh_judge_pass": 0,
+     "fit_pass_at_8": 5,
+     "fit_pass_at_9": 3,
+     "tens_capped_without_agreed_route": 0,
+     "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
+    }
+   ]
   }
  }
 }

@@ -271,12 +271,12 @@
       "n": 25,
       "chapter": "Queue",
       "type": "theory",
-      "verdict": "not_covered",
-      "matchKind": null,
-      "best": null,
-      "bestKind": null,
+      "verdict": "covered",
+      "matchKind": "concept",
+      "best": "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+      "bestKind": "bank",
       "needs": [],
-      "reason": "Stack, queue and deque are linear in served material, but nothing says a tree is non-linear, which is what separates the key from \"all four\"."
+      "reason": "MockMob question d61b4a9f teaches this point."
     },
     {
       "n": 26,

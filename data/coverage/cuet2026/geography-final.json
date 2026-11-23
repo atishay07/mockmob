@@ -282,12 +282,12 @@
    "n": 26,
    "chapter": "Population — Distribution, Density, Growth",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "13edb7cc-941a-4c89-b542-4784a8987482",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row or card gives the populations of Brazil, Bangladesh or Mexico (NCERT Fig. 2.1 is a graphic)."
+   "reason": "MockMob question 13edb7cc teaches this point."
   },
   {
    "n": 27,

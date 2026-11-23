@@ -119,6 +119,21 @@
   "explanation": "The simple multiplier is 1/CRR = 1/0.10 = 10 when currency held by public is ignored.",
   "from": "saved read-only snapshot econB/bank_economics.json"
  },
+ "0398a11b-3149-4d42-9aa9-4938593e4f6e": {
+  "subject": "mathematics",
+  "chapter": "Differential Equations",
+  "stem": "A family of straight lines satisfies the differential equation y = xp + √(16p² + 9), where p = dy/dx. The order and the degree of this equation are respectively:",
+  "passage": null,
+  "options": [
+   "1 and 2",
+   "1 and 1",
+   "2 and 2",
+   "2 and 1"
+  ],
+  "key": 0,
+  "explanation": "The only derivative present is dy/dx, so the order is 1. The degree is read only when the equation is a polynomial in its derivatives, and here p = dy/dx stands under a square root. Isolate the root and square: y − xp = √(16p² + 9) gives (y − xp)² = 16p² + 9, that is (x² − 16)p² − 2xyp + y² − 9 = 0. This is a polynomial in p whose highest power is 2, so the degree is 2. (Its general solution y = cx + √(16c² + 9) is the family of straight lines.) Reading the degree before the root is removed gives 1, the power of p outside the root; an order of 2 would need d²y/dx², which does not appear.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "042703b8-ea06-434c-b594-247954b00760": {
   "subject": "mathematics",
   "chapter": "Matrices",
@@ -147,6 +162,21 @@
   ],
   "key": 3,
   "explanation": "For a Poisson variate with mean m, P(X = r) = e^(−m) m^r / r!. So 5 × e^(−m) m³/3! = 2 × e^(−m) m⁴/4!. Cancel e^(−m) and m³ (m > 0): 5/6 = 2m/24, that is 5/6 = m/12, so m = 10. Check: P(X = 4)/P(X = 3) = m/4 = 10/4 = 5/2, which is what 5P(X = 3) = 2P(X = 4) requires. 2.5 drops the factorials (5m³ = 2m⁴); 7.5 takes the ratio of successive probabilities as m/3 instead of m/4; 1.6 turns the relation upside down (m/4 = 2/5).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "078267c2-49be-4aa3-954c-b34fd352e5be": {
+  "subject": "mathematics",
+  "chapter": "Matrices",
+  "stem": "A = [aᵢⱼ] is a 3 × 3 matrix with aᵢⱼ = 0 when i ≠ j and aᵢⱼ = 2i − 1 when i = j. Which of the following statements are correct?\n(A) A is a diagonal matrix.\n(B) A is a scalar matrix.\n(C) A is an identity matrix.\n(D) A is a symmetric matrix.\n(E) A is a skew-symmetric matrix.\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "Only (A) and (D)",
+   "Only (A), (B) and (D)",
+   "Only (A), (C) and (D)",
+   "Only (A), (D) and (E)"
+  ],
+  "key": 0,
+  "explanation": "The diagonal entries are a₁₁ = 2(1) − 1 = 1, a₂₂ = 2(2) − 1 = 3 and a₃₃ = 2(3) − 1 = 5, and every other entry is 0, so A = [1 0 0; 0 3 0; 0 0 5]. All non-diagonal entries are zero, so A is a diagonal matrix: (A) is true. A scalar matrix is a diagonal matrix whose diagonal entries are all equal; 1, 3 and 5 are not, so (B) is false (every scalar matrix is diagonal, but not every diagonal matrix is scalar). An identity matrix needs every diagonal entry equal to 1; only a₁₁ = 1, so (C) is false; checking a₁₁ alone is the slip that accepts it. Since aᵢⱼ = aⱼᵢ = 0 for i ≠ j, the transpose A′ equals A, so A is symmetric: (D) is true. A skew-symmetric matrix needs A′ = −A, which forces every diagonal entry to be 0; here they are 1, 3 and 5, so (E) is false (zero entries off the diagonal are not enough). The correct statements are (A) and (D).",
   "from": "read-only fetch 2026-11-23"
  },
  "086521e1-2f7e-4453-ae3d-d235efa465da": {
@@ -329,6 +359,21 @@
   "explanation": "Price elasticity of demand = (% change in quantity demanded) / (% change in price), with both changes measured on the starting value. % change in quantity = (150 - 200) / 200 x 100 = -25%. % change in price = (60 - 50) / 50 x 100 = +20%. So eD = -25 / 20 = -1.25, and its absolute value is 1.25: demand is elastic. Taking the final values as the base gives 2.0, dividing the price change by the quantity change gives 0.8, and dividing the unit changes (50 / 10) gives 5.0.",
   "from": "read-only fetch 2026-11-22"
  },
+ "13edb7cc-941a-4c89-b542-4784a8987482": {
+  "subject": "geography",
+  "chapter": "Population — Distribution, Density, Growth",
+  "stem": "Arrange the following countries in increasing order of population, starting with the smallest.\n(A) Brazil\n(B) Mexico\n(C) Indonesia\n(D) Bangladesh",
+  "passage": null,
+  "options": [
+   "(B), (D), (A), (C)",
+   "(D), (B), (A), (C)",
+   "(B), (A), (D), (C)",
+   "(C), (A), (D), (B)"
+  ],
+  "key": 0,
+  "explanation": "Approximate populations (UN estimates for 2024): Mexico about 130 million, Bangladesh about 174 million, Brazil about 212 million, Indonesia about 283 million. Smallest to largest: Mexico, Bangladesh, Brazil, Indonesia, that is (B), (D), (A), (C). Bangladesh is a small country by area, but it has more people than Mexico; Brazil, the most populous country of South America, has more people than Bangladesh. China (about 1.4 billion) is far above all four, so from largest to smallest the order runs China, Indonesia, Brazil, Bangladesh, Mexico. The order (C), (A), (D), (B) is the same list in decreasing order, the reverse of what is asked.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "145c823f-14d1-4d7d-bc81-5107510977c9": {
   "subject": "mathematics",
   "chapter": "Continuity & Differentiability",
@@ -464,6 +509,21 @@
   "explanation": "Since d/dx (eˣ/x) = eˣ/x − eˣ/x², the integrand is exactly d/dx (eˣ/x). Hence the integral is eˣ/x + C. Option D equals the integrand itself, not its antiderivative.",
   "from": "read-only fetch 2026-11-23"
  },
+ "2d62ff74-3613-4fe4-a63c-afc098d10cfa": {
+  "subject": "physics",
+  "chapter": "Electromagnetic Waves",
+  "stem": "A focused laser beam has an average intensity of 3.0 × 10^13 W m^-2. The amplitude of the magnetic field in the beam is about\n(Take c = 3.0 × 10^8 m s^-1 and ε0 = 8.85 × 10^-12 C^2 N^-1 m^-2.)",
+  "passage": null,
+  "options": [
+   "0.25 T",
+   "0.35 T",
+   "0.50 T",
+   "0.71 T"
+  ],
+  "key": 2,
+  "explanation": "The average intensity of a plane electromagnetic wave is I = (1/2) c ε0 E0^2, where E0 is the amplitude of the electric field. So E0^2 = 2I/(c ε0) = (2 × 3.0 × 10^13)/(3.0 × 10^8 × 8.85 × 10^-12) = (6.0 × 10^13)/(2.655 × 10^-3) ≈ 2.26 × 10^16, and E0 ≈ 1.5 × 10^8 V m^-1. In a plane wave the field amplitudes are related by E0/B0 = c, so B0 = E0/c = (1.5 × 10^8)/(3.0 × 10^8) ≈ 0.50 T. (The same result comes in one line from B0 = √(2μ0 I/c).) Writing I = c ε0 E0^2, without the factor 1/2, gives E0 ≈ 1.06 × 10^8 V m^-1 and B0 ≈ 0.35 T; stopping at B0^2 ≈ 0.25 and forgetting the square root gives 0.25 T; treating the E0 found from the intensity as an rms value and multiplying by √2 gives 0.71 T.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "300047ea-3dc7-4cf4-bc6f-abcb00cd5b7f": {
   "subject": "mathematics",
   "chapter": "Matrices",
@@ -537,6 +597,21 @@
   ],
   "key": 0,
   "explanation": "The WHERE clause keeps rows 101 (salary 45000) and 103 (salary NULL), so COUNT(*) returns 2. COUNT(Salary) counts only non-NULL values, so the NULL salary is not counted and the result is 1, giving (2, 1).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "348622de-cdf5-435b-a658-8b18520f9cf2": {
+  "subject": "political_science",
+  "chapter": "International Organisations",
+  "stem": "Five of the six principal organs of the United Nations are based at the UN Headquarters in New York; one has its seat in another country. Which of the following pairs of a principal organ and the city where it is based is correctly matched?",
+  "passage": null,
+  "options": [
+   "Security Council - Geneva",
+   "International Court of Justice - The Hague",
+   "General Assembly - Vienna",
+   "Trusteeship Council - Nairobi"
+  ],
+  "key": 1,
+  "explanation": "The International Court of Justice (ICJ) is the principal judicial organ of the United Nations, and its seat is the Peace Palace in The Hague, Netherlands. It is the only one of the six principal organs that is not based at the UN Headquarters in New York. Its 15 judges are elected for nine-year terms by the General Assembly and the Security Council, and it settles legal disputes between states and gives advisory opinions. The General Assembly, the Security Council, the Economic and Social Council, the Trusteeship Council and the Secretariat are all based in New York (the Trusteeship Council suspended its work in 1994, when Palau, the last UN trust territory, became independent). Geneva hosts a UN office and bodies such as the World Health Organisation and the Human Rights Council, Vienna hosts the International Atomic Energy Agency, Nairobi hosts the UN Environment Programme, and Washington, DC hosts the IMF and the World Bank, but none of these cities is the seat of the ICJ.",
   "from": "read-only fetch 2026-11-23"
  },
  "34e245ae-b9e4-4a51-aed4-23448fb29a87": {
@@ -749,6 +824,21 @@
   "explanation": "a is perpendicular to both b and c, so it is parallel to b × c: a = λ(b × c) for some scalar λ. |b × c| = |b||c| sin(π/4) = 1/√2. Since |a| = 1, |λ| × (1/√2) = 1, so λ = ±√2 and a = ±√2 (b × c); both signs give unit vectors perpendicular to b and c. Treating b × c as a unit vector gives ±(b × c); multiplying by sin(π/4) instead of dividing gives ±(1/√2)(b × c); taking |b × c| as sin²(π/4) = 1/2 gives ±2(b × c).",
   "from": "read-only fetch 2026-11-23"
  },
+ "40e95075-7697-4069-be1a-222caf71526a": {
+  "subject": "mathematics",
+  "chapter": "Inferential Statistics",
+  "stem": "Twelve observations are to be recorded under the single condition that their mean is exactly 30. The number of degrees of freedom is:",
+  "passage": null,
+  "options": [
+   "12",
+   "11",
+   "13",
+   "10"
+  ],
+  "key": 1,
+  "explanation": "The degrees of freedom are the number of values that can be chosen freely once the restrictions are met: d.f. = n − k for n observations and k independent restrictions. A fixed mean of 30 fixes the total at 12 × 30 = 360, so once any 11 observations are chosen, the twelfth must make up the total. With one restriction, d.f. = 12 − 1 = 11, the same n − 1 used for a one-sample t-test. The same count applies whenever the last choice is forced: if 20 guests take the 20 chairs of a hall, each choosing any empty chair, the first 19 choose freely and the last must take the one chair left, so d.f. = 20 − 1 = 19. 12 ignores the restriction, 13 adds it instead of subtracting it, and 10 subtracts two restrictions when there is only one.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "416fed88-c2e1-4723-9f03-f85b5d78dc1e": {
   "subject": "mathematics",
   "chapter": "Integrals",
@@ -777,6 +867,21 @@
   ],
   "key": 1,
   "explanation": "NCERT's Map 1, 'Early states and their capitals', places all four. Gandhara is in the far north-west of the subcontinent, with its cities Taxila and Pushkalavati; only Kamboja is marked further north (A-III). Matsya lies just west of Mathura, the capital of its neighbour Shurasena, and south-west of Kuru and Indraprastha; its land is present-day eastern Rajasthan, around Jaipur and Alwar, and its capital was Viratanagara (B-IV). Avanti, with its capital Ujjayini, lies further south, in Malwa in present-day Madhya Pradesh (C-II). Ashmaka is the southernmost state on the map: it lay in the Deccan, along the river Godavari, far south of Ujjayini (D-I). Read from north to south, the four therefore run Gandhara, Matsya, Avanti, Ashmaka. The commonest slip is to swap the two southern states: Avanti is the one around Ujjayini, and Ashmaka lies well beyond it in the Deccan. Many of the other mahajanapadas, such as Koshala, Kashi, Vatsa, Vajji, Magadha and Anga, lay close together in the Ganga valley.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "428fe23c-40f8-487d-a32e-9337e33732d4": {
+  "subject": "physics",
+  "chapter": "Alternating Current",
+  "stem": "Identify the correct statements about an inductor of negligible resistance and a capacitor.\n(A) Once the current has become steady, the inductor in a d.c. circuit conducts like a plain connecting wire.\n(B) A capacitor connected to a steady d.c. source passes no current once it has been charged.\n(C) In a steady d.c. circuit the inductor blocks the current as if its resistance were infinite.\n(D) The reactance of the inductor increases when the frequency of the a.c. source is lowered.\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "Only (B) and (C)",
+   "Only (A) and (B)",
+   "Only (A), (B) and (D)",
+   "Only (C) and (D)"
+  ],
+  "key": 1,
+  "explanation": "The inductive reactance is X_L = ωL = 2πνL, directly proportional to the frequency. Steady d.c. has zero frequency, so X_L = 0: once the current stops changing there is no induced emf (L di/dt = 0), and an inductor of negligible resistance behaves like a plain wire. So (A) is true and (C), an infinite resistance, is false. For a capacitor the reactance X_C = 1/(ωC) becomes infinite as the frequency goes to zero: when a d.c. source is connected the capacitor charges, and after charging no current flows (a lamp in series with it does not glow), so (B) is true. (D) is false: lowering the frequency lowers X_L = 2πνL. In d.c., then, the inductor conducts and the charged capacitor does not; the correct statements are (A) and (B).",
   "from": "read-only fetch 2026-11-23"
  },
  "43e60b95-10cb-4861-822a-678a501c2050": {
@@ -839,6 +944,21 @@
   "explanation": "Parturition is induced by a complex neuroendocrine mechanism. Its signals come from the fully developed foetus and the placenta, which set off mild uterine contractions called the foetal ejection reflex, so (A) is true. This reflex triggers the release of oxytocin from the maternal pituitary, so (B) is true. Oxytocin acts on the uterine muscle and causes stronger contractions, and these in turn stimulate further secretion of oxytocin; this stimulatory reflex goes on, with stronger and stronger contractions, until the baby is expelled through the birth canal. The contractions therefore raise oxytocin secretion, they do not cut it down, so (C) is false. NCERT names the hormones of this mechanism as cortisol, estrogens and oxytocin, so (D) is true. Prolactin is not one of them, so (E) is false: its level rises several-fold in the mother's blood during pregnancy, and it is the anterior pituitary hormone that regulates the growth of the mammary glands and the formation of milk (milk production begins towards the end of pregnancy, by lactation), but it does not induce parturition. Of estrogens, cortisol, oxytocin and prolactin, only prolactin is not involved in parturition. The true statements are (A), (B) and (D).",
   "from": "read-only fetch 2026-11-23"
  },
+ "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4": {
+  "subject": "physics",
+  "chapter": "Current Electricity",
+  "stem": "Arrange the following materials in decreasing order of their electrical conductivity at room temperature.\n(A) Graphite (carbon)\n(B) Copper\n(C) Pure silicon\n(D) Iron\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(D), (B), (A), (C)",
+   "(B), (D), (C), (A)",
+   "(B), (A), (D), (C)",
+   "(B), (D), (A), (C)"
+  ],
+  "key": 3,
+  "explanation": "Conductivity is the reciprocal of resistivity, so the order of conductivity is the reverse of the order of resistivity. Typical room-temperature resistivities are: copper 1.7 × 10^-8 Ω m, iron about 1.0 × 10^-7 Ω m, graphite (carbon) 3.5 × 10^-5 Ω m and pure silicon about 2.3 × 10^3 Ω m. Copper therefore conducts best, roughly six times better than iron; iron, a metal, conducts a few hundred times better than graphite; and graphite, although a non-metal, conducts far better than pure silicon, a semiconductor. The decreasing order is copper, iron, graphite, silicon. Insulators such as hard rubber (resistivity 10^13 to 10^16 Ω m) lie far below all four, so among rubber, carbon, iron and copper the conductivity rises in that order: rubber < carbon < iron < copper. Putting iron above copper, graphite above iron, or silicon above graphite are the usual slips.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "4635494f-c14e-42a9-839b-8745eab4ec6d": {
   "subject": "accountancy",
   "chapter": "Share Capital",
@@ -854,6 +974,21 @@
   "explanation": "The shareholder paid only the application money of ₹ 4 per share. The allotment money, which includes the premium of ₹ 2, was never received, so the premium is not part of the forfeited amount. Amount forfeited = 500 × 4 = 2,000. On reissue as fully paid at ₹ 8, the discount allowed = 500 × (10 − 8) = 1,000. This discount is within the forfeited amount of ₹ 4 per share, so it is permitted. Capital Reserve = amount forfeited − discount on reissue = 2,000 − 1,000 = 1,000. Stopping at the forfeited amount gives 2,000, counting the unpaid premium as forfeited gives 500 × 6 = 3,000, and the reserve is not nil because the discount is smaller than the forfeited amount.",
   "from": "read-only fetch 2026-11-22"
  },
+ "47ae1d95-942e-43f0-8010-e7bb45aa7d13": {
+  "subject": "mathematics",
+  "chapter": "Three Dimensional Geometry",
+  "stem": "A line makes angles α, β and γ with the positive directions of the x-, y- and z-axes respectively. Which of the following statements are correct?\n(A) sin²α + sin²β + sin²γ = 2\n(B) cos 2α + cos 2β + cos 2γ = 1\n(C) (sin²α + sin²β + sin²γ) − (cos²α + cos²β + cos²γ) = 1\n(D) cos 2α + cos 2β + cos 2γ = −1\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "Only (A), (C) and (D)",
+   "Only (A) and (D)",
+   "Only (A), (B) and (C)",
+   "Only (A) and (C)"
+  ],
+  "key": 0,
+  "explanation": "The direction cosines of the line are cos α, cos β and cos γ, and cos²α + cos²β + cos²γ = 1. Then sin²α + sin²β + sin²γ = 3 − (cos²α + cos²β + cos²γ) = 3 − 1 = 2, so (A) is true. The difference in (C) is 2 − 1 = 1, so (C) is true; subtracting in the wrong order, 1 − 2 = −1, is the slip that rejects it. Using cos 2θ = 2cos²θ − 1 for each angle, cos 2α + cos 2β + cos 2γ = 2(1) − 3 = −1, so (D) is true and (B) is false. Subtracting 1 once instead of three times gives +1 and accepts (B); writing cos 2θ = 2cos²θ, without the −1, gives 2 and rejects both (B) and (D). The correct statements are (A), (C) and (D).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "48a626c5-4374-472e-b4a9-2590a42dd482": {
   "subject": "sociology",
   "chapter": "Mass Media & Communications",
@@ -867,6 +1002,36 @@
   ],
   "key": 0,
   "explanation": "Statements I and III are correct. Soap operas are stories that are serialised and continuous: individual stories may come to an end and different characters appear and disappear, but the soap itself has no ending until it is taken off the air completely, and it presumes a history that the regular viewer knows, so I is correct. Hum Log (1984-85) was India's first long-running soap opera: some 156 episodes were broadcast in Hindi over 17 months. It used the entertainment-education strategy, intentionally placing educational content in an entertainment programme, and promoted social themes such as gender equality, small family size and national integration, so III is correct. Buniyaad came later, in 1986-87, so II is wrong. Hum Log's advertising promoted a new consumer product, Maggi 2-Minute noodles; advertisers began to line up to buy airtime, and the commercialisation of Doordarshan began, so IV is wrong. Where the genre and its name come from: soap operas began in the United States in the 1930s as daytime radio serials, many of them sponsored by soap manufacturers, which gave the genre its name. They went out in the daytime, when most listeners were housewives, so they were made for a mainly female audience, and women remain the main target audience of most soap operas.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "4f0f2822-6c49-4610-8361-d666aa8d1296": {
+  "subject": "physics",
+  "chapter": "Wave Optics",
+  "stem": "In a double-slit interference arrangement, the two slits are 0.36 mm and 0.16 mm wide. The ratio of the intensity at the bright fringes to that at the dark fringes is",
+  "passage": null,
+  "options": [
+   "13 : 5",
+   "5 : 1",
+   "25 : 1",
+   "9 : 4"
+  ],
+  "key": 2,
+  "explanation": "In such problems the intensity of the light reaching the screen from each slit is taken to be proportional to the slit's width (a slit twice as wide lets through twice as much light). So the two waves have intensities in the ratio I1 : I2 = 0.36 : 0.16 = 9 : 4. Intensity is proportional to the square of the amplitude, so the amplitudes are in the ratio a1 : a2 = √9 : √4 = 3 : 2. At a bright fringe the two amplitudes add and at a dark fringe they subtract, so Imax : Imin = (a1 + a2)^2 : (a1 − a2)^2 = (3 + 2)^2 : (3 − 2)^2 = 25 : 1. The dark fringes are not completely dark because the two waves are unequal. Quoting 9 : 4 stops at the intensity ratio of the two slits; 5 : 1 forgets to square (a1 + a2)/(a1 − a2); 13 : 5 adds and subtracts the intensities, (9 + 4) : (9 − 4), instead of the amplitudes.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "5213f563-e232-4248-b3b3-c4430f3eabc1": {
+  "subject": "mathematics",
+  "chapter": "Numbers, Quantification and Numerical Applications",
+  "stem": "Which list consists only of values of y that satisfy 38 ≡ y (mod 7)?",
+  "passage": null,
+  "options": [
+   "..., 25, 32, 39, 46, 53, ...",
+   "..., 28, 35, 42, 49, 56, ...",
+   "..., 24, 31, 38, 45, 52, ...",
+   "..., 31, 38, 45, 51, 58, ..."
+  ],
+  "key": 2,
+  "explanation": "38 ≡ y (mod 7) means that 7 divides 38 − y, that is, y = 38 + 7k for some integer k. Adding and subtracting 7 from 38 gives ..., 24, 31, 38, 45, 52, ..., the numbers that leave remainder 3 on division by 7 (38 = 5 × 7 + 3). The list 25, 32, 39, ... leaves remainder 4: each term is one more than a correct value. The list 28, 35, 42, ... is the multiples of 7, which satisfy 0 ≡ y (mod 7), not 38 ≡ y (mod 7). The list ending 45, 51, 58 breaks the step of 7 after 45: 51 − 45 = 6, and 38 − 51 = −13 is not a multiple of 7.",
   "from": "read-only fetch 2026-11-23"
  },
  "5237c5d2-2fda-4d1c-a92b-e1f119cf4d64": {
@@ -1004,6 +1169,21 @@
   "explanation": "Broad gauge (1,676 mm) carries most of the Indian Railways route length. Metre and narrow gauge cover much smaller shares, and dual gauge describes a track laid with two gauges rather than a separate gauge.",
   "from": "saved read-only snapshot geography/bank_geography.json"
  },
+ "5aa51434-2af5-4981-ac26-538fc9b3ba0b": {
+  "subject": "mathematics",
+  "chapter": "Determinants",
+  "stem": "Let Δ be the determinant with rows (1, 2x, 4x²), (4x², 1, 2x) and (2x, 4x², 1). If Δ = (1 + ax³)ᵇ for every real x, consider the following statements:\n(A) a = 8 and b = 2\n(B) a = −8 and b = 2\n(C) x = 1/2 is a repeated root of Δ = 0.\n(D) x = −1/2 is a root of Δ = 0.\n(E) Δ ≥ 0 for every real x.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A), (D) and (E) only",
+   "(B), (C), (D) and (E) only",
+   "(B), (D) and (E) only",
+   "(B), (C) and (E) only"
+  ],
+  "key": 3,
+  "explanation": "Expand Δ along row 1. First term: 1 × (1 × 1 − 2x × 4x²) = 1 − 8x³. Second term: −2x × (4x² × 1 − 2x × 2x) = −2x × 0 = 0. Third term: 4x² × (4x² × 4x² − 1 × 2x) = 64x⁶ − 8x³. So Δ = 1 − 16x³ + 64x⁶ = (1 − 8x³)², which is (1 + ax³)ᵇ with a = −8 and b = 2: (B) is true, and (A), the sign slip, is false. Δ = 0 means 1 − 8x³ = 0, that is x³ = 1/8, whose only real solution is x = 1/2; because the factor 1 − 8x³ is squared, x = 1/2 is a repeated (double) root, that is, a multiple root and not a simple one, so (C) is true. At x = −1/2, 1 − 8x³ = 1 + 1 = 2 and Δ = 4, not 0, so (D) is false; −1/2 is the root a student gets from the wrong sign, (1 + 8x³)², or from solving 8x³ = −1; taking the cube root of 1/8 as ±1/2, as if it were a square root, wrongly adds (D) to the true statements. Δ is the square of a real number, so Δ ≥ 0 for every real x and (E) is true. The true statements are (B), (C) and (E).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "5aa6c346-d91c-4430-9334-dc8fdf2a627e": {
   "subject": "geography",
   "chapter": "Transport & Communication",
@@ -1032,6 +1212,21 @@
   ],
   "key": 3,
   "explanation": "The field exerts a torque τ = mB sin θ = 4.0 × 0.30 × sin 60° = 1.2 × 0.866 ≈ 1.04 N m, which tries to turn the magnet into line with the field. To hold the magnet at rest the applied force must give an equal and opposite torque about the pivot, F × 0.12 m = 1.04 N m, so F = 1.04/0.12 ≈ 8.7 N (exactly 5√3 N). The value 5.0 N comes from using cos 60° in place of sin 60°; 0.087 N from leaving the distance as 12 (in centimetres) instead of 0.12 m; 0.12 N from multiplying the torque by the distance instead of dividing by it.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "5f019747-db58-4357-bbbe-4964672afc91": {
+  "subject": "mathematics",
+  "chapter": "Linear Programming",
+  "stem": "For the linear programming problem: Maximise Z = 3x + 2y subject to x + 4y ≤ 40, x + y ≥ 8, x ≤ y, x ≥ 0, y ≥ 0, the feasible region is the region whose corner points are",
+  "passage": null,
+  "options": [
+   "(4, 4), (8, 0), (40, 0) and (8, 8)",
+   "(0, 0), (4, 4) and (0, 8)",
+   "(0, 0), (8, 8) and (0, 10)",
+   "(0, 8), (4, 4), (8, 8) and (0, 10)"
+  ],
+  "key": 3,
+  "explanation": "Shade each constraint. x + 4y ≤ 40: the side of the line through (40, 0) and (0, 10) that contains the origin. x + y ≥ 8: the side of the line through (8, 0) and (0, 8) away from the origin. x ≤ y: the side of the line y = x that contains (0, 1), that is, above it. x ≥ 0, y ≥ 0: the first quadrant. The common region is bounded by the y-axis, x + y = 8, y = x and x + 4y = 40. Its corners are (0, 8) on the y-axis, (4, 4) where x + y = 8 meets y = x, (8, 8) where x + 4y = 40 meets y = x (5x = 40), and (0, 10) where x + 4y = 40 meets the y-axis. Shading x ≤ y below the line y = x gives the region with corners (4, 4), (8, 0), (40, 0), (8, 8); shading x + y ≥ 8 towards the origin gives the triangle (0, 0), (4, 4), (0, 8); leaving out x + y ≥ 8 gives the triangle (0, 0), (8, 8), (0, 10).",
   "from": "read-only fetch 2026-11-23"
  },
  "5f8c6f5f-5e4a-4381-82e5-edbb509e2463": {
@@ -1259,6 +1454,21 @@
   "explanation": "The overall order is the sum of the powers of the concentration terms in the rate law, here 1 + 3/2 = 5/2. Order is obtained only from experiment and can be a fraction or zero, unlike molecularity.",
   "from": "read-only fetch 2026-11-23"
  },
+ "6c2f68da-8876-4b67-952a-e84167e91144": {
+  "subject": "mathematics",
+  "chapter": "Matrices",
+  "stem": "P and Q are two skew-symmetric matrices, each of order 3. Which description fits the matrix 3P + Q?",
+  "passage": null,
+  "options": [
+   "a symmetric matrix",
+   "a skew-symmetric matrix",
+   "neither symmetric nor skew-symmetric in general",
+   "a diagonal matrix"
+  ],
+  "key": 1,
+  "explanation": "A matrix M is skew-symmetric when Mᵀ = −M. Using (X + Y)ᵀ = Xᵀ + Yᵀ and (kX)ᵀ = kXᵀ: (3P + Q)ᵀ = 3Pᵀ + Qᵀ = 3(−P) + (−Q) = −(3P + Q). So 3P + Q is skew-symmetric, and in the same way the sum P + Q of two skew-symmetric matrices of the same order is skew-symmetric. Neither symmetric nor skew-symmetric is what a symmetric matrix plus a skew-symmetric one gives in general, not two skew-symmetric ones. A skew-symmetric matrix has zeros on its diagonal, but its other entries need not be zero, so it need not be diagonal.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "6c960f04-5242-4f58-a6f0-60015f6bc800": {
   "subject": "history",
   "chapter": "An Imperial Capital — Vijayanagara",
@@ -1379,6 +1589,21 @@
   "explanation": "Work backwards from goodwill. Super profit = goodwill ÷ number of years' purchase = 90,000 ÷ 3 = 30,000. Normal profit = average profit − super profit = 1,50,000 − 30,000 = 1,20,000. Normal rate of return = normal profit ÷ capital employed × 100 = 1,20,000 ÷ 6,00,000 × 100 = 20%. Dividing the super profit by capital gives 5%, dividing goodwill by capital gives 15%, and treating the whole average profit as normal profit gives 25%.",
   "from": "read-only fetch 2026-11-22"
  },
+ "797c5327-4952-47c1-b811-43f8e00faeb0": {
+  "subject": "sociology",
+  "chapter": "Structural Change",
+  "stem": "Match List-I (how a village is linked to urban life) with List-II (the urban impact on the village).\nList-I\n(A) Villages such as Madhopur, many of whose people work in far-off cities like Bombay and Calcutta\n(B) Villages around Bhilai\n(C) Villages on the fringe of a growing metropolis\n(D) Remote villages reached by mass media\nList-II\n(I) Images of urban life styles and patterns of consumption, which create new desires and aspirations\n(II) Money sent home regularly, and new houses built by emigrants in their natal villages\n(III) A few villages are absorbed completely, and only the land of many others is used for urban development\n(IV) An influx of immigrant workers, which creates a demand for houses and a market inside the village\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)",
+   "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+   "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+   "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+  ],
+  "key": 2,
+  "explanation": "M.S.A. Rao showed that the urban impact on a village depends on the kind of link the village has with a city, and he described three situations; mass media are a further channel, described in NCERT's chapter on the demographic structure. Rao's first situation is the village from which many people have sought work in far-off cities, leaving their families behind. In Madhopur, a village in north central India, 77 of 298 households have migrants, a little less than half of them in Bombay and Calcutta; about 75 per cent of the migrants send money home regularly, and most visit the village. Overseas emigrants from Gujarat villages have built fashionable houses in their natal villages and invested in land and industry. The city stays far away, but its money comes home, so (A) matches (II). When an industrial town like Bhilai comes up in the midst of villages, some villages are totally uprooted and the lands of others are partially acquired; these receive an influx of immigrant workers, which stimulates a demand for houses and a market inside the village and creates problems of ordering relationships between the native residents and the immigrants, so (B) matches (IV). This is the case in which urban life is physically transplanted into the rural setting: industrialisation brings the town's workers, their demand for housing and a market into the village itself. The growth of a metropolitan city is Rao's third situation: a few villages are totally absorbed in its expansion, while only the land of many others, excluding the inhabited area, is used for urban development, so (C) matches (III). Mass media and communication bring images of urban life styles and patterns of consumption into rural areas, so urban norms become known even in remote villages and create new desires and aspirations, but nothing urban arrives in person, so (D) matches (I). The correct matching is (A)-(II), (B)-(IV), (C)-(III), (D)-(I). Two traps: the immigrant workers around Bhilai come because of the industrial town, so they are not the out-migration of Madhopur, where villagers leave; and both the industrial town and the metropolis take village land, but in Rao's account it is the industrial town that brings an influx of immigrant workers, with their demand for houses and a market, inside the village.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "7a7efe5b-85be-41b8-9e2b-1ca4184e47e9": {
   "subject": "mathematics",
   "chapter": "Probability",
@@ -1407,6 +1632,21 @@
   ],
   "key": 0,
   "explanation": "Near x = 1 we have x − 4 < 0, so |x − 4| = 4 − x. Right-hand derivative at x = 1: d/dx (4 − x) = −1. Left-hand derivative at x = 1: k(2x − 4) at x = 1, which is −2k. Differentiability at x = 1 needs the two to be equal: −2k = −1, so k = 1/2. Continuity agrees: k(1 − 4 + 9) = 6k = 3 = |1 − 4|. Writing |x − 4| as x − 4 gives the right-hand derivative +1 and k = −1/2; solving −2k = −1 as k = 2 inverts the ratio; both slips together give −2.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "7d184ed0-ffc9-40df-a382-2c4086241fd0": {
+  "subject": "mathematics",
+  "chapter": "Continuity & Differentiability",
+  "stem": "If y = xˣ, x > 0 (log denotes the natural logarithm), then y″(e) − 2y′(e) is equal to",
+  "passage": null,
+  "options": [
+   "0",
+   "eᵉ",
+   "eᵉ⁻¹",
+   "eᵉ⁺¹"
+  ],
+  "key": 2,
+  "explanation": "Take logarithms: log y = x log x, so (1/y) y′ = 1 + log x and y′ = xˣ(1 + log x). Differentiate this product: y″ = xˣ(1 + log x)(1 + log x) + xˣ × (1/x) = xˣ(1 + log x)² + xˣ⁻¹. At x = e, log e = 1: y′(e) = 2eᵉ and y″(e) = 4eᵉ + eᵉ⁻¹. So y″(e) − 2y′(e) = 4eᵉ + eᵉ⁻¹ − 4eᵉ = eᵉ⁻¹. Leaving out the derivative of (1 + log x) gives 0; taking that derivative as 1 instead of 1/x gives eᵉ; multiplying by x instead of dividing gives eᵉ⁺¹.",
   "from": "read-only fetch 2026-11-23"
  },
  "7ded8cb6-0906-4e49-84fa-82130df4cf14": {
@@ -1797,6 +2037,21 @@
   ],
   "key": 1,
   "explanation": "Scan the infix expression from left to right (NCERT Algorithm 3.1). An operand is appended to the postfix string; a left parenthesis is pushed; an operator is pushed (after popping any operator of higher precedence from the top); a right parenthesis pops operators into the string until its left parenthesis is popped and discarded; at the end, the operators left on the stack are popped. '(' push; M append: M; '-' push; N append: M N; ')' pop '-': M N -; '*' push (the stack was empty); '(' push; P append: M N - P; '+' push (the top is '('); Q append: M N - P Q; ')' pop '+': M N - P Q +; end of input, pop the remaining '*': M N - P Q + *. So each bracketed part becomes operand, operand, operator, and the operator that joins the two brackets comes last. NCERT's Example 3.1 converts (x + y)/(z * 8) the same way, to x y + z 8 * /. Option A is the prefix (Polish) form, with operators before their operands. Option C ignores the parentheses and applies normal precedence to M - N * P + Q. Option D swaps the two inner operators.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "9878b056-c656-4856-a16d-d07a5559174b": {
+  "subject": "mathematics",
+  "chapter": "Financial Mathematics",
+  "stem": "Match List-I with List-II.\nList-I:\n(A) Face value of a bond\n(B) Coupon rate\n(C) Yield to maturity\n(D) Maturity date\nList-II:\n(I) The annual rate of interest the issuer pays to the bondholder, as a percentage of the face value\n(II) The date on which the bond is redeemed and the holder is repaid\n(III) The price at which buyers purchase the bond when it is first issued\n(IV) The discount rate at which the present value of all the payments of the bond equals its market price\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+   "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)",
+   "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+   "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+  ],
+  "key": 3,
+  "explanation": "A bond is a debt instrument: the issuer borrows money and promises fixed interest payments and repayment on a set date. The face (par) value of a bond is the price at which buyers purchase it when it is first issued; the coupon is worked out on this amount, and unless another redemption value is stated, it is also the amount repaid at maturity. The coupon rate is the annual interest rate the issuer pays to the holder, applied to the face value, so the yearly coupon = coupon rate × face value. The yield to maturity is the overall annual return a buyer earns by holding the bond to maturity: the discount rate at which the present value of all the coupons and the redemption amount equals the bond’s market price. The maturity date is the date on which the bond is redeemed and the holder is repaid. Swapping the coupon rate and the yield to maturity is the usual slip: the coupon rate is fixed on the face value at issue, while the yield changes with the market price, and the two are equal only when the bond sells at its face value.",
   "from": "read-only fetch 2026-11-23"
  },
  "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96": {
@@ -2219,6 +2474,36 @@
   "explanation": "Each operation removes 25/125 = 1/5 of whatever is in the barrel, so 4/5 of the coconut oil present stays. After n operations, the coconut oil left = Q(1 − r/Q)ⁿ = 125 × (4/5)³ = 125 × 64/125 = 64 litres. Step by step: 125 → 100 → 80 → 64. Taking out 25 litres of pure coconut oil every time gives 125 − 75 = 50 litres, but after the first operation the 25 litres drawn are partly groundnut oil; 80 litres is the amount after only two operations; 61 litres is the groundnut oil now in the barrel (125 − 64), not the coconut oil.",
   "from": "read-only fetch 2026-11-23"
  },
+ "bb7917d5-a022-4232-b5af-78c9f55c3a3f": {
+  "subject": "mathematics",
+  "chapter": "Differential Equations",
+  "stem": "A family of plane curves satisfies √(d²y/dx²) = ∛(1 + (dy/dx)²). Which pair gives the order and degree of this differential equation?",
+  "passage": null,
+  "options": [
+   "order 2, degree 1/2",
+   "order 1, degree 4",
+   "order 2, degree 4",
+   "order 2, degree 3"
+  ],
+  "key": 3,
+  "explanation": "The highest order derivative present is d²y/dx², so the order is 2. As written, d²y/dx² sits under a square root and the right side is a cube root, so the equation is not yet a polynomial in its derivatives. Both roots are removed by raising both sides to the power 6 (the LCM of 2 and 3): (d²y/dx²)³ = (1 + (dy/dx)²)². This is a polynomial equation in the derivatives, and the highest order derivative d²y/dx² appears in it with highest power 3, so the degree is 3. The degree, when defined, is a positive integer, so 1/2 (the power read off the equation before the roots are cleared) cannot be a degree. The power 4 belongs to dy/dx, which is not the highest order derivative; taking dy/dx as the highest derivative also gives the wrong order 1.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "bc1541f4-9c6d-4072-9d30-9693617fee55": {
+  "subject": "physics",
+  "chapter": "Wave Optics",
+  "stem": "Match List-I with List-II for a Young's double-slit set-up.\nList-I (Change made)\n(A) One of the two slits is covered with an opaque sheet\n(B) The single slit that lights the two slits is made wider\n(C) Green light is replaced by red light\n(D) One of the two slits is made slightly wider than the other\nList-II (Effect on the pattern)\n(I) Bright fringes become brighter and dark fringes are no longer fully dark\n(II) The fringes move farther apart\n(III) The fringes become less sharp\n(IV) The interference fringes disappear\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+   "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)",
+   "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+   "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+  ],
+  "key": 3,
+  "explanation": "(A)-(IV): interference needs two coherent waves. With one slit closed only one wave reaches the screen, so the interference pattern disappears; the screen shows just the broad single-slit diffraction pattern of the open slit. (B)-(III): a wider source slit acts like many point sources side by side; each gives a fringe pattern slightly shifted from the others, and their overlap blurs the fringes, so the pattern becomes less sharp (and with a wide enough source slit the fringes vanish). (C)-(II): the fringe spacing is β = λD/d; red light has a longer wavelength, that is a smaller frequency, than green light, so the fringes spread farther apart. Light of smaller frequency always gives wider fringes. (D)-(I): a wider slit lets through more light, so the two waves have unequal amplitudes a1 > a2. The maximum intensity, proportional to (a1 + a2)^2, increases, while the minimum, proportional to (a1 − a2)^2, is no longer zero, so the bright fringes get brighter and the dark ones are not fully dark. Swapping (A) and (B) confuses losing the pattern with blurring it; giving (B) brighter fringes or wider spacing mixes up the source slit with the two slits.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "bd55de62-78a4-4620-83b3-6693e810e3f5": {
   "subject": "mathematics",
   "chapter": "Probability Distributions",
@@ -2502,6 +2787,36 @@
   ],
   "key": 1,
   "explanation": "Before the reforms, Indian stock exchanges settled trades in account periods: every trade done over a week or a fortnight was settled together, shares delivered and money paid, on one day after the period closed, so (A) matches (II). Under rolling settlement, the trades of each day are settled on their own a fixed number of working days after the trade date (T+n), so (B) matches (I). Rolling settlement covered all shares on a T+5 basis by the end of 2001; the cycle was cut to T+3 in April 2002 and to T+2 from April 2003, and India completed the move to T+1 in January 2023. So T+3 and T+2 are rolling cycles that the reforms brought in, not the cycle they replaced. A Depository Participant, such as a bank or a broker, is the depository's agent: the investor opens and operates a demat account with it, so (C) matches (III). A depository such as NSDL or CDSL holds securities in electronic form and transfers them by book entry, and the investor reaches it only through a Depository Participant, so (D) matches (IV). The correct matching is (A)-(II), (B)-(I), (C)-(III), (D)-(IV).",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "d61b4a9f-c19b-46f6-b623-871cd4549a7a": {
+  "subject": "computer_science",
+  "chapter": "Queue",
+  "stem": "Consider the following statements about data structures.\n(A) A data structure in which elements are organised in a sequence is called a linear data structure.\n(B) A deque is an ordered linear list in which elements can be added or removed at either end.\n(C) A tree is a non-linear data structure, as one element in it can be linked to several elements at the next level.\n(D) A stack is a non-linear data structure, because elements can be added or removed at one end only.\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A) and (D) only",
+   "(A), (B) and (C) only",
+   "(B), (C) and (D) only",
+   "(A), (B), (C) and (D)"
+  ],
+  "key": 1,
+  "explanation": "NCERT defines a linear data structure as one in which elements are organised in a sequence, so (A) is true. A deque is a version of queue that allows insertion and deletion at both ends, and like a queue it is an ordered linear list, so (B) is true. A queue too is an ordered linear list (FIFO: elements join at the rear and leave from the front). In a tree, one element (node) can be connected to more than one element below it, so the elements form a hierarchy, not a single sequence; a tree is therefore a non-linear data structure, so (C) is true. (D) is false: a stack is a linear and ordered collection of elements; LIFO only limits where elements are added and removed (the top), it does not stop the elements from forming a sequence. So stack, queue and deque are linear data structures, and a tree is not.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "d6a06652-c0fc-49b1-8497-df8379cbe2a2": {
+  "subject": "mathematics",
+  "chapter": "Determinants",
+  "stem": "For the matrix A = [2 5 −3; 0 −1 4; 0 0 1], match List-I with List-II.\nList-I\n(A) |A|\n(B) |A (adj A)|\n(C) |adj A|\n(D) |adj (adj A)|\nList-II\n(I) 4\n(II) 16\n(III) −2\n(IV) −8\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+   "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)",
+   "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+   "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+  ],
+  "key": 3,
+  "explanation": "Expanding along the first column, |A| = 2 × [(−1)(1) − (4)(0)] = −2: for this triangular matrix it is the product of the diagonal entries 2 × (−1) × 1. For a square matrix of order n, A (adj A) = |A| I, so |A (adj A)| = |A|ⁿ = (−2)³ = −8. Taking determinants of (adj A) A = |A| I gives |adj A| × |A| = |A|³, so |adj A| = |A|ⁿ⁻¹ = (−2)² = 4. The same rule applied to adj A gives |adj (adj A)| = |adj A|ⁿ⁻¹ = 4² = 16, which is |A| to the power (n − 1)² = 4. So (A) - (III), (B) - (IV), (C) - (I), (D) - (II). The other pairings mix up the three powers 3, 2 and 4: giving |A (adj A)| the power 2 and |adj A| the power 3, or swapping the powers 2 and 4, or swapping 3 and 4.",
   "from": "read-only fetch 2026-11-23"
  },
  "d724586b-c52b-43c1-b3b1-ea045c7d032f": {

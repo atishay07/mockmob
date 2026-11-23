@@ -15,18 +15,18 @@
   "total": 85,
   "same": 5,
   "newValues": 4,
-  "concept": 73,
-  "notYet": 3,
+  "concept": 74,
+  "notYet": 2,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 82,
+  "covered": 83,
   "counted": 85,
-  "pct": 96,
+  "pct": 98,
   "first": 69,
   "firstPct": 81,
   "addedCards": 8,
-  "addedQuestions": 5,
+  "addedQuestions": 6,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -80,7 +80,7 @@
   {
    "name": "Queue",
    "asked": 4,
-   "covered": 3
+   "covered": 4
   },
   {
    "name": "Searching",
@@ -995,11 +995,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "MockMob question d61b4a9f teaches this point.",
+   "match": {
+    "kind": "question",
+    "id": "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+    "chapter": "Queue",
+    "stem": "Consider the following statements about data structures.\n(A) A data structure in which elements are organised in a sequence is called a linear data structure.\n(B) A deque is an ordered linear list in which elements can be added or removed at either end.\n(C) A tree is a non-linear data structure, as one element in it can be linked to several elements at the next level.\n(D) A stack is a non-linear data structure, because elements can be added or removed at one end only.\nChoose the correct answer from the options given below:",
+    "passage": null,
+    "options": [
+     "(A) and (D) only",
+     "(A), (B) and (C) only",
+     "(B), (C) and (D) only",
+     "(A), (B), (C) and (D)"
+    ],
+    "key": 1,
+    "explanation": "NCERT defines a linear data structure as one in which elements are organised in a sequence, so (A) is true. A deque is a version of queue that allows insertion and deletion at both ends, and like a queue it is an ordered linear list, so (B) is true. A queue too is an ordered linear list (FIFO: elements join at the rear and leave from the front). In a tree, one element (node) can be connected to more than one element below it, so the elements form a hierarchy, not a single sequence; a tree is therefore a non-linear data structure, so (C) is true. (D) is false: a stack is a linear and ordered collection of elements; LIFO only limits where elements are added and removed (the top), it does not stop the elements from forming a sequence. So stack, queue and deque are linear data structures, and a tree is not.",
+    "more": {
+     "cards": 2,
+     "questions": 2
+    }
+   }
   },
   {
    "n": 26,

@@ -1,0 +1,2122 @@
+{
+ "kind": "authored_score_entries",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "wave": 6,
+ "built_at": "2026-11-23T18:50:17.216Z",
+ "date": "2026-11-24",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "models_note": "The raw judge files do not record the model; the model of the subagents that produced the raw files is not recorded in them.",
+ "note": "Owner release 24 Nov 2026 (\"Why not just add it to the bank?\"): the recorded judge results of the held-7 wave-6 rows (every gate passed; quality mean 7 to 7.9), copied unchanged from each batch entries file.",
+ "candidates_file": "docs/brain/reports/authored-w6/wave6-owner-release-candidates-2026-11-24.json",
+ "counts": {
+  "entries": 21
+ },
+ "entries": {
+  "13edb7cc-941a-4c89-b542-4784a8987482": {
+   "subject": "geography",
+   "batch": "geography__w6b1",
+   "chapter": "Population — Distribution, Density, Growth",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+     "flags": [],
+     "note": "Order right on UN 2024 data. Mexico vs Bangladesh is a fair trap, but option D is just the reverse list and the item leans on current figures beyond NCERT's chart.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+     "flags": [],
+     "note": "Order Mexico<Bangladesh<Brazil<Indonesia holds on old and current data; distractors are adjacent swaps and the reverse order. Explanation's China line is padding.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Ranking item fits the paper, but the Mexico-Bangladesh order leans on 2024 UN figures rather than the NCERT figure.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 73,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Ranking hinges on Mexico vs Bangladesh populations, finer than NCERT figure recall.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "People",
+     "chapter": "Population — Distribution, Density, Growth",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 55,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mexico vs Bangladesh vs Brazil populations is fine-grained figure recall; (C),(A),(D),(B) is a throwaway reverse.",
+     "on_final_text": null,
+     "batch": "geography__w6b1"
+    }
+   ]
+  },
+  "348622de-cdf5-435b-a658-8b18520f9cf2": {
+   "subject": "political_science",
+   "batch": "political_science__w6b1",
+   "chapter": "International Organisations",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.international-organisations.un-principal-organs",
+     "flags": [],
+     "note": "Key right (ICJ, The Hague). Stem's 'five of six in New York' over-signposts and the other pairs (GA in Vienna) are throwaways; seat is outside NCERT text.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "political_science.international-organisations.un-principal-organs-seats",
+     "flags": [],
+     "note": "Key right. Stem's 'five in New York, one elsewhere' signposts (-1), and pairing NY organs with Geneva/Vienna/Nairobi makes distractors weak. ICJ seat is not in the NCERT text.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "International Organisations",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "UN organ-to-seat pairing; the ICJ's seat is a common CBT fact though not printed in NCERT.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "International Organisations",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "ICJ at The Hague: one-step recall on UN principal organs.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Contemporary World Politics",
+     "chapter": "International Organisations",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 45,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "ICJ seat is not printed in NCERT and is general knowledge; other pairs are weak.",
+     "on_final_text": null,
+     "batch": "political_science__w6b1"
+    }
+   ]
+  },
+  "797c5327-4952-47c1-b811-43f8e00faeb0": {
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Structural Change",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "sociology.structural-change.urban-impact-on-villages",
+     "flags": [],
+     "note": "Correct (Rao's box). List-I signposts: 'far-off cities' pairs with money sent home and 'mass media' with images of urban life, leaving only Bhilai vs metropolis to know. Minus one for that.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "sociology.structural-change.urban-impact-on-villages",
+     "flags": [],
+     "note": "Key right (Rao's Box 1.7). Rows A (far-off work) and D (mass media) signpost II and I, leaving one real decision (Bhilai vs metropolis); D row borrows from another chapter.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Structural Change",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "M.S.A. Rao box content in a valid match, but list entries are long clauses (150 words) and (D) is drawn from another book.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Structural Change",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 107,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "M.S.A. Rao box match with long List entries (150 words to read): each pair needs working out, about 107 s; wordier than real matches.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Structural Change",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 89,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "M.S.A. Rao box match with long entries (150 words); (D) mass media is pulled from another book, so the list mixes sources.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    }
+   ]
+  },
+  "d61b4a9f-c19b-46f6-b623-871cd4549a7a": {
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Queue",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "computer_science.queue.linear-vs-nonlinear-data-structures",
+     "flags": [],
+     "note": "Correct; (D) is self-evidently false (one-end access does not make it non-linear), so easy. Chapter label Queue is loose: mixes stack and tree.",
+     "on_final_text": null,
+     "batch": "computer_science__w6b3"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "computer_science.queue.linear-nonlinear-data-structures",
+     "flags": [],
+     "note": "Correct per NCERT Ch 3/4 definitions. False (D) carries its own odd reason, making it easy to reject; otherwise clean.",
+     "on_final_text": null,
+     "batch": "computer_science__w6b3"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Queue",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Linear vs non-linear classification is a supporting idea; (D) carries a self-evidently wrong reason.",
+     "on_final_text": null,
+     "batch": "computer_science__w6b3"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Queue",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Linear vs non-linear structures: a supporting idea; the 114-word statement set is wordier than real items.",
+     "on_final_text": null,
+     "batch": "computer_science__w6b3"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B1: Computer Science",
+     "chapter": "Queue",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Linear vs non-linear classification is supporting; knowing a stack is linear alone rejects (D) and leaves only option B.",
+     "on_final_text": null,
+     "batch": "computer_science__w6b3"
+    }
+   ]
+  },
+  "5aa51434-2af5-4981-ac26-538fc9b3ba0b": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Determinants",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "mathematics.determinants.cyclic-determinant-polynomial-roots",
+     "flags": [],
+     "note": "Delta = (1 - 8x^3)^2 verified; key right. Five statements on a 3x3 expansion is heavy for 72 s; (A)/(B) mutually exclusive pair. Below paper polish.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "mathematics.determinants.determinant-expansion-polynomial-roots",
+     "flags": [],
+     "note": "Delta = 64x^6 - 16x^3 + 1 = (1 - 8x^3)^2; a = -8, b = 2, x = 1/2 double root, Delta >= 0. Correct, but heavy for 72 seconds.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Determinants",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 131,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Full 3x3 expansion plus root analysis across five statements: about 131 s, above typical level.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Determinants",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 131,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "3x3 polynomial determinant, factor (1-8x^3)^2, roots and sign: 131 s, harder than most real items.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Determinants",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 131,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Symbolic 3x3 expansion, factoring, repeated-root and sign checks across five statements: top of CBT range, JEE-adapted.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    }
+   ]
+  },
+  "bb7917d5-a022-4232-b5af-78c9f55c3a3f": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3a",
+   "chapter": "Differential Equations",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.differential-equations.order-and-degree",
+     "flags": [],
+     "note": "Raise to 6th power: (y'')^3 = (1 + y'^2)^2, order 2 degree 3. Standard item; 1/2 distractor weak.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.differential-equations.order-and-degree",
+     "flags": [],
+     "note": "Order 2, degree 3 after raising to power 6. Degree 1/2 and order 1 are two throwaway distractors; only 'degree 4' tempts.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Differential Equations",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 56,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "CBT staple: order and degree after clearing radicals.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Differential Equations",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 56,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Order and degree after clearing radicals: a yearly CBT staple.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Differential Equations",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 56,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "CBT staple: order and degree after clearing radicals; 1/2 and 4 are the classic mistakes.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3a"
+    }
+   ]
+  },
+  "078267c2-49be-4aa3-954c-b34fd352e5be": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Matrices",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.matrices.types-of-matrices",
+     "flags": [],
+     "note": "A = diag(1,3,5): diagonal and symmetric only. Clean recall item; (A) and (D) sit in every option.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.matrices.types-of-matrices",
+     "flags": [],
+     "note": "A = diag(1,3,5): diagonal and symmetric. Every option contains (A) and (D), so student only rejects one extra statement; weak option set.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Matrices",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Five statements on matrix types; every option already contains (A) and (D), so only three entries matter.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Matrices",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Direct recall of matrix types on a built 3x3 diagonal matrix; five short statements, 90 s.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Matrices",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 90,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Matrix-type definitions; all options share (A) and (D), so only B, C, E discriminate.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ]
+  },
+  "d6a06652-c0fc-49b1-8497-df8379cbe2a2": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Determinants",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.determinants.adjoint-determinant-properties",
+     "flags": [],
+     "note": "|A|=-2, |A adjA|=-8, |adjA|=4, |adj adjA|=16; key right. Row (A)-(III) is fixed in all four options, and label (A) clashes with matrix A.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.determinants.adjoint-determinant-properties",
+     "flags": [],
+     "note": "|A| = -2, |A adjA| = -8, |adjA| = 4, |adj adjA| = 16; key right. All four options share (A)-(III), so row (A) tests nothing; weakens the match.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Determinants",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Clean adjoint-power match in CUET style; four computed entries make it slightly long.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Determinants",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Adjoint-determinant power rules, a staple; 98 words and three rule applications give ~92 s; every option shares (A)-(III).",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Determinants",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 92,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Standard |adj A| power match; every option fixes (A)-(III), so that entry adds no discrimination; slightly over 90 s.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ]
+  },
+  "7d184ed0-ffc9-40df-a382-2c4086241fd0": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Continuity & Differentiability",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation-second-derivative",
+     "flags": [],
+     "note": "y''(e) - 2y'(e) = e^(e-1), verified. Stem carries a stray '(log denotes the natural logarithm)' though no log appears in it; awkward.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation-second-derivative",
+     "flags": [],
+     "note": "y'' - 2y' at e = e^(e-1); correct. Stem's '(log denotes the natural logarithm)' is a stray aside: no log appears in the stem. Awkward wording, minus one.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Continuity & Differentiability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Log differentiation plus a second derivative of x^x evaluated at e: more ideas than most CUET items.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Continuity & Differentiability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Second derivative of x^x via log and product rule, then evaluation at e: four steps, above typical CUET depth.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Continuity & Differentiability",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 87,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Second derivative of x^x combines log differentiation and product rule; clearly above most CUET items.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ]
+  },
+  "47ae1d95-942e-43f0-8010-e7bb45aa7d13": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Three Dimensional Geometry",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.three-dimensional-geometry.direction-cosines-identity",
+     "flags": [],
+     "note": "A, C, D true (sum sin^2 = 2, sum cos2 = -1). (A) is in every option and (C) restates (A), so the item reduces to B vs D.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.three-dimensional-geometry.direction-cosines-identity",
+     "flags": [],
+     "note": "Sum sin^2 = 2, sum cos2 = -1, difference = 1: A, C, D true. (B) and (D) contradict each other, which narrows choice a little.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Vectors and Three-Dimensional Geometry",
+     "chapter": "Three Dimensional Geometry",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 91,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Direction-cosine identities as statements; each entry needs working, just over 90 s.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Vectors and Three-Dimensional Geometry",
+     "chapter": "Three Dimensional Geometry",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 91,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Each of four identity statements needs working from l^2 + m^2 + n^2 = 1; ~91 s, just over 90.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Vectors and Three-Dimensional Geometry",
+     "chapter": "Three Dimensional Geometry",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 73,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Board-repeated direction-cosine results (sin^2 sum 2, cos 2 sum -1); (B), (D) mutually exclusive, all options hold (A).",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ]
+  },
+  "5f019747-db58-4357-bbbe-4964672afc91": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Linear Programming",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.linear-programming.feasible-region-corner-points",
+     "flags": [],
+     "note": "Corners (0,8), (4,4), (8,8), (0,10) verified. Distractors from wrong shading; objective Z is unused but harmless.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.linear-programming.feasible-region-corner-points",
+     "flags": [],
+     "note": "Corners (0,8), (4,4), (8,8), (0,10) correct. 'Maximise Z = 3x + 2y' is unused clutter since only corner points are asked; slightly off CUET style.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Linear Programming",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 84,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Unused objective Z in stem; three options fall by testing (0,0) or (8,0) in one constraint.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Linear Programming",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Finding the corners takes ~102 s, but (0,0) and (8,0) visibly fail constraints, so three options fall to quick checks.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Linear Programming",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 102,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Each wrong option dies on one point check: (0,0) fails x+y>=8, (8,0) fails x<=y; key found by elimination.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3b"
+    }
+   ]
+  },
+  "9878b056-c656-4856-a16d-d07a5559174b": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Financial Mathematics",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.financial-mathematics.bond-terms",
+     "flags": [],
+     "note": "Key right. List-II (III) defines face value as the issue purchase price, loose since bonds can issue at a premium or discount; three options share (A)-(III).",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.financial-mathematics.bond-terminology",
+     "flags": [],
+     "note": "Key right, but List-II (III) calls face value the issue price; bonds can issue at a premium or discount, so a student could quibble. Follows CBSE wording; pairing still unique.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Financial Mathematics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Long List-II definitions; face value defined as the issue price is loose wording.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Financial Mathematics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Bond terms match: direct recall, four short entries, 79 s.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Financial Mathematics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Long definition entries in List-II; face value as issue price is a loose definition.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ]
+  },
+  "0398a11b-3149-4d42-9aa9-4938593e4f6e": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Differential Equations",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.differential-equations.order-and-degree",
+     "flags": [],
+     "note": "Order 1, degree 2 after clearing the radical; no 'not defined' option, so a single defensible answer.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "mathematics.differential-equations.order-and-degree",
+     "flags": [],
+     "note": "Squaring-first convention gives 1 and 2; strict NCERT says degree is undefined for a non-polynomial DE, though no option offers that. Explanation cites outside paper keys.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Differential Equations",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 57,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Order and degree after clearing a radical: asked year after year.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Differential Equations",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 57,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Order and degree after clearing a radical: asked in CUET every year.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Differential Equations",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 57,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Order and degree with a radical to clear: asked in CUET year after year.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ]
+  },
+  "40e95075-7697-4069-be1a-222caf71526a": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Inferential Statistics",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.inferential-statistics.degrees-of-freedom",
+     "flags": [],
+     "note": "Key right. Stem phrase 'under the single condition' is awkward and signposts n - 1; 13 and 10 are weak distractors.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.inferential-statistics.degrees-of-freedom",
+     "flags": [],
+     "note": "Correct (n - 1 = 11) but trivial; 13 and 10 are weak distractors.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Inferential Statistics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 34,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "d.f. = n - 1 is core, but the 'single condition on the mean' framing is contrived for CUET.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Inferential Statistics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 34,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "d.f. = n - 1 recall; framing as observations recorded under a condition is contrived next to real t-test items.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Inferential Statistics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 34,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "d.f. = n - 1 recall wrapped in a wordier 'single condition' stem than real items.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ]
+  },
+  "6c2f68da-8876-4b67-952a-e84167e91144": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Matrices",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.matrices.symmetric-skew-symmetric-combinations",
+     "flags": [],
+     "note": "Correct but trivial; the factor 3 adds nothing and 'diagonal matrix' is a throwaway.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.matrices.skew-symmetric-matrix-properties",
+     "flags": [],
+     "note": "Correct but near-trivial; 'diagonal' and 'symmetric' are weak distractors.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Matrices",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 36,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Direct transpose property of skew-symmetric matrices; quick recall.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Matrices",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 36,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Transpose of a sum of skew-symmetric matrices: one-step recall.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Matrices",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 36,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Awkward 'which description fits' stem; diagonal and symmetric options are weak.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ]
+  },
+  "5213f563-e232-4248-b3b3-c4430f3eabc1": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3c",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.congruence-modulo",
+     "flags": [],
+     "note": "Key right (remainder 3). Option D's 51 break reads like a typo rather than a reasoned slip; option B is a throwaway.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.congruence-modulo",
+     "flags": [],
+     "note": "Residue 3 mod 7 list verified; option D breaks at 51 so only C qualifies.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Numbers, Quantification and Numerical Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Congruence mod 7 is core, but infinite-list options are an unusual layout.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Numbers, Quantification and Numerical Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 39,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Cue: y = 38 must be in the list and only C and D contain 38; D breaks the step of 7 visibly.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Applied Mathematics",
+     "chapter": "Numbers, Quantification and Numerical Applications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 57,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "List-of-sequences options; one list breaks the step of 7 and multiples of 7 are a weak decoy.",
+     "on_final_text": null,
+     "batch": "mathematics__w6b3c"
+    }
+   ]
+  },
+  "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4": {
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Current Electricity",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.current-electricity.resistivity-of-materials",
+     "flags": [],
+     "note": "Order correct, but iron vs graphite rests on the resistivity table dropped from the rationalised NCERT (explanation admits it); current text gives no carbon value.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.current-electricity.resistivity-of-materials",
+     "flags": [],
+     "note": "Order right, but the graphite and iron figures come from the resistivity table dropped in the rationalised NCERT, so a student on the current book must rely on outside recall.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Current Electricity",
+     "chapter": "Current Electricity",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 6,
+     "fit_flags": [],
+     "note": "Needs resistivity values from Table 3.1, dropped in the 2023 rationalisation; iron vs graphite is memorised data.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Current Electricity",
+     "chapter": "Current Electricity",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Iron vs graphite order needs resistivity values from a table cut in 2023; current NCERT gives only ranges.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Current Electricity",
+     "chapter": "Current Electricity",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 59,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Resistivity table was cut from the rationalised NCERT (ref says so); iron vs graphite order needs values no longer printed.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    }
+   ]
+  },
+  "428fe23c-40f8-487d-a32e-9337e33732d4": {
+   "subject": "physics",
+   "batch": "physics__w6b3a",
+   "chapter": "Alternating Current",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "physics.alternating-current.reactance-frequency-dependence",
+     "flags": [],
+     "note": "Correct, but (A) and (C) are direct negations of each other, so choosing one halves the options; trivial for a prepared student.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "physics.alternating-current.reactance-frequency-dependence",
+     "flags": [],
+     "note": "Correct, but (A) and (C) are direct opposites, so the item halves itself; (D) is a plain X_L proportional to f slip. Below real-paper polish.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Electromagnetic Induction and Alternating Currents",
+     "chapter": "Alternating Current",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Reactance vs frequency is core; (C) is the direct negation of (A), a construction cue.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Electromagnetic Induction and Alternating Currents",
+     "chapter": "Alternating Current",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Inductor and capacitor on d.c.: core idea, but four long statements (108 words) are wordier than real items.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Electromagnetic Induction and Alternating Currents",
+     "chapter": "Alternating Current",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "(A) and (C) are direct negations of each other, an artificial statement set; the reactance-frequency idea itself is core.",
+     "on_final_text": null,
+     "batch": "physics__w6b3a"
+    }
+   ]
+  },
+  "2d62ff74-3613-4fe4-a63c-afc098d10cfa": {
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Electromagnetic Waves",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.electromagnetic-waves.intensity-and-field-amplitude",
+     "flags": [],
+     "note": "Computed B0 = 0.50 T. Distractors from missing 1/2, missing root and rms slip. Intensity formula is outside the rationalised text but standard.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.electromagnetic-waves.intensity-field-amplitude-relation",
+     "flags": [],
+     "note": "Arithmetic verified (B0 = 0.50 T); distractor derivations correct. I = (1/2)c e0 E0^2 is not in the rationalised text, so fit is below real-paper level.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Electromagnetic Waves",
+     "chapter": "Electromagnetic Waves",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "I = (1/2)c e0 E0^2 is not in the rationalised text; awkward e0 and root arithmetic without a calculator.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Electromagnetic Waves",
+     "chapter": "Electromagnetic Waves",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "I = (1/2)c e0 E0^2 not in rationalised text; square root of 2.26e16 by hand without calculator is heavy arithmetic.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Electromagnetic Waves",
+     "chapter": "Electromagnetic Waves",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "I = (1/2)c e0 E0^2 is outside the rationalised text; square-root arithmetic without calculator.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    }
+   ]
+  },
+  "bc1541f4-9c6d-4072-9d30-9693617fee55": {
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Wave Optics",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.wave-optics.ydse-pattern-changes",
+     "flags": [],
+     "note": "Key follows standard phrasings, but a wider source slit also brightens fringes and fills minima, so (B)-(I)/(D)-(III) in option B is arguable; source-slit effect is not in rationalised text.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.wave-optics.ydse-pattern-changes",
+     "flags": [],
+     "note": "Unique pairing; (B) could arguably reach 'disappear' but (IV) is forced to (A). Source-slit and unequal-slit effects are outside the rationalised text.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Optics",
+     "chapter": "Wave Optics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 107,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Source-slit width and unequal-slit effects are outside the rationalised text; about 107 s to read and work.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Optics",
+     "chapter": "Wave Optics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 107,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "149 words, every entry needs reasoning: 107 s. Source-slit width and unequal-slit effects are beyond the rationalised text.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Optics",
+     "chapter": "Wave Optics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 107,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Source-slit width and unequal-slit effects are beyond the rationalised text; 149 words, 107 s.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    }
+   ]
+  },
+  "4f0f2822-6c49-4610-8361-d666aa8d1296": {
+   "subject": "physics",
+   "batch": "physics__w6b3b",
+   "chapter": "Wave Optics",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.wave-optics.unequal-slit-intensity-ratio",
+     "flags": [],
+     "note": "25:1 verified, but the stem leaves unstated the needed convention that intensity is proportional to slit width; that step is not in the rationalised NCERT.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 7,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "physics.wave-optics.fringe-intensity-ratio-unequal-slits",
+     "flags": [],
+     "note": "25:1 correct under the usual intensity-proportional-to-width convention, which the stem does not state and NCERT does not teach; only one option fits it, so no flag.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Optics",
+     "chapter": "Wave Optics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Imax/Imin staple, but the width-to-intensity assumption is unstated in the stem and outside the rationalised text.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Optics",
+     "chapter": "Wave Optics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Stem relies on an unstated assumption (intensity proportional to slit width) not in the rationalised text.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Optics",
+     "chapter": "Wave Optics",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 75,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Needs the unstated intensity-proportional-to-width convention, not in the rationalised text.",
+     "on_final_text": null,
+     "batch": "physics__w6b3b"
+    }
+   ]
+  }
+ },
+ "candidates_sha256": "d2693878e8a9688eb32adb7b59c2e42fef5cdec795c8420e79f103455137c1e4"
+}

@@ -29,12 +29,12 @@
    "n": 3,
    "chapter": "Structural Change",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "797c5327-4952-47c1-b811-43f8e00faeb0",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row or card says an industrial town brings urban life into the village itself; the Rao card lists the impacts and the mass-media card points to the distractor. Needs a bank question."
+   "reason": "The paper keys industrialisation as what physically transplants urban life into a rural setting. The explanation says so outright: the industrial-town case is the one in which urban life is physically transplanted, because industrialisation brings the town's workers, their demand for housing and a m"
   },
   {
    "n": 4,

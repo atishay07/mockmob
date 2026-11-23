@@ -3,7 +3,7 @@
   "subject": "mathematics",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-11-23T18:50:19.173Z",
+  "merged_at": "2026-11-23T20:49:45.571Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -72,7 +72,7 @@
       "hedge_wording": 3
     },
     "mean_of_means": 6.01,
-    "admissible_before_row_checks": 294
+    "admissible_before_row_checks": 306
   },
   "questions": {
     "20cefb21-fbbb-4668-93d3-a5621732115f": {
@@ -31361,6 +31361,1110 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "0398a11b-3149-4d42-9aa9-4938593e4f6e": {
+      "question_id": "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Differential Equations",
+      "key": "A",
+      "content_hash": "799a77d59dba1da628916393b4513c20bb377444f922e1852ea69c7c202d3062",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.differential-equations.order-and-degree",
+          "flags": [],
+          "note": "Order 1, degree 2 after clearing the radical; no 'not defined' option, so a single defensible answer.",
+          "scored_content_hash": "799a77d59dba1da628916393b4513c20bb377444f922e1852ea69c7c202d3062"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.differential-equations.order-and-degree",
+          "flags": [],
+          "note": "Squaring-first convention gives 1 and 2; strict NCERT says degree is undefined for a non-polynomial DE, though no option offers that. Explanation cites outside paper keys.",
+          "scored_content_hash": "799a77d59dba1da628916393b4513c20bb377444f922e1852ea69c7c202d3062"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.differential-equations.order-and-degree",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.differential-equations.order-and-degree",
+        "mathematics.differential-equations.order-and-degree"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "799a77d59dba1da628916393b4513c20bb377444f922e1852ea69c7c202d3062",
+        "final_content_hash": "799a77d59dba1da628916393b4513c20bb377444f922e1852ea69c7c202d3062",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "078267c2-49be-4aa3-954c-b34fd352e5be": {
+      "question_id": "078267c2-49be-4aa3-954c-b34fd352e5be",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Matrices",
+      "key": "A",
+      "content_hash": "861f2f25310294078e9b4bdf8b5fa6f507d132b559b33804215988f5aa143bea",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.types-of-matrices",
+          "flags": [],
+          "note": "A = diag(1,3,5): diagonal and symmetric only. Clean recall item; (A) and (D) sit in every option.",
+          "scored_content_hash": "861f2f25310294078e9b4bdf8b5fa6f507d132b559b33804215988f5aa143bea"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.types-of-matrices",
+          "flags": [],
+          "note": "A = diag(1,3,5): diagonal and symmetric. Every option contains (A) and (D), so student only rejects one extra statement; weak option set.",
+          "scored_content_hash": "861f2f25310294078e9b4bdf8b5fa6f507d132b559b33804215988f5aa143bea"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.matrices.types-of-matrices",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.matrices.types-of-matrices",
+        "mathematics.matrices.types-of-matrices"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "861f2f25310294078e9b4bdf8b5fa6f507d132b559b33804215988f5aa143bea",
+        "final_content_hash": "861f2f25310294078e9b4bdf8b5fa6f507d132b559b33804215988f5aa143bea",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "40e95075-7697-4069-be1a-222caf71526a": {
+      "question_id": "40e95075-7697-4069-be1a-222caf71526a",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Inferential Statistics",
+      "key": "B",
+      "content_hash": "91045814085a7f08bf3bfe79c57eae538222ce284b061f100fe062396733a51f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.inferential-statistics.degrees-of-freedom",
+          "flags": [],
+          "note": "Key right. Stem phrase 'under the single condition' is awkward and signposts n - 1; 13 and 10 are weak distractors.",
+          "scored_content_hash": "91045814085a7f08bf3bfe79c57eae538222ce284b061f100fe062396733a51f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.inferential-statistics.degrees-of-freedom",
+          "flags": [],
+          "note": "Correct (n - 1 = 11) but trivial; 13 and 10 are weak distractors.",
+          "scored_content_hash": "91045814085a7f08bf3bfe79c57eae538222ce284b061f100fe062396733a51f"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.inferential-statistics.degrees-of-freedom",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.inferential-statistics.degrees-of-freedom",
+        "mathematics.inferential-statistics.degrees-of-freedom"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "91045814085a7f08bf3bfe79c57eae538222ce284b061f100fe062396733a51f",
+        "final_content_hash": "91045814085a7f08bf3bfe79c57eae538222ce284b061f100fe062396733a51f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "47ae1d95-942e-43f0-8010-e7bb45aa7d13": {
+      "question_id": "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Three Dimensional Geometry",
+      "key": "A",
+      "content_hash": "adc5df9a921c42caddaaa1d03c9ad6b71ee35944b282c8e0be9ea49b1263e26d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.three-dimensional-geometry.direction-cosines-identity",
+          "flags": [],
+          "note": "A, C, D true (sum sin^2 = 2, sum cos2 = -1). (A) is in every option and (C) restates (A), so the item reduces to B vs D.",
+          "scored_content_hash": "adc5df9a921c42caddaaa1d03c9ad6b71ee35944b282c8e0be9ea49b1263e26d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.three-dimensional-geometry.direction-cosines-identity",
+          "flags": [],
+          "note": "Sum sin^2 = 2, sum cos2 = -1, difference = 1: A, C, D true. (B) and (D) contradict each other, which narrows choice a little.",
+          "scored_content_hash": "adc5df9a921c42caddaaa1d03c9ad6b71ee35944b282c8e0be9ea49b1263e26d"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.three-dimensional-geometry.direction-cosines-identity",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.three-dimensional-geometry.direction-cosines-identity",
+        "mathematics.three-dimensional-geometry.direction-cosines-identity"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "adc5df9a921c42caddaaa1d03c9ad6b71ee35944b282c8e0be9ea49b1263e26d",
+        "final_content_hash": "adc5df9a921c42caddaaa1d03c9ad6b71ee35944b282c8e0be9ea49b1263e26d",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5213f563-e232-4248-b3b3-c4430f3eabc1": {
+      "question_id": "5213f563-e232-4248-b3b3-c4430f3eabc1",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "key": "C",
+      "content_hash": "56ad356fa925acc3886a78ab2d5a2d3fe49250d9d16d01d13db1b724fff80aa3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.congruence-modulo",
+          "flags": [],
+          "note": "Key right (remainder 3). Option D's 51 break reads like a typo rather than a reasoned slip; option B is a throwaway.",
+          "scored_content_hash": "56ad356fa925acc3886a78ab2d5a2d3fe49250d9d16d01d13db1b724fff80aa3"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.congruence-modulo",
+          "flags": [],
+          "note": "Residue 3 mod 7 list verified; option D breaks at 51 so only C qualifies.",
+          "scored_content_hash": "56ad356fa925acc3886a78ab2d5a2d3fe49250d9d16d01d13db1b724fff80aa3"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.numbers-quantification-and-numerical-applications.congruence-modulo",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.numbers-quantification-and-numerical-applications.congruence-modulo",
+        "mathematics.numbers-quantification-and-numerical-applications.congruence-modulo"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "56ad356fa925acc3886a78ab2d5a2d3fe49250d9d16d01d13db1b724fff80aa3",
+        "final_content_hash": "56ad356fa925acc3886a78ab2d5a2d3fe49250d9d16d01d13db1b724fff80aa3",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5aa51434-2af5-4981-ac26-538fc9b3ba0b": {
+      "question_id": "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Determinants",
+      "key": "D",
+      "content_hash": "5c612cd05793c57362cd33215501cbe1e24d9e06d18caa5a1df1c0b44bfe4380",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "mathematics.determinants.cyclic-determinant-polynomial-roots",
+          "flags": [],
+          "note": "Delta = (1 - 8x^3)^2 verified; key right. Five statements on a 3x3 expansion is heavy for 72 s; (A)/(B) mutually exclusive pair. Below paper polish.",
+          "scored_content_hash": "5c612cd05793c57362cd33215501cbe1e24d9e06d18caa5a1df1c0b44bfe4380"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "mathematics.determinants.determinant-expansion-polynomial-roots",
+          "flags": [],
+          "note": "Delta = 64x^6 - 16x^3 + 1 = (1 - 8x^3)^2; a = -8, b = 2, x = 1/2 double root, Delta >= 0. Correct, but heavy for 72 seconds.",
+          "scored_content_hash": "5c612cd05793c57362cd33215501cbe1e24d9e06d18caa5a1df1c0b44bfe4380"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.determinants.cyclic-determinant-polynomial-roots",
+        "mathematics.determinants.determinant-expansion-polynomial-roots"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "5c612cd05793c57362cd33215501cbe1e24d9e06d18caa5a1df1c0b44bfe4380",
+        "final_content_hash": "5c612cd05793c57362cd33215501cbe1e24d9e06d18caa5a1df1c0b44bfe4380",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5f019747-db58-4357-bbbe-4964672afc91": {
+      "question_id": "5f019747-db58-4357-bbbe-4964672afc91",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Linear Programming",
+      "key": "D",
+      "content_hash": "efcae27e30cca9be91abc3c29c372117d0634a9ad6f9c6701f1694e67af24522",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.linear-programming.feasible-region-corner-points",
+          "flags": [],
+          "note": "Corners (0,8), (4,4), (8,8), (0,10) verified. Distractors from wrong shading; objective Z is unused but harmless.",
+          "scored_content_hash": "efcae27e30cca9be91abc3c29c372117d0634a9ad6f9c6701f1694e67af24522"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.linear-programming.feasible-region-corner-points",
+          "flags": [],
+          "note": "Corners (0,8), (4,4), (8,8), (0,10) correct. 'Maximise Z = 3x + 2y' is unused clutter since only corner points are asked; slightly off CUET style.",
+          "scored_content_hash": "efcae27e30cca9be91abc3c29c372117d0634a9ad6f9c6701f1694e67af24522"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.linear-programming.feasible-region-corner-points",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.linear-programming.feasible-region-corner-points",
+        "mathematics.linear-programming.feasible-region-corner-points"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "efcae27e30cca9be91abc3c29c372117d0634a9ad6f9c6701f1694e67af24522",
+        "final_content_hash": "efcae27e30cca9be91abc3c29c372117d0634a9ad6f9c6701f1694e67af24522",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "6c2f68da-8876-4b67-952a-e84167e91144": {
+      "question_id": "6c2f68da-8876-4b67-952a-e84167e91144",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Matrices",
+      "key": "B",
+      "content_hash": "e660bb5ee8387b649caedb687c82fd1c6e5bf80964d5fbfe14a4088e6e002a57",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.symmetric-skew-symmetric-combinations",
+          "flags": [],
+          "note": "Correct but trivial; the factor 3 adds nothing and 'diagonal matrix' is a throwaway.",
+          "scored_content_hash": "e660bb5ee8387b649caedb687c82fd1c6e5bf80964d5fbfe14a4088e6e002a57"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.matrices.skew-symmetric-matrix-properties",
+          "flags": [],
+          "note": "Correct but near-trivial; 'diagonal' and 'symmetric' are weak distractors.",
+          "scored_content_hash": "e660bb5ee8387b649caedb687c82fd1c6e5bf80964d5fbfe14a4088e6e002a57"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.matrices.symmetric-skew-symmetric-combinations",
+        "mathematics.matrices.skew-symmetric-matrix-properties"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "e660bb5ee8387b649caedb687c82fd1c6e5bf80964d5fbfe14a4088e6e002a57",
+        "final_content_hash": "e660bb5ee8387b649caedb687c82fd1c6e5bf80964d5fbfe14a4088e6e002a57",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "7d184ed0-ffc9-40df-a382-2c4086241fd0": {
+      "question_id": "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Continuity & Differentiability",
+      "key": "C",
+      "content_hash": "362427ba9b028e4d1eff7e73635024539901be425770aae524a163a0a352a61a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation-second-derivative",
+          "flags": [],
+          "note": "y''(e) - 2y'(e) = e^(e-1), verified. Stem carries a stray '(log denotes the natural logarithm)' though no log appears in it; awkward.",
+          "scored_content_hash": "362427ba9b028e4d1eff7e73635024539901be425770aae524a163a0a352a61a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation-second-derivative",
+          "flags": [],
+          "note": "y'' - 2y' at e = e^(e-1); correct. Stem's '(log denotes the natural logarithm)' is a stray aside: no log appears in the stem. Awkward wording, minus one.",
+          "scored_content_hash": "362427ba9b028e4d1eff7e73635024539901be425770aae524a163a0a352a61a"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.continuity-and-differentiability.logarithmic-differentiation-second-derivative",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.continuity-and-differentiability.logarithmic-differentiation-second-derivative",
+        "mathematics.continuity-and-differentiability.logarithmic-differentiation-second-derivative"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "362427ba9b028e4d1eff7e73635024539901be425770aae524a163a0a352a61a",
+        "final_content_hash": "362427ba9b028e4d1eff7e73635024539901be425770aae524a163a0a352a61a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9878b056-c656-4856-a16d-d07a5559174b": {
+      "question_id": "9878b056-c656-4856-a16d-d07a5559174b",
+      "batch": "authored-2026-10-14__mathematics__w6b3c",
+      "chapter": "Financial Mathematics",
+      "key": "D",
+      "content_hash": "186b713ae6559161d1fb543b008c4e0323a62183a4a1420fc700b740f5e164ec",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.financial-mathematics.bond-terms",
+          "flags": [],
+          "note": "Key right. List-II (III) defines face value as the issue purchase price, loose since bonds can issue at a premium or discount; three options share (A)-(III).",
+          "scored_content_hash": "186b713ae6559161d1fb543b008c4e0323a62183a4a1420fc700b740f5e164ec"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.financial-mathematics.bond-terminology",
+          "flags": [],
+          "note": "Key right, but List-II (III) calls face value the issue price; bonds can issue at a premium or discount, so a student could quibble. Follows CBSE wording; pairing still unique.",
+          "scored_content_hash": "186b713ae6559161d1fb543b008c4e0323a62183a4a1420fc700b740f5e164ec"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.financial-mathematics.bond-terms",
+        "mathematics.financial-mathematics.bond-terminology"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "186b713ae6559161d1fb543b008c4e0323a62183a4a1420fc700b740f5e164ec",
+        "final_content_hash": "186b713ae6559161d1fb543b008c4e0323a62183a4a1420fc700b740f5e164ec",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "bb7917d5-a022-4232-b5af-78c9f55c3a3f": {
+      "question_id": "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+      "batch": "authored-2026-10-14__mathematics__w6b3a",
+      "chapter": "Differential Equations",
+      "key": "D",
+      "content_hash": "f65a040a13c031d2e1282b64362e9be031951ebe5648b9afc26d7820b141b9f1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "mathematics.differential-equations.order-and-degree",
+          "flags": [],
+          "note": "Raise to 6th power: (y'')^3 = (1 + y'^2)^2, order 2 degree 3. Standard item; 1/2 distractor weak.",
+          "scored_content_hash": "f65a040a13c031d2e1282b64362e9be031951ebe5648b9afc26d7820b141b9f1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.differential-equations.order-and-degree",
+          "flags": [],
+          "note": "Order 2, degree 3 after raising to power 6. Degree 1/2 and order 1 are two throwaway distractors; only 'degree 4' tempts.",
+          "scored_content_hash": "f65a040a13c031d2e1282b64362e9be031951ebe5648b9afc26d7820b141b9f1"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.differential-equations.order-and-degree",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.differential-equations.order-and-degree",
+        "mathematics.differential-equations.order-and-degree"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "f65a040a13c031d2e1282b64362e9be031951ebe5648b9afc26d7820b141b9f1",
+        "final_content_hash": "f65a040a13c031d2e1282b64362e9be031951ebe5648b9afc26d7820b141b9f1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d6a06652-c0fc-49b1-8497-df8379cbe2a2": {
+      "question_id": "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+      "batch": "authored-2026-10-14__mathematics__w6b3b",
+      "chapter": "Determinants",
+      "key": "D",
+      "content_hash": "677ea84154d28c1c068deefda0968c4e1c16102fa145e074e811b6b403ae8e01",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.adjoint-determinant-properties",
+          "flags": [],
+          "note": "|A|=-2, |A adjA|=-8, |adjA|=4, |adj adjA|=16; key right. Row (A)-(III) is fixed in all four options, and label (A) clashes with matrix A.",
+          "scored_content_hash": "677ea84154d28c1c068deefda0968c4e1c16102fa145e074e811b6b403ae8e01"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "mathematics.determinants.adjoint-determinant-properties",
+          "flags": [],
+          "note": "|A| = -2, |A adjA| = -8, |adjA| = 4, |adj adjA| = 16; key right. All four options share (A)-(III), so row (A) tests nothing; weakens the match.",
+          "scored_content_hash": "677ea84154d28c1c068deefda0968c4e1c16102fa145e074e811b6b403ae8e01"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "mathematics.determinants.adjoint-determinant-properties",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "mathematics.determinants.adjoint-determinant-properties",
+        "mathematics.determinants.adjoint-determinant-properties"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "677ea84154d28c1c068deefda0968c4e1c16102fa145e074e811b6b403ae8e01",
+        "final_content_hash": "677ea84154d28c1c068deefda0968c4e1c16102fa145e074e811b6b403ae8e01",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -31390,15 +32494,30 @@
     },
     "claude-authored-2026-11-23-w6": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
-      "merged_at": "2026-11-23T18:50:19.173Z",
-      "questions": 39,
+      "merged_at": "2026-11-23T20:49:45.571Z",
+      "questions": 51,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-11-24",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
-      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
+      "batch_questions": 12,
+      "earlier_batches": [
+        {
+          "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+          "merged_at": "2026-11-23T18:50:19.173Z",
+          "questions": 39,
+          "judge_model": "claude-subagent-unrecorded",
+          "judge_date": "2026-11-24",
+          "repaired_text_policy": "admit",
+          "held_for_fresh_judge_pass": 0,
+          "judged_text_differs_from_final": 0,
+          "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+          "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+        }
+      ]
     }
   }
 }

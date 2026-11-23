@@ -3,7 +3,7 @@
   "subject": "physics",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-11-23T18:50:19.173Z",
+  "merged_at": "2026-11-23T20:49:45.571Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -72,7 +72,7 @@
       "garbled_text": 6
     },
     "mean_of_means": 6.29,
-    "admissible_before_row_checks": 280
+    "admissible_before_row_checks": 285
   },
   "questions": {
     "00b9257d-f8fb-4511-b278-6bd530625b35": {
@@ -28461,6 +28461,466 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "2d62ff74-3613-4fe4-a63c-afc098d10cfa": {
+      "question_id": "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+      "batch": "authored-2026-10-14__physics__w6b3b",
+      "chapter": "Electromagnetic Waves",
+      "key": "C",
+      "content_hash": "ee69e57c2a5d8cd3520d9aaab7eb6251d8c2b62e5e8991deb1d9aa9b03bacdb9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-waves.intensity-and-field-amplitude",
+          "flags": [],
+          "note": "Computed B0 = 0.50 T. Distractors from missing 1/2, missing root and rms slip. Intensity formula is outside the rationalised text but standard.",
+          "scored_content_hash": "ee69e57c2a5d8cd3520d9aaab7eb6251d8c2b62e5e8991deb1d9aa9b03bacdb9"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-waves.intensity-field-amplitude-relation",
+          "flags": [],
+          "note": "Arithmetic verified (B0 = 0.50 T); distractor derivations correct. I = (1/2)c e0 E0^2 is not in the rationalised text, so fit is below real-paper level.",
+          "scored_content_hash": "ee69e57c2a5d8cd3520d9aaab7eb6251d8c2b62e5e8991deb1d9aa9b03bacdb9"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.electromagnetic-waves.intensity-and-field-amplitude",
+        "physics.electromagnetic-waves.intensity-field-amplitude-relation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "ee69e57c2a5d8cd3520d9aaab7eb6251d8c2b62e5e8991deb1d9aa9b03bacdb9",
+        "final_content_hash": "ee69e57c2a5d8cd3520d9aaab7eb6251d8c2b62e5e8991deb1d9aa9b03bacdb9",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "428fe23c-40f8-487d-a32e-9337e33732d4": {
+      "question_id": "428fe23c-40f8-487d-a32e-9337e33732d4",
+      "batch": "authored-2026-10-14__physics__w6b3a",
+      "chapter": "Alternating Current",
+      "key": "B",
+      "content_hash": "d2fe55995484289a4d61b34a270bf0bfe41a8b28bc58471fb7f8b9050911fa93",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.alternating-current.reactance-frequency-dependence",
+          "flags": [],
+          "note": "Correct, but (A) and (C) are direct negations of each other, so choosing one halves the options; trivial for a prepared student.",
+          "scored_content_hash": "d2fe55995484289a4d61b34a270bf0bfe41a8b28bc58471fb7f8b9050911fa93"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.alternating-current.reactance-frequency-dependence",
+          "flags": [],
+          "note": "Correct, but (A) and (C) are direct opposites, so the item halves itself; (D) is a plain X_L proportional to f slip. Below real-paper polish.",
+          "scored_content_hash": "d2fe55995484289a4d61b34a270bf0bfe41a8b28bc58471fb7f8b9050911fa93"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.alternating-current.reactance-frequency-dependence",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.alternating-current.reactance-frequency-dependence",
+        "physics.alternating-current.reactance-frequency-dependence"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "d2fe55995484289a4d61b34a270bf0bfe41a8b28bc58471fb7f8b9050911fa93",
+        "final_content_hash": "d2fe55995484289a4d61b34a270bf0bfe41a8b28bc58471fb7f8b9050911fa93",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4": {
+      "question_id": "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+      "batch": "authored-2026-10-14__physics__w6b3a",
+      "chapter": "Current Electricity",
+      "key": "D",
+      "content_hash": "a4240ecb7c08d19c38c2bdf5a56585f8986ac374b084b9fb33d0d34a07a44dd8",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.current-electricity.resistivity-of-materials",
+          "flags": [],
+          "note": "Order correct, but iron vs graphite rests on the resistivity table dropped from the rationalised NCERT (explanation admits it); current text gives no carbon value.",
+          "scored_content_hash": "a4240ecb7c08d19c38c2bdf5a56585f8986ac374b084b9fb33d0d34a07a44dd8"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.current-electricity.resistivity-of-materials",
+          "flags": [],
+          "note": "Order right, but the graphite and iron figures come from the resistivity table dropped in the rationalised NCERT, so a student on the current book must rely on outside recall.",
+          "scored_content_hash": "a4240ecb7c08d19c38c2bdf5a56585f8986ac374b084b9fb33d0d34a07a44dd8"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.current-electricity.resistivity-of-materials",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.current-electricity.resistivity-of-materials",
+        "physics.current-electricity.resistivity-of-materials"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "a4240ecb7c08d19c38c2bdf5a56585f8986ac374b084b9fb33d0d34a07a44dd8",
+        "final_content_hash": "a4240ecb7c08d19c38c2bdf5a56585f8986ac374b084b9fb33d0d34a07a44dd8",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "4f0f2822-6c49-4610-8361-d666aa8d1296": {
+      "question_id": "4f0f2822-6c49-4610-8361-d666aa8d1296",
+      "batch": "authored-2026-10-14__physics__w6b3b",
+      "chapter": "Wave Optics",
+      "key": "C",
+      "content_hash": "532179fe6d87f56dd3788f29e680518ba9b270e2ba90f5302340da16c9c51278",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.unequal-slit-intensity-ratio",
+          "flags": [],
+          "note": "25:1 verified, but the stem leaves unstated the needed convention that intensity is proportional to slit width; that step is not in the rationalised NCERT.",
+          "scored_content_hash": "532179fe6d87f56dd3788f29e680518ba9b270e2ba90f5302340da16c9c51278"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.fringe-intensity-ratio-unequal-slits",
+          "flags": [],
+          "note": "25:1 correct under the usual intensity-proportional-to-width convention, which the stem does not state and NCERT does not teach; only one option fits it, so no flag.",
+          "scored_content_hash": "532179fe6d87f56dd3788f29e680518ba9b270e2ba90f5302340da16c9c51278"
+        }
+      ],
+      "mean": 7,
+      "min": 7,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.wave-optics.unequal-slit-intensity-ratio",
+        "physics.wave-optics.fringe-intensity-ratio-unequal-slits"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "532179fe6d87f56dd3788f29e680518ba9b270e2ba90f5302340da16c9c51278",
+        "final_content_hash": "532179fe6d87f56dd3788f29e680518ba9b270e2ba90f5302340da16c9c51278",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "bc1541f4-9c6d-4072-9d30-9693617fee55": {
+      "question_id": "bc1541f4-9c6d-4072-9d30-9693617fee55",
+      "batch": "authored-2026-10-14__physics__w6b3b",
+      "chapter": "Wave Optics",
+      "key": "D",
+      "content_hash": "dba74e672fcf0947878977bc4f89bcd1aae5df4e6b3c416a78b379b7d1641e34",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.ydse-pattern-changes",
+          "flags": [],
+          "note": "Key follows standard phrasings, but a wider source slit also brightens fringes and fills minima, so (B)-(I)/(D)-(III) in option B is arguable; source-slit effect is not in rationalised text.",
+          "scored_content_hash": "dba74e672fcf0947878977bc4f89bcd1aae5df4e6b3c416a78b379b7d1641e34"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-24",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.ydse-pattern-changes",
+          "flags": [],
+          "note": "Unique pairing; (B) could arguably reach 'disappear' but (IV) is forced to (A). Source-slit and unequal-slit effects are outside the rationalised text.",
+          "scored_content_hash": "dba74e672fcf0947878977bc4f89bcd1aae5df4e6b3c416a78b379b7d1641e34"
+        }
+      ],
+      "mean": 7.5,
+      "min": 7,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.wave-optics.ydse-pattern-changes",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.wave-optics.ydse-pattern-changes",
+        "physics.wave-optics.ydse-pattern-changes"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "dba74e672fcf0947878977bc4f89bcd1aae5df4e6b3c416a78b379b7d1641e34",
+        "final_content_hash": "dba74e672fcf0947878977bc4f89bcd1aae5df4e6b3c416a78b379b7d1641e34",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -28490,15 +28950,30 @@
     },
     "claude-authored-2026-11-23-w6": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
-      "merged_at": "2026-11-23T18:50:19.173Z",
-      "questions": 20,
+      "merged_at": "2026-11-23T20:49:45.571Z",
+      "questions": 25,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-11-24",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
-      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
+      "batch_questions": 5,
+      "earlier_batches": [
+        {
+          "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+          "merged_at": "2026-11-23T18:50:19.173Z",
+          "questions": 20,
+          "judge_model": "claude-subagent-unrecorded",
+          "judge_date": "2026-11-24",
+          "repaired_text_policy": "admit",
+          "held_for_fresh_judge_pass": 0,
+          "judged_text_differs_from_final": 0,
+          "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+          "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+        }
+      ]
     }
   }
 }

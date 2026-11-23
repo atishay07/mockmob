@@ -1,0 +1,1342 @@
+{
+ "kind": "authored_publish_plan",
+ "version": "authored-publish-1",
+ "mode": "dry-run",
+ "source": "claude-authored-2026-11-23-w6",
+ "at": "2026-11-23T20:49:47.981Z",
+ "candidatesFile": "docs/brain/reports/authored-w6/wave6-owner-release-candidates-2026-11-24.json",
+ "candidatesSha256": "d2693878e8a9688eb32adb7b59c2e42fef5cdec795c8420e79f103455137c1e4",
+ "planHash": "29a02a369919acc2379742b47d60a09cf96028d18921bd3108b243ab489f9c0f",
+ "summary": {
+  "questions": 21,
+  "passageGroups": 0,
+  "bySubject": {
+   "computer_science": 1,
+   "geography": 1,
+   "mathematics": 12,
+   "physics": 5,
+   "political_science": 1,
+   "sociology": 1
+  },
+  "byType": {
+   "statement_based": 5,
+   "sequence_ordering": 2,
+   "conceptual_mcq": 10,
+   "match_the_following": 4
+  },
+  "byDifficulty": {
+   "medium": 14,
+   "hard": 1,
+   "easy": 6
+  },
+  "byExpertReview": {
+   "claude_audited": 21
+  },
+  "passageChildrenBySet": {},
+  "passageSetsBelowNtaMinimum": [],
+  "chapters": 17
+ },
+ "blockers": [],
+ "warnings": [],
+ "checks": {
+  "target": "isrxrxzjocewrdureyhp.supabase.co",
+  "questionColumnsMissing": 0,
+  "passageGroupColumnsMissing": 0,
+  "existingQuestionIds": 0,
+  "existingGroupIds": 0,
+  "liveBefore": {
+   "computer_science": 392,
+   "geography": 229,
+   "mathematics": 422,
+   "physics": 403,
+   "political_science": 254,
+   "sociology": 282
+  },
+  "agentScores": {
+   "bound": 21,
+   "missing": 0,
+   "hashMismatch": 0
+  },
+  "fitScores": {
+   "bound": 21,
+   "missing": 0,
+   "hashMismatch": 0
+  },
+  "bankLookalikes": "not checked: no local export"
+ },
+ "checksDetail": {
+  "target": "isrxrxzjocewrdureyhp.supabase.co",
+  "questionColumnsMissing": [],
+  "passageGroupColumnsMissing": [],
+  "existingQuestionIds": [],
+  "existingGroupIds": [],
+  "liveBefore": {
+   "computer_science": 392,
+   "geography": 229,
+   "mathematics": 422,
+   "physics": 403,
+   "political_science": 254,
+   "sociology": 282
+  },
+  "scores": {
+   "agent": {
+    "bound": 21,
+    "missing": [],
+    "hashMismatch": []
+   },
+   "fit": {
+    "checked": true,
+    "bound": 21,
+    "missing": [],
+    "hashMismatch": []
+   }
+  },
+  "bankLookalikes": {
+   "checked": false,
+   "exact": [],
+   "near": []
+  }
+ },
+ "groups": [],
+ "rows": [
+  {
+   "id": "d61b4a9f-c19b-46f6-b623-871cd4549a7a",
+   "subject": "computer_science",
+   "chapter": "Queue",
+   "question": null,
+   "body": "Consider the following statements about data structures.\n(A) A data structure in which elements are organised in a sequence is called a linear data structure.\n(B) A deque is an ordered linear list in which elements can be added or removed at either end.\n(C) A tree is a non-linear data structure, as one element in it can be linked to several elements at the next level.\n(D) A stack is a non-linear data structure, because elements can be added or removed at one end only.\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B), (C) and (D)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "NCERT defines a linear data structure as one in which elements are organised in a sequence, so (A) is true. A deque is a version of queue that allows insertion and deletion at both ends, and like a queue it is an ordered linear list, so (B) is true. A queue too is an ordered linear list (FIFO: elements join at the rear and leave from the front). In a tree, one element (node) can be connected to more than one element below it, so the elements form a hierarchy, not a single sequence; a tree is therefore a non-linear data structure, so (C) is true. (D) is false: a stack is a linear and ordered collection of elements; LIFO only limits where elements are added and removed (the top), it does not stop the elements from forming a sequence. So stack, queue and deque are linear data structures, and a tree is not.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:statement_based",
+    "unit:Section B1: Computer Science",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Computer Science Class XII, Ch 3 Stack (lecs103, printed p40: linear data structure defined; Binary Trees and Graph listed among other data structures; p43: a stack is a linear and ordered collection of elements) and Ch 4 Queue (lecs1"
+   ],
+   "topic": "Section B1: Computer Science",
+   "question_type": "statement_based",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "13edb7cc-941a-4c89-b542-4784a8987482",
+   "subject": "geography",
+   "chapter": "Population — Distribution, Density, Growth",
+   "question": null,
+   "body": "Arrange the following countries in increasing order of population, starting with the smallest.\n(A) Brazil\n(B) Mexico\n(C) Indonesia\n(D) Bangladesh",
+   "options": [
+    {
+     "key": "A",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (B), (A), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (A), (D), (B)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "Approximate populations (UN estimates for 2024): Mexico about 130 million, Bangladesh about 174 million, Brazil about 212 million, Indonesia about 283 million. Smallest to largest: Mexico, Bangladesh, Brazil, Indonesia, that is (B), (D), (A), (C). Bangladesh is a small country by area, but it has more people than Mexico; Brazil, the most populous country of South America, has more people than Bangladesh. China (about 1.4 billion) is far above all four, so from largest to smallest the order runs China, Indonesia, Brazil, Bangladesh, Mexico. The order (C), (A), (D), (B) is the same list in decreasing order, the reverse of what is asked.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:sequence_ordering",
+    "unit:People",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Fundamentals of Human Geography (legy102), Ch 2 The World Population: Distribution, Density and Growth, p. 7: Fig. 2.1 Most Populous Countries (all five countries are among the ten shown)"
+   ],
+   "topic": "People",
+   "question_type": "sequence_ordering",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "5aa51434-2af5-4981-ac26-538fc9b3ba0b",
+   "subject": "mathematics",
+   "chapter": "Determinants",
+   "question": null,
+   "body": "Let Δ be the determinant with rows (1, 2x, 4x²), (4x², 1, 2x) and (2x, 4x², 1). If Δ = (1 + ax³)ᵇ for every real x, consider the following statements:\n(A) a = 8 and b = 2\n(B) a = −8 and b = 2\n(C) x = 1/2 is a repeated root of Δ = 0.\n(D) x = −1/2 is a root of Δ = 0.\n(E) Δ ≥ 0 for every real x.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (D) and (E) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C), (D) and (E) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D) and (E) only"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C) and (E) only"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Expand Δ along row 1. First term: 1 × (1 × 1 − 2x × 4x²) = 1 − 8x³. Second term: −2x × (4x² × 1 − 2x × 2x) = −2x × 0 = 0. Third term: 4x² × (4x² × 4x² − 1 × 2x) = 64x⁶ − 8x³. So Δ = 1 − 16x³ + 64x⁶ = (1 − 8x³)², which is (1 + ax³)ᵇ with a = −8 and b = 2: (B) is true, and (A), the sign slip, is false. Δ = 0 means 1 − 8x³ = 0, that is x³ = 1/8, whose only real solution is x = 1/2; because the factor 1 − 8x³ is squared, x = 1/2 is a repeated (double) root, that is, a multiple root and not a simple one, so (C) is true. At x = −1/2, 1 − 8x³ = 1 + 1 = 2 and Δ = 4, not 0, so (D) is false; −1/2 is the root a student gets from the wrong sign, (1 + 8x³)², or from solving 8x³ = −1; taking the cube root of 1/8 as ±1/2, as if it were a square root, wrongly adds (D) to the true statements. Δ is the square of a real number, so Δ ≥ 0 for every real x and (E) is true. The true statements are (B), (C) and (E).",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:statement_based",
+    "unit:Section A1 (common)",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Mathematics Part I (Reprint 2026-27), Ch 4 Determinants, 4.2.3 determinant of a matrix of order 3 × 3, expansion along the first row (p 77); roots of the resulting polynomial equation"
+   ],
+   "topic": "Section A1 (common)",
+   "question_type": "statement_based",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "bb7917d5-a022-4232-b5af-78c9f55c3a3f",
+   "subject": "mathematics",
+   "chapter": "Differential Equations",
+   "question": null,
+   "body": "A family of plane curves satisfies √(d²y/dx²) = ∛(1 + (dy/dx)²). Which pair gives the order and degree of this differential equation?",
+   "options": [
+    {
+     "key": "A",
+     "text": "order 2, degree 1/2"
+    },
+    {
+     "key": "B",
+     "text": "order 1, degree 4"
+    },
+    {
+     "key": "C",
+     "text": "order 2, degree 4"
+    },
+    {
+     "key": "D",
+     "text": "order 2, degree 3"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "The highest order derivative present is d²y/dx², so the order is 2. As written, d²y/dx² sits under a square root and the right side is a cube root, so the equation is not yet a polynomial in its derivatives. Both roots are removed by raising both sides to the power 6 (the LCM of 2 and 3): (d²y/dx²)³ = (1 + (dy/dx)²)². This is a polynomial equation in the derivatives, and the highest order derivative d²y/dx² appears in it with highest power 3, so the degree is 3. The degree, when defined, is a positive integer, so 1/2 (the power read off the equation before the roots are cleared) cannot be a degree. The power 4 belongs to dy/dx, which is not the highest order derivative; taking dy/dx as the highest derivative also gives the wrong order 1.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Section A1 (common)",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Mathematics Part II (Reprint 2026-27), Ch 9, 9.2.1 order and 9.2.2 degree (p 301-302): the highest power of the highest order derivative in a polynomial equation in derivatives; both are positive integers"
+   ],
+   "topic": "Section A1 (common)",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "078267c2-49be-4aa3-954c-b34fd352e5be",
+   "subject": "mathematics",
+   "chapter": "Matrices",
+   "question": null,
+   "body": "A = [aᵢⱼ] is a 3 × 3 matrix with aᵢⱼ = 0 when i ≠ j and aᵢⱼ = 2i − 1 when i = j. Which of the following statements are correct?\n(A) A is a diagonal matrix.\n(B) A is a scalar matrix.\n(C) A is an identity matrix.\n(D) A is a symmetric matrix.\n(E) A is a skew-symmetric matrix.\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only (A) and (D)"
+    },
+    {
+     "key": "B",
+     "text": "Only (A), (B) and (D)"
+    },
+    {
+     "key": "C",
+     "text": "Only (A), (C) and (D)"
+    },
+    {
+     "key": "D",
+     "text": "Only (A), (D) and (E)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "The diagonal entries are a₁₁ = 2(1) − 1 = 1, a₂₂ = 2(2) − 1 = 3 and a₃₃ = 2(3) − 1 = 5, and every other entry is 0, so A = [1 0 0; 0 3 0; 0 0 5]. All non-diagonal entries are zero, so A is a diagonal matrix: (A) is true. A scalar matrix is a diagonal matrix whose diagonal entries are all equal; 1, 3 and 5 are not, so (B) is false (every scalar matrix is diagonal, but not every diagonal matrix is scalar). An identity matrix needs every diagonal entry equal to 1; only a₁₁ = 1, so (C) is false; checking a₁₁ alone is the slip that accepts it. Since aᵢⱼ = aⱼᵢ = 0 for i ≠ j, the transpose A′ equals A, so A is symmetric: (D) is true. A skew-symmetric matrix needs A′ = −A, which forces every diagonal entry to be 0; here they are 1, 3 and 5, so (E) is false (zero entries off the diagonal are not enough). The correct statements are (A) and (D).",
+   "difficulty": "easy",
+   "difficulty_weight": 1,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:statement_based",
+    "unit:Algebra",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 3 Matrices: 3.3 Types of Matrices (diagonal, scalar, identity), p 40; 3.6 Symmetric and Skew Symmetric Matrices, p 63"
+   ],
+   "topic": "Algebra",
+   "question_type": "statement_based",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "d6a06652-c0fc-49b1-8497-df8379cbe2a2",
+   "subject": "mathematics",
+   "chapter": "Determinants",
+   "question": null,
+   "body": "For the matrix A = [2 5 −3; 0 −1 4; 0 0 1], match List-I with List-II.\nList-I\n(A) |A|\n(B) |A (adj A)|\n(C) |adj A|\n(D) |adj (adj A)|\nList-II\n(I) 4\n(II) 16\n(III) −2\n(IV) −8\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)"
+    },
+    {
+     "key": "B",
+     "text": "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+    },
+    {
+     "key": "C",
+     "text": "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)"
+    },
+    {
+     "key": "D",
+     "text": "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Expanding along the first column, |A| = 2 × [(−1)(1) − (4)(0)] = −2: for this triangular matrix it is the product of the diagonal entries 2 × (−1) × 1. For a square matrix of order n, A (adj A) = |A| I, so |A (adj A)| = |A|ⁿ = (−2)³ = −8. Taking determinants of (adj A) A = |A| I gives |adj A| × |A| = |A|³, so |adj A| = |A|ⁿ⁻¹ = (−2)² = 4. The same rule applied to adj A gives |adj (adj A)| = |adj A|ⁿ⁻¹ = 4² = 16, which is |A| to the power (n − 1)² = 4. So (A) - (III), (B) - (IV), (C) - (I), (D) - (II). The other pairings mix up the three powers 3, 2 and 4: giving |A (adj A)| the power 2 and |adj A| the power 3, or swapping the powers 2 and 4, or swapping 3 and 4.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:match_the_following",
+    "unit:Algebra",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 4 Determinants: 4.5 Adjoint and Inverse of a Matrix, Theorem 1 A(adj A) = (adj A)A = |A|I, p 88-89, and the Remark giving |adj A| = |A|ⁿ⁻¹, p 89-90; Theorem 3 |AB| = |A||B|, p"
+   ],
+   "topic": "Algebra",
+   "question_type": "match_the_following",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "7d184ed0-ffc9-40df-a382-2c4086241fd0",
+   "subject": "mathematics",
+   "chapter": "Continuity & Differentiability",
+   "question": null,
+   "body": "If y = xˣ, x > 0 (log denotes the natural logarithm), then y″(e) − 2y′(e) is equal to",
+   "options": [
+    {
+     "key": "A",
+     "text": "0"
+    },
+    {
+     "key": "B",
+     "text": "eᵉ"
+    },
+    {
+     "key": "C",
+     "text": "eᵉ⁻¹"
+    },
+    {
+     "key": "D",
+     "text": "eᵉ⁺¹"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "Take logarithms: log y = x log x, so (1/y) y′ = 1 + log x and y′ = xˣ(1 + log x). Differentiate this product: y″ = xˣ(1 + log x)(1 + log x) + xˣ × (1/x) = xˣ(1 + log x)² + xˣ⁻¹. At x = e, log e = 1: y′(e) = 2eᵉ and y″(e) = 4eᵉ + eᵉ⁻¹. So y″(e) − 2y′(e) = 4eᵉ + eᵉ⁻¹ − 4eᵉ = eᵉ⁻¹. Leaving out the derivative of (1 + log x) gives 0; taking that derivative as 1 instead of 1/x gives eᵉ; multiplying by x instead of dividing gives eᵉ⁺¹.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Calculus",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Mathematics Part I (lemh1xx, Reprint 2026-27), Ch 5 Continuity and Differentiability: 5.5 Logarithmic Differentiation, p 130; 5.7 Second Order Derivative, p 137"
+   ],
+   "topic": "Calculus",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "47ae1d95-942e-43f0-8010-e7bb45aa7d13",
+   "subject": "mathematics",
+   "chapter": "Three Dimensional Geometry",
+   "question": null,
+   "body": "A line makes angles α, β and γ with the positive directions of the x-, y- and z-axes respectively. Which of the following statements are correct?\n(A) sin²α + sin²β + sin²γ = 2\n(B) cos 2α + cos 2β + cos 2γ = 1\n(C) (sin²α + sin²β + sin²γ) − (cos²α + cos²β + cos²γ) = 1\n(D) cos 2α + cos 2β + cos 2γ = −1\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only (A), (C) and (D)"
+    },
+    {
+     "key": "B",
+     "text": "Only (A) and (D)"
+    },
+    {
+     "key": "C",
+     "text": "Only (A), (B) and (C)"
+    },
+    {
+     "key": "D",
+     "text": "Only (A) and (C)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "The direction cosines of the line are cos α, cos β and cos γ, and cos²α + cos²β + cos²γ = 1. Then sin²α + sin²β + sin²γ = 3 − (cos²α + cos²β + cos²γ) = 3 − 1 = 2, so (A) is true. The difference in (C) is 2 − 1 = 1, so (C) is true; subtracting in the wrong order, 1 − 2 = −1, is the slip that rejects it. Using cos 2θ = 2cos²θ − 1 for each angle, cos 2α + cos 2β + cos 2γ = 2(1) − 3 = −1, so (D) is true and (B) is false. Subtracting 1 once instead of three times gives +1 and accepts (B); writing cos 2θ = 2cos²θ, without the −1, gives 2 and rejects both (B) and (D). The correct statements are (A), (C) and (D).",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:statement_based",
+    "unit:Vectors and Three-Dimensional Geometry",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 11 Three Dimensional Geometry: 11.2 Direction Cosines and Direction Ratios of a Line, l² + m² + n² = 1, p 377-378"
+   ],
+   "topic": "Vectors and Three-Dimensional Geometry",
+   "question_type": "statement_based",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "5f019747-db58-4357-bbbe-4964672afc91",
+   "subject": "mathematics",
+   "chapter": "Linear Programming",
+   "question": null,
+   "body": "For the linear programming problem: Maximise Z = 3x + 2y subject to x + 4y ≤ 40, x + y ≥ 8, x ≤ y, x ≥ 0, y ≥ 0, the feasible region is the region whose corner points are",
+   "options": [
+    {
+     "key": "A",
+     "text": "(4, 4), (8, 0), (40, 0) and (8, 8)"
+    },
+    {
+     "key": "B",
+     "text": "(0, 0), (4, 4) and (0, 8)"
+    },
+    {
+     "key": "C",
+     "text": "(0, 0), (8, 8) and (0, 10)"
+    },
+    {
+     "key": "D",
+     "text": "(0, 8), (4, 4), (8, 8) and (0, 10)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Shade each constraint. x + 4y ≤ 40: the side of the line through (40, 0) and (0, 10) that contains the origin. x + y ≥ 8: the side of the line through (8, 0) and (0, 8) away from the origin. x ≤ y: the side of the line y = x that contains (0, 1), that is, above it. x ≥ 0, y ≥ 0: the first quadrant. The common region is bounded by the y-axis, x + y = 8, y = x and x + 4y = 40. Its corners are (0, 8) on the y-axis, (4, 4) where x + y = 8 meets y = x, (8, 8) where x + 4y = 40 meets y = x (5x = 40), and (0, 10) where x + 4y = 40 meets the y-axis. Shading x ≤ y below the line y = x gives the region with corners (4, 4), (8, 0), (40, 0), (8, 8); shading x + y ≥ 8 towards the origin gives the triangle (0, 0), (4, 4), (0, 8); leaving out x + y ≥ 8 gives the triangle (0, 0), (8, 8), (0, 10).",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Linear Programming",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 12 Linear Programming: 12.2.2 Graphical method of solving linear programming problems, feasible region, p 397"
+   ],
+   "topic": "Linear Programming",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "9878b056-c656-4856-a16d-d07a5559174b",
+   "subject": "mathematics",
+   "chapter": "Financial Mathematics",
+   "question": null,
+   "body": "Match List-I with List-II.\nList-I:\n(A) Face value of a bond\n(B) Coupon rate\n(C) Yield to maturity\n(D) Maturity date\nList-II:\n(I) The annual rate of interest the issuer pays to the bondholder, as a percentage of the face value\n(II) The date on which the bond is redeemed and the holder is repaid\n(III) The price at which buyers purchase the bond when it is first issued\n(IV) The discount rate at which the present value of all the payments of the bond equals its market price\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "A bond is a debt instrument: the issuer borrows money and promises fixed interest payments and repayment on a set date. The face (par) value of a bond is the price at which buyers purchase it when it is first issued; the coupon is worked out on this amount, and unless another redemption value is stated, it is also the amount repaid at maturity. The coupon rate is the annual interest rate the issuer pays to the holder, applied to the face value, so the yearly coupon = coupon rate × face value. The yield to maturity is the overall annual return a buyer earns by holding the bond to maturity: the discount rate at which the present value of all the coupons and the redemption amount equals the bond’s market price. The maturity date is the date on which the bond is redeemed and the holder is repaid. Swapping the coupon rate and the yield to maturity is the usual slip: the coupon rate is fixed on the face value at issue, while the yield changes with the market price, and the two are equal only when the bond sells at its face value.",
+   "difficulty": "easy",
+   "difficulty_weight": 1,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:match_the_following",
+    "unit:Applied Mathematics",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Financial Mathematics: valuation of bonds (face value, coupon rate, maturity date, yield to maturity); CUET 2026 Applied Mathematics syllabus, Unit VII"
+   ],
+   "topic": "Applied Mathematics",
+   "question_type": "match_the_following",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "0398a11b-3149-4d42-9aa9-4938593e4f6e",
+   "subject": "mathematics",
+   "chapter": "Differential Equations",
+   "question": null,
+   "body": "A family of straight lines satisfies the differential equation y = xp + √(16p² + 9), where p = dy/dx. The order and the degree of this equation are respectively:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1 and 2"
+    },
+    {
+     "key": "B",
+     "text": "1 and 1"
+    },
+    {
+     "key": "C",
+     "text": "2 and 2"
+    },
+    {
+     "key": "D",
+     "text": "2 and 1"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "A",
+   "explanation": "The only derivative present is dy/dx, so the order is 1. The degree is read only when the equation is a polynomial in its derivatives, and here p = dy/dx stands under a square root. Isolate the root and square: y − xp = √(16p² + 9) gives (y − xp)² = 16p² + 9, that is (x² − 16)p² − 2xyp + y² − 9 = 0. This is a polynomial in p whose highest power is 2, so the degree is 2. (Its general solution y = cx + √(16c² + 9) is the family of straight lines.) Reading the degree before the root is removed gives 1, the power of p outside the root; an order of 2 would need d²y/dx², which does not appear.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Calculus",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Mathematics Part II (lemh203, Reprint 2026-27), Ch 9, 9.2.1 Order and 9.2.2 Degree (defined for a polynomial equation in the derivatives), p 301-303; a radical is cleared by squaring first, as CUET 2026 keys Q316 and Q367"
+   ],
+   "topic": "Calculus",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "40e95075-7697-4069-be1a-222caf71526a",
+   "subject": "mathematics",
+   "chapter": "Inferential Statistics",
+   "question": null,
+   "body": "Twelve observations are to be recorded under the single condition that their mean is exactly 30. The number of degrees of freedom is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "12"
+    },
+    {
+     "key": "B",
+     "text": "11"
+    },
+    {
+     "key": "C",
+     "text": "13"
+    },
+    {
+     "key": "D",
+     "text": "10"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "The degrees of freedom are the number of values that can be chosen freely once the restrictions are met: d.f. = n − k for n observations and k independent restrictions. A fixed mean of 30 fixes the total at 12 × 30 = 360, so once any 11 observations are chosen, the twelfth must make up the total. With one restriction, d.f. = 12 − 1 = 11, the same n − 1 used for a one-sample t-test. The same count applies whenever the last choice is forced: if 20 guests take the 20 chairs of a hall, each choosing any empty chair, the first 19 choose freely and the last must take the one chair left, so d.f. = 20 − 1 = 19. 12 ignores the restriction, 13 adds it instead of subtracting it, and 10 subtracts two restrictions when there is only one.",
+   "difficulty": "easy",
+   "difficulty_weight": 1,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Applied Mathematics",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XII, Inferential Statistics: t-distribution and degrees of freedom (d.f. = n − 1 for a sample of n); CUET 2026 Applied Mathematics syllabus, Unit VI Inferential Statistics"
+   ],
+   "topic": "Applied Mathematics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "6c2f68da-8876-4b67-952a-e84167e91144",
+   "subject": "mathematics",
+   "chapter": "Matrices",
+   "question": null,
+   "body": "P and Q are two skew-symmetric matrices, each of order 3. Which description fits the matrix 3P + Q?",
+   "options": [
+    {
+     "key": "A",
+     "text": "a symmetric matrix"
+    },
+    {
+     "key": "B",
+     "text": "a skew-symmetric matrix"
+    },
+    {
+     "key": "C",
+     "text": "neither symmetric nor skew-symmetric in general"
+    },
+    {
+     "key": "D",
+     "text": "a diagonal matrix"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "A matrix M is skew-symmetric when Mᵀ = −M. Using (X + Y)ᵀ = Xᵀ + Yᵀ and (kX)ᵀ = kXᵀ: (3P + Q)ᵀ = 3Pᵀ + Qᵀ = 3(−P) + (−Q) = −(3P + Q). So 3P + Q is skew-symmetric, and in the same way the sum P + Q of two skew-symmetric matrices of the same order is skew-symmetric. Neither symmetric nor skew-symmetric is what a symmetric matrix plus a skew-symmetric one gives in general, not two skew-symmetric ones. A skew-symmetric matrix has zeros on its diagonal, but its other entries need not be zero, so it need not be diagonal.",
+   "difficulty": "easy",
+   "difficulty_weight": 1,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Algebra",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Mathematics Part I (lemh103, Reprint 2026-27), Ch 3 Matrices: 3.5.1 properties of transpose ((A + B)′ = A′ + B′, (kA)′ = kA′), p 61; 3.6 Symmetric and Skew Symmetric Matrices, Definition 5, p 63"
+   ],
+   "topic": "Algebra",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "5213f563-e232-4248-b3b3-c4430f3eabc1",
+   "subject": "mathematics",
+   "chapter": "Numbers, Quantification and Numerical Applications",
+   "question": null,
+   "body": "Which list consists only of values of y that satisfy 38 ≡ y (mod 7)?",
+   "options": [
+    {
+     "key": "A",
+     "text": "..., 25, 32, 39, 46, 53, ..."
+    },
+    {
+     "key": "B",
+     "text": "..., 28, 35, 42, 49, 56, ..."
+    },
+    {
+     "key": "C",
+     "text": "..., 24, 31, 38, 45, 52, ..."
+    },
+    {
+     "key": "D",
+     "text": "..., 31, 38, 45, 51, 58, ..."
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "38 ≡ y (mod 7) means that 7 divides 38 − y, that is, y = 38 + 7k for some integer k. Adding and subtracting 7 from 38 gives ..., 24, 31, 38, 45, 52, ..., the numbers that leave remainder 3 on division by 7 (38 = 5 × 7 + 3). The list 25, 32, 39, ... leaves remainder 4: each term is one more than a correct value. The list 28, 35, 42, ... is the multiples of 7, which satisfy 0 ≡ y (mod 7), not 38 ≡ y (mod 7). The list ending 45, 51, 58 breaks the step of 7 after 45: 51 − 45 = 6, and 38 − 51 = −13 is not a multiple of 7.",
+   "difficulty": "easy",
+   "difficulty_weight": 1,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Applied Mathematics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:No NCERT book for Section B2: CBSE Applied Mathematics (241) Class XI, Numbers, Quantification and Numerical Applications: modulo arithmetic, congruence modulo m (a ≡ b (mod m) when m divides a − b); CUET 2026 Applied Mathematics syllabus, "
+   ],
+   "topic": "Applied Mathematics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "44f6ee45-b48a-4c2b-a880-f9f934b5d0c4",
+   "subject": "physics",
+   "chapter": "Current Electricity",
+   "question": null,
+   "body": "Arrange the following materials in decreasing order of their electrical conductivity at room temperature.\n(A) Graphite (carbon)\n(B) Copper\n(C) Pure silicon\n(D) Iron\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(D), (B), (A), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (D), (C), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (D), (A), (C)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Conductivity is the reciprocal of resistivity, so the order of conductivity is the reverse of the order of resistivity. Typical room-temperature resistivities are: copper 1.7 × 10^-8 Ω m, iron about 1.0 × 10^-7 Ω m, graphite (carbon) 3.5 × 10^-5 Ω m and pure silicon about 2.3 × 10^3 Ω m. Copper therefore conducts best, roughly six times better than iron; iron, a metal, conducts a few hundred times better than graphite; and graphite, although a non-metal, conducts far better than pure silicon, a semiconductor. The decreasing order is copper, iron, graphite, silicon. Insulators such as hard rubber (resistivity 10^13 to 10^16 Ω m) lie far below all four, so among rubber, carbon, iron and copper the conductivity rises in that order: rubber < carbon < iron < copper. Putting iron above copper, graphite above iron, or silicon above graphite are the usual slips.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:sequence_ordering",
+    "unit:Current Electricity",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 3 Current Electricity: 3.7 Resistivity of various materials, p 90, and Summary point 5, p 103 (metals 10^-8 to 10^-6 Ω m, insulators such as rubber far higher, semiconductors in between); "
+   ],
+   "topic": "Current Electricity",
+   "question_type": "sequence_ordering",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "428fe23c-40f8-487d-a32e-9337e33732d4",
+   "subject": "physics",
+   "chapter": "Alternating Current",
+   "question": null,
+   "body": "Identify the correct statements about an inductor of negligible resistance and a capacitor.\n(A) Once the current has become steady, the inductor in a d.c. circuit conducts like a plain connecting wire.\n(B) A capacitor connected to a steady d.c. source passes no current once it has been charged.\n(C) In a steady d.c. circuit the inductor blocks the current as if its resistance were infinite.\n(D) The reactance of the inductor increases when the frequency of the a.c. source is lowered.\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only (B) and (C)"
+    },
+    {
+     "key": "B",
+     "text": "Only (A) and (B)"
+    },
+    {
+     "key": "C",
+     "text": "Only (A), (B) and (D)"
+    },
+    {
+     "key": "D",
+     "text": "Only (C) and (D)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "The inductive reactance is X_L = ωL = 2πνL, directly proportional to the frequency. Steady d.c. has zero frequency, so X_L = 0: once the current stops changing there is no induced emf (L di/dt = 0), and an inductor of negligible resistance behaves like a plain wire. So (A) is true and (C), an infinite resistance, is false. For a capacitor the reactance X_C = 1/(ωC) becomes infinite as the frequency goes to zero: when a d.c. source is connected the capacitor charges, and after charging no current flows (a lamp in series with it does not glow), so (B) is true. (D) is false: lowering the frequency lowers X_L = 2πνL. In d.c., then, the inductor conducts and the charged capacitor does not; the correct statements are (A) and (B).",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:statement_based",
+    "unit:Electromagnetic Induction and Alternating Currents",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Physics Part I (Reprint 2026-27), Ch 7 Alternating Current: 7.4 AC voltage applied to an inductor, X_L = ωL, Eqs. (7.13)-(7.14), p 182 (reactance directly proportional to the frequency); 7.5 AC voltage applied to a capacitor,"
+   ],
+   "topic": "Electromagnetic Induction and Alternating Currents",
+   "question_type": "statement_based",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "2d62ff74-3613-4fe4-a63c-afc098d10cfa",
+   "subject": "physics",
+   "chapter": "Electromagnetic Waves",
+   "question": null,
+   "body": "A focused laser beam has an average intensity of 3.0 × 10^13 W m^-2. The amplitude of the magnetic field in the beam is about\n(Take c = 3.0 × 10^8 m s^-1 and ε0 = 8.85 × 10^-12 C^2 N^-1 m^-2.)",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.25 T"
+    },
+    {
+     "key": "B",
+     "text": "0.35 T"
+    },
+    {
+     "key": "C",
+     "text": "0.50 T"
+    },
+    {
+     "key": "D",
+     "text": "0.71 T"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "The average intensity of a plane electromagnetic wave is I = (1/2) c ε0 E0^2, where E0 is the amplitude of the electric field. So E0^2 = 2I/(c ε0) = (2 × 3.0 × 10^13)/(3.0 × 10^8 × 8.85 × 10^-12) = (6.0 × 10^13)/(2.655 × 10^-3) ≈ 2.26 × 10^16, and E0 ≈ 1.5 × 10^8 V m^-1. In a plane wave the field amplitudes are related by E0/B0 = c, so B0 = E0/c = (1.5 × 10^8)/(3.0 × 10^8) ≈ 0.50 T. (The same result comes in one line from B0 = √(2μ0 I/c).) Writing I = c ε0 E0^2, without the factor 1/2, gives E0 ≈ 1.06 × 10^8 V m^-1 and B0 ≈ 0.35 T; stopping at B0^2 ≈ 0.25 and forgetting the square root gives 0.25 T; treating the E0 found from the intensity as an rms value and multiplying by √2 gives 0.71 T.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Electromagnetic Waves",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Physics Part I (leph108, Reprint 2026-27), Ch 8 Electromagnetic Waves: 8.3.2, p 207 (B0 = E0/c; the wave carries energy) and Summary 4, p 212 (E0/B0 = c). The intensity relation I = (1/2) c ε0 E0^2 is not in the rationalised "
+   ],
+   "topic": "Electromagnetic Waves",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "bc1541f4-9c6d-4072-9d30-9693617fee55",
+   "subject": "physics",
+   "chapter": "Wave Optics",
+   "question": null,
+   "body": "Match List-I with List-II for a Young's double-slit set-up.\nList-I (Change made)\n(A) One of the two slits is covered with an opaque sheet\n(B) The single slit that lights the two slits is made wider\n(C) Green light is replaced by red light\n(D) One of the two slits is made slightly wider than the other\nList-II (Effect on the pattern)\n(I) Bright fringes become brighter and dark fringes are no longer fully dark\n(II) The fringes move farther apart\n(III) The fringes become less sharp\n(IV) The interference fringes disappear\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+    },
+    {
+     "key": "B",
+     "text": "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)"
+    },
+    {
+     "key": "C",
+     "text": "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)"
+    },
+    {
+     "key": "D",
+     "text": "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "(A)-(IV): interference needs two coherent waves. With one slit closed only one wave reaches the screen, so the interference pattern disappears; the screen shows just the broad single-slit diffraction pattern of the open slit. (B)-(III): a wider source slit acts like many point sources side by side; each gives a fringe pattern slightly shifted from the others, and their overlap blurs the fringes, so the pattern becomes less sharp (and with a wide enough source slit the fringes vanish). (C)-(II): the fringe spacing is β = λD/d; red light has a longer wavelength, that is a smaller frequency, than green light, so the fringes spread farther apart. Light of smaller frequency always gives wider fringes. (D)-(I): a wider slit lets through more light, so the two waves have unequal amplitudes a1 > a2. The maximum intensity, proportional to (a1 + a2)^2, increases, while the minimum, proportional to (a1 − a2)^2, is no longer zero, so the bright fringes get brighter and the dark ones are not fully dark. Swapping (A) and (B) confuses losing the pattern with blurring it; giving (B) brighter fringes or wider spacing mixes up the source slit with the two slits.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:match_the_following",
+    "unit:Optics",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Physics Part II (leph202, Reprint 2026-27), Ch 10 Wave Optics: 10.4, p 263 (intensity proportional to the square of the amplitude; I = 4I0 for equal amplitudes); 10.5, p 265-266 (coherent sources from one source slit; fringe "
+   ],
+   "topic": "Optics",
+   "question_type": "match_the_following",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "4f0f2822-6c49-4610-8361-d666aa8d1296",
+   "subject": "physics",
+   "chapter": "Wave Optics",
+   "question": null,
+   "body": "In a double-slit interference arrangement, the two slits are 0.36 mm and 0.16 mm wide. The ratio of the intensity at the bright fringes to that at the dark fringes is",
+   "options": [
+    {
+     "key": "A",
+     "text": "13 : 5"
+    },
+    {
+     "key": "B",
+     "text": "5 : 1"
+    },
+    {
+     "key": "C",
+     "text": "25 : 1"
+    },
+    {
+     "key": "D",
+     "text": "9 : 4"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "In such problems the intensity of the light reaching the screen from each slit is taken to be proportional to the slit's width (a slit twice as wide lets through twice as much light). So the two waves have intensities in the ratio I1 : I2 = 0.36 : 0.16 = 9 : 4. Intensity is proportional to the square of the amplitude, so the amplitudes are in the ratio a1 : a2 = √9 : √4 = 3 : 2. At a bright fringe the two amplitudes add and at a dark fringe they subtract, so Imax : Imin = (a1 + a2)^2 : (a1 − a2)^2 = (3 + 2)^2 : (3 − 2)^2 = 25 : 1. The dark fringes are not completely dark because the two waves are unequal. Quoting 9 : 4 stops at the intensity ratio of the two slits; 5 : 1 forgets to square (a1 + a2)/(a1 − a2); 13 : 5 adds and subtracts the intensities, (9 + 4) : (9 − 4), instead of the amplitudes.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Optics",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Physics Part II (leph202, Reprint 2026-27), Ch 10 Wave Optics: 10.4, p 263-264 (intensity proportional to the square of the amplitude; amplitudes add for constructive and subtract for destructive interference, I = 4I0 cos²(φ/"
+   ],
+   "topic": "Optics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "348622de-cdf5-435b-a658-8b18520f9cf2",
+   "subject": "political_science",
+   "chapter": "International Organisations",
+   "question": null,
+   "body": "Five of the six principal organs of the United Nations are based at the UN Headquarters in New York; one has its seat in another country. Which of the following pairs of a principal organ and the city where it is based is correctly matched?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Security Council - Geneva"
+    },
+    {
+     "key": "B",
+     "text": "International Court of Justice - The Hague"
+    },
+    {
+     "key": "C",
+     "text": "General Assembly - Vienna"
+    },
+    {
+     "key": "D",
+     "text": "Trusteeship Council - Nairobi"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "The International Court of Justice (ICJ) is the principal judicial organ of the United Nations, and its seat is the Peace Palace in The Hague, Netherlands. It is the only one of the six principal organs that is not based at the UN Headquarters in New York. Its 15 judges are elected for nine-year terms by the General Assembly and the Security Council, and it settles legal disputes between states and gives advisory opinions. The General Assembly, the Security Council, the Economic and Social Council, the Trusteeship Council and the Secretariat are all based in New York (the Trusteeship Council suspended its work in 1994, when Palau, the last UN trust territory, became independent). Geneva hosts a UN office and bodies such as the World Health Organisation and the Human Rights Council, Vienna hosts the International Atomic Energy Agency, Nairobi hosts the UN Environment Programme, and Washington, DC hosts the IMF and the World Bank, but none of these cities is the seat of the ICJ.",
+   "difficulty": "easy",
+   "difficulty_weight": 1,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Contemporary World Politics",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Contemporary World Politics, Ch 4 International Organisations (leps104): the principal organs of the UN, including the International Court of Justice (exercise 7, printed p.61). The ICJ's seat is not printed in the NCERT text"
+   ],
+   "topic": "Contemporary World Politics",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+   "subject": "sociology",
+   "chapter": "Structural Change",
+   "question": null,
+   "body": "Match List-I (how a village is linked to urban life) with List-II (the urban impact on the village).\nList-I\n(A) Villages such as Madhopur, many of whose people work in far-off cities like Bombay and Calcutta\n(B) Villages around Bhilai\n(C) Villages on the fringe of a growing metropolis\n(D) Remote villages reached by mass media\nList-II\n(I) Images of urban life styles and patterns of consumption, which create new desires and aspirations\n(II) Money sent home regularly, and new houses built by emigrants in their natal villages\n(III) A few villages are absorbed completely, and only the land of many others is used for urban development\n(IV) An influx of immigrant workers, which creates a demand for houses and a market inside the village\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "M.S.A. Rao showed that the urban impact on a village depends on the kind of link the village has with a city, and he described three situations; mass media are a further channel, described in NCERT's chapter on the demographic structure. Rao's first situation is the village from which many people have sought work in far-off cities, leaving their families behind. In Madhopur, a village in north central India, 77 of 298 households have migrants, a little less than half of them in Bombay and Calcutta; about 75 per cent of the migrants send money home regularly, and most visit the village. Overseas emigrants from Gujarat villages have built fashionable houses in their natal villages and invested in land and industry. The city stays far away, but its money comes home, so (A) matches (II). When an industrial town like Bhilai comes up in the midst of villages, some villages are totally uprooted and the lands of others are partially acquired; these receive an influx of immigrant workers, which stimulates a demand for houses and a market inside the village and creates problems of ordering relationships between the native residents and the immigrants, so (B) matches (IV). This is the case in which urban life is physically transplanted into the rural setting: industrialisation brings the town's workers, their demand for housing and a market into the village itself. The growth of a metropolitan city is Rao's third situation: a few villages are totally absorbed in its expansion, while only the land of many others, excluding the inhabited area, is used for urban development, so (C) matches (III). Mass media and communication bring images of urban life styles and patterns of consumption into rural areas, so urban norms become known even in remote villages and create new desires and aspirations, but nothing urban arrives in person, so (D) matches (I). The correct matching is (A)-(II), (B)-(IV), (C)-(III), (D)-(I). Two traps: the immigrant workers around Bhilai come because of the industrial town, so they are not the out-migration of Madhopur, where villagers leave; and both the industrial town and the metropolis take village land, but in Rao's account it is the industrial town that brings an influx of immigrant workers, with their demand for houses and a market, inside the village.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:match_the_following",
+    "unit:Social Change and Development in India",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Class 12 Social Change and Development in India, Ch 1 Structural Change (lesy201), Box 1.7, printed p.11: M.S.A. Rao's three kinds of urban impact (Madhopur migrants in Bombay and Calcutta sending money home; Gujarat emigrants buildin"
+   ],
+   "topic": "Social Change and Development in India",
+   "question_type": "match_the_following",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  }
+ ]
+}
