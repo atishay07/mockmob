@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-23T14:38:10.086Z",
+ "builtAt": "2026-11-23T17:49:47.053Z",
  "snapshotDate": "2026-11-23",
  "snapshotDay": "23 November 2026",
  "snapshotDates": [
@@ -51,12 +51,12 @@
    "shift": "first shift",
    "total": 50,
    "counted": 50,
-   "covered": 48,
-   "pct": 96,
+   "covered": 49,
+   "pct": 98,
    "same": 13,
    "newValues": 0,
-   "concept": 35,
-   "notYet": 2,
+   "concept": 36,
+   "notYet": 1,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -65,7 +65,7 @@
    "firstPct": 74,
    "firstDay": "22 November 2026",
    "addedCards": 6,
-   "addedQuestions": 3,
+   "addedQuestions": 4,
    "found": 2
   },
   {
@@ -77,12 +77,12 @@
    "shift": "first shift",
    "total": 50,
    "counted": 49,
-   "covered": 48,
-   "pct": 98,
+   "covered": 49,
+   "pct": 100,
    "same": 5,
    "newValues": 4,
-   "concept": 39,
-   "notYet": 1,
+   "concept": 40,
+   "notYet": 0,
    "skill": 1,
    "offSyllabus": 0,
    "dropped": 0,
@@ -91,7 +91,7 @@
    "firstPct": 61,
    "firstDay": "20 November 2026",
    "addedCards": 11,
-   "addedQuestions": 7,
+   "addedQuestions": 8,
    "found": 0
   },
   {
@@ -129,12 +129,12 @@
    "shift": "second shift",
    "total": 50,
    "counted": 43,
-   "covered": 39,
-   "pct": 91,
+   "covered": 41,
+   "pct": 95,
    "same": 10,
    "newValues": 1,
-   "concept": 28,
-   "notYet": 4,
+   "concept": 30,
+   "notYet": 2,
    "skill": 7,
    "offSyllabus": 0,
    "dropped": 0,
@@ -143,7 +143,7 @@
    "firstPct": 60,
    "firstDay": "22 November 2026",
    "addedCards": 9,
-   "addedQuestions": 4,
+   "addedQuestions": 6,
    "found": 0
   },
   {
@@ -155,12 +155,12 @@
    "shift": "second shift",
    "total": 50,
    "counted": 42,
-   "covered": 40,
-   "pct": 95,
-   "same": 12,
+   "covered": 42,
+   "pct": 100,
+   "same": 13,
    "newValues": 0,
-   "concept": 28,
-   "notYet": 2,
+   "concept": 29,
+   "notYet": 0,
    "skill": 8,
    "offSyllabus": 0,
    "dropped": 0,
@@ -169,7 +169,7 @@
    "firstPct": 67,
    "firstDay": "22 November 2026",
    "addedCards": 11,
-   "addedQuestions": 1,
+   "addedQuestions": 3,
    "found": 0
   },
   {
@@ -233,12 +233,12 @@
    "shift": "first shift",
    "total": 50,
    "counted": 41,
-   "covered": 35,
-   "pct": 85,
+   "covered": 37,
+   "pct": 90,
    "same": 5,
    "newValues": 0,
-   "concept": 30,
-   "notYet": 6,
+   "concept": 32,
+   "notYet": 4,
    "skill": 9,
    "offSyllabus": 0,
    "dropped": 0,
@@ -247,19 +247,19 @@
    "firstPct": 73,
    "firstDay": "22 November 2026",
    "addedCards": 5,
-   "addedQuestions": 0,
+   "addedQuestions": 2,
    "found": 0
   }
  ],
  "total": {
   "counted": 416,
-  "covered": 397,
-  "same": 85,
+  "covered": 405,
+  "same": 86,
   "newValues": 21,
-  "concept": 291,
-  "notYet": 19,
+  "concept": 298,
+  "notYet": 11,
   "skill": 39,
-  "pct": 95
+  "pct": 97
  },
  "firstCheck": {
   "from": "2026-11-20",
@@ -270,7 +270,7 @@
   "counted": 416,
   "pct": 69,
   "addedCards": 72,
-  "addedQuestions": 35,
+  "addedQuestions": 43,
   "found": 2,
   "same": 67,
   "newValues": 4,
@@ -414,7 +414,7 @@
     "subject": "biology",
     "chapter": "Human Reproduction",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 19,
     "practice": true
    },
@@ -510,7 +510,7 @@
     "subject": "business-studies",
     "chapter": "Financial Management",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 13,
     "practice": true
    },
@@ -766,7 +766,7 @@
     "subject": "geography",
     "chapter": "Human Settlements",
     "asked": 3,
-    "covered": 2,
+    "covered": 3,
     "served": 22,
     "practice": true
    },
@@ -782,7 +782,7 @@
     "subject": "geography",
     "chapter": "Transport and Communication (India)",
     "asked": 3,
-    "covered": 2,
+    "covered": 3,
     "served": 0,
     "practice": true
    },
@@ -886,7 +886,7 @@
     "subject": "history",
     "chapter": "Kings, Farmers & Towns",
     "asked": 4,
-    "covered": 3,
+    "covered": 4,
     "served": 36,
     "practice": true
    },
@@ -910,7 +910,7 @@
     "subject": "history",
     "chapter": "Kinship, Caste & Class",
     "asked": 2,
-    "covered": 1,
+    "covered": 2,
     "served": 14,
     "practice": true
    },
@@ -1158,7 +1158,7 @@
     "subject": "sociology",
     "chapter": "Social Movements",
     "asked": 3,
-    "covered": 2,
+    "covered": 3,
     "served": 19,
     "practice": true
    },
@@ -1190,13 +1190,30 @@
     "subject": "sociology",
     "chapter": "Mass Media & Communications",
     "asked": 1,
-    "covered": 0,
+    "covered": 1,
     "served": 27,
     "practice": true
    }
   ]
  },
- "skipped": [],
+ "skipped": [
+  {
+   "id": "chemistry",
+   "why": "paper without both checks"
+  },
+  {
+   "id": "computer-science",
+   "why": "paper without both checks"
+  },
+  {
+   "id": "mathematics",
+   "why": "paper without both checks"
+  },
+  {
+   "id": "physics",
+   "why": "paper without both checks"
+  }
+ ],
  "held": [],
  "showMinPct": 80
 }

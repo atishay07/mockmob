@@ -1,0 +1,64 @@
+{
+ "kind": "authored_publish_restore",
+ "version": "authored-publish-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "reason": "CUET 2026 coverage wave 6 batch 2: 8 rewritten questions replacing held rows",
+ "at": "2026-11-23T17:49:38.564Z",
+ "target": "isrxrxzjocewrdureyhp.supabase.co",
+ "planHash": "a4e544358b750de5cfd6925ba7d4d570c5598003183a4f6a0764ad5e0804c452",
+ "planFile": "docs/brain/reports/authored-publish/authored-publish-plan-2026-11-23T17-42-13-764Z.json",
+ "questionIds": [
+  "447d2a3e-1a7e-439d-9fd4-069683176986",
+  "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+  "b6e90110-d676-44a1-be96-bb7160e1348f",
+  "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+  "41872980-a987-49d2-8cd1-26271b83aa6d",
+  "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+  "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+  "48a626c5-4374-472e-b4a9-2590a42dd482"
+ ],
+ "groupIds": [],
+ "topUpGroupIds": [],
+ "rows": [
+  {
+   "id": "447d2a3e-1a7e-439d-9fd4-069683176986",
+   "subject": "biology",
+   "contentHash": "180e130951364f0f42d5d39b3a1a1fd344fe3c98791bb8c31c723a395e188dc3"
+  },
+  {
+   "id": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+   "subject": "business_studies",
+   "contentHash": "8f6fe62fb1625122114ada9d010dc253af22c7520966400667027b3723f3e08b"
+  },
+  {
+   "id": "b6e90110-d676-44a1-be96-bb7160e1348f",
+   "subject": "geography",
+   "contentHash": "eaaad0ac196aee9562290a97547dd1dade5c62233ae57fe22f6bfdf29ff08ed5"
+  },
+  {
+   "id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+   "subject": "geography",
+   "contentHash": "11dc9429b664193561b37cdc6868b961d4ed791a219b268ebfb970eec481794f"
+  },
+  {
+   "id": "41872980-a987-49d2-8cd1-26271b83aa6d",
+   "subject": "history",
+   "contentHash": "8789dc0a2b784032d4f8116ce10ccdc98514ac1e2066cd585f526970e6f79b3f"
+  },
+  {
+   "id": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+   "subject": "history",
+   "contentHash": "ba493b8f15ecc276b92211791eef0d97cda7a2a6f54edac22c35ac283d623723"
+  },
+  {
+   "id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+   "subject": "sociology",
+   "contentHash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a"
+  },
+  {
+   "id": "48a626c5-4374-472e-b4a9-2590a42dd482",
+   "subject": "sociology",
+   "contentHash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d"
+  }
+ ]
+}

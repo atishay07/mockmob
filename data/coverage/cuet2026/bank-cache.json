@@ -194,6 +194,21 @@
   "explanation": "Maslow's hierarchy rises from physiological needs (food, water, sleep, shelter), to safety needs (job security, a stable income, pension plans), social needs (affection, friendship, acceptance), esteem needs (self-respect, autonomy, status, recognition) and finally self-actualisation needs. Self-actualisation is the drive to become what one is capable of becoming, and it includes growth, self-fulfilment and the achievement of goals. It sits at the top, and a person turns to esteem only after the social needs below it are met.",
   "from": "read-only fetch 2026-11-22"
  },
+ "41872980-a987-49d2-8cd1-26271b83aa6d": {
+  "subject": "history",
+  "chapter": "Kings, Farmers & Towns",
+  "stem": "Match List-I (early states of the sixth century BCE) with List-II (where they lay).\nList-I\n(A) Gandhara\n(B) Matsya\n(C) Avanti\n(D) Ashmaka\nList-II\n(I) In the Deccan, along the river Godavari\n(II) In Malwa, around the city of Ujjayini\n(III) In the far north-west, around the city of Taxila\n(IV) Just west of Mathura, in present-day eastern Rajasthan\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+   "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+   "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+   "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+  ],
+  "key": 1,
+  "explanation": "NCERT's Map 1, 'Early states and their capitals', places all four. Gandhara is in the far north-west of the subcontinent, with its cities Taxila and Pushkalavati; only Kamboja is marked further north (A-III). Matsya lies just west of Mathura, the capital of its neighbour Shurasena, and south-west of Kuru and Indraprastha; its land is present-day eastern Rajasthan, around Jaipur and Alwar, and its capital was Viratanagara (B-IV). Avanti, with its capital Ujjayini, lies further south, in Malwa in present-day Madhya Pradesh (C-II). Ashmaka is the southernmost state on the map: it lay in the Deccan, along the river Godavari, far south of Ujjayini (D-I). Read from north to south, the four therefore run Gandhara, Matsya, Avanti, Ashmaka. The commonest slip is to swap the two southern states: Avanti is the one around Ujjayini, and Ashmaka lies well beyond it in the Deccan. Many of the other mahajanapadas, such as Koshala, Kashi, Vatsa, Vajji, Magadha and Anga, lay close together in the Ganga valley.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "43e60b95-10cb-4861-822a-678a501c2050": {
   "subject": "accountancy",
   "chapter": "Share Capital",
@@ -209,6 +224,21 @@
   "explanation": "The amount payable in shares = purchase price − cash paid = 2,60,000 − 20,000 = 2,40,000. Issue price per share = face value + premium = 10 + 25% of 10 = 10 + 2.50 = ₹ 12.50. Number of shares = amount payable in shares ÷ issue price = 2,40,000 ÷ 12.50 = 19,200. Dividing by the face value of 10 gives 24,000, dividing the whole price by the issue price gives 20,800, and dividing the whole price by the face value gives 26,000.",
   "from": "read-only fetch 2026-11-22"
  },
+ "447d2a3e-1a7e-439d-9fd4-069683176986": {
+  "subject": "biology",
+  "chapter": "Human Reproduction",
+  "stem": "Consider the following statements about the hormonal control of childbirth in humans.\n(A) Signals from the fully developed foetus and the placenta set off mild uterine contractions called the foetal ejection reflex.\n(B) The foetal ejection reflex triggers the release of oxytocin from the maternal pituitary.\n(C) Stronger uterine contractions cut down the further secretion of oxytocin.\n(D) Cortisol, estrogens and oxytocin are involved in inducing parturition.\n(E) Prolactin is one of the hormones that bring about parturition.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A), (B), (D) and (E) only",
+   "(A), (B) and (D) only",
+   "(A), (B), (C) and (D) only",
+   "(B), (D) and (E) only"
+  ],
+  "key": 1,
+  "explanation": "Parturition is induced by a complex neuroendocrine mechanism. Its signals come from the fully developed foetus and the placenta, which set off mild uterine contractions called the foetal ejection reflex, so (A) is true. This reflex triggers the release of oxytocin from the maternal pituitary, so (B) is true. Oxytocin acts on the uterine muscle and causes stronger contractions, and these in turn stimulate further secretion of oxytocin; this stimulatory reflex goes on, with stronger and stronger contractions, until the baby is expelled through the birth canal. The contractions therefore raise oxytocin secretion, they do not cut it down, so (C) is false. NCERT names the hormones of this mechanism as cortisol, estrogens and oxytocin, so (D) is true. Prolactin is not one of them, so (E) is false: its level rises several-fold in the mother's blood during pregnancy, and it is the anterior pituitary hormone that regulates the growth of the mammary glands and the formation of milk (milk production begins towards the end of pregnancy, by lactation), but it does not induce parturition. Of estrogens, cortisol, oxytocin and prolactin, only prolactin is not involved in parturition. The true statements are (A), (B) and (D).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "4635494f-c14e-42a9-839b-8745eab4ec6d": {
   "subject": "accountancy",
   "chapter": "Share Capital",
@@ -223,6 +253,21 @@
   "key": 3,
   "explanation": "The shareholder paid only the application money of ₹ 4 per share. The allotment money, which includes the premium of ₹ 2, was never received, so the premium is not part of the forfeited amount. Amount forfeited = 500 × 4 = 2,000. On reissue as fully paid at ₹ 8, the discount allowed = 500 × (10 − 8) = 1,000. This discount is within the forfeited amount of ₹ 4 per share, so it is permitted. Capital Reserve = amount forfeited − discount on reissue = 2,000 − 1,000 = 1,000. Stopping at the forfeited amount gives 2,000, counting the unpaid premium as forfeited gives 500 × 6 = 3,000, and the reserve is not nil because the discount is smaller than the forfeited amount.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "48a626c5-4374-472e-b4a9-2590a42dd482": {
+  "subject": "sociology",
+  "chapter": "Mass Media & Communications",
+  "stem": "Consider the following statements about soap operas.\nI. A soap opera is serialised and continuous: individual stories end, but the soap itself has no ending until it is taken off the air.\nII. Buniyaad, aired before Hum Log, was India's first long-running soap opera.\nIII. Hum Log placed educational content on themes such as gender equality and small family size inside an entertainment programme.\nIV. The advertising carried by Hum Log made little difference to Doordarshan, which stayed free of commercial pressure.\nWhich statements are correct?",
+  "passage": null,
+  "options": [
+   "I and III only",
+   "I, II and III only",
+   "I, III and IV only",
+   "III and IV only"
+  ],
+  "key": 0,
+  "explanation": "Statements I and III are correct. Soap operas are stories that are serialised and continuous: individual stories may come to an end and different characters appear and disappear, but the soap itself has no ending until it is taken off the air completely, and it presumes a history that the regular viewer knows, so I is correct. Hum Log (1984-85) was India's first long-running soap opera: some 156 episodes were broadcast in Hindi over 17 months. It used the entertainment-education strategy, intentionally placing educational content in an entertainment programme, and promoted social themes such as gender equality, small family size and national integration, so III is correct. Buniyaad came later, in 1986-87, so II is wrong. Hum Log's advertising promoted a new consumer product, Maggi 2-Minute noodles; advertisers began to line up to buy airtime, and the commercialisation of Doordarshan began, so IV is wrong. Where the genre and its name come from: soap operas began in the United States in the 1930s as daytime radio serials, many of them sponsored by soap manufacturers, which gave the genre its name. They went out in the daytime, when most listeners were housewives, so they were made for a mainly female audience, and women remain the main target audience of most soap operas.",
+  "from": "read-only fetch 2026-11-23"
  },
  "55e6c5a0-db6b-47d6-8901-71a9a8c983f5": {
   "subject": "accountancy",
@@ -268,6 +313,21 @@
   "key": 3,
   "explanation": "Broad gauge (1,676 mm) carries most of the Indian Railways route length. Metre and narrow gauge cover much smaller shares, and dual gauge describes a track laid with two gauges rather than a separate gauge.",
   "from": "saved read-only snapshot geography/bank_geography.json"
+ },
+ "5aa6c346-d91c-4430-9334-dc8fdf2a627e": {
+  "subject": "geography",
+  "chapter": "Transport & Communication",
+  "stem": "Consider the following statements about the zones of Indian Railways.\n(A) The network is divided into zones because a network this large is hard to manage centrally.\n(B) The North Central zone has its headquarters at Gorakhpur.\n(C) The East Central zone has its headquarters at Hajipur, in Bihar.\n(D) Kolkata is the headquarters of more than one zone.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A), (B) and (D) only",
+   "(A), (C) and (D) only",
+   "(B), (C) and (D) only",
+   "(A), (B) and (C) only"
+  ],
+  "key": 1,
+  "explanation": "NCERT explains that the very large size of Indian Railways puts a lot of pressure on a centralised management system, and so the network has been divided into zones; its Table 7.2 lists 17 zones with their headquarters. The North Central zone is headquartered at Prayagraj in Uttar Pradesh; Gorakhpur, also in Uttar Pradesh, is the headquarters of the North Eastern zone, so (B) is false. The table gives Hajipur for the East Central zone; Hajipur, in Vaishali district across the Ganga from Patna, is in Bihar, and no other zone has its headquarters in that State. Kolkata, in West Bengal, is the headquarters of the Eastern zone, the South Eastern zone and the Metro Railway, so (D) is true. Hence (A), (C) and (D) are correct.",
+  "from": "read-only fetch 2026-11-23"
  },
  "659edc5d-f549-4be3-aa29-e8c23a2d9b3b": {
   "subject": "economics",
@@ -479,6 +539,21 @@
   "explanation": "Place each refinery by its State and rough longitude. Digboi is in Assam (about 95.6 degrees E), the easternmost; it is NCERT's example of a field-based refinery. Mathura is in western Uttar Pradesh (about 77.7 degrees E). Panipat is in Haryana, a little west of Mathura (about 77 degrees E). Bathinda is in Punjab (about 75 degrees E), the westernmost of the four. East to west: Digboi, Mathura, Panipat, Bathinda, that is (A), (B), (D), (C). Barauni in Bihar (about 86 degrees E), NCERT's example of a market-based refinery, lies between Digboi and Mathura; Asia's first cross-country pipeline ran to it from Naharkatiya in Assam. So from west to east the line runs Bathinda, Panipat, Mathura, Barauni, Digboi. The order (C), (D), (B), (A) is west to east, the reverse of what is asked.",
   "from": "read-only fetch 2026-11-23"
  },
+ "99c9d26b-38bd-46b6-8943-648ba3558ee1": {
+  "subject": "history",
+  "chapter": "Kinship, Caste & Class",
+  "stem": "Which of the following texts prescribed that, once a man and his wife had both died, their sons should split his property into equal portions, the eldest son receiving something extra on top of his portion?",
+  "passage": null,
+  "options": [
+   "Rigveda",
+   "Majjhima Nikaya",
+   "Manusmriti",
+   "Purananuru"
+  ],
+  "key": 2,
+  "explanation": "The rule is the Manusmriti's: after the death of the father and the mother, the brothers divide the paternal estate equally among themselves, and the eldest receives an additional share over and above his own (Manusmriti IX.104 and IX.112). NCERT's 2026-27 text gives the rule in general terms: according to the smriti tradition, the paternal property was to be divided equally amongst the children after the death of the parents, with a special share for the eldest. It adds that women could keep the gifts they received at marriage as stridhana, which their children could inherit and over which the husband had no claim. The Manusmriti, compiled in Sanskrit between c. 200 BCE and 200 CE, is the most important of the Dharmasutras and Dharmashastras, the texts in which Brahmanas laid down codes of social behaviour. The other three texts appear in the same chapter for other reasons. A Rigveda mantra chanted at weddings, probably inserted c. 1000 BCE, prays that the bride will have fine sons: it shows a concern with patriliny, but the Rigveda is a collection of ritual hymns, not a code of inheritance. The Majjhima Nikaya, a Buddhist text in Pali, holds the dialogue in which King Avantiputta and Kachchana question the Brahmanas' claim to be the best caste by birth. The Purananuru (spelt Puranaruru in NCERT), an anthology of Tamil Sangam poems, praises a poor but generous chief: it shows that those who controlled resources in Tamilakam were expected to share them, not how a father's estate was divided.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "a15240a0-f48c-4343-8e00-183603543c47": {
   "subject": "business_studies",
   "chapter": "Financial Markets",
@@ -584,6 +659,36 @@
   "explanation": "Atropa belladonna and Datura are well-known plants with hallucinogenic properties (A). Cocaine comes from the coca plant Erythroxylum coca; it has a potent stimulating action on the central nervous system, and an excessive dosage causes hallucinations (B). Rauwolfia is different: NCERT names Rauwolfia vomitoria as a medicinal plant whose active chemical is reserpine, and reserpine is used in medicine to lower blood pressure (it has also been used as a tranquilliser); Rauwolfia is not a hallucinogen (C). Natural cannabinoids come from the inflorescences of Cannabis sativa, while the latex of the poppy Papaver somniferum gives morphine, from which heroin is made, so (D) is false.",
   "from": "read-only fetch 2026-11-23"
  },
+ "b573e6fe-3a72-4d9a-94b6-929c428b35bd": {
+  "subject": "sociology",
+  "chapter": "Social Movements",
+  "stem": "Consider the following statements about the struggle for the right to vote.\nI. In Britain, voting rights were once limited to men who owned property.\nII. The People's Charter, signed by more than 1.25 million people in 1839, asked for the vote for every adult man and woman.\nIII. In 1918, British women got the right to vote on the same terms as men.\nIV. In Britain, universal adult franchise came only after the long struggles of social movements such as Chartism and the suffragettes' campaign.\nWhich statements are correct?",
+  "passage": null,
+  "options": [
+   "I, II and IV only",
+   "I and IV only",
+   "I, III and IV only",
+   "II, III and IV only"
+  ],
+  "key": 1,
+  "explanation": "Statements I and IV are correct. Universal adult franchise, the right of every adult to vote, is one of the foremost rights guaranteed by the Indian Constitution. Yet in Britain, too, not everyone could vote at first: voting rights were limited to property-owning men, so I is correct. Chartism was a social movement for parliamentary representation in England. In 1839 more than 1.25 million people signed the People's Charter, which asked for universal male suffrage, voting by ballot and the right to stand for elections without owning property, and in 1842 the movement collected 3.25 million signatures. The Charter asked for the vote for all men, not for women, so II is wrong. Only after World War I, in 1918, did all men over 21 get the vote, while among women only those over 30 who were married, owned houses or were university graduates got it; women did not yet vote on the same terms as men, so III is wrong. When the suffragettes took up the cause of all adult women's right to vote, they were bitterly opposed and their movement violently crushed, yet the struggle for women's votes went on. Equal votes for women came only with the Representation of the People (Equal Franchise) Act of 1928, which gave all women over 21 the vote on the same terms as men. So universal adult suffrage in Britain was the outcome of the long struggles of social movements such as Chartism and the suffragettes' campaign, and IV is correct. NCERT tells this story to make the chapter's point: the rights we enjoy did not just happen to exist; the struggles of the past made them possible.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "b6e90110-d676-44a1-be96-bb7160e1348f": {
+  "subject": "geography",
+  "chapter": "Human Settlements",
+  "stem": "Consider the following statements about the level of urbanisation.\n(A) It is measured as the percentage of urban population to total population.\n(B) India's level of urbanisation in 2011 was a little over 31 per cent.\n(C) More than half of the world's population now lives in urban areas.\n(D) In 2011, India's level of urbanisation was higher than the world's.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A), (B) and (C) only",
+   "(A), (B) and (D) only",
+   "(B), (C) and (D) only",
+   "(A), (C) and (D) only"
+  ],
+  "key": 0,
+  "explanation": "NCERT measures the level of urbanisation as the percentage of urban population to total population, and gives India's level in 2011 as 31.16 per cent, which it calls quite low in comparison to developed countries; so (A) and (B) are true. NCERT also states that at present 55 per cent of the world's population lives in cities, a share estimated to rise to 68 per cent by 2050; so (C) is true. On each country's own definition of urban, more than half of the world's people have lived in urban areas since about 2007, so in 2011 the world's level was already a little over 50 per cent, far above India's 31 per cent, and (D) is false. Hence (A), (B) and (C) are correct. The world's present level of urbanisation (55 per cent in NCERT, a little under 60 per cent in the early 2020s) therefore lies between 50 and 75 per cent: well above India's, but below highly urbanised regions such as Northern America (about 82 per cent).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "c53a951d-2fd7-4ca8-9099-e78a8f067659": {
   "subject": "history",
   "chapter": "Peasants, Zamindars & the State",
@@ -613,6 +718,21 @@
   "key": 2,
   "explanation": "Gardner identified eight independent intelligences: linguistic, logical-mathematical, spatial, musical, bodily-kinaesthetic, interpersonal, intrapersonal and naturalistic. Componential intelligence belongs to Sternberg's triarchic theory.",
   "from": "saved read-only snapshot psychology/bank_psychology.json"
+ },
+ "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025": {
+  "subject": "business_studies",
+  "chapter": "Financial Management",
+  "stem": "Which of the following statements about EBIT-EPS analysis are correct?\n(A) Interest on debt is deducted from EBIT to arrive at earnings before tax (EBT).\n(B) Tax is worked out on EBIT, before the interest on debt is deducted.\n(C) Earnings after tax (EAT) are found by deducting tax from EBT.\n(D) EPS is obtained by dividing EAT by the number of equity shares.\n(E) Using more debt raises EPS when the return on investment is lower than the rate of interest on debt.\nChoose the correct answer from the options given below.",
+  "passage": null,
+  "options": [
+   "(A), (B) and (D) only",
+   "(A), (C), (D) and (E) only",
+   "(A), (C) and (D) only",
+   "(A), (B), (C) and (D) only"
+  ],
+  "key": 2,
+  "explanation": "EBIT-EPS analysis works in a fixed order: earnings before interest and taxes (EBIT), less interest on debt, gives earnings before tax (EBT), so (A) is true. Tax is charged on EBT, the profit left after interest, not on EBIT, so (B) is false. EBT less tax gives earnings after tax (EAT), so (C) is true, and EAT divided by the number of equity shares gives earnings per share (EPS), so (D) is true. The order of working is therefore EBIT, interest on debt, EBT, tax, EAT, EPS. Debt raises EPS only when the return on investment (EBIT ÷ total investment × 100) is higher than the rate of interest on debt: this is favourable financial leverage, and using more of the cheaper debt to raise EPS is called trading on equity. When the return on investment is lower than the interest rate, more debt lowers EPS (unfavourable financial leverage) and trading on equity is unadvisable, so (E) is false. The true statements are (A), (C) and (D).",
+  "from": "read-only fetch 2026-11-23"
  },
  "d5df54d1-8059-4006-9057-e9be2f2502bb": {
   "subject": "business_studies",

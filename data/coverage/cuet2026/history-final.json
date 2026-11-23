@@ -84,12 +84,12 @@
    "n": 8,
    "chapter": "Kings, Farmers & Towns",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "41872980-a987-49d2-8cd1-26271b83aa6d",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Nothing served places Gandhara, Matsya, Avanti and Ashmaka north to south; NCERT shows it only on Map 1 (lehs102 p.30), so only a bank question can close it."
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 9,
@@ -150,12 +150,12 @@
    "n": 14,
    "chapter": "Kinship, Caste & Class",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "same",
+   "best": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Nothing served names the Manusmriti for the inheritance rule; NCERT 2026-27 says \"the smriti tradition\", so only a careful bank question can close it."
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 15,

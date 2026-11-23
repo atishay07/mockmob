@@ -414,12 +414,12 @@
    "n": 38,
    "chapter": "Human Reproduction",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": "kc.biology.human-reproduction.fact-parturition-hormones",
-   "bestKind": "card",
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "447d2a3e-1a7e-439d-9fd4-069683176986",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "New card names cortisol, estrogens and oxytocin as the hormones of the neuroendocrine mechanism that induces parturition (lebo102 p.39), but nothing served states what prolactin does (its milk role is Class XI text); the only served mention ties prolactin to breastfeeding and suppressed ovulation (LAM row), so prolactin is reached by elimination only: not covered."
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 39,

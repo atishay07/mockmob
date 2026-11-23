@@ -1,0 +1,695 @@
+{
+ "kind": "authored_w6_final_acceptance",
+ "source": "claude-authored-2026-11-23-w6",
+ "date": "2026-11-23",
+ "built_at": "2026-11-23T17:42:03.991Z",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "rule": {
+  "solversMatchingKeyAtLeast": 4,
+  "solversRequired": 5,
+  "qualityScoreAtLeast": 7,
+  "qualityFlagsAllowed": 0,
+  "qualityBlindAnswerMustEqualKey": true,
+  "fitMedianAtLeast": 8,
+  "fitFlaggedByFewerThan": 2,
+  "source": "docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md (acceptance rule), docs/brain/RUNBOOK-PUBLISH-AUTHORED-2026-10-14.md section 0"
+ },
+ "publish_rule": {
+  "qualityMeanAtLeast": 8,
+  "fitMedianAtLeast": 8
+ },
+ "inputs": {
+  "expert": "docs/brain/reports/authored-w6/expert-b2",
+  "resolve": "tmp/1123-close/integrate/scoring2/resolve",
+  "fresh": [
+   "tmp/1123-close/integrate/scoring2/reword"
+  ],
+  "raw": "tmp/1123-close/integrate/scoring2",
+  "first_pass_acceptance": "docs/brain/reports/authored-w6/wave6b2-acceptance-2026-11-23.json",
+  "expert_files": [],
+  "expert_conflicts": [],
+  "blind_resolve_files_present": 0,
+  "fresh_pass_ids": 0,
+  "fresh_pass_partial": []
+ },
+ "note": "Wave-6 final acceptance, built by scripts/authored-w2-accept.mjs --wave=w6b2 --mode=final. Hindi is not in any file (no fluent reviewer). Repairs are applied from the expert verdicts (scripts/lib/authored-w3-repair.mjs); the batch files are unchanged.",
+ "total": {
+  "written": 13,
+  "acceptedByJudgesAndSolvers": 10,
+  "accepted": 10,
+  "rejected": 3,
+  "rejectedByReason": {
+   "solvers": 0,
+   "quality_score": 1,
+   "quality_flag": 0,
+   "judge_blind_answer": 0,
+   "fit_median": 3,
+   "fit_flags": 0,
+   "verification_incomplete": 0,
+   "structural": 0,
+   "blind_text": 0,
+   "duplicate": 0,
+   "repaired_without_resolve": 0,
+   "resolve": 0,
+   "expert_verdict": 0,
+   "other": 0
+  }
+ },
+ "final": {
+  "note": "Publication set under the owner rule of 17 Oct 2026: accepted by the first-pass rule (or the fresh pass for reworded rows), expert verdict ready or repaired, repair applied, blind re-solve where the text a solver sees changed, quality mean of the two judges 8 or more and fit median 8 or more. Rows that pass everything but score a quality mean of 7 to 7.9 are held for a later decision.",
+  "publish_rule": {
+   "qualityMeanAtLeast": 8,
+   "fitMedianAtLeast": 8
+  },
+  "publish": 8,
+  "held_7_to_7_9": 2,
+  "dropped": 3,
+  "droppedByCategory": {
+   "not_accepted_by_the_rule": 3
+  },
+  "byVerdict": {
+   "ready": 5,
+   "repaired": 3
+  },
+  "reworded_with_fresh_pass": 0,
+  "blindResolveOnFinalText": 0,
+  "judgeBlindAnswerCarriedOver": [],
+  "bySubject": {
+   "accountancy": {
+    "drafted": 1,
+    "scored": 1,
+    "accepted_first_pass": 0,
+    "accepted_after_expert_and_resolve": 0,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 1
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 0,
+    "held_7_to_7_9": 0,
+    "dropped_or_not_accepted": 1
+   },
+   "biology": {
+    "drafted": 1,
+    "scored": 1,
+    "accepted_first_pass": 1,
+    "accepted_after_expert_and_resolve": 1,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 1
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 1,
+    "held_7_to_7_9": 0,
+    "dropped_or_not_accepted": 0
+   },
+   "business_studies": {
+    "drafted": 1,
+    "scored": 1,
+    "accepted_first_pass": 1,
+    "accepted_after_expert_and_resolve": 1,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 1
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 1,
+    "held_7_to_7_9": 0,
+    "dropped_or_not_accepted": 0
+   },
+   "geography": {
+    "drafted": 4,
+    "scored": 4,
+    "accepted_first_pass": 3,
+    "accepted_after_expert_and_resolve": 3,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 4
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 2,
+    "held_7_to_7_9": 1,
+    "dropped_or_not_accepted": 1
+   },
+   "history": {
+    "drafted": 2,
+    "scored": 2,
+    "accepted_first_pass": 2,
+    "accepted_after_expert_and_resolve": 2,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 2
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 2,
+    "held_7_to_7_9": 0,
+    "dropped_or_not_accepted": 0
+   },
+   "political_science": {
+    "drafted": 1,
+    "scored": 1,
+    "accepted_first_pass": 0,
+    "accepted_after_expert_and_resolve": 0,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 1
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 0,
+    "held_7_to_7_9": 0,
+    "dropped_or_not_accepted": 1
+   },
+   "sociology": {
+    "drafted": 3,
+    "scored": 3,
+    "accepted_first_pass": 3,
+    "accepted_after_expert_and_resolve": 3,
+    "expert": {
+     "ready": 0,
+     "repaired": 0,
+     "drop": 0,
+     "none": 3
+    },
+    "resolve_or_fresh_pass_held": 0,
+    "publish_8_plus": 2,
+    "held_7_to_7_9": 1,
+    "dropped_or_not_accepted": 0
+   }
+  },
+  "problems": []
+ },
+ "files": {
+  "batches": 7,
+  "expectedResultFiles": 70,
+  "presentResultFiles": 70,
+  "missing": [],
+  "malformed": [],
+  "recordIssues": [],
+  "batchLevelProblems": [],
+  "unexpectedFiles": [],
+  "fitFlagsOutsideRubricList": {},
+  "sourceCandidates": {
+   "candidatesFile": "docs/brain/reports/authored-w6/wave6b2-candidates-final-2026-11-23.json",
+   "candidatesSha256": "e191e46825c680eb87cfad6077e0f304bef47d1033bc387b1227a3f36c90ddc9",
+   "candidatesInFile": 13,
+   "manifestState": "ok",
+   "problems": [],
+   "candidatesNotLaidOut": {},
+   "excludedSubjects": []
+  }
+ },
+ "questions": [
+  {
+   "id": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+   "subject": "accountancy",
+   "batch": "accountancy__w6b2",
+   "chapter": "Goodwill Valuation",
+   "type": "single_mcq",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    8
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    6,
+    5,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "447d2a3e-1a7e-439d-9fd4-069683176986",
+   "subject": "biology",
+   "batch": "biology__w6b2",
+   "chapter": "Human Reproduction",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+   "subject": "business_studies",
+   "batch": "business_studies__w6b2",
+   "chapter": "Financial Management",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    9,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "b6e90110-d676-44a1-be96-bb7160e1348f",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Human Settlements",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  },
+  {
+   "id": "4c02b377-71bf-4149-bab2-0e4c2552a6ce",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Population — Distribution, Density, Growth",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "0c1425c6-ba05-4700-8ed0-5462e4a8328d",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Transport & Communication",
+   "type": "statement_based",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "j1_quality_5",
+    "j2_quality_6",
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    5,
+    6
+   ],
+   "quality_mean": 5.5,
+   "fit_scores": [
+    6,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Transport & Communication",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "41872980-a987-49d2-8cd1-26271b83aa6d",
+   "subject": "history",
+   "batch": "history__w6b2",
+   "chapter": "Kings, Farmers & Towns",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    8,
+    8,
+    9
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+   "subject": "history",
+   "batch": "history__w6b2",
+   "chapter": "Kinship, Caste & Class",
+   "type": "single_mcq",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    9,
+    9
+   ],
+   "quality_mean": 9,
+   "fit_scores": [
+    10,
+    10,
+    9
+   ],
+   "fit_median": 10
+  },
+  {
+   "id": "d4720622-e437-40d2-8f9d-4f7b48a2f4d6",
+   "subject": "political_science",
+   "batch": "political_science__w6b2",
+   "chapter": "International Organisations",
+   "type": "match_the_following",
+   "accepted": false,
+   "final": "not_accepted_by_the_rule",
+   "reasons": [
+    "fit_median_6"
+   ],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality_scores": [
+    8,
+    7
+   ],
+   "quality_mean": 7.5,
+   "fit_scores": [
+    6,
+    6,
+    6
+   ],
+   "fit_median": 6
+  },
+  {
+   "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Structural Change",
+   "type": "match_the_following",
+   "accepted": true,
+   "final": "held_7_to_7_9",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality_scores": [
+    7,
+    7
+   ],
+   "quality_mean": 7,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Social Movements",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality_scores": [
+    8,
+    9
+   ],
+   "quality_mean": 8.5,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8
+  },
+  {
+   "id": "48a626c5-4374-472e-b4a9-2590a42dd482",
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Mass Media & Communications",
+   "type": "statement_based",
+   "accepted": true,
+   "final": "publish",
+   "reasons": [],
+   "expert": null,
+   "expert_repaired_fields": null,
+   "fresh_pass": null,
+   "repaired_after_solve": null,
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality_scores": [
+    8,
+    8
+   ],
+   "quality_mean": 8,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9
+  }
+ ]
+}

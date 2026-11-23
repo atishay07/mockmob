@@ -1,0 +1,68 @@
+{
+ "kind": "authored_scores_check",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "repairedTextPolicy": "admit",
+ "at": "2026-11-23T17:42:05.243Z",
+ "planned": 8,
+ "agentEntries": 8,
+ "hashChangedByRepair": 0,
+ "heldForFreshPass": 0,
+ "engineEligible": 8,
+ "engineIneligible": 0,
+ "engineIneligibleReasons": {},
+ "fitGate": {
+  "mirror": "scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)",
+  "minFit": 8,
+  "pass": 8,
+  "reasons": {},
+  "baseTablesMissing": []
+ },
+ "qualityAndFitBoth": 8,
+ "passageSets": {
+  "servable": 0,
+  "of": 0,
+  "blueprint": {
+   "passageWords": {
+    "min": 200,
+    "target": 280,
+    "max": 300
+   },
+   "minChildren": 4
+  },
+  "sets": []
+ },
+ "bySubject": {
+  "biology": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  },
+  "business_studies": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  },
+  "geography": {
+   "planned": 2,
+   "eligible": 2,
+   "fitPass": 2,
+   "both": 2
+  },
+  "history": {
+   "planned": 2,
+   "eligible": 2,
+   "fitPass": 2,
+   "both": 2
+  },
+  "sociology": {
+   "planned": 2,
+   "eligible": 2,
+   "fitPass": 2,
+   "both": 2
+  }
+ },
+ "ineligible": []
+}

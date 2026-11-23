@@ -4,9 +4,10 @@
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
  "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
- "merged_at": "2026-10-14T07:09:44.767Z",
+ "merged_at": "2026-11-23T17:42:05.243Z",
  "models": [
-  "claude-haiku-5-5"
+  "claude-haiku-5-5",
+  "claude-subagent-unrecorded"
  ],
  "status": "complete",
  "measures": {
@@ -15133,6 +15134,224 @@
      "solver": "claude-haiku-5-5"
     }
    }
+  },
+  "48a626c5-4374-472e-b4a9-2590a42dd482": {
+   "question_id": "48a626c5-4374-472e-b4a9-2590a42dd482",
+   "batch": "authored-2026-10-14__sociology__w6b2",
+   "db_chapter": "Mass Media & Communications",
+   "content_hash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d",
+   "engine_type_guess": "statement_based",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Mass Media & Communications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Soap opera definition and Hum Log facts from NCERT boxes; Buniyaad-first and no-commercialisation traps are plausible slips.",
+     "scored_content_hash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Mass Media & Communications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Soap opera definition and Hum Log box facts (first soap, entertainment-education, commercialisation): direct NCERT recall, 76 s.",
+     "scored_content_hash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Mass Media & Communications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Hum Log first soap, entertainment-education, Doordarshan commercialised: NCERT box recall in clean statement shape; box content, so no route.",
+     "scored_content_hash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d"
+    }
+   ],
+   "cuet_type": "statement_based",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Social Change and Development in India",
+   "unit_votes": null,
+   "chapter": "Mass Media & Communications",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    9,
+    9
+   ],
+   "fit_median": 9,
+   "fit_median_raw": 9,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-11-23-w6",
+    "wave": 6,
+    "expert_verdict": null,
+    "expert_issue": null,
+    "authoring_verdict": "claude_audited",
+    "expert_reviewed_text": "not_reviewed",
+    "judged_text": "final",
+    "judged_content_hash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d",
+    "final_content_hash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d",
+    "hash_changed_by_repair": false,
+    "repaired_fields": [],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "A",
+      "A",
+      "A",
+      "A",
+      "A"
+     ],
+     "on": "final"
+    },
+    "blind_resolve_on_final_text": null,
+    "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-subagent-unrecorded",
+     "fit": "claude-subagent-unrecorded",
+     "solver": "claude-subagent-unrecorded"
+    }
+   }
+  },
+  "b573e6fe-3a72-4d9a-94b6-929c428b35bd": {
+   "question_id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+   "batch": "authored-2026-10-14__sociology__w6b2",
+   "db_chapter": "Social Movements",
+   "content_hash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a",
+   "engine_type_guess": "statement_based",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Social Movements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Box 8.1 right-to-vote facts in clean statement form; Charter-for-women and 1918-equal-terms traps are real slips. Box detail, not core.",
+     "scored_content_hash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Social Movements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Box 8.1 minutiae: whom the 1839 Charter covered and the 1918 terms for women; finer detail than most CUET sociology recall.",
+     "scored_content_hash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-subagent-unrecorded",
+     "date": "2026-11-23",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Social Movements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Box 8.1 detail (1839, 1.25 million, 1918) heavier than CUET Sociology's short concept statements; (IV) is the chapter's thesis.",
+     "scored_content_hash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a"
+    }
+   ],
+   "cuet_type": "statement_based",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Social Change and Development in India",
+   "unit_votes": null,
+   "chapter": "Social Movements",
+   "chapter_votes": null,
+   "pyq_closeness": 0,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-11-23-w6",
+    "wave": 6,
+    "expert_verdict": null,
+    "expert_issue": null,
+    "authoring_verdict": "claude_audited",
+    "expert_reviewed_text": "not_reviewed",
+    "judged_text": "final",
+    "judged_content_hash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a",
+    "final_content_hash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a",
+    "hash_changed_by_repair": false,
+    "repaired_fields": [],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "B",
+      "B",
+      "B",
+      "B",
+      "B"
+     ],
+     "on": "final"
+    },
+    "blind_resolve_on_final_text": null,
+    "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-subagent-unrecorded",
+     "fit": "claude-subagent-unrecorded",
+     "solver": "claude-subagent-unrecorded"
+    }
+   }
   }
  },
  "authored": {
@@ -15147,6 +15366,19 @@
    "fit_pass_at_8": 81,
    "fit_pass_at_9": 53,
    "tens_capped_without_agreed_route": 4,
+   "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
+  },
+  "claude-authored-2026-11-23-w6": {
+   "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
+   "merged_at": "2026-11-23T17:42:05.243Z",
+   "questions": 2,
+   "judge_model": "claude-subagent-unrecorded",
+   "judge_date": "2026-11-23",
+   "repaired_text_policy": "admit",
+   "held_for_fresh_judge_pass": 0,
+   "fit_pass_at_8": 2,
+   "fit_pass_at_9": 1,
+   "tens_capped_without_agreed_route": 0,
    "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
   }
  }

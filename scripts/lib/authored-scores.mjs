@@ -574,6 +574,25 @@ function addEntries(table, entries, label, source = AUTHORED_SOURCE) {
 }
 
 /**
+ * The table's `authored[source]` block after a merge. A re-merge of the same entries (every earlier entry of this source is in
+ * `entries`) replaces the block exactly as before. A later BATCH of the same wave (wave 6 batch 2, 23 Nov 2026: earlier entries of this
+ * source that this merge does not carry, which stay in the table untouched) keeps the earlier block under `earlier_batches`, and
+ * `questions` counts every entry of the source in the merged table; `batch_questions` is this merge's own count.
+ */
+function authoredBlock(base, mergedQuestions, entries, source, block) {
+  const prior = base?.authored?.[source];
+  const priorIds = Object.keys(base?.questions || {}).filter((id) => isAuthored(base.questions[id], source));
+  if (!prior || !priorIds.some((id) => !(id in entries))) return block;
+  const { earlier_batches: earlier = [], ...priorBlock } = prior;
+  return {
+    ...block,
+    questions: Object.values(mergedQuestions).filter((entry) => isAuthored(entry, source)).length,
+    batch_questions: Object.keys(entries).length,
+    earlier_batches: [...earlier, priorBlock],
+  };
+}
+
+/**
  * The agent table of a subject with the authored entries added. base is the committed table (it must be calibrated
  * and written under the rubric version this code accepts: an entry in any other table could never admit a question).
  */
@@ -586,7 +605,7 @@ export function mergeAgentTable(base, entries, { subject, now, header, policy, r
   table.merged_at = now;
   table.authored = {
     ...(table.authored || {}),
-    [source]: {
+    [source]: authoredBlock(base, table.questions, entries, source, {
       note: waveOf(source).wave === 4
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (docs/brain/reports/authored-w4/wave4-score-entries-final-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final from the raw judge files, the expert verdicts and the blind re-solve). Per-question provenance says which text each judge scored.'
         : waveOf(source).wave === 3
@@ -603,9 +622,9 @@ export function mergeAgentTable(base, entries, { subject, now, header, policy, r
       judged_text_differs_from_final: Object.values(entries).filter((entry) => entry.provenance.hash_changed_by_repair).length,
       rubric: 'docs/brain/NTA-AGENT-RUBRIC.md',
       rubric_sha256: rubricSha256,
-    },
+    }),
   };
-  table.measures = { ...(table.measures || {}), admissible_before_row_checks: ntaAgentAdmissibleIds(subject, { agentScores: { [subject]: table } }).length };
+  table.measures ={ ...(table.measures || {}), admissible_before_row_checks: ntaAgentAdmissibleIds(subject, { agentScores: { [subject]: table } }).length };
   return table;
 }
 
@@ -632,7 +651,7 @@ export function mergeFitTable(base, entries, { subject, now, header, policy, rub
   table.merged_at = now;
   table.authored = {
     ...(table.authored || {}),
-    [source]: {
+    [source]: authoredBlock(base, table.questions, entries, source, {
       note: waveOf(source).wave === 4
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final). The measures block above describes the base merge only.'
         : waveOf(source).wave === 3
@@ -650,7 +669,7 @@ export function mergeFitTable(base, entries, { subject, now, header, policy, rub
       fit_pass_at_9: Object.values(entries).filter((entry) => entry.fit_median !== null && entry.fit_median >= 9 && !entry.blocking).length,
       tens_capped_without_agreed_route: Object.values(entries).filter((entry) => entry.fit_median_raw === 10 && !entry.ten_route).length,
       rubric_sha256: rubricSha256,
-    },
+    }),
   };
   return table;
 }

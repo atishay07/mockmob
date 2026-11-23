@@ -3,7 +3,7 @@
   "subject": "geography",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-11-23T14:13:59.543Z",
+  "merged_at": "2026-11-23T17:42:05.243Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -70,7 +70,7 @@
       "duplicate_options": 1
     },
     "mean_of_means": 6.63,
-    "admissible_before_row_checks": 143
+    "admissible_before_row_checks": 145
   },
   "questions": {
     "6114efa1-3b99-4a6a-ba1a-d68d0bf8c481": {
@@ -15089,6 +15089,190 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "5aa6c346-d91c-4430-9334-dc8fdf2a627e": {
+      "question_id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+      "batch": "authored-2026-10-14__geography__w6b2",
+      "chapter": "Transport & Communication",
+      "key": "B",
+      "content_hash": "11dc9429b664193561b37cdc6868b961d4ed791a219b268ebfb970eec481794f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "geography.transport-and-communication.railway-zones-headquarters",
+          "flags": [],
+          "note": "Correct per NCERT zone table: Gorakhpur is North Eastern, not North Central; Kolkata hosts Eastern and South Eastern. Good traps; A is a paraphrase of the NCERT reason.",
+          "scored_content_hash": "11dc9429b664193561b37cdc6868b961d4ed791a219b268ebfb970eec481794f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "geography.transport-and-communication.indian-railway-zones-headquarters",
+          "flags": [],
+          "note": "Gorakhpur (North Eastern) vs Prayagraj (North Central) is a good trap; Hajipur and Kolkata (Eastern, South Eastern) check against NCERT Table 7.2. Statement (A) is a loose paraphrase.",
+          "scored_content_hash": "11dc9429b664193561b37cdc6868b961d4ed791a219b268ebfb970eec481794f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "geography.transport-and-communication.railway-zones-headquarters",
+        "geography.transport-and-communication.indian-railway-zones-headquarters"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "11dc9429b664193561b37cdc6868b961d4ed791a219b268ebfb970eec481794f",
+        "final_content_hash": "11dc9429b664193561b37cdc6868b961d4ed791a219b268ebfb970eec481794f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b6e90110-d676-44a1-be96-bb7160e1348f": {
+      "question_id": "b6e90110-d676-44a1-be96-bb7160e1348f",
+      "batch": "authored-2026-10-14__geography__w6b2",
+      "chapter": "Human Settlements",
+      "key": "A",
+      "content_hash": "eaaad0ac196aee9562290a97547dd1dade5c62233ae57fe22f6bfdf29ff08ed5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "geography.human-settlements.level-of-urbanisation",
+          "flags": [],
+          "note": "Correct NCERT recall (definition, 31.16 per cent, world 55 per cent); D is the only real trap, so it plays easy rather than medium. Fit for a mock unchanged.",
+          "scored_content_hash": "eaaad0ac196aee9562290a97547dd1dade5c62233ae57fe22f6bfdf29ff08ed5"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "geography.human-settlements.level-of-urbanisation-india-world",
+          "flags": [],
+          "note": "NCERT 31.16 per cent and world 55 per cent lines; (D) is a fair India-vs-world trap. World over 50 per cent in 2011 is correct. Clean statement set.",
+          "scored_content_hash": "eaaad0ac196aee9562290a97547dd1dade5c62233ae57fe22f6bfdf29ff08ed5"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "geography.human-settlements.level-of-urbanisation",
+        "geography.human-settlements.level-of-urbanisation-india-world"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "eaaad0ac196aee9562290a97547dd1dade5c62233ae57fe22f6bfdf29ff08ed5",
+        "final_content_hash": "eaaad0ac196aee9562290a97547dd1dade5c62233ae57fe22f6bfdf29ff08ed5",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -15106,15 +15290,30 @@
     },
     "claude-authored-2026-11-23-w6": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
-      "merged_at": "2026-11-23T14:13:59.543Z",
-      "questions": 4,
+      "merged_at": "2026-11-23T17:42:05.243Z",
+      "questions": 6,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-11-23",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
-      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
+      "batch_questions": 2,
+      "earlier_batches": [
+        {
+          "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+          "merged_at": "2026-11-23T14:13:59.543Z",
+          "questions": 4,
+          "judge_model": "claude-subagent-unrecorded",
+          "judge_date": "2026-11-23",
+          "repaired_text_policy": "admit",
+          "held_for_fresh_judge_pass": 0,
+          "judged_text_differs_from_final": 0,
+          "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+          "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+        }
+      ]
     }
   }
 }

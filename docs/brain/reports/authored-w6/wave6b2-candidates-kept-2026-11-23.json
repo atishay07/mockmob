@@ -1,0 +1,282 @@
+[
+ {
+  "id": "447d2a3e-1a7e-439d-9fd4-069683176986",
+  "subject": "biology",
+  "unit": "Reproduction",
+  "chapter": "Human Reproduction",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the hormonal control of childbirth in humans.\n(A) Signals from the fully developed foetus and the placenta set off mild uterine contractions called the foetal ejection reflex.\n(B) The foetal ejection reflex triggers the release of oxytocin from the maternal pituitary.\n(C) Stronger uterine contractions cut down the further secretion of oxytocin.\n(D) Cortisol, estrogens and oxytocin are involved in inducing parturition.\n(E) Prolactin is one of the hormones that bring about parturition.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B), (D) and (E) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (B), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(B), (D) and (E) only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Parturition is induced by a complex neuroendocrine mechanism. Its signals come from the fully developed foetus and the placenta, which set off mild uterine contractions called the foetal ejection reflex, so (A) is true. This reflex triggers the release of oxytocin from the maternal pituitary, so (B) is true. Oxytocin acts on the uterine muscle and causes stronger contractions, and these in turn stimulate further secretion of oxytocin; this stimulatory reflex goes on, with stronger and stronger contractions, until the baby is expelled through the birth canal. The contractions therefore raise oxytocin secretion, they do not cut it down, so (C) is false. NCERT names the hormones of this mechanism as cortisol, estrogens and oxytocin, so (D) is true. Prolactin is not one of them, so (E) is false: its level rises several-fold in the mother's blood during pregnancy, and it is the anterior pituitary hormone that regulates the growth of the mammary glands and the formation of milk (milk production begins towards the end of pregnancy, by lactation), but it does not induce parturition. Of estrogens, cortisol, oxytocin and prolactin, only prolactin is not involved in parturition. The true statements are (A), (B) and (D).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Biology (lebo102, Reprint 2026-27), Ch 2 Human Reproduction: hormone levels in pregnancy, p 37; section 2.7 Parturition and Lactation, p 38; Summary, p 39 (cortisol, estrogens and oxytocin); prolactin's role: NCERT Class 11 Biology, Ch 19 Chemical Coordination and Integration, the pituitary gland",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+  "subject": "business_studies",
+  "unit": "Business Finance",
+  "chapter": "Financial Management",
+  "type": "statement_based",
+  "stem": "Which of the following statements about EBIT-EPS analysis are correct?\n(A) Interest on debt is deducted from EBIT to arrive at earnings before tax (EBT).\n(B) Tax is worked out on EBIT, before the interest on debt is deducted.\n(C) Earnings after tax (EAT) are found by deducting tax from EBT.\n(D) EPS is obtained by dividing EAT by the number of equity shares.\n(E) Using more debt raises EPS when the return on investment is lower than the rate of interest on debt.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (C), (D) and (E) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B), (C) and (D) only"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "EBIT-EPS analysis works in a fixed order: earnings before interest and taxes (EBIT), less interest on debt, gives earnings before tax (EBT), so (A) is true. Tax is charged on EBT, the profit left after interest, not on EBIT, so (B) is false. EBT less tax gives earnings after tax (EAT), so (C) is true, and EAT divided by the number of equity shares gives earnings per share (EPS), so (D) is true. The order of working is therefore EBIT, interest on debt, EBT, tax, EAT, EPS. Debt raises EPS only when the return on investment (EBIT ÷ total investment × 100) is higher than the rate of interest on debt: this is favourable financial leverage, and using more of the cheaper debt to raise EPS is called trading on equity. When the return on investment is lower than the interest rate, more debt lowers EPS (unfavourable financial leverage) and trading on equity is unadvisable, so (E) is false. The true statements are (A), (C) and (D).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Business Studies Part 2 (lebs201, Reprint 2026-27), Ch 9 Financial Management, printed p.228: EBIT-EPS Analysis table (EBIT, Interest, EBT, Tax, EAT, No. of shares, EPS); p.229: RoI above the cost of debt = favourable financial leverage and Trading on Equity; RoI below it = EPS falls, unfavourable financial leverage",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "b6e90110-d676-44a1-be96-bb7160e1348f",
+  "subject": "geography",
+  "unit": "Human Settlements",
+  "chapter": "Human Settlements",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the level of urbanisation.\n(A) It is measured as the percentage of urban population to total population.\n(B) India's level of urbanisation in 2011 was a little over 31 per cent.\n(C) More than half of the world's population now lives in urban areas.\n(D) In 2011, India's level of urbanisation was higher than the world's.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (C) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (C) and (D) only"
+   }
+  ],
+  "correct_key": "A",
+  "explanation": "NCERT measures the level of urbanisation as the percentage of urban population to total population, and gives India's level in 2011 as 31.16 per cent, which it calls quite low in comparison to developed countries; so (A) and (B) are true. NCERT also states that at present 55 per cent of the world's population lives in cities, a share estimated to rise to 68 per cent by 2050; so (C) is true. On each country's own definition of urban, more than half of the world's people have lived in urban areas since about 2007, so in 2011 the world's level was already a little over 50 per cent, far above India's 31 per cent, and (D) is false. Hence (A), (B) and (C) are correct. The world's present level of urbanisation (55 per cent in NCERT, a little under 60 per cent in the early 2020s) therefore lies between 50 and 75 per cent: well above India's, but below highly urbanised regions such as Northern America (about 82 per cent).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 India: People and Economy: legy202 Ch 2 Human Settlements, p. 18 (level of urbanisation defined; India 31.16 per cent in 2011); legy209 Ch 9, p. 100 (at present 55 per cent of the world lives in cities; 68 per cent by 2050)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+  "subject": "geography",
+  "unit": "Transport, Communication and Trade",
+  "chapter": "Transport & Communication",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the zones of Indian Railways.\n(A) The network is divided into zones because a network this large is hard to manage centrally.\n(B) The North Central zone has its headquarters at Gorakhpur.\n(C) The East Central zone has its headquarters at Hajipur, in Bihar.\n(D) Kolkata is the headquarters of more than one zone.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B) and (C) only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "NCERT explains that the very large size of Indian Railways puts a lot of pressure on a centralised management system, and so the network has been divided into zones; its Table 7.2 lists 17 zones with their headquarters. The North Central zone is headquartered at Prayagraj in Uttar Pradesh; Gorakhpur, also in Uttar Pradesh, is the headquarters of the North Eastern zone, so (B) is false. The table gives Hajipur for the East Central zone; Hajipur, in Vaishali district across the Ganga from Patna, is in Bihar, and no other zone has its headquarters in that State. Kolkata, in West Bengal, is the headquarters of the Eastern zone, the South Eastern zone and the Metro Railway, so (D) is true. Hence (A), (C) and (D) are correct.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 India: People and Economy (legy207), Ch 7 Transport and Communication, p. 79: 17 zones because of the network's very large size; Table 7.2 Indian Railways: Railway Zones and Headquarters",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "41872980-a987-49d2-8cd1-26271b83aa6d",
+  "subject": "history",
+  "unit": "Themes in Indian History Part I",
+  "chapter": "Kings, Farmers & Towns",
+  "type": "match_the_following",
+  "stem": "Match List-I (early states of the sixth century BCE) with List-II (where they lay).\nList-I\n(A) Gandhara\n(B) Matsya\n(C) Avanti\n(D) Ashmaka\nList-II\n(I) In the Deccan, along the river Godavari\n(II) In Malwa, around the city of Ujjayini\n(III) In the far north-west, around the city of Taxila\n(IV) Just west of Mathura, in present-day eastern Rajasthan\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+   },
+   {
+    "key": "B",
+    "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+   },
+   {
+    "key": "C",
+    "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+   },
+   {
+    "key": "D",
+    "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "NCERT's Map 1, 'Early states and their capitals', places all four. Gandhara is in the far north-west of the subcontinent, with its cities Taxila and Pushkalavati; only Kamboja is marked further north (A-III). Matsya lies just west of Mathura, the capital of its neighbour Shurasena, and south-west of Kuru and Indraprastha; its land is present-day eastern Rajasthan, around Jaipur and Alwar, and its capital was Viratanagara (B-IV). Avanti, with its capital Ujjayini, lies further south, in Malwa in present-day Madhya Pradesh (C-II). Ashmaka is the southernmost state on the map: it lay in the Deccan, along the river Godavari, far south of Ujjayini (D-I). Read from north to south, the four therefore run Gandhara, Matsya, Avanti, Ashmaka. The commonest slip is to swap the two southern states: Avanti is the one around Ujjayini, and Ashmaka lies well beyond it in the Deccan. Many of the other mahajanapadas, such as Koshala, Kashi, Vatsa, Vajji, Magadha and Anga, lay close together in the Ganga valley.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Themes in Indian History Part I, Ch 2 Kings, Farmers and Towns, section 2.1 The sixteen mahajanapadas (lehs102 printed p29) and Map 1 Early states and their capitals (printed p30)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+  "subject": "history",
+  "unit": "Themes in Indian History Part I",
+  "chapter": "Kinship, Caste & Class",
+  "type": "single_mcq",
+  "stem": "Which of the following texts prescribed that, once a man and his wife had both died, their sons should split his property into equal portions, the eldest son receiving something extra on top of his portion?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Rigveda"
+   },
+   {
+    "key": "B",
+    "text": "Majjhima Nikaya"
+   },
+   {
+    "key": "C",
+    "text": "Manusmriti"
+   },
+   {
+    "key": "D",
+    "text": "Purananuru"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "The rule is the Manusmriti's: after the death of the father and the mother, the brothers divide the paternal estate equally among themselves, and the eldest receives an additional share over and above his own (Manusmriti IX.104 and IX.112). NCERT's 2026-27 text gives the rule in general terms: according to the smriti tradition, the paternal property was to be divided equally amongst the children after the death of the parents, with a special share for the eldest. It adds that women could keep the gifts they received at marriage as stridhana, which their children could inherit and over which the husband had no claim. The Manusmriti, compiled in Sanskrit between c. 200 BCE and 200 CE, is the most important of the Dharmasutras and Dharmashastras, the texts in which Brahmanas laid down codes of social behaviour. The other three texts appear in the same chapter for other reasons. A Rigveda mantra chanted at weddings, probably inserted c. 1000 BCE, prays that the bride will have fine sons: it shows a concern with patriliny, but the Rigveda is a collection of ritual hymns, not a code of inheritance. The Majjhima Nikaya, a Buddhist text in Pali, holds the dialogue in which King Avantiputta and Kachchana question the Brahmanas' claim to be the best caste by birth. The Purananuru (spelt Puranaruru in NCERT), an anthology of Tamil Sangam poems, praises a poor but generous chief: it shows that those who controlled resources in Tamilakam were expected to share them, not how a father's estate was divided.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Themes in Indian History Part I, Ch 3 Kinship, Caste and Class: section 4.1 Gendered access to property (lehs103 printed p68); section 2.3 Rules of marriage (p58, the Manusmriti compiled c. 200 BCE-200 CE); Source 1 Producing fine sons (Rigveda mantra, p56); Source 13 The wealthy Shudra (Majjhima Nikaya, p70); section 4.3 Sharing wealth (p70) and Source 14 The poor generous chief (Tamil Sangam anthology, p71)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Social Movements",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the struggle for the right to vote.\nI. In Britain, voting rights were once limited to men who owned property.\nII. The People's Charter, signed by more than 1.25 million people in 1839, asked for the vote for every adult man and woman.\nIII. In 1918, British women got the right to vote on the same terms as men.\nIV. In Britain, universal adult franchise came only after the long struggles of social movements such as Chartism and the suffragettes' campaign.\nWhich statements are correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "I, II and IV only"
+   },
+   {
+    "key": "B",
+    "text": "I and IV only"
+   },
+   {
+    "key": "C",
+    "text": "I, III and IV only"
+   },
+   {
+    "key": "D",
+    "text": "II, III and IV only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Statements I and IV are correct. Universal adult franchise, the right of every adult to vote, is one of the foremost rights guaranteed by the Indian Constitution. Yet in Britain, too, not everyone could vote at first: voting rights were limited to property-owning men, so I is correct. Chartism was a social movement for parliamentary representation in England. In 1839 more than 1.25 million people signed the People's Charter, which asked for universal male suffrage, voting by ballot and the right to stand for elections without owning property, and in 1842 the movement collected 3.25 million signatures. The Charter asked for the vote for all men, not for women, so II is wrong. Only after World War I, in 1918, did all men over 21 get the vote, while among women only those over 30 who were married, owned houses or were university graduates got it; women did not yet vote on the same terms as men, so III is wrong. When the suffragettes took up the cause of all adult women's right to vote, they were bitterly opposed and their movement violently crushed, yet the struggle for women's votes went on. Equal votes for women came only with the Representation of the People (Equal Franchise) Act of 1928, which gave all women over 21 the vote on the same terms as men. So universal adult suffrage in Britain was the outcome of the long struggles of social movements such as Chartism and the suffragettes' campaign, and IV is correct. NCERT tells this story to make the chapter's point: the rights we enjoy did not just happen to exist; the struggles of the past made them possible.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 8 Social Movements (lesy208), Box 8.1 The Right to Vote, printed p.110: universal adult franchise, voting limited to property-owning men, Chartism and the People's Charter (1839: universal male suffrage, ballot, standing for election without property; 1842: 3.25 million signatures), the 1918 franchise, the suffragettes bitterly opposed; p.110 also: rights were made possible by the struggles of the past. The 1928 Act is not printed in NCERT: it is the UK Representation of the People (Equal Franchise) Act 1928, cited in the explanation only.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "48a626c5-4374-472e-b4a9-2590a42dd482",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Mass Media & Communications",
+  "type": "statement_based",
+  "stem": "Consider the following statements about soap operas.\nI. A soap opera is serialised and continuous: individual stories end, but the soap itself has no ending until it is taken off the air.\nII. Buniyaad, aired before Hum Log, was India's first long-running soap opera.\nIII. Hum Log placed educational content on themes such as gender equality and small family size inside an entertainment programme.\nIV. The advertising carried by Hum Log made little difference to Doordarshan, which stayed free of commercial pressure.\nWhich statements are correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "I and III only"
+   },
+   {
+    "key": "B",
+    "text": "I, II and III only"
+   },
+   {
+    "key": "C",
+    "text": "I, III and IV only"
+   },
+   {
+    "key": "D",
+    "text": "III and IV only"
+   }
+  ],
+  "correct_key": "A",
+  "explanation": "Statements I and III are correct. Soap operas are stories that are serialised and continuous: individual stories may come to an end and different characters appear and disappear, but the soap itself has no ending until it is taken off the air completely, and it presumes a history that the regular viewer knows, so I is correct. Hum Log (1984-85) was India's first long-running soap opera: some 156 episodes were broadcast in Hindi over 17 months. It used the entertainment-education strategy, intentionally placing educational content in an entertainment programme, and promoted social themes such as gender equality, small family size and national integration, so III is correct. Buniyaad came later, in 1986-87, so II is wrong. Hum Log's advertising promoted a new consumer product, Maggi 2-Minute noodles; advertisers began to line up to buy airtime, and the commercialisation of Doordarshan began, so IV is wrong. Where the genre and its name come from: soap operas began in the United States in the 1930s as daytime radio serials, many of them sponsored by soap manufacturers, which gave the genre its name. They went out in the daytime, when most listeners were housewives, so they were made for a mainly female audience, and women remain the main target audience of most soap operas.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 7 Mass Media and Communications (lesy207): Box 7.13 Soap opera, printed p.104; Box 7.4 Hum Log: A Turning Point, printed p.96 (first long-running soap opera, entertainment-education, 156 episodes, 1984-85, gender equality, small family size, national integration, Maggi advertising and the commercialisation of Doordarshan); p.97: Hum Log (1984-85) and Buniyaad (1986-87). The origin of the name and the women audience are not printed in NCERT; they are standard broadcasting history and appear in the explanation only.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ }
+]

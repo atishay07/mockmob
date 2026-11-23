@@ -1,0 +1,49 @@
+{
+ "kind": "authored_w6b2_engine_precheck",
+ "source": "claude-authored-2026-11-23-w6",
+ "candidatesFile": "docs/brain/reports/authored-w6/wave6b2-candidates-final-2026-11-23.json",
+ "method": "ntaEligibility on the row planPublication writes, empty agent and fit tables; score and fit reasons are not listed, only the veto gate (content, wording, structure, answer guard).",
+ "problems": [],
+ "refused": [],
+ "bySubject": {
+  "accountancy": {
+   "planned": 1,
+   "clean": 1,
+   "refused": 0
+  },
+  "biology": {
+   "planned": 1,
+   "clean": 1,
+   "refused": 0
+  },
+  "business_studies": {
+   "planned": 1,
+   "clean": 1,
+   "refused": 0
+  },
+  "geography": {
+   "planned": 4,
+   "clean": 4,
+   "refused": 0
+  },
+  "history": {
+   "planned": 2,
+   "clean": 2,
+   "refused": 0
+  },
+  "political_science": {
+   "planned": 1,
+   "clean": 1,
+   "refused": 0
+  },
+  "sociology": {
+   "planned": 3,
+   "clean": 3,
+   "refused": 0
+  }
+ },
+ "reasons": {},
+ "planned": 13,
+ "engineRefused": 0,
+ "script": "tmp/1123-close/integrate/precheck-w6b2.mjs (precheck() of scripts/authored-w4-engine-precheck.mjs)"
+}

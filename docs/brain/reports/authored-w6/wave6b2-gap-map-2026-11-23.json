@@ -1,0 +1,255 @@
+[
+ {
+  "candidateId": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+  "bankId": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+  "subject": "accountancy",
+  "bankSubject": "accountancy",
+  "paperQuestion": 23,
+  "chapter": "Goodwill Valuation",
+  "type": "single_mcq",
+  "auditVerdict": "accept",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "new-values",
+  "replaces": [
+   "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+   "6011028f-e8bf-47c7-8d07-32352f7b04d8"
+  ],
+  "coversReason": "Numerical, judged by the bank rule: same unknown (goodwill), same formula and the same steps as paper Q23 (normal profit = interest on capital at the market rate of interest + partners' salaries; average of the three years and of the last two years; super profit = average - normal; 2 and 3 years' purchase; the lower value), and the same direction of adjustment (salaries raise normal profit). Only the figures differ, and here the two-year basis gives the lower value where in Q23 the three-year basis does: the 'whichever is less' step is the same. True once this row is published.",
+  "needs": [
+   "7d9fb7bc-4063-4d8f-a556-11013c01ff1d"
+  ],
+  "contentHash": "1ebdee6ddc8bbd69bc84288dcdb9326e611e7399877b4afde1fb7d7505534f10"
+ },
+ {
+  "candidateId": "447d2a3e-1a7e-439d-9fd4-069683176986",
+  "bankId": "447d2a3e-1a7e-439d-9fd4-069683176986",
+  "subject": "biology",
+  "bankSubject": "biology",
+  "paperQuestion": 38,
+  "chapter": "Human Reproduction",
+  "type": "statement_based",
+  "auditVerdict": "accept",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "94186aa1-fe0c-445b-a73b-122cd36ce46d"
+  ],
+  "coversReason": "Paper Q38 asks which of estrogens, cortisol, oxytocin and prolactin is NOT involved in parturition (key prolactin). The row's true statement (D), in the key, names cortisol, estrogens and oxytocin as the hormones that induce parturition; its false statement (E) is prolactin as one of them; the explanation says in so many words 'Of estrogens, cortisol, oxytocin and prolactin, only prolactin is not involved in parturition' and gives prolactin's real role (mammary growth, milk formation), the gap the final checker named. Every fact the paper needs is stated. Different question form, so concept. True once published.",
+  "needs": [
+   "447d2a3e-1a7e-439d-9fd4-069683176986"
+  ],
+  "contentHash": "180e130951364f0f42d5d39b3a1a1fd344fe3c98791bb8c31c723a395e188dc3"
+ },
+ {
+  "candidateId": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+  "bankId": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+  "subject": "business-studies",
+  "bankSubject": "business_studies",
+  "paperQuestion": 14,
+  "chapter": "Financial Management",
+  "type": "statement_based",
+  "auditVerdict": "accept",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "dbbd3e36-c506-48e6-a949-90a3b506cfe4"
+  ],
+  "coversReason": "Paper Q14 asks the order for calculating EPS: EBIT, interest on debt, EBT, EAT (key (B), (D), (A), (C)). The row's true statements (A) (interest on debt deducted from EBIT gives EBT) and (C) (EBT less tax gives EAT) are in the key, (B) (tax on EBIT before interest) is the false order, and the explanation states 'The order of working is therefore EBIT, interest on debt, EBT, tax, EAT, EPS'. Every step of the paper's sequence is stated. Different form (statements, not a sequence), so concept. True once published.",
+  "needs": [
+   "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025"
+  ],
+  "contentHash": "8f6fe62fb1625122114ada9d010dc253af22c7520966400667027b3723f3e08b"
+ },
+ {
+  "candidateId": "b6e90110-d676-44a1-be96-bb7160e1348f",
+  "bankId": "b6e90110-d676-44a1-be96-bb7160e1348f",
+  "subject": "geography",
+  "bankSubject": "geography",
+  "paperQuestion": 22,
+  "chapter": "Human Settlements",
+  "type": "statement_based",
+  "auditVerdict": "repair",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "c61ea703-a85a-4320-81a2-83d21e009da7"
+  ],
+  "coversReason": "Paper Q22 asks the band of the world's present level of urbanisation (NTA key: 50 to 75 per cent). The row's true statement (C) says more than half of the world now lives in urban areas, and the explanation states the world's present level lies between 50 and 75 per cent (55 per cent in NCERT, a little under 60 per cent in the early 2020s), below 75 (Northern America about 82). Every fact the question needs is stated.",
+  "contentHash": "eaaad0ac196aee9562290a97547dd1dade5c62233ae57fe22f6bfdf29ff08ed5"
+ },
+ {
+  "candidateId": "4c02b377-71bf-4149-bab2-0e4c2552a6ce",
+  "bankId": "4c02b377-71bf-4149-bab2-0e4c2552a6ce",
+  "subject": "geography",
+  "bankSubject": "geography",
+  "paperQuestion": 26,
+  "chapter": "Population — Distribution, Density, Growth",
+  "type": "statement_based",
+  "auditVerdict": "repair",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "13edb7cc-941a-4c89-b542-4784a8987482"
+  ],
+  "coversReason": "Paper Q26 asks China, Brazil, Bangladesh, Mexico in descending order of population (NTA key A, B, C, D). The statements state Brazil > Bangladesh > Mexico, and the explanation states the full order China, Indonesia, Brazil, Bangladesh, Russia, Mexico, so China > Brazil > Bangladesh > Mexico is stated.",
+  "contentHash": "4cd285af9af6153ffe22b0c84e1e3ccc9e390ea5793779039d04eec5c5f65192"
+ },
+ {
+  "candidateId": "0c1425c6-ba05-4700-8ed0-5462e4a8328d",
+  "bankId": "0c1425c6-ba05-4700-8ed0-5462e4a8328d",
+  "subject": "geography",
+  "bankSubject": "geography",
+  "paperQuestion": 39,
+  "chapter": "Transport & Communication",
+  "type": "statement_based",
+  "auditVerdict": "accept",
+  "auditQuality": 7,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "a67c8de0-4856-40bb-8fa0-6b55d97c79a0"
+  ],
+  "coversReason": "Paper Q39 matches Montreal, Madrid, Bangkok and Perth with Canada, Spain, Thailand and Australia (NTA key A-III, B-IV, C-I, D-II). The row states Montreal in Canada, Perth in Australia and Madrid as Spain's capital in true statements, and the explanation states Bangkok is the capital of Thailand and closes with all four pairs. Every pair the question needs is stated.",
+  "contentHash": "71033c7a253fdb476327b7d3c8187e97ae1a94e2aaaebcc6deeb173ecbb56bec"
+ },
+ {
+  "candidateId": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+  "bankId": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+  "subject": "geography",
+  "bankSubject": "geography",
+  "paperQuestion": 50,
+  "chapter": "Transport & Communication",
+  "type": "statement_based",
+  "auditVerdict": "repair",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "6a44e907-1826-4514-bfc1-481e1ea1ef77"
+  ],
+  "coversReason": "Paper Q50 asks which of North Eastern, East Central, Eastern and North Central has its headquarters in Bihar (NTA key East Central). The row's true statement (C) puts East Central at Hajipur in Bihar, and the explanation says no other zone is headquartered in Bihar and gives the headquarters and State of the other three. Every fact the question needs is stated.",
+  "contentHash": "11dc9429b664193561b37cdc6868b961d4ed791a219b268ebfb970eec481794f"
+ },
+ {
+  "candidateId": "41872980-a987-49d2-8cd1-26271b83aa6d",
+  "bankId": "41872980-a987-49d2-8cd1-26271b83aa6d",
+  "subject": "history",
+  "bankSubject": "history",
+  "paperQuestion": 8,
+  "chapter": "Kings, Farmers & Towns",
+  "type": "match_the_following",
+  "auditVerdict": "accept",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "2c6066c9-95ff-42da-950e-18cac8163718"
+  ],
+  "coversReason": "Paper Q8 asks the four states from north to south: Gandhara, Matsya, Avanti, Ashmaka (key C, B, D, A). The row's key places each (Taxila in the far north-west; west of Mathura in eastern Rajasthan; Malwa around Ujjayini; the Deccan on the Godavari), and the explanation states the order outright: 'Read from north to south, the four therefore run Gandhara, Matsya, Avanti, Ashmaka', with the commonest slip (swapping the two southern states) named. Every fact the paper needs is stated. Different form (match, not ordering), so concept. True once published.",
+  "needs": [
+   "41872980-a987-49d2-8cd1-26271b83aa6d"
+  ],
+  "contentHash": "8789dc0a2b784032d4f8116ce10ccdc98514ac1e2066cd585f526970e6f79b3f"
+ },
+ {
+  "candidateId": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+  "bankId": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+  "subject": "history",
+  "bankSubject": "history",
+  "paperQuestion": 14,
+  "chapter": "Kinship, Caste & Class",
+  "type": "single_mcq",
+  "auditVerdict": "accept",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "same",
+  "replaces": [
+   "452056da-8fc1-454a-b129-810f881d7608"
+  ],
+  "coversReason": "Paper Q14 asks which text says the paternal estate is divided equally amongst sons after the parents' death with a special share for the eldest (key Manusmriti). The row asks the same thing in new words and keys the Manusmriti; the explanation states the rule and cites the verses, and also gives NCERT 2026-27's general 'smriti tradition' wording. Same fact, same answer, different options, so same. True once published.",
+  "needs": [
+   "99c9d26b-38bd-46b6-8943-648ba3558ee1"
+  ],
+  "contentHash": "ba493b8f15ecc276b92211791eef0d97cda7a2a6f54edac22c35ac283d623723"
+ },
+ {
+  "candidateId": "d4720622-e437-40d2-8f9d-4f7b48a2f4d6",
+  "bankId": "d4720622-e437-40d2-8f9d-4f7b48a2f4d6",
+  "subject": "political-science",
+  "bankSubject": "political_science",
+  "paperQuestion": 27,
+  "chapter": "International Organisations",
+  "type": "match_the_following",
+  "auditVerdict": "accept",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "348622de-cdf5-435b-a658-8b18520f9cf2"
+  ],
+  "coversReason": "Paper Q27 asks where the International Court of Justice is based (Geneva, New York, Washington, DC, The Hague; key The Hague). The row's key pairs the ICJ with The Hague, and the explanation says it sits at the Peace Palace in The Hague, that it is the only principal UN organ not in New York, that Geneva is the WHO's home and Washington, DC the IMF's, and ends 'So none of Geneva, New York or Washington, DC is the seat of the International Court of Justice'. Every fact the paper needs is stated. A four-pair match rather than the single question, so concept. True once published.",
+  "needs": [
+   "d4720622-e437-40d2-8f9d-4f7b48a2f4d6"
+  ],
+  "contentHash": "829a5ab55bd42dc47f0e73333a3905a9ea29524ed0785cf4078cf0df01706ab9"
+ },
+ {
+  "candidateId": "797c5327-4952-47c1-b811-43f8e00faeb0",
+  "bankId": "797c5327-4952-47c1-b811-43f8e00faeb0",
+  "subject": "sociology",
+  "bankSubject": "sociology",
+  "paperQuestion": 3,
+  "chapter": "Structural Change",
+  "type": "match_the_following",
+  "auditVerdict": "repair",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "c74475c2-d1f6-44fa-a9fd-039158a516d9"
+  ],
+  "coversReason": "The paper keys industrialisation as what physically transplants urban life into a rural setting. The explanation says so outright: the industrial-town case is the one in which urban life is physically transplanted, because industrialisation brings the town's workers, their demand for housing and a market into the village itself. It also says why the paper's distractors fail: mass media carry only images, and with out-migration the city stays far away. The match itself teaches the Bhilai case. This is a different question with every needed fact stated, so the match is concept, not same.",
+  "contentHash": "dec13f2b4bfadfebdf65ceec7d800b731ce634c62a7a7e52ad077fd76beb8dab"
+ },
+ {
+  "candidateId": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+  "bankId": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+  "subject": "sociology",
+  "bankSubject": "sociology",
+  "paperQuestion": 4,
+  "chapter": "Social Movements",
+  "type": "statement_based",
+  "auditVerdict": "repair",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "76df8f59-a722-4020-9052-04a19f6e59bf"
+  ],
+  "coversReason": "The paper keys universal adult suffrage as the outcome of a social movement in Britain. Statement IV is keyed as correct and states it: universal adult franchise came only after the long struggles of Chartism and the suffragettes. The explanation says it outright: universal adult suffrage in Britain was the outcome of these social movements, with women's equal vote coming in 1928. IV appears in every option, so the item does not test it, but it states it, and the rule asks for stated, not tested. The 1928 date is outside NCERT and is background only. NCERT p.110 gives the chapter's framing: the struggles of the past made these rights possible. Concept match.",
+  "contentHash": "b8717f3a451e1dec597fcc29ab7facb123a67f32c0d482f52cbf4fd88881139a"
+ },
+ {
+  "candidateId": "48a626c5-4374-472e-b4a9-2590a42dd482",
+  "bankId": "48a626c5-4374-472e-b4a9-2590a42dd482",
+  "subject": "sociology",
+  "bankSubject": "sociology",
+  "paperQuestion": 50,
+  "chapter": "Mass Media & Communications",
+  "type": "statement_based",
+  "auditVerdict": "accept",
+  "auditQuality": 8,
+  "covers": true,
+  "matchKind": "concept",
+  "replaces": [
+   "23a5ff01-d9f7-401e-b9bb-4eea3b901620"
+  ],
+  "coversReason": "The paper keys women as the target audience of most soap operas. The printed passage does not contain this, so it is a knowledge item. NCERT does not print the fact either: I grepped lesy207.txt for women, housewives, female and target audience, and the only 'target audience' line is about the urban consuming class. The row's explanation states the fact outright: soap operas began as 1930s US daytime radio serials sponsored by soap makers, made for a mainly female audience, and women remain the main target audience of most soap operas. METHOD.md counts a bank question's explanation as teaching material, and the brief allows a fact outside NCERT when it is true and has a named authoritative source. Wikipedia 'Soap opera', read today, says the daytime serials were 'aimed at - and consumed by - a predominantly female audience' and that the name comes from soap manufacturers' sponsorship (both cited to Bowles 2000, p.118). Soap opera as a genre made chiefly for women is the standard media-studies account (for example Geraghty, Women and Soap Opera, 1991). So the needed fact is stated, true and sourced, and nothing about the match is doubtful except that it lives only in the explanation, which the rule allows. Concept match. The orchestrator should know it rests on an explanation-only fact from outside NCERT.",
+  "contentHash": "dd626f5d99280ab28de83e81be6f3510775bed0821e36dfdb6d31a9ccbf0fb6d"
+ }
+]

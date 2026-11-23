@@ -110,6 +110,10 @@
      "id": "82592e64-9d6f-47d4-b9db-c7cd8a6f1589"
     },
     {
+     "n": 38,
+     "id": "447d2a3e-1a7e-439d-9fd4-069683176986"
+    },
+    {
      "n": 45,
      "id": "b32a5ab7-1b3a-42e2-9baa-04674e4ec092"
     }
@@ -176,6 +180,10 @@
     {
      "n": 13,
      "id": "8171062d-6e5e-418c-a453-08f9daedef4d"
+    },
+    {
+     "n": 14,
+     "id": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025"
     },
     {
      "n": 16,
@@ -308,12 +316,20 @@
      "id": "e507a240-c420-4b53-a27d-be8c70f5ccb5"
     },
     {
+     "n": 22,
+     "id": "b6e90110-d676-44a1-be96-bb7160e1348f"
+    },
+    {
      "n": 28,
      "id": "98f4ae4b-0a0b-46fd-9aa4-6bb6367fba96"
     },
     {
      "n": 45,
      "id": "02f290b1-4488-424e-8504-acb24df27176"
+    },
+    {
+     "n": 50,
+     "id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e"
     }
    ],
    "found": []
@@ -366,6 +382,14 @@
     }
    ],
    "addedQuestions": [
+    {
+     "n": 8,
+     "id": "41872980-a987-49d2-8cd1-26271b83aa6d"
+    },
+    {
+     "n": 14,
+     "id": "99c9d26b-38bd-46b6-8943-648ba3558ee1"
+    },
     {
      "n": 27,
      "id": "6c960f04-5242-4f58-a6f0-60015f6bc800"
@@ -498,7 +522,16 @@
      "id": "kc.sociology.patterns-of-social-inequality.fact-apartheid-black-protestors-repression"
     }
    ],
-   "addedQuestions": [],
+   "addedQuestions": [
+    {
+     "n": 4,
+     "id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd"
+    },
+    {
+     "n": 50,
+     "id": "48a626c5-4374-472e-b4a9-2590a42dd482"
+    }
+   ],
    "found": []
   }
  }

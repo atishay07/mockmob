@@ -1,0 +1,457 @@
+[
+ {
+  "id": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+  "subject": "accountancy",
+  "unit": "Reconstitution of a Partnership firm",
+  "chapter": "Goodwill Valuation",
+  "type": "single_mcq",
+  "stem": "Two partners run a firm with a capital of ₹ 2,00,000; the market rate of interest is 12% and each partner is allowed a salary of ₹ 3,000 a year. Profits before partners' salaries were ₹ 58,000 in 2022-23, ₹ 39,000 in 2023-24 and ₹ 35,000 in 2024-25. Goodwill is the lower of 2 years' purchase of the three-year average super profit and 3 years' purchase of the last two years' average super profit. The goodwill is:",
+  "options": [
+   {
+    "key": "A",
+    "text": "₹ 14,000"
+   },
+   {
+    "key": "B",
+    "text": "₹ 21,000"
+   },
+   {
+    "key": "C",
+    "text": "₹ 28,000"
+   },
+   {
+    "key": "D",
+    "text": "₹ 39,000"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Normal profit is the return on the capital at the market rate of interest plus the partners' salaries, as in NCERT Illustration 13: 2,00,000 × 12% = 24,000, plus 2 × 3,000 = 6,000, so 30,000. Three-year basis: average profit = (58,000 + 39,000 + 35,000) ÷ 3 = 44,000; super profit = 44,000 − 30,000 = 14,000; goodwill = 14,000 × 2 = 28,000. Last-two-years basis: average profit = (39,000 + 35,000) ÷ 2 = 37,000; super profit = 37,000 − 30,000 = 7,000; goodwill = 7,000 × 3 = 21,000. The lower value, ₹ 21,000, is the goodwill. Either basis can give the lower figure, so work out both and compare: here profits are falling, so the recent basis is lower even at 3 years' purchase. The steps are NCERT's (2.5.4.2): average profit, normal profit, super profit = average profit − normal profit, goodwill = super profit × years' purchase. Traps: 28,000 is the higher of the two values; 39,000 leaves out the salaries (normal profit 24,000 gives 40,000 and 39,000); 14,000 swaps the multipliers (14,000 × 3 = 42,000 and 7,000 × 2 = 14,000).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "hard",
+  "ncert_ref": "NCERT Accountancy Part I (leac102, Reprint 2026-27), Ch 2 Admission of a Partner, 2.5.4.2 Super Profits Method, p. 60 (normal profit, super profit, years' purchase), and Illustration 13, pp. 61-62 (interest on capital at the market rate plus partners' salary = normal profit)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "447d2a3e-1a7e-439d-9fd4-069683176986",
+  "subject": "biology",
+  "unit": "Reproduction",
+  "chapter": "Human Reproduction",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the hormonal control of childbirth in humans.\n(A) Signals from the fully developed foetus and the placenta set off mild uterine contractions called the foetal ejection reflex.\n(B) The foetal ejection reflex triggers the release of oxytocin from the maternal pituitary.\n(C) Stronger uterine contractions cut down the further secretion of oxytocin.\n(D) Cortisol, estrogens and oxytocin are involved in inducing parturition.\n(E) Prolactin is one of the hormones that bring about parturition.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B), (D) and (E) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (B), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(B), (D) and (E) only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Parturition is induced by a complex neuroendocrine mechanism. Its signals come from the fully developed foetus and the placenta, which set off mild uterine contractions called the foetal ejection reflex, so (A) is true. This reflex triggers the release of oxytocin from the maternal pituitary, so (B) is true. Oxytocin acts on the uterine muscle and causes stronger contractions, and these in turn stimulate further secretion of oxytocin; this stimulatory reflex goes on, with stronger and stronger contractions, until the baby is expelled through the birth canal. The contractions therefore raise oxytocin secretion, they do not cut it down, so (C) is false. NCERT names the hormones of this mechanism as cortisol, estrogens and oxytocin, so (D) is true. Prolactin is not one of them, so (E) is false: its level rises several-fold in the mother's blood during pregnancy, and it is the anterior pituitary hormone that regulates the growth of the mammary glands and the formation of milk (milk production begins towards the end of pregnancy, by lactation), but it does not induce parturition. Of estrogens, cortisol, oxytocin and prolactin, only prolactin is not involved in parturition. The true statements are (A), (B) and (D).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Biology (lebo102, Reprint 2026-27), Ch 2 Human Reproduction: hormone levels in pregnancy, p 37; section 2.7 Parturition and Lactation, p 38; Summary, p 39 (cortisol, estrogens and oxytocin); prolactin's role: NCERT Class 11 Biology, Ch 19 Chemical Coordination and Integration, the pituitary gland",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+  "subject": "business_studies",
+  "unit": "Business Finance",
+  "chapter": "Financial Management",
+  "type": "statement_based",
+  "stem": "Which of the following statements about EBIT-EPS analysis are correct?\n(A) Interest on debt is deducted from EBIT to arrive at earnings before tax (EBT).\n(B) Tax is worked out on EBIT, before the interest on debt is deducted.\n(C) Earnings after tax (EAT) are found by deducting tax from EBT.\n(D) EPS is obtained by dividing EAT by the number of equity shares.\n(E) Using more debt raises EPS when the return on investment is lower than the rate of interest on debt.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (C), (D) and (E) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B), (C) and (D) only"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "EBIT-EPS analysis works in a fixed order: earnings before interest and taxes (EBIT), less interest on debt, gives earnings before tax (EBT), so (A) is true. Tax is charged on EBT, the profit left after interest, not on EBIT, so (B) is false. EBT less tax gives earnings after tax (EAT), so (C) is true, and EAT divided by the number of equity shares gives earnings per share (EPS), so (D) is true. The order of working is therefore EBIT, interest on debt, EBT, tax, EAT, EPS. Debt raises EPS only when the return on investment (EBIT ÷ total investment × 100) is higher than the rate of interest on debt: this is favourable financial leverage, and using more of the cheaper debt to raise EPS is called trading on equity. When the return on investment is lower than the interest rate, more debt lowers EPS (unfavourable financial leverage) and trading on equity is unadvisable, so (E) is false. The true statements are (A), (C) and (D).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Business Studies Part 2 (lebs201, Reprint 2026-27), Ch 9 Financial Management, printed p.228: EBIT-EPS Analysis table (EBIT, Interest, EBT, Tax, EAT, No. of shares, EPS); p.229: RoI above the cost of debt = favourable financial leverage and Trading on Equity; RoI below it = EPS falls, unfavourable financial leverage",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "b6e90110-d676-44a1-be96-bb7160e1348f",
+  "subject": "geography",
+  "unit": "Human Settlements",
+  "chapter": "Human Settlements",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the level of urbanisation.\n(A) It is measured as the percentage of urban population to total population.\n(B) India's level of urbanisation in 2011 was a little over 31 per cent.\n(C) More than half of the world's population now lives in urban areas.\n(D) In 2011, India's level of urbanisation was higher than the world's.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (C) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (C) and (D) only"
+   }
+  ],
+  "correct_key": "A",
+  "explanation": "NCERT measures the level of urbanisation as the percentage of urban population to total population, and gives India's level in 2011 as 31.16 per cent, which it calls quite low in comparison to developed countries; so (A) and (B) are true. NCERT also states that at present 55 per cent of the world's population lives in cities, a share estimated to rise to 68 per cent by 2050; so (C) is true. On each country's own definition of urban, more than half of the world's people have lived in urban areas since about 2007, so in 2011 the world's level was already a little over 50 per cent, far above India's 31 per cent, and (D) is false. Hence (A), (B) and (C) are correct. The world's present level of urbanisation (55 per cent in NCERT, a little under 60 per cent in the early 2020s) therefore lies between 50 and 75 per cent: well above India's, but below highly urbanised regions such as Northern America (about 82 per cent).",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 India: People and Economy: legy202 Ch 2 Human Settlements, p. 18 (level of urbanisation defined; India 31.16 per cent in 2011); legy209 Ch 9, p. 100 (at present 55 per cent of the world lives in cities; 68 per cent by 2050)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "4c02b377-71bf-4149-bab2-0e4c2552a6ce",
+  "subject": "geography",
+  "unit": "People",
+  "chapter": "Population — Distribution, Density, Growth",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the populations of some countries.\n(A) Russia has more people than Bangladesh.\n(B) Bangladesh has more people than Mexico.\n(C) Brazil has more people than Bangladesh.\n(D) Indonesia has more people than Brazil.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (C) only"
+   },
+   {
+    "key": "B",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B) and (D) only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "NCERT's chart of the ten most populous countries ranks them China, India, U.S.A., Indonesia, Brazil, Pakistan, Nigeria, Bangladesh, Russia and Mexico, and UN estimates for 2024 keep the same order for the five countries named here: Indonesia about 283 million, Brazil about 212 million, Bangladesh about 174 million, Russia about 145 million and Mexico about 130 million. So Bangladesh has more people than Mexico, Brazil more than Bangladesh, and Indonesia more than Brazil. Russia is the largest country in the world by area, yet it has fewer people than Bangladesh, a far smaller country: the size of a territory does not decide the size of its population. Hence (B), (C) and (D) are correct. Adding China (about 1.4 billion), these countries in decreasing order of population run China, Indonesia, Brazil, Bangladesh, Russia, Mexico.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy102), Ch 2 The World Population: Distribution, Density and Growth, p. 7: Fig. 2.1 Most Populous Countries (Indonesia, Brazil, Bangladesh, Russia, Mexico in that order)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "0c1425c6-ba05-4700-8ed0-5462e4a8328d",
+  "subject": "geography",
+  "unit": "Transport, Communication and Trade",
+  "chapter": "Transport & Communication",
+  "type": "statement_based",
+  "stem": "Consider the following statements about four cities with major international airports.\n(A) Montreal, in Canada, lies on the Trans-Canadian Railway between Halifax and Vancouver.\n(B) Perth, in Australia, is at the western end of the trans-continental railway that runs to Sydney.\n(C) Bangkok, in Thailand, is the eastern terminus of the Trans-Siberian Railway.\n(D) Madrid is the capital of Spain.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "B",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B) and (C) only"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "Montreal, in Quebec, Canada, is one of the cities on the Trans-Canadian line, which runs from Halifax in the east to Vancouver on the Pacific coast. Perth, on the west coast of Australia, is where the Australian trans-continental line begins its run east to Sydney. Bangkok, the capital of Thailand, is not on the Trans-Siberian Railway, which runs from St. Petersburg to Vladivostok on Russia's Pacific coast; Bangkok is instead one of the nodal points where inter-continental air routes converge, and the proposed end of the Trans-Asiatic Railway from Istanbul. Madrid is the capital of Spain (Portugal's capital is Lisbon). So (A), (B) and (D) are correct, and the four airport cities pair with their countries as Montreal - Canada, Madrid - Spain, Bangkok - Thailand and Perth - Australia.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy107), Ch 7 Transport and Communication: Trans-Siberian p. 58; Trans-Canadian (Montreal) p. 59; Perth-Sydney line and Trans-Asiatic p. 60; Bangkok an air-route node p. 66",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+  "subject": "geography",
+  "unit": "Transport, Communication and Trade",
+  "chapter": "Transport & Communication",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the zones of Indian Railways.\n(A) The network is divided into zones because a network this large is hard to manage centrally.\n(B) The North Central zone has its headquarters at Gorakhpur.\n(C) The East Central zone has its headquarters at Hajipur, in Bihar.\n(D) Kolkata is the headquarters of more than one zone.\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A), (B) and (D) only"
+   },
+   {
+    "key": "B",
+    "text": "(A), (C) and (D) only"
+   },
+   {
+    "key": "C",
+    "text": "(B), (C) and (D) only"
+   },
+   {
+    "key": "D",
+    "text": "(A), (B) and (C) only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "NCERT explains that the very large size of Indian Railways puts a lot of pressure on a centralised management system, and so the network has been divided into zones; its Table 7.2 lists 17 zones with their headquarters. The North Central zone is headquartered at Prayagraj in Uttar Pradesh; Gorakhpur, also in Uttar Pradesh, is the headquarters of the North Eastern zone, so (B) is false. The table gives Hajipur for the East Central zone; Hajipur, in Vaishali district across the Ganga from Patna, is in Bihar, and no other zone has its headquarters in that State. Kolkata, in West Bengal, is the headquarters of the Eastern zone, the South Eastern zone and the Metro Railway, so (D) is true. Hence (A), (C) and (D) are correct.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 India: People and Economy (legy207), Ch 7 Transport and Communication, p. 79: 17 zones because of the network's very large size; Table 7.2 Indian Railways: Railway Zones and Headquarters",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "41872980-a987-49d2-8cd1-26271b83aa6d",
+  "subject": "history",
+  "unit": "Themes in Indian History Part I",
+  "chapter": "Kings, Farmers & Towns",
+  "type": "match_the_following",
+  "stem": "Match List-I (early states of the sixth century BCE) with List-II (where they lay).\nList-I\n(A) Gandhara\n(B) Matsya\n(C) Avanti\n(D) Ashmaka\nList-II\n(I) In the Deccan, along the river Godavari\n(II) In Malwa, around the city of Ujjayini\n(III) In the far north-west, around the city of Taxila\n(IV) Just west of Mathura, in present-day eastern Rajasthan\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+   },
+   {
+    "key": "B",
+    "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+   },
+   {
+    "key": "C",
+    "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+   },
+   {
+    "key": "D",
+    "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "NCERT's Map 1, 'Early states and their capitals', places all four. Gandhara is in the far north-west of the subcontinent, with its cities Taxila and Pushkalavati; only Kamboja is marked further north (A-III). Matsya lies just west of Mathura, the capital of its neighbour Shurasena, and south-west of Kuru and Indraprastha; its land is present-day eastern Rajasthan, around Jaipur and Alwar, and its capital was Viratanagara (B-IV). Avanti, with its capital Ujjayini, lies further south, in Malwa in present-day Madhya Pradesh (C-II). Ashmaka is the southernmost state on the map: it lay in the Deccan, along the river Godavari, far south of Ujjayini (D-I). Read from north to south, the four therefore run Gandhara, Matsya, Avanti, Ashmaka. The commonest slip is to swap the two southern states: Avanti is the one around Ujjayini, and Ashmaka lies well beyond it in the Deccan. Many of the other mahajanapadas, such as Koshala, Kashi, Vatsa, Vajji, Magadha and Anga, lay close together in the Ganga valley.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Themes in Indian History Part I, Ch 2 Kings, Farmers and Towns, section 2.1 The sixteen mahajanapadas (lehs102 printed p29) and Map 1 Early states and their capitals (printed p30)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+  "subject": "history",
+  "unit": "Themes in Indian History Part I",
+  "chapter": "Kinship, Caste & Class",
+  "type": "single_mcq",
+  "stem": "Which of the following texts prescribed that, once a man and his wife had both died, their sons should split his property into equal portions, the eldest son receiving something extra on top of his portion?",
+  "options": [
+   {
+    "key": "A",
+    "text": "Rigveda"
+   },
+   {
+    "key": "B",
+    "text": "Majjhima Nikaya"
+   },
+   {
+    "key": "C",
+    "text": "Manusmriti"
+   },
+   {
+    "key": "D",
+    "text": "Purananuru"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "The rule is the Manusmriti's: after the death of the father and the mother, the brothers divide the paternal estate equally among themselves, and the eldest receives an additional share over and above his own (Manusmriti IX.104 and IX.112). NCERT's 2026-27 text gives the rule in general terms: according to the smriti tradition, the paternal property was to be divided equally amongst the children after the death of the parents, with a special share for the eldest. It adds that women could keep the gifts they received at marriage as stridhana, which their children could inherit and over which the husband had no claim. The Manusmriti, compiled in Sanskrit between c. 200 BCE and 200 CE, is the most important of the Dharmasutras and Dharmashastras, the texts in which Brahmanas laid down codes of social behaviour. The other three texts appear in the same chapter for other reasons. A Rigveda mantra chanted at weddings, probably inserted c. 1000 BCE, prays that the bride will have fine sons: it shows a concern with patriliny, but the Rigveda is a collection of ritual hymns, not a code of inheritance. The Majjhima Nikaya, a Buddhist text in Pali, holds the dialogue in which King Avantiputta and Kachchana question the Brahmanas' claim to be the best caste by birth. The Purananuru (spelt Puranaruru in NCERT), an anthology of Tamil Sangam poems, praises a poor but generous chief: it shows that those who controlled resources in Tamilakam were expected to share them, not how a father's estate was divided.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Themes in Indian History Part I, Ch 3 Kinship, Caste and Class: section 4.1 Gendered access to property (lehs103 printed p68); section 2.3 Rules of marriage (p58, the Manusmriti compiled c. 200 BCE-200 CE); Source 1 Producing fine sons (Rigveda mantra, p56); Source 13 The wealthy Shudra (Majjhima Nikaya, p70); section 4.3 Sharing wealth (p70) and Source 14 The poor generous chief (Tamil Sangam anthology, p71)",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "d4720622-e437-40d2-8f9d-4f7b48a2f4d6",
+  "subject": "political_science",
+  "unit": "Contemporary World Politics",
+  "chapter": "International Organisations",
+  "type": "match_the_following",
+  "stem": "Match List-I (international bodies) with List-II (cities where they are based).\nList-I\n(A) International Court of Justice\n(B) World Health Organisation\n(C) International Atomic Energy Agency\n(D) International Monetary Fund\nList-II\n(I) Vienna\n(II) Washington, DC\n(III) The Hague\n(IV) Geneva\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+   },
+   {
+    "key": "B",
+    "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+   },
+   {
+    "key": "C",
+    "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+   },
+   {
+    "key": "D",
+    "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+   }
+  ],
+  "correct_key": "D",
+  "explanation": "The International Court of Justice, the principal judicial organ of the United Nations, has its seat at the Peace Palace in The Hague, Netherlands (A-III). It is the only one of the UN's six principal organs not based at the UN Headquarters in New York: the General Assembly, the Security Council, the Economic and Social Council, the Trusteeship Council and the Secretariat are all there. The commonest slip is to put the Court in Geneva, but Geneva is the home of the World Health Organisation, a UN agency for health (B-IV), and of other bodies such as the World Trade Organisation. The International Atomic Energy Agency, set up in 1957 to promote the peaceful use of nuclear energy and to inspect nuclear facilities, is based in Vienna, Austria (C-I). The International Monetary Fund, which oversees financial institutions and regulations at the international level, has its headquarters in Washington, DC, United States, as does the World Bank (D-II). So none of Geneva, New York or Washington, DC is the seat of the International Court of Justice.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Contemporary World Politics, Ch 4 International Organisations (leps104): the IMF (printed p.47), the UN's agencies including the WHO (p.50), the IAEA (established 1957, Atoms for Peace, p.58), and exercise 7 naming the International Court of Justice (p.61). The cities are not printed in NCERT: ICJ Statute Art 22(1); WHO, IAEA and IMF headquarters as stated by each body",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ },
+ {
+  "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Structural Change",
+  "type": "match_the_following",
+  "stem": "Match List-I (how a village is linked to urban life) with List-II (the urban impact on the village).\nList-I\n(A) Villages such as Madhopur, many of whose people work in far-off cities like Bombay and Calcutta\n(B) Villages around Bhilai\n(C) Villages on the fringe of a growing metropolis\n(D) Remote villages reached by mass media\nList-II\n(I) Images of urban life styles and patterns of consumption, which create new desires and aspirations\n(II) Money sent home regularly, and new houses built by emigrants in their natal villages\n(III) A few villages are absorbed completely, and only the land of many others is used for urban development\n(IV) An influx of immigrant workers, which creates a demand for houses and a market inside the village\nChoose the correct answer from the options given below.",
+  "options": [
+   {
+    "key": "A",
+    "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+   },
+   {
+    "key": "B",
+    "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+   },
+   {
+    "key": "C",
+    "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+   },
+   {
+    "key": "D",
+    "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+   }
+  ],
+  "correct_key": "C",
+  "explanation": "M.S.A. Rao showed that the urban impact on a village depends on the kind of link the village has with a city, and he described three situations; mass media are a further channel, described in NCERT's chapter on the demographic structure. Rao's first situation is the village from which many people have sought work in far-off cities, leaving their families behind. In Madhopur, a village in north central India, 77 of 298 households have migrants, a little less than half of them in Bombay and Calcutta; about 75 per cent of the migrants send money home regularly, and most visit the village. Overseas emigrants from Gujarat villages have built fashionable houses in their natal villages and invested in land and industry. The city stays far away, but its money comes home, so (A) matches (II). When an industrial town like Bhilai comes up in the midst of villages, some villages are totally uprooted and the lands of others are partially acquired; these receive an influx of immigrant workers, which stimulates a demand for houses and a market inside the village and creates problems of ordering relationships between the native residents and the immigrants, so (B) matches (IV). This is the case in which urban life is physically transplanted into the rural setting: industrialisation brings the town's workers, their demand for housing and a market into the village itself. The growth of a metropolitan city is Rao's third situation: a few villages are totally absorbed in its expansion, while only the land of many others, excluding the inhabited area, is used for urban development, so (C) matches (III). Mass media and communication bring images of urban life styles and patterns of consumption into rural areas, so urban norms become known even in remote villages and create new desires and aspirations, but nothing urban arrives in person, so (D) matches (I). The correct matching is (A)-(II), (B)-(IV), (C)-(III), (D)-(I). Two traps: the immigrant workers around Bhilai come because of the industrial town, so they are not the out-migration of Madhopur, where villagers leave; and both the industrial town and the metropolis take village land, but in Rao's account it is the industrial town that brings an influx of immigrant workers, with their demand for houses and a market, inside the village.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 1 Structural Change (lesy201), Box 1.7, printed p.11: M.S.A. Rao's three kinds of urban impact (Madhopur migrants in Bombay and Calcutta sending money home; Gujarat emigrants building houses in their natal villages; an industrial town like Bhilai bringing immigrant workers, a demand for houses and a market inside the village; metropolitan growth absorbing villages or using their land). NCERT Class 12 Indian Society, Ch 2 The Demographic Structure of the Indian Society (lesy102), printed p.30: mass media bring images of urban life styles and patterns of consumption into rural areas. 'Physically transplanted' is not NCERT's wording: it summarises Rao's second kind, in which immigrant workers, a demand for houses and a market arrive inside the village.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Social Movements",
+  "type": "statement_based",
+  "stem": "Consider the following statements about the struggle for the right to vote.\nI. In Britain, voting rights were once limited to men who owned property.\nII. The People's Charter, signed by more than 1.25 million people in 1839, asked for the vote for every adult man and woman.\nIII. In 1918, British women got the right to vote on the same terms as men.\nIV. In Britain, universal adult franchise came only after the long struggles of social movements such as Chartism and the suffragettes' campaign.\nWhich statements are correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "I, II and IV only"
+   },
+   {
+    "key": "B",
+    "text": "I and IV only"
+   },
+   {
+    "key": "C",
+    "text": "I, III and IV only"
+   },
+   {
+    "key": "D",
+    "text": "II, III and IV only"
+   }
+  ],
+  "correct_key": "B",
+  "explanation": "Statements I and IV are correct. Universal adult franchise, the right of every adult to vote, is one of the foremost rights guaranteed by the Indian Constitution. Yet in Britain, too, not everyone could vote at first: voting rights were limited to property-owning men, so I is correct. Chartism was a social movement for parliamentary representation in England. In 1839 more than 1.25 million people signed the People's Charter, which asked for universal male suffrage, voting by ballot and the right to stand for elections without owning property, and in 1842 the movement collected 3.25 million signatures. The Charter asked for the vote for all men, not for women, so II is wrong. Only after World War I, in 1918, did all men over 21 get the vote, while among women only those over 30 who were married, owned houses or were university graduates got it; women did not yet vote on the same terms as men, so III is wrong. When the suffragettes took up the cause of all adult women's right to vote, they were bitterly opposed and their movement violently crushed, yet the struggle for women's votes went on. Equal votes for women came only with the Representation of the People (Equal Franchise) Act of 1928, which gave all women over 21 the vote on the same terms as men. So universal adult suffrage in Britain was the outcome of the long struggles of social movements such as Chartism and the suffragettes' campaign, and IV is correct. NCERT tells this story to make the chapter's point: the rights we enjoy did not just happen to exist; the struggles of the past made them possible.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 8 Social Movements (lesy208), Box 8.1 The Right to Vote, printed p.110: universal adult franchise, voting limited to property-owning men, Chartism and the People's Charter (1839: universal male suffrage, ballot, standing for election without property; 1842: 3.25 million signatures), the 1918 franchise, the suffragettes bitterly opposed; p.110 also: rights were made possible by the struggles of the past. The 1928 Act is not printed in NCERT: it is the UK Representation of the People (Equal Franchise) Act 1928, cited in the explanation only.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "repaired"
+ },
+ {
+  "id": "48a626c5-4374-472e-b4a9-2590a42dd482",
+  "subject": "sociology",
+  "unit": "Social Change and Development in India",
+  "chapter": "Mass Media & Communications",
+  "type": "statement_based",
+  "stem": "Consider the following statements about soap operas.\nI. A soap opera is serialised and continuous: individual stories end, but the soap itself has no ending until it is taken off the air.\nII. Buniyaad, aired before Hum Log, was India's first long-running soap opera.\nIII. Hum Log placed educational content on themes such as gender equality and small family size inside an entertainment programme.\nIV. The advertising carried by Hum Log made little difference to Doordarshan, which stayed free of commercial pressure.\nWhich statements are correct?",
+  "options": [
+   {
+    "key": "A",
+    "text": "I and III only"
+   },
+   {
+    "key": "B",
+    "text": "I, II and III only"
+   },
+   {
+    "key": "C",
+    "text": "I, III and IV only"
+   },
+   {
+    "key": "D",
+    "text": "III and IV only"
+   }
+  ],
+  "correct_key": "A",
+  "explanation": "Statements I and III are correct. Soap operas are stories that are serialised and continuous: individual stories may come to an end and different characters appear and disappear, but the soap itself has no ending until it is taken off the air completely, and it presumes a history that the regular viewer knows, so I is correct. Hum Log (1984-85) was India's first long-running soap opera: some 156 episodes were broadcast in Hindi over 17 months. It used the entertainment-education strategy, intentionally placing educational content in an entertainment programme, and promoted social themes such as gender equality, small family size and national integration, so III is correct. Buniyaad came later, in 1986-87, so II is wrong. Hum Log's advertising promoted a new consumer product, Maggi 2-Minute noodles; advertisers began to line up to buy airtime, and the commercialisation of Doordarshan began, so IV is wrong. Where the genre and its name come from: soap operas began in the United States in the 1930s as daytime radio serials, many of them sponsored by soap manufacturers, which gave the genre its name. They went out in the daytime, when most listeners were housewives, so they were made for a mainly female audience, and women remain the main target audience of most soap operas.",
+  "passage_text": null,
+  "set_id": null,
+  "difficulty_label": "medium",
+  "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 7 Mass Media and Communications (lesy207): Box 7.13 Soap opera, printed p.104; Box 7.4 Hum Log: A Turning Point, printed p.96 (first long-running soap opera, entertainment-education, 156 episodes, 1984-85, gender equality, small family size, national integration, Maggi advertising and the commercialisation of Doordarshan); p.97: Hum Log (1984-85) and Buniyaad (1986-87). The origin of the name and the women audience are not printed in NCERT; they are standard broadcasting history and appear in the explanation only.",
+  "source": "claude-authored-2026-11-23-w6",
+  "_verdict": "claude_audited",
+  "_expert": "ready"
+ }
+]

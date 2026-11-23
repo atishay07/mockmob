@@ -15,18 +15,18 @@
   "total": 50,
   "same": 13,
   "newValues": 0,
-  "concept": 35,
-  "notYet": 2,
+  "concept": 36,
+  "notYet": 1,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 48,
+  "covered": 49,
   "counted": 50,
-  "pct": 96,
+  "pct": 98,
   "first": 37,
   "firstPct": 74,
   "addedCards": 6,
-  "addedQuestions": 3,
+  "addedQuestions": 4,
   "found": 2,
   "sameFirst": 10,
   "newValuesFirst": 0
@@ -50,7 +50,7 @@
   {
    "name": "Human Reproduction",
    "asked": 5,
-   "covered": 4
+   "covered": 5
   },
   {
    "name": "Principles of Inheritance & Variation",
@@ -1377,11 +1377,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "447d2a3e-1a7e-439d-9fd4-069683176986",
+    "chapter": "Human Reproduction",
+    "stem": "Consider the following statements about the hormonal control of childbirth in humans.\n(A) Signals from the fully developed foetus and the placenta set off mild uterine contractions called the foetal ejection reflex.\n(B) The foetal ejection reflex triggers the release of oxytocin from the maternal pituitary.\n(C) Stronger uterine contractions cut down the further secretion of oxytocin.\n(D) Cortisol, estrogens and oxytocin are involved in inducing parturition.\n(E) Prolactin is one of the hormones that bring about parturition.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (B), (D) and (E) only",
+     "(A), (B) and (D) only",
+     "(A), (B), (C) and (D) only",
+     "(B), (D) and (E) only"
+    ],
+    "key": 1,
+    "explanation": "Parturition is induced by a complex neuroendocrine mechanism. Its signals come from the fully developed foetus and the placenta, which set off mild uterine contractions called the foetal ejection reflex, so (A) is true. This reflex triggers the release of oxytocin from the maternal pituitary, so (B) is true. Oxytocin acts on the uterine muscle and causes stronger contractions, and these in turn stimulate further secretion of oxytocin; this stimulatory reflex goes on, with stronger and stronger contractions, until the baby is expelled through the birth canal. The contractions therefore raise oxytocin secretion, they do not cut it down, so (C) is false. NCERT names the hormones of this mechanism as cortisol, estrogens and oxytocin, so (D) is true. Prolactin is not one of them, so (E) is false: its level rises several-fold in the mother's blood during pregnancy, and it is the anterior pituitary hormone that regulates the growth of the mammary glands and the formation of milk (milk production begins towards the end of pregnancy, by lactation), but it does not induce parturition. Of estrogens, cortisol, oxytocin and prolactin, only prolactin is not involved in parturition. The true statements are (A), (B) and (D).",
+    "more": {
+     "cards": 2,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 39,

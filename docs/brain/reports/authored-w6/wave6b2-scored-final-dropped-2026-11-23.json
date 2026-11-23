@@ -1,0 +1,32 @@
+[
+  {
+    "id": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+    "subject": "accountancy",
+    "batch": "accountancy__w6b2",
+    "chapter": "Goodwill Valuation",
+    "type": "single_mcq",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  },
+  {
+    "id": "0c1425c6-ba05-4700-8ed0-5462e4a8328d",
+    "subject": "geography",
+    "batch": "geography__w6b2",
+    "chapter": "Transport & Communication",
+    "type": "statement_based",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "j1_quality_5; j2_quality_6; fit_median_6"
+  },
+  {
+    "id": "d4720622-e437-40d2-8f9d-4f7b48a2f4d6",
+    "subject": "political_science",
+    "batch": "political_science__w6b2",
+    "chapter": "International Organisations",
+    "type": "match_the_following",
+    "first_pass": "not_accepted_in_the_first_pass",
+    "category": "not_accepted_by_the_rule",
+    "reason": "fit_median_6"
+  }
+]

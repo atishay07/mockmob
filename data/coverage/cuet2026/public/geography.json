@@ -15,18 +15,18 @@
   "total": 50,
   "same": 10,
   "newValues": 1,
-  "concept": 28,
-  "notYet": 4,
+  "concept": 30,
+  "notYet": 2,
   "skill": 7,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 39,
+  "covered": 41,
   "counted": 43,
-  "pct": 91,
+  "pct": 95,
   "first": 26,
   "firstPct": 60,
   "addedCards": 9,
-  "addedQuestions": 4,
+  "addedQuestions": 6,
   "found": 0,
   "sameFirst": 5,
   "newValuesFirst": 1
@@ -60,7 +60,7 @@
   {
    "name": "Human Settlements",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Primary Activities",
@@ -70,7 +70,7 @@
   {
    "name": "Transport and Communication (India)",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Geographical Perspective on Selected Issues and Problems",
@@ -861,11 +861,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "b6e90110-d676-44a1-be96-bb7160e1348f",
+    "chapter": "Human Settlements",
+    "stem": "Consider the following statements about the level of urbanisation.\n(A) It is measured as the percentage of urban population to total population.\n(B) India's level of urbanisation in 2011 was a little over 31 per cent.\n(C) More than half of the world's population now lives in urban areas.\n(D) In 2011, India's level of urbanisation was higher than the world's.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (B) and (C) only",
+     "(A), (B) and (D) only",
+     "(B), (C) and (D) only",
+     "(A), (C) and (D) only"
+    ],
+    "key": 0,
+    "explanation": "NCERT measures the level of urbanisation as the percentage of urban population to total population, and gives India's level in 2011 as 31.16 per cent, which it calls quite low in comparison to developed countries; so (A) and (B) are true. NCERT also states that at present 55 per cent of the world's population lives in cities, a share estimated to rise to 68 per cent by 2050; so (C) is true. On each country's own definition of urban, more than half of the world's people have lived in urban areas since about 2007, so in 2011 the world's level was already a little over 50 per cent, far above India's 31 per cent, and (D) is false. Hence (A), (B) and (C) are correct. The world's present level of urbanisation (55 per cent in NCERT, a little under 60 per cent in the early 2020s) therefore lies between 50 and 75 per cent: well above India's, but below highly urbanised regions such as Northern America (about 82 per cent).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 23,
@@ -1761,11 +1779,29 @@
    "key": [
     1
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+    "chapter": "Transport & Communication",
+    "stem": "Consider the following statements about the zones of Indian Railways.\n(A) The network is divided into zones because a network this large is hard to manage centrally.\n(B) The North Central zone has its headquarters at Gorakhpur.\n(C) The East Central zone has its headquarters at Hajipur, in Bihar.\n(D) Kolkata is the headquarters of more than one zone.\nChoose the correct answer from the options given below.",
+    "passage": null,
+    "options": [
+     "(A), (B) and (D) only",
+     "(A), (C) and (D) only",
+     "(B), (C) and (D) only",
+     "(A), (B) and (C) only"
+    ],
+    "key": 1,
+    "explanation": "NCERT explains that the very large size of Indian Railways puts a lot of pressure on a centralised management system, and so the network has been divided into zones; its Table 7.2 lists 17 zones with their headquarters. The North Central zone is headquartered at Prayagraj in Uttar Pradesh; Gorakhpur, also in Uttar Pradesh, is the headquarters of the North Eastern zone, so (B) is false. The table gives Hajipur for the East Central zone; Hajipur, in Vaishali district across the Ganga from Patna, is in Bihar, and no other zone has its headquarters in that State. Kolkata, in West Bengal, is the headquarters of the Eastern zone, the South Eastern zone and the Metro Railway, so (D) is true. Hence (A), (C) and (D) are correct.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   }
  ]
 }

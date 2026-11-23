@@ -150,12 +150,12 @@
    "n": 14,
    "chapter": "Financial Management",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The authored question was held by the quality gate"
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 15,

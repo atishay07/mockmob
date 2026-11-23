@@ -1,0 +1,146 @@
+{
+ "kind": "authored_w6b2_assembly",
+ "source": "claude-authored-2026-11-23-w6",
+ "batch": 2,
+ "at": "2026-11-23T15:07:51.041Z",
+ "candidatesFile": "docs/brain/reports/authored-w6/wave6b2-candidates-final-2026-11-23.json",
+ "candidatesSha256": "e191e46825c680eb87cfad6077e0f304bef47d1033bc387b1227a3f36c90ddc9",
+ "inputs": [
+  "tmp/1123-close/rewrite/accountancy/audit.json",
+  "tmp/1123-close/rewrite/biology/audit.json",
+  "tmp/1123-close/rewrite/business-studies/audit.json",
+  "tmp/1123-close/rewrite/geography/audit.json",
+  "tmp/1123-close/rewrite/history/audit.json",
+  "tmp/1123-close/rewrite/political-science/audit.json",
+  "tmp/1123-close/rewrite/sociology/audit.json"
+ ],
+ "rule": "results[] whose verdict is accept or repair AND covers is true; the row is results[].row. _verdict claude_audited; _expert ready (accept) or repaired (repair); every row must name the held (never-published) batch-1 row it replaces, and may not reuse a batch-1 id.",
+ "questions": 13,
+ "problems": [],
+ "fieldChanges": [],
+ "notAssembled": [
+  {
+   "subject": "sociology",
+   "n": 15,
+   "id": "4b78e407-d19d-4d58-80c8-1a9eae2a94c7",
+   "verdict": "repair",
+   "covers": false,
+   "why": "NOT COVERED. The paper keys Bhopal as the city 'outside the economic system of the colonial empire'. The row never states that, and rightly: NCERT does not say it, and as a claim about the economy it is doubtful history. Princely states liv"
+  }
+ ],
+ "planHash": "385079e01266952336e4f4739768ab2a59ce4d3ed58b2a3958f41fe9b1a4491c",
+ "summary": {
+  "questions": 13,
+  "passageGroups": 0,
+  "bySubject": {
+   "accountancy": 1,
+   "biology": 1,
+   "business_studies": 1,
+   "geography": 4,
+   "history": 2,
+   "political_science": 1,
+   "sociology": 3
+  },
+  "byType": {
+   "conceptual_mcq": 2,
+   "statement_based": 8,
+   "match_the_following": 3
+  },
+  "byDifficulty": {
+   "hard": 1,
+   "medium": 12
+  },
+  "byExpertReview": {
+   "claude_audited": 13
+  },
+  "passageChildrenBySet": {},
+  "passageSetsBelowNtaMinimum": [],
+  "chapters": 12
+ },
+ "replacedHeldRows": [
+  {
+   "held": "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+   "by": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+   "paperQuestion": 23,
+   "subject": "accountancy"
+  },
+  {
+   "held": "6011028f-e8bf-47c7-8d07-32352f7b04d8",
+   "by": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+   "paperQuestion": 23,
+   "subject": "accountancy"
+  },
+  {
+   "held": "94186aa1-fe0c-445b-a73b-122cd36ce46d",
+   "by": "447d2a3e-1a7e-439d-9fd4-069683176986",
+   "paperQuestion": 38,
+   "subject": "biology"
+  },
+  {
+   "held": "dbbd3e36-c506-48e6-a949-90a3b506cfe4",
+   "by": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+   "paperQuestion": 14,
+   "subject": "business-studies"
+  },
+  {
+   "held": "c61ea703-a85a-4320-81a2-83d21e009da7",
+   "by": "b6e90110-d676-44a1-be96-bb7160e1348f",
+   "paperQuestion": 22,
+   "subject": "geography"
+  },
+  {
+   "held": "13edb7cc-941a-4c89-b542-4784a8987482",
+   "by": "4c02b377-71bf-4149-bab2-0e4c2552a6ce",
+   "paperQuestion": 26,
+   "subject": "geography"
+  },
+  {
+   "held": "a67c8de0-4856-40bb-8fa0-6b55d97c79a0",
+   "by": "0c1425c6-ba05-4700-8ed0-5462e4a8328d",
+   "paperQuestion": 39,
+   "subject": "geography"
+  },
+  {
+   "held": "6a44e907-1826-4514-bfc1-481e1ea1ef77",
+   "by": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+   "paperQuestion": 50,
+   "subject": "geography"
+  },
+  {
+   "held": "2c6066c9-95ff-42da-950e-18cac8163718",
+   "by": "41872980-a987-49d2-8cd1-26271b83aa6d",
+   "paperQuestion": 8,
+   "subject": "history"
+  },
+  {
+   "held": "452056da-8fc1-454a-b129-810f881d7608",
+   "by": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+   "paperQuestion": 14,
+   "subject": "history"
+  },
+  {
+   "held": "348622de-cdf5-435b-a658-8b18520f9cf2",
+   "by": "d4720622-e437-40d2-8f9d-4f7b48a2f4d6",
+   "paperQuestion": 27,
+   "subject": "political-science"
+  },
+  {
+   "held": "c74475c2-d1f6-44fa-a9fd-039158a516d9",
+   "by": "797c5327-4952-47c1-b811-43f8e00faeb0",
+   "paperQuestion": 3,
+   "subject": "sociology"
+  },
+  {
+   "held": "76df8f59-a722-4020-9052-04a19f6e59bf",
+   "by": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+   "paperQuestion": 4,
+   "subject": "sociology"
+  },
+  {
+   "held": "23a5ff01-d9f7-401e-b9bb-4eea3b901620",
+   "by": "48a626c5-4374-472e-b4a9-2590a42dd482",
+   "paperQuestion": 50,
+   "subject": "sociology"
+  }
+ ]
+}

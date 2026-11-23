@@ -3,7 +3,7 @@
   "subject": "history",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-11-23T14:13:59.543Z",
+  "merged_at": "2026-11-23T17:42:05.243Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -72,7 +72,7 @@
       "cites_source_text": 4
     },
     "mean_of_means": 6.1,
-    "admissible_before_row_checks": 135
+    "admissible_before_row_checks": 137
   },
   "questions": {
     "18555b21-4000-421e-9ab4-d09ad5227361": {
@@ -19178,6 +19178,190 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "41872980-a987-49d2-8cd1-26271b83aa6d": {
+      "question_id": "41872980-a987-49d2-8cd1-26271b83aa6d",
+      "batch": "authored-2026-10-14__history__w6b2",
+      "chapter": "Kings, Farmers & Towns",
+      "key": "B",
+      "content_hash": "8789dc0a2b784032d4f8116ce10ccdc98514ac1e2066cd585f526970e6f79b3f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "history.kings-farmers-and-towns.mahajanapadas-locations",
+          "flags": [],
+          "note": "Well-formed match list; distractors are single swaps. Matsya and Ashmaka rest on the NCERT map rather than the text, and List-II clues (Taxila, Ujjayini) make A and C easy.",
+          "scored_content_hash": "8789dc0a2b784032d4f8116ce10ccdc98514ac1e2066cd585f526970e6f79b3f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "history.kings-farmers-and-towns.mahajanapadas-locations-map",
+          "flags": [],
+          "note": "Well-formed match list from NCERT Map 1; distractors swap Avanti/Ashmaka and Matsya/Gandhara. 'Just west of Mathura' for Matsya is approximate (map shows south-west) but unambiguous.",
+          "scored_content_hash": "8789dc0a2b784032d4f8116ce10ccdc98514ac1e2066cd585f526970e6f79b3f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "history.kings-farmers-and-towns.mahajanapadas-locations",
+        "history.kings-farmers-and-towns.mahajanapadas-locations-map"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "8789dc0a2b784032d4f8116ce10ccdc98514ac1e2066cd585f526970e6f79b3f",
+        "final_content_hash": "8789dc0a2b784032d4f8116ce10ccdc98514ac1e2066cd585f526970e6f79b3f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "99c9d26b-38bd-46b6-8943-648ba3558ee1": {
+      "question_id": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+      "batch": "authored-2026-10-14__history__w6b2",
+      "chapter": "Kinship, Caste & Class",
+      "key": "C",
+      "content_hash": "ba493b8f15ecc276b92211791eef0d97cda7a2a6f54edac22c35ac283d623723",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "history.kinship-caste-and-class.manusmriti-paternal-property-division",
+          "flags": [],
+          "note": "Direct NCERT recall of the Manusmriti inheritance rule; all three distractors are sources from the same chapter, so a student must know which text says what.",
+          "scored_content_hash": "ba493b8f15ecc276b92211791eef0d97cda7a2a6f54edac22c35ac283d623723"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-11-23",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "history.kinship-caste-and-class.inheritance-rules-manusmriti",
+          "flags": [],
+          "note": "Direct NCERT 4.1 line; all three distractors are sources from the same chapter, so a half-prepared student can slip. One defensible answer; explanation facts check.",
+          "scored_content_hash": "ba493b8f15ecc276b92211791eef0d97cda7a2a6f54edac22c35ac283d623723"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "history.kinship-caste-and-class.manusmriti-paternal-property-division",
+        "history.kinship-caste-and-class.inheritance-rules-manusmriti"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-11-23-w6",
+        "wave": 6,
+        "expert_verdict": null,
+        "expert_issue": null,
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "not_reviewed",
+        "judged_text": "final",
+        "judged_content_hash": "ba493b8f15ecc276b92211791eef0d97cda7a2a6f54edac22c35ac283d623723",
+        "final_content_hash": "ba493b8f15ecc276b92211791eef0d97cda7a2a6f54edac22c35ac283d623723",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -19195,15 +19379,30 @@
     },
     "claude-authored-2026-11-23-w6": {
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
-      "merged_at": "2026-11-23T14:13:59.543Z",
-      "questions": 1,
+      "merged_at": "2026-11-23T17:42:05.243Z",
+      "questions": 3,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-11-23",
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
-      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
+      "batch_questions": 2,
+      "earlier_batches": [
+        {
+          "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.",
+          "merged_at": "2026-11-23T14:13:59.543Z",
+          "questions": 1,
+          "judge_model": "claude-subagent-unrecorded",
+          "judge_date": "2026-11-23",
+          "repaired_text_policy": "admit",
+          "held_for_fresh_judge_pass": 0,
+          "judged_text_differs_from_final": 0,
+          "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+          "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+        }
+      ]
     }
   }
 }

@@ -238,12 +238,12 @@
    "n": 22,
    "chapter": "Human Settlements",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "b6e90110-d676-44a1-be96-bb7160e1348f",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Only India's 2011 level (31.16%) is stated; no world level in material or in the 2026-27 NCERT."
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges"
   },
   {
    "n": 23,
@@ -546,12 +546,12 @@
    "n": 50,
    "chapter": "Transport and Communication (India)",
    "type": "theory",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "Card list-railway-zones-hq gives East Central at Hajipur; no material says Hajipur is in Bihar."
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges"
   }
  ]
 }

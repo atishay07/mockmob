@@ -1,0 +1,1295 @@
+{
+ "kind": "authored_w6_acceptance",
+ "source": "claude-authored-2026-11-23-w6",
+ "date": "2026-11-23",
+ "built_at": "2026-11-23T17:42:03.440Z",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "note": "Wave-1 acceptance rule applied to the raw files of wave 6, batch 2 (13 rewritten rows of wave6b2-candidates-final-2026-11-23.json, each replacing a held batch-1 row). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the audit marks of the assembled candidates file (_verdict claude_audited, _expert ready or repaired).",
+ "rule": {
+  "solversMatchingKeyAtLeast": 4,
+  "solversRequired": 5,
+  "qualityScoreAtLeast": 7,
+  "qualityFlagsAllowed": 0,
+  "qualityBlindAnswerMustEqualKey": true,
+  "fitMedianAtLeast": 8,
+  "fitFlaggedByFewerThan": 2,
+  "source": "docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md (acceptance rule), docs/brain/RUNBOOK-PUBLISH-AUTHORED-2026-10-14.md section 0"
+ },
+ "raw": "tmp/1123-close/integrate/scoring2",
+ "wave": 6,
+ "total": {
+  "written": 13,
+  "acceptedByJudgesAndSolvers": 10,
+  "accepted": 10,
+  "rejected": 3,
+  "rejectedByReason": {
+   "solvers": 0,
+   "quality_score": 1,
+   "quality_flag": 0,
+   "judge_blind_answer": 0,
+   "fit_median": 3,
+   "fit_flags": 0,
+   "verification_incomplete": 0,
+   "structural": 0,
+   "blind_text": 0,
+   "duplicate": 0,
+   "repaired_without_resolve": 0,
+   "resolve": 0,
+   "expert_verdict": 0,
+   "other": 0
+  }
+ },
+ "bySubject": {
+  "accountancy": {
+   "written": 1,
+   "acceptedByJudgesAndSolvers": 0,
+   "accepted": 0,
+   "rejected": 1,
+   "batches": {
+    "accountancy__w6b2": {
+     "written": 1,
+     "accepted": 0
+    }
+   },
+   "byChapter": {
+    "Goodwill Valuation": {
+     "written": 1,
+     "accepted": 0
+    }
+   },
+   "byType": {
+    "single_mcq": {
+     "written": 1,
+     "accepted": 0
+    }
+   },
+   "rejectedByReason": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 1,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "rejectedOnlyBy": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 1,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "keyDistributionAccepted": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0
+   }
+  },
+  "biology": {
+   "written": 1,
+   "acceptedByJudgesAndSolvers": 1,
+   "accepted": 1,
+   "rejected": 0,
+   "batches": {
+    "biology__w6b2": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "byChapter": {
+    "Human Reproduction": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "byType": {
+    "statement_based": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "rejectedByReason": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "rejectedOnlyBy": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "keyDistributionAccepted": {
+    "A": 0,
+    "B": 1,
+    "C": 0,
+    "D": 0
+   }
+  },
+  "business_studies": {
+   "written": 1,
+   "acceptedByJudgesAndSolvers": 1,
+   "accepted": 1,
+   "rejected": 0,
+   "batches": {
+    "business_studies__w6b2": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "byChapter": {
+    "Financial Management": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "byType": {
+    "statement_based": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "rejectedByReason": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "rejectedOnlyBy": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "keyDistributionAccepted": {
+    "A": 0,
+    "B": 0,
+    "C": 1,
+    "D": 0
+   }
+  },
+  "geography": {
+   "written": 4,
+   "acceptedByJudgesAndSolvers": 3,
+   "accepted": 3,
+   "rejected": 1,
+   "batches": {
+    "geography__w6b2": {
+     "written": 4,
+     "accepted": 3
+    }
+   },
+   "byChapter": {
+    "Human Settlements": {
+     "written": 1,
+     "accepted": 1
+    },
+    "Population — Distribution, Density, Growth": {
+     "written": 1,
+     "accepted": 1
+    },
+    "Transport & Communication": {
+     "written": 2,
+     "accepted": 1
+    }
+   },
+   "byType": {
+    "statement_based": {
+     "written": 4,
+     "accepted": 3
+    }
+   },
+   "rejectedByReason": {
+    "solvers": 0,
+    "quality_score": 1,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 1,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "rejectedOnlyBy": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "keyDistributionAccepted": {
+    "A": 1,
+    "B": 2,
+    "C": 0,
+    "D": 0
+   }
+  },
+  "history": {
+   "written": 2,
+   "acceptedByJudgesAndSolvers": 2,
+   "accepted": 2,
+   "rejected": 0,
+   "batches": {
+    "history__w6b2": {
+     "written": 2,
+     "accepted": 2
+    }
+   },
+   "byChapter": {
+    "Kings, Farmers & Towns": {
+     "written": 1,
+     "accepted": 1
+    },
+    "Kinship, Caste & Class": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "byType": {
+    "match_the_following": {
+     "written": 1,
+     "accepted": 1
+    },
+    "single_mcq": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "rejectedByReason": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "rejectedOnlyBy": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "keyDistributionAccepted": {
+    "A": 0,
+    "B": 1,
+    "C": 1,
+    "D": 0
+   }
+  },
+  "political_science": {
+   "written": 1,
+   "acceptedByJudgesAndSolvers": 0,
+   "accepted": 0,
+   "rejected": 1,
+   "batches": {
+    "political_science__w6b2": {
+     "written": 1,
+     "accepted": 0
+    }
+   },
+   "byChapter": {
+    "International Organisations": {
+     "written": 1,
+     "accepted": 0
+    }
+   },
+   "byType": {
+    "match_the_following": {
+     "written": 1,
+     "accepted": 0
+    }
+   },
+   "rejectedByReason": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 1,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "rejectedOnlyBy": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 1,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "keyDistributionAccepted": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0
+   }
+  },
+  "sociology": {
+   "written": 3,
+   "acceptedByJudgesAndSolvers": 3,
+   "accepted": 3,
+   "rejected": 0,
+   "batches": {
+    "sociology__w6b2": {
+     "written": 3,
+     "accepted": 3
+    }
+   },
+   "byChapter": {
+    "Structural Change": {
+     "written": 1,
+     "accepted": 1
+    },
+    "Social Movements": {
+     "written": 1,
+     "accepted": 1
+    },
+    "Mass Media & Communications": {
+     "written": 1,
+     "accepted": 1
+    }
+   },
+   "byType": {
+    "match_the_following": {
+     "written": 1,
+     "accepted": 1
+    },
+    "statement_based": {
+     "written": 2,
+     "accepted": 2
+    }
+   },
+   "rejectedByReason": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "rejectedOnlyBy": {
+    "solvers": 0,
+    "quality_score": 0,
+    "quality_flag": 0,
+    "judge_blind_answer": 0,
+    "fit_median": 0,
+    "fit_flags": 0,
+    "verification_incomplete": 0,
+    "structural": 0,
+    "blind_text": 0,
+    "duplicate": 0,
+    "repaired_without_resolve": 0,
+    "resolve": 0,
+    "expert_verdict": 0,
+    "other": 0
+   },
+   "keyDistributionAccepted": {
+    "A": 1,
+    "B": 1,
+    "C": 1,
+    "D": 0
+   }
+  }
+ },
+ "files": {
+  "batches": 7,
+  "expectedResultFiles": 70,
+  "presentResultFiles": 70,
+  "missing": [],
+  "malformed": [],
+  "recordIssues": [],
+  "batchLevelProblems": [],
+  "unexpectedFiles": [],
+  "fitFlagsOutsideRubricList": {},
+  "sourceCandidates": {
+   "candidatesFile": "docs/brain/reports/authored-w6/wave6b2-candidates-final-2026-11-23.json",
+   "candidatesSha256": "e191e46825c680eb87cfad6077e0f304bef47d1033bc387b1227a3f36c90ddc9",
+   "candidatesInFile": 13,
+   "manifestState": "ok",
+   "problems": [],
+   "candidatesNotLaidOut": {},
+   "excludedSubjects": []
+  }
+ },
+ "sets": {},
+ "questions": [
+  {
+   "id": "7d9fb7bc-4063-4d8f-a556-11013c01ff1d",
+   "subject": "accountancy",
+   "batch": "accountancy__w6b2",
+   "chapter": "Goodwill Valuation",
+   "type": "single_mcq",
+   "difficulty_label": "hard",
+   "set_id": null,
+   "accepted": false,
+   "reasons": [
+    "fit_median_6"
+   ],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 9,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "hard"
+    },
+    {
+     "judge": "j2",
+     "score": 8,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "hard"
+    }
+   ],
+   "fit": {
+    "scores": [
+     6,
+     5,
+     6
+    ],
+    "median": 6,
+    "flagged_by": 1,
+    "flags": [
+     "too_slow"
+    ]
+   },
+   "passed_rule_before_duplicate_screen": false
+  },
+  {
+   "id": "447d2a3e-1a7e-439d-9fd4-069683176986",
+   "subject": "biology",
+   "batch": "biology__w6b2",
+   "chapter": "Human Reproduction",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 9,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    },
+    {
+     "judge": "j2",
+     "score": 9,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     10,
+     10,
+     10
+    ],
+    "median": 10,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025",
+   "subject": "business_studies",
+   "batch": "business_studies__w6b2",
+   "chapter": "Financial Management",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 8,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "medium"
+    },
+    {
+     "judge": "j2",
+     "score": 8,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     8,
+     9,
+     8
+    ],
+    "median": 8,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "b6e90110-d676-44a1-be96-bb7160e1348f",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Human Settlements",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 8,
+     "blind_answer": "A",
+     "flags": [],
+     "difficulty_check": "easy"
+    },
+    {
+     "judge": "j2",
+     "score": 8,
+     "blind_answer": "A",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     9,
+     9,
+     9
+    ],
+    "median": 9,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "4c02b377-71bf-4149-bab2-0e4c2552a6ce",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Population — Distribution, Density, Growth",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 7,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    },
+    {
+     "judge": "j2",
+     "score": 7,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     8,
+     8,
+     8
+    ],
+    "median": 8,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "0c1425c6-ba05-4700-8ed0-5462e4a8328d",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Transport & Communication",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": false,
+   "reasons": [
+    "j1_quality_5",
+    "j2_quality_6",
+    "fit_median_6"
+   ],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 5,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "easy"
+    },
+    {
+     "judge": "j2",
+     "score": 6,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "easy"
+    }
+   ],
+   "fit": {
+    "scores": [
+     6,
+     6,
+     6
+    ],
+    "median": 6,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": false
+  },
+  {
+   "id": "5aa6c346-d91c-4430-9334-dc8fdf2a627e",
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Transport & Communication",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 8,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    },
+    {
+     "judge": "j2",
+     "score": 8,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     8,
+     8,
+     8
+    ],
+    "median": 8,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "41872980-a987-49d2-8cd1-26271b83aa6d",
+   "subject": "history",
+   "batch": "history__w6b2",
+   "chapter": "Kings, Farmers & Towns",
+   "type": "match_the_following",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 8,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    },
+    {
+     "judge": "j2",
+     "score": 8,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     8,
+     8,
+     9
+    ],
+    "median": 8,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "99c9d26b-38bd-46b6-8943-648ba3558ee1",
+   "subject": "history",
+   "batch": "history__w6b2",
+   "chapter": "Kinship, Caste & Class",
+   "type": "single_mcq",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 9,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "easy"
+    },
+    {
+     "judge": "j2",
+     "score": 9,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "easy"
+    }
+   ],
+   "fit": {
+    "scores": [
+     10,
+     10,
+     9
+    ],
+    "median": 10,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "d4720622-e437-40d2-8f9d-4f7b48a2f4d6",
+   "subject": "political_science",
+   "batch": "political_science__w6b2",
+   "chapter": "International Organisations",
+   "type": "match_the_following",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": false,
+   "reasons": [
+    "fit_median_6"
+   ],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 8,
+     "blind_answer": "D",
+     "flags": [],
+     "difficulty_check": "easy"
+    },
+    {
+     "judge": "j2",
+     "score": 7,
+     "blind_answer": "D",
+     "flags": [],
+     "difficulty_check": "easy"
+    }
+   ],
+   "fit": {
+    "scores": [
+     6,
+     6,
+     6
+    ],
+    "median": 6,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": false
+  },
+  {
+   "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Structural Change",
+   "type": "match_the_following",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 7,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "easy"
+    },
+    {
+     "judge": "j2",
+     "score": 7,
+     "blind_answer": "C",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     8,
+     8,
+     8
+    ],
+    "median": 8,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Social Movements",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 8,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    },
+    {
+     "judge": "j2",
+     "score": 9,
+     "blind_answer": "B",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     9,
+     8,
+     8
+    ],
+    "median": 8,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  },
+  {
+   "id": "48a626c5-4374-472e-b4a9-2590a42dd482",
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Mass Media & Communications",
+   "type": "statement_based",
+   "difficulty_label": "medium",
+   "set_id": null,
+   "accepted": true,
+   "reasons": [],
+   "solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   },
+   "quality": [
+    {
+     "judge": "j1",
+     "score": 8,
+     "blind_answer": "A",
+     "flags": [],
+     "difficulty_check": "medium"
+    },
+    {
+     "judge": "j2",
+     "score": 8,
+     "blind_answer": "A",
+     "flags": [],
+     "difficulty_check": "medium"
+    }
+   ],
+   "fit": {
+    "scores": [
+     9,
+     9,
+     9
+    ],
+    "median": 9,
+    "flagged_by": 0,
+    "flags": []
+   },
+   "passed_rule_before_duplicate_screen": true
+  }
+ ],
+ "qualityMeanDistribution": {
+  "note": "mean of the two quality judges (j1, j2); the acceptance rule needs each judge at 7 or more, the publication rule of 17 Oct 2026 (wave 3) needs the mean at 8 or more",
+  "total": {
+   "written": 13,
+   "accepted": 10,
+   "atLeast8All": 9,
+   "atLeast8Accepted": 8,
+   "below8Accepted": 2
+  },
+  "bySubject": {
+   "accountancy": {
+    "written": 1,
+    "noTwoScores": 0,
+    "byMeanAll": {
+     "8.5": 1
+    },
+    "byMeanAccepted": {},
+    "atLeast8All": 1,
+    "atLeast8Accepted": 0,
+    "accepted": 0,
+    "below8Accepted": 0
+   },
+   "biology": {
+    "written": 1,
+    "noTwoScores": 0,
+    "byMeanAll": {
+     "9": 1
+    },
+    "byMeanAccepted": {
+     "9": 1
+    },
+    "atLeast8All": 1,
+    "atLeast8Accepted": 1,
+    "accepted": 1,
+    "below8Accepted": 0
+   },
+   "business_studies": {
+    "written": 1,
+    "noTwoScores": 0,
+    "byMeanAll": {
+     "8": 1
+    },
+    "byMeanAccepted": {
+     "8": 1
+    },
+    "atLeast8All": 1,
+    "atLeast8Accepted": 1,
+    "accepted": 1,
+    "below8Accepted": 0
+   },
+   "geography": {
+    "written": 4,
+    "noTwoScores": 0,
+    "byMeanAll": {
+     "7": 1,
+     "8": 2,
+     "5.5": 1
+    },
+    "byMeanAccepted": {
+     "7": 1,
+     "8": 2
+    },
+    "atLeast8All": 2,
+    "atLeast8Accepted": 2,
+    "accepted": 3,
+    "below8Accepted": 1
+   },
+   "history": {
+    "written": 2,
+    "noTwoScores": 0,
+    "byMeanAll": {
+     "8": 1,
+     "9": 1
+    },
+    "byMeanAccepted": {
+     "8": 1,
+     "9": 1
+    },
+    "atLeast8All": 2,
+    "atLeast8Accepted": 2,
+    "accepted": 2,
+    "below8Accepted": 0
+   },
+   "political_science": {
+    "written": 1,
+    "noTwoScores": 0,
+    "byMeanAll": {
+     "7.5": 1
+    },
+    "byMeanAccepted": {},
+    "atLeast8All": 0,
+    "atLeast8Accepted": 0,
+    "accepted": 0,
+    "below8Accepted": 0
+   },
+   "sociology": {
+    "written": 3,
+    "noTwoScores": 0,
+    "byMeanAll": {
+     "7": 1,
+     "8": 1,
+     "8.5": 1
+    },
+    "byMeanAccepted": {
+     "7": 1,
+     "8": 1,
+     "8.5": 1
+    },
+    "atLeast8All": 2,
+    "atLeast8Accepted": 2,
+    "accepted": 3,
+    "below8Accepted": 1
+   }
+  }
+ }
+}

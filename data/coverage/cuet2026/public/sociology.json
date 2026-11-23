@@ -6,8 +6,8 @@
  "examDate": "2026-05-15",
  "examDay": "15 May 2026",
  "shift": "first shift",
- "snapshotDate": "2026-11-22",
- "snapshotDay": "22 November 2026",
+ "snapshotDate": "2026-11-23",
+ "snapshotDay": "23 November 2026",
  "firstDate": "2026-11-22",
  "firstDay": "22 November 2026",
  "final": true,
@@ -15,18 +15,18 @@
   "total": 50,
   "same": 5,
   "newValues": 0,
-  "concept": 30,
-  "notYet": 6,
+  "concept": 32,
+  "notYet": 4,
   "skill": 9,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 35,
+  "covered": 37,
   "counted": 41,
-  "pct": 85,
+  "pct": 90,
   "first": 30,
   "firstPct": 73,
   "addedCards": 5,
-  "addedQuestions": 0,
+  "addedQuestions": 2,
   "found": 0,
   "sameFirst": 5,
   "newValuesFirst": 0
@@ -65,7 +65,7 @@
   {
    "name": "Social Movements",
    "asked": 3,
-   "covered": 2
+   "covered": 3
   },
   {
    "name": "Structural Change",
@@ -85,7 +85,7 @@
   {
    "name": "Mass Media & Communications",
    "asked": 1,
-   "covered": 0
+   "covered": 1
   }
  ],
  "questions": [
@@ -197,11 +197,29 @@
    "key": [
     3
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "b573e6fe-3a72-4d9a-94b6-929c428b35bd",
+    "chapter": "Social Movements",
+    "stem": "Consider the following statements about the struggle for the right to vote.\nI. In Britain, voting rights were once limited to men who owned property.\nII. The People's Charter, signed by more than 1.25 million people in 1839, asked for the vote for every adult man and woman.\nIII. In 1918, British women got the right to vote on the same terms as men.\nIV. In Britain, universal adult franchise came only after the long struggles of social movements such as Chartism and the suffragettes' campaign.\nWhich statements are correct?",
+    "passage": null,
+    "options": [
+     "I, II and IV only",
+     "I and IV only",
+     "I, III and IV only",
+     "II, III and IV only"
+    ],
+    "key": 1,
+    "explanation": "Statements I and IV are correct. Universal adult franchise, the right of every adult to vote, is one of the foremost rights guaranteed by the Indian Constitution. Yet in Britain, too, not everyone could vote at first: voting rights were limited to property-owning men, so I is correct. Chartism was a social movement for parliamentary representation in England. In 1839 more than 1.25 million people signed the People's Charter, which asked for universal male suffrage, voting by ballot and the right to stand for elections without owning property, and in 1842 the movement collected 3.25 million signatures. The Charter asked for the vote for all men, not for women, so II is wrong. Only after World War I, in 1918, did all men over 21 get the vote, while among women only those over 30 who were married, owned houses or were university graduates got it; women did not yet vote on the same terms as men, so III is wrong. When the suffragettes took up the cause of all adult women's right to vote, they were bitterly opposed and their movement violently crushed, yet the struggle for women's votes went on. Equal votes for women came only with the Representation of the People (Equal Franchise) Act of 1928, which gave all women over 21 the vote on the same terms as men. So universal adult suffrage in Britain was the outcome of the long struggles of social movements such as Chartism and the suffragettes' campaign, and IV is correct. NCERT tells this story to make the chapter's point: the rights we enjoy did not just happen to exist; the struggles of the past made them possible.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 5,
@@ -1655,11 +1673,29 @@
    "key": [
     0
    ],
-   "status": "not-yet",
+   "status": "concept",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "published bank question (wave 6 batch 2, 23 Nov 2026) states what the paper question needs; rewritten after the first was held, accepted by an independent audit, five blind solvers and five judges",
+   "match": {
+    "kind": "question",
+    "id": "48a626c5-4374-472e-b4a9-2590a42dd482",
+    "chapter": "Mass Media & Communications",
+    "stem": "Consider the following statements about soap operas.\nI. A soap opera is serialised and continuous: individual stories end, but the soap itself has no ending until it is taken off the air.\nII. Buniyaad, aired before Hum Log, was India's first long-running soap opera.\nIII. Hum Log placed educational content on themes such as gender equality and small family size inside an entertainment programme.\nIV. The advertising carried by Hum Log made little difference to Doordarshan, which stayed free of commercial pressure.\nWhich statements are correct?",
+    "passage": null,
+    "options": [
+     "I and III only",
+     "I, II and III only",
+     "I, III and IV only",
+     "III and IV only"
+    ],
+    "key": 0,
+    "explanation": "Statements I and III are correct. Soap operas are stories that are serialised and continuous: individual stories may come to an end and different characters appear and disappear, but the soap itself has no ending until it is taken off the air completely, and it presumes a history that the regular viewer knows, so I is correct. Hum Log (1984-85) was India's first long-running soap opera: some 156 episodes were broadcast in Hindi over 17 months. It used the entertainment-education strategy, intentionally placing educational content in an entertainment programme, and promoted social themes such as gender equality, small family size and national integration, so III is correct. Buniyaad came later, in 1986-87, so II is wrong. Hum Log's advertising promoted a new consumer product, Maggi 2-Minute noodles; advertisers began to line up to buy airtime, and the commercialisation of Doordarshan began, so IV is wrong. Where the genre and its name come from: soap operas began in the United States in the 1930s as daytime radio serials, many of them sponsored by soap manufacturers, which gave the genre its name. They went out in the daytime, when most listeners were housewives, so they were made for a mainly female audience, and women remain the main target audience of most soap operas.",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   }
  ]
 }

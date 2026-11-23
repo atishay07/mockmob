@@ -1,0 +1,320 @@
+{
+  "kind": "authored_w6_held_7_to_7_9",
+  "source": "claude-authored-2026-11-23-w6",
+  "date": "2026-11-23",
+  "built_at": "2026-11-23T17:42:03.991Z",
+  "rule": {
+    "qualityMeanAtLeast": 8,
+    "fitMedianAtLeast": 8
+  },
+  "note": "Questions that passed every gate (rule, expert verdict ready or repaired, repair applied, re-solve) but whose two quality judges average between 7 and 7.9. Held for a later owner decision: NOT in the publication set and NOT merged into any score table. Each item carries the candidate text and its full judge record, so it can be published with the same tooling.",
+  "count": 2,
+  "bySubject": {
+    "geography": 1,
+    "sociology": 1
+  },
+  "items": [
+    {
+      "candidate": {
+        "id": "4c02b377-71bf-4149-bab2-0e4c2552a6ce",
+        "subject": "geography",
+        "unit": "People",
+        "chapter": "Population — Distribution, Density, Growth",
+        "type": "statement_based",
+        "stem": "Consider the following statements about the populations of some countries.\n(A) Russia has more people than Bangladesh.\n(B) Bangladesh has more people than Mexico.\n(C) Brazil has more people than Bangladesh.\n(D) Indonesia has more people than Brazil.\nChoose the correct answer from the options given below.",
+        "options": [
+          {
+            "key": "A",
+            "text": "(A), (B) and (C) only"
+          },
+          {
+            "key": "B",
+            "text": "(B), (C) and (D) only"
+          },
+          {
+            "key": "C",
+            "text": "(A), (C) and (D) only"
+          },
+          {
+            "key": "D",
+            "text": "(A), (B) and (D) only"
+          }
+        ],
+        "correct_key": "B",
+        "explanation": "NCERT's chart of the ten most populous countries ranks them China, India, U.S.A., Indonesia, Brazil, Pakistan, Nigeria, Bangladesh, Russia and Mexico, and UN estimates for 2024 keep the same order for the five countries named here: Indonesia about 283 million, Brazil about 212 million, Bangladesh about 174 million, Russia about 145 million and Mexico about 130 million. So Bangladesh has more people than Mexico, Brazil more than Bangladesh, and Indonesia more than Brazil. Russia is the largest country in the world by area, yet it has fewer people than Bangladesh, a far smaller country: the size of a territory does not decide the size of its population. Hence (B), (C) and (D) are correct. Adding China (about 1.4 billion), these countries in decreasing order of population run China, Indonesia, Brazil, Bangladesh, Russia, Mexico.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Class 12 Fundamentals of Human Geography (legy102), Ch 2 The World Population: Distribution, Density and Growth, p. 7: Fig. 2.1 Most Populous Countries (Indonesia, Brazil, Bangladesh, Russia, Mexico in that order)",
+        "source": "claude-authored-2026-11-23-w6",
+        "_verdict": "claude_audited",
+        "_expert": "repaired"
+      },
+      "record": {
+        "subject": "geography",
+        "batch": "geography__w6b2",
+        "chapter": "Population — Distribution, Density, Growth",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 7,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+            "flags": [],
+            "note": "Key right and the explanation's figures support the ranking, but it is bar-chart trivia; Russia vs Bangladesh is the only real test. Usable, below real-paper polish.",
+            "on_final_text": null,
+            "batch": "geography__w6b2"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "B",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "geography.population-distribution-density-growth.most-populous-countries-ranking",
+            "flags": [],
+            "note": "Key holds on UN data. Pure rank-recall from one NCERT chart; Bangladesh vs Mexico may rest on data outside the chart (some editions show Japan 10th). Low-value pairwise comparisons.",
+            "on_final_text": null,
+            "batch": "geography__w6b2"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "People",
+            "chapter": "Population — Distribution, Density, Growth",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 64,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Most-populous ranking from NCERT Fig 2.1 set as pairwise statements; CUET asks this as a ranking sequence. Russia area trap is good.",
+            "on_final_text": null,
+            "batch": "geography__w6b2"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "People",
+            "chapter": "Population — Distribution, Density, Growth",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 64,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Fig 2.1 ranking recall cast as pairwise statements; CUET usually sets this as a ranking sequence. Chart-specific fact.",
+            "on_final_text": null,
+            "batch": "geography__w6b2"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "statement_based",
+            "passage_skill": null,
+            "unit": "People",
+            "chapter": "Population — Distribution, Density, Growth",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 64,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "Most-populous-countries ranking set as pairwise statements; CUET Geography asks this as a ranking sequence item.",
+            "on_final_text": null,
+            "batch": "geography__w6b2"
+          }
+        ]
+      },
+      "quality_scores": [
+        7,
+        7
+      ],
+      "quality_mean": 7,
+      "fit_scores": [
+        8,
+        8,
+        8
+      ],
+      "fit_median": 8,
+      "held_because": [
+        "quality_mean_7_below_8"
+      ]
+    },
+    {
+      "candidate": {
+        "id": "797c5327-4952-47c1-b811-43f8e00faeb0",
+        "subject": "sociology",
+        "unit": "Social Change and Development in India",
+        "chapter": "Structural Change",
+        "type": "match_the_following",
+        "stem": "Match List-I (how a village is linked to urban life) with List-II (the urban impact on the village).\nList-I\n(A) Villages such as Madhopur, many of whose people work in far-off cities like Bombay and Calcutta\n(B) Villages around Bhilai\n(C) Villages on the fringe of a growing metropolis\n(D) Remote villages reached by mass media\nList-II\n(I) Images of urban life styles and patterns of consumption, which create new desires and aspirations\n(II) Money sent home regularly, and new houses built by emigrants in their natal villages\n(III) A few villages are absorbed completely, and only the land of many others is used for urban development\n(IV) An influx of immigrant workers, which creates a demand for houses and a market inside the village\nChoose the correct answer from the options given below.",
+        "options": [
+          {
+            "key": "A",
+            "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+          },
+          {
+            "key": "B",
+            "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+          },
+          {
+            "key": "C",
+            "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+          },
+          {
+            "key": "D",
+            "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+          }
+        ],
+        "correct_key": "C",
+        "explanation": "M.S.A. Rao showed that the urban impact on a village depends on the kind of link the village has with a city, and he described three situations; mass media are a further channel, described in NCERT's chapter on the demographic structure. Rao's first situation is the village from which many people have sought work in far-off cities, leaving their families behind. In Madhopur, a village in north central India, 77 of 298 households have migrants, a little less than half of them in Bombay and Calcutta; about 75 per cent of the migrants send money home regularly, and most visit the village. Overseas emigrants from Gujarat villages have built fashionable houses in their natal villages and invested in land and industry. The city stays far away, but its money comes home, so (A) matches (II). When an industrial town like Bhilai comes up in the midst of villages, some villages are totally uprooted and the lands of others are partially acquired; these receive an influx of immigrant workers, which stimulates a demand for houses and a market inside the village and creates problems of ordering relationships between the native residents and the immigrants, so (B) matches (IV). This is the case in which urban life is physically transplanted into the rural setting: industrialisation brings the town's workers, their demand for housing and a market into the village itself. The growth of a metropolitan city is Rao's third situation: a few villages are totally absorbed in its expansion, while only the land of many others, excluding the inhabited area, is used for urban development, so (C) matches (III). Mass media and communication bring images of urban life styles and patterns of consumption into rural areas, so urban norms become known even in remote villages and create new desires and aspirations, but nothing urban arrives in person, so (D) matches (I). The correct matching is (A)-(II), (B)-(IV), (C)-(III), (D)-(I). Two traps: the immigrant workers around Bhilai come because of the industrial town, so they are not the out-migration of Madhopur, where villagers leave; and both the industrial town and the metropolis take village land, but in Rao's account it is the industrial town that brings an influx of immigrant workers, with their demand for houses and a market, inside the village.",
+        "passage_text": null,
+        "set_id": null,
+        "difficulty_label": "medium",
+        "ncert_ref": "NCERT Class 12 Social Change and Development in India, Ch 1 Structural Change (lesy201), Box 1.7, printed p.11: M.S.A. Rao's three kinds of urban impact (Madhopur migrants in Bombay and Calcutta sending money home; Gujarat emigrants building houses in their natal villages; an industrial town like Bhilai bringing immigrant workers, a demand for houses and a market inside the village; metropolitan growth absorbing villages or using their land). NCERT Class 12 Indian Society, Ch 2 The Demographic Structure of the Indian Society (lesy102), printed p.30: mass media bring images of urban life styles and patterns of consumption into rural areas. 'Physically transplanted' is not NCERT's wording: it summarises Rao's second kind, in which immigrant workers, a demand for houses and a market arrive inside the village.",
+        "source": "claude-authored-2026-11-23-w6",
+        "_verdict": "claude_audited",
+        "_expert": "repaired"
+      },
+      "record": {
+        "subject": "sociology",
+        "batch": "sociology__w6b2",
+        "chapter": "Structural Change",
+        "set_id": null,
+        "text": {
+          "expert_verdict": null,
+          "expert_issue": null,
+          "expert_reviewed_text": "not_reviewed",
+          "judged": "as_authored",
+          "pre_repair": null,
+          "authoring_verdict": "claude_audited"
+        },
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "quality": [
+          {
+            "judge": "j1",
+            "quality_score": 7,
+            "blind_answer": "C",
+            "key_matches": true,
+            "difficulty_check": "easy",
+            "objective_tag": "sociology.structural-change.urban-impact-on-villages",
+            "flags": [],
+            "note": "Correct (Rao's box). List-I signposts: 'far-off cities' pairs with money sent home and 'mass media' with images of urban life, leaving only Bhilai vs metropolis to know. Minus one for that.",
+            "on_final_text": null,
+            "batch": "sociology__w6b2"
+          },
+          {
+            "judge": "j2",
+            "quality_score": 7,
+            "blind_answer": "C",
+            "key_matches": true,
+            "difficulty_check": "medium",
+            "objective_tag": "sociology.structural-change.urban-impact-on-villages",
+            "flags": [],
+            "note": "Key right (Rao's Box 1.7). Rows A (far-off work) and D (mass media) signpost II and I, leaving one real decision (Bhilai vs metropolis); D row borrows from another chapter.",
+            "on_final_text": null,
+            "batch": "sociology__w6b2"
+          }
+        ],
+        "fit": [
+          {
+            "judge": "h1",
+            "cuet_type": "match_the_following",
+            "passage_skill": null,
+            "unit": "Social Change and Development in India",
+            "chapter": "Structural Change",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 89,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "M.S.A. Rao box content in a valid match, but list entries are long clauses (150 words) and (D) is drawn from another book.",
+            "on_final_text": null,
+            "batch": "sociology__w6b2"
+          },
+          {
+            "judge": "h2",
+            "cuet_type": "match_the_following",
+            "passage_skill": null,
+            "unit": "Social Change and Development in India",
+            "chapter": "Structural Change",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 107,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "M.S.A. Rao box match with long List entries (150 words to read): each pair needs working out, about 107 s; wordier than real matches.",
+            "on_final_text": null,
+            "batch": "sociology__w6b2"
+          },
+          {
+            "judge": "h3",
+            "cuet_type": "match_the_following",
+            "passage_skill": null,
+            "unit": "Social Change and Development in India",
+            "chapter": "Structural Change",
+            "pyq_closeness": 0,
+            "ten_route": null,
+            "est_seconds": 89,
+            "fit_score": 8,
+            "fit_flags": [],
+            "note": "M.S.A. Rao box match with long entries (150 words); (D) mass media is pulled from another book, so the list mixes sources.",
+            "on_final_text": null,
+            "batch": "sociology__w6b2"
+          }
+        ]
+      },
+      "quality_scores": [
+        7,
+        7
+      ],
+      "quality_mean": 7,
+      "fit_scores": [
+        8,
+        8,
+        8
+      ],
+      "fit_median": 8,
+      "held_because": [
+        "quality_mean_7_below_8"
+      ]
+    }
+  ]
+}

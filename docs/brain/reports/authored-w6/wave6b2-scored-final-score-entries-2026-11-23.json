@@ -1,0 +1,831 @@
+{
+ "kind": "authored_score_entries",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "wave": 6,
+ "built_at": "2026-11-23T17:42:03.991Z",
+ "date": "2026-11-23",
+ "models": {
+  "quality": "claude-subagent-unrecorded",
+  "fit": "claude-subagent-unrecorded",
+  "solver": "claude-subagent-unrecorded"
+ },
+ "models_note": "The raw judge files do not record the model; the model of the subagents that produced the raw files is not recorded in them.",
+ "note": "One record per question of the wave-6 publication set (quality mean 8 or more, fit median 8 or more), in the wave-1 entries format, built by scripts/authored-w2-accept.mjs --wave=w6b2 --mode=final from the raw files (tmp/1123-close/integrate/scoring2), the expert verdicts, the blind re-solves and the fresh pass on the reworded rows. Tables are built from it by scripts/authored-scores-merge.mjs.",
+ "candidates_file": "docs/brain/reports/authored-w6/wave6b2-scored-final-candidates-2026-11-23.json",
+ "candidates_sha256": "650e5d692d4cf387c99f22da2c40dd2c04454b7f2955d47edf507c005d236076",
+ "fresh_passes": [
+  "tmp/1123-close/integrate/scoring2/reword"
+ ],
+ "counts": {
+  "candidates": 8,
+  "entries": 8,
+  "problems": 0,
+  "repaired": 3,
+  "judgedTextDiffers": 0,
+  "judgedOnFinalTextByFreshPass": 0,
+  "blindResolveOnFinalText": 0
+ },
+ "entries": {
+  "447d2a3e-1a7e-439d-9fd4-069683176986": {
+   "subject": "biology",
+   "batch": "biology__w6b2",
+   "chapter": "Human Reproduction",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.human-reproduction.parturition-neuroendocrine-control",
+     "flags": [],
+     "note": "Statements track NCERT 2.7 and the chapter summary (cortisol, estrogens, oxytocin); C inverts the positive feedback, E swaps in prolactin. Clean NTA statement layout.",
+     "on_final_text": null,
+     "batch": "biology__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "biology.human-reproduction.parturition-neuroendocrine-mechanism",
+     "flags": [],
+     "note": "Each statement maps to an NCERT 2.7/summary line; (C) reverses the positive feedback and (E) is the prolactin trap. No second defensible set. Explanation facts check.",
+     "on_final_text": null,
+     "batch": "biology__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Reproduction",
+     "chapter": "Human Reproduction",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 77,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Parturition hormones and foetal ejection reflex: NCERT-line staple asked yearly; prolactin and feedback traps are real slips.",
+     "on_final_text": null,
+     "batch": "biology__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Reproduction",
+     "chapter": "Human Reproduction",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 77,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Parturition: foetal ejection reflex, oxytocin feedback, hormones involved; NCERT-line recall asked yearly; prolactin trap apt.",
+     "on_final_text": null,
+     "batch": "biology__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Reproduction",
+     "chapter": "Human Reproduction",
+     "pyq_closeness": 0,
+     "ten_route": "cbt_staple",
+     "est_seconds": 77,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "NCERT-line parturition mechanism (foetal ejection reflex, oxytocin feedback, cortisol/estrogens/oxytocin): a CBT staple; prolactin trap plausible.",
+     "on_final_text": null,
+     "batch": "biology__w6b2"
+    }
+   ]
+  },
+  "d0bd3114-1d9d-4ffe-b1ce-855b4fcb4025": {
+   "subject": "business_studies",
+   "batch": "business_studies__w6b2",
+   "chapter": "Financial Management",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-management.ebit-eps-trading-on-equity",
+     "flags": [],
+     "note": "Correct and clean; A, C, D are near-sequential restatements of the NCERT table, so the only real tests are B (tax on EBIT) and E (inverted leverage condition).",
+     "on_final_text": null,
+     "batch": "business_studies__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "business_studies.financial-management.ebit-eps-trading-on-equity",
+     "flags": [],
+     "note": "Matches NCERT's EBIT-EPS table and RoI vs interest rule. Statements A, C, D are mechanical; D ignores preference dividend but follows NCERT. Clean, fair item.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Business Finance",
+     "chapter": "Financial Management",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Four of five statements test the EBIT-EPS table's working order, a supporting illustration; only (E) tests trading on equity. Wordy.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Business Finance",
+     "chapter": "Financial Management",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "EBIT-EPS order plus leverage condition: no arithmetic, one notch above recall; tax-on-EBIT and reversed-RoI traps are real slips.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Business Finance",
+     "chapter": "Financial Management",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Four of five statements drill the EBIT-EPS working order (accountancy-flavoured); only (E) tests trading on equity, the idea BST papers ask.",
+     "on_final_text": null,
+     "batch": "business_studies__w6b2"
+    }
+   ]
+  },
+  "b6e90110-d676-44a1-be96-bb7160e1348f": {
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Human Settlements",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "geography.human-settlements.level-of-urbanisation",
+     "flags": [],
+     "note": "Correct NCERT recall (definition, 31.16 per cent, world 55 per cent); D is the only real trap, so it plays easy rather than medium. Fit for a mock unchanged.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.human-settlements.level-of-urbanisation-india-world",
+     "flags": [],
+     "note": "NCERT 31.16 per cent and world 55 per cent lines; (D) is a fair India-vs-world trap. World over 50 per cent in 2011 is correct. Clean statement set.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Level of urbanisation definition and India's 31 per cent: core NCERT facts in standard statement form; (D) needs the world 2011 level, inferred.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Urbanisation definition and NCERT figures (31.16 per cent, 55 per cent world); direct recall, 71 s.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Human Settlements",
+     "chapter": "Human Settlements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Clean NCERT recall (definition, India 31.16%, world 55%); (D) follows from (B) and (C), so partial knowledge suffices.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    }
+   ]
+  },
+  "5aa6c346-d91c-4430-9334-dc8fdf2a627e": {
+   "subject": "geography",
+   "batch": "geography__w6b2",
+   "chapter": "Transport & Communication",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.transport-and-communication.railway-zones-headquarters",
+     "flags": [],
+     "note": "Correct per NCERT zone table: Gorakhpur is North Eastern, not North Central; Kolkata hosts Eastern and South Eastern. Good traps; A is a paraphrase of the NCERT reason.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "geography.transport-and-communication.indian-railway-zones-headquarters",
+     "flags": [],
+     "note": "Gorakhpur (North Eastern) vs Prayagraj (North Central) is a good trap; Hajipur and Kolkata (Eastern, South Eastern) check against NCERT Table 7.2. Statement (A) is a loose paraphrase.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "Transport & Communication",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Zone HQs from NCERT Table 7.2, a detail; only one option lacks (B), so knowing NCR is at Prayagraj alone gives the key.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "Transport & Communication",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Zone headquarters from Table 7.2; (D) needs recall of several Kolkata zones and (C) Hajipur's State: finer than most recall items.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Transport, Communication and Trade",
+     "chapter": "Transport & Communication",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 71,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Zone-HQ table detail mixed with a rationale statement; (D) needs scanning the table; Gorakhpur/Prayagraj slip is a fair trap.",
+     "on_final_text": null,
+     "batch": "geography__w6b2"
+    }
+   ]
+  },
+  "41872980-a987-49d2-8cd1-26271b83aa6d": {
+   "subject": "history",
+   "batch": "history__w6b2",
+   "chapter": "Kings, Farmers & Towns",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "history.kings-farmers-and-towns.mahajanapadas-locations",
+     "flags": [],
+     "note": "Well-formed match list; distractors are single swaps. Matsya and Ashmaka rest on the NCERT map rather than the text, and List-II clues (Taxila, Ujjayini) make A and C easy.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "history.kings-farmers-and-towns.mahajanapadas-locations-map",
+     "flags": [],
+     "note": "Well-formed match list from NCERT Map 1; distractors swap Avanti/Ashmaka and Matsya/Gandhara. 'Just west of Mathura' for Matsya is approximate (map shows south-west) but unambiguous.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part I",
+     "chapter": "Kings, Farmers & Towns",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Mahajanapada locations read off NCERT Map 1; List-II descriptions longer than real items, Matsya/Rajasthan not in the text itself.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part I",
+     "chapter": "Kings, Farmers & Towns",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Matsya and Ashmaka positions come only from NCERT Map 1, not the text: map recall with no map, harder than most matches.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "match_the_following",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part I",
+     "chapter": "Kings, Farmers & Towns",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 69,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Mahajanapada-to-location match from NCERT Map 1; standard CUET match shape; Avanti/Ashmaka swap is a real slip. Map detail, not core idea.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    }
+   ]
+  },
+  "99c9d26b-38bd-46b6-8943-648ba3558ee1": {
+   "subject": "history",
+   "batch": "history__w6b2",
+   "chapter": "Kinship, Caste & Class",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "history.kinship-caste-and-class.manusmriti-paternal-property-division",
+     "flags": [],
+     "note": "Direct NCERT recall of the Manusmriti inheritance rule; all three distractors are sources from the same chapter, so a student must know which text says what.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "easy",
+     "objective_tag": "history.kinship-caste-and-class.inheritance-rules-manusmriti",
+     "flags": [],
+     "note": "Direct NCERT 4.1 line; all three distractors are sources from the same chapter, so a half-prepared student can slip. One defensible answer; explanation facts check.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part I",
+     "chapter": "Kinship, Caste & Class",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 38,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Manusmriti rule on paternal estate with eldest's extra share: a repeated board item on gendered access to property.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part I",
+     "chapter": "Kinship, Caste & Class",
+     "pyq_closeness": 0,
+     "ten_route": "board",
+     "est_seconds": 38,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Manusmriti inheritance rule with eldest's extra share: a repeated board text-to-rule item; one-step recall, 38 s.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Themes in Indian History Part I",
+     "chapter": "Kinship, Caste & Class",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 38,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Text-to-rule recall in CUET style; no route as the 2026-27 NCERT reportedly says 'smriti tradition', not Manusmriti by name.",
+     "on_final_text": null,
+     "batch": "history__w6b2"
+    }
+   ]
+  },
+  "b573e6fe-3a72-4d9a-94b6-929c428b35bd": {
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Social Movements",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "sociology.social-movements.struggle-for-universal-franchise",
+     "flags": [],
+     "note": "Correct per NCERT Box 8.1: Charter asked male suffrage only (II false), 1918 gave women votes only over 30 (III false). Clean statement item.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "sociology.social-movements.struggle-for-universal-franchise",
+     "flags": [],
+     "note": "Built on NCERT Box 8.1; II (male-only Charter) and III (1918 not equal terms) are true-sounding traps a half-prepared student falls for. One defensible set; explanation facts check.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Social Movements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Box 8.1 right-to-vote facts in clean statement form; Charter-for-women and 1918-equal-terms traps are real slips. Box detail, not core.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Social Movements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Box 8.1 minutiae: whom the 1839 Charter covered and the 1918 terms for women; finer detail than most CUET sociology recall.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Social Movements",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 77,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Box 8.1 detail (1839, 1.25 million, 1918) heavier than CUET Sociology's short concept statements; (IV) is the chapter's thesis.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    }
+   ]
+  },
+  "48a626c5-4374-472e-b4a9-2590a42dd482": {
+   "subject": "sociology",
+   "batch": "sociology__w6b2",
+   "chapter": "Mass Media & Communications",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "A",
+     "A",
+     "A",
+     "A",
+     "A"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "sociology.mass-media-and-communications.hum-log-soap-opera",
+     "flags": [],
+     "note": "Correct: Hum Log preceded Buniyaad and began Doordarshan's commercialisation. IV is fairly obvious to a prepared student; otherwise clean.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "A",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "sociology.mass-media-and-communications.hum-log-soap-opera",
+     "flags": [],
+     "note": "Matches NCERT Boxes 7.4 and 7.13; Buniyaad order is a fair trap. Statement IV is weak, false on its face to anyone who recalls the Maggi advertising point.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Mass Media & Communications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Soap opera definition and Hum Log facts from NCERT boxes; Buniyaad-first and no-commercialisation traps are plausible slips.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Mass Media & Communications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Soap opera definition and Hum Log box facts (first soap, entertainment-education, commercialisation): direct NCERT recall, 76 s.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Social Change and Development in India",
+     "chapter": "Mass Media & Communications",
+     "pyq_closeness": 0,
+     "ten_route": null,
+     "est_seconds": 76,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Hum Log first soap, entertainment-education, Doordarshan commercialised: NCERT box recall in clean statement shape; box content, so no route.",
+     "on_final_text": null,
+     "batch": "sociology__w6b2"
+    }
+   ]
+  }
+ }
+}
