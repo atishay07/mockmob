@@ -1,0 +1,95 @@
+{
+ "batch": "mathematics__w6b3b",
+ "subject": "mathematics",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Section A1 (common)",
+    "chapters": [
+     "Matrices",
+     "Determinants",
+     "Continuity & Differentiability",
+     "Application of Derivatives",
+     "Integrals",
+     "Application of Integrals",
+     "Differential Equations",
+     "Linear Programming",
+     "Probability Distributions"
+    ]
+   },
+   {
+    "unit": "Relations and Functions",
+    "chapters": [
+     "Relations & Functions",
+     "Inverse Trigonometric Functions"
+    ]
+   },
+   {
+    "unit": "Algebra",
+    "chapters": [
+     "Matrices",
+     "Determinants"
+    ]
+   },
+   {
+    "unit": "Calculus",
+    "chapters": [
+     "Continuity & Differentiability",
+     "Application of Derivatives",
+     "Integrals",
+     "Application of Integrals",
+     "Differential Equations"
+    ]
+   },
+   {
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapters": [
+     "Vector Algebra",
+     "Three Dimensional Geometry"
+    ]
+   },
+   {
+    "unit": "Linear Programming",
+    "chapters": [
+     "Linear Programming"
+    ]
+   },
+   {
+    "unit": "Probability",
+    "chapters": [
+     "Probability"
+    ]
+   },
+   {
+    "unit": "Applied Mathematics",
+    "chapters": [
+     "Numbers, Quantification and Numerical Applications",
+     "Probability Distributions",
+     "Time Based Data",
+     "Inferential Statistics",
+     "Financial Mathematics"
+    ]
+   }
+  ],
+  "excluded_chapters": []
+ },
+ "rows": {
+  "deb62cd1-d823-4d82-8aeb-2433203cfdca": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 49,
+   "read_seconds": 23
+  }
+ }
+}

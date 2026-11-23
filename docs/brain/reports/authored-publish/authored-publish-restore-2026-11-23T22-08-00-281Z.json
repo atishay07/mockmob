@@ -1,0 +1,40 @@
+{
+ "kind": "authored_publish_restore",
+ "version": "authored-publish-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "reason": "CUET 2026 coverage (owner said Yes, run it, 24 Nov 2026): 4 rows held only by the fit rule, passed a fresh judge pass with the CUET 2026 anchor",
+ "at": "2026-11-23T22:08:00.280Z",
+ "target": "isrxrxzjocewrdureyhp.supabase.co",
+ "planHash": "4f8f6bf801aeab6e3e1041f6dd1c65648260e5e6806e7d739fc007594edcf8f6",
+ "planFile": "docs/brain/reports/authored-publish/authored-publish-plan-2026-11-23T22-07-46-751Z.json",
+ "questionIds": [
+  "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+  "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+  "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+  "deb62cd1-d823-4d82-8aeb-2433203cfdca"
+ ],
+ "groupIds": [],
+ "topUpGroupIds": [],
+ "rows": [
+  {
+   "id": "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+   "subject": "accountancy",
+   "contentHash": "72bd96152ef2534e73ef2db2508ded1893c70fe580617ee8db7291068c60f2b7"
+  },
+  {
+   "id": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+   "subject": "computer_science",
+   "contentHash": "ce949b9fa6bc72622d3c2c5813f21c29575df1150ee30ac62b198ddc7121ab61"
+  },
+  {
+   "id": "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+   "subject": "computer_science",
+   "contentHash": "e2a8494932d67d1da72d8d4de59ce214522ab432eb3f30c84309ecd42f8c2196"
+  },
+  {
+   "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+   "subject": "mathematics",
+   "contentHash": "94de2c637a685eaa7fba4d2d981d621e9cb2a1fe4f91e269e158d7b888122e3d"
+  }
+ ]
+}

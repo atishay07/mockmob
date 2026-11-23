@@ -1,0 +1,4 @@
+[
+{ "id": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec", "blind_answer": "C", "key_matches": true, "quality_score": 9, "difficulty_check": "medium", "objective_tag": "computer_science.computer-networks.evolution-of-networking-timeline", "flags": [], "note": "Dates match NCERT Fig 10.3 (1971, 1974, 1982, 1986, 1997). Each distractor is one adjacent swap; layout clean. Minor: (C) is last in every option." },
+{ "id": "a96cb5ae-554a-4ec0-b4ac-914a515f118f", "blind_answer": "C", "key_matches": true, "quality_score": 8, "difficulty_check": "medium", "objective_tag": "computer_science.project-based-learning.description-versus-specification", "flags": [], "note": "Clear description vs specification split; (B),(D) mirror option is a good trap. Leans on NCERT project text recall; explanation overlong with extra examples. In syllabus." }
+]

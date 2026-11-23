@@ -4,9 +4,10 @@
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
  "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
- "merged_at": "2026-11-23T20:49:45.571Z",
+ "merged_at": "2026-11-23T22:07:43.164Z",
  "models": [
   "claude-haiku-5-5",
+  "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
   "claude-subagent-unrecorded"
  ],
  "status": "complete",
@@ -19618,6 +19619,224 @@
      "solver": "claude-subagent-unrecorded"
     }
    }
+  },
+  "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec": {
+   "question_id": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+   "batch": "authored-2026-10-14__computer_science__w6b3",
+   "db_chapter": "Computer Networks",
+   "content_hash": "ce949b9fa6bc72622d3c2c5813f21c29575df1150ee30ac62b198ddc7121ab61",
+   "engine_type_guess": "sequence_ordering",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Section A: Database and Networks",
+     "chapter": "Computer Networks",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Anchor Q10 timeline item with 5 entries; 79 s vs anchor 70 s (within 15%). Telenet and NSFNET dates are finer details than the anchor's core milestones.",
+     "scored_content_hash": "ce949b9fa6bc72622d3c2c5813f21c29575df1150ee30ac62b198ddc7121ab61"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Section A: Database and Networks",
+     "chapter": "Computer Networks",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 97,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Same NCERT timeline sequence as anchor Q10, but 5 longer entries with close dates (1971/1974, 1982/1986): 3 steps vs anchor 2, est 97 s vs ~69 s, so usual bands; time 2 caps 8.",
+     "scored_content_hash": "ce949b9fa6bc72622d3c2c5813f21c29575df1150ee30ac62b198ddc7121ab61"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Section A: Database and Networks",
+     "chapter": "Computer Networks",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 97,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Anchor Q10 idea, but five entries vs four and finer dates (Telenet 1974, NSFNET, Wi-Fi); 116 words vs ~76, so 97 s vs anchor 67 s. (C) is last in every option.",
+     "scored_content_hash": "ce949b9fa6bc72622d3c2c5813f21c29575df1150ee30ac62b198ddc7121ab61"
+    }
+   ],
+   "cuet_type": "sequence_ordering",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Section A: Database and Networks",
+   "unit_votes": null,
+   "chapter": "Computer Networks",
+   "chapter_votes": null,
+   "pyq_closeness": 3,
+   "ten_route": null,
+   "fit_scores": [
+    9,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-11-23-w6",
+    "wave": 6,
+    "expert_verdict": null,
+    "expert_issue": null,
+    "authoring_verdict": "claude_audited",
+    "expert_reviewed_text": "not_reviewed",
+    "judged_text": "final",
+    "judged_content_hash": "ce949b9fa6bc72622d3c2c5813f21c29575df1150ee30ac62b198ddc7121ab61",
+    "final_content_hash": "ce949b9fa6bc72622d3c2c5813f21c29575df1150ee30ac62b198ddc7121ab61",
+    "hash_changed_by_repair": false,
+    "repaired_fields": [],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "C",
+      "C",
+      "C",
+      "C",
+      "C"
+     ],
+     "on": "final"
+    },
+    "blind_resolve_on_final_text": null,
+    "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-opus-5-5 (fresh pass)",
+     "fit": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "solver": "claude-subagent-unrecorded (original solvers, same text)"
+    }
+   }
+  },
+  "a96cb5ae-554a-4ec0-b4ac-914a515f118f": {
+   "question_id": "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+   "batch": "authored-2026-10-14__computer_science__w6b3",
+   "db_chapter": "Project Based Learning",
+   "content_hash": "e2a8494932d67d1da72d8d4de59ce214522ab432eb3f30c84309ecd42f8c2196",
+   "engine_type_guess": "statement_based",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B2: Informatics Practices",
+     "chapter": "Project Based Learning",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Same Description-vs-Specification item as anchor Q78, 88 s vs 80 s; but 145 vs 117 words, with a lead-in sentence defining the split that the real item does not print.",
+     "scored_content_hash": "e2a8494932d67d1da72d8d4de59ce214522ab432eb3f30c84309ecd42f8c2196"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B2: Informatics Practices",
+     "chapter": "Project Based Learning",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 106,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Same Description-vs-Specification test as anchor Q78; adds a defining preamble and a fifth statement: 3 steps, est 106 s vs anchor ~78 s, so usual bands; time 2 caps 8.",
+     "scored_content_hash": "e2a8494932d67d1da72d8d4de59ce214522ab432eb3f30c84309ecd42f8c2196"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B2: Informatics Practices",
+     "chapter": "Project Based Learning",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 106,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Anchor Q78 idea (Description vs Specification) with five entries vs four and an extra framing sentence; 106 s vs anchor ~79 s. Description options (B), (D) are good traps.",
+     "scored_content_hash": "e2a8494932d67d1da72d8d4de59ce214522ab432eb3f30c84309ecd42f8c2196"
+    }
+   ],
+   "cuet_type": "statement_based",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Section B2: Informatics Practices",
+   "unit_votes": null,
+   "chapter": "Project Based Learning",
+   "chapter_votes": null,
+   "pyq_closeness": 3,
+   "ten_route": null,
+   "fit_scores": [
+    8,
+    8,
+    8
+   ],
+   "fit_median": 8,
+   "fit_median_raw": 8,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-11-23-w6",
+    "wave": 6,
+    "expert_verdict": null,
+    "expert_issue": null,
+    "authoring_verdict": "claude_audited",
+    "expert_reviewed_text": "not_reviewed",
+    "judged_text": "final",
+    "judged_content_hash": "e2a8494932d67d1da72d8d4de59ce214522ab432eb3f30c84309ecd42f8c2196",
+    "final_content_hash": "e2a8494932d67d1da72d8d4de59ce214522ab432eb3f30c84309ecd42f8c2196",
+    "hash_changed_by_repair": false,
+    "repaired_fields": [],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "C",
+      "C",
+      "C",
+      "C",
+      "C"
+     ],
+     "on": "final"
+    },
+    "blind_resolve_on_final_text": null,
+    "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-opus-5-5 (fresh pass)",
+     "fit": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "solver": "claude-subagent-unrecorded (original solvers, same text)"
+    }
+   }
   }
  },
  "authored": {
@@ -19636,17 +19855,17 @@
   },
   "claude-authored-2026-11-23-w6": {
    "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
-   "merged_at": "2026-11-23T20:49:45.571Z",
-   "questions": 6,
-   "judge_model": "claude-subagent-unrecorded",
+   "merged_at": "2026-11-23T22:07:43.164Z",
+   "questions": 8,
+   "judge_model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
    "judge_date": "2026-11-24",
    "repaired_text_policy": "admit",
    "held_for_fresh_judge_pass": 0,
-   "fit_pass_at_8": 1,
+   "fit_pass_at_8": 2,
    "fit_pass_at_9": 0,
    "tens_capped_without_agreed_route": 0,
    "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
-   "batch_questions": 1,
+   "batch_questions": 2,
    "earlier_batches": [
     {
      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
@@ -19660,6 +19879,20 @@
      "fit_pass_at_9": 3,
      "tens_capped_without_agreed_route": 0,
      "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
+    },
+    {
+     "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
+     "merged_at": "2026-11-23T20:49:45.571Z",
+     "questions": 6,
+     "judge_model": "claude-subagent-unrecorded",
+     "judge_date": "2026-11-24",
+     "repaired_text_policy": "admit",
+     "held_for_fresh_judge_pass": 0,
+     "fit_pass_at_8": 1,
+     "fit_pass_at_9": 0,
+     "tens_capped_without_agreed_route": 0,
+     "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+     "batch_questions": 1
     }
    ]
   }

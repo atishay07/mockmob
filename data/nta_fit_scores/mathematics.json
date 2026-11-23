@@ -4,9 +4,10 @@
  "rubric_version": "nta-cuet-fit-rubric-1",
  "rubric": "docs/brain/NTA-CUET-FIT-RUBRIC.md",
  "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
- "merged_at": "2026-11-23T20:49:45.571Z",
+ "merged_at": "2026-11-23T22:07:43.164Z",
  "models": [
   "claude-haiku-5-5",
+  "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
   "claude-subagent-unrecorded"
  ],
  "status": "complete",
@@ -28574,6 +28575,115 @@
      "solver": "claude-subagent-unrecorded"
     }
    }
+  },
+  "deb62cd1-d823-4d82-8aeb-2433203cfdca": {
+   "question_id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+   "batch": "authored-2026-10-14__mathematics__w6b3b",
+   "db_chapter": "Integrals",
+   "content_hash": "94de2c637a685eaa7fba4d2d981d621e9cb2a1fe4f91e269e158d7b888122e3d",
+   "engine_type_guess": "single_mcq",
+   "judges": [
+    {
+     "judge": "h1",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Integrals",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 95,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Anchor Q33's integral with x-2 for x+1: same 1/t substitution, 4 steps, 95 s vs 92 s. Options trap sign, factor and inverted root.",
+     "scored_content_hash": "94de2c637a685eaa7fba4d2d981d621e9cb2a1fe4f91e269e158d7b888122e3d"
+    },
+    {
+     "judge": "h2",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Calculus",
+     "chapter": "Integrals",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 95,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Anchor Q33 integral with x-2, x^2-4: same substitution, 4 steps both, est 95 s vs anchor ~92 s (within 15%). Distractors are sign, factor and inverted-root slips.",
+     "scored_content_hash": "94de2c637a685eaa7fba4d2d981d621e9cb2a1fe4f91e269e158d7b888122e3d"
+    },
+    {
+     "judge": "h3",
+     "model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "date": "2026-11-24",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Integrals",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 95,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Same 1/((x-a)sqrt(x^2-a^2)) substitution as anchor Q33 with a=2; same steps, 95 s vs anchor ~87 s. Distractors are sign, factor and inverted-root slips.",
+     "scored_content_hash": "94de2c637a685eaa7fba4d2d981d621e9cb2a1fe4f91e269e158d7b888122e3d"
+    }
+   ],
+   "cuet_type": "single_mcq",
+   "cuet_type_votes": null,
+   "passage_skill": null,
+   "unit": "Section A1 (common)",
+   "unit_votes": null,
+   "chapter": "Integrals",
+   "chapter_votes": null,
+   "pyq_closeness": 3,
+   "ten_route": "pyq",
+   "fit_scores": [
+    10,
+    10,
+    10
+   ],
+   "fit_median": 10,
+   "fit_median_raw": 10,
+   "fit_flags": {},
+   "flagged_by": 0,
+   "blocking": false,
+   "provenance": {
+    "kind": "claude-authored-2026-11-23-w6",
+    "wave": 6,
+    "expert_verdict": null,
+    "expert_issue": null,
+    "authoring_verdict": "claude_audited",
+    "expert_reviewed_text": "not_reviewed",
+    "judged_text": "final",
+    "judged_content_hash": "94de2c637a685eaa7fba4d2d981d621e9cb2a1fe4f91e269e158d7b888122e3d",
+    "final_content_hash": "94de2c637a685eaa7fba4d2d981d621e9cb2a1fe4f91e269e158d7b888122e3d",
+    "hash_changed_by_repair": false,
+    "repaired_fields": [],
+    "blind_solvers": {
+     "n": 5,
+     "matched_key": 5,
+     "answers": [
+      "D",
+      "D",
+      "D",
+      "D",
+      "D"
+     ],
+     "on": "final"
+    },
+    "blind_resolve_on_final_text": null,
+    "engine_acceptance": "judged_text_is_final_text",
+    "repaired_text_policy": "admit",
+    "models": {
+     "quality": "claude-opus-5-5 (fresh pass)",
+     "fit": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+     "solver": "claude-subagent-unrecorded (original solvers, same text)"
+    }
+   }
   }
  },
  "authored": {
@@ -28605,17 +28715,17 @@
   },
   "claude-authored-2026-11-23-w6": {
    "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
-   "merged_at": "2026-11-23T20:49:45.571Z",
-   "questions": 51,
-   "judge_model": "claude-subagent-unrecorded",
+   "merged_at": "2026-11-23T22:07:43.164Z",
+   "questions": 52,
+   "judge_model": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
    "judge_date": "2026-11-24",
    "repaired_text_policy": "admit",
    "held_for_fresh_judge_pass": 0,
-   "fit_pass_at_8": 12,
-   "fit_pass_at_9": 4,
+   "fit_pass_at_8": 1,
+   "fit_pass_at_9": 1,
    "tens_capped_without_agreed_route": 0,
    "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
-   "batch_questions": 12,
+   "batch_questions": 1,
    "earlier_batches": [
     {
      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
@@ -28629,6 +28739,20 @@
      "fit_pass_at_9": 24,
      "tens_capped_without_agreed_route": 0,
      "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22"
+    },
+    {
+     "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.",
+     "merged_at": "2026-11-23T20:49:45.571Z",
+     "questions": 51,
+     "judge_model": "claude-subagent-unrecorded",
+     "judge_date": "2026-11-24",
+     "repaired_text_policy": "admit",
+     "held_for_fresh_judge_pass": 0,
+     "fit_pass_at_8": 12,
+     "fit_pass_at_9": 4,
+     "tens_capped_without_agreed_route": 0,
+     "rubric_sha256": "747fe53b458e20586834ae3e3dd4a6bc8f8c5a51249a85750ea9896ff2e5bb22",
+     "batch_questions": 12
     }
    ]
   }

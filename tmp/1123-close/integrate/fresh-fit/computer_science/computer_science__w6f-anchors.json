@@ -1,0 +1,30 @@
+[
+ {
+  "id": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+  "anchor": "CUET 2026 computer-science paper, question 10",
+  "cuet_question": {
+   "stem": "Arrange the evolution of networking as per the development timeline:\n(A) The Berners – Lee at CERN developed HTML and URL, thus giving birth to World Wide Web (www).\n(B) TCP/IP introduced as standard protocol on ARPANET.\n(C) Roy Tomlinson develops network messaging or –mail symbol@ comes to mean \"at\".\n(D) ARPANET became functional by connecting UCLA and SRI.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (B), (A)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "nta_answer_position": 2
+  }
+ },
+ {
+  "id": "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+  "anchor": "CUET 2026 computer-science paper, question 78",
+  "cuet_question": {
+   "stem": "Which of the following can be viewed as Project Specification?\n(A) Item Category is Book, then the Item Type can be either Academic or Non-Academic, and Item Id should be prefixed with a 'B'.\n(B) Teenagers spend a good amount of time on social networking sites, and it plays a vital role in their behaviour.\n(C) Total population, total male population and total female population aged 10 to 24 in India.\n(D) Realising the importance of Reduce, Reuse and Recycle, the Bookworm club every year organises a Book Donation Camp.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (C) and (D) only",
+    "(B), (C) and (D) only",
+    "(A) and (C) only",
+    "(B) and (D) only"
+   ],
+   "nta_answer_position": 3
+  }
+ }
+]

@@ -1,0 +1,16 @@
+[
+ {
+  "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+  "anchor": "CUET 2026 mathematics paper, question 33",
+  "cuet_question": {
+   "stem": "∫ dx/((x + 1)√(x² − 1)) is equal to:\n[c is an arbitrary constant]",
+   "options": [
+    "√((x + 1)/(x − 1)) + c",
+    "√(x/(x − 1)) + c",
+    "√((x − 1)/(x + 1)) + c",
+    "√(x/(x + 1)) + c"
+   ],
+   "nta_answer_position": 3
+  }
+ }
+]

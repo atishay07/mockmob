@@ -359,12 +359,12 @@
    "n": 33,
    "chapter": "Integrals",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "new-values",
+   "best": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "No served row integrates 1/((x + 1)sqrt(x^2 - 1)) or one like it by substitution."
+   "reason": "Paper Q33 asks ∫ dx/((x + 1)√(x² − 1)). Same method (substitute x ∓ a = 1/t, integrate (linear)^(−1/2), return to x) and the same kind of unknown, here ∫ dx/((x − 2)√(x² − 4))."
   },
   {
    "n": 34,

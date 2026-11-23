@@ -974,6 +974,21 @@
   "explanation": "The shareholder paid only the application money of ₹ 4 per share. The allotment money, which includes the premium of ₹ 2, was never received, so the premium is not part of the forfeited amount. Amount forfeited = 500 × 4 = 2,000. On reissue as fully paid at ₹ 8, the discount allowed = 500 × (10 − 8) = 1,000. This discount is within the forfeited amount of ₹ 4 per share, so it is permitted. Capital Reserve = amount forfeited − discount on reissue = 2,000 − 1,000 = 1,000. Stopping at the forfeited amount gives 2,000, counting the unpaid premium as forfeited gives 500 × 6 = 3,000, and the reserve is not nil because the discount is smaller than the forfeited amount.",
   "from": "read-only fetch 2026-11-22"
  },
+ "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec": {
+  "subject": "computer_science",
+  "chapter": "Computer Networks",
+  "stem": "Arrange the following milestones in the evolution of computer networks in the order in which they took place:\n(A) The National Science Foundation brought network connectivity to more people through its NSFNET programme.\n(B) Roy Tomlinson developed network messaging (e-mail), and the symbol @ came to mean \"at\".\n(C) The first version of the Wi-Fi (802.11) standard was introduced.\n(D) The term Internet was coined, and the first commercial use of ARPANET began under the name Telenet.\n(E) TCP/IP was introduced as the standard protocol on ARPANET.\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(D), (B), (E), (A), (C)",
+   "(B), (D), (A), (E), (C)",
+   "(B), (D), (E), (A), (C)",
+   "(B), (E), (D), (A), (C)"
+  ],
+  "key": 2,
+  "explanation": "NCERT's timeline of the evolution of networking (Figure 10.3) dates every milestone. 1961: the idea of ARPANET is conceptualised. 1969: ARPANET becomes functional by connecting UCLA and SRI (the first message went between the University of California, Los Angeles and the Stanford Research Institute). 1971: Roy Tomlinson develops network messaging or e-mail, and the symbol @ comes to mean \"at\" (B). 1974: the term Internet is coined, and the first commercial use of ARPANET starts under the name Telenet (D). 1982: TCP/IP is introduced as the standard protocol on ARPANET (E). 1983: the Domain Name System is introduced. 1986: the National Science Foundation brings connectivity to more people with its NSFNET programme (A). 1990: Tim Berners-Lee at CERN develops HTML and URL, giving birth to the World Wide Web. 1997: the first version of the Wi-Fi (802.11) standard is introduced (C). So the order is (B), (D), (E), (A), (C). Keep the core chain in mind: ARPANET working (1969), then e-mail (1971), then TCP/IP on ARPANET (1982), then the World Wide Web (1990). Option A puts the coining of the term Internet (1974) before e-mail (1971); option B puts NSFNET (1986) before TCP/IP (1982); option D puts TCP/IP (1982) before the term Internet (1974).",
+  "from": "read-only fetch 2026-11-23"
+ },
  "47ae1d95-942e-43f0-8010-e7bb45aa7d13": {
   "subject": "mathematics",
   "chapter": "Three Dimensional Geometry",
@@ -1528,6 +1543,21 @@
   "key": 3,
   "explanation": "Interest on capital is worked for the period each amount stayed in the firm, up to 31 March. Interest on the opening capital for 12 months = 3,00,000 × 6% = 18,000. Interest on the addition for 8 months (1 August to 31 March) = 60,000 × 6% × 8/12 = 2,400, which is added. Interest on the withdrawal for 3 months (1 January to 31 March) = 24,000 × 6% × 3/12 = 360, which is deducted because that capital was not in the firm for those months. Interest = 18,000 + 2,400 − 360 = 20,040. Charging interest for a full year on the net capital of 3,36,000 gives 20,160, ignoring the withdrawal gives 20,400, and adding the withdrawal instead of deducting it gives 20,760.",
   "from": "read-only fetch 2026-11-22"
+ },
+ "70fc4da1-a0e0-4888-8e54-6a1262b382ef": {
+  "subject": "accountancy",
+  "chapter": "Goodwill Valuation",
+  "stem": "A firm's capital employed is ₹ 2,50,000 and the normal rate of return is 8%. Each of its two partners is allowed a salary of ₹ 5,000 a year, not yet charged against the profits. Profits were ₹ 41,000 in 2022-23, ₹ 47,000 in 2023-24 and ₹ 50,000 in 2024-25. Goodwill is to be the smaller of two values: (i) 2 years' purchase of the average super profit of all three years; (ii) 3 years' purchase of the average super profit of the last two years. What is the goodwill?",
+  "passage": null,
+  "options": [
+   "₹ 52,000",
+   "₹ 32,000",
+   "₹ 55,500",
+   "₹ 37,000"
+  ],
+  "key": 1,
+  "explanation": "Partners' salaries are a normal charge, so NCERT adds them to the normal return on capital (deducting them from each year's profit gives the same answer). Normal profit = 2,50,000 × 8% = 20,000, plus salaries 2 × 5,000 = 10,000, so 30,000. If a question gives a market rate of interest instead of a normal rate of return, NCERT (Illustration 13) uses it the same way: interest on capital at that rate, plus the partners' salaries, is the normal profit. Value (i): average profit of the three years = (41,000 + 47,000 + 50,000) ÷ 3 = 46,000; super profit = 46,000 − 30,000 = 16,000; goodwill = 16,000 × 2 = 32,000. Value (ii): average profit of the last two years = (47,000 + 50,000) ÷ 2 = 48,500; super profit = 48,500 − 30,000 = 18,500; goodwill = 18,500 × 3 = 55,500. The smaller value, ₹ 32,000, is the goodwill. Quick route: work with the average profit and take off the normal profit once; there is no need to find each year's super profit. Traps: 55,500 is the larger value; 52,000 leaves the salaries out (super profit 26,000 × 2); 37,000 puts 2 years' purchase on the two-year average (18,500 × 2).",
+  "from": "read-only fetch 2026-11-23"
  },
  "73fd584b-e7ae-410e-9954-92afabb63682": {
   "subject": "mathematics",
@@ -2234,6 +2264,21 @@
   "explanation": "Since radius ∝ A^{1/3}, scaling by factor 8 gives 8^{1/3}=2 so radius becomes 2R.",
   "from": "read-only fetch 2026-11-23"
  },
+ "a96cb5ae-554a-4ec0-b4ac-914a515f118f": {
+  "subject": "computer_science",
+  "chapter": "Project Based Learning",
+  "stem": "In project based learning, a project is written as a Description of the problem followed by its Specification. Which of the following would form part of a project's Specification?\n(A) The merchandise selected for a sale should not be more than 70 per cent of the total merchandise.\n(B) Murugan plans to launch an online shopping platform called 'APPAREL EASY'.\n(C) Import the CSV file of survey responses into a Pandas DataFrame and compute the mean and median for the identified questions.\n(D) Open Government Data (OGD) Platform India supports the open data initiative of the Government of India.\n(E) List the top 5 states or union territories that have the maximum population working as marginal workers.\nChoose the correct answer from the options given below:",
+  "passage": null,
+  "options": [
+   "(B) and (D) only",
+   "(A), (B) and (E) only",
+   "(A), (C) and (E) only",
+   "(C), (D) and (E) only"
+  ],
+  "key": 2,
+  "explanation": "A Description sets out the background: who needs the project and why. A Specification lays down exactly what the software must store and do: the data fields and categories, rules such as ID prefixes and limits, and the computations or queries to be answered. (A) is a rule of Project I's Specification (online shopping), (C) restates steps of Project III's Specifications (survey on social networking sites: import the CSV file into a DataFrame, compute mean, median, etc.), and (E) is one of the queries in Project IV's Specifications (open data on adolescent and youth population). (B) is from Project I's Description and (D) from Project IV's Description: they give the setting, not what to store or compute. The same test sorts the other examples in the chapter: in Project II, the Bookworm club organising a Book Donation Camp every year, realising the importance of Reduce, Reuse and Recycle, is Description, while the rule that if the Item Category is Book the Item Type is Academic or Non Academic and the Item Id is prefixed with a 'B' is Specification; in Project III, the remark that teenagers spend a good amount of time on social networking sites, which plays a vital role in their behaviour, is Description; in Project IV, the query on the total population, total male population and total female population aged 10 to 24 in India is a Specification.",
+  "from": "read-only fetch 2026-11-23"
+ },
  "ab74ad4f-f6ae-41e8-a885-5c2c5c971a21": {
   "subject": "chemistry",
   "chapter": "Haloalkanes & Haloarenes",
@@ -2892,6 +2937,21 @@
   ],
   "key": 3,
   "explanation": "In the first pass, the 5 is swapped in turn with 1, then with 4, then with 2, and the comparison of 5 with 8 causes no swap. The result after the first pass is [1, 4, 2, 5, 8]. The list [1, 2, 4, 5, 8] is reached only after the second pass.",
+  "from": "read-only fetch 2026-11-23"
+ },
+ "deb62cd1-d823-4d82-8aeb-2433203cfdca": {
+  "subject": "mathematics",
+  "chapter": "Integrals",
+  "stem": "For x > 2, the indefinite integral ∫ dx / ((x − 2)√(x² − 4)) is (c is an arbitrary constant)",
+  "passage": null,
+  "options": [
+   "−2√((x + 2)/(x − 2)) + c",
+   "(1/2)√((x + 2)/(x − 2)) + c",
+   "−(1/2)√((x − 2)/(x + 2)) + c",
+   "−(1/2)√((x + 2)/(x − 2)) + c"
+  ],
+  "key": 3,
+  "explanation": "Put x − 2 = 1/t, so dx = −dt/t² and t > 0. Then x + 2 = 4 + 1/t = (4t + 1)/t and x² − 4 = (x − 2)(x + 2) = (4t + 1)/t², so √(x² − 4) = √(4t + 1)/t. The integrand becomes (−dt/t²) ÷ [(1/t) × √(4t + 1)/t] = −dt/√(4t + 1), and ∫ −dt/√(4t + 1) = −(1/2)√(4t + 1) + c. Since 4t + 1 = 4/(x − 2) + 1 = (x + 2)/(x − 2), the integral is −(1/2)√((x + 2)/(x − 2)) + c. (Check: differentiating gives 1/((x − 2)√(x² − 4)).) Forgetting the minus sign from dx = −dt/t² gives the positive answer; dividing by 1/2 instead of multiplying gives the factor −2; turning the fraction under the root upside down gives √((x − 2)/(x + 2)).",
   "from": "read-only fetch 2026-11-23"
  },
  "dee791a1-239d-40dd-9522-b59c70abbc99": {

@@ -1,0 +1,39 @@
+{
+ "batch": "mathematics__w6f",
+ "subject": "mathematics",
+ "questions": [
+  {
+   "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Integrals",
+   "type": "single_mcq",
+   "stem": "For x > 2, the indefinite integral ∫ dx / ((x − 2)√(x² − 4)) is (c is an arbitrary constant)",
+   "options": [
+    {
+     "key": "A",
+     "text": "−2√((x + 2)/(x − 2)) + c"
+    },
+    {
+     "key": "B",
+     "text": "(1/2)√((x + 2)/(x − 2)) + c"
+    },
+    {
+     "key": "C",
+     "text": "−(1/2)√((x − 2)/(x + 2)) + c"
+    },
+    {
+     "key": "D",
+     "text": "−(1/2)√((x + 2)/(x − 2)) + c"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Put x − 2 = 1/t, so dx = −dt/t² and t > 0. Then x + 2 = 4 + 1/t = (4t + 1)/t and x² − 4 = (x − 2)(x + 2) = (4t + 1)/t², so √(x² − 4) = √(4t + 1)/t. The integrand becomes (−dt/t²) ÷ [(1/t) × √(4t + 1)/t] = −dt/√(4t + 1), and ∫ −dt/√(4t + 1) = −(1/2)√(4t + 1) + c. Since 4t + 1 = 4/(x − 2) + 1 = (x + 2)/(x − 2), the integral is −(1/2)√((x + 2)/(x − 2)) + c. (Check: differentiating gives 1/((x − 2)√(x² − 4)).) Forgetting the minus sign from dx = −dt/t² gives the positive answer; dividing by 1/2 instead of multiplying gives the factor −2; turning the fraction under the root upside down gives √((x − 2)/(x + 2)).",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 7 Integrals: 7.3.1 Integration by substitution, p 235-236",
+   "source": "claude-authored-2026-11-23-w6"
+  }
+ ]
+}

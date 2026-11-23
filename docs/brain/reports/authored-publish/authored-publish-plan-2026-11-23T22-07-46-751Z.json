@@ -1,0 +1,328 @@
+{
+ "kind": "authored_publish_plan",
+ "version": "authored-publish-1",
+ "mode": "dry-run",
+ "source": "claude-authored-2026-11-23-w6",
+ "at": "2026-11-23T22:07:46.749Z",
+ "candidatesFile": "docs/brain/reports/authored-w6/wave6-fresh-fit-candidates-2026-11-24.json",
+ "candidatesSha256": "e8ec9928daa9df9226dc36810018788c87beca081867d4293766ff12fb565e58",
+ "planHash": "4f8f6bf801aeab6e3e1041f6dd1c65648260e5e6806e7d739fc007594edcf8f6",
+ "summary": {
+  "questions": 4,
+  "passageGroups": 0,
+  "bySubject": {
+   "accountancy": 1,
+   "computer_science": 2,
+   "mathematics": 1
+  },
+  "byType": {
+   "conceptual_mcq": 2,
+   "sequence_ordering": 1,
+   "statement_based": 1
+  },
+  "byDifficulty": {
+   "hard": 2,
+   "medium": 2
+  },
+  "byExpertReview": {
+   "claude_audited": 4
+  },
+  "passageChildrenBySet": {},
+  "passageSetsBelowNtaMinimum": [],
+  "chapters": 4
+ },
+ "blockers": [],
+ "warnings": [],
+ "checks": {
+  "target": "isrxrxzjocewrdureyhp.supabase.co",
+  "questionColumnsMissing": 0,
+  "passageGroupColumnsMissing": 0,
+  "existingQuestionIds": 0,
+  "existingGroupIds": 0,
+  "liveBefore": {
+   "accountancy": 1336,
+   "computer_science": 393,
+   "mathematics": 434
+  },
+  "agentScores": {
+   "bound": 4,
+   "missing": 0,
+   "hashMismatch": 0
+  },
+  "fitScores": {
+   "bound": 4,
+   "missing": 0,
+   "hashMismatch": 0
+  },
+  "bankLookalikes": "not checked: no local export"
+ },
+ "checksDetail": {
+  "target": "isrxrxzjocewrdureyhp.supabase.co",
+  "questionColumnsMissing": [],
+  "passageGroupColumnsMissing": [],
+  "existingQuestionIds": [],
+  "existingGroupIds": [],
+  "liveBefore": {
+   "accountancy": 1336,
+   "computer_science": 393,
+   "mathematics": 434
+  },
+  "scores": {
+   "agent": {
+    "bound": 4,
+    "missing": [],
+    "hashMismatch": []
+   },
+   "fit": {
+    "checked": true,
+    "bound": 4,
+    "missing": [],
+    "hashMismatch": []
+   }
+  },
+  "bankLookalikes": {
+   "checked": false,
+   "exact": [],
+   "near": []
+  }
+ },
+ "groups": [],
+ "rows": [
+  {
+   "id": "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+   "subject": "accountancy",
+   "chapter": "Goodwill Valuation",
+   "question": null,
+   "body": "A firm's capital employed is ₹ 2,50,000 and the normal rate of return is 8%. Each of its two partners is allowed a salary of ₹ 5,000 a year, not yet charged against the profits. Profits were ₹ 41,000 in 2022-23, ₹ 47,000 in 2023-24 and ₹ 50,000 in 2024-25. Goodwill is to be the smaller of two values: (i) 2 years' purchase of the average super profit of all three years; (ii) 3 years' purchase of the average super profit of the last two years. What is the goodwill?",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹ 52,000"
+    },
+    {
+     "key": "B",
+     "text": "₹ 32,000"
+    },
+    {
+     "key": "C",
+     "text": "₹ 55,500"
+    },
+    {
+     "key": "D",
+     "text": "₹ 37,000"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "B",
+   "explanation": "Partners' salaries are a normal charge, so NCERT adds them to the normal return on capital (deducting them from each year's profit gives the same answer). Normal profit = 2,50,000 × 8% = 20,000, plus salaries 2 × 5,000 = 10,000, so 30,000. If a question gives a market rate of interest instead of a normal rate of return, NCERT (Illustration 13) uses it the same way: interest on capital at that rate, plus the partners' salaries, is the normal profit. Value (i): average profit of the three years = (41,000 + 47,000 + 50,000) ÷ 3 = 46,000; super profit = 46,000 − 30,000 = 16,000; goodwill = 16,000 × 2 = 32,000. Value (ii): average profit of the last two years = (47,000 + 50,000) ÷ 2 = 48,500; super profit = 48,500 − 30,000 = 18,500; goodwill = 18,500 × 3 = 55,500. The smaller value, ₹ 32,000, is the goodwill. Quick route: work with the average profit and take off the normal profit once; there is no need to find each year's super profit. Traps: 55,500 is the larger value; 52,000 leaves the salaries out (super profit 26,000 × 2); 37,000 puts 2 years' purchase on the two-year average (18,500 × 2).",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Reconstitution of a Partnership firm",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Accountancy Part I (leac102), Ch 2 Admission of a Partner, 2.5.4.2 Super Profits Method, p. 60, and Illustration 13, pp. 61-62: partners' salary added to normal profit, goodwill = super profit × years' purchase"
+   ],
+   "topic": "Reconstitution of a Partnership firm",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+   "subject": "computer_science",
+   "chapter": "Computer Networks",
+   "question": null,
+   "body": "Arrange the following milestones in the evolution of computer networks in the order in which they took place:\n(A) The National Science Foundation brought network connectivity to more people through its NSFNET programme.\n(B) Roy Tomlinson developed network messaging (e-mail), and the symbol @ came to mean \"at\".\n(C) The first version of the Wi-Fi (802.11) standard was introduced.\n(D) The term Internet was coined, and the first commercial use of ARPANET began under the name Telenet.\n(E) TCP/IP was introduced as the standard protocol on ARPANET.\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(D), (B), (E), (A), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (D), (A), (E), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (E), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (E), (D), (A), (C)"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "NCERT's timeline of the evolution of networking (Figure 10.3) dates every milestone. 1961: the idea of ARPANET is conceptualised. 1969: ARPANET becomes functional by connecting UCLA and SRI (the first message went between the University of California, Los Angeles and the Stanford Research Institute). 1971: Roy Tomlinson develops network messaging or e-mail, and the symbol @ comes to mean \"at\" (B). 1974: the term Internet is coined, and the first commercial use of ARPANET starts under the name Telenet (D). 1982: TCP/IP is introduced as the standard protocol on ARPANET (E). 1983: the Domain Name System is introduced. 1986: the National Science Foundation brings connectivity to more people with its NSFNET programme (A). 1990: Tim Berners-Lee at CERN develops HTML and URL, giving birth to the World Wide Web. 1997: the first version of the Wi-Fi (802.11) standard is introduced (C). So the order is (B), (D), (E), (A), (C). Keep the core chain in mind: ARPANET working (1969), then e-mail (1971), then TCP/IP on ARPANET (1982), then the World Wide Web (1990). Option A puts the coining of the term Internet (1974) before e-mail (1971); option B puts NSFNET (1986) before TCP/IP (1982); option D puts TCP/IP (1982) before the term Internet (1974).",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:sequence_ordering",
+    "unit:Section A: Database and Networks",
+    "expert_review:claude_audited",
+    "expert_pass:repaired",
+    "ncert:NCERT Computer Science Class XII (lecs110, Reprint 2026-27), Ch 10 Computer Networks, 10.2 Evolution of Networking and Figure 10.3 Timeline showing evolution of networking, printed p183; Berners-Lee and the WWW in 1990 also in 10.7.1 The Wo"
+   ],
+   "topic": "Section A: Database and Networks",
+   "question_type": "sequence_ordering",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+   "subject": "computer_science",
+   "chapter": "Project Based Learning",
+   "question": null,
+   "body": "In project based learning, a project is written as a Description of the problem followed by its Specification. Which of the following would form part of a project's Specification?\n(A) The merchandise selected for a sale should not be more than 70 per cent of the total merchandise.\n(B) Murugan plans to launch an online shopping platform called 'APPAREL EASY'.\n(C) Import the CSV file of survey responses into a Pandas DataFrame and compute the mean and median for the identified questions.\n(D) Open Government Data (OGD) Platform India supports the open data initiative of the Government of India.\n(E) List the top 5 states or union territories that have the maximum population working as marginal workers.\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(B) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (B) and (E) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C) and (E) only"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D) and (E) only"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "C",
+   "explanation": "A Description sets out the background: who needs the project and why. A Specification lays down exactly what the software must store and do: the data fields and categories, rules such as ID prefixes and limits, and the computations or queries to be answered. (A) is a rule of Project I's Specification (online shopping), (C) restates steps of Project III's Specifications (survey on social networking sites: import the CSV file into a DataFrame, compute mean, median, etc.), and (E) is one of the queries in Project IV's Specifications (open data on adolescent and youth population). (B) is from Project I's Description and (D) from Project IV's Description: they give the setting, not what to store or compute. The same test sorts the other examples in the chapter: in Project II, the Bookworm club organising a Book Donation Camp every year, realising the importance of Reduce, Reuse and Recycle, is Description, while the rule that if the Item Category is Book the Item Type is Academic or Non Academic and the Item Id is prefixed with a 'B' is Specification; in Project III, the remark that teenagers spend a good amount of time on social networking sites, which plays a vital role in their behaviour, is Description; in Project IV, the query on the total population, total male population and total female population aged 10 to 24 in India is a Specification.",
+   "difficulty": "medium",
+   "difficulty_weight": 2,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:statement_based",
+    "unit:Section B2: Informatics Practices",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Informatics Practices Class XII (leip107, Reprint 2026-27), Ch 7 Project Based Learning, 7.4 Project Descriptions: 7.4.1 Project I (pp199-200), 7.4.2 Project II (p200), 7.4.3 Project III (p201), 7.4.4 Project IV (pp201-203), each a De"
+   ],
+   "topic": "Section B2: Informatics Practices",
+   "question_type": "statement_based",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  },
+  {
+   "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+   "subject": "mathematics",
+   "chapter": "Integrals",
+   "question": null,
+   "body": "For x > 2, the indefinite integral ∫ dx / ((x − 2)√(x² − 4)) is (c is an arbitrary constant)",
+   "options": [
+    {
+     "key": "A",
+     "text": "−2√((x + 2)/(x − 2)) + c"
+    },
+    {
+     "key": "B",
+     "text": "(1/2)√((x + 2)/(x − 2)) + c"
+    },
+    {
+     "key": "C",
+     "text": "−(1/2)√((x − 2)/(x + 2)) + c"
+    },
+    {
+     "key": "D",
+     "text": "−(1/2)√((x + 2)/(x − 2)) + c"
+    }
+   ],
+   "correct_index": null,
+   "correct_answer": "D",
+   "explanation": "Put x − 2 = 1/t, so dx = −dt/t² and t > 0. Then x + 2 = 4 + 1/t = (4t + 1)/t and x² − 4 = (x − 2)(x + 2) = (4t + 1)/t², so √(x² − 4) = √(4t + 1)/t. The integrand becomes (−dt/t²) ÷ [(1/t) × √(4t + 1)/t] = −dt/√(4t + 1), and ∫ −dt/√(4t + 1) = −(1/2)√(4t + 1) + c. Since 4t + 1 = 4/(x − 2) + 1 = (x + 2)/(x − 2), the integral is −(1/2)√((x + 2)/(x − 2)) + c. (Check: differentiating gives 1/((x − 2)√(x² − 4)).) Forgetting the minus sign from dx = −dt/t² gives the positive answer; dividing by 1/2 instead of multiplying gives the factor −2; turning the fraction under the root upside down gives √((x − 2)/(x + 2)).",
+   "difficulty": "hard",
+   "difficulty_weight": 3,
+   "source": "claude-authored-2026-11-23-w6",
+   "status": "live",
+   "verification_state": "verified",
+   "exploration_state": "active",
+   "exploration_lane": "none",
+   "ai_tier": "PENDING",
+   "quality_band": "unrated",
+   "uploaded_by": null,
+   "author_id": null,
+   "tags": [
+    "cuet",
+    "source_kind:claude_authored",
+    "authored_run:claude-authored-2026-11-23-w6",
+    "authored_wave:6",
+    "question_type:conceptual_mcq",
+    "unit:Calculus",
+    "expert_review:claude_audited",
+    "expert_pass:ready",
+    "ncert:NCERT Class 12 Mathematics Part II (lemh2xx, Reprint 2026-27), Ch 7 Integrals: 7.3.1 Integration by substitution, p 235-236"
+   ],
+   "topic": "Calculus",
+   "question_type": "conceptual_mcq",
+   "passage_group_id": null,
+   "passage_id": null,
+   "passage_type": null,
+   "passage_text": null,
+   "order_index": null,
+   "is_deleted": false,
+   "live_at": null
+  }
+ ]
+}

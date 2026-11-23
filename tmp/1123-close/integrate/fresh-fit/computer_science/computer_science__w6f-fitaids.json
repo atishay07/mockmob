@@ -1,0 +1,77 @@
+{
+ "batch": "computer_science__w6b3",
+ "subject": "computer_science",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Section A: Database and Networks",
+    "chapters": [
+     "Database Concepts",
+     "Structured Query Language",
+     "Computer Networks"
+    ]
+   },
+   {
+    "unit": "Section B1: Computer Science",
+    "chapters": [
+     "Exception and File Handling in Python",
+     "Stack",
+     "Queue",
+     "Searching",
+     "Sorting",
+     "Understanding Data",
+     "Database Concepts",
+     "Structured Query Language",
+     "Computer Networks",
+     "Data Communication",
+     "Security Aspects"
+    ]
+   },
+   {
+    "unit": "Section B2: Informatics Practices",
+    "chapters": [
+     "Structured Query Language",
+     "Data Handling using Pandas",
+     "Plotting Data using Matplotlib",
+     "Computer Networks",
+     "Societal Impacts",
+     "Project Based Learning"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Python Revision",
+   "Functions",
+   "Interface Python with MySQL",
+   "Boolean Algebra"
+  ]
+ },
+ "rows": {
+  "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec": {
+   "engine_unit_options": [
+    "Section A: Database and Networks",
+    "Section B1: Computer Science",
+    "Section B2: Informatics Practices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 116,
+   "read_seconds": 43
+  },
+  "a96cb5ae-554a-4ec0-b4ac-914a515f118f": {
+   "engine_unit_options": [
+    "Section B2: Informatics Practices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 145,
+   "read_seconds": 52
+  }
+ }
+}

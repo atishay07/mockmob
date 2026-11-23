@@ -249,12 +249,12 @@
    "n": 23,
    "chapter": "Goodwill Valuation",
    "type": "numerical",
-   "verdict": "not_covered",
-   "matchKind": null,
-   "best": null,
-   "bestKind": null,
+   "verdict": "covered",
+   "matchKind": "concept",
+   "best": "70fc4da1-a0e0-4888-8e54-6a1262b382ef",
+   "bestKind": "bank",
    "needs": [],
-   "reason": "The authored question was held by the quality gate"
+   "reason": "MockMob question 70fc4da1 teaches this point with the same steps."
   },
   {
    "n": 24,

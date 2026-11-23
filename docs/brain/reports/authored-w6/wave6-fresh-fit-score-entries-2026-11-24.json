@@ -1,0 +1,422 @@
+{
+ "kind": "authored_score_entries",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "wave": 6,
+ "built_at": "2026-11-23T22:07:32.397Z",
+ "date": "2026-11-24",
+ "models": {
+  "quality": "claude-opus-5-5 (fresh pass)",
+  "fit": "claude-opus-5-5 (fresh pass, CUET 2026 anchor)",
+  "solver": "claude-subagent-unrecorded (original solvers, same text)"
+ },
+ "models_note": "The raw judge files do not record the model; the model of the subagents that produced the raw files is not recorded in them.",
+ "note": "Owner, 24 Nov 2026 (\"Yes, run it\"): the four rows held only by the CUET-fit rule were judged again by two fresh quality judges and three fresh fit judges who were shown the real CUET 2026 question each row mirrors (tmp/1123-close/integrate/fresh-fit/FRESH.md). Solvers are the original five on the same text. Built by tmp/1123-close/integrate/fresh-entries.mjs from the result files only.",
+ "candidates_file": "docs/brain/reports/authored-w6/wave6-fresh-fit-candidates-2026-11-24.json",
+ "candidates_sha256": "e8ec9928daa9df9226dc36810018788c87beca081867d4293766ff12fb565e58",
+ "counts": {
+  "entries": 4
+ },
+ "entries": {
+  "70fc4da1-a0e0-4888-8e54-6a1262b382ef": {
+   "subject": "accountancy",
+   "batch": "accountancy__w6b1",
+   "chapter": "Goodwill Valuation",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "B",
+     "B",
+     "B",
+     "B",
+     "B"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "accountancy.goodwill-valuation.super-profit-method-goodwill",
+     "flags": [],
+     "note": "Arithmetic checks (32,000 vs 55,500). Distractors are real slips (no salary 52,000; 2 yrs on 2-yr avg 37,000). 'Smaller of two values' framing is contrived; explanation has an off-topic market-rate aside.",
+     "on_final_text": true,
+     "batch": "accountancy__w6f"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "B",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "accountancy.goodwill-valuation.super-profit-method-goodwill",
+     "flags": [],
+     "note": "Key B verified (super profits 11k/17k/20k; 16,000x2=32,000 vs 18,500x3=55,500). Distractors map to real slips. The 'smaller of two values' framing is contrived and the stem is long for 72 s; explanation aside on market rate is padding.",
+     "on_final_text": true,
+     "batch": "accountancy__w6f"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 128,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Same super-profit 'whichever is less' item as anchor Q23, new values; same 5 steps, 128 s vs anchor 127 s. Traps (larger value, salaries left out) are real slips.",
+     "on_final_text": true,
+     "batch": "accountancy__w6f"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 146,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Same two-route super-profit goodwill as anchor Q23, new values; 6 steps both, est 146 s vs anchor ~144 s (within 15%), so no too_slow. Traps: salaries omitted, larger value, wrong YP.",
+     "on_final_text": true,
+     "batch": "accountancy__w6f"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Reconstitution of a Partnership firm",
+     "chapter": "Goodwill Valuation",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 146,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Same super-profit, smaller-of-two goodwill item as anchor Q23, new values; equal steps, 146 s vs anchor 145 s. Distractors are real slips (salaries omitted, larger value, wrong years).",
+     "on_final_text": true,
+     "batch": "accountancy__w6f"
+    }
+   ]
+  },
+  "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec": {
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Computer Networks",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "computer_science.computer-networks.evolution-of-networking-timeline",
+     "flags": [],
+     "note": "Dates match NCERT Fig 10.3 (1971, 1974, 1982, 1986, 1997). Each distractor is one adjacent swap; layout clean. Minor: (C) is last in every option.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "computer_science.computer-networks.evolution-of-networking-timeline",
+     "flags": [],
+     "note": "Order B(1971) D(1974) E(1982) A(1986) C(1997) matches NCERT timeline; each distractor is a single plausible swap; explanation checks out. Pure date recall with long statements; three options open with (B).",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Section A: Database and Networks",
+     "chapter": "Computer Networks",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 79,
+     "fit_score": 9,
+     "fit_flags": [],
+     "note": "Anchor Q10 timeline item with 5 entries; 79 s vs anchor 70 s (within 15%). Telenet and NSFNET dates are finer details than the anchor's core milestones.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Section A: Database and Networks",
+     "chapter": "Computer Networks",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 97,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Same NCERT timeline sequence as anchor Q10, but 5 longer entries with close dates (1971/1974, 1982/1986): 3 steps vs anchor 2, est 97 s vs ~69 s, so usual bands; time 2 caps 8.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "sequence_ordering",
+     "passage_skill": null,
+     "unit": "Section A: Database and Networks",
+     "chapter": "Computer Networks",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 97,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Anchor Q10 idea, but five entries vs four and finer dates (Telenet 1974, NSFNET, Wi-Fi); 116 words vs ~76, so 97 s vs anchor 67 s. (C) is last in every option.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    }
+   ]
+  },
+  "a96cb5ae-554a-4ec0-b4ac-914a515f118f": {
+   "subject": "computer_science",
+   "batch": "computer_science__w6b3",
+   "chapter": "Project Based Learning",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "C",
+     "C",
+     "C",
+     "C",
+     "C"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "computer_science.project-based-learning.description-versus-specification",
+     "flags": [],
+     "note": "Clear description vs specification split; (B),(D) mirror option is a good trap. Leans on NCERT project text recall; explanation overlong with extra examples. In syllabus.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 8,
+     "blind_answer": "C",
+     "key_matches": true,
+     "difficulty_check": "medium",
+     "objective_tag": "computer_science.project-based-learning.description-versus-specification",
+     "flags": [],
+     "note": "A (rule), C (task), E (query) are specification; B and D are background. Key solvable by reasoning, no second defensible set. Long stem and a niche chapter; explanation's long tour of other projects is padding.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B2: Informatics Practices",
+     "chapter": "Project Based Learning",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 88,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Same Description-vs-Specification item as anchor Q78, 88 s vs 80 s; but 145 vs 117 words, with a lead-in sentence defining the split that the real item does not print.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B2: Informatics Practices",
+     "chapter": "Project Based Learning",
+     "pyq_closeness": 3,
+     "ten_route": null,
+     "est_seconds": 106,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Same Description-vs-Specification test as anchor Q78; adds a defining preamble and a fifth statement: 3 steps, est 106 s vs anchor ~78 s, so usual bands; time 2 caps 8.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "statement_based",
+     "passage_skill": null,
+     "unit": "Section B2: Informatics Practices",
+     "chapter": "Project Based Learning",
+     "pyq_closeness": 2,
+     "ten_route": null,
+     "est_seconds": 106,
+     "fit_score": 8,
+     "fit_flags": [],
+     "note": "Anchor Q78 idea (Description vs Specification) with five entries vs four and an extra framing sentence; 106 s vs anchor ~79 s. Description options (B), (D) are good traps.",
+     "on_final_text": true,
+     "batch": "computer_science__w6f"
+    }
+   ]
+  },
+  "deb62cd1-d823-4d82-8aeb-2433203cfdca": {
+   "subject": "mathematics",
+   "batch": "mathematics__w6b3b",
+   "chapter": "Integrals",
+   "set_id": null,
+   "text": {
+    "expert_verdict": null,
+    "expert_issue": null,
+    "expert_reviewed_text": "not_reviewed",
+    "judged": "as_authored",
+    "pre_repair": null,
+    "authoring_verdict": "claude_audited"
+   },
+   "blind_solvers": {
+    "n": 5,
+    "matched_key": 5,
+    "answers": [
+     "D",
+     "D",
+     "D",
+     "D",
+     "D"
+    ],
+    "on": "final"
+   },
+   "blind_resolve_on_final_text": null,
+   "quality": [
+    {
+     "judge": "j1",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "mathematics.integrals.reciprocal-substitution-integration",
+     "flags": [],
+     "note": "Verified by differentiation; explanation algebra correct. Distractors are sign, factor and inverted-root slips. Domain x > 2 stated. Slightly long for 72 s.",
+     "on_final_text": true,
+     "batch": "mathematics__w6f"
+    },
+    {
+     "judge": "j2",
+     "quality_score": 9,
+     "blind_answer": "D",
+     "key_matches": true,
+     "difficulty_check": "hard",
+     "objective_tag": "mathematics.integrals.integration-by-substitution",
+     "flags": [],
+     "note": "Verified by differentiating D: gives 1/((x-2)sqrt(x^2-4)). Distractors are sign, factor and reciprocal slips; explanation substitution and arithmetic correct; domain x > 2 stated.",
+     "on_final_text": true,
+     "batch": "mathematics__w6f"
+    }
+   ],
+   "fit": [
+    {
+     "judge": "h1",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Integrals",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 95,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Anchor Q33's integral with x-2 for x+1: same 1/t substitution, 4 steps, 95 s vs 92 s. Options trap sign, factor and inverted root.",
+     "on_final_text": true,
+     "batch": "mathematics__w6f"
+    },
+    {
+     "judge": "h2",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Calculus",
+     "chapter": "Integrals",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 95,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Anchor Q33 integral with x-2, x^2-4: same substitution, 4 steps both, est 95 s vs anchor ~92 s (within 15%). Distractors are sign, factor and inverted-root slips.",
+     "on_final_text": true,
+     "batch": "mathematics__w6f"
+    },
+    {
+     "judge": "h3",
+     "cuet_type": "single_mcq",
+     "passage_skill": null,
+     "unit": "Section A1 (common)",
+     "chapter": "Integrals",
+     "pyq_closeness": 3,
+     "ten_route": "pyq",
+     "est_seconds": 95,
+     "fit_score": 10,
+     "fit_flags": [],
+     "note": "Same 1/((x-a)sqrt(x^2-a^2)) substitution as anchor Q33 with a=2; same steps, 95 s vs anchor ~87 s. Distractors are sign, factor and inverted-root slips.",
+     "on_final_text": true,
+     "batch": "mathematics__w6f"
+    }
+   ]
+  }
+ }
+}

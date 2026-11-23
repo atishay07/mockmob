@@ -1,0 +1,74 @@
+{
+ "batch": "accountancy__w6b1",
+ "subject": "accountancy",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Accounting for Partnership",
+    "chapters": [
+     "Partnership Fundamentals",
+     "Profit & Loss Appropriation Account"
+    ]
+   },
+   {
+    "unit": "Reconstitution of a Partnership firm",
+    "chapters": [
+     "Change in Profit Sharing Ratio",
+     "Goodwill Valuation",
+     "Admission of Partner",
+     "Retirement & Death of Partner"
+    ]
+   },
+   {
+    "unit": "Dissolution of Partnership Firm",
+    "chapters": [
+     "Dissolution of Partnership Firm"
+    ]
+   },
+   {
+    "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+    "chapters": [
+     "Share Capital",
+     "Debentures"
+    ]
+   },
+   {
+    "unit": "Analysis of Financial Statements",
+    "chapters": [
+     "Financial Statements of Company",
+     "Analysis of Financial Statements",
+     "Comparative & Common Size Statements",
+     "Accounting Ratios",
+     "Cash Flow Statement"
+    ]
+   },
+   {
+    "unit": "Computerized Accounting System",
+    "chapters": [
+     "Computerized Accounting System"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Computerized Accounting System"
+  ]
+ },
+ "rows": {
+  "70fc4da1-a0e0-4888-8e54-6a1262b382ef": {
+   "engine_unit_options": [
+    "Reconstitution of a Partnership firm"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 98,
+   "read_seconds": 38
+  }
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "kind": "authored_scores_check",
+ "version": "authored-scores-1",
+ "source": "claude-authored-2026-11-23-w6",
+ "repairedTextPolicy": "admit",
+ "at": "2026-11-23T22:07:43.164Z",
+ "planned": 4,
+ "agentEntries": 4,
+ "hashChangedByRepair": 0,
+ "heldForFreshPass": 0,
+ "engineEligible": 4,
+ "engineIneligible": 0,
+ "engineIneligibleReasons": {},
+ "fitGate": {
+  "mirror": "scripts/lib/authored-scores.mjs fitGateReasons (mirror of data/nta_fit_scores.js ntaFitVerdict)",
+  "minFit": 8,
+  "pass": 4,
+  "reasons": {},
+  "baseTablesMissing": []
+ },
+ "qualityAndFitBoth": 4,
+ "passageSets": {
+  "servable": 0,
+  "of": 0,
+  "blueprint": {
+   "passageWords": {
+    "min": 200,
+    "target": 280,
+    "max": 300
+   },
+   "minChildren": 4
+  },
+  "sets": []
+ },
+ "bySubject": {
+  "accountancy": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  },
+  "computer_science": {
+   "planned": 2,
+   "eligible": 2,
+   "fitPass": 2,
+   "both": 2
+  },
+  "mathematics": {
+   "planned": 1,
+   "eligible": 1,
+   "fitPass": 1,
+   "both": 1
+  }
+ },
+ "ineligible": []
+}

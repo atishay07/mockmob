@@ -14,19 +14,19 @@
  "counts": {
   "total": 85,
   "same": 0,
-  "newValues": 42,
+  "newValues": 43,
   "concept": 42,
-  "notYet": 1,
+  "notYet": 0,
   "skill": 0,
   "offSyllabus": 0,
   "dropped": 0,
-  "covered": 84,
+  "covered": 85,
   "counted": 85,
-  "pct": 99,
+  "pct": 100,
   "first": 33,
   "firstPct": 39,
   "addedCards": 0,
-  "addedQuestions": 51,
+  "addedQuestions": 52,
   "found": 0,
   "sameFirst": 0,
   "newValuesFirst": 0
@@ -60,7 +60,7 @@
   {
    "name": "Integrals",
    "asked": 6,
-   "covered": 5
+   "covered": 6
   },
   {
    "name": "Numbers, Quantification and Numerical Applications",
@@ -1439,11 +1439,29 @@
    "key": [
     2
    ],
-   "status": "not-yet",
+   "status": "new-values",
    "first": false,
-   "since": null,
-   "reason": null,
-   "match": null
+   "since": "added",
+   "reason": "Paper Q33 asks ∫ dx/((x + 1)√(x² − 1)). Same method (substitute x ∓ a = 1/t, integrate (linear)^(−1/2), return to x) and the same kind of unknown, here ∫ dx/((x − 2)√(x² − 4)).",
+   "match": {
+    "kind": "question",
+    "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca",
+    "chapter": "Integrals",
+    "stem": "For x > 2, the indefinite integral ∫ dx / ((x − 2)√(x² − 4)) is (c is an arbitrary constant)",
+    "passage": null,
+    "options": [
+     "−2√((x + 2)/(x − 2)) + c",
+     "(1/2)√((x + 2)/(x − 2)) + c",
+     "−(1/2)√((x − 2)/(x + 2)) + c",
+     "−(1/2)√((x + 2)/(x − 2)) + c"
+    ],
+    "key": 3,
+    "explanation": "Put x − 2 = 1/t, so dx = −dt/t² and t > 0. Then x + 2 = 4 + 1/t = (4t + 1)/t and x² − 4 = (x − 2)(x + 2) = (4t + 1)/t², so √(x² − 4) = √(4t + 1)/t. The integrand becomes (−dt/t²) ÷ [(1/t) × √(4t + 1)/t] = −dt/√(4t + 1), and ∫ −dt/√(4t + 1) = −(1/2)√(4t + 1) + c. Since 4t + 1 = 4/(x − 2) + 1 = (x + 2)/(x − 2), the integral is −(1/2)√((x + 2)/(x − 2)) + c. (Check: differentiating gives 1/((x − 2)√(x² − 4)).) Forgetting the minus sign from dx = −dt/t² gives the positive answer; dividing by 1/2 instead of multiplying gives the factor −2; turning the fraction under the root upside down gives √((x − 2)/(x + 2)).",
+    "more": {
+     "cards": 0,
+     "questions": 0
+    }
+   }
   },
   {
    "n": 34,

@@ -106,12 +106,12 @@
       "n": 10,
       "chapter": "Computer Networks",
       "type": "theory",
-      "verdict": "not_covered",
-      "matchKind": null,
-      "best": null,
-      "bestKind": null,
+      "verdict": "covered",
+      "matchKind": "concept",
+      "best": "46fc9550-b6f1-45c2-8dc7-920c5c9ac6ec",
+      "bestKind": "bank",
       "needs": [],
-      "reason": "Only the ARPANET start and the 1990 WWW are served; nothing dates Tomlinson's e-mail or TCP/IP on ARPANET, so the middle of the order is not taught."
+      "reason": "MockMob question 46fc9550 teaches this point with the same steps."
     },
     {
       "n": 11,
@@ -854,12 +854,12 @@
       "n": 78,
       "chapter": "Project Based Learning",
       "type": "theory",
-      "verdict": "not_covered",
-      "matchKind": null,
-      "best": null,
-      "bestKind": null,
+      "verdict": "covered",
+      "matchKind": "concept",
+      "best": "a96cb5ae-554a-4ec0-b4ac-914a515f118f",
+      "bestKind": "bank",
       "needs": [],
-      "reason": "Nothing served teaches what a project specification is or gives NCERT's example projects."
+      "reason": "MockMob question a96cb5ae teaches this point with the same steps."
     },
     {
       "n": 79,

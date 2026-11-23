@@ -1,0 +1,3 @@
+[
+{ "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca", "blind_answer": "D", "key_matches": true, "quality_score": 9, "difficulty_check": "hard", "objective_tag": "mathematics.integrals.reciprocal-substitution-integration", "flags": [], "note": "Verified by differentiation; explanation algebra correct. Distractors are sign, factor and inverted-root slips. Domain x > 2 stated. Slightly long for 72 s." }
+]

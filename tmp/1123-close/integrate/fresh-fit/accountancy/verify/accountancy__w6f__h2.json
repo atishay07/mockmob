@@ -1,0 +1,3 @@
+[
+ { "id": "70fc4da1-a0e0-4888-8e54-6a1262b382ef", "cuet_type": "single_mcq", "passage_skill": null, "unit": "Reconstitution of a Partnership firm", "chapter": "Goodwill Valuation", "pyq_closeness": 3, "pyq_anchor": "CUET 2026 accountancy paper, question 23", "ten_route": "pyq", "reasoning_steps": 6, "est_seconds": 146, "dims": { "syllabus_objective": 3, "format_authenticity": 3, "level_calibration": 3, "time_suitability": 3, "discrimination_value": 3 }, "fit_score": 10, "fit_flags": [], "note": "Same two-route super-profit goodwill as anchor Q23, new values; 6 steps both, est 146 s vs anchor ~144 s (within 15%), so no too_slow. Traps: salaries omitted, larger value, wrong YP." }
+]

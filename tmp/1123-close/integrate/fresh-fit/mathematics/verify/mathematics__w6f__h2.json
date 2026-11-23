@@ -1,0 +1,3 @@
+[
+ { "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca", "cuet_type": "single_mcq", "passage_skill": null, "unit": "Calculus", "chapter": "Integrals", "pyq_closeness": 3, "pyq_anchor": "CUET 2026 mathematics paper, question 33", "ten_route": "pyq", "reasoning_steps": 4, "est_seconds": 95, "dims": { "syllabus_objective": 3, "format_authenticity": 3, "level_calibration": 3, "time_suitability": 3, "discrimination_value": 3 }, "fit_score": 10, "fit_flags": [], "note": "Anchor Q33 integral with x-2, x^2-4: same substitution, 4 steps both, est 95 s vs anchor ~92 s (within 15%). Distractors are sign, factor and inverted-root slips." }
+]

@@ -1,0 +1,3 @@
+[
+  { "id": "deb62cd1-d823-4d82-8aeb-2433203cfdca", "blind_answer": "D", "key_matches": true, "quality_score": 9, "difficulty_check": "hard", "objective_tag": "mathematics.integrals.integration-by-substitution", "flags": [], "note": "Verified by differentiating D: gives 1/((x-2)sqrt(x^2-4)). Distractors are sign, factor and reciprocal slips; explanation substitution and arithmetic correct; domain x > 2 stated." }
+]

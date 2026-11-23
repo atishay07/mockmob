@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-11-23T20:56:22.519Z",
+ "builtAt": "2026-11-23T22:08:19.308Z",
  "snapshotDate": "2026-11-24",
  "snapshotDay": "24 November 2026",
  "snapshotDates": [
@@ -26,12 +26,12 @@
    "shift": "first shift",
    "total": 55,
    "counted": 55,
-   "covered": 54,
-   "pct": 98,
+   "covered": 55,
+   "pct": 100,
    "same": 13,
    "newValues": 10,
-   "concept": 31,
-   "notYet": 1,
+   "concept": 32,
+   "notYet": 0,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -40,7 +40,7 @@
    "firstPct": 69,
    "firstDay": "20 November 2026",
    "addedCards": 3,
-   "addedQuestions": 13,
+   "addedQuestions": 14,
    "found": 0
   },
   {
@@ -130,12 +130,12 @@
    "shift": "first shift",
    "total": 85,
    "counted": 85,
-   "covered": 83,
-   "pct": 98,
+   "covered": 85,
+   "pct": 100,
    "same": 5,
    "newValues": 4,
-   "concept": 74,
-   "notYet": 2,
+   "concept": 76,
+   "notYet": 0,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -144,7 +144,7 @@
    "firstPct": 81,
    "firstDay": "23 November 2026",
    "addedCards": 8,
-   "addedQuestions": 6,
+   "addedQuestions": 8,
    "found": 0
   },
   {
@@ -234,12 +234,12 @@
    "shift": "second shift",
    "total": 85,
    "counted": 85,
-   "covered": 84,
-   "pct": 99,
+   "covered": 85,
+   "pct": 100,
    "same": 0,
-   "newValues": 42,
+   "newValues": 43,
    "concept": 42,
-   "notYet": 1,
+   "notYet": 0,
    "skill": 0,
    "offSyllabus": 0,
    "dropped": 0,
@@ -248,7 +248,7 @@
    "firstPct": 39,
    "firstDay": "23 November 2026",
    "addedCards": 0,
-   "addedQuestions": 51,
+   "addedQuestions": 52,
    "found": 0
   },
   {
@@ -358,13 +358,13 @@
  ],
  "total": {
   "counted": 686,
-  "covered": 674,
+  "covered": 678,
   "same": 95,
-  "newValues": 85,
-  "concept": 494,
-  "notYet": 12,
+  "newValues": 86,
+  "concept": 497,
+  "notYet": 8,
   "skill": 39,
-  "pct": 98
+  "pct": 99
  },
  "firstCheck": {
   "from": "2026-11-20",
@@ -375,7 +375,7 @@
   "counted": 686,
   "pct": 66,
   "addedCards": 84,
-  "addedQuestions": 135,
+  "addedQuestions": 139,
   "found": 2,
   "same": 67,
   "newValues": 4,
@@ -439,7 +439,7 @@
     "subject": "accountancy",
     "chapter": "Goodwill Valuation",
     "asked": 5,
-    "covered": 4,
+    "covered": 5,
     "served": 9,
     "practice": true
    },
@@ -783,7 +783,7 @@
     "subject": "computer-science",
     "chapter": "Computer Networks",
     "asked": 8,
-    "covered": 7,
+    "covered": 8,
     "served": 26,
     "practice": true
    },
@@ -839,7 +839,7 @@
     "subject": "computer-science",
     "chapter": "Project Based Learning",
     "asked": 4,
-    "covered": 3,
+    "covered": 4,
     "served": 9,
     "practice": true
    },
@@ -1303,7 +1303,7 @@
     "subject": "mathematics",
     "chapter": "Integrals",
     "asked": 6,
-    "covered": 5,
+    "covered": 6,
     "served": 29,
     "practice": true
    },
