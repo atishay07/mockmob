@@ -45,6 +45,6 @@ test('the words are plain, and the key sits with the hero links', () => {
   for (const text of Object.values(LAUNCH_FILM_COPY)) assert.doesNotMatch(text, /[—!]|\p{Extended_Pictographic}/u, text);
   const page = read('src/app/page.js');
   assert.match(page, /className="lp-hero__tool">[^<]+<\/Link>\s*\{\/\*[^*]*\*\/\}\s*<LaunchFilmKey \/>/);
-  // The hero film itself is untouched: it stays on v5 until the owner says to switch (LK370).
-  assert.match(read('src/components/landing/heroFilmConfig.mjs'), /hero-v5-/);
+  // The hero film is its own switch: v10 since the owner's "switch it to live" (23 Nov 2026); the launch film's key is separate.
+  assert.match(read('src/components/landing/heroFilmConfig.mjs'), /hero-v10-/);
 });

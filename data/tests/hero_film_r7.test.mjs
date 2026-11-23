@@ -33,30 +33,33 @@ function webpSize(b) {
 }
 
 // The launch teaser's three files (hero-480.mp4, hero-720.mp4, hero-poster.webp; 12.5 MB) left the repo on 15 Nov 2026: the
-// walkthrough (hero-v5-*) has been the hero since 9 Nov and nothing referenced them (audit T8). The film that is served:
-test('the walkthrough\'s three files and its poster are in the repo', () => {
-  for (const f of ['public/video/hero-v5-480.mp4', 'public/video/hero-v5-720.mp4', 'public/video/hero-v5-1080.mp4', 'public/video/hero-v5-poster.webp']) {
+// walkthrough (hero-v5-*) has been the hero since 9 Nov and nothing referenced them (audit T8). Since 23 Nov 2026 (owner LK431)
+// the rebuilt film (hero-v10-*) is served; the v5 files stay so a config change rolls back. The rejected v6 files are gone. Both sets:
+test('the walkthrough\'s three files and its posters are in the repo (v10 served, v5 kept for rollback)', () => {
+  for (const f of ['v10', 'v5'].flatMap((v) => [`public/video/hero-${v}-480.mp4`, `public/video/hero-${v}-720.mp4`, `public/video/hero-${v}-1080.mp4`, `public/video/hero-${v}-poster.webp`, `public/video/hero-${v}-poster-640.webp`])) {
     assert.ok(existsSync(join(ROOT, f)), f);
     assert.ok(statSync(join(ROOT, f)).size > 10_000, `${f} is a real file`);
   }
-  for (const gone of ['hero-480.mp4', 'hero-720.mp4', 'hero-poster.webp']) assert.ok(!existsSync(join(ROOT, 'public/video', gone)), `${gone} removed`);
+  for (const gone of ['hero-480.mp4', 'hero-720.mp4', 'hero-poster.webp', 'hero-v6-480.mp4', 'hero-v6-720.mp4', 'hero-v6-1080.mp4']) assert.ok(!existsSync(join(ROOT, 'public/video', gone)), `${gone} removed`);
 });
 
 // Round 9 (owner, 9 Nov 2026: "the main walkthrough video of the platform ... highly converting"): the walkthrough film,
 // three files picked by need, ten chapters under the frame, nothing on the picture.
 const loadConfig = () => import(pathToFileURL(join(ROOT, 'src/components/landing/heroFilmConfig.mjs')).href);
 
-test('round 9 film config: the walkthrough\'s label, poster and three files; nine chapters in the journey\'s order, starts rising from 0', async () => {
+test('film config (v10, 23 Nov 2026): the walkthrough\'s label, poster and three files; nine chapters in the film\'s order, starts rising from 0', async () => {
   const { FILM: CFG, FILM_CHAPTERS } = await loadConfig();
-  assert.match(CFG.label, /^MockMob walkthrough, \d+ seconds$/);
-  assert.equal(CFG.poster, '/video/hero-v5-poster.webp');
-  assert.deepEqual({ ...CFG.sources }, { 480: '/video/hero-v5-480.mp4', 720: '/video/hero-v5-720.mp4', 1080: '/video/hero-v5-1080.mp4' });
+  assert.equal(CFG.label, 'MockMob walkthrough, 66 seconds');
+  assert.equal(CFG.poster, '/video/hero-v10-poster.webp');
+  assert.deepEqual({ ...CFG.sources }, { 480: '/video/hero-v10-480.mp4', 720: '/video/hero-v10-720.mp4', 1080: '/video/hero-v10-1080.mp4' });
   assert.equal(CFG.chapters, FILM_CHAPTERS);
-  assert.deepEqual(FILM_CHAPTERS.map((c) => c.id), ['start', 'mocks', 'repair', 'learn', 'keycards', 'askmobi', 'plan', 'mob', 'signup']);
-  assert.deepEqual(FILM_CHAPTERS.map((c) => c.name), ['Start', 'Mocks', 'Mistake Repair', 'Learn', 'Key cards', 'Ask Mobi', 'Plan and colleges', 'The Mob', 'Sign up']);
+  assert.deepEqual(FILM_CHAPTERS.map((c) => c.id), ['start', 'mocks', 'lab', 'learn', 'askmobi', 'daily', 'plan', 'mob', 'proof']);
+  assert.deepEqual(FILM_CHAPTERS.map((c) => c.name), ['Start', 'Mocks', 'Mistake Lab', 'Learn and Key cards', 'Ask Mobi', 'Daily Five', 'Plan and colleges', 'The Mob', 'CUET coverage']);
+  // Nine is the most the bar holds: nine 24 px segments beside the keys on a 360 px phone (hero-film.css; ten ran into the sound key).
+  assert.ok(FILM_CHAPTERS.length <= 9, 'at most nine chapters');
   assert.equal(FILM_CHAPTERS[0].start, 0, 'the first chapter starts the film');
   for (let i = 1; i < FILM_CHAPTERS.length; i += 1) assert.ok(FILM_CHAPTERS[i].start > FILM_CHAPTERS[i - 1].start, `${FILM_CHAPTERS[i].id} starts after ${FILM_CHAPTERS[i - 1].id}`);
-  assert.ok(FILM_CHAPTERS.at(-1).start <= 53, 'inside the narrated film (53 s)');
+  assert.ok(FILM_CHAPTERS.at(-1).start <= 65.8, 'inside the narrated film (65.9 s)');
   assert.ok(Object.isFrozen(CFG) && Object.isFrozen(FILM_CHAPTERS) && FILM_CHAPTERS.every(Object.isFrozen));
   // Chapter names and the label: no exclamation marks, middle dots or arrows.
   for (const w of [CFG.label, ...FILM_CHAPTERS.map((c) => c.name)]) assert.doesNotMatch(w, /!|·|→|->/, w);
@@ -72,12 +75,12 @@ test('round 9 sources by need: the frame\'s rendered width x min(devicePixelRati
     [662, 1, false, 720], [880, 1, false, 720], [550, 2, false, 720], [551, 2, false, 1080], [662, 2, false, 1080],
     [880, 3, false, 1080], [1101, 1, false, 1080], [880, 2, true, 480], [0, 1, false, 480], [400, undefined, false, 480],
   ];
-  for (const [w, dpr, save, res] of cases) assert.equal(pickSource(w, dpr, save), `/video/hero-v5-${res}.mp4`, `${w} css px at ${dpr}x${save ? ', Data Saver' : ''}`);
+  for (const [w, dpr, save, res] of cases) assert.equal(pickSource(w, dpr, save), `/video/hero-v10-${res}.mp4`, `${w} css px at ${dpr}x${save ? ', Data Saver' : ''}`);
   // Picked once on mount from the frame's own width.
   assert.match(FILM_CODE, /video\.src = pickSource\(frame\.getBoundingClientRect\(\)\.width, window\.devicePixelRatio, navigator\.connection\?\.saveData === true, document\.documentElement\.dataset\.lite === '1'\);/);
   // 21 Nov 2026 (LK353): a weak device (the site's lite flag) takes 480p whatever its width and pixel ratio.
-  for (const [w, dpr] of [[350, 2], [350, 3], [880, 2], [1101, 1]]) assert.equal(pickSource(w, dpr, false, true), '/video/hero-v5-480.mp4', `${w} css px at ${dpr}x, lite`);
-  assert.equal(pickSource(350, 2, false, false), '/video/hero-v5-720.mp4');
+  for (const [w, dpr] of [[350, 2], [350, 3], [880, 2], [1101, 1]]) assert.equal(pickSource(w, dpr, false, true), '/video/hero-v10-480.mp4', `${w} css px at ${dpr}x, lite`);
+  assert.equal(pickSource(350, 2, false, false), '/video/hero-v10-720.mp4');
 });
 
 test('round 9 chapterAt: the chapter at a time and the share of it played', async () => {
@@ -102,11 +105,11 @@ test('HeroFilm: muted, inline, looped, nothing fetched before it plays, the post
   // The poster, with its size, at high priority (the hero's largest paint). P7 (15 Nov 2026): phones take a 640 px file of the
   // same frame (16 KB, not 60 KB), wider screens the 1280 px one; each is preloaded high for its own screens only, and the
   // video's own poster is the small file, so a phone fetches one poster.
-  assert.match(FILM_CODE, /const PHONE_POSTER = '\/video\/hero-v5-poster-640\.webp';\nconst PHONE_MEDIA = '\(max-width: 639px\)';\nconst WIDE_MEDIA = '\(min-width: 640px\)';/);
+  assert.match(FILM_CODE, /const PHONE_POSTER = '\/video\/hero-v10-poster-640\.webp';\nconst PHONE_MEDIA = '\(max-width: 639px\)';\nconst WIDE_MEDIA = '\(min-width: 640px\)';/);
   assert.match(FILM_CODE, /<picture>\s*<source media=\{PHONE_MEDIA\} srcSet=\{PHONE_POSTER\} width=\{640\} height=\{360\} \/>\s*<img className="lp-film__poster" src=\{FILM\.poster\} width=\{FILM\.width\} height=\{FILM\.height\} alt="" fetchPriority="high"/);
   assert.match(FILM_CODE, /preload\(PHONE_POSTER, \{ as: 'image', fetchPriority: 'high', media: PHONE_MEDIA \}\);\s*preload\(FILM\.poster, \{ as: 'image', fetchPriority: 'high', media: WIDE_MEDIA \}\);/);
-  assert.ok(statSync(join(ROOT, 'public/video/hero-v5-poster-640.webp')).size < 25_000, 'the phone poster stays small');
-  assert.ok(statSync(join(ROOT, 'public/video/hero-v5-poster.webp')).size > 25_000, 'the wide poster is kept');
+  assert.ok(statSync(join(ROOT, 'public/video/hero-v10-poster-640.webp')).size < 25_000, 'the phone poster stays small');
+  assert.ok(statSync(join(ROOT, 'public/video/hero-v10-poster.webp')).size > 25_000, 'the wide poster is kept');
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__frame \{[^}]*aspect-ratio: 16 \/ 9;/, 'a fixed 16:9 frame: no layout shift');
   assert.match(FILM_CODE, /export \{ FILM \};/, 'the config is still reachable from the component');
 });
@@ -154,7 +157,7 @@ test('round 9 nothing on the picture: a pointer tap on it pauses or plays; the k
   assert.match(FILM_CSS, /@media \(hover: hover\) and \(pointer: fine\) \{[^@]*\.mm\.lp \.lp-film__frame \{ cursor: pointer; \}/);
 });
 
-test('round 9 the chapter bar: one segment per chapter that seeks and plays, named "Chapter 3 of 9: Mistake Repair", the current one marked and filling', () => {
+test('round 9 the chapter bar: one segment per chapter that seeks and plays, named "Chapter 3 of 9: Mistake Lab", the current one marked and filling', () => {
   assert.match(FILM_CODE, /aria-label=\{`Chapter \$\{i \+ 1\} of \$\{COUNT\}: \$\{c\.name\}`\}/);
   assert.match(FILM_CODE, /aria-current=\{i === chapter \? 'true' : undefined\}/);
   assert.match(FILM_CODE, /data-state=\{i < chapter \? 'past' : i === chapter \? 'current' : 'next'\}/);

@@ -4760,7 +4760,7 @@ body > .pip-guide-flyer { transition: opacity 160ms var(--mm-ease-out, ease-out)
   .mm.lp .lp-film__frame { cursor: pointer; }
 }
 
-/* The chapter bar: the chapter's name above ten thin rails; each segment is a 44 px tall target the width of its rail. */
+/* The chapter bar: the chapter's name above nine thin rails; each segment is a 44 px tall target the width of its rail. */
 .mm.lp .lp-film__track { position: relative; height: 44px; min-width: 0; }
 .mm.lp .lp-film__now {
   position: absolute;
@@ -4821,8 +4821,8 @@ body > .pip-guide-flyer { transition: opacity 160ms var(--mm-ease-out, ease-out)
 @media (hover: hover) and (pointer: fine) {
   .mm.lp .lp-film__seg:hover .lp-film__rail { transform: scaleY(1.5); }
 }
-/* Ten 24 px segments beside the two keys need 240 px: under 380 px (a 375 px phone leaves 239 px) the keys sit 4 px from the bar,
-   and under 360 px the row keeps one line and shares what is left. */
+/* Nine 24 px segments beside the two keys need 216 px. Under 380 px the keys sit 4 px from the bar (a 360 px phone then leaves
+   224 px, 24.9 px a segment; a tenth segment does not fit there), and under 360 px the row keeps one line and shares what is left. */
 @media (max-width: 379px) {
   .mm.lp .lp-film__keys { column-gap: 4px; }
 }

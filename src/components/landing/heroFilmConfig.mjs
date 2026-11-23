@@ -1,27 +1,31 @@
 // The hero film's files and chapters (round 9, 9 Nov 2026; HeroFilm.jsx, hero-film.css). Plain data and two pure helpers,
 // so the tests can run them. The film is the walkthrough with a hook (Hero16 in the promo-film project): muted first,
-// looped, nine player chapters. r4 (owner, 9 Nov ~10:40 am): a short narrated walkthrough, straight to the point, seven
+// looped, nine player chapters (v10, 23 Nov 2026). r4 (owner, 9 Nov ~10:40 am): a short narrated walkthrough, straight to the point, seven
 // numbered features after klayprep's grammar, each readable muted.
 
-// The nine player chapters. `start` is the first frame of the chapter's picture in seconds, copied from the film's
-// out/hero/chapters.json (Hero16 r5 of 9 Nov, 53.033 s; no runtime fetch).
+// The nine player chapters (v10, 23 Nov 2026, owner LK431: the film rebuilt after its first 24 seconds, then "Yes, you can switch
+// it to live"). `start` is the first frame of the chapter's picture in seconds, copied from the film's
+// out/hero/v10/chapters.json (Hero16v10, 65.883 s; no runtime fetch). The film has eleven pictures; the bar holds nine 24 px
+// segments on a 360 px phone (measured: ten ran 12 px into the sound key), so Learn (5.2 s) and Key cards (3.7 s) share one
+// chapter, and the CUET 2026 coverage runs on into the fifteen subjects and the sign-up card as one.
+// Rollback to v5 (53 s, nine chapters, hero-v5-* files, still in public/video): the v5 block in git history (main 557db4105).
 export const FILM_CHAPTERS = Object.freeze([
   Object.freeze({ id: 'start', name: 'Start', start: 0 }),
   Object.freeze({ id: 'mocks', name: 'Mocks', start: 10.567 }),
-  Object.freeze({ id: 'repair', name: 'Mistake Repair', start: 16.983 }),
-  Object.freeze({ id: 'learn', name: 'Learn', start: 23.683 }),
-  Object.freeze({ id: 'keycards', name: 'Key cards', start: 28.883 }),
+  Object.freeze({ id: 'lab', name: 'Mistake Lab', start: 16.983 }),
+  Object.freeze({ id: 'learn', name: 'Learn and Key cards', start: 23.683 }),
   Object.freeze({ id: 'askmobi', name: 'Ask Mobi', start: 32.567 }),
-  Object.freeze({ id: 'plan', name: 'Plan and colleges', start: 37.133 }),
-  Object.freeze({ id: 'mob', name: 'The Mob', start: 41.267 }),
-  Object.freeze({ id: 'signup', name: 'Sign up', start: 44.883 }),
+  Object.freeze({ id: 'daily', name: 'Daily Five', start: 37.183 }),
+  Object.freeze({ id: 'plan', name: 'Plan and colleges', start: 43.433 }),
+  Object.freeze({ id: 'mob', name: 'The Mob', start: 47.567 }),
+  Object.freeze({ id: 'proof', name: 'CUET coverage', start: 51.183 }),
 ]);
 
 export const FILM = Object.freeze({
-  label: 'MockMob walkthrough, 53 seconds',
-  poster: '/video/hero-v5-poster.webp',
+  label: 'MockMob walkthrough, 66 seconds',
+  poster: '/video/hero-v10-poster.webp',
   // 30 fps H.264 + AAC, faststart; new names so no cache keeps the launch teaser.
-  sources: Object.freeze({ 480: '/video/hero-v5-480.mp4', 720: '/video/hero-v5-720.mp4', 1080: '/video/hero-v5-1080.mp4' }),
+  sources: Object.freeze({ 480: '/video/hero-v10-480.mp4', 720: '/video/hero-v10-720.mp4', 1080: '/video/hero-v10-1080.mp4' }),
   width: 1280,
   height: 720,
   visibleShare: 0.5,
@@ -31,7 +35,7 @@ export const FILM = Object.freeze({
 // The file the frame needs: its rendered width in device pixels (the ratio capped at 2), up to 640 -> 480p, up to
 // 1100 -> 720p, else 1080p. Data Saver always takes 480p. So does a weak device (21 Nov 2026, owner LK353: the yardstick is
 // a Rs 15,000 Chromebook or phone): the site's own lite flag (html[data-lite], set in layout.js for 4 GB of memory or less,
-// or few cores) took the 720p file (6.4 MB) on a 390 px phone at 2x, against 3.6 MB for 480p.
+// or few cores) took the 720p file on a 390 px phone at 2x (v10: 7.9 MB, against 4.5 MB for 480p).
 export function pickSource(cssWidth, dpr, saveData, lite = false) {
   if (saveData || lite) return FILM.sources[480];
   const px = (Number(cssWidth) || 0) * Math.min(Number(dpr) || 1, 2);

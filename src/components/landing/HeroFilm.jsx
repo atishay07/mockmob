@@ -12,13 +12,14 @@ export { FILM };
 // on Slow 4G. Phones (the site's 639 px breakpoint) take this one whatever their pixel ratio, since the film they then play is
 // 480p; wider screens keep the 1280 px poster. Each is preloaded at high priority for its own screens only, and the video's
 // own poster attribute (seen only in full screen before the first frame) is this small file, so a phone fetches one poster.
-const PHONE_POSTER = '/video/hero-v5-poster-640.webp';
+const PHONE_POSTER = '/video/hero-v10-poster-640.webp';
 const PHONE_MEDIA = '(max-width: 639px)';
 const WIDE_MEDIA = '(min-width: 640px)';
 
 // The home hero's film. Round 7 (owner, 7 Nov 2026: "the promo video playing as the main hero", like klayprep.com) put the
 // launch teaser here; round 9 (owner, 9 Nov 2026: "the main walkthrough video of the platform ... highly converting")
-// plays the narrated walkthrough (Hero16 r4): muted first, nine chapters: the opening, seven numbered features, sign up.
+// plays the narrated walkthrough (Hero16 r4; since 23 Nov 2026 Hero16v10, rebuilt after its first 24 seconds): muted first,
+// nine chapters: the opening, the numbered features, the CUET coverage with the sign-up card.
 //   - The poster (the film's "Preparing for CUET 2027?" frame) is drawn first in a fixed 16:9 frame, so nothing shifts;
 //     it is the hero's largest paint on desktop, so it asks for high priority.
 //   - The film's file is picked on mount by the frame's rendered width in device pixels (heroFilmConfig pickSource; Data

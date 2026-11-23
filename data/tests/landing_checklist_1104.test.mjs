@@ -641,7 +641,7 @@ test('L-044 no Higgsfield or video scene is live on the landing; the scroll scen
   // muted, and only in the hero; no scroll scene is a video. Round 9 (9 Nov 2026): the walkthrough, its files named in one
   // place (heroFilmConfig.mjs, part of the landing's surface through HeroFilm).
   assert.ok(SURFACE.includes('src/components/landing/heroFilmConfig.mjs'), 'the film config is on the landing surface');
-  assert.equal((code(sources(SURFACE)).match(/\/video\/hero-v5-\d+\.mp4/g) || []).length, 3, 'three film files, named once');
+  assert.equal((code(sources(SURFACE)).match(/\/video\/hero-v\d+-\d+\.mp4/g) || []).length, 3, 'three film files, named once'); // the version is the config's (v10 since 23 Nov 2026)
   // 23 Nov 2026 (owner LK427): the launch film has a place built for it (LaunchFilmKey), NOT live: its key is drawn hidden and
   // shows only with /?film=1 until the owner's build switch is on, and its file is not fetched before a press.
   assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|TourDeck|HeroFilm|LaunchFilmKey/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot, the hero film and the launch film\'s hidden player');

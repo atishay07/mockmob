@@ -437,7 +437,7 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
         range.selectNodeContents(brand);
         const column = document.querySelector('.lp-hero__copy').getBoundingClientRect();
         const sizers = [...document.querySelectorAll('.lp-typed__sizer')].map((el) => el.getBoundingClientRect().right);
-        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), film: b('.lp-hero .lp-film__frame'), filmKeys: b('.lp-hero .lp-film__keys'), filmSegs: [...document.querySelectorAll('.lp-hero .lp-film__seg')].map((s) => s.getBoundingClientRect()).map((r) => ({ w: r.width, h: r.height, top: Math.round(r.top) })), strip: b('.lp-strip'), texture: (() => {
+        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), film: b('.lp-hero .lp-film__frame'), filmKeys: b('.lp-hero .lp-film__keys'), filmSegs: [...document.querySelectorAll('.lp-hero .lp-film__seg')].map((s) => s.getBoundingClientRect()).map((r) => ({ w: r.width, h: r.height, top: Math.round(r.top), right: r.right })), filmSound: document.querySelector('.lp-hero .lp-film__keys > .lp-film__key[aria-pressed]')?.getBoundingClientRect().toJSON(), strip: b('.lp-strip'), texture: (() => {
           // Round 5: the grain covers the hero, behind it, untouchable, drawn by its two masked layers.
           const el = document.querySelector('.lp-hero > .mm-texture--hero');
           if (!el) return null;
@@ -474,7 +474,8 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
       // Round 9 (owner, 9 Nov 2026): the film's keys sit in one row under the picture, never over it; ten chapter
       // segments, each a 44 px tall and at least 24 px wide target, on one line; on desktop the row is in the first screen.
       assert.ok(m.filmKeys && m.filmKeys.top >= m.film.bottom && m.filmKeys.height === 44, `${width}: the film's keys in one 44 px row under the picture`);
-      assert.equal(m.filmSegs.length, 9, `${width}: nine chapters`);
+      assert.equal(m.filmSegs.length, 9, `${width}: nine chapters (the v10 film, 23 Nov 2026; ten ran into the sound key at 360 px)`);
+      assert.ok(m.filmSegs.at(-1).right <= m.filmSound.left + 0.5, `${width}: the chapters end before the sound key`);
       assert.equal(new Set(m.filmSegs.map((s) => s.top)).size, 1, `${width}: the chapters on one line`);
       for (const s of m.filmSegs) assert.ok(s.w >= 23.99 && s.h >= 44, `${width}: a chapter target ${s.w.toFixed(1)}x${s.h} px`);
       if (width >= 960) assert.ok(m.filmKeys.bottom <= height, `${width}x${height}: the film's keys in the first screen`);
