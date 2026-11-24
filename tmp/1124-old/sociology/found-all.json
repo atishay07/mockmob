@@ -1,0 +1,294 @@
+[
+  {
+    "n": 3,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Industrialisation (e.g. an industrial town near villages) physically transplants urban life into a rural setup",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Mass media, migration and secularisation are not the factor that physically transplants urban life",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old material gives Rao's three urban impacts and says mass media bring urban life styles to villages, but nothing says industrialisation physically transplants urban life into a rural setup."
+  },
+  {
+    "n": 4,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "A social movement in Britain (Chartists, suffragettes) won universal adult suffrage",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old row or card mentions a British social movement or its outcome; the suffrage card is only the Karachi resolution for India."
+  },
+  {
+    "n": 15,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Bhopal stood outside the economic system of the colonial empire",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Bombay, Kolkata and Madras were part of the colonial economy",
+        "ids": [
+          "kc.sociology.structural-change.fact-coastal-cities-favoured"
+        ],
+        "quote": "Coastal cities such as Mumbai, Kolkata and Chennai were favoured."
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards say Mumbai, Kolkata and Chennai were favoured colonial port cities, but nothing says anything about Bhopal, so the key is reachable only by elimination."
+  },
+  {
+    "n": 16,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Urbanisation reorders the relationship between native and migrant",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Westernisation reorders social value systems",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Modernisation means adopting new technology in the production process",
+        "ids": [
+          "kc.sociology.cultural-change.fact-modernisation-early-years"
+        ],
+        "quote": "In the early years, modernisation referred to improvement in technology and production processes."
+      },
+      {
+        "fact": "Industrialisation reorders the market economy",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only the modernisation pair is close to a card; the native-migrant, value-system and market-economy pairings are not stated anywhere in the old material."
+  },
+  {
+    "n": 18,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Panchayats are delegated power to prepare plans and schemes for economic development",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Panchayats promote schemes that enhance social justice",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Panchayats levy and collect taxes",
+        "ids": [
+          "kc.sociology.story-of-indian-democracy.list-panchayat-income"
+        ],
+        "quote": "tax levied on property, profession, animals, vehicles\ncess on land revenue and rentals\ngrants received through the Zilla Panchayat"
+      },
+      {
+        "fact": "Panchayats do not make laws",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only the taxes part is carded (Panchayat income); the planning, social-justice and no-law-making facts are not stated."
+  },
+  {
+    "n": 21,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Right to livelihood read into Article 21 came first (date needed)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Constitutional status to PRIs came by the 73rd Amendment, 1992",
+        "ids": [
+          "kc.sociology.story-of-indian-democracy.fact-73rd-amendment-1992"
+        ],
+        "quote": "It was, however, only in 1992 that grassroot democracy or decentralised governance was ushered in by the 73rd Constitutional Amendment. This act provided constitutional status to the Panchayati Raj In"
+      },
+      {
+        "fact": "Van Panchayats come next in the keyed order (date needed)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "RTI Act came in 2005",
+        "ids": [
+          "kc.sociology.challenges-of-cultural-diversity.fact-rti-act-2005"
+        ],
+        "quote": "The Right to Information Act 2005 (Act No. 22/2005) is a law enacted by the Parliament of India"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards date the 73rd Amendment and the RTI Act, but give no date for the livelihood reading of Article 21 or for the Van Panchayats, so the order cannot be built."
+  },
+  {
+    "n": 23,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Famines were caused by high levels of continuing poverty and malnutrition",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Birth rate has not fallen as sharply as the death rate",
+        "ids": [
+          "kc.sociology.demographic-structure.fact-india-transition-incomplete"
+        ],
+        "quote": "In India too, the demographic transition is not yet complete as the mortality rate has been reduced but the birth rate has not been brought down to the same extent."
+      },
+      {
+        "fact": "Mass vaccination and sanitation helped control epidemics",
+        "ids": [
+          "kc.sociology.demographic-structure.fact-epidemic-control-measures"
+        ],
+        "quote": "Improvements in medical cures for these diseases, programmes for mass vaccination, and efforts to improve sanitation helped to control epidemics."
+      },
+      {
+        "fact": "Prosperity does influence family size (D false)",
+        "ids": [
+          "kc.sociology.demographic-structure.fact-prosperity-lowers-birth-rate"
+        ],
+        "quote": "By and large, increased levels of prosperity exert a strong downward pull on the birth rate. Once infant mortality rates decline, and there is an overall increase in the levels of education and awaren"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Statements B, C and D are taught, but no old material says famines were caused by continuing poverty and malnutrition (the Sen card is a different claim), so statement A is missing."
+  },
+  {
+    "n": 25,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Nationalist leaders worked against caste discrimination of lower castes",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The dominant nationalist view treated caste as a social evil",
+        "ids": [
+          "kc.sociology.social-institutions.kl-caste-social-evil-ploy"
+        ],
+        "quote": "The dominant view in the nationalist movement was to treat caste as a social evil and as a colonial ploy to divide Indians."
+      },
+      {
+        "fact": "At the same time they prioritised or reassured the interests of the upper castes (the contradiction)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old card gives only the dominant view (caste a social evil and colonial ploy); the contradiction of also serving upper-caste interests is never stated."
+  },
+  {
+    "n": 32,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Marwaris became successful during the colonial period in cities such as Calcutta",
+        "ids": [
+          "kc.sociology.market-as-a-social-institution.fact-marwaris-colonial"
+        ],
+        "quote": "The Marwaris became a successful business community only during the colonial period, when they took advantage of new opportunities in colonial cities such as Calcutta"
+      },
+      {
+        "fact": "They transformed into industrialists",
+        "ids": [
+          "kc.sociology.market-as-a-social-institution.steps-marwari-steps"
+        ],
+        "quote": "small migrant traders\nmerchant bankers\nindustrialists"
+      },
+      {
+        "fact": "Their wealth and banking helped (not harmed) British commercial expansion",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The three true statements are carded, but nothing says how Marwari wealth affected British commercial expansion, so the false statement is found only by elimination."
+  },
+  {
+    "n": 35,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Black protesters were routinely jailed, murdered and tortured under apartheid",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Blacks earned about one-fourth of what whites did",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Black people were relocated to Bantustans",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Mixed marriages were not allowed (B false)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old row or card mentions apartheid, South Africa or Bantustans."
+  },
+  {
+    "n": 50,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The target audience of most soap operas is women",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards define soap operas, name Hum Log and say commercial TV shifted to an urban audience, but never say soaps target women."
+  }
+]

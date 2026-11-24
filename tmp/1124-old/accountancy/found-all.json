@@ -1,0 +1,432 @@
+[
+  {
+    "n": 3,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Interest on opening capital Rs 2,00,000 at 8% for the full year = Rs 16,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Interest on additional capital Rs 50,000 at 8% for 9 months (1 July to 31 March) = Rs 3,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Interest is lost on the Rs 30,000 withdrawn for 6 months (1 Oct to 31 March) = Rs 1,200; total = 16,000 + 3,000 - 1,200 = Rs 17,800",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old bank only computes interest on one capital for a full year (e.g. Rs 1,30,000 x 6%); no old bank question time-weights an addition and a withdrawal of capital."
+  },
+  {
+    "n": 4,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Interest on capital is an appropriation and is allowed only out of profits",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Total interest due = 8% of 3,00,000 + 8% of 4,00,000 = 24,000 + 32,000 = Rs 56,000, which exceeds the profit of Rs 14,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "When profit is insufficient, the profit is shared in the ratio of interest on capital (24,000:32,000 = 3:4), so Ansh gets 3/7 of 14,000 = Rs 6,000",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old bank has interest on capital only where profit is enough; no old bank question shares an insufficient profit in the ratio of interest on capital."
+  },
+  {
+    "n": 13,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "At retirement, assets and liabilities are revalued through the Revaluation Account",
+        "ids": [
+          "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects"
+        ],
+        "quote": "3. Revaluation of assets and liabilities;"
+      },
+      {
+        "fact": "Partners' current account balances are then transferred to their capital accounts",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The capital accounts are then settled, and the Balance Sheet is prepared last",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old material lists revaluation as an aspect of retirement, but nothing states that current accounts are closed into capital accounts before the capital accounts and then the balance sheet."
+  },
+  {
+    "n": 15,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "AS 26 is the Accounting Standard on intangible assets and defines an intangible asset as identifiable, non-monetary, without physical existence and held for use in production, rental or administration",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards mention AS 26 only for internally generated goodwill and define intangible assets without naming a standard; nothing says AS 26 is the standard on intangible assets."
+  },
+  {
+    "n": 16,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Super profit = Goodwill / years of purchase = 30,000 / 3 = Rs 10,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Normal profit = Average profit - Super profit = 60,000 - 10,000 = Rs 50,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Normal rate of return = Normal profit / Capital employed x 100 = 50,000 / 5,00,000 = 10%",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old bank goodwill questions go forward from the normal rate to goodwill; none works back from goodwill to the normal rate of return."
+  },
+  {
+    "n": 17,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "On death, the deceased partner's share of profit up to the date of death may be estimated on the basis of sales (turnover)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Profit to sales ratio of last year = 50,000 / 4,00,000 = 12.5%",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Profit from 1 April to 30 June 2025 = 12.5% of sales 75,000 = Rs 9,375",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old bank only apportions profit to the date of death on a time basis (212dadfc); no old bank question uses the sales basis."
+  },
+  {
+    "n": 18,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Revaluation changes: Patents 11,000 to 8,000 = loss 3,000; Machinery 30,000 to 28,000 = loss 2,000; Buildings 20,000 to 25,000 = gain 5,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Net revaluation = 5,000 - 3,000 - 2,000 = 0, so no profit and no loss",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank question nets several asset revaluations into a revaluation profit or loss; the old rows only split a given revaluation gain or loss."
+  },
+  {
+    "n": 21,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Intangible assets are written off within an estimated life not exceeding 10 years: (A)-(II)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "AS 26 deals with intangible assets: (B)-(III)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Section 37 gives the outgoing partner the option of 6% interest or a share of profits: (C)-(IV)",
+        "ids": [
+          "kc.accountancy.retirement-and-death-of-partner.fact-section-37"
+        ],
+        "quote": "the outgoing partner has an option to receive either interest @ 6% p.a. till the date of payment or such share of profits which has been earned with his/her money"
+      },
+      {
+        "fact": "Section 4 of the Indian Partnership Act 1932 defines partnership: (D)-(I)",
+        "ids": [
+          "kc.accountancy.partnership-fundamentals.def-partnership-section-4"
+        ],
+        "quote": "Define partnership (Section 4, Indian Partnership Act 1932)."
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards teach Section 37 and Section 4, but nothing states the 10-year write-off of intangible assets or that AS 26 deals with intangible assets."
+  },
+  {
+    "n": 22,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Remaining share after Z = 1 - 1/4 = 3/4, split 2:1, so X new = 1/2 and Y new = 1/4",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Sacrifice = old share - new share: X = 3/5 - 1/2 = 1/10; Y = 2/5 - 1/4 = 3/20",
+        "ids": [
+          "20fa6daa-c601-4672-a976-365c7f4296c9"
+        ],
+        "quote": "Old shares 15/25 and 10/25 becoming 12/25 and 8/25 means sacrifices of 3/25 and 2/25 respectively, i.e., 3:2."
+      },
+      {
+        "fact": "Sacrificing ratio = 1/10 : 3/20 = 2:3",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old bank admission questions always keep the old partners' old ratio, so their sacrifice ratio equals the old ratio; none gives the old partners a new mutual ratio and works the sacrifice out from it."
+  },
+  {
+    "n": 23,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Adjusted profits = actual profits - partners' salary 12,000: 18,000, 24,000, 30,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Normal profit = 15% of 1,00,000 = 15,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Super profit, average of 3 years = 24,000 - 15,000 = 9,000; goodwill at 2 years = 18,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Super profit, average of last 2 years = 27,000 - 15,000 = 12,000; goodwill at 3 years = 36,000; the lower, Rs 18,000, is taken",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old bank computes super profit only from a given average profit; no old bank question deducts partners' salary from past profits or compares two bases."
+  },
+  {
+    "n": 35,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Amount to be paid in shares = 1,90,000 - 10,000 cash = Rs 1,80,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Issue price per share = 100 + 20% premium = Rs 120",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Number of shares = 1,80,000 / 120 = 1,500",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank question finds the number of shares issued to a vendor at a premium (e447dd1e gives the number of shares at par)."
+  },
+  {
+    "n": 36,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Debentures issued = 99,000 / 90 = 1,100 debentures of Rs 100 = Rs 1,10,000 face value",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Entry: P Ltd. Dr 99,000 and Discount on Issue of Debentures Dr 11,000, To 12% Debentures 1,10,000",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank question issues debentures to a vendor at a discount; the old card gives the entry only, and a card does not cover a numerical."
+  },
+  {
+    "n": 37,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Application: Bank Dr 1,25,000 (5,000 x 25) To Debenture Application",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Allotment due 5,000 x 45 = 2,25,000, credited 1,75,000 to Debentures and 50,000 to Securities Premium Reserve; received 2,25,000, not 2,20,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "First and final call: Bank Dr 2,00,000 (5,000 x 40)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank question records debentures issued at a premium payable by application, allotment and call."
+  },
+  {
+    "n": 40,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Application money = 110 - 60 - 20 = Rs 30 per share, the only amount paid",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Amount forfeited = 200 x 30 = Rs 6,000 (unpaid premium is not forfeited)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Discount on reissue at Rs 70 as fully paid = 30 x 200 = Rs 6,000, set off against the forfeited amount",
+        "ids": [
+          "13586296-0b2d-4f6c-becb-fb9c11309fb8"
+        ],
+        "quote": "On reissue at Rs 8, the discount allowed is Rs 2 x 1,000 = Rs 2,000, which is set off against the forfeited amount."
+      },
+      {
+        "fact": "Capital reserve = 6,000 - 6,000 = Nil",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old bank forfeiture questions are at par with the paid amount given; none works out the paid amount on shares issued at a premium with unpaid premium excluded."
+  },
+  {
+    "n": 45,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Stock taken over by partner = 50% of 35,000 = 17,500 at 10% less = Rs 15,750, which brings no cash",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Remaining stock 17,500 sold at a 15% gain = Rs 20,125 cash",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank question works out the cash realised when a partner takes over part of an asset and the rest is sold at a gain."
+  },
+  {
+    "n": 49,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Profit before tax = 1,20,000 / (1 - 0.40) = Rs 2,00,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Interest on long-term debt = 15% of 20,00,000 = Rs 3,00,000",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Interest coverage ratio = (PBT + interest) / interest = 5,00,000 / 3,00,000 = 1.67 times",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old bank has no interest coverage ratio question; an old card has the formula only, which does not cover a numerical."
+  },
+  {
+    "n": 53,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Select the cell(s) containing the formula first",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Copy from the Home tab",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Choose Paste Special from Paste",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Select Values in the Paste Special box and click OK",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Nothing in the old material teaches the Paste Special > Values steps for freezing a formula."
+  }
+]

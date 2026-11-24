@@ -1,0 +1,234 @@
+[
+  {
+    "n": 6,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The intelligence of identical twins reared in different environments correlates about 0.72",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old row or card gives any twin-study correlation for intelligence."
+  },
+  {
+    "n": 9,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Bihar Test of Intelligence (Mohsin), Group Test of General Mental Ability (Jalota) and Test of General Mental Ability (Joshi) are verbal tests developed in India",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Draw-a-Man Test (Pathak) is not a verbal test",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards define verbal and performance tests but name none of the Indian intelligence tests or their authors."
+  },
+  {
+    "n": 15,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Freud used free association and dream analysis",
+        "ids": [
+          "kc.psychology.self-and-personality.fact-freud-methods"
+        ],
+        "quote": "Freud used free association"
+      },
+      {
+        "fact": "Freud used hypnosis",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Fictional finalism is Adler's idea, not a method used by Freud",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old card lists free association, dream analysis and analysis of errors as Freud's methods, but nothing says he used hypnosis or names fictional finalism, so options 1 and 2 cannot be told apart."
+  },
+  {
+    "n": 16,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Reaction formation is adopting behaviours opposite to one's true feelings",
+        "ids": [
+          "kc.psychology.self-and-personality.def-reaction-formation"
+        ],
+        "quote": "In reaction formation, a person defends against anxiety by adopting behaviours opposite to her/his true feelings."
+      },
+      {
+        "fact": "A person with strong sexual urges turning to religious fervour is an example of reaction formation",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old card defines reaction formation, but nothing gives the religious-fervour example, and the definition alone does not settle it against displacement."
+  },
+  {
+    "n": 19,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "MMPI is a self-report measure",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Eysenck Personality Questionnaire is a self-report measure",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Rosenzweig's Picture-Frustration Study and the Sentence Completion Test are projective techniques, not self-report",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards describe all four tests and define self-report measures, but no row or card says which tests are self-report and which are projective."
+  },
+  {
+    "n": 20,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "A moderate level of stress gives optimal performance",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Too little or too much stress lowers performance",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old material says eustress is the level of stress that is good for you, but never says a moderate level gives the best performance or that low stress lowers it."
+  },
+  {
+    "n": 24,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "(A) Stress can cause illness by impairing the immune system",
+        "ids": [
+          "kc.psychology.meeting-life-challenges.def-psychoneuroimmunology"
+        ],
+        "quote": "It studies the effects of stress on the immune system."
+      },
+      {
+        "fact": "(B) Stress can affect natural killer cell cytotoxicity",
+        "ids": [
+          "kc.psychology.meeting-life-challenges.fact-immune-nk-cytotoxicity"
+        ],
+        "quote": "Stress can affect natural killer cell cytotoxicity"
+      },
+      {
+        "fact": "(C) Stress hormones weaken the immune system",
+        "ids": [
+          "590d0f2f-32b3-45aa-82da-13ac06c640d2"
+        ],
+        "quote": "Stress hormones like cortisol suppress immune responses when persistently elevated."
+      },
+      {
+        "fact": "(D) is false: optimal stress does not always enhance immune functioning",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old material teaches statements A to C, but nothing says statement D is false, so options 2 and 4 cannot be told apart."
+  },
+  {
+    "n": 37,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Draw-a-Man Test is by Pramila Pathak",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The Bihar Test of Intelligence is by S. M. Mohsin",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Test of General Mental Ability (Hindi) is by M. C. Joshi",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Group Test of Intelligence is by Prayag Mehta",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old row or card pairs any Indian intelligence test with its author."
+  },
+  {
+    "n": 44,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Conversion disorder is a somatic symptom and related disorder",
+        "ids": [
+          "kc.psychology.psychological-disorders.list-somatic-types"
+        ],
+        "quote": "Name the somatic symptom and related disorders. conversion disorders"
+      },
+      {
+        "fact": "Hoarding disorder, trichotillomania and excoriation disorder are obsessive-compulsive and related disorders",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old card lists conversion disorder under somatic symptom disorders, but nothing names hoarding, trichotillomania or excoriation as obsessive-compulsive and related disorders, so the key is reached only by elimination."
+  },
+  {
+    "n": 45,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Trichotillomania is hair-pulling disorder",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The word trichotillomania appears nowhere in the old bank or Key cards."
+  }
+]

@@ -96,6 +96,11 @@ export const EXPLORER = Object.freeze({
   // The two figures (owner, 23 Nov 2026): each key carries its own number.
   views: 'Which figure',
   view: Object.freeze({ before: 'Previously, for CUET 2026', now: 'Now, for CUET 2027' }),
+  // Which bank each figure counts (owner, 24 Nov 2026: "a tag ... stating properly old bank and new bank").
+  bank: Object.freeze({ before: 'Old bank', now: 'New bank' }),
+  // The two figures are the chosen paper's own (owner, 24 Nov 2026: "a subject-specific score"); all papers together sit under them.
+  showing: (name) => `${name} paper.`,
+  allPapers: (before, now, papers) => `All ${papers} papers together: ${before}% with the old bank, ${now}% with the new bank.`,
   viewCount: (covered, of) => `${covered} of ${of} questions`,
 });
 
@@ -124,7 +129,7 @@ export function howWeCounted({ total, before = null }) {
         points: [
           { lead: 'Open a paper:', text: 'Pick a subject to see its CUET 2026 paper question by question, next to what MockMob teaches.' },
           { lead: 'Two checkers:', text: 'Two separate checkers went through every question. A question counts only when both agree it is taught.' },
-          { lead: 'The two figures:', text: '“Previously, for CUET 2026” is what MockMob taught when we first checked the papers. “Now, for CUET 2027” is what it teaches today, after we added what was missing.' },
+          { lead: 'Old bank and new bank:', text: 'The old bank is what MockMob taught when we first checked the CUET 2026 papers. The new bank is what it teaches today, for CUET 2027, after we added what was missing.' },
         ],
       },
     ],

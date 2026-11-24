@@ -1,0 +1,620 @@
+[
+  {
+    "n": 46,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "A feasible region is the common region of all the constraints",
+        "ids": [
+          "kc.mathematics.linear-programming.def-feasible-region"
+        ],
+        "quote": "The common region determined by all the constraints including non-negative constraints x, y ≥ 0 of a linear programming problem is called the feasible region"
+      },
+      {
+        "fact": "Shade each half-plane of the system: x ≤ y lies above y = x, x + y ≥ 10 lies above x + y = 10, x + 3y ≤ 60 lies below x + 3y = 60",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Read off the graph that only region B lies in all three half-planes (a bank row doing this region-picking from a graph)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old material defines the feasible region and a bank row tests listed points against constraints, but no bank row shades the half-planes of a system and picks the matching region on a graph."
+  },
+  {
+    "n": 47,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "They contradict when exactly one tells the truth: P = P(A)P(B') + P(A')P(B) for independent events",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "0.8 × 0.1 + 0.2 × 0.9 = 0.26 = 13/50",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row finds the probability that exactly one of two independent events happens."
+  },
+  {
+    "n": 48,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "P(A|B) = P(A ∩ B)/P(B)",
+        "ids": [
+          "efaab0cf-d395-48ee-969d-a8d242b8daa5"
+        ],
+        "quote": "Statement I: For any events A and B with P(B) ≠ 0, P(A|B) = P(A ∩ B)/P(B)."
+      },
+      {
+        "fact": "P(A'|B) = 1 − P(A|B)",
+        "ids": [
+          "kc.mathematics.probability.formula-conditional-property-3-complement"
+        ],
+        "quote": "Property 3 P(E′|F) = 1 − P(E|F)"
+      },
+      {
+        "fact": "Worked: P(A'|B) = (P(B) − P(A ∩ B))/P(B) = (1/3 − 1/4)/(1/3) = 1/4, in one bank row with numbers",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The formulas appear in a card and in a statement row with no working, but no old bank row computes a complement conditional probability such as P(A'|B) with numbers."
+  },
+  {
+    "n": 49,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "P(A ∪ B) = P(A) + P(B) − P(A ∩ B)",
+        "ids": [
+          "486a6797-2ae6-4d04-8af5-b74217dd1fdc"
+        ],
+        "quote": "P(A ∪ B) = P(A) + P(B) - P(A ∩ B)"
+      },
+      {
+        "fact": "P(exactly one) = P(A) + P(B) − 2P(A ∩ B), so P(A) + P(B) = 2p + q and P(A ∪ B) = p + q",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "P(Ā) + P(B̄) = 2 − 2p − q (B true, A false); P(Ā ∩ B̄) = 1 − P(A ∪ B) = 1 − p − q (C true)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "P((A ∩ B)|(A ∪ B)) = P(A ∩ B)/P(A ∪ B) = p/(p + q) (D true)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old rows use the addition rule with numbers, but none handles \"exactly one of A and B\", De Morgan's complement of a union, or a conditional on the union."
+  },
+  {
+    "n": 50,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Bayes theorem with equal priors 1/2 for the two names",
+        "ids": [
+          "fe67257f-25f9-46f8-911c-63ce57d6ed0c"
+        ],
+        "quote": "By Bayes theorem, P(B | defective) = 0.015/0.045 = 1/3."
+      },
+      {
+        "fact": "Count consecutive letter pairs: RAVINDRA has 7 pairs with RA twice (2/7); DEVINDRAN has 8 pairs with RA once (1/8)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "P = (2/7)/(2/7 + 1/8) = 16/23",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old bank row applies Bayes theorem with given likelihoods, but none finds the likelihoods by counting consecutive letter pairs, the step this question turns on."
+  },
+  {
+    "n": 51,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Effective rate = (1 + i/m)^m − 1 for a nominal rate i compounded m times a year",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "(1.03)² − 1 = 0.0609 = 6.09%",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The only old row on effective rate is an assertion that it exceeds the nominal rate; no old bank row computes an effective rate."
+  },
+  {
+    "n": 55,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The face (par) value of a bond is the price at which the bond is issued, the amount stated on it",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Nothing in the old bank or Key cards mentions bonds or their face value."
+  },
+  {
+    "n": 56,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Present value of a perpetuity = payment ÷ rate per period",
+        "ids": [
+          "692b21ba-8a97-4c40-a18b-7e596ef70759"
+        ],
+        "quote": "The present value of a perpetuity is the payment divided by the rate of interest: 6,000 ÷ 0.08 = ₹ 75,000."
+      },
+      {
+        "fact": "Solve for the rate: 500/i = 10,000 gives i = 5% per half-year",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Convert the half-yearly rate to a yearly rate: 2 × 5% = 10% per annum",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old perpetuity row finds the present value from a yearly rate; no old bank row finds the rate from the present value or handles half-yearly payments."
+  },
+  {
+    "n": 58,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Binomial mean = np and variance = npq",
+        "ids": [
+          "7da4d02e-7b39-468a-8c49-74a862dd16b8"
+        ],
+        "quote": "The binomial mean is np = 10 × 0.4 = 4 and the binomial variance is npq = 12 × 0.5 × 0.5 = 3."
+      },
+      {
+        "fact": "A: p = 0.25, mean = 20 × 0.25 = 5; B: mean = 4 × 1/2 = 2",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "C and D: q = variance/mean, then p = 1 − q and n = mean/p (C: q = 0.8, p = 0.2, n = 25; D: q = 0.5, p = 0.5)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old bank row computes np and npq forward, which gives parts A and B, but none recovers q, p and n from a given mean and variance, which parts C and D need."
+  },
+  {
+    "n": 59,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Poisson probability P(X = r) = e^(−λ) λ^r / r!",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "4 × λ²/2 = 3λ gives λ = 1.5, and the mean of a Poisson distribution is λ",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old Poisson rows use only mean = variance = λ; no old row uses the Poisson probability formula."
+  },
+  {
+    "n": 60,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The normal curve is symmetric about its mean, so 50% of values lie above the mean",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old bank row gives 68% within one standard deviation, but nothing old says the normal curve is symmetric about the mean or that half the scores lie above it."
+  },
+  {
+    "n": 61,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "d/dx(a^x) = a^x log a",
+        "ids": [
+          "kc.mathematics.continuity-and-differentiability.formula-derivative-of-a-to-x"
+        ],
+        "quote": "Differentiate ax w.r.t. x, where a is a positive constant."
+      },
+      {
+        "fact": "Product rule (or write y = (92e⁴)^x): dy/dx = e^(4x)·92^x·(4 + log 92), worked in a bank row",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "A Key card derives the derivative of a^x, but a card never covers a numerical and no old bank row differentiates a^x or a product with it."
+  },
+  {
+    "n": 62,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Degree is defined only for a polynomial equation in derivatives",
+        "ids": [
+          "kc.mathematics.differential-equations.kl-degree-polynomial"
+        ],
+        "quote": "the differential equation must be a polynomial equation in derivatives"
+      },
+      {
+        "fact": "Clear the root: (y − px)² = a²p² + b², a polynomial in p = dy/dx",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Highest derivative dy/dx (order 1) appears with power 2 (degree 2), worked in a bank row",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old bank rows read order and degree from equations already in polynomial form; none squares away a radical first, and row ddbac3ae calls a root equation's degree not defined."
+  },
+  {
+    "n": 63,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Marginal revenue is the rate of change of total revenue with respect to units sold",
+        "ids": [
+          "kc.mathematics.application-of-derivatives.def-marginal-revenue"
+        ],
+        "quote": "the rate of change of total revenue with respect to the number of items sold at an instant"
+      },
+      {
+        "fact": "Revenue R = px = 150x + 12x² − x³, so MR = 150 + 24x − 3x²",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "At x = 5: MR = 150 + 120 − 75 = ₹ 195, worked in a bank row",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "A Key card defines marginal revenue, but no old bank row builds revenue from a demand function and differentiates it."
+  },
+  {
+    "n": 64,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "f'(x) = 12x² − 36x + 27 = 3(2x − 3)², zero only at x = 3/2",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "If f' does not change sign through c, c is neither a maximum nor a minimum: a point of inflection",
+        "ids": [
+          "kc.mathematics.application-of-derivatives.fact-first-derivative-test-inflection"
+        ],
+        "quote": "If f ′(x) does not change sign as x increases through c, then c is neither a point of local maxima nor a point of local minima. Infact, such a point is called point of inflection."
+      },
+      {
+        "fact": "A bank row finding such a point by working",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "A Key card states the no-sign-change rule, but a card never covers a numerical and no old bank row finds a point of inflexion by working."
+  },
+  {
+    "n": 71,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Degrees of freedom = n − 1 (the last seat is fixed once 57 have chosen): 58 − 1 = 57",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old bank row uses 15 degrees of freedom for a sample of 16 as given in its stem, but no old row asks for or states the degrees-of-freedom rule."
+  },
+  {
+    "n": 73,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "A time series has four components: secular trend, seasonal, cyclical and irregular",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old rows mention trend and seasonality in passing, but nothing old names the four components of a time series."
+  },
+  {
+    "n": 76,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Inverse of a matrix, if it exists, is unique (A true)",
+        "ids": [
+          "kc.mathematics.matrices.fact-thm3-unique"
+        ],
+        "quote": "Inverse of a square matrix, if it exists, is unique."
+      },
+      {
+        "fact": "(AB)⁻¹ = B⁻¹A⁻¹, so (AB)⁻¹ = A⁻¹B⁻¹ is not true in general (B not true)",
+        "ids": [
+          "kc.mathematics.matrices.formula-inverse-of-product"
+        ],
+        "quote": "If A and B are invertible matrices of the same order, then\n(AB)–1 = B–1 A–1"
+      },
+      {
+        "fact": "(A⁻¹)⁻¹ = A (C true)",
+        "ids": [
+          "kc.mathematics.determinants.formula-inverse-of-inverse"
+        ],
+        "quote": "Also A–1 = B or B–1 = A and hence (A–1) –1 = A."
+      },
+      {
+        "fact": "(Aᵀ)⁻¹ = (A⁻¹)ᵀ, not Aᵀ (D not true)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards state that statements A and C are true and B is false, but nothing old states (Aᵀ)⁻¹ = (A⁻¹)ᵀ, so D is reached only by elimination."
+  },
+  {
+    "n": 77,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "|A⁻¹| = 1/|A| (part B: 16)",
+        "ids": [
+          "8653f8fb-63aa-4521-9771-c25fd61bb3ac"
+        ],
+        "quote": "If A is non-singular, then |A⁻¹| = 1/|A|."
+      },
+      {
+        "fact": "|adj A| = |A|^(n−1)",
+        "ids": [
+          "kc.mathematics.determinants.formula-determinant-of-adjoint"
+        ],
+        "quote": "In general, if A is a square matrix of order n, then |adj(A)| = |A| n – 1 ."
+      },
+      {
+        "fact": "|adj(adj A)| = |A|^((n−1)²): A gives 3⁴ = 81, C gives 2⁹ = 512, D gives 9¹ = 9, worked in a bank row",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old bank row computes |adj A| once and another gives |A⁻¹| = 1/|A|, but no old bank row computes |adj(adj A)|, which three of the four parts need."
+  },
+  {
+    "n": 79,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "A matrix is skew-symmetric if A' = −A",
+        "ids": [
+          "kc.mathematics.matrices.def-skew"
+        ],
+        "quote": "A is a skew symmetric matrix if A′ = – A."
+      },
+      {
+        "fact": "(A + B)' = A' + B'",
+        "ids": [
+          "kc.mathematics.matrices.list-transpose-properties"
+        ],
+        "quote": "(A + B)′ = A′ + B′"
+      },
+      {
+        "fact": "The sum of two skew-symmetric matrices is skew-symmetric",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards give the definition and the transpose of a sum, but nothing old states that the sum of two skew-symmetric matrices is skew-symmetric; it is only derivable."
+  },
+  {
+    "n": 80,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Transitivity: a > b and b > c give a > c, so A is not correct",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Multiplying by a negative reverses the inequality (B correct)",
+        "ids": [
+          "0e1790f3-7da1-462b-9088-8fd54ec251fd"
+        ],
+        "quote": "multiplying both sides by a negative number reverses it, so (C) is true"
+      },
+      {
+        "fact": "Dividing by a negative reverses the inequality (C correct)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Dividing by a positive keeps the inequality, a/c > b/c (D not correct)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old bank row states that multiplying by a negative number reverses an inequality, but nothing old states transitivity or the rules for dividing by a positive or a negative number."
+  },
+  {
+    "n": 81,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "After n equal removals and replacements, quantity left = initial × (1 − removed/total)^n",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "50 × (45/50)³ = 50 × 0.729 = 36.45 litres",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row works repeated removal and replacement of a liquid."
+  },
+  {
+    "n": 82,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "a ≡ b (mod m) means m divides a − b, so y = 53 + 6k",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "List the values: ..., 41, 47, 53, 59, 65, ...",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old modular row finds the remainder of a product; no old bank row lists the numbers congruent to a given number."
+  },
+  {
+    "n": 83,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Upstream time is 3 times downstream time, so downstream speed = 3 × upstream speed",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "17 + s = 3(17 − s) gives s = 8.5 km/hr",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old boat row finds the stream speed from two given speeds; no old bank row works from a ratio of times with the still-water speed given."
+  },
+  {
+    "n": 84,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Net filling with A and B open for t minutes and C open for t − 6 minutes: t/12 + t/15 − (t − 6)/20 = 1",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "9t − 3t + 18 = 60 gives t = 7 minutes",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old pipes row keeps all three pipes open throughout; no old bank row closes a pipe before the tank is full."
+  },
+  {
+    "n": 85,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "B's speed = 700/35 = 20 m/s",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "In A's 30 s B runs 600 m, so A wins by 700 − 600 = 100 m",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old race row combines two winning margins; no old bank row works a margin from the finishing times."
+  }
+]

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { CalendarClock, ChevronRight } from 'lucide-react';
+import { CalendarClock, ChevronDown, ChevronRight } from 'lucide-react';
 import {
   DAILY_FIVE_PATH, DAILY_FIVE_STORE, formatClock, msUntilNextDay, nextIndex, readRecord, resultFor, streakOf, todayDaily, untilShort,
 } from '@/lib/dailyFive.mjs';
@@ -17,7 +17,7 @@ import { useOnScreen } from './DailyParts';
 import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
 import DailyStory from './DailyStory.jsx';
 import { DAILY_SAY, DAILY_STORY, STORY_WORDS } from './dailyStoryScript.mjs';
-import { COLLEGE_DAILY, DAILY_EG, DAILY_PRINT, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine } from './dailyStripCopy.mjs';
+import { COLLEGE_DAILY, DAILY_EG, DAILY_PRINT, HOW_OPEN, SUNDAY_HOW, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine } from './dailyStripCopy.mjs';
 import { DAILY_MINE_STORE, didLines, readMark } from './dailyMineUi.mjs';
 import './daily-row.css';
 
@@ -205,7 +205,7 @@ function TodayLine({ today, daily }) {
   );
 }
 
-function HomeBlock() {
+function HomeBlock({ how = null }) {
   const ref = useRef(null);
   const record = useDeviceRecord();
   // 1,600 px ahead (about four swipes): the clock, the student's college and the board all settle before the block is seen, so
@@ -231,8 +231,8 @@ function HomeBlock() {
   const current = begun && !result ? nextIndex(run.picks) : null;
   // One volt key in the block: the Sunday Mock's while a paper can be started (12 hours a week), else the Daily Five's.
   return (
-    <div className="dwk" ref={ref}>
-      <article className="dwk-ticket" data-story="" data-board={COLLEGE_DAILY || undefined} data-state={daily.state} aria-labelledby="dwk-daily">
+    <div className="dwk dwk--pair" ref={ref}>
+      <article className="dwk-ticket" data-board={COLLEGE_DAILY || undefined} data-state={daily.state} aria-labelledby="dwk-daily">
         <div className="dwk-ticket__play">
           {/* One surface (owner LK366, 22 Nov 2026: the card in a card read as five layers of words): its head row, the
               beat's line, the demo screen drawn flat on the card, then today's facts in one quiet line beside the key. */}
@@ -251,8 +251,16 @@ function HomeBlock() {
             <Link href={daily.href} prefetch={false} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
             <p className="dwk-story__print">{DAILY_PRINT}</p>
           </div>
-          <p className="dwk-eg"><span className="dwk-example">{STORY_WORDS.example}</span><span>{DAILY_EG}</span></p>
-          <DailyDemo />
+          {/* Owner, 24 Nov 2026 ("Daily 5 is taking too much space, and the Sunday mock is just disappearing ... build [them]
+              expandable"): what to do today stays on the card; how it works (the three pictures and the example) opens under it. */}
+          <details className="dwk-open">
+            <summary><span>{HOW_OPEN.daily}</span><ChevronDown size={20} strokeWidth={2.4} aria-hidden="true" /></summary>
+            <div className="dwk-open__body">
+              {how}
+              <p className="dwk-eg"><span className="dwk-example">{STORY_WORDS.example}</span><span>{DAILY_EG}</span></p>
+              <DailyDemo />
+            </div>
+          </details>
         </div>
         {COLLEGE_DAILY ? <div className="dwk-ticket__board">
           <CollegeBoard
@@ -278,6 +286,12 @@ function HomeBlock() {
           {sunday.figures.map((f) => <li key={f.figure + f.unit}><b>{f.figure}</b>{f.unit ? <span>{f.unit}</span> : null}</li>)}
         </ul>
         <Link href={sunday.href} prefetch={false} className="dwk-key" data-lead={sunday.open ? 'true' : 'false'}>{sunday.go}</Link>
+        <details className="dwk-open">
+          <summary><span>{HOW_OPEN.sunday}</span><ChevronDown size={20} strokeWidth={2.4} aria-hidden="true" /></summary>
+          <ul className="dwk-open__body dwk-open__list">
+            {SUNDAY_HOW.map((line) => <li key={line}>{line}</li>)}
+          </ul>
+        </details>
       </article>
       <CollegeSheet open={sheet} onClose={() => setSheet(false)} onChoose={(id) => { team.pick(id); setSheet(false); }} current={team.college} />
     </div>
@@ -369,6 +383,6 @@ function TodayRow() {
   );
 }
 
-export default function DailyFiveRow({ where = 'home' }) {
-  return where === 'today' ? <TodayRow /> : <HomeBlock />;
+export default function DailyFiveRow({ where = 'home', how = null }) {
+  return where === 'today' ? <TodayRow /> : <HomeBlock how={how} />;
 }

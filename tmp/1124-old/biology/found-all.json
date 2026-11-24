@@ -1,0 +1,334 @@
+[
+  {
+    "n": 2,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Man and lion are at the fourth trophic level",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Zooplankton and cow (herbivores, primary consumers) are at the second trophic level",
+        "ids": [
+          "kc.biology.ecosystem.fact-trophic-levels-order"
+        ],
+        "quote": "herbivores (primary consumer) to the second"
+      },
+      {
+        "fact": "Phytoplankton and trees (producers) are at the first trophic level",
+        "ids": [
+          "kc.biology.ecosystem.fact-trophic-levels-order"
+        ],
+        "quote": "Producers belong to the first trophic level"
+      },
+      {
+        "fact": "Birds and wolves are at the third trophic level",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards give producers first, herbivores second and carnivores third, but nothing places man and lion at the fourth level or birds and wolves at the third, so not every pair is taught."
+  },
+  {
+    "n": 4,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Amazon rain forest is cleared for cultivating soyabeans",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The Amazon rain forest is converted to grasslands for raising beef cattle",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Growing wheat and maize and setting up industries are not the reasons given",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards only say the Amazon has the greatest biodiversity and makes 20 per cent of the oxygen; nothing says it is cleared for soyabeans and beef cattle."
+  },
+  {
+    "n": 8,
+    "verdict": "covered",
+    "matchKind": "concept",
+    "facts": [
+      {
+        "fact": "(A) The sum total of all allelic frequencies is 1",
+        "ids": [
+          "kc.biology.evolution.key-allele-sum"
+        ],
+        "quote": "Sum total of all the allelic frequencies is 1."
+      },
+      {
+        "fact": "(B) Genetic drift is one of the factors that affect Hardy-Weinberg equilibrium",
+        "ids": [
+          "kc.biology.evolution.list-hw-factors"
+        ],
+        "quote": "Name the five factors known to affect Hardy-Weinberg equilibrium. gene migration or gene flow\ngenetic drift"
+      },
+      {
+        "fact": "(C) Allele frequencies in a population are stable and constant from generation to generation",
+        "ids": [
+          "kc.biology.evolution.def-hw-principle"
+        ],
+        "quote": "This principle says that allele frequencies in a population are stable and is constant from generation to generation."
+      },
+      {
+        "fact": "(D) is wrong: under the principle the gene pool remains constant, it does not keep changing",
+        "ids": [
+          "kc.biology.evolution.def-genetic-equilibrium"
+        ],
+        "quote": "The gene pool (total genes and their alleles in a population) remains a constant. This is called genetic equilibrium."
+      }
+    ],
+    "best": "kc.biology.evolution.def-hw-principle",
+    "bestKind": "card",
+    "reason": "Old Key cards state that allelic frequencies add up to 1, that genetic drift affects Hardy-Weinberg equilibrium, that allele frequencies stay constant across generations and that the gene pool remains constant, which gives A, B and C only."
+  },
+  {
+    "n": 9,
+    "verdict": "covered",
+    "matchKind": "same",
+    "facts": [
+      {
+        "fact": "Biogas technology in India was developed mainly by IARI (Indian Agricultural Research Institute) and KVIC (Khadi and Village Industries Commission)",
+        "ids": [
+          "kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic"
+        ],
+        "quote": "The technology of biogas production was developed in India mainly due to the efforts of Indian Agricultural Research Institute (IARI) and Khadi and Village Industries Commission (KVIC)."
+      }
+    ],
+    "best": "kc.biology.microbes-in-human-welfare.fact-biogas-iari-kvic",
+    "bestKind": "card",
+    "reason": "An old Key card says biogas technology was developed in India mainly by IARI and KVIC, which are statements A and D."
+  },
+  {
+    "n": 17,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Water lily is not pollinated by water (it is pollinated by insects or wind)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Vallisneria, Hydrilla and Zostera are water-pollinated",
+        "ids": [
+          "kc.biology.sexual-reproduction-in-flowering-plants.fact-water-examples"
+        ],
+        "quote": "Vallisneria and Hydrilla which grow in fresh water and several marine sea-grasses such as Zostera"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old card names Vallisneria, Hydrilla and Zostera as water-pollinated, but nothing says how water lily is pollinated, so the key is reached only by elimination."
+  },
+  {
+    "n": 19,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Epididymis, seminal vesicle and prostate are essential for maturation and motility of sperms",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The cervix is a part of the female reproductive system, not the male",
+        "ids": [
+          "kc.biology.human-reproduction.list-female-system-parts"
+        ],
+        "quote": "Uterus\nCervix\nVagina"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards name the male ducts and glands and list the cervix as a female part, but nothing says the ducts and glands are essential for sperm maturation and motility."
+  },
+  {
+    "n": 26,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The genomes of C. elegans, Arabidopsis and Drosophila have been sequenced",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The sea urchin is not among the organisms whose genomes are listed as sequenced",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old row or card lists which organisms other than humans have had their genomes sequenced."
+  },
+  {
+    "n": 32,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Biolistics or gene gun is used for plant cells",
+        "ids": [
+          "kc.biology.biotechnology-principles-and-processes.list-alien-dna-methods"
+        ],
+        "quote": "In another method, suitable for plants, cells are bombarded with high velocity micro-particles of gold or tungsten coated with DNA in a method known as biolistics or gene gun."
+      },
+      {
+        "fact": "Micro-injection is used for an animal cell",
+        "ids": [
+          "kc.biology.biotechnology-principles-and-processes.list-alien-dna-methods"
+        ],
+        "quote": "In a method known as micro-injection, recombinant DNA is directly injected into the nucleus of an animal cell."
+      },
+      {
+        "fact": "Disarmed pathogen vectors transfer recombinant DNA into the host",
+        "ids": [
+          "kc.biology.biotechnology-principles-and-processes.list-alien-dna-methods"
+        ],
+        "quote": "the last method uses ‘disarmed pathogen’ vectors"
+      },
+      {
+        "fact": "Heat shock uses about 42 °C followed by ice, not 100 °C then 70 °C, so (D) is wrong",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old card teaches micro-injection, gene gun and disarmed pathogen vectors, but nothing gives the heat-shock temperatures, so statement D cannot be judged false."
+  },
+  {
+    "n": 38,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Oxytocin is involved in parturition",
+        "ids": [
+          "kc.biology.human-reproduction.fact-oxytocin-source"
+        ],
+        "quote": "From which gland is oxytocin released during parturition? Maternal pituitary"
+      },
+      {
+        "fact": "Estrogens and cortisol are involved in parturition",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Prolactin is not involved in parturition",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old material links only oxytocin to parturition; nothing says estrogens and cortisol take part or that prolactin does not."
+  },
+  {
+    "n": 43,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Morphine is a very effective sedative and painkiller, useful in patients who have undergone surgery",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards give morphine's source (poppy latex) and heroin as acetylated morphine, but never say morphine is a sedative and painkiller used after surgery."
+  },
+  {
+    "n": 44,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Barbiturates, amphetamines and benzodiazepines are normally used as medicines",
+        "ids": [
+          "kc.biology.human-health-and-disease.list-abused-medicines"
+        ],
+        "quote": "Name drugs normally used as medicines that are often abused. barbiturates\namphetamines\nbenzodiazepines"
+      },
+      {
+        "fact": "These drugs are used to help patients cope with mental illnesses such as depression and insomnia",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Chloramphenicol is an antibiotic, not a drug for mental illness",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old card lists barbiturates, amphetamines and benzodiazepines as medicines that are abused, but nothing says they are used for mental illness or that chloramphenicol is not, so the key is reached only by inference."
+  },
+  {
+    "n": 45,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Atropa and Datura have hallucinogenic properties",
+        "ids": [
+          "kc.biology.human-health-and-disease.list-hallucinogenic-plants"
+        ],
+        "quote": "Atropa belladona\nDatura"
+      },
+      {
+        "fact": "Erythroxylum (coca) has hallucinogenic properties",
+        "ids": [
+          "kc.biology.human-health-and-disease.fact-cocaine-cns"
+        ],
+        "quote": "Excessive dosage of cocaine causes hallucinations."
+      },
+      {
+        "fact": "Rauwolfia does not have hallucinogenic properties",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards name Atropa and Datura as hallucinogenic and say excess cocaine causes hallucinations, but nothing says Rauwolfia is not hallucinogenic; the key is reached only by elimination."
+  },
+  {
+    "n": 46,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Myotonic dystrophy is an autosomal dominant disorder",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Sickle-cell anaemia, phenylketonuria and thalassemia are autosomal recessive",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards teach the three distractors as recessive, but myotonic dystrophy appears nowhere, so the key is reached only by elimination."
+  }
+]

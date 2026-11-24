@@ -553,3 +553,18 @@ body .ss.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__mini .lcd
 @media (max-width: 959px) {
   body .lc .lc__grid[data-look='next'] .lc__rail button { font-size: 0.875rem; padding-inline: 0; }
 }
+
+/* Wider phones at a phone's real visible height (390 to 430 px wide, 700 px tall or less: an iPhone or a Pixel with the
+   browser's bars showing). Owner, 24 Nov 2026: the mistake cards "get cut" on a phone. The short-phone trims above stop at
+   380 px wide, so these screens kept every line in less room and the last line sat on the card's foot. The same kind of
+   trim, lighter: trimmed from the first frame, never shrunk. */
+@media (min-width: 381px) and (max-width: 899px) and (max-height: 700px) {
+  .lc__grid[data-look='next'] .lnx { gap: 8px; }
+  .lc__grid[data-look='next'] .lnx--chapters { gap: 6px; }
+  .lc__grid[data-look='next'] .lnx-across__title { display: none; }
+  .lc__grid[data-look='next'] .lnx-across { padding-top: 8px; }
+  .lc__grid[data-look='next'] .lnx-across__col { height: 28px; }
+  .lc__grid[data-look='next'] .lnx-t { --row: 32px; }
+  .lc__grid[data-look='next'] .lnx-t__rows > li:nth-child(n + 7) { display: none; }
+  .lc__grid[data-look='next'] .lnx--swot > .lnx-h:nth-of-type(2) { display: none; }
+}

@@ -1,0 +1,418 @@
+[
+  {
+    "n": 6,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Quinine is obtained from the bark of the cinchona tree",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or Key card mentions quinine, cinchona or which part of a tree gives a product."
+  },
+  {
+    "n": 7,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Intensive subsistence farming has very small land holdings",
+        "ids": [
+          "kc.geography.primary-activities.fact-wet-paddy-holdings-labour"
+        ],
+        "quote": "Land holdings are very small due to the high density of population."
+      },
+      {
+        "fact": "It is done with or without paddy",
+        "ids": [
+          "kc.geography.primary-activities.fact-non-paddy-irrigation"
+        ],
+        "quote": "How does intensive subsistence agriculture other than paddy resemble the wet paddy type?"
+      },
+      {
+        "fact": "Farm yard manure is used to keep the soil fertile",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Use of machinery is limited; heavy farm machinery is not a feature",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards give small holdings and family labour, but none says farm yard manure is used or that machinery is little used, which the key depends on."
+  },
+  {
+    "n": 8,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Bailadila iron ore mines are in Chhattisgarh (Bastar/Dantewada)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card names Bailadila; the iron ore cards name only Durg, Noamundi and Gua mines and list states."
+  },
+  {
+    "n": 15,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "India is second after China",
+        "ids": [
+          "kc.geography.india-people-and-economy.fact-population-2011"
+        ],
+        "quote": "India is the second most populous country after China in the world"
+      },
+      {
+        "fact": "The U.S.A. is the third most populous country",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards say India is second after China, but nothing names the third most populous country."
+  },
+  {
+    "n": 18,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Regions, villages and towns are described as 'organisms' in geography",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card uses the organism image for regions, villages and towns."
+  },
+  {
+    "n": 20,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The WTO deals with rules of trade between nations",
+        "ids": [
+          "kc.geography.international-trade.def-wto"
+        ],
+        "quote": "WTO is the only international organisation dealing with the global rules of trade between nations."
+      },
+      {
+        "fact": "The WTO covers trade in services and intellectual rights",
+        "ids": [
+          "kc.geography.international-trade.fact-wto-services"
+        ],
+        "quote": "WTO also covers trade in services, such as telecommunication and banking, and others issues such as intellectual rights."
+      },
+      {
+        "fact": "The WTO ignores issues of workers' rights and child labour",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards say what the WTO covers and that it is criticised, but none says it ignores workers' rights and child labour."
+  },
+  {
+    "n": 21,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "In New Zealand, milk is supplied from farms to factories through pipelines",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old pipeline cards cover water, oil and gas; none mentions milk pipelines or New Zealand in this use."
+  },
+  {
+    "n": 22,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The present world level of urbanisation is between 50 and 75 per cent",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old material states only India's 2011 level (31.16 per cent) and how urbanisation is measured; no world level is given."
+  },
+  {
+    "n": 23,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Big Inch carries petroleum from the Gulf of Mexico to the North-eastern States",
+        "ids": [
+          "kc.geography.transport-and-communication.fact-big-inch"
+        ],
+        "quote": "Big Inch is one such famous pipeline, which carries petroleum from the oil wells of the Gulf of Mexico to the North-eastern States."
+      },
+      {
+        "fact": "The Big Inch pipeline is in the U.S.A., in North America",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The card gives Big Inch's route from the Gulf of Mexico to the North-eastern States but never names the U.S.A. or North America, so the continent is not stated."
+  },
+  {
+    "n": 26,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "China has the largest population of the four",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Brazil's population is larger than Bangladesh's",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Bangladesh's population is larger than Mexico's",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card gives the population or rank of Brazil, Bangladesh or Mexico."
+  },
+  {
+    "n": 28,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Bathinda (Punjab) is the westernmost of the four refineries",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Panipat (Haryana) lies east of Bathinda",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Mathura (Uttar Pradesh) lies east of Panipat",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Barauni (Bihar) is the easternmost",
+        "ids": [
+          "kc.geography.transport-and-communication-india.fact-asia-first-pipeline"
+        ],
+        "quote": "Naharkatiya oilfield in Assam to Barauni refinery in Bihar"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only Barauni's state is stated; no old row or card places the Bathinda, Panipat or Mathura refineries, so the west-to-east order is not taught."
+  },
+  {
+    "n": 29,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Christians outnumber Sikhs in India",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Sikhs outnumber Buddhists",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Buddhists outnumber Jains",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Jains and Buddhists are the smallest religious groups",
+        "ids": [
+          "kc.geography.india-people-and-economy.fact-jains-buddhists"
+        ],
+        "quote": "Jains and Buddhists, the smallest religious groups in India"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The cards say Jains and Buddhists are the smallest groups, but no shares or full size order of Christians, Sikhs, Buddhists and Jains are given."
+  },
+  {
+    "n": 35,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Petroleum product imports have risen",
+        "ids": [
+          "kc.geography.international-trade-india.fact-fact-petroleum-import-rise"
+        ],
+        "quote": "Table 8.4 shows that there is a rise in the import of petroleum products."
+      },
+      {
+        "fact": "Fuel demand has increased",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Petroleum is used as an industrial raw material as well as a fuel",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The rise is linked with industrialisation and urbanisation",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Rural dependence on fuel-wood is not a reason for the rise",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards say only that petroleum imports rose and that the 1973 crisis raised prices; none gives the fuel-demand, raw-material or industrialisation reasons."
+  },
+  {
+    "n": 36,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Behavioural geography interfaces with psychology",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Medical geography interfaces with epidemiology",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Electoral geography interfaces with psephology",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Geography of leisure interfaces with sociology",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The cards list these sub-fields by name, but none pairs any of them with its sister discipline."
+  },
+  {
+    "n": 39,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Montreal is in Canada",
+        "ids": [
+          "kc.geography.transport-and-communication.fact-trans-canadian-route"
+        ],
+        "quote": "This 7,050 km long rail-line in Canada runs from Halifax in the east to Vancouver on the Pacific Coast passing through Montreal"
+      },
+      {
+        "fact": "Madrid is in Spain",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Bangkok is in Thailand",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Perth is in Australia",
+        "ids": [
+          "kc.geography.transport-and-communication.fact-australian-trans-continental"
+        ],
+        "quote": "from Perth on the west coast, to Sydney on the east coast"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The rail cards place Montreal in Canada and Perth on the Australian line, but no old row or card gives Madrid's or Bangkok's country, so the full match is not taught."
+  },
+  {
+    "n": 45,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Silicon Forest is near Seattle",
+        "ids": [
+          "kc.geography.secondary-activities.fact-technopolies-examples"
+        ],
+        "quote": "Silicon Forest near Seattle are examples of technopolies"
+      },
+      {
+        "fact": "Seattle is in the U.S.A.",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The card places Silicon Forest near Seattle, but no old material says Seattle is in the U.S.A.; the country step is unstated."
+  },
+  {
+    "n": 50,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The East Central zone has its headquarters at Hajipur",
+        "ids": [
+          "kc.geography.transport-and-communication-india.list-railway-zones-hq"
+        ],
+        "quote": "East Central Hajipur"
+      },
+      {
+        "fact": "Hajipur is in Bihar",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The zone card gives East Central at Hajipur, but no old row or card says Hajipur is in Bihar."
+  }
+]

@@ -247,7 +247,16 @@ test('"How we counted" is one quiet key and a sheet built like his reference: lo
   assert.match(sheet, /keyRef\.current\?\.focus\(\{ preventScroll: true \}\)/, 'focus returns to the key');
   // Two figures as one switch (owner, 23 Nov 2026): the first check and now, each a key with its own number. No dates, no marks.
   const explorer = read('src/components/landing/CoverageExplorer.jsx');
-  assert.match(explorer, /\[\['before', model\.before\], \['now', model\.total\]\]/);
+  // 24 Nov 2026 (owner: "a subject-specific score"; "a tag ... old bank and new bank"): the keys carry the chosen paper's two
+  // figures under their bank's name, level with each other; all papers together are said in one line under them.
+  assert.match(explorer, /\[\['before', subject\.first\], \['now', subject\]\]/);
+  assert.match(explorer, /<span className="lp-cv__bank">\{C\.bank\[id\]\}<\/span>/);
+  assert.deepEqual(EXPLORER.bank, { before: 'Old bank', now: 'New bank' });
+  assert.equal(EXPLORER.allPapers(66, 99, 13), 'All 13 papers together: 66% with the old bank, 99% with the new bank.');
+  assert.match(explorer, /C\.allPapers\(model\.before\.pct, model\.total\.pct, model\.total\.papers\)/);
+  assert.match(read('src/components/landing/coverage-proof.css'), /\.lp-cv__name \{[^}]*min-height: 2\.4em/, 'both names take two lines, so the figures stand level');
+  // The chosen question's place never shrinks within a paper: picking a square moves nothing under it up.
+  assert.match(explorer, /el\.style\.minHeight = `\$\{h\}px`/);
   assert.match(explorer, /useState\('now'\)/);
   assert.doesNotMatch(explorer, /data-since/);
   assert.deepEqual(EXPLORER.view, { before: 'Previously, for CUET 2026', now: 'Now, for CUET 2027' });

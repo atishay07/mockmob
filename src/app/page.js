@@ -330,8 +330,9 @@ export default function LandingPage() {
               <p className="lp-sub">{dailyHead.sub}</p>
             </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
             {/* How it works, as three small pictures (owner LK427, 23 Nov 2026): in the paragraph's place. */}
-            {COLLEGE_DAILY ? null : <DailyHow />}
-            <DailyFiveRow where="home" />
+            {/* 24 Nov 2026 (owner: the Daily Five took too much room and the Sunday Mock was lost under it): the pictures open
+                inside the Daily Five card ("How the Daily Five works"); the two cards stand as a pair. */}
+            <DailyFiveRow where="home" how={COLLEGE_DAILY ? null : <DailyHow />} />
           </div>
         </section></Later>
 

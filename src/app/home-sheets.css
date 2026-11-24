@@ -3371,6 +3371,10 @@ body .lc__obj.subj-obj {
   .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; -webkit-line-clamp: none; line-clamp: none; }
   .lc[data-pinned='true'] .lc-scene__body--short { display: block; }
 }
+/* Phones: the Lab's device stops 12 px above the bottom bar, so its rounded foot and its shadow show whole (owner, 24 Nov
+   2026: the mistake cards "get cut" on a phone; at a phone's real visible height, about 660 px, the device ran flush into
+   the bar and its foot was hidden). Landscape phones keep their own tight hold above. */
+@media (max-width: 899px) and (min-height: 521px) { body .ss.lc { --ss-bottom: calc(var(--ss-band) + 12px + env(safe-area-inset-bottom, 0px)); } }
 
 /* ==== src/app/home.css ==== */
 /* ==========================================================================

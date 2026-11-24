@@ -1,0 +1,399 @@
+[
+  {
+    "n": 1,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "India benefits from its relationship with Russia through access to Central Asia",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards give Russia's arms market, oil-crisis help, energy imports and nuclear and space help, but none says India gains access to Central Asia through Russia."
+  },
+  {
+    "n": 3,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "People lost their savings because of high inflation",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Valuable industries were undervalued and sold at throwaway prices",
+        "ids": [
+          "kc.political_science.end-of-bipolarity.fact-cst-garage-sale"
+        ],
+        "quote": "valuable industries were undervalued and sold at throwaway prices"
+      },
+      {
+        "fact": "Disparities between rich and poor grew, so statement C is wrong",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Withdrawal of government subsidies pushed many people into poverty",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only the garage-sale point is stated; old material mentions high inflation and the end of social welfare but never lost savings, subsidies pushing people into poverty, or growing disparities."
+  },
+  {
+    "n": 9,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Shyama Prasad Mukherjee was a Jana Sangh leader",
+        "ids": [
+          "kc.political_science.era-of-one-party-dominance.kl-bjs-founded-1951"
+        ],
+        "quote": "The Bharatiya Jana Sangh was formed in 1951 with Shyama Prasad Mukherjee as its founder-President."
+      },
+      {
+        "fact": "Deen Dayal Upadhyaya and Balraj Madhok were Jana Sangh leaders",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Ajay Ghosh was not a Jana Sangh leader (he led the CPI)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only Shyama Prasad Mukherjee is named as a Jana Sangh leader in the old material; Upadhyaya, Madhok and Ajay Ghosh appear nowhere."
+  },
+  {
+    "n": 11,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Anti-globalisation movements participate in global networks",
+        "ids": [
+          "kc.political_science.globalisation.fact-global-networks"
+        ],
+        "quote": "anti-globalisation movements too participate in global networks"
+      },
+      {
+        "fact": "The 1999 WTO meeting at Seattle saw widespread protests",
+        "ids": [
+          "kc.political_science.globalisation.fact-seattle"
+        ],
+        "quote": "What happened at the 1999 WTO Ministerial Meeting in Seattle?"
+      },
+      {
+        "fact": "The WSF is a global platform opposed to neo-liberal globalisation",
+        "ids": [
+          "kc.political_science.globalisation.def-wsf"
+        ],
+        "quote": "The World Social Forum (WSF) is another global platform"
+      },
+      {
+        "fact": "The 2024 WSF meeting was not held in Porto Alegre (statement D is wrong)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards state A, B and C, but they give only the 2001 Porto Alegre and 2004 Mumbai WSF meetings; nothing says where the 2024 meeting was held, so statement D cannot be rejected."
+  },
+  {
+    "n": 14,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Huge allocations were made for the Bhakhra Nangal Dam",
+        "ids": [
+          "kc.political_science.politics-of-planned-development.fact-first-plan-dam"
+        ],
+        "quote": "Huge allocations were made for large-scale projects like the Bhakhra Nangal Dam."
+      },
+      {
+        "fact": "The First Plan identified the pattern of land distribution",
+        "ids": [
+          "kc.political_science.politics-of-planned-development.fact-first-plan-land"
+        ],
+        "quote": "The Plan identified the pattern of land distribution in the country as the principal obstacle in the way of agricultural growth."
+      },
+      {
+        "fact": "Substantial import tariffs are not a First Plan feature (statement C is wrong)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The First Plan sought to push savings up",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The dam and land-distribution points are on old cards, but nothing says the First Plan sought to push savings up, and the tariff card does not place tariffs outside the First Plan."
+  },
+  {
+    "n": 20,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Lahore, Amritsar and Kolkata became divided into communal zones after Partition",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card names the cities that became divided into communal zones."
+  },
+  {
+    "n": 24,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "India-Sri Lanka Accord was signed in 1987",
+        "ids": [
+          "kc.political_science.contemporary-south-asia.fact-sl-1987-accord"
+        ],
+        "quote": "in 1987, the government of India for the first time got directly involved in the Sri Lankan Tamil question. India signed an accord with Sri Lanka"
+      },
+      {
+        "fact": "India-Pakistan agreement not to attack nuclear installations was signed in 1988",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Farakka Treaty was signed in 1996",
+        "ids": [
+          "kc.political_science.contemporary-south-asia.fact-tl-farakka"
+        ],
+        "quote": "1996 December: India and Bangladesh sign the Farakka Treaty for sharing of the Ganga Waters"
+      },
+      {
+        "fact": "India-Sri Lanka Free Trade Agreement came after 1996",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The 1987 Accord and the 1996 Farakka Treaty are dated, but the nuclear-installations agreement appears nowhere and the Sri Lanka free trade agreement card gives no year."
+  },
+  {
+    "n": 25,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Nepal - Seven Party Alliance",
+        "ids": [
+          "kc.political_science.contemporary-south-asia.list-spa-leaders"
+        ],
+        "quote": "the Seven Party Alliance (SPA), the Maoists and social activists"
+      },
+      {
+        "fact": "Sri Lanka - Indian Peace Keeping Force",
+        "ids": [
+          "kc.political_science.contemporary-south-asia.fact-sl-ipkf"
+        ],
+        "quote": "the Indian Peace Keeping Force (IPKF) pulled out of Sri Lanka"
+      },
+      {
+        "fact": "Maldives - Indian troops foiled a coup by mercenaries",
+        "ids": [
+          "kc.political_science.contemporary-south-asia.fact-nb-maldives-1988"
+        ],
+        "quote": "when some Tamil mercenaries from Sri Lanka attacked the Maldives, the Indian air force and navy reacted quickly"
+      },
+      {
+        "fact": "Bangladesh - India exchanged enclaves",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Nepal (Seven Party Alliance), Sri Lanka (IPKF) and Maldives (1988 mercenary attack) are on old cards, but the India-Bangladesh exchange of enclaves is stated nowhere, and a match item needs every pair."
+  },
+  {
+    "n": 27,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The International Court of Justice is based at The Hague",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old material says only that the ICJ settles legal disputes between states; it never names where the court sits."
+  },
+  {
+    "n": 29,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Boutros Boutros-Ghali issued An Agenda for Peace",
+        "ids": [
+          "kc.political_science.international-organisations.fact-sg-boutros"
+        ],
+        "quote": "issued a report, An Agenda for Peace"
+      },
+      {
+        "fact": "Ban Ki-moon worked for the creation of UN Women",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Dag Hammarskjold worked to resolve the Suez Canal dispute",
+        "ids": [
+          "kc.political_science.international-organisations.fact-sg-hammarskjold-nobel"
+        ],
+        "quote": "worked for resolving the Suez Canal dispute"
+      },
+      {
+        "fact": "Kofi Annan established the Human Rights Council",
+        "ids": [
+          "kc.political_science.international-organisations.fact-sg-annan-nobel"
+        ],
+        "quote": "established the Peacebuilding Commission and the Human Rights Council in 2005"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Three pairs are on old cards, but the Ban Ki-moon card says only that he highlighted climate change; nothing links him to UN Women."
+  },
+  {
+    "n": 30,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Department of Defence Supplies set up in 1965",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Nuclear Non-Proliferation Treaty in 1968",
+        "ids": [
+          "kc.political_science.security-in-the-contemporary-world.fact-npt"
+        ],
+        "quote": "The Nuclear Non-Proliferation Treaty (NPT) of 1968 was an arms control treaty"
+      },
+      {
+        "fact": "Department of Defence Production set up in 1962",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Tashkent Agreement in 1966",
+        "ids": [
+          "641761d6-e74d-457b-abd0-118d2b347de4"
+        ],
+        "quote": "the Tashkent Agreement was signed in January 1966"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The Tashkent Agreement (1966) and the NPT (1968) are dated, but the years of the Departments of Defence Supplies and Defence Production appear nowhere in the old material."
+  },
+  {
+    "n": 34,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Jayaprakash Narayan was founder general secretary of the Congress Socialist Party",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Morarji Desai and the students' protest in Gujarat",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Chaudhary Charan Singh founded the Bharatiya Kranti Dal",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "George Fernandes led the railway employees' strike",
+        "ids": [
+          "kc.political_science.crisis-of-the-democratic-order.fact-railway-strike"
+        ],
+        "quote": "The National Coordination Committee for Railwaymen’s Struggle led by George Fernandes gave a call for nationwide strike by all employees of the Railways"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only the Fernandes pair is clearly stated; nothing says JP was founder general secretary of the CSP or that Charan Singh founded the Bharatiya Kranti Dal."
+  },
+  {
+    "n": 38,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Meghalaya was created in 1972",
+        "ids": [
+          "kc.political_science.regional-aspirations.fact-ne-statehood"
+        ],
+        "quote": "Manipur, Tripura and Meghalaya in 1972"
+      },
+      {
+        "fact": "Punjab was created in 1966",
+        "ids": [
+          "kc.political_science.regional-aspirations.fact-punjab-haryana-1966"
+        ],
+        "quote": "the States of Punjab and Haryana were created in 1966"
+      },
+      {
+        "fact": "Goa became a state in 1987",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Nagaland was created in 1963",
+        "ids": [
+          "kc.political_science.regional-aspirations.fact-ne-statehood"
+        ],
+        "quote": "Nagaland State was created in 1963"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Meghalaya, Punjab and Nagaland are dated on old cards, but no old material gives the year Goa became a state."
+  },
+  {
+    "n": 50,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "I. K. Gujral was Prime Minister of the United Front government from April 1997 to March 1998",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old material says Deve Gowda led the 1996 United Front government; I. K. Gujral is named nowhere."
+  }
+]

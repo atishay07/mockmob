@@ -9,7 +9,7 @@
 // head says the game in two beats, the week rail is gone from the block (the run of days is /daily's), and the Daily Five is
 // an admit card with "Playing for" a DU college and the five as answer bubbles (omrLabel), then today's college board.
 import { DAILY_FIVE_PATH, DAILY_FIVE_SIZE, untilShort } from '../../lib/dailyFive.mjs';
-import { LAUNCH_WEEK, PAPER_COUNT, PAPER_MINUTES, dateLabel, sundayState, sundayWindow } from '../../lib/sundayMock.mjs';
+import { LAUNCH_WEEK, MARK_RIGHT, MARK_WRONG, PAPER_COUNT, PAPER_MINUTES, dateLabel, sundayState, sundayWindow } from '../../lib/sundayMock.mjs';
 import { ANSWERS_AT, LAST_START, OPENS, PAPER_FIGURES } from '../../app/sunday-mock/sundayHow.mjs';
 
 export const COLLEGE_DAILY = process.env.NEXT_PUBLIC_DAILY_COLLEGE_BOARD === 'true';
@@ -100,6 +100,15 @@ export function todayDoneLine({ score, did = [], wait = '' } = {}) {
 }
 // The paper's size is in its figures; the sentence says what it is and that it needs an account (the five does not).
 export const SUNDAY_LINE = 'One full paper in each of your subjects, the same for everyone. Sign up to sit it.';
+/** The home block's two openers (owner, 24 Nov 2026: "build the Sunday mock and all expandable"): each card says what to do
+ *  today; how it works opens under it. The Sunday lines are the rule's own constants, never typed numbers. */
+export const HOW_OPEN = Object.freeze({ daily: 'How the Daily Five works', sunday: 'How the Sunday Mock works' });
+export const SUNDAY_HOW = Object.freeze([
+  `Opens every Sunday at ${OPENS}. Start any time until ${LAST_START}.`,
+  `${PAPER_COUNT} questions in ${PAPER_MINUTES} minutes, marked +${MARK_RIGHT} for a right answer and −${MARK_WRONG} for a wrong one, like a real CUET paper.`,
+  'Everyone in a subject gets the same paper. One sitting in each subject.',
+  `Your marks show the moment you send it. Answers and explanations open at ${ANSWERS_AT}.`,
+]);
 /** The home card's shorter sentence (17 Nov 2026): the figures under it say the paper's size. */
 export const SUNDAY_LINE_SHORT = 'One full paper in each of your subjects. Sign up to sit it.';
 

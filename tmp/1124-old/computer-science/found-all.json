@@ -1,0 +1,366 @@
+[
+ {
+  "n": 10,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "ARPANET became functional connecting UCLA and SRI (earliest event, D)",
+    "ids": [
+     "kc.computer_science.computer-networks.fact-arpanet-first-message"
+    ],
+    "quote": "The first message was communicated between the University of California, Los Angeles (UCLA) and Stanford Research Institute (SRI)."
+   },
+   {
+    "fact": "Roy Tomlinson developed network e-mail and the @ symbol, after ARPANET began and before TCP/IP (C)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "TCP/IP was introduced as the standard protocol on ARPANET, after e-mail and before the WWW (B)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Berners-Lee developed the World Wide Web (HTML, URL) at CERN, the latest event (A)",
+    "ids": [
+     "kc.computer_science.computer-networks.fact-berners-lee"
+    ],
+    "quote": "Sir Tim Berners-Lee – a British computer scientist invented the revolutionary World Wide Web in 1990."
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "The old cards give the first ARPANET message (UCLA-SRI) and the 1990 World Wide Web, but nothing mentions Tomlinson's e-mail or TCP/IP becoming ARPANET's standard, so the middle of the order is not taught."
+ },
+ {
+  "n": 15,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "RJ in RJ-45 stands for Registered Jack",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "No old bank row or card mentions the RJ-45 connector or what RJ stands for."
+ },
+ {
+  "n": 23,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "An old bank row converts an infix expression with parentheses into postfix (operands in order, operator after its operands, bracketed parts first)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Conversion rule: push operators and left parenthesis, pop on right parenthesis (card only, does not cover a worked conversion)",
+    "ids": [
+     "kc.computer_science.stack.steps-alg31-step-4"
+    ],
+    "quote": "Step 4: IF character is a left parenthesis THEN PUSH on the Stack"
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "The cards give the infix-to-postfix algorithm, but no old bank row actually converts an expression to postfix, and a card alone never covers a worked question."
+ },
+ {
+  "n": 25,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Stack and queue are linear data structures",
+    "ids": [
+     "fd007f5e-4de5-4f44-a498-133a45581610"
+    ],
+    "quote": "Statement III: Both stacks and queues are linear data st"
+   },
+   {
+    "fact": "Deque is linear",
+    "ids": [
+     "kc.computer_science.queue.fact-deque-uses-list"
+    ],
+    "quote": "Like queue, deque is also an ordered linear list"
+   },
+   {
+    "fact": "A tree is a non-linear data structure (rules out the 'all four' options)",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Old material says stack, queue and deque are linear, but nothing says a tree is non-linear, which is needed to reject the option with all four."
+ },
+ {
+  "n": 27,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Binary search is used in a telephone directory",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Binary search finds min/max in a sorted list",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Binary search is used in implementing routing tables",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Binary search is used for indexing in databases",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Old material defines binary search and its steps but never lists its applications."
+ },
+ {
+  "n": 30,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Bubble sort needs n - 1 passes to sort n elements (worked in an old bank row)",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "No old bank row asks for or works out the number of bubble sort passes for n elements; the n - 1 passes card is for selection sort, and one row mentions 'four full passes' only in passing while counting comparisons."
+ },
+ {
+  "n": 32,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "A single loop gives time complexity n",
+    "ids": [
+     "kc.computer_science.sorting.fact-linear-time"
+    ],
+    "quote": "Any algorithm that has a loop (usually 1 to n) will have the time complexity as n"
+   },
+   {
+    "fact": "A loop within a loop (nested loop) gives time complexity n^2",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Old cards say a single loop gives n and that a nested loop decides the estimate, but none states that a nested loop gives n^2."
+ },
+ {
+  "n": 34,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Find the mean of the data",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Find the variance as the average of squared differences from the mean, then take its square root (worked in an old bank row)",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "No old bank row calculates a standard deviation; cards only say it is the square root of the variance, and a card alone never covers a numerical."
+ },
+ {
+  "n": 35,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Mean is not suitable when there are outliers",
+    "ids": [
+     "kc.computer_science.understanding-data.term-mean-outliers"
+    ],
+    "quote": "Mean is not a suitable choice if there are outliers in the data."
+   },
+   {
+    "fact": "Range is badly influenced by an outlier",
+    "ids": [
+     "kc.computer_science.understanding-data.term-range-outlier"
+    ],
+    "quote": "As range is calculated based on the two extreme values, any outlier in the data badly influences the result."
+   },
+   {
+    "fact": "Median is the measure better suited when data has outliers (rules out mode too)",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Old cards say the mean and range are hurt by outliers, but never say the median is the measure to use, so median over mode is not taught."
+ },
+ {
+  "n": 46,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Radio waves have the frequency range 3 KHz to 1 GHz",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Old cards give the microwave (1-300 GHz) and infrared ranges and the whole wireless spectrum from 3 KHz, but never the radio-wave range itself."
+ },
+ {
+  "n": 48,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Keylogger records keyboard usage and may send it out (A-II)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Adware earns through pay per click (B-I)",
+    "ids": [
+     "kc.computer_science.security-aspects.fact-adware-revenue"
+    ],
+    "quote": "using \"pay per click\" mechanism to charge its clients against the number of clicks on their displayed ads."
+   },
+   {
+    "fact": "Spyware tracks internet usage data and sells it to advertisers (C-IV)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Worm is standalone, replicates on its own and spreads over the network (D-III)",
+    "ids": [
+     "kc.computer_science.security-aspects.diff-worm-vs-virus-trigger"
+    ],
+    "quote": "a worm replicates on its own and can spread to other computers through the network."
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Old cards teach adware and worms, but nothing describes a keylogger and spyware is only said to collect user information, not to track and sell usage data; a match needs every pair."
+ },
+ {
+  "n": 53,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Degree of a Cartesian product = sum of the two degrees, worked in an old bank row",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Cards state that the degree of a Cartesian product is the sum of the degrees, but no old bank row calculates it, and a card alone never covers a numerical."
+ },
+ {
+  "n": 59,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Pandas supports non-unique (repeated) index values",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Two cards mention rows with the same label in passing (for drop and append), but nothing states that pandas supports non-unique index values."
+ },
+ {
+  "n": 70,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "explode in pie() gives the fraction of the radius by which each wedge is offset",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "An old card only lists explode as a pie() parameter; nothing says what it does."
+ },
+ {
+  "n": 78,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "What a project specification is (a precise statement of data or rules for a project)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Which of the NCERT example statements (item rules, population figures) are specifications",
+    "ids": [],
+    "quote": ""
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "No old bank row or card teaches what a project specification is or gives the example projects."
+ },
+ {
+  "n": 81,
+  "verdict": "not_covered",
+  "matchKind": null,
+  "facts": [
+   {
+    "fact": "Be Credible: be cautious while making comments (A-II)",
+    "ids": [
+     "kc.computer_science.societal-impacts.kl-be-credible"
+    ],
+    "quote": "We should be cautious while making a comment, replying or writing an email or forum post as such acts decide our credibility over a period of time."
+   },
+   {
+    "fact": "Be Secure: choose password wisely (B-I)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Be Reliable: think before you upload (C-IV)",
+    "ids": [],
+    "quote": ""
+   },
+   {
+    "fact": "Be Ethical: no copyright violation (D-III)",
+    "ids": [
+     "kc.computer_science.societal-impacts.fact-ethical-copyright"
+    ],
+    "quote": "No copyright violation: we should not use copyrighted materials without the permission of the creator or owner."
+   }
+  ],
+  "best": null,
+  "bestKind": null,
+  "reason": "Old cards tie careful comments to credibility and no copyright violation to being ethical, but never place 'choose password wisely' under Be Secure or 'think before you upload' under Be Reliable; elimination only."
+ }
+]

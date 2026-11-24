@@ -14,7 +14,7 @@
 // A paper's questions are fetched when that paper is chosen (LOADERS: one small file a paper, data/coverage/cuet2026/home);
 // the first paper's file is fetched as the section nears the window. While a file is on its way the pair keeps its height
 // (.lp-cq__pair has a floor), so nothing below it moves.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Ban, BookOpen, BookOpenCheck, Check, ChevronLeft, ChevronRight, CircleDashed, Equal, EqualApproximately } from 'lucide-react';
 import { CODE_STATUS, EXPLORER as C, LEGEND, STATUS_CODE, STATUS_WORDS, firstPick, groupOf, viewStrip } from './coverageWords.mjs';
@@ -231,6 +231,20 @@ export default function CoverageExplorer({ model, first, heading, how }) {
   const legend = LEGEND.map((item) => ({ status: item.status, label: item.label, n: Array.from(cells).filter((code) => codesOf(item).includes(code)).length })).filter((item) => item.n > 0);
   const shown = view === 'before' ? subject.first : subject;
 
+  // The chosen question's place keeps the height of the tallest question seen in this paper (owner, 24 Nov 2026: picking a
+  // square, or switching the figure, made the page under it jump up when the next question was shorter). It only grows; a
+  // new paper or a new window width starts again. One layout read after a render, never during a scroll.
+  const pair = useRef(null);
+  const tallest = useRef({ key: '', h: 0 });
+  useLayoutEffect(() => {
+    const el = pair.current;
+    if (!el) return;
+    const key = `${subjectId}|${window.innerWidth}`;
+    if (tallest.current.key !== key) { tallest.current = { key, h: 0 }; el.style.minHeight = ''; }
+    const h = Math.ceil(el.getBoundingClientRect().height);
+    if (h > tallest.current.h) { tallest.current.h = h; el.style.minHeight = `${h}px`; }
+  });
+
   return (
     <>
     <div className="lp-cov__head">
@@ -238,11 +252,12 @@ export default function CoverageExplorer({ model, first, heading, how }) {
       <div className="lp-cov__fig">
         {model.before ? (
           <div className="lp-cv" role="group" aria-label={C.views}>
-            {[['before', model.before], ['now', model.total]].map(([id, fig]) => (
+            {[['before', subject.first], ['now', subject]].map(([id, fig]) => (
               <button key={id} type="button" className="lp-cv__view" aria-pressed={view === id} onClick={() => setView(id)}>
+                <span className="lp-cv__bank">{C.bank[id]}</span>
                 <span className="lp-cv__name">{C.view[id]}</span>
                 <b className="lp-cv__pct">{fig.pct}<span>%</span></b>
-                <span className="lp-cv__count">{C.viewCount(fig.covered, fig.of)}</span>
+                <span className="lp-cv__count">{C.viewCount(fig.covered, subject.of)}</span>
               </button>
             ))}
           </div>
@@ -252,6 +267,7 @@ export default function CoverageExplorer({ model, first, heading, how }) {
             <span>{C.total(model.total.covered, model.total.of, model.total.papers)}</span>
           </p>
         )}
+        {model.before ? <p className="lp-cv__all"><b>{C.showing(subject.name)}</b> {C.allPapers(model.before.pct, model.total.pct, model.total.papers)}</p> : null}
         {how}
       </div>
     </div>
@@ -304,7 +320,7 @@ export default function CoverageExplorer({ model, first, heading, how }) {
         </ol>
       </div>
 
-      <div className={`lp-cq__pair lp-cq__pair--${group}`}>
+      <div className={`lp-cq__pair lp-cq__pair--${group}`} ref={pair}>
         <div className="lp-cq__bar">
           <p className="lp-cq__where"><b>Q{n}</b><span className="lp-cq__of">{C.of(cells.length)}</span></p>
           <div className="lp-cq__step">

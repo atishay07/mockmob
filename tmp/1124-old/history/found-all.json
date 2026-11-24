@@ -1,0 +1,332 @@
+[
+  {
+    "n": 3,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Terracotta models of the plough were found at Cholistan and Banawali",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old material says only that the bull on seals suggests oxen were used for ploughing and mentions Cholistan as abandoned sites; nothing names plough models or Banawali."
+  },
+  {
+    "n": 5,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Lower Town at Mohenjodaro provides examples of residential buildings",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "There are no windows in walls along the ground level",
+        "ids": [
+          "kc.history.bricks-beads-and-bones.kl-no-windows-privacy"
+        ],
+        "quote": "there are no windows in the walls along the ground level."
+      },
+      {
+        "fact": "Every house had its own bathroom paved with bricks",
+        "ids": [
+          "kc.history.bricks-beads-and-bones.fact-house-bathroom"
+        ],
+        "quote": "Every house had its own bathroom paved with bricks"
+      },
+      {
+        "fact": "There was concern for privacy (statement C is wrong)",
+        "ids": [
+          "kc.history.bricks-beads-and-bones.kl-no-windows-privacy"
+        ],
+        "quote": "What is also interesting is an apparent concern for privacy"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards give the windows, privacy and bathroom points, but nothing says the Lower Town provides examples of residential buildings, so statement A cannot be judged."
+  },
+  {
+    "n": 7,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Pottery and ornaments were buried with the dead, showing a belief in an afterlife",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards say the dead were laid in pits and jewellery is found in burials of men and women, but none links pottery and ornaments in graves to a belief in the afterlife."
+  },
+  {
+    "n": 8,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Gandhara is the northernmost of the four",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Matsya lies south of Gandhara and north of Avanti",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Ashmaka is the southernmost",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards name Gandhara and Avanti as mahajanapadas but give no locations, and Matsya and Ashmaka appear nowhere."
+  },
+  {
+    "n": 9,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Kushanas issued the largest hoards of gold coins in c. first century CE",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards say Kushana kingship shows in coins and that the Guptas issued spectacular gold coins, but none says the Kushanas issued the largest gold coin hoards."
+  },
+  {
+    "n": 12,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Ashtadhyayi of Panini dated c. 500 BCE",
+        "ids": [
+          "kc.history.kinship-caste-and-class.fact-timeline-ashtadhyayi"
+        ],
+        "quote": "Timeline 1: which work on Sanskrit grammar is dated c. 500 BCE?"
+      },
+      {
+        "fact": "Early Buddhist texts including the Tripitaka come after Panini and before the Natyashastra",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Natyashastra of Bharata dated c. 300 CE",
+        "ids": [
+          "kc.history.kinship-caste-and-class.fact-timeline-natyashastra"
+        ],
+        "quote": "Timeline 1: which work on dramaturgy is dated c. 300 CE?"
+      },
+      {
+        "fact": "Works of Aryabhata and Varahamihira are the latest",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards date Panini and the Natyashastra, but the Tipitaka card dates only the Buddha's death (c. fifth-fourth century BCE), which does not clearly place it after Panini, and Aryabhata and Varahamihira are not dated anywhere."
+  },
+  {
+    "n": 14,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Manusmriti laid down that the paternal estate be divided equally among sons with a special share for the eldest",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old card states the rule but credits it to 'the smriti tradition'; no old row or card names the Manusmriti as its source."
+  },
+  {
+    "n": 20,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Marco Polo was from Italy",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Duarte Barbosa was Portuguese",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Peter Mundy was from England",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Afanasii Nikitin was from Russia",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards give Marco Polo, Barbosa and Nikitin, but Peter Mundy and England appear nowhere in the old material, and a match item needs every pair."
+  },
+  {
+    "n": 21,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The sculpture of the Buddhist goddess Marichi was found in Bihar",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card mentions Marichi."
+  },
+  {
+    "n": 24,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Sambandar's period (c. seventh century)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Basavanna (1106-68)",
+        "ids": [
+          "kc.history.bhakti-sufi-traditions.fact-basavanna"
+        ],
+        "quote": "Basavanna (1106-68)"
+      },
+      {
+        "fact": "Lal Shahbaz Qalandar's period (thirteenth century)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Sri Chaitanya's period (sixteenth century)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only Basavanna is dated in the old material; Sambandar, Lal Shahbaz Qalandar and Sri Chaitanya are not dated, so the four cannot be ordered."
+  },
+  {
+    "n": 27,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Mahanavami Dibba was a massive platform",
+        "ids": [
+          "053d6a2a-ad8e-439d-93d7-40ea0716fd8a"
+        ],
+        "quote": "The Mahanavami dibba was a massive platform in the royal centre."
+      },
+      {
+        "fact": "Kamalapuram tank was made to store rainwater",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Vitthala temple is linked with chariot streets",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Hazara Rama temple was used only by the king and his family",
+        "ids": [
+          "kc.history.an-imperial-capital-vijayanagara.fact-hazara-rama"
+        ],
+        "quote": "This was probably meant to be used only by the king and his family."
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The platform and Hazara Rama pairs are stated, but the Kamalapuram card says only that its water irrigated fields and reached the royal centre, and chariot streets are described for temple complexes in general, not the Vitthala temple."
+  },
+  {
+    "n": 29,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Aravidu dynasty ruled from Penukonda",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "An old card says the Aravidu controlled the centre from 1542, but Penukonda is named nowhere in the old material."
+  },
+  {
+    "n": 36,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "The Mirajgaon petition to the Collector of Ahmednagar, Deccan Riots Commission, was written by ryots",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards cover the Deccan Riots Commission's purpose and findings, but nothing mentions the Mirajgaon petition or who wrote it."
+  },
+  {
+    "n": 40,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "On 12 March 1930 Gandhiji began walking from Sabarmati towards the ocean",
+        "ids": [
+          "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-dandi-12-march"
+        ],
+        "quote": "On 12 March 1930, Gandhiji began walking from his ashram at Sabarmati towards the ocean."
+      },
+      {
+        "fact": "Lord Irwin was Viceroy at the time of the Salt March",
+        "ids": [
+          "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-irwin-notice"
+        ],
+        "quote": "Gandhiji had given advance notice of his “Salt March” to the Viceroy Lord Irwin"
+      },
+      {
+        "fact": "The newsmagazine that traced the march was Time, not 'London News' (statement C is wrong)",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The march's progress can be traced from secret police reports",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Statements A and B are on old cards, but nothing names Time magazine, and the police-report cards say these reports are a source in general, not that they traced the march's progress."
+  }
+]

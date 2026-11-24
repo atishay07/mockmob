@@ -1,0 +1,498 @@
+[
+  {
+    "n": 5,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Freeing managers to concentrate on important matters is an advantage of delegation (effective management)",
+        "ids": [
+          "kc.business_studies.organising.list-delegation-importance"
+        ],
+        "quote": "effective management"
+      },
+      {
+        "fact": "Providing ready managers for new ventures is an advantage of delegation (growth)",
+        "ids": [
+          "kc.business_studies.organising.list-delegation-importance"
+        ],
+        "quote": "growth"
+      },
+      {
+        "fact": "Delegation establishes superior-subordinate relationships, the basis of the management hierarchy",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Flexibility and initiative from autonomous divisions is an advantage of the divisional structure, not of delegation",
+        "ids": [
+          "kc.business_studies.organising.list-divisional-advantages"
+        ],
+        "quote": "flexibility better coordination more initiative"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards only name delegation benefits (effective management, growth) and list flexibility and initiative under divisional structure; nothing says delegation is the basis of the management hierarchy, so option 3 cannot be confirmed as an advantage."
+  },
+  {
+    "n": 10,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Coordination is needed because of functional differentiation: departments pursue their own objectives and may conflict",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Growth in size and specialisation are different reasons for coordination, not shown by inter-department conflict",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old material says coordination is the essence of management and is needed at all levels, but never lists functional differentiation, growth in size or specialisation as reasons it is needed."
+  },
+  {
+    "n": 13,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Offer for sale: securities are sold to the investing public through intermediaries such as issuing houses or stock brokers",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Private placement, IPO and rights issue differ (institutional buyers, direct issue by prospectus, existing shareholders)",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card teaches the methods of floatation; offer for sale is not mentioned anywhere."
+  },
+  {
+    "n": 14,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "EPS calculation starts from EBIT",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Interest on debt is deducted from EBIT to give EBT",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Tax is deducted from EBT to give EAT, from which EPS is found",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards name EBIT-EPS analysis and the EPS effect of debt, but no row or card sets out the order EBIT, interest, EBT, EAT."
+  },
+  {
+    "n": 16,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Treasury bills are issued for a minimum amount of Rs 25,000 and in multiples thereof",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "T-bills are issued by RBI on behalf of the Government of India, for less than one year, to any person including individuals",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The only treasury-bill mention in the old material is a wrong option in a commercial paper question; the Rs 25,000 minimum is never stated."
+  },
+  {
+    "n": 18,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Functions of a stock exchange include liquidity and marketability, safety of transactions, and contributing to economic growth",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "A stock exchange provides scope for healthy speculation; it does not stop speculation completely",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card teaches the functions of a stock exchange or its role in speculation."
+  },
+  {
+    "n": 22,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "First a depository participant (bank, broker or financial services company) is identified",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Then the account opening form and documents are completed",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Then physical certificates are given to the DP with a dematerialisation request form",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "In a public offer, DP and demat account details are given and allotted shares are credited automatically",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The one old demat row is about fraud and the central registry; the steps of opening and using a demat account are taught nowhere."
+  },
+  {
+    "n": 24,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Decentralisation must be applied carefully because it can lead to organisational disintegration if departments follow their own guidelines against the organisation's interest",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old cards define decentralisation and list its importance, but never give the caution that it can cause organisational disintegration."
+  },
+  {
+    "n": 25,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Harmony, not discord means a paternalistic, family-like relationship between management and workers with no class conflict",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The Japanese example of workers striking with a black badge while working extra illustrates harmony, not discord",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Harmony not discord is only named in a list of Taylor's principles; its meaning and the Japanese example are taught nowhere, and two bank rows teach the nearby answer Cooperation, not individualism."
+  },
+  {
+    "n": 27,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Reference checks verify information and gain additional information about the applicant",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "The contract of employment includes job title, duties, responsibilities, pay, allowances, hours of work and leave rules",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Preliminary screening eliminates unqualified or unfit job seekers using the application forms",
+        "ids": [
+          "kc.business_studies.staffing.fact-preliminary-screening"
+        ],
+        "quote": "Preliminary screening helps the manager eliminate unqualified or unfit job seekers based on the information supplied in the application forms."
+      },
+      {
+        "fact": "The job offer generally contains the date by which the appointee must report on duty",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Only preliminary screening is described in the old material; what reference checks do, what the job offer contains and what the contract lists are never stated."
+  },
+  {
+    "n": 29,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Method study aims to minimise the cost of production and maximise quality and customer satisfaction",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Motion study studies movements like lifting, putting objects, sitting and changing positions",
+        "ids": [
+          "kc.business_studies.principles-of-management.def-motion-study"
+        ],
+        "quote": "Motion study refers to the study of movements like lifting, putting objects, sitting and changing positions, etc., which are undertaken while doing a typical job."
+      },
+      {
+        "fact": "Fatigue study determines the amount and frequency of rest intervals",
+        "ids": [
+          "kc.business_studies.principles-of-management.def-fatigue-study"
+        ],
+        "quote": "Fatigue study seeks to determine the amount and frequency of rest intervals in completing a task."
+      },
+      {
+        "fact": "Time study determines the standard time for a well-defined job",
+        "ids": [
+          "kc.business_studies.principles-of-management.def-time-study"
+        ],
+        "quote": "It determines the standard time taken to perform a well-defined job."
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Three pairs are on old cards, but method study is taught only as finding the one best way, never with the cost and customer-satisfaction aim the key pairs it with."
+  },
+  {
+    "n": 30,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Physiological needs (hunger, thirst, shelter, sleep) are the lowest",
+        "ids": [
+          "kc.business_studies.directing.key-maslow-physiological-salary"
+        ],
+        "quote": "Hunger, thirst, shelter, sleep and sex are some examples of these needs. In the organisational context, basic salary helps to satisfy these needs."
+      },
+      {
+        "fact": "Safety needs (job security, stability of income, pension plans) come next",
+        "ids": [
+          "kc.business_studies.directing.ex-maslow-safety-example"
+        ],
+        "quote": "Examples: job security, stability of income, Pension plans etc.,"
+      },
+      {
+        "fact": "Esteem needs (self-respect, autonomy, status, recognition, attention) come next",
+        "ids": [
+          "kc.business_studies.directing.types-maslow-needs"
+        ],
+        "quote": "Esteem Needs: These include factors such as self-respect, autonomy status, recognition and attention."
+      },
+      {
+        "fact": "Self-actualisation is the drive to become what one is capable of becoming, and is the highest",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Three of the four descriptions are on old cards, but the meaning of self-actualisation (the drive to become what one is capable of becoming) is never stated, so statement A is placed only by elimination."
+  },
+  {
+    "n": 33,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "A firm aiming at market share leadership keeps its prices low",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "A firm aiming at product quality leadership charges higher prices",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Long-run profit maximisation does not mean charging the maximum price",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Free samples, discounts and contests are sales promotion, not public regulation tools",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old card only names the pricing objectives; no row or card links any objective to a price level."
+  },
+  {
+    "n": 36,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Before the reforms, trades were settled on a weekly or fortnightly settlement cycle",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Settlement moved to T+2 rolling settlement",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card covers trading and settlement cycles on stock exchanges."
+  },
+  {
+    "n": 38,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Sales volume, sales expense and advertising expenditure are standards for marketing",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Labour turnover, labour relations and absenteeism are standards for human resource management",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Quantity, quality and cost are standards for production",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Flow of capital, capital expenditure, inventories and liquidity are standards for finance and accounting",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "No old bank row or card sets performance standards by functional area of business."
+  },
+  {
+    "n": 40,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Events such as a fashion show can be marketed",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Services such as online trading can be marketed",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Ideas such as family planning can be marketed",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Places such as Udaipur, the City of Lakes, can be marketed",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old material defines services and mentions marketing ideas, goods and services, but never teaches events and places as things that can be marketed or matches any of these examples."
+  },
+  {
+    "n": 47,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Career advancement opportunity means giving employees chances to develop and grow to higher levels in the organisation",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Housing and medical aid are perquisites",
+        "ids": [
+          "kc.business_studies.directing.key-perquisites"
+        ],
+        "quote": "In many companies perquisites and fringe benefits are offered such as car allowance, housing, medical aid, and education to the children"
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Career advancement opportunity appears only as a name in the old list of non-financial incentives; what it means is never stated."
+  },
+  {
+    "n": 48,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Job security (stability of income) is discussed for Rajat",
+        "ids": [
+          "kc.business_studies.directing.ex-maslow-safety-example"
+        ],
+        "quote": "Examples: job security, stability of income, Pension plans etc.,"
+      },
+      {
+        "fact": "Individual autonomy in an organisation's culture is part of organisational climate, discussed for Ansh",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Status is discussed in the case",
+        "ids": [],
+        "quote": ""
+      },
+      {
+        "fact": "Employee recognition programmes are not discussed in the case",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "Old cards define recognition, status and organisational climate, but none says individual autonomy belongs to organisational climate, so the item cannot be settled from them."
+  },
+  {
+    "n": 49,
+    "verdict": "not_covered",
+    "matchKind": null,
+    "facts": [
+      {
+        "fact": "Job enrichment designs jobs with greater variety and higher knowledge and skill",
+        "ids": [
+          "kc.business_studies.directing.term-job-enrichment"
+        ],
+        "quote": "Job enrichment is concerned with designing jobs that include greater variety of work content, require higher level of knowledge and skill"
+      },
+      {
+        "fact": "Job enrichment gives workers more autonomy and responsibility and provides opportunity for personal growth and meaningful work experience",
+        "ids": [],
+        "quote": ""
+      }
+    ],
+    "best": null,
+    "bestKind": null,
+    "reason": "The old job-enrichment card stops before autonomy, personal growth and meaningful work experience, the very words the question tests."
+  }
+]
