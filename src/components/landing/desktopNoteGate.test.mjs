@@ -63,5 +63,9 @@ test('the page never jumps for it: server HTML, shown by an attribute set before
   const close = read('./DesktopNoteClose.jsx');
   assert.match(close, /localStorage\.setItem\(DESK_NOTE_KEY, 'x'\)/);
   assert.match(close, /removeAttribute\('data-desk-note'\)/);
-  assert.match(read('../../app/page.js'), /<main id="main-content">\s*<DesktopNote \/>/, 'the first thing in the page, above the hero');
+  // 26 Nov 2026 (the council's verdict, tmp/council/2026-11-26-landing): the note is gone from the home page (it was the first
+  // line a phone visitor read, and every sign-up comes from a phone). The component stays, unused there; the hero comes first.
+  const page = read('../../app/page.js');
+  assert.doesNotMatch(page, /<DesktopNote\b|import \{ DesktopNote \}/, 'the home page no longer draws the note');
+  assert.match(page, /<main id="main-content">\s*(\{\/\*[\s\S]*?\*\/\}\s*)*<section className="lp-hero"/, 'the hero is the first thing in the page');
 });

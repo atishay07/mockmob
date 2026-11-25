@@ -174,7 +174,7 @@ test.todo('L-007 (paid) no paid upsell for a paid student: the landing is a stat
 test('L-008 the bottom bar (LK83/LK88; round 4 LK135; R8 SEC-15): a guest gets two real keys, a ghost "Log in" and the volt "Sign up free" with its true line; signed in, one key; no linked text beside them', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
   // The bar steps aside while the one frame is on screen (aside=".op-gate", 21 Nov 2026), and the Android app card (.lp-app).
-  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dwk-story__stage">\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
+  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dcal \.dwk-key\[data-lead='true'\]">\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
   const landingDock = code(read('src/components/landing/LandingDock.jsx'));
   assert.doesNotMatch(landingDock, /<Link|lp-docklink|Try a CUET question/, 'no link of its own beside the keys and no sample key in the dock');
   assert.match(landingDock, /label=\{dock\.primary\.label\}[\s\S]*secondary=\{dock\.secondary\}/, 'both keys come from one resolved state (wayIn)');
@@ -248,7 +248,7 @@ test('L-013 conversion paths (LK83/LK88): sign-up from the hero, the dock, the c
   assert.deepEqual([demo.wayIn({}).signup.href, demo.wayIn({}).login.href, demo.SAMPLE.href], ['/signup', '/login', '/#try-practice']);
   assert.deepEqual([demo.wayIn({}).dock.secondary.href, demo.wayIn({}).dock.primary.href], ['/login', '/signup'], 'the dock: log in, then sign up');
   for (const route of ['src/app/signup', 'src/app/login']) assert.ok(existsSync(join(ROOT, route)), `${route} exists`);
-  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dwk-story__stage">[\s\S]*<LandingDock/, 'the phone dock');
+  assert.match(PAGE_CODE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dcal \.dwk-key\[data-lead='true'\]">[\s\S]*<LandingDock/, 'the phone dock');
   assert.match(PAGE_CODE, /<CloseActions[\s/>]/, 'the close band');
   assert.match(PAGE_CODE, /<MarketingFooter/, 'the footer');
   // No dead anchors: every in-page #id link points at an id that exists in the landing's own markup.

@@ -12,7 +12,6 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import DailyFiveRow from '@/components/daily/DailyFiveRow';
-import DailyHow from '@/components/daily/DailyHow';
 import { COLLEGE_DAILY, PERSONAL_HEAD, STRIP_HEAD } from '@/components/daily/dailyStripCopy.mjs';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
@@ -26,7 +25,6 @@ import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
 import { HeroProof } from '@/components/landing/HeroProof';
 import { BrandTexture, PageGrid } from '@/components/landing/BrandTexture';
 import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, COMPASS_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
-import { DesktopNote } from '@/components/landing/DesktopNote';
 import HeroFilm from '@/components/landing/HeroFilm';
 import { CollegeStrip } from '@/components/landing/CollegeStrip';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
@@ -37,6 +35,7 @@ import OpeningMo from '@/components/landing/OpeningMo';
 import HeroTyped from '@/components/landing/HeroTyped';
 import { HomeFonts } from '@/components/landing/HomeFonts';
 import { Statement } from '@/components/landing/Statement';
+import { OnlyWide } from '@/components/landing/OnlyWide';
 import { Marked } from '@/components/doodle/Doodle';
 import HeroMark from '@/components/landing/HeroMark';
 import { SectionPosition } from '@/components/landing/SectionPosition';
@@ -200,7 +199,8 @@ export default function LandingPageB() {
       <NavBar />
       <SectionPosition sections={POSITION} />
       <main id="main-content">
-        <DesktopNote />
+        {/* 26 Nov 2026 (council verdict, tmp/council/2026-11-26-landing): the "works best on a laptop" note is gone from the
+            home page. It was the first line a phone visitor read, and every sign-up comes from a phone. */}
         {/* ------------------------------ HERO ------------------------------ */}
         {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70), calmer in round 3 (R3-D3, LK99/LK100), and in round 4
             (owner LK117-LK124, LK133, 5 Nov; docs/design-decisions/web-r4-hero.md) made to fill a desktop screen: one
@@ -247,6 +247,10 @@ export default function LandingPageB() {
 
             {/* Round 11: the exam-day screen moved into the strip, so the tray holds the DU calculator alone. */}
             <div className="lp-hero__links">
+{/* Phones (26 Nov 2026, the council's verdict): the six features and the price sum under the film repeated what the
+                  film, "One place" and pricing show. One line says the two facts a newcomer asks for; the strip and the
+                  calculator link stay from 720 px. */}
+              {PRICE_HOOK ? <a href={PRICE_HOOK.href} className="lp-hero__fact">Free to start. Unlimited mocks on Pro: <b>{PRICE_HOOK.line}</b></a> : null}
               <Link href="/cuet-cutoff-calculator" prefetch={false} className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
               {/* The launch film (owner LK427, 23 Nov 2026): hidden until he switches it on; /?film=1 shows it to him. */}
               <LaunchFilmKey />
@@ -279,6 +283,29 @@ export default function LandingPageB() {
                     end state offers it after the fifth answer. */}
               </div>
             </div>
+            <p className="lp-try__claim">{SUBJECT_CLAIM.long}.</p>
+          </div>
+        </section></Later>
+
+        {/* ------------------- THE WEEK'S TWO FIXED DATES: Daily Five and Sunday Mock ------------------- */}
+        {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
+            space", "it should not be at the top. It can be somewhere else." So they stay here, after the practice features and
+            before admissions. 10:25 pm, of the two short rows that followed: "a very small subsection, not something
+            important". So the section heads like every other product on the page (a stamp over a full-size h2). 17 Nov 2026
+            (LK293, "something unique"): the Daily Five is an admit card with "Playing for" a DU college and today's college
+            board past its perforation, then the Sunday Mock's card (DailyFiveRow HomeBlock). */}
+        <Later><section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
+          <div className="mm-wrap">
+            {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
+            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
+              <BrandStamp {...BRAND_STAMPS.rhythm} />
+              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[[dailyHead.mark, { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
+              <p className="lp-sub">{dailyHead.sub}</p>
+            </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
+            {/* 26 Nov 2026 (owner: "I really don't like its implementation right now"; the council's verdict): one calendar
+                card, two dated rows, no openers, and it stands right after the five questions, where "come back tomorrow"
+                follows "I just tried it". How each works lives on /daily and /sunday-mock. */}
+            <DailyFiveRow where="home" />
           </div>
         </section></Later>
 
@@ -312,7 +339,9 @@ export default function LandingPageB() {
         <Later><BringMistakeBlock photo={MISTAKE_PHOTO_ON} credits={MISTAKE_CREDITS} photoCredits={MISTAKE_PHOTO_CREDITS} /></Later>
 
         {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
-        <Later><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></Later>
+        {/* Wide screens only (26 Nov 2026): on a phone it was 1.7 screens restating the hero; its one fact, the subjects
+            claim, sits under the five questions there (lp-try__claim). */}
+        <Later><OnlyWide><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></OnlyWide></Later>
 
         {/* The real CUET 2026 papers, checked against MockMob, question by question (owner LK427, 23 Nov 2026; above the Mistake Lab since
             the owner's note of 23 Nov evening): stream tabs, subject chips, a strip of every question, NTA's question beside MockMob's. */}
@@ -335,28 +364,6 @@ export default function LandingPageB() {
         {/* Version B: the exam screen (mock and NTA screen) has its own section, below the Mistake Lab. */}
         <Later><ExamScreen /></Later>
 
-        {/* ------------------- THE WEEK'S TWO FIXED DATES: Daily Five and Sunday Mock ------------------- */}
-        {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
-            space", "it should not be at the top. It can be somewhere else." So they stay here, after the practice features and
-            before admissions. 10:25 pm, of the two short rows that followed: "a very small subsection, not something
-            important". So the section heads like every other product on the page (a stamp over a full-size h2). 17 Nov 2026
-            (LK293, "something unique"): the Daily Five is an admit card with "Playing for" a DU college and today's college
-            board past its perforation, then the Sunday Mock's card (DailyFiveRow HomeBlock). */}
-        <Later><section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
-          <div className="mm-wrap">
-            {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
-            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <BrandStamp {...BRAND_STAMPS.rhythm} />
-              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[[dailyHead.mark, { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
-              <p className="lp-sub">{dailyHead.sub}</p>
-            </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
-            {/* How it works, as three small pictures (owner LK427, 23 Nov 2026): in the paragraph's place. */}
-            {/* 24 Nov 2026 (owner: the Daily Five took too much room and the Sunday Mock was lost under it): the pictures open
-                inside the Daily Five card ("How the Daily Five works"); the two cards stand as a pair. */}
-            <DailyFiveRow where="home" how={COLLEGE_DAILY ? null : <DailyHow />} />
-          </div>
-        </section></Later>
-
         {/* ---------------------------- COMPASS LADDER ---------------------------- */}
         {SHOWCASE.programmes.length > 0 ? (
           <Later><section className="lp-sec" id="compass">
@@ -366,6 +373,9 @@ export default function LandingPageB() {
                 <h2 className="lp-h2"><Marked text={COMPASS_HEAD.h2} marks={[['real cutoffs.', { mark: 'double' }]]} /></h2>
                 <p className="lp-sub">{COMPASS_HEAD.sub}</p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
+              {/* Phones: the colleges' emblems stand here, beside the cutoffs that give them a reason (the strip under the
+                  hero is for wide screens). */}
+              <CollegeStrip place="compass" />
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
               {/* R19 (18 Nov 2026): Compass Pro is one line under the card with its link; what it adds opens below it. */}
               <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
@@ -473,7 +483,7 @@ export default function LandingPageB() {
       <Later><AskMobiSheet /></Later>
       {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
-      <HeroDockGate aside=".op-gate, .lp-app, .dwk-story__stage">
+      <HeroDockGate aside=".op-gate, .lp-app, .dcal .dwk-key[data-lead='true']">
         <LandingDock />
       </HeroDockGate>
     </div>

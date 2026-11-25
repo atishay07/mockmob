@@ -113,35 +113,29 @@ test('the sample five obeys the real rules, and every word on it is the page own
   // It reads plainly as an example. Owner LK428 (23 Nov 2026): what a visitor can do now comes first (today's state, the key,
   // the small print); the demo sits under it, set apart and named: the mark and one line right above the screen.
   assert.equal(STORY_WORDS.example, 'Example');
-  assert.match(ROW, /<p className="dwk-eg"><span className="dwk-example">\{STORY_WORDS\.example\}<\/span><span>\{DAILY_EG\}<\/span><\/p>\s*<DailyDemo \/>/);
+  // 26 Nov 2026 (the council's verdict, tmp/council/2026-11-26-landing): the home card is one calendar card with no
+  // openers, so the example and its demo are no longer drawn there (DailyStory and its script stay, tested above and below).
+  // The Daily Five's row is the name, its one line, its state, then the key.
+  assert.doesNotMatch(ROW, /<DailyDemo|DAILY_EG|STORY_WORDS|dwk-eg/, 'no example on the home card');
   const head = ROW.indexOf('<h3 className="dwk-name" id="dwk-daily">Daily Five</h3>');
+  const line = ROW.indexOf('<p className="dcal__line">{CAL_COPY.daily}</p>');
   const key = ROW.indexOf('<Link href={daily.href} prefetch={false} className="dwk-key"');
-  const demo = ROW.indexOf('<DailyDemo />');
-  assert.ok(head > 0 && key > head && demo > key, 'the head, then the key, then the example');
+  assert.ok(head > 0 && line > head && key > line, 'the head, then the line, then the key');
   assert.doesNotMatch(JSX, /dst-top|STORY_WORDS\.head|STORY_WORDS\.mix/, 'no second title or mix line on the screen');
 });
 
-test('the card plays when its line and screen are wholly in the window, once a visit; a real tap takes over; reduced motion shows the end', () => {
-  assert.match(ROW, /new IntersectionObserver\(/);
-  // Both the line and the screen, wholly below the site bar (owner LK366: the action ran where the reader could not see it).
-  assert.match(ROW, /const WHOLE = 0\.99;/);
-  assert.match(ROW, /if \(ratio\.get\(say\) >= WHOLE && ratio\.get\(el\) >= WHOLE\)/);
-  assert.match(ROW, /rootMargin: `-\$\{SITE_BAR_PX\}px 0px 0px 0px`/);
-  assert.match(ROW, /io\.observe\(say\);\s*io\.observe\(el\);/);
-  assert.match(ROW, /if \(armed && m !== 'taken'\)/, 'never replays itself after the reader took over');
-  assert.match(ROW, /if \(m === 'playing'\) \{ setMode\('idle'\); setRun\(\(n\) => n \+ 1\);/, 'leaving mid-way resets it');
-  assert.match(ROW, /<CursorDemo key=\{run\} steps=\{DAILY_STORY\.steps\} playing=\{mode === 'playing'\} onSay=\{onSay\} onDone=\{onDone\} onTakeover=\{onTakeover\}/);
-  assert.match(ROW, /useMemo\(\(\) => <DailyStory rest=\{reduced === true\} \/>, \[reduced\]\)/);
-  assert.match(JSX, /if \(!rest\) return undefined;[\s\S]*setPhase\('day'\)/, 'reduced motion: the day end');
-  // At rest the fourth line stays (no closing line replaces it), with a quiet Watch again; reduced motion lists all four.
-  assert.match(ROW, /\{mode === 'done' \|\| mode === 'taken' \? <button type="button" className="dst-say__again" onClick=\{again\}>Watch again<\/button> : null\}/);
-  assert.match(ROW, /<ol className="dst-say__all">\{DAILY_SAY\.map/);
+// 26 Nov 2026 (the council's verdict, tmp/council/2026-11-26-landing): the demo that played by itself left the home card
+// (one calendar card, "nothing here moves"). The screen keeps its own reduced-motion end; the home card has no player at all.
+test('the home card plays nothing by itself: no demo, no cursor, no observer; the screen keeps its reduced-motion end', () => {
+  assert.doesNotMatch(ROW, /new IntersectionObserver\(|<CursorDemo|<DailyStory|DAILY_STORY|DAILY_SAY|Watch again/, 'no demo on the home card');
   assert.doesNotMatch(ROW, /REST_LINE/);
-  // One surface: the card in a card is gone; today's facts sit in one line beside the key.
-  assert.match(ROW, /<TodayLine today=\{today\} daily=\{daily\} \/>\s*<Link href=\{daily\.href\}/);
-  assert.match(ROW, /editionName\(today\.date\)/);
-  // The Sunday Mock card is untouched.
-  assert.match(ROW, /<article className="dwk-card" data-kind="sunday" data-state=\{sunday\.phase\} aria-labelledby="dwk-sunday">/);
+  assert.match(JSX, /if \(!rest\) return undefined;[\s\S]*setPhase\('day'\)/, 'reduced motion: the day end');
+  // One surface: each row's facts sit in one state line above its key (no TodayLine, no edition sentence).
+  assert.match(ROW, /<p className="dwk-state">\s*<StateMark mark=\{daily\.state === 'played' \? 'done' : today \? 'open' : 'none'\} \/>/);
+  assert.doesNotMatch(ROW, /<TodayLine|editionName\(/);
+  // The Sunday Mock is the card's second row, with the same heading id.
+  assert.match(ROW, /<section className="dcal__row" data-kind="sunday" data-state=\{sunday\.phase\} aria-labelledby="dwk-sunday">/);
+  assert.match(ROW, /<h3 className="dwk-name" id="dwk-sunday">Sunday Mock<\/h3>/);
 });
 
 test('the screen never changes height, is drawn flat, stresses without boxes, and its motion is transform and opacity only', () => {

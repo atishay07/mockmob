@@ -8,7 +8,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  DAILY_FIGURES, DAILY_LINE, DAILY_PRINT, STRIP_HEAD, SUNDAY_FIGURES, SUNDAY_LINE, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine, waitWords,
+  CAL_COPY, DAILY_FIGURES, DAILY_LINE, DAILY_PRINT, STRIP_HEAD, SUNDAY_FIGURES, SUNDAY_LINE, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, todayDoneLine, todayMineLine, waitWords,
 } from './dailyStripCopy.mjs';
 import { DAILY_FIVE_PATH, DAILY_FIVE_SIZE } from '../../lib/dailyFive.mjs';
 import { PAPER_COUNT, PAPER_MINUTES } from '../../lib/sundayMock.mjs';
@@ -49,7 +49,12 @@ test('the Daily Five says what it is in words true for a guest and a student, an
   assert.equal(DAILY_PRINT, 'Free. Without an account, you get the same five as every other guest.');
   assert.deepEqual(DAILY_FIGURES.map((f) => `${f.figure}${f.unit ? ` ${f.unit}` : ''}`), [`${DAILY_FIVE_SIZE} questions`, 'Free', 'No sign-up']);
   const jsx = read('./DailyFiveRow.jsx');
-  assert.match(jsx, /<p className="dwk-story__print">\{DAILY_PRINT\}<\/p>/, 'the small print sits under the key');
+  // 26 Nov 2026 (the council's verdict, tmp/council/2026-11-26-landing): the home card's Daily Five row says what it is in
+  // one line (CAL_COPY.daily) in place of the small print; it is true for a guest (free) and a student (their own mistakes).
+  assert.equal(CAL_COPY.daily, 'Free. Signed in, the five come from your own mistakes.');
+  assert.doesNotMatch(CAL_COPY.daily, /same five for everyone/);
+  assert.match(jsx, /<p className="dcal__line">\{CAL_COPY\.daily\}<\/p>/, 'the one line sits under the name');
+  assert.doesNotMatch(jsx, /DAILY_PRINT/, 'the home card no longer draws the small print');
   assert.doesNotMatch(jsx, /daily\.figures\.map/, 'the Daily card draws no figures row');
 });
 
@@ -121,7 +126,12 @@ test('the block\'s college words are what the server counted; See all says its o
   const jsx = read('./DailyFiveRow.jsx');
   // A link's spoken name holds the words on it (WCAG 2.5.3), so "See all" works by voice too.
   for (const m of jsx.matchAll(/aria-label="([^"]+)"[^>]*>([^<{]+)</g)) assert.ok(m[1].toLowerCase().includes(m[2].trim().toLowerCase()), `${m[1]} / ${m[2]}`);
-  assert.match(jsx, /aria-label="See all of the college board">See all</);
+  // 26 Nov 2026 (the council's verdict): the home card no longer previews the college board, so it has no "See all" link;
+  // the one card is named for both rows, and each row by its own heading.
+  assert.doesNotMatch(jsx, /See all of the college board|<CollegeBoard\b/, 'no board preview on the home card');
+  assert.match(jsx, /<article className="dcal" aria-label="Daily Five and Sunday Mock">/);
+  assert.match(jsx, /<section className="dcal__row" data-kind="daily" data-state=\{daily\.state\} aria-labelledby="dwk-daily">/);
+  assert.match(jsx, /<section className="dcal__row" data-kind="sunday" data-state=\{sunday\.phase\} aria-labelledby="dwk-sunday">/);
   // Today's row names the college today's five counted for (the account's), never a choice this phone made since; and only
   // while the college board is switched on (owner LK321, 18 Nov 2026: the simpler game, with no college names, is the default).
   assert.match(jsx, /const counted = COLLEGE_DAILY && fromAccount && account\.team && account\.team\.last === today\.date/);
@@ -143,14 +153,19 @@ test('no exclamation marks, arrows, upper-case times, ranks or day numbers in an
   assert.doesNotMatch(all, /\d:\d{2} (AM|PM)/, 'times in lower case');
 });
 
-test('the block stands low on the home page, after the exam screen, and heads like every other product on it', () => {
+// 26 Nov 2026 (the council's verdict, tmp/council/2026-11-26-landing): the block moved up to stand right after the five
+// questions ("come back tomorrow" follows "I just tried it"), as its own section, before the one-place section.
+test('the block stands right after the five questions, in its own section, and heads like every other product on it', () => {
   const page = read('../../app/page.js');
   const block = page.indexOf('id="daily-and-sunday"');
-  assert.ok(block > page.indexOf('<ExamScreen />'), 'after the exam screen');
+  const tryAt = page.indexOf('id="try"');
+  assert.ok(tryAt > 0 && block > tryAt, 'after the five questions');
+  assert.ok(block < page.indexOf('id="your-prep"'), 'before the one-place section');
   assert.ok(block < page.indexOf('id="compass"'), 'before admissions');
-  const sample = page.slice(page.indexOf('id="try"'), page.indexOf('<Statement'));
-  assert.doesNotMatch(sample, /DailyFiveRow/, 'not under the sample');
-  assert.equal((page.match(/<DailyFiveRow where="home" how=\{COLLEGE_DAILY \? null : <DailyHow \/>\} \/>/g) || []).length, 1);
+  const sample = page.slice(tryAt, page.indexOf('</section>', tryAt));
+  assert.doesNotMatch(sample, /DailyFiveRow/, 'not inside the sample\'s own section');
+  assert.equal((page.match(/<DailyFiveRow where="home" \/>/g) || []).length, 1);
+  assert.doesNotMatch(page, /DailyHow/, 'the page no longer passes the three pictures in');
   const section = page.slice(block, page.indexOf('</section>', block));
   assert.match(section, /<BrandStamp \{\.\.\.BRAND_STAMPS\.rhythm\} \/>\n\s*<h2 className="lp-h2" id="rhythm-title">/, 'a stamp right above a full-size h2');
   assert.deepEqual(BRAND_STAMPS.rhythm, { icon: 'today', name: 'Daily Five and Sunday Mock' });
@@ -175,9 +190,15 @@ test('the day’s number is shown nowhere: not on the block, not on Today’s ro
 test('the admit card is ours: no ink band, no date slab; the edition by name, Playing for, the bubbles and the college board', () => {
   const jsx = read('./DailyFiveRow.jsx');
   for (const gone of ['CalendarDay', 'dwk-band', 'dwk-rail', 'df-day']) assert.doesNotMatch(jsx, new RegExp(gone), gone);
-  assert.match(jsx, /editionName\(today\.date\)/);
+  // 26 Nov 2026 (the council's verdict): each row's day is a calendar leaf (the day's name, the date, the month) in place of
+  // the edition's name; today's leaf is the live one, the Sunday row's leaf is its paper's Sunday. The board preview is gone
+  // from the home card (it lives on /daily); Playing for and the bubbles stay.
+  assert.match(jsx, /<span className="dcal__leaf-day">[\s\S]*?<b className="dcal__leaf-date">[\s\S]*?<span className="dcal__leaf-month">/);
+  assert.match(jsx, /<Leaf date=\{today\?\.date \|\| null\} live \/>/);
+  assert.match(jsx, /<Leaf date=\{sunday\.week \|\| null\} \/>/);
   assert.match(jsx, /<PlayingFor team=\{team\} onOpen=\{\(\) => setSheet\(true\)\} \/>/);
-  assert.match(jsx, /<CollegeBoard[\s\S]*?mode="preview"/);
+  assert.match(jsx, /<OmrFive marks=\{marks\} current=\{current\}/);
+  assert.doesNotMatch(jsx, /<CollegeBoard\b/);
   assert.match(jsx, /<CollegeSheet open=\{sheet\}/);
   const page = read('./DailyFive.jsx');
   for (const gone of ['<CalendarDay', 'DailyBoard']) assert.doesNotMatch(page, new RegExp(gone), gone);
@@ -218,24 +239,29 @@ test('the simpler Daily Five is the default: no college names unless the switch 
   // Owner, 24 Nov 2026 ("Daily 5 is taking too much space, and the Sunday mock is just disappearing ... build [them]
   // expandable"): the pictures and the example open inside the Daily Five card; the Sunday Mock's card stands beside it with
   // its own opener, its lines from the rule's own constants.
-  assert.match(read('../../app/page.js'), /<DailyFiveRow where="home" how=\{COLLEGE_DAILY \? null : <DailyHow \/>\} \/>/, 'the pictures go into the card');
+  // 26 Nov 2026 (owner: "I really don't like its implementation right now"; the council's verdict): ONE calendar card with
+  // two dated rows of one weight and no openers; how each works lives on /daily and /sunday-mock. HOW_OPEN and SUNDAY_HOW
+  // are gone; each row says what it is in one CAL_COPY line.
+  assert.match(read('../../app/page.js'), /<DailyFiveRow where="home" \/>/, 'the page passes nothing into the card');
   const pairRow = read("./DailyFiveRow.jsx");
-  assert.match(pairRow, /<div className="dwk dwk--pair" ref=\{ref\}>/, 'the two cards are a pair');
-  assert.equal((pairRow.match(/<details className="dwk-open">/g) || []).length, 2, 'one opener a card');
-  assert.match(pairRow, /<div className="dwk-open__body">\s*\{how\}\s*<p className="dwk-eg">/, 'the pictures, then the example');
-  const { HOW_OPEN, SUNDAY_HOW } = await import('./dailyStripCopy.mjs');
-  assert.deepEqual({ ...HOW_OPEN }, { daily: 'How the Daily Five works', sunday: 'How the Sunday Mock works' });
-  assert.equal(SUNDAY_HOW.length, 4);
-  assert.match(SUNDAY_HOW[1], /^50 questions in 60 minutes, marked \+5 for a right answer and −1 for a wrong one/);
-  assert.match(read('./daily-row.css'), /@media \(min-width: 720px\) \{\s*\.mm\.lp \.dwk--pair \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); \}/, 'side by side from 720 px');
+  assert.match(pairRow, /<div className="dwk dwk--cal" ref=\{ref\}>\s*<article className="dcal"/, 'one calendar card');
+  assert.doesNotMatch(pairRow, /dwk--pair|<details|dwk-open|<DailyDemo|function DailyDemo|<TodayLine|function TodayLine|data-story=/, 'no pair, no openers, no demo');
+  assert.equal((pairRow.match(/<section className="dcal__row"/g) || []).length, 2, 'two dated rows');
+  assert.match(pairRow, /<p className="dcal__line">\{CAL_COPY\.sunday\}<\/p>/);
+  const strip = await import('./dailyStripCopy.mjs');
+  assert.equal(strip.HOW_OPEN, undefined);
+  assert.equal(strip.SUNDAY_HOW, undefined);
+  assert.equal(strip.CAL_COPY.sunday, 'One full paper, the same for everyone. Sign up to sit it.');
+  assert.match(read('./daily-row.css'), /@media \(min-width: 720px\) \{\s*\.mm\.lp \.dcal \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); \}/, 'side by side from 720 px');
   const { MINE_PLAN } = await import('../../lib/dailyFiveMine.mjs');
   assert.deepEqual({ ...MINE_PLAN }, { missed: 2, weak: 2, subject: 1 }, 'the line says the plan');
   assert.doesNotMatch(PERSONAL_HEAD.sub, /same five|for everyone/);
   assert.doesNotMatch(`${PERSONAL_HEAD.h2} ${PERSONAL_HEAD.sub}`, /college/i);
   const row = pairRow;
   assert.match(row, /\{COLLEGE_DAILY \? <PlayingFor team=\{team\} onOpen=\{\(\) => setSheet\(true\)\} \/> : null\}/);
-  assert.match(row, /\{COLLEGE_DAILY \? <div className="dwk-ticket__board">/);
-  assert.match(row, /useBoard\(today\?\.date \|\| null, on && COLLEGE_DAILY\)/, 'the home block does not even read the board');
+  // 26 Nov 2026: the home card has no board at all now, so it never reads one, switch or not.
+  assert.doesNotMatch(row, /dwk-ticket__board|useBoard\(/, 'the home block does not even read the board');
+  assert.match(row, /\{COLLEGE_DAILY \? <CollegeSheet open=\{sheet\}/, 'the college sheet only with the switch on');
   const page = read('./DailyFive.jsx');
   assert.match(page, /teamRef\.current = COLLEGE_DAILY \? team\.college : null;/, 'a five is not sent with a college');
   assert.match(page, /\{COLLEGE_DAILY \? <section className="dly-board" id="board"/);

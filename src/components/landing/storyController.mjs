@@ -258,12 +258,14 @@ function release(s) {
   }, 320));
 }
 
-/** A step from a wheel, a key or a pick has no finger to lean with: the content starts 10 px the other way and settles. */
+/** A step from a wheel or a key has no finger to lean with: the content starts 10 px short, on the side it comes from, and settles. */
 function nudge(s, dir) {
   if (s.reduced()) return;
   window.clearTimeout(settleLeanTimers.get(s));
   s.stage.dataset.lean = 'drag';
-  s.stage.style.transform = leanTransform(-dir * 10);
+  // The way it travels (26 Nov 2026, the motion review): a forward step starts 10 px low and rises to rest; it used to
+  // start high and sink, so every step ended by moving backwards.
+  s.stage.style.transform = leanTransform(dir * 10);
   window.requestAnimationFrame(() => window.requestAnimationFrame(() => release(s)));
 }
 
@@ -284,7 +286,10 @@ function commit(s, goal, { source }) {
   window.clearTimeout(settleTimer);
   settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
   busyUntil = now() + lockMs(s.reduced());
-  if (source !== 'touch') nudge(s, next > from ? 1 : -1);
+  // A picked step (a rail key, an arrow) gets no nudge (owner, 25 Nov 2026: on desktop "whenever clicking any rectangle
+  // button, the button jumps ... and then comes back"): the nudge moves the whole stage 10 px, and the key that was just
+  // pressed sits on that stage, so it jumped under the pointer. A wheel or a keyboard step keeps it (no key is under a pointer).
+  if (source !== 'touch' && source !== 'pick') nudge(s, next > from ? 1 : -1);
   return true;
 }
 

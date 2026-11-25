@@ -133,7 +133,14 @@ test('R3-D3 (LK99) then round 4 (LK121): the fact line builder is kept, and the 
   // stays for QuestionBankLine's fact variant.
   const page = read('../../app/page.js');
   const hero = page.slice(page.indexOf('<section className="lp-hero">'), page.indexOf('STATEMENT ('));
-  assert.doesNotMatch(hero, /<QuestionBankLine\b|lp-hero__fact|lp-trust-line|lp-hero__facts|lp-bank--short/, 'no fact line in the hero');
+  // 26 Nov 2026 (the council's verdict, tmp/council/2026-11-26-landing): phones get one line under the film again, but it is
+  // the price hook (free to start, unlimited mocks on Pro and the live per-mock price), not this builder's count-and-money
+  // line; r19-home-b.css shows it under 720 px only, in place of the features strip and the calculator link.
+  assert.doesNotMatch(hero, /<QuestionBankLine\b|lp-trust-line|lp-hero__facts|lp-bank--short|heroFactLine/, 'no count-and-money fact line in the hero');
+  assert.match(hero, /<div className="lp-hero__links">[\s\S]*?\{PRICE_HOOK \? <a href=\{PRICE_HOOK\.href\} className="lp-hero__fact">Free to start\. Unlimited mocks on Pro: <b>\{PRICE_HOOK\.line\}<\/b><\/a> : null\}/, 'one price-hook line in the hero links');
+  const css = read('../../app/r19-home-b.css');
+  assert.match(css, /\.mm\.lp \.lp-hero__links > \.lp-hero__fact \{ display: none; \}/, 'wide screens do not draw it');
+  assert.match(css, /@media \(max-width: 719\.98px\) \{[\s\S]*?\.mm\.lp \.lp-hero \.lp-strip \{ display: none; \}[\s\S]*?\.mm\.lp \.lp-hero__links > \.lp-hero__tool \{ display: none; \}[\s\S]*?\.mm\.lp \.lp-hero__links > \.lp-hero__fact \{\s*display: block;/, 'phones swap the strip and the calculator link for it');
   const line = read('QuestionBankLine.jsx');
   assert.match(line, /if \(variant === 'fact'\) \{\n\s+const line = heroFactLine\(price, \{ bankSize: bank\?\.questions \?\? null \}\);/);
   assert.match(line, /<b className="lp-hero__count">\{line\.count\}<\/b>/, 'the count carries its weight');

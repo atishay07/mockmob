@@ -66,7 +66,27 @@ function Chip({ college, copy }) {
   );
 }
 
-export function CollegeStrip({ rows = COLLEGE_ROWS }) {
+export function CollegeStrip({ rows = COLLEGE_ROWS, place = 'top' }) {
+  // Inside DU Compass (phones, 26 Nov 2026): the Delhi University colleges' row alone, under that section's own heading.
+  if (place === 'compass') {
+    const row = rows.find((r) => r.key === 'colleges') || rows[rows.length - 1];
+    return (
+      <div className="lp-colleges lp-colleges--in">
+        <PauseOffscreen className="lp-colleges__rows">
+          <div className={`lp-colleges__marquee lp-colleges__marquee--${row.key}`}>
+            <div className="lp-colleges__track">
+              {COPIES.map((copy) => (
+                <ul key={copy} className="lp-colleges__list" aria-label={copy ? undefined : row.label} aria-hidden={copy ? 'true' : undefined}>
+                  {row.items.map((college) => <Chip key={college.file} college={college} copy={copy} />)}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </PauseOffscreen>
+        <p className="lp-colleges__note">{COLLEGE_NOTE}</p>
+      </div>
+    );
+  }
   return (
     <section className="lp-colleges" id="colleges" aria-labelledby="colleges-title">
       <div className="mm-wrap lp-colleges__wrap">

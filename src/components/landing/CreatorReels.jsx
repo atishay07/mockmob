@@ -162,7 +162,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
   return (
     <div className="rl">
       {creators.length ? (
-        <dl className="rl__summary">
+        <dl className="lp-ig__stats rl__summary">
           <div><dt>Combined followers</dt><dd className="mm-measure">{followersFigure(creators)}</dd></div>
           {views ? <div><dt>Reel views</dt><dd className="mm-measure">{views}</dd></div> : null}
           {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}

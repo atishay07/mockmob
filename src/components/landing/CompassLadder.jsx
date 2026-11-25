@@ -179,6 +179,8 @@ export default function CompassLadder({ data }) {
   const [category, setCategory] = useState('UR');
   const [round, setRound] = useState('round-1');
   const [score, setScore] = useState(INITIAL_SCORE);
+  // Phones show every other college (five across the list's range) until the reader asks for all (26 Nov 2026).
+  const [all, setAll] = useState(false);
   // Changes only when the reader presses the Pause / Play key (owner LK365, 21 Nov 2026: "It should never be paused. The
   // pause button just exists. If someone clicks it explicitly ..."). Nothing else ever sets it.
   const [paused, setPaused] = useState(false);
@@ -360,13 +362,14 @@ export default function CompassLadder({ data }) {
           {/* --fill, how far along the axis the score sits (0 to 1): the list carries only the first score, for the page as
               the server sends it, and never changes (a change restyled the list's 112 children); each bar's own --fill
               (paintBars) and the glide's animations carry the score after that (compass-ladder.css reads it as a transform). */}
-          <ul className="cl__list" style={{ '--fill': pct(INITIAL_SCORE) / 100 }}>
+          <ul className="cl__list" data-all={all ? 'true' : 'false'} style={{ '--fill': pct(INITIAL_SCORE) / 100 }}>
             {rows.map((r) => {
               const none = r.cutoff === null;
               const clear = !none && score >= r.cutoff;
               return <LadderRow key={r.college} college={r.college} women={r.women} cutoff={r.cutoff} state={none ? 'none' : clear ? 'clear' : 'short'} gap={gapFor(r.cutoff, score)} />;
             })}
           </ul>
+          {rows.length > 5 ? <button type="button" className="cl__all" aria-expanded={all} onClick={() => setAll((v) => !v)}>{all ? 'Show fewer colleges' : `Show all ${rows.length} colleges`}</button> : null}
           <figcaption>Closing scores from DU’s published round lists. (W) marks a women’s college.</figcaption>
         </figure>
       </div>

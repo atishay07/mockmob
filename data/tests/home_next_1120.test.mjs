@@ -125,10 +125,12 @@ test('the home page draws the new section and none of the four it replaces, in t
   assert.match(PAGE, /<section className="lp-sec op" id="your-prep" aria-labelledby="op-title">/);
   assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\} study=\{STUDY_COUNTS\}>\n\s*<LandingActions mode="primary" \/>\n\s*<\/OnePlaceGate>/);
   assert.match(PAGE, /<LabCinema look="next" \/>/);
-  const order = ['className="lp-hero"', '<CollegeStrip', 'id="try"', 'id="your-prep"', '<Statement', 'id="inside-the-lab"', 'id="daily-and-sunday"', 'id="compass"', 'id="pricing"', 'id="on-instagram"', 'id="wall-of-love"', 'id="faq"', 'className="lp-close"'];
+  // 26 Nov 2026 (the council's verdict, tmp/council/2026-11-26-landing): the Daily Five and Sunday Mock moved up to stand
+  // right after the five questions, before the new section; Statement is drawn for wide screens only (OnlyWide).
+  const order = ['className="lp-hero"', '<CollegeStrip', 'id="try"', 'id="daily-and-sunday"', 'id="your-prep"', '<OnlyWide><Statement', 'id="inside-the-lab"', 'id="compass"', 'id="pricing"', 'id="on-instagram"', 'id="wall-of-love"', 'id="faq"', 'className="lp-close"'];
   const at = order.map((mark) => PAGE.indexOf(mark));
   assert.ok(at.every((i) => i > 0), `every section is drawn: ${order.filter((_, i) => at[i] < 0)}`);
-  assert.deepEqual([...at].sort((a, b) => a - b), at, 'hero, colleges, Try five, the new section, Statement, Lab, then as on "/"');
+  assert.deepEqual([...at].sort((a, b) => a - b), at, 'hero, colleges, Try five, Daily Five and Sunday Mock, the new section, Statement, Lab, then as on "/"');
   // The guide's waypoint for this part of the page is still the section's id; the Lab is the one held story in the band.
   assert.match(read('src/components/brand/PipGuide.jsx'), /section: 'your-prep'/);
   assert.match(PAGE, /const POSITION = \[\n  \{ id: 'inside-the-lab', name: 'Inside the Mistake Lab' \},\n\];/);
@@ -666,7 +668,7 @@ test('only the shown stage is live; the next is made live unplayed before its tu
 
 test('the bar steps aside for the whole frame on the home page', () => {
   // The Android app nudge (lane android, 21 Nov 2026) is also a block the bar steps aside for.
-  assert.match(PAGE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dwk-story__stage">/);
+  assert.match(PAGE, /<HeroDockGate aside="\.op-gate, \.lp-app, \.dcal \.dwk-key\[data-lead='true'\]">/);
   assert.equal((PAGE.match(/<HeroDockGate/g) || []).length, 1);
   const gate = read('src/components/landing/HeroDockGate.jsx');
   assert.match(gate, /export function HeroDockGate\(\{ children, aside = null \}\)/);

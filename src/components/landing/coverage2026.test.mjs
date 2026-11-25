@@ -231,7 +231,9 @@ test('"How we counted" is one quiet key and a sheet built like his reference: lo
   assert.ok(how.sections.every((s) => s.points.every((p) => /:$/.test(p.lead) && p.text)), 'every point has a bold lead-in');
   assert.deepEqual(how.sections[0].points.map((p) => p.lead), ['Theory questions:', 'Numerical questions:', 'Passage questions:']);
   assert.equal(how.note.text, `We checked ${summary.subjects.length} CUET 2026 papers, one shift of each subject: ${summary.total.counted} questions in all. Previously, ${summary.firstCheck.covered} (${summary.firstCheck.pct}%) were in MockMob. Now ${summary.total.covered} (${summary.total.pct}%) are.`);
-  assert.match(how.claim.text, /It is not a prediction\.$/);
+  // 26 Nov 2026: said plainly, not as a disclaimer (the landing checklist's L-024 bans defensive fine print).
+  assert.equal(how.claim.lead, 'What the figure tells you:');
+  assert.doesNotMatch(how.claim.text, /predict/i);
   assert.deepEqual(how.link, { href: COVERAGE_PATH, text: `Open all ${summary.subjects.length} papers` });
   const words = [how.title, how.lead, how.claim.lead, how.claim.text, how.note.text, how.link.text, ...how.sections.flatMap((s) => [s.head || '', s.lead || '', ...s.points.flatMap((p) => [p.lead, p.text])])];
   for (const w of words) {

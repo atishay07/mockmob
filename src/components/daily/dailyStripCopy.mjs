@@ -100,15 +100,12 @@ export function todayDoneLine({ score, did = [], wait = '' } = {}) {
 }
 // The paper's size is in its figures; the sentence says what it is and that it needs an account (the five does not).
 export const SUNDAY_LINE = 'One full paper in each of your subjects, the same for everyone. Sign up to sit it.';
-/** The home block's two openers (owner, 24 Nov 2026: "build the Sunday mock and all expandable"): each card says what to do
- *  today; how it works opens under it. The Sunday lines are the rule's own constants, never typed numbers. */
-export const HOW_OPEN = Object.freeze({ daily: 'How the Daily Five works', sunday: 'How the Sunday Mock works' });
-export const SUNDAY_HOW = Object.freeze([
-  `Opens every Sunday at ${OPENS}. Start any time until ${LAST_START}.`,
-  `${PAPER_COUNT} questions in ${PAPER_MINUTES} minutes, marked +${MARK_RIGHT} for a right answer and −${MARK_WRONG} for a wrong one, like a real CUET paper.`,
-  'Everyone in a subject gets the same paper. One sitting in each subject.',
-  `Your marks show the moment you send it. Answers and explanations open at ${ANSWERS_AT}.`,
-]);
+/** The home card's two rows (owner, 26 Nov 2026; the council's verdict): what each is, in one line. A guest's five is the
+ *  shared one, so the line says when the five become your own; the Sunday paper's size is in its figures beside it. */
+export const CAL_COPY = Object.freeze({
+  daily: 'Free. Signed in, the five come from your own mistakes.',
+  sunday: 'One full paper, the same for everyone. Sign up to sit it.',
+});
 /** The home card's shorter sentence (17 Nov 2026): the figures under it say the paper's size. */
 export const SUNDAY_LINE_SHORT = 'One full paper in each of your subjects. Sign up to sit it.';
 

@@ -133,7 +133,8 @@ export function howWeCounted({ total, before = null }) {
         ],
       },
     ],
-    claim: { lead: 'We do not claim to predict CUET 2027 questions.', text: 'This check shows how much of a real CUET paper MockMob teaches. It is not a prediction.' },
+    // What the figure is, said plainly and not as a disclaimer (the landing checklist's L-024: no defensive fine print).
+    claim: { lead: 'What the figure tells you:', text: 'how much of a real CUET paper MockMob already teaches, question by question.' },
     note: { lead: 'Note:', text: `We checked ${papers}, one shift of each subject: ${total.of} questions in all.${was}` },
     link: { href: COVERAGE_PATH, text: `Open all ${total.papers} ${total.papers === 1 ? 'paper' : 'papers'}` },
   };

@@ -1,0 +1,5 @@
+VERDICT: A cohesive, thoughtful phone page, but the fixed signup bar and small text make key moments harder to use — 7/10.
+ROAST: Try five, sheet 1 screen 1: the fixed signup bar covers the bottom of the answer area | FIX: add 72px of scroll padding below the drill so its last answer can scroll clear of the bar.
+ROAST: Mistake Lab, sheet 1 screens 3–5: graph labels and repair details are tiny on a 390px screen | FIX: set explanatory text to at least 14px and labels to at least 12px.
+ROAST: DU Compass, sheet 2 screen 2: the autoplay pause control is easy to miss beside the bottom controls | FIX: give Pause a 44×44px tap target and keep it visible while the slider plays.
+KEEP: The hero film and its “One mock. Know what to fix.” headline.

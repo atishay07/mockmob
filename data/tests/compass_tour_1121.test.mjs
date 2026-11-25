@@ -70,7 +70,10 @@ test('a step changes paint inside boxes that do not move', () => {
   assert.match(css, /\.cl__gap \{[^}]*width: [\d.]+em;/, 'each college gap has a fixed width, so the name column never moves');
   assert.match(css, /\.cl__track u \{[^}]*transform: scaleX\(var\(--fill, 0\)\)/, 'the bars read one custom property as a transform');
   // The list carries only the first score and never changes (a change restyled its 112 children); each bar has its own.
-  assert.match(code, /className="cl__list" style=\{\{ '--fill': pct\(INITIAL_SCORE\) \/ 100 \}\}/);
+  // 26 Nov 2026: the list also carries data-all (phones show every other college until "Show all" is pressed); the
+  // first score is still the only fill it carries.
+  assert.match(code, /className="cl__list" data-all=\{all \? 'true' : 'false'\} style=\{\{ '--fill': pct\(INITIAL_SCORE\) \/ 100 \}\}/);
+  assert.match(code, /className="cl__all" aria-expanded=\{all\}/, 'a "Show all" button opens the rest of the list');
   assert.doesNotMatch(code, /<u style=/, 'no per-row inline transform');
   assert.match(code, /const LadderRow = memo\(/, 'rows re-render only when their words change');
   assert.match(code, /setScore\(next\)/);

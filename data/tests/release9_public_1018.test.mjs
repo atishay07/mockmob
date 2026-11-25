@@ -148,7 +148,10 @@ test('price framing: /pricing and the landing read the same helpers, and checkou
   // money is the price hook, worked out from the same live offer (heroPriceHook -> value.mjs perMock), which frames a monthly
   // price as "a month" and the one-time price as "once ... to 31 July 2027", never one for the other (heroTaps.test.mjs).
   assert.ok(home.includes('const PRICE_HOOK = heroPriceHook(OFFER, { from: BUILT });'));
-  assert.ok(!home.includes('lp-hero__fact'), 'no fact line in the hero');
+  // 26 Nov 2026 (the council's verdict): phones show the price hook as the hero's one line under the film ("Free to start.
+  // Unlimited mocks on Pro: <the live line>"), read from the same PRICE_HOOK, so the money words still come from one helper.
+  assert.ok(home.includes('{PRICE_HOOK ? <a href={PRICE_HOOK.href} className="lp-hero__fact">Free to start. Unlimited mocks on Pro: <b>{PRICE_HOOK.line}</b></a> : null}'), 'the hero fact line is the price hook');
+  assert.ok(!/lp-hero__fact">[^<]*₹/.test(home), 'no price typed into the hero fact line');
   // What a buyer is charged today (checkout code, unchanged): the one-time plan is ₹99, live, through 31 July 2027;
   // the monthly plan opens only when its Razorpay plan id is configured.
   const plans = read('src/lib/payments/plans.js');

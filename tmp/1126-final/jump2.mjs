@@ -1,0 +1,16 @@
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+const { chromium } = require('C:/Users/atish/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core');
+const w = (ms) => new Promise((r) => setTimeout(r, ms));
+const browser = await chromium.launch({ executablePath: 'C:/Users/atish/.cache/puppeteer/chrome/win64-151.0.7922.71/chrome-win64/chrome.exe', headless: true, args: ['--headless=new'] });
+const page = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
+await page.goto('http://localhost:3571/', { waitUntil: 'load' }); await w(8000);
+const loc = page.locator('.lp-cq__stream >> nth=2');
+await loc.evaluate((el) => { const r = el.getBoundingClientRect(); window.scrollBy({ top: r.top - innerHeight * 0.45, behavior: 'instant' }); }); await w(1500);
+const m = () => page.evaluate(() => { const o = { y: Math.round(scrollY) }; for (const s of ['#cuet-2026', '.lp-cov__head', '#cov-title', '.lp-cv', '.lp-cv__all', '.lp-ch-key', '.lp-cq', '.lp-cq__pick', '.lp-cq__streams', '.lp-cq__subjects', '.lp-cq__pending']) { const e = document.querySelector(s); if (!e) { o[s] = null; continue; } const r = e.getBoundingClientRect(); o[s] = [Math.round(r.top + scrollY), Math.round(r.height)]; } return o; });
+const a = await m();
+await loc.click(); await w(1200);
+const b = await m();
+for (const k of Object.keys(a)) if (JSON.stringify(a[k]) !== JSON.stringify(b[k])) console.log(k, JSON.stringify(a[k]), '->', JSON.stringify(b[k]));
+console.log(await page.evaluate(() => document.querySelector('.lp-cv__all').innerText));
+await browser.close();
