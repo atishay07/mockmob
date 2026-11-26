@@ -239,7 +239,8 @@ export default function CoverageExplorer({ model, first, heading, how }) {
   useLayoutEffect(() => {
     const el = pair.current;
     if (!el) return;
-    const key = `${subjectId}|${window.innerWidth}`;
+    // One width, one floor (26 Nov 2026): a new floor for each paper let the place shrink when the paper changed and the page moved.
+    const key = String(window.innerWidth);
     if (tallest.current.key !== key) { tallest.current = { key, h: 0 }; el.style.minHeight = ''; }
     const h = Math.ceil(el.getBoundingClientRect().height);
     if (h > tallest.current.h) { tallest.current.h = h; el.style.minHeight = `${h}px`; }

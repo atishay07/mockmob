@@ -284,7 +284,10 @@ function commit(s, goal, { source }) {
   window.clearTimeout(settleTimer);
   settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
   busyUntil = now() + lockMs(s.reduced());
-  if (source !== 'touch') nudge(s, next > from ? 1 : -1);
+  // A picked step (a rail key, an arrow) gets no nudge (owner, 25 Nov 2026: on desktop "whenever clicking any rectangle button, the
+  // button jumps ... and then comes back"): the nudge moved the whole stage 10 px, with the key just pressed on it. Wheel and key
+  // steps keep it (no key is under a pointer then).
+  if (source !== 'touch' && source !== 'pick') nudge(s, next > from ? 1 : -1);
   return true;
 }
 
