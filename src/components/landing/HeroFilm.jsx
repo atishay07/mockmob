@@ -12,7 +12,7 @@ export { FILM };
 // on Slow 4G. Phones (the site's 639 px breakpoint) take this one whatever their pixel ratio, since the film they then play is
 // 480p; wider screens keep the 1280 px poster. Each is preloaded at high priority for its own screens only, and the video's
 // own poster attribute (seen only in full screen before the first frame) is this small file, so a phone fetches one poster.
-const PHONE_POSTER = '/video/hero-v10-poster-640.webp';
+const PHONE_POSTER = '/video/hero-v12-poster-640.webp';
 const PHONE_MEDIA = '(max-width: 639px)';
 const WIDE_MEDIA = '(min-width: 640px)';
 

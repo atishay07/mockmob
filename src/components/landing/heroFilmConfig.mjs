@@ -8,6 +8,10 @@
 // out/hero/v10/chapters.json (Hero16v10, 65.883 s; no runtime fetch). The film has eleven pictures; the bar holds nine 24 px
 // segments on a 360 px phone (measured: ten ran 12 px into the sound key), so Learn (5.2 s) and Key cards (3.7 s) share one
 // chapter, and the CUET 2026 coverage runs on into the fifteen subjects and the sign-up card as one.
+// 26 Nov 2026: v12 (Hero16v12, 76.6 s) is v10 with the coverage line in the owner's own words ("Two in every three questions were
+// already covered on MockMob last year, but we didn't stop there. For CUET 2027, we built the rest. Now, almost every single question
+// is there on MockMob."); every chapter start is v10's, the coverage chapter runs longer. Roll-back to v10: the hero-v10-* files
+// are kept in public/video (config in git at 458481e2b).
 // Rollback to v5 (53 s, nine chapters, hero-v5-* files, still in public/video): the v5 block in git history (main 557db4105).
 export const FILM_CHAPTERS = Object.freeze([
   Object.freeze({ id: 'start', name: 'Start', start: 0 }),
@@ -22,10 +26,10 @@ export const FILM_CHAPTERS = Object.freeze([
 ]);
 
 export const FILM = Object.freeze({
-  label: 'MockMob walkthrough, 66 seconds',
-  poster: '/video/hero-v10-poster.webp',
+  label: 'MockMob walkthrough, 77 seconds',
+  poster: '/video/hero-v12-poster.webp',
   // 30 fps H.264 + AAC, faststart; new names so no cache keeps the launch teaser.
-  sources: Object.freeze({ 480: '/video/hero-v10-480.mp4', 720: '/video/hero-v10-720.mp4', 1080: '/video/hero-v10-1080.mp4' }),
+  sources: Object.freeze({ 480: '/video/hero-v12-480.mp4', 720: '/video/hero-v12-720.mp4', 1080: '/video/hero-v12-1080.mp4' }),
   width: 1280,
   height: 720,
   visibleShare: 0.5,
